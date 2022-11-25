@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/components/on_boarding_next_button.dart';
 import 'package:goambulance/src/features/onboarding/components/onboarding_shared_preferences.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../error_widgets/not_available_error_widget.dart';
 import '../components/models.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -62,7 +62,7 @@ class OnBoardingScreen extends StatelessWidget {
                     page: obController.currentPage + 1, duration: 500);
                 if (currentPageCounter.value == numberOfPages - 1) {
                   await setShowOnBoarding();
-                  Get.offAll(() => const NotAvailableErrorWidget());
+                  Get.offAll(() => const LoginScreen());
                 }
               },
             ),

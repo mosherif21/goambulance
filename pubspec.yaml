@@ -1,0 +1,73 @@
+name: goambulance
+description: Ambulance booking application.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.2 <3.0.0'
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  shared_preferences: ^2.0.15
+  cupertino_icons: ^1.0.5
+  firebase_core: ^2.1.1
+  firebase_auth: ^4.1.0
+  cloud_firestore: ^4.0.1
+  firebase_app_check: ^0.1.1+1
+  firebase_crashlytics: ^3.0.3
+  firebase_database: ^10.0.3
+  firebase_storage: ^11.0.3
+  cloud_functions: ^4.0.2
+  firebase_analytics: ^10.0.3
+  google_fonts: ^3.0.1
+  flutter_native_splash: ^2.2.12
+  liquid_swipe: ^3.0.0
+  smooth_page_indicator: ^1.0.0+2
+  get: ^4.6.5
+  lottie: ^2.0.0
+  flutter_web_frame: ^0.0.3
+  flutter_signin_button: ^2.0.0
+  font_awesome_flutter: ^9.2.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.1
+
+flutter_native_splash:
+  color: "#f7f6f1"
+  color_dark: "#272727"
+  image: assets/images/logo.png
+  image_dark: assets/images/logo.png
+  #branding: assets/images/logo.png
+  #branding_dark: assets/images/logo.png
+
+  android_12:
+    image: assets/images/logo.png
+    icon_background_color: "#f7f6f1"
+    image_dark: assets/images/logo.png
+    icon_background_color_dark: "#272727"
+    #branding: assets/images/logo.png
+
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/fonts/
+    - assets/images/
+    - assets/logos/
+    - assets/videos/
+    - assets/lottie_animations/
+    - assets/Gifs/

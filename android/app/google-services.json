@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "996996980213",
+    "firebase_url": "https://ambulancebookingproject-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "ambulancebookingproject",
+    "storage_bucket": "ambulancebookingproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996996980213:android:98ccd200e5bcad93ccd4bc",
+        "android_client_info": {
+          "package_name": "com.goambulance.goambulance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996996980213-g9utad2qdjfdbp3qp4vl0dtk458qfqf3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.goambulance.goambulance",
+            "certificate_hash": "e6095e8b159d8540644740916dbade8d27061c3b"
+          }
+        },
+        {
+          "client_id": "996996980213-nuisd4i1fat65pjs4lu76d2r020fdj9b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi-fxxPyiLrpS3NexPCz9NijtQNAhk5VQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996996980213-nuisd4i1fat65pjs4lu76d2r020fdj9b.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "996996980213-8172m7d35r17qd730cjk6skirr4alsrf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.goambulance.goambulance"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

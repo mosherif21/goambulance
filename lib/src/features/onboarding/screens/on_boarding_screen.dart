@@ -14,7 +14,6 @@ class OnBoardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final LiquidController obController = LiquidController();
     RxInt currentPageCounter = 0.obs;
-
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,

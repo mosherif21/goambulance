@@ -10,6 +10,7 @@ class AppInit {
   static bool isAndroid = false;
   static bool isIos = false;
   static bool webMobile = false;
+  static bool isInitialised = false;
 
   static Future<void> initializeConstants() async {
     showOnBoard = await getShowOnBoarding();
@@ -31,15 +32,18 @@ class AppInit {
   }
 
   static Future<void> initialize() async {
-    await initializeConstants();
-    await initializeFireBaseApp();
+    if (!isInitialised) {
+      await initializeFireBaseApp();
+      if (AppInit.isWeb || AppInit.webMobile) {
+        await activateWebAppCheck();
+      } else if (AppInit.isAndroid) {
+        await activateAndroidAppCheck();
+      } else if (AppInit.isIos) {
+        await activateIosAppCheck();
+      }
 
-    if (AppInit.isWeb || AppInit.webMobile) {
-      await activateWebAppCheck();
-    } else if (AppInit.isAndroid) {
-      await activateAndroidAppCheck();
-    } else if (AppInit.isIos) {
-      await activateIosAppCheck();
+      isInitialised = true;
+      return;
     }
   }
 }

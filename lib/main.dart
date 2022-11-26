@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/connectivity/connectivity_binding.dart';
 import 'package:goambulance/localization/language/language_functions.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
@@ -13,6 +14,8 @@ late Locale _locale;
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+  await AppInit.initializeConstants();
   _locale = await getLocale();
 
   runApp(const MyApp());
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
           themeMode: ThemeMode.system,
+          initialBinding: ConnectivityBinding(),
           home: AppInit.showOnBoard
               ? const OnBoardingScreen()
               : const LoginScreen(),

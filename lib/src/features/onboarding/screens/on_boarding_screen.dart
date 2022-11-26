@@ -7,13 +7,20 @@ import 'package:goambulance/src/features/onboarding/components/onboarding_shared
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../connectivity/connectivity_controller.dart';
 import '../components/models.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
     FlutterNativeSplash.remove();
+
+    final ConnectivityController connectivityController =
+        Get.find<ConnectivityController>();
+    connectivityController.updateContext(context, height, false);
+
     final LiquidController obController = LiquidController();
     RxInt currentPageCounter = 0.obs;
     return Scaffold(

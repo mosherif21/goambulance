@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/single_button_dialog_alert.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
-import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:lottie/lottie.dart';
 
 class ConnectivityController extends GetxController {
@@ -32,10 +33,14 @@ class ConnectivityController extends GetxController {
   }
 
   Future<void> checkInternet() async {
-    isInternetConnected.value =
-        await InternetConnectionCheckerPlus().hasConnection;
-
+    if (AppInit.isWeb) {
+      isInternetConnected.value = true;
+    } else {
+      isInternetConnected.value =
+          await InternetConnectionChecker().hasConnection;
+    }
     if (!isInternetConnected.value) {
+      FlutterNativeSplash.remove();
       if (!isAlertDisplayed && displayAlert) {
         showNetworkAlertDialog();
       }
@@ -55,7 +60,7 @@ class ConnectivityController extends GetxController {
         Navigator.pop(context);
         isAlertDisplayed = false;
         isInternetConnected.value =
-            await InternetConnectionCheckerPlus().hasConnection;
+            await InternetConnectionChecker().hasConnection;
         if (!isInternetConnected.value) {
           showNetworkAlertDialog();
         }

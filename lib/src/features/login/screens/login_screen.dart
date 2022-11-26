@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 
+import '../../../connectivity/connectivity.dart';
 import '../../../connectivity/connectivity_controller.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -12,14 +12,8 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
-    final ConnectivityController connectivityController =
-        Get.find<ConnectivityController>();
-    if (!connectivityController.isInternetConnected.value) {
-      FlutterNativeSplash.remove();
-    }
-    connectivityController.updateContext(context, height, true);
-    connectivityController.checkInternet();
-
+    ConnectivityController connectivityController =
+        ConnectivityChecker.checkConnection(context, height, true);
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(

@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/connectivity/connectivity.dart';
 import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/components/on_boarding_next_button.dart';
 import 'package:goambulance/src/features/onboarding/components/onboarding_shared_preferences.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../connectivity/connectivity_controller.dart';
 import '../components/models.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final ConnectivityController connectivityController =
-        Get.find<ConnectivityController>();
-    connectivityController.updateContext(context, 0, false);
-    connectivityController.checkInternet();
-
+    ConnectivityChecker.checkConnection(context, 0, false);
     final LiquidController obController = LiquidController();
     RxInt currentPageCounter = 0.obs;
     return Scaffold(

@@ -19,7 +19,10 @@ class Languages extends Translations {
           'signupTextTitle': 'انشاء حساب',
           'skipLabel': 'التخطى',
           'notAvailableErrorTitle': 'غير متاح حاليا',
-          'notAvailableErrorSubTitle': 'نحن نعمل على اصلاح الوضع....'
+          'notAvailableErrorSubTitle': 'نحن نعمل على اصلاح الوضع....',
+          'noConnectionAlertTitle': 'لا يوجد اتصال',
+          'noConnectionAlertContent': 'برجاء التاكد من اتصال الانترنت الخاص بك',
+          'OK': 'حسنا'
         },
         'en_US': {
           'testText': 'Test Text',
@@ -36,7 +39,10 @@ class Languages extends Translations {
           'signupTextTitle': 'SIGNUP',
           'skipLabel': 'Skip',
           'notAvailableErrorTitle': 'Not Currently Available',
-          'notAvailableErrorSubTitle': 'We are working on it....'
+          'notAvailableErrorSubTitle': 'We are working on it....',
+          'noConnectionAlertTitle': 'No Connection',
+          'noConnectionAlertContent': 'Please check your internet connectivity',
+          'OK': 'OK'
         },
       };
 }

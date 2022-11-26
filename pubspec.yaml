@@ -36,6 +36,8 @@ dependencies:
   flutter_web_frame: ^0.0.3
   flutter_signin_button: ^2.0.0
   font_awesome_flutter: ^9.2.0
+  internet_connection_checker: ^1.0.0+1
+  connectivity_plus: ^3.0.2
 
 
 dev_dependencies:

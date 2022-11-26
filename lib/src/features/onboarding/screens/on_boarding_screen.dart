@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/components/on_boarding_next_button.dart';
@@ -12,6 +13,7 @@ class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     final LiquidController obController = LiquidController();
     RxInt currentPageCounter = 0.obs;
     return Scaffold(

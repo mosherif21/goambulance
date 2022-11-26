@@ -13,8 +13,6 @@ late Locale _locale;
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
-  await AppInit.initialize();
   _locale = await getLocale();
 
   runApp(const MyApp());
@@ -25,7 +23,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FlutterNativeSplash.remove();
     return FlutterWebFrame(
       builder: (context) {
         return GetMaterialApp(

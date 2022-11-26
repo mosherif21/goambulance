@@ -30,4 +30,4 @@ final pages = [
     titleSubTextColor: Colors.black87,
   ),
 ];
-final int numberOfPages = pages.length;
+final int numberOfPages = pages.length - 1;

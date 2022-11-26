@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/localization/language/language_functions.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/features/login/screens/login_screen.dart';
+import 'package:goambulance/src/error_widgets/not_available_error_widget.dart';
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 
@@ -38,12 +38,12 @@ class MyApp extends StatelessWidget {
           themeMode: ThemeMode.system,
           home: AppInit.showOnBoard
               ? const OnBoardingScreen()
-              : const LoginScreen(),
+              : const NotAvailableErrorWidget(),
         );
       },
       maximumSize: const Size(500.0, 812.0),
       enabled: AppInit.notWebMobile,
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.grey,
     );
   }
 }

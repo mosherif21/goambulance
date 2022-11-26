@@ -24,7 +24,7 @@ class OnBoardingScreen extends StatelessWidget {
               liquidController: obController,
               onPageChangeCallback: (activeIndex) =>
                   currentPageCounter.value = activeIndex,
-              slideIconWidget: currentPageCounter.value != numberOfPages - 1
+              slideIconWidget: currentPageCounter.value != numberOfPages
                   ? const Icon(Icons.arrow_back_ios)
                   : null,
               enableSideReveal: true,
@@ -32,13 +32,13 @@ class OnBoardingScreen extends StatelessWidget {
             ),
           ),
           Obx(
-            () => currentPageCounter.value != numberOfPages - 1
+            () => currentPageCounter.value != numberOfPages
                 ? Positioned(
                     top: 50,
                     right: 30,
                     child: TextButton(
                       onPressed: () =>
-                          obController.jumpToPage(page: numberOfPages - 1),
+                          obController.jumpToPage(page: numberOfPages),
                       child: Text(
                         'skipLabel'.tr,
                         style: TextStyle(
@@ -59,7 +59,7 @@ class OnBoardingScreen extends StatelessWidget {
               onPress: () async {
                 obController.animateToPage(
                     page: obController.currentPage + 1, duration: 500);
-                if (currentPageCounter.value == numberOfPages - 1) {
+                if (currentPageCounter.value == numberOfPages) {
                   await setShowOnBoarding();
                   Get.offAll(() => const LoginScreen());
                 }
@@ -71,9 +71,9 @@ class OnBoardingScreen extends StatelessWidget {
               bottom: 15,
               child: AnimatedSmoothIndicator(
                 activeIndex: currentPageCounter.value,
-                count: numberOfPages,
+                count: numberOfPages + 1,
                 effect: const ExpandingDotsEffect(
-                  activeDotColor: Color(0xFF272727),
+                  activeDotColor: Colors.black,
                   dotHeight: 10.0,
                 ),
               ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/components/on_boarding_next_button.dart';
@@ -7,19 +6,17 @@ import 'package:goambulance/src/features/onboarding/components/onboarding_shared
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../../connectivity/connectivity_controller.dart';
+import '../../../connectivity/connectivity_controller.dart';
 import '../components/models.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
-    FlutterNativeSplash.remove();
-
     final ConnectivityController connectivityController =
         Get.find<ConnectivityController>();
-    connectivityController.updateContext(context, height, false);
+    connectivityController.updateContext(context, 0, false);
+    connectivityController.checkInternet();
 
     final LiquidController obController = LiquidController();
     RxInt currentPageCounter = 0.obs;

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/single_button_dialog_alert.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:lottie/lottie.dart';
 
 class ConnectivityController extends GetxController {
@@ -26,13 +26,15 @@ class ConnectivityController extends GetxController {
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
       (ConnectivityResult result) async {
         _updateConnectivityStatus(result);
-        await checkShowNetworkDialog();
+        await checkInternet();
       },
     );
   }
 
-  Future<void> checkShowNetworkDialog() async {
-    isInternetConnected.value = await InternetConnectionChecker().hasConnection;
+  Future<void> checkInternet() async {
+    isInternetConnected.value =
+        await InternetConnectionCheckerPlus().hasConnection;
+
     if (!isInternetConnected.value) {
       if (!isAlertDisplayed && displayAlert) {
         showNetworkAlertDialog();
@@ -53,7 +55,7 @@ class ConnectivityController extends GetxController {
         Navigator.pop(context);
         isAlertDisplayed = false;
         isInternetConnected.value =
-            await InternetConnectionChecker().hasConnection;
+            await InternetConnectionCheckerPlus().hasConnection;
         if (!isInternetConnected.value) {
           showNetworkAlertDialog();
         }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/connectivity/connectivity_binding.dart';
 import 'package:goambulance/localization/language/language_functions.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
+import 'package:goambulance/src/connectivity/connectivity_binding.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (AppInit.showOnBoard) FlutterNativeSplash.remove();
     return FlutterWebFrame(
       builder: (context) {
         return GetMaterialApp(

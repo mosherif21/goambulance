@@ -35,15 +35,20 @@ class AppInit {
   static Future<void> initialize() async {
     if (!isInitialised) {
       await initializeFireBaseApp();
+      if (kDebugMode) print('firebase app initialized');
       if (AppInit.isWeb || AppInit.webMobile) {
         await activateWebAppCheck();
+        if (kDebugMode) print('web app check initialized');
       } else if (AppInit.isAndroid) {
         await activateAndroidAppCheck();
+        if (kDebugMode) print('android app check initialized');
       } else if (AppInit.isIos) {
         await activateIosAppCheck();
+        if (kDebugMode) print('ios app check initialized');
       }
-      removeSplash();
+      if (kDebugMode) print('Firebase initialized');
       isInitialised = true;
+      removeSplash();
     }
   }
 }

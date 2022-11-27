@@ -24,7 +24,6 @@ class ConnectivityController extends GetxController {
   void onInit() {
     super.onInit();
     _initConnectivity();
-    _initInternetCheck();
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
       (result) => _updateConnectivityStatus(result),
     );
@@ -33,18 +32,19 @@ class ConnectivityController extends GetxController {
         );
   }
 
-  Future<void> _checkInternet(
-      InternetConnectionStatus internetConnectionStatus) async {
+  void _checkInternet(InternetConnectionStatus internetConnectionStatus) {
     if (internetConnectionStatus == InternetConnectionStatus.connected ||
         AppInit.isWeb) {
       isInternetConnected.value = true;
+      if (kDebugMode) print('Connected to internet');
       if (_isAlertDisplayed && _displayAlert) _hideNetworkAlertDialog();
-      await AppInit.initialize();
+      AppInit.initialize();
     } else if (internetConnectionStatus ==
         InternetConnectionStatus.disconnected) {
       isInternetConnected.value = false;
       removeSplash();
       if (!_isAlertDisplayed && _displayAlert) _showNetworkAlertDialog();
+      if (kDebugMode) print('Disconnected from internet');
     }
   }
 
@@ -77,13 +77,6 @@ class ConnectivityController extends GetxController {
     ConnectivityResult result;
     result = await _connectivity.checkConnectivity();
     return _updateConnectivityStatus(result);
-  }
-
-  Future<void> _initInternetCheck() async {
-    InternetConnectionStatus internetConnectionStatus;
-    internetConnectionStatus =
-        await InternetConnectionChecker().connectionStatus;
-    return _checkInternet(internetConnectionStatus);
   }
 
   void _updateConnectivityStatus(ConnectivityResult result) {

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import '../../firebase_files/firebase_initializations.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
+import '../routing/splash_screen.dart';
 
 class AppInit {
   static bool showOnBoard = false;
@@ -42,7 +42,7 @@ class AppInit {
       } else if (AppInit.isIos) {
         await activateIosAppCheck();
       }
-      FlutterNativeSplash.remove();
+      removeSplash();
       isInitialised = true;
     }
   }

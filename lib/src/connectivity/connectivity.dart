@@ -9,7 +9,6 @@ class ConnectivityChecker {
     final ConnectivityController connectivityController =
         Get.find<ConnectivityController>();
     connectivityController.updateContext(context, screenHeight, displayAlert);
-    connectivityController.checkInternet();
     return connectivityController;
   }
 }

@@ -8,8 +8,7 @@ const String kOnBoardingAnim3 = "assets/lottie_animations/location_on_map.json";
 
 // -- error widgets assets
 const String kNotAvailableErrorAnim = "assets/Gifs/error_beach.gif";
-const String kNoInternetAnim =
-    "assets/lottie_animations/no_internet_dinasour.json";
+const String kNoInternetAnim = "assets/Gifs/no_internet_dinasour.gif";
 
 // -- Login Screen assets
 const String kLoginAnim = "assets/lottie_animations/login_woman.json";

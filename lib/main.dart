@@ -8,6 +8,7 @@ import 'package:goambulance/src/connectivity/connectivity_binding.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
+import 'package:goambulance/src/routing/splash_screen.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 
 late Locale _locale;
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (AppInit.showOnBoard) FlutterNativeSplash.remove();
+    if (AppInit.showOnBoard) removeSplash();
     return FlutterWebFrame(
       builder: (context) {
         return GetMaterialApp(

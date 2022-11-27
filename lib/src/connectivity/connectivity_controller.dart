@@ -26,37 +26,25 @@ class ConnectivityController extends GetxController {
     _initConnectivity();
     _initInternetCheck();
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
-      (ConnectivityResult result) {
-        _updateConnectivityStatus(result);
-      },
+      (result) => _updateConnectivityStatus(result),
     );
     _internetSubscription = InternetConnectionChecker().onStatusChange.listen(
-      (status) {
-        _checkInternet(status);
-      },
-    );
+          (status) => _checkInternet(status),
+        );
   }
 
   Future<void> _checkInternet(
       InternetConnectionStatus internetConnectionStatus) async {
-    if (AppInit.isWeb) {
+    if (internetConnectionStatus == InternetConnectionStatus.connected ||
+        AppInit.isWeb) {
       isInternetConnected.value = true;
-    } else {
-      if (internetConnectionStatus == InternetConnectionStatus.connected) {
-        isInternetConnected.value = true;
-        if (_isAlertDisplayed && _displayAlert) _hideNetworkAlertDialog();
-      } else if (internetConnectionStatus ==
-          InternetConnectionStatus.disconnected) {
-        isInternetConnected.value = false;
-      }
-    }
-    if (!isInternetConnected.value) {
-      removeSplash();
-      if (!_isAlertDisplayed && _displayAlert) {
-        _showNetworkAlertDialog();
-      }
-    } else {
+      if (_isAlertDisplayed && _displayAlert) _hideNetworkAlertDialog();
       await AppInit.initialize();
+    } else if (internetConnectionStatus ==
+        InternetConnectionStatus.disconnected) {
+      isInternetConnected.value = false;
+      removeSplash();
+      if (!_isAlertDisplayed && _displayAlert) _showNetworkAlertDialog();
     }
   }
 

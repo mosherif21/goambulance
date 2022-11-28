@@ -30,7 +30,7 @@ class LoginForm extends StatelessWidget {
                 border: const OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: height * 0.02),
+            const SizedBox(height: 10),
             TextFormField(
               decoration: InputDecoration(
                 prefixIcon: const Icon(
@@ -47,7 +47,7 @@ class LoginForm extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: height * 0.01),
+            const SizedBox(height: 6),
             Align(
               alignment: Alignment.centerRight,
               child: RegularTextButton(
@@ -55,7 +55,7 @@ class LoginForm extends StatelessWidget {
                 onPressed: () {},
               ),
             ),
-            SizedBox(height: height * 0.01),
+            const SizedBox(height: 6),
             SizedBox(
               width: double.infinity,
               height: height * 0.05,

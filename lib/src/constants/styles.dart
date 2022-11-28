@@ -34,5 +34,5 @@ ButtonStyle kElevatedButtonStyle = ElevatedButton.styleFrom(
 ButtonStyle kElevatedButtonRegularStyle = ElevatedButton.styleFrom(
   elevation: 0,
   shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(5))),
+      borderRadius: BorderRadius.all(Radius.circular(3))),
 );

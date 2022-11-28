@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ATextTheme {
@@ -9,16 +10,18 @@ class ATextTheme {
     ),
     headline3: GoogleFonts.montserrat(
       color: Colors.black87,
-      fontSize: 25.0,
+      fontSize: AppInit.notWebMobile ? 20 : 14,
       fontWeight: FontWeight.w700,
     ),
-    subtitle2: GoogleFonts.poppins(color: Colors.black54, fontSize: 24),
+    subtitle2: GoogleFonts.poppins(
+        color: Colors.black54, fontSize: AppInit.notWebMobile ? 20 : 14),
     headline4: GoogleFonts.montserrat(
       color: Colors.white,
-      fontSize: 25.0,
+      fontSize: AppInit.notWebMobile ? 20 : 10,
       fontWeight: FontWeight.w700,
     ),
-    subtitle1: GoogleFonts.poppins(color: Colors.white54, fontSize: 24),
+    subtitle1: GoogleFonts.poppins(
+        color: Colors.white54, fontSize: AppInit.notWebMobile ? 20 : 14),
   );
   /*
   static TextTheme darkTextTheme = TextTheme(

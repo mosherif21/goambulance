@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_text_button.dart';
+import 'package:goambulance/src/common_widgets/text_form_field_with_suffix_icon.dart';
 
+import '../../../common_widgets/regular_bottom_sheet.dart';
+import '../../../common_widgets/text_form_field.dart';
 import '../../../constants/styles.dart';
 
 class LoginForm extends StatelessWidget {
@@ -20,39 +23,32 @@ class LoginForm extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(
-                  Icons.person_outline_outlined,
-                ),
-                labelText: 'emailLabel'.tr,
-                hintText: 'emailHintLabel'.tr,
-                border: const OutlineInputBorder(),
-              ),
+            TextFormFieldRegular(
+              labelText: 'emailLabel'.tr,
+              hintText: 'emailHintLabel'.tr,
+              prefixIconData: Icons.person_outline_outlined,
             ),
             const SizedBox(height: 10),
-            TextFormField(
-              decoration: InputDecoration(
-                prefixIcon: const Icon(
-                  Icons.fingerprint,
-                ),
-                labelText: 'passwordLabel'.tr,
-                hintText: 'passwordLabel'.tr,
-                border: const OutlineInputBorder(),
-                suffixIcon: IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.remove_red_eye_sharp,
-                  ),
-                ),
-              ),
+            TextFormFieldRegularSuffixIcon(
+              labelText: 'passwordLabel'.tr,
+              hintText: 'passwordLabel'.tr,
+              prefixIconData: Icons.password_outlined,
+              suffixIconData: Icons.remove_red_eye_sharp,
             ),
             const SizedBox(height: 6),
             Align(
               alignment: Alignment.centerRight,
               child: RegularTextButton(
                 buttonText: 'forgotPassword'.tr,
-                onPressed: () {},
+                onPressed: () => RegularBottomSheet(
+                  context: context,
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      children: [],
+                    ),
+                  ),
+                ).showRegularBottomSheet(),
               ),
             ),
             const SizedBox(height: 6),

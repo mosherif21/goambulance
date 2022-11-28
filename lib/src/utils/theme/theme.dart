@@ -4,6 +4,8 @@ import 'package:goambulance/src/utils/theme/widget_themes/text_theme.dart';
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
+    bottomSheetTheme:
+        BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0)),
     primarySwatch: const MaterialColor(
       0xFF28AADC,
       <int, Color>{

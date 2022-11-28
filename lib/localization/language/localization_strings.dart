@@ -22,7 +22,17 @@ class Languages extends Translations {
           'notAvailableErrorSubTitle': 'نحن نعمل على اصلاح الوضع....',
           'noConnectionAlertTitle': 'لا يوجد اتصال',
           'noConnectionAlertContent': 'برجاء التاكد من اتصال الانترنت الخاص بك',
-          'OK': 'حسنا'
+          'oK': 'حسنا',
+          'loginWithGoogle': 'تسجيل الدخول بجوجل',
+          'loginWithFacebook': 'تسجيل الدخول بالفيسبوك',
+          'loginWithMobile': 'تسجيل الدخول برقم الهاتف',
+          'emailLabel': 'البريد الالكترونى',
+          'emailHintLabel': 'ادخل بريدك الالكترونى',
+          'passwordLabel': 'كلمة المرور',
+          'forgotPassword': 'لا تتذكر كلمة المرور؟',
+          'alternateLoginLabel': 'او عن طريق',
+          'noEmailAccount':
+              'ليس لديك حساب بريد الكترونى؟انشئ حساب بريد الكترونى',
         },
         'en_US': {
           'testText': 'Test Text',
@@ -42,7 +52,16 @@ class Languages extends Translations {
           'notAvailableErrorSubTitle': 'We are working on it....',
           'noConnectionAlertTitle': 'No Connection',
           'noConnectionAlertContent': 'Please check your internet connectivity',
-          'OK': 'OK'
+          'oK': 'OK',
+          'loginWithGoogle': 'CONTINUE WITH GOOGLE',
+          'loginWithFacebook': 'CONTINUE WITH FACEBOOK',
+          'loginWithMobile': 'CONTINUE WITH PHONE NUMBER',
+          'emailLabel': 'E-Mail',
+          'emailHintLabel': 'Enter your E-Mail',
+          'passwordLabel': 'Password',
+          'forgotPassword': 'Forgot Password?',
+          'alternateLoginLabel': 'OR',
+          'noEmailAccount': 'Don\'t have an email account?Signup with email',
         },
       };
 }

@@ -36,8 +36,6 @@ class MyApp extends StatelessWidget {
           fallbackLocale: const Locale('en', 'US'),
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: ThemeMode.system,
           initialBinding: ConnectivityBinding(),
           home: AppInit.showOnBoard
               ? const OnBoardingScreen()

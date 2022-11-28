@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 import '../common_widgets/no_button_dialog_alert.dart';
 import '../routing/splash_screen.dart';
@@ -27,9 +27,10 @@ class ConnectivityController extends GetxController {
     _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
       (result) => _updateConnectivityStatus(result),
     );
-    _internetSubscription = InternetConnectionChecker().onStatusChange.listen(
-          (status) => _checkInternet(status),
-        );
+    _internetSubscription =
+        InternetConnectionCheckerPlus().onStatusChange.listen(
+              (status) => _checkInternet(status),
+            );
   }
 
   void _checkInternet(InternetConnectionStatus internetConnectionStatus) {

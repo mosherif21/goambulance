@@ -37,7 +37,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   font_awesome_flutter: ^9.2.0
   connectivity_plus: ^3.0.2
-  internet_connection_checker: ^1.0.0+1
+  internet_connection_checker_plus: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -48,17 +48,13 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#f7f6f1"
-  color_dark: "#272727"
   image: assets/images/logo.png
-  image_dark: assets/images/logo.png
   #branding: assets/images/logo.png
   #branding_dark: assets/images/logo.png
 
   android_12:
     image: assets/images/logo.png
     icon_background_color: "#f7f6f1"
-    image_dark: assets/images/logo.png
-    icon_background_color_dark: "#272727"
     #branding: assets/images/logo.png
 
 flutter:

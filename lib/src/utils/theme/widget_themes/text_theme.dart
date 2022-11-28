@@ -20,6 +20,7 @@ class ATextTheme {
     ),
     subtitle1: GoogleFonts.poppins(color: Colors.white54, fontSize: 24),
   );
+  /*
   static TextTheme darkTextTheme = TextTheme(
     headline2: GoogleFonts.montserrat(
       color: Colors.white,
@@ -36,5 +37,5 @@ class ATextTheme {
       fontWeight: FontWeight.w700,
     ),
     subtitle1: GoogleFonts.poppins(color: Colors.black54, fontSize: 24),
-  );
+  );*/
 }

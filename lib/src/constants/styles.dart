@@ -30,3 +30,9 @@ ButtonStyle kElevatedButtonStyle = ElevatedButton.styleFrom(
   foregroundColor: kDarkishColor,
   padding: const EdgeInsets.symmetric(vertical: kButtonHeight),
 );
+
+ButtonStyle kElevatedButtonRegularStyle = ElevatedButton.styleFrom(
+  elevation: 0,
+  shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(5))),
+);

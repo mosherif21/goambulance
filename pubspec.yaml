@@ -18,17 +18,17 @@ dependencies:
 
   shared_preferences: ^2.0.15
   cupertino_icons: ^1.0.5
-  firebase_core: ^2.1.1
-  firebase_auth: ^4.1.0
-  cloud_firestore: ^4.0.1
-  firebase_app_check: ^0.1.1+1
-  firebase_crashlytics: ^3.0.3
-  firebase_database: ^10.0.3
-  firebase_storage: ^11.0.3
-  cloud_functions: ^4.0.2
-  firebase_analytics: ^10.0.3
+  firebase_core: ^2.3.0
+  firebase_auth: ^4.1.4
+  cloud_firestore: ^4.1.0
+  firebase_app_check: ^0.1.1+5
+  firebase_crashlytics: ^3.0.6
+  firebase_database: ^10.0.6
+  firebase_storage: ^11.0.6
+  cloud_functions: ^4.0.5
+  firebase_analytics: ^10.0.6
   google_fonts: ^3.0.1
-  flutter_native_splash: ^2.2.12
+  flutter_native_splash: ^2.2.16
   liquid_swipe: ^3.0.0
   smooth_page_indicator: ^1.0.0+2
   get: ^4.6.5

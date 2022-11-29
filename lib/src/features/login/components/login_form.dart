@@ -4,6 +4,7 @@ import 'package:goambulance/src/common_widgets/regular_text_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field_with_suffix_icon_button.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
+import '../../../common_widgets/regular_bottom_sheet.dart';
 import '../../../common_widgets/text_form_field.dart';
 import '../../../constants/styles.dart';
 
@@ -32,7 +33,7 @@ class LoginForm extends StatelessWidget {
             TextFormFieldRegularSuffixIcon(
               labelText: 'passwordLabel'.tr,
               hintText: 'passwordHintLabel'.tr,
-              prefixIconData: Icons.password_outlined,
+              prefixIconData: Icons.lock_outlined,
               suffixIconData: Icons.remove_red_eye_sharp,
               suffixIconButtonOnPressed: () {},
             ),
@@ -42,8 +43,8 @@ class LoginForm extends StatelessWidget {
                   ? Alignment.centerRight
                   : Alignment.centerLeft,
               child: RegularTextButton(
-                  buttonText: 'forgotPassword'.tr, onPressed: () {}
-                  /*RegularBottomSheet(
+                buttonText: 'forgotPassword'.tr,
+                onPressed: () => RegularBottomSheet(
                   context: context,
                   child: SizedBox(
                     width: double.infinity,
@@ -51,8 +52,8 @@ class LoginForm extends StatelessWidget {
                       children: [],
                     ),
                   ),
-                ).showRegularBottomSheet(),*/
-                  ),
+                ).showRegularBottomSheet(),
+              ),
             ),
             const SizedBox(height: 6),
             SizedBox(

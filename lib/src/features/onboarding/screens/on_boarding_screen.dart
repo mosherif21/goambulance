@@ -12,7 +12,6 @@ import '../../../routing/splash_screen.dart';
 import '../../login/components/language_select.dart';
 import '../../login/screens/login_screen.dart';
 import '../components/models.dart';
-import '../components/onboarding_shared_preferences.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -73,16 +72,12 @@ class OnBoardingScreen extends StatelessWidget {
                     context: context,
                     child: LogInLanguageSelect(
                       onEnglishLanguagePress: () async {
-                        await setShowOnBoarding();
-                        Get.updateLocale(const Locale('en', 'US'));
-                        await setLocale('en');
+                        await setOnBoardingLocale('en');
                         if (mounted) Navigator.pop(context);
                         Get.offAll(() => const LoginScreen());
                       },
                       onArabicLanguagePress: () async {
-                        await setShowOnBoarding();
-                        Get.updateLocale(const Locale('ar', 'SA'));
-                        await setLocale('ar');
+                        await setOnBoardingLocale('ar');
                         if (mounted) Navigator.pop(context);
                         Get.offAll(() => const LoginScreen());
                       },

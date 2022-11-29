@@ -22,10 +22,7 @@ class AppInit {
   static bool isLocaleSet = false;
   static late final Locale setLocale;
   static Language currentDeviceLanguage = Language.english;
-  static List<Locale> supportedLocales = [
-    const Locale(english, 'US'),
-    const Locale(arabic, 'SA'),
-  ];
+
   static Future<void> initializeConstants() async {
     prefs = await SharedPreferences.getInstance();
     isLocaleSet = await getIfLocaleIsSet();

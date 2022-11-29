@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../src/constants/app_init_constants.dart';
+import '../../src/features/onboarding/components/onboarding_shared_preferences.dart';
 
 const String languageCode = 'languageCode';
 
@@ -12,7 +14,6 @@ const String arabic = 'ar';
 // setLocale('ar');}
 
 Future<void> setLocale(String aLanguageCode) async {
-  _locale(aLanguageCode);
   await AppInit.prefs.setString(languageCode, aLanguageCode);
 }
 
@@ -41,4 +42,12 @@ Locale _locale(String aLanguageCode) {
       AppInit.currentDeviceLanguage = Language.english;
       return const Locale(english, 'US');
   }
+}
+
+Future<void> setOnBoardingLocale(
+  String languageCode,
+) async {
+  await setShowOnBoarding();
+  Get.updateLocale(_locale(languageCode));
+  await setLocale(languageCode);
 }

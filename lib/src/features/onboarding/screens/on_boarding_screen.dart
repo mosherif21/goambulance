@@ -23,9 +23,14 @@ class OnBoardingScreen extends StatelessWidget {
     Future<void> setLocaleLanguage(String languageCode) async {
       showLoadingScreen(context, screenHeight);
       await setOnBoardingLocale(languageCode);
-      if (mounted) hideLoadingScreen(context);
-      if (mounted) Navigator.pop(context);
-      Get.offAll(() => const LoginScreen());
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          if (mounted) hideLoadingScreen(context);
+          if (mounted) Navigator.pop(context);
+          Get.offAll(() => const LoginScreen());
+        },
+      );
     }
 
     return Scaffold(

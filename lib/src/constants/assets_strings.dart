@@ -19,3 +19,6 @@ const String kLogoImageWithSlogan =
     "assets/images/logo_with_slogan_transparent.png";
 const String kSAFlagImage = "assets/Gifs/saudi_arabia_flag.gif";
 const String kUkFlagImage = "assets/Gifs/uk_flag.gif";
+
+//--Loading Assets
+const String kLoadingHeartAnim = "assets/lottie_animations/loading_heart.json";

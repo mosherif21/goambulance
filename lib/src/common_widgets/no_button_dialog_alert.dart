@@ -7,7 +7,9 @@ class NoButtonDialogAlert {
   final Widget content;
   final BuildContext context;
   final bool dismissible;
+  final Color? backgroundColor;
   const NoButtonDialogAlert({
+    this.backgroundColor,
     required this.title,
     required this.content,
     required this.context,

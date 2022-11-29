@@ -48,6 +48,6 @@ Future<void> setOnBoardingLocale(
   String languageCode,
 ) async {
   await setShowOnBoarding();
-  Get.updateLocale(_locale(languageCode));
+  await Get.updateLocale(_locale(languageCode));
   await setLocale(languageCode);
 }

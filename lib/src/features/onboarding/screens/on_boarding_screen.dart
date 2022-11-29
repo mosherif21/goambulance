@@ -3,42 +3,36 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_bottom_sheet.dart';
 import 'package:goambulance/src/connectivity/connectivity.dart';
 import 'package:goambulance/src/features/onboarding/components/on_boarding_next_button.dart';
-import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:goambulance/src/routing/loading_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../localization/language/language_functions.dart';
-import '../../../constants/app_init_constants.dart';
-import '../../../routing/splash_screen.dart';
 import '../../login/components/language_select.dart';
 import '../../login/screens/login_screen.dart';
+import '../components/liquid_swipe.dart';
 import '../components/models.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
     ConnectivityChecker.checkConnection(context, 0, false);
-    final LiquidController obController = LiquidController();
-    RxInt currentPageCounter = 0.obs;
     const bool mounted = true;
-    if (AppInit.showOnBoard) removeSplashScreen();
+
+    Future<void> setLocaleLanguage(String languageCode) async {
+      showLoadingScreen(context, screenHeight);
+      await setOnBoardingLocale(languageCode);
+      if (mounted) hideLoadingScreen(context);
+      if (mounted) Navigator.pop(context);
+      Get.offAll(() => const LoginScreen());
+    }
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: [
-          Obx(
-            () => LiquidSwipe(
-              pages: pages,
-              liquidController: obController,
-              onPageChangeCallback: (activeIndex) =>
-                  currentPageCounter.value = activeIndex,
-              slideIconWidget: currentPageCounter.value != numberOfPages
-                  ? const Icon(Icons.arrow_back_ios)
-                  : null,
-              enableSideReveal: true,
-              enableLoop: false,
-            ),
-          ),
+          const LiquidSwipeWidget(),
           Obx(
             () => currentPageCounter.value != numberOfPages
                 ? Positioned(
@@ -62,7 +56,7 @@ class OnBoardingScreen extends StatelessWidget {
                 : const SizedBox(),
           ),
           Positioned(
-            bottom: 60,
+            bottom: 50,
             child: OnBoardingPageNextButton(
               onPress: () {
                 obController.animateToPage(
@@ -72,14 +66,10 @@ class OnBoardingScreen extends StatelessWidget {
                     context: context,
                     child: LogInLanguageSelect(
                       onEnglishLanguagePress: () async {
-                        await setOnBoardingLocale('en');
-                        if (mounted) Navigator.pop(context);
-                        Get.offAll(() => const LoginScreen());
+                        await setLocaleLanguage('en');
                       },
                       onArabicLanguagePress: () async {
-                        await setOnBoardingLocale('ar');
-                        if (mounted) Navigator.pop(context);
-                        Get.offAll(() => const LoginScreen());
+                        await setLocaleLanguage('ar');
                       },
                     ),
                   ).showRegularBottomSheet();

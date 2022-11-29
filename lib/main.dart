@@ -7,6 +7,7 @@ import 'package:goambulance/src/connectivity/connectivity_binding.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
+import 'package:goambulance/src/routing/splash_screen.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 
 Future<void> main() async {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    if (AppInit.showOnBoard) removeSplashScreen();
     return FlutterWebFrame(
       builder: (context) {
         return GetMaterialApp(

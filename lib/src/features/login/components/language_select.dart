@@ -31,7 +31,7 @@ class LogInLanguageSelect extends StatelessWidget {
             onPressed: () => onEnglishLanguagePress(),
             icon: const Image(
               image: AssetImage(kUkFlagImage),
-              height: 50.0,
+              height: 60.0,
             ),
             label: Text(
               'english'.tr,
@@ -46,7 +46,7 @@ class LogInLanguageSelect extends StatelessWidget {
             onPressed: () => onArabicLanguagePress(),
             icon: const Image(
               image: AssetImage(kSAFlagImage),
-              height: 50.0,
+              height: 60.0,
             ),
             label: Text(
               'arabic'.tr,

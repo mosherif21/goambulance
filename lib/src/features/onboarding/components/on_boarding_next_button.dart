@@ -6,6 +6,7 @@ class OnBoardingPageNextButton extends StatelessWidget {
     required this.onPress,
   }) : super(key: key);
   final Function onPress;
+
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(

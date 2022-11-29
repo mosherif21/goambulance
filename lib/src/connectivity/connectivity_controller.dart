@@ -43,7 +43,7 @@ class ConnectivityController extends GetxController {
     } else if (internetConnectionStatus ==
         InternetConnectionStatus.disconnected) {
       isInternetConnected.value = false;
-      removeSplash();
+      removeSplashScreen();
       if (!_isAlertDisplayed && _displayAlert) _showNetworkAlertDialog();
       if (kDebugMode) print('Disconnected from internet');
     }

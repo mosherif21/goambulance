@@ -7,6 +7,8 @@ import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../localization/language/language_functions.dart';
+import '../../../constants/app_init_constants.dart';
+import '../../../routing/splash_screen.dart';
 import '../../login/components/language_select.dart';
 import '../../login/screens/login_screen.dart';
 import '../components/models.dart';
@@ -20,6 +22,7 @@ class OnBoardingScreen extends StatelessWidget {
     final LiquidController obController = LiquidController();
     RxInt currentPageCounter = 0.obs;
     const bool mounted = true;
+    if (AppInit.showOnBoard) removeSplashScreen();
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,

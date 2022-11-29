@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_text_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field_with_suffix_icon_button.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 
-import '../../../common_widgets/regular_bottom_sheet.dart';
 import '../../../common_widgets/text_form_field.dart';
 import '../../../constants/styles.dart';
 
@@ -31,17 +31,19 @@ class LoginForm extends StatelessWidget {
             const SizedBox(height: 10),
             TextFormFieldRegularSuffixIcon(
               labelText: 'passwordLabel'.tr,
-              hintText: 'passwordLabel'.tr,
+              hintText: 'passwordHintLabel'.tr,
               prefixIconData: Icons.password_outlined,
               suffixIconData: Icons.remove_red_eye_sharp,
               suffixIconButtonOnPressed: () {},
             ),
             const SizedBox(height: 6),
             Align(
-              alignment: Alignment.centerRight,
+              alignment: AppInit.currentDeviceLanguage == Language.english
+                  ? Alignment.centerRight
+                  : Alignment.centerLeft,
               child: RegularTextButton(
-                buttonText: 'forgotPassword'.tr,
-                onPressed: () => RegularBottomSheet(
+                  buttonText: 'forgotPassword'.tr, onPressed: () {}
+                  /*RegularBottomSheet(
                   context: context,
                   child: SizedBox(
                     width: double.infinity,
@@ -49,8 +51,8 @@ class LoginForm extends StatelessWidget {
                       children: [],
                     ),
                   ),
-                ).showRegularBottomSheet(),
-              ),
+                ).showRegularBottomSheet(),*/
+                  ),
             ),
             const SizedBox(height: 6),
             SizedBox(

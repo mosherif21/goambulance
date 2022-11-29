@@ -1,9 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../localization/language/language_functions.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../routing/splash_screen.dart';
+
+enum Language { english, arabic }
 
 class AppInit {
   static bool showOnBoard = false;
@@ -15,10 +20,22 @@ class AppInit {
   static bool isInitialised = false;
   static late SharedPreferences prefs;
   static bool isLocaleSet = false;
+  static late Locale setLocale;
+  static Language currentDeviceLanguage = Language.english;
   static Future<void> initializeConstants() async {
     prefs = await SharedPreferences.getInstance();
     isLocaleSet = await getIfLocaleIsSet();
     showOnBoard = await getShowOnBoarding();
+    if (isLocaleSet) {
+      setLocale = await getLocale();
+    } else {
+      setLocale = Get.deviceLocale ?? const Locale('en', 'US');
+    }
+    if (setLocale.languageCode.compareTo('en') == 0) {
+      currentDeviceLanguage = Language.english;
+    } else {
+      currentDeviceLanguage = Language.arabic;
+    }
     isWeb = kIsWeb;
     notWebMobile = isWeb &&
         !(defaultTargetPlatform == TargetPlatform.iOS ||
@@ -53,7 +70,7 @@ class AppInit {
       }
       if (kDebugMode) print('Firebase initialized');*/
       isInitialised = true;
-      removeSplash();
+      removeSplashScreen();
     }
   }
 }

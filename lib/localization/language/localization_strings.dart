@@ -4,14 +4,12 @@ class Languages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'ar_SA': {
-          'loginLabel': 'تسجيل الدخول',
-          'onBoardingTitle1': 'خدمة عملاء',
-          'onBoardingSubTitle1':
-              'خدمة عملاء جامدة جدا جدا جدا جدا جدا جدا جدا جدا جدا جدا جدا جدا جدا',
-          'onBoardingTitle2': 'Customer Service ar',
-          'onBoardingTitle3': 'Customer Service ar',
-          'onBoardingSubTitle2': 'Customer Service ar',
-          'onBoardingSubTitle3': 'Customer Service ar',
+          'onBoardingTitle1': 'خدمة اسعاف سريعة',
+          'onBoardingTitle2': 'خدمة عملاء',
+          'onBoardingTitle3': 'نصلك اينما كنت',
+          'onBoardingSubTitle1': 'نجعل كل ثانية مهمة',
+          'onBoardingSubTitle2': 'خدمة عملاء على مدار ال24 ساعة',
+          'onBoardingSubTitle3': '',
           'welcomeTitle': 'Go Ambulance',
           'welcomeSubTitle': 'المساعدة بضغطةواحدة',
           'loginTextTitle': 'تسجيل الدخول',
@@ -38,13 +36,12 @@ class Languages extends Translations {
           'chooseLanguage': 'اختر لغتك المفضلة',
         },
         'en_US': {
-          'loginLabel': 'login Text',
-          'onBoardingTitle1': 'Fast Ambulance',
+          'onBoardingTitle1': 'Fast ambulance requests',
           'onBoardingTitle2': 'Customer Service',
           'onBoardingTitle3': 'Any Location',
-          'onBoardingSubTitle1': 'Ambulance sare3a',
-          'onBoardingSubTitle2': 'Customer Service ',
-          'onBoardingSubTitle3': 'Any Location ',
+          'onBoardingSubTitle1': 'We make every second count',
+          'onBoardingSubTitle2': '24/7 available customer service',
+          'onBoardingSubTitle3': 'Wherever you are, we are here for you',
           'welcomeTitle': 'Go Ambulance',
           'welcomeSubTitle': 'Help is one click away',
           'loginTextTitle': 'LOGIN',

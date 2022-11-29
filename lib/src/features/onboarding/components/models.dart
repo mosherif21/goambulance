@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../constants/assets_strings.dart';
 import 'on_boarding_page_widget.dart';
 
-final pages = [
+List<OnBoardingPageTemplate> pages = [
   OnBoardingPageTemplate(
     onBoardingBackGroundColor: Colors.white,
     onBoardingAnim: kOnBoardingAnim1,

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/common_widgets/regular_bottom_sheet.dart';
 import 'package:goambulance/src/connectivity/connectivity.dart';
-import 'package:goambulance/src/features/login/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/components/on_boarding_next_button.dart';
-import 'package:goambulance/src/features/onboarding/components/onboarding_shared_preferences.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../localization/language/language_functions.dart';
+import '../../login/components/language_select.dart';
+import '../../login/screens/login_screen.dart';
 import '../components/models.dart';
+import '../components/onboarding_shared_preferences.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -16,6 +19,7 @@ class OnBoardingScreen extends StatelessWidget {
     ConnectivityChecker.checkConnection(context, 0, false);
     final LiquidController obController = LiquidController();
     RxInt currentPageCounter = 0.obs;
+    const bool mounted = true;
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -58,12 +62,29 @@ class OnBoardingScreen extends StatelessWidget {
           Positioned(
             bottom: 60,
             child: OnBoardingPageNextButton(
-              onPress: () async {
+              onPress: () {
                 obController.animateToPage(
                     page: obController.currentPage + 1, duration: 500);
                 if (currentPageCounter.value == numberOfPages) {
-                  await setShowOnBoarding();
-                  Get.offAll(() => const LoginScreen());
+                  RegularBottomSheet(
+                    context: context,
+                    child: LogInLanguageSelect(
+                      onEnglishLanguagePress: () async {
+                        await setShowOnBoarding();
+                        Get.updateLocale(const Locale('en', 'US'));
+                        setLocale('en');
+                        if (mounted) Navigator.pop(context);
+                        Get.offAll(() => const LoginScreen());
+                      },
+                      onArabicLanguagePress: () async {
+                        await setShowOnBoarding();
+                        Get.updateLocale(const Locale('ar', 'SA'));
+                        setLocale('ar');
+                        if (mounted) Navigator.pop(context);
+                        Get.offAll(() => const LoginScreen());
+                      },
+                    ),
+                  ).showRegularBottomSheet();
                 }
               },
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../localization/language/language_functions.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../routing/splash_screen.dart';
 
@@ -11,8 +13,11 @@ class AppInit {
   static bool isIos = false;
   static bool webMobile = false;
   static bool isInitialised = false;
-
+  static late SharedPreferences prefs;
+  static bool isLocaleSet = false;
   static Future<void> initializeConstants() async {
+    prefs = await SharedPreferences.getInstance();
+    isLocaleSet = await getIfLocaleIsSet();
     showOnBoard = await getShowOnBoarding();
     isWeb = kIsWeb;
     notWebMobile = isWeb &&

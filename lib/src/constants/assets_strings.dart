@@ -17,3 +17,5 @@ const String kLoginAnim = "assets/lottie_animations/login_woman.json";
 const String kLogoImage = "assets/images/logo.png";
 const String kLogoImageWithSlogan =
     "assets/images/logo_with_slogan_transparent.png";
+const String kSAFlagImage = "assets/Gifs/saudi_arabia_flag.gif";
+const String kUkFlagImage = "assets/Gifs/uk_flag.gif";

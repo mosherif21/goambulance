@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_text_button.dart';
-import 'package:goambulance/src/common_widgets/text_form_field_with_suffix_icon.dart';
+import 'package:goambulance/src/common_widgets/text_form_field_with_suffix_icon_button.dart';
 
 import '../../../common_widgets/regular_bottom_sheet.dart';
 import '../../../common_widgets/text_form_field.dart';
@@ -34,6 +34,7 @@ class LoginForm extends StatelessWidget {
               hintText: 'passwordLabel'.tr,
               prefixIconData: Icons.password_outlined,
               suffixIconData: Icons.remove_red_eye_sharp,
+              suffixIconButtonOnPressed: () {},
             ),
             const SizedBox(height: 6),
             Align(

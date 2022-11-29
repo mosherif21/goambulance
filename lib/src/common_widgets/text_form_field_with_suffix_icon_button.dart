@@ -6,12 +6,14 @@ class TextFormFieldRegularSuffixIcon extends StatelessWidget {
       required this.labelText,
       required this.hintText,
       required this.prefixIconData,
-      required this.suffixIconData})
+      required this.suffixIconData,
+      required this.suffixIconButtonOnPressed})
       : super(key: key);
   final String labelText;
   final String hintText;
   final IconData prefixIconData;
   final IconData suffixIconData;
+  final Function suffixIconButtonOnPressed;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -22,8 +24,11 @@ class TextFormFieldRegularSuffixIcon extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         border: const OutlineInputBorder(),
-        suffixIcon: Icon(
-          suffixIconData,
+        suffixIcon: IconButton(
+          onPressed: () => suffixIconButtonOnPressed(),
+          icon: Icon(
+            suffixIconData,
+          ),
         ),
       ),
     );

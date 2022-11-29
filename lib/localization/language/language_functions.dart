@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../src/constants/app_init_constants.dart';
 
 const String languageCode = 'languageCode';
 
@@ -11,14 +12,20 @@ const String arabic = 'ar';
 // setLocale('ar');}
 
 Future<void> setLocale(String aLanguageCode) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString(languageCode, aLanguageCode);
+  await AppInit.prefs.setString(languageCode, aLanguageCode);
+}
+
+Future<bool> getIfLocaleIsSet() async {
+  if (AppInit.prefs.getString(languageCode) != null) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 Future<Locale> getLocale() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String aLanguageCode = prefs.getString(languageCode) ?? english;
-  return _locale(aLanguageCode);
+  String? aLanguageCode = AppInit.prefs.getString(languageCode);
+  return _locale(aLanguageCode!);
 }
 
 Locale _locale(String aLanguageCode) {

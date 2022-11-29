@@ -4,7 +4,6 @@ class Languages extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
         'ar_SA': {
-          'testText': 'كتابة تجريبية',
           'loginLabel': 'تسجيل الدخول',
           'onBoardingTitle1': 'خدمة عملاء',
           'onBoardingSubTitle1':
@@ -29,13 +28,16 @@ class Languages extends Translations {
           'emailLabel': 'البريد الالكترونى',
           'emailHintLabel': 'ادخل بريدك الالكترونى',
           'passwordLabel': 'كلمة المرور',
+          'passwordHintLabel': 'ادخل كلمة المرور',
           'forgotPassword': 'لا تتذكر كلمة المرور؟',
           'alternateLoginLabel': 'او عن طريق',
           'noEmailAccount':
-              'ليس لديك حساب بريد الكترونى؟انشئ حساب بريد الكترونى',
+              'ليس لديك حساب بريد الكترونى؟ انشئ حساب بريد الكترونى',
+          'english': 'الانجليزية',
+          'arabic': 'العربية',
+          'chooseLanguage': 'اختر لغتك المفضلة',
         },
         'en_US': {
-          'testText': 'Test Text',
           'loginLabel': 'login Text',
           'onBoardingTitle1': 'Fast Ambulance',
           'onBoardingTitle2': 'Customer Service',
@@ -59,9 +61,13 @@ class Languages extends Translations {
           'emailLabel': 'E-Mail',
           'emailHintLabel': 'Enter your E-Mail',
           'passwordLabel': 'Password',
+          'passwordHintLabel': 'Enter your Password',
           'forgotPassword': 'Forgot Password?',
           'alternateLoginLabel': 'OR',
-          'noEmailAccount': 'Don\'t have an email account?Signup with email',
+          'noEmailAccount': 'Don\'t have an email account? Signup with email',
+          'english': 'ENGLISH',
+          'arabic': 'ARABIC',
+          'chooseLanguage': 'Choose your preferred language',
         },
       };
 }

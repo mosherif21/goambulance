@@ -17,7 +17,7 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   await AppInit.initializeConstants();
-  _locale = await getLocale();
+  if (AppInit.isLocaleSet) _locale = await getLocale();
 
   runApp(const MyApp());
 }
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       builder: (context) {
         return GetMaterialApp(
           translations: Languages(),
-          locale: _locale != Get.deviceLocale ? _locale : Get.deviceLocale,
+          locale: AppInit.isLocaleSet ? _locale : Get.deviceLocale,
           fallbackLocale: const Locale('en', 'US'),
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,

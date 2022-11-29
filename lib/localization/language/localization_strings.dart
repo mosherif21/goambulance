@@ -34,6 +34,10 @@ class Languages extends Translations {
           'english': 'الانجليزية',
           'arabic': 'العربية',
           'chooseLanguage': 'اختر لغتك المفضلة',
+          'chooseForgetPasswordMethod': 'اختر طريقة تغيير كلمة المرور',
+          'emailReset': 'تغيير الايميل عن طريق كودالايميل',
+          'numberReset': 'تغيير الايميل عن طريق كود رقم الهاتف',
+          'phoneLabel': 'رقم الهاتف',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -65,6 +69,11 @@ class Languages extends Translations {
           'english': 'ENGLISH',
           'arabic': 'ARABIC',
           'chooseLanguage': 'Choose your preferred language',
+          'chooseForgetPasswordMethod':
+              'Choose a method to reset your password',
+          'emailReset': 'Reset password via E-Mail Verification code',
+          'numberReset': 'Reset password via Phone OTP Verification',
+          'phoneLabel': 'Phone Number',
         },
       };
 }

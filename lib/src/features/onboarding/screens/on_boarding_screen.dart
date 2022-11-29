@@ -7,7 +7,7 @@ import 'package:goambulance/src/routing/loading_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../localization/language/language_functions.dart';
-import '../../login/components/language_select.dart';
+import '../../../common_widgets/language_select.dart';
 import '../../login/screens/login_screen.dart';
 import '../components/liquid_swipe.dart';
 import '../components/models.dart';
@@ -23,14 +23,9 @@ class OnBoardingScreen extends StatelessWidget {
     Future<void> setLocaleLanguage(String languageCode) async {
       showLoadingScreen(context, screenHeight);
       await setOnBoardingLocale(languageCode);
-      Future.delayed(
-        const Duration(seconds: 1),
-        () {
-          if (mounted) hideLoadingScreen(context);
-          if (mounted) Navigator.pop(context);
-          Get.offAll(() => const LoginScreen());
-        },
-      );
+      if (mounted) hideLoadingScreen(context);
+      if (mounted) Navigator.pop(context);
+      Get.offAll(() => const LoginScreen());
     }
 
     return Scaffold(
@@ -69,7 +64,7 @@ class OnBoardingScreen extends StatelessWidget {
                 if (currentPageCounter.value == numberOfPages) {
                   RegularBottomSheet(
                     context: context,
-                    child: LogInLanguageSelect(
+                    child: LanguageSelect(
                       onEnglishLanguagePress: () async {
                         await setLocaleLanguage('en');
                       },

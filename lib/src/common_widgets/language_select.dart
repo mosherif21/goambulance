@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 
-class LogInLanguageSelect extends StatelessWidget {
-  const LogInLanguageSelect(
+class LanguageSelect extends StatelessWidget {
+  const LanguageSelect(
       {Key? key,
       required this.onEnglishLanguagePress,
       required this.onArabicLanguagePress})

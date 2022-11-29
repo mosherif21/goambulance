@@ -75,14 +75,14 @@ class OnBoardingScreen extends StatelessWidget {
                       onEnglishLanguagePress: () async {
                         await setShowOnBoarding();
                         Get.updateLocale(const Locale('en', 'US'));
-                        setLocale('en');
+                        await setLocale('en');
                         if (mounted) Navigator.pop(context);
                         Get.offAll(() => const LoginScreen());
                       },
                       onArabicLanguagePress: () async {
                         await setShowOnBoarding();
                         Get.updateLocale(const Locale('ar', 'SA'));
-                        setLocale('ar');
+                        await setLocale('ar');
                         if (mounted) Navigator.pop(context);
                         Get.offAll(() => const LoginScreen());
                       },

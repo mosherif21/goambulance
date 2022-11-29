@@ -12,6 +12,7 @@ const String arabic = 'ar';
 // setLocale('ar');}
 
 Future<void> setLocale(String aLanguageCode) async {
+  _locale(aLanguageCode);
   await AppInit.prefs.setString(languageCode, aLanguageCode);
 }
 
@@ -31,10 +32,13 @@ Future<Locale> getLocale() async {
 Locale _locale(String aLanguageCode) {
   switch (aLanguageCode) {
     case english:
+      AppInit.currentDeviceLanguage = Language.english;
       return const Locale(english, 'US');
     case arabic:
+      AppInit.currentDeviceLanguage = Language.arabic;
       return const Locale(arabic, 'SA');
     default:
+      AppInit.currentDeviceLanguage = Language.english;
       return const Locale(english, 'US');
   }
 }

@@ -20,8 +20,12 @@ class AppInit {
   static bool isInitialised = false;
   static late SharedPreferences prefs;
   static bool isLocaleSet = false;
-  static late Locale setLocale;
+  static late final Locale setLocale;
   static Language currentDeviceLanguage = Language.english;
+  static List<Locale> supportedLocales = [
+    const Locale(english, 'US'),
+    const Locale(arabic, 'SA'),
+  ];
   static Future<void> initializeConstants() async {
     prefs = await SharedPreferences.getInstance();
     isLocaleSet = await getIfLocaleIsSet();
@@ -30,11 +34,6 @@ class AppInit {
       setLocale = await getLocale();
     } else {
       setLocale = Get.deviceLocale ?? const Locale('en', 'US');
-    }
-    if (setLocale.languageCode.compareTo('en') == 0) {
-      currentDeviceLanguage = Language.english;
-    } else {
-      currentDeviceLanguage = Language.arabic;
     }
     isWeb = kIsWeb;
     notWebMobile = isWeb &&

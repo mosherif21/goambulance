@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
           translations: Languages(),
           locale: AppInit.setLocale,
           fallbackLocale: const Locale('en', 'US'),
+          supportedLocales: AppInit.supportedLocales,
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           initialBinding: ConnectivityBinding(),

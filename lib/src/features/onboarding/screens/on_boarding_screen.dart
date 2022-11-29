@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_bottom_sheet.dart';
 import 'package:goambulance/src/connectivity/connectivity.dart';
-import 'package:goambulance/src/features/onboarding/components/on_boarding_next_button.dart';
+import 'package:goambulance/src/features/onboarding/components/design/on_boarding_next_button.dart';
 import 'package:goambulance/src/routing/loading_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../localization/language/language_functions.dart';
 import '../../../common_widgets/language_select.dart';
 import '../../login/screens/login_screen.dart';
-import '../components/liquid_swipe.dart';
+import '../components/design/liquid_swipe.dart';
 import '../components/models.dart';
 
 class OnBoardingScreen extends StatelessWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/assets_strings.dart';
-import 'on_boarding_page_widget.dart';
+import 'design/on_boarding_page_widget.dart';
 
 List<OnBoardingPageTemplate> pages = [
   OnBoardingPageTemplate(

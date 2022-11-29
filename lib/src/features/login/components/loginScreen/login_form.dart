@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_text_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field_with_suffix_icon_button.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/features/login/components/forgot_password.dart';
 
-import '../../../common_widgets/regular_bottom_sheet.dart';
-import '../../../common_widgets/text_form_field.dart';
-import '../../../constants/styles.dart';
+import '../../../../common_widgets/regular_bottom_sheet.dart';
+import '../../../../common_widgets/text_form_field.dart';
+import '../../../../constants/styles.dart';
+import '../../../authentication/resetPassword/forgot_password.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({

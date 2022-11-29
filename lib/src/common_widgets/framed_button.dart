@@ -37,13 +37,13 @@ class FramedIconButton extends StatelessWidget {
                   title,
                   style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 25.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.w400),
                 ),
                 Text(
                   subTitle,
                   style: const TextStyle(
-                      color: Colors.black54,
+                      color: Colors.black87,
                       fontSize: 14.0,
                       fontWeight: FontWeight.w100),
                 ),

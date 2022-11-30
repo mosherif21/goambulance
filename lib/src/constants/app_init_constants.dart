@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../routing/splash_screen.dart';
@@ -51,7 +52,6 @@ class AppInit {
 
   static Future<void> initialize() async {
     if (!isInitialised) {
-      /*
       await initializeFireBaseApp();
       if (kDebugMode) print('firebase app initialized');
       if (AppInit.isWeb || AppInit.webMobile) {
@@ -64,7 +64,7 @@ class AppInit {
         await activateIosAppCheck();
         if (kDebugMode) print('ios app check initialized');
       }
-      if (kDebugMode) print('Firebase initialized');*/
+      if (kDebugMode) print('Firebase initialized');
       isInitialised = true;
       removeSplashScreen();
     }

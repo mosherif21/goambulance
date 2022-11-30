@@ -13,8 +13,7 @@ void showLoadingScreen(BuildContext context, double height) {
       content: SizedBox(
         height: AppInit.notWebMobile ? 812.0 : double.infinity,
         width: AppInit.notWebMobile ? 500.0 : double.infinity,
-        child: Lottie.asset(kLoadingHeartAnim,
-            frameRate: FrameRate.max, height: height * 0.3),
+        child: Lottie.asset(kLoadingHeartAnim, height: height * 0.3),
       ),
     ),
     barrierDismissible: false,

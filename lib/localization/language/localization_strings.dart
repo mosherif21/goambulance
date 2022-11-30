@@ -38,6 +38,10 @@ class Languages extends Translations {
           'emailReset': 'تغيير الايميل عن طريق كودالايميل',
           'numberReset': 'تغيير الايميل عن طريق كود رقم الهاتف',
           'phoneLabel': 'رقم الهاتف',
+          'phoneFieldLabel': 'ادخل رقم هاتفك',
+          'emailVerification': 'ادخل الايميل للحصول على رمز التاكيد',
+          'phoneVerification': 'ادخل رقم الهاتف على رمز التاكيد',
+          'continue': 'اكمل',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -74,6 +78,11 @@ class Languages extends Translations {
           'emailReset': 'Reset password via E-Mail Verification code',
           'numberReset': 'Reset password via Phone OTP Verification',
           'phoneLabel': 'Phone Number',
+          'phoneFieldLabel': 'Enter your Phone Number',
+          'emailVerification': 'Enter your E-Mail to get the verification code',
+          'phoneVerification':
+              'Enter your Phone Number to get the verification code',
+          'continue': 'CONTINUE',
         },
       };
 }

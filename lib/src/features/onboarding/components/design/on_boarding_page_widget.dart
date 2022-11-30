@@ -28,8 +28,10 @@ class OnBoardingPageTemplate extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Lottie.asset(onBoardingAnim,
-              height: height * 0.5, frameRate: FrameRate.max),
+          Lottie.asset(
+            onBoardingAnim,
+            height: height * 0.5,
+          ),
           Column(
             children: [
               Text(

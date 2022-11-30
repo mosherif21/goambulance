@@ -28,7 +28,8 @@ class LoginForm extends StatelessWidget {
             TextFormFieldRegular(
               labelText: 'emailLabel'.tr,
               hintText: 'emailHintLabel'.tr,
-              prefixIconData: Icons.person_outline_outlined,
+              prefixIconData: Icons.email_outlined,
+              color: const Color(0xFF28AADC),
             ),
             const SizedBox(height: 10),
             TextFormFieldRegularSuffixIcon(

@@ -44,7 +44,10 @@ class Languages extends Translations {
           'continue': 'اكمل',
           'verificationCode': 'رمز تاكيد',
           'verificationCodeShare': 'لا تشارك الرمز المرسل اليك مع اي احد!',
-          'confirm': 'تاكيد'
+          'confirm': 'تاكيد',
+          'confirmPassword': 'تاكيد كلمة المرور',
+          'alreadyHaveAnAccount':
+              'هل لديك حساب بالفعل؟ قم بتسجيل الدخول من هنا',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -56,7 +59,7 @@ class Languages extends Translations {
           'welcomeTitle': 'Go Ambulance',
           'welcomeSubTitle': 'Help is one click away',
           'loginTextTitle': 'LOGIN',
-          'signupTextTitle': 'SIGNUP',
+          'signupTextTitle': 'REGISTER',
           'skipLabel': 'Skip',
           'notAvailableErrorTitle': 'Not Currently Available',
           'notAvailableErrorSubTitle': 'We are working on it....',
@@ -72,7 +75,7 @@ class Languages extends Translations {
           'passwordHintLabel': 'Enter your Password',
           'forgotPassword': 'Forgot Password?',
           'alternateLoginLabel': 'OR',
-          'noEmailAccount': 'Don\'t have an email account? Signup with email',
+          'noEmailAccount': 'Don\'t have an email account? Register with email',
           'english': 'ENGLISH',
           'arabic': 'ARABIC',
           'chooseLanguage': 'Choose your preferred language',
@@ -90,6 +93,8 @@ class Languages extends Translations {
           'verificationCodeShare':
               'Don\'t share the verification code sent to you with anyone!',
           'confirm': 'Confirm',
+          'confirmPassword': 'Confirm Password',
+          'alreadyHaveAnAccount': 'Already Have an account? Login here',
         },
       };
 }

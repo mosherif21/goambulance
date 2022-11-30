@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/sizes.dart';
-import 'package:goambulance/src/features/login/components/loginScreen/alternate_login_buttons.dart';
+import 'package:goambulance/src/features/login/screens/login_screen.dart';
 
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/assets_strings.dart';
-import '../../authentication/emailRegistration/email_register_screen.dart';
-import '../components/loginScreen/login_form.dart';
+import '../../../constants/sizes.dart';
+import '../../login/components/loginScreen/alternate_login_buttons.dart';
+import 'email_register_form.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class EmailRegisterScreen extends StatelessWidget {
+  const EmailRegisterScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     // ConnectivityController connectivityController =
     ConnectivityChecker.checkConnection(context, screenHeight, true);
-    //final String email;
-    //final String password;
+    // final String email;
+    // final String password;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -32,7 +33,7 @@ class LoginScreen extends StatelessWidget {
                   height: screenHeight * 0.25,
                 ),
                 const SizedBox(height: 10),
-                LoginForm(height: screenHeight),
+                EmailRegisterForm(height: screenHeight),
                 Padding(
                   padding: EdgeInsets.all(screenHeight * 0.02),
                   child: Row(
@@ -71,9 +72,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 6),
                 RegularTextButton(
-                  buttonText: 'noEmailAccount'.tr,
-                  onPressed: () => Get.to(
-                    () => const EmailRegisterScreen(),
+                  buttonText: 'alreadyHaveAnAccount'.tr,
+                  onPressed: () => Get.offAll(
+                    () => const LoginScreen(),
                   ),
                 ),
               ],

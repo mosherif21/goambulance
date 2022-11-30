@@ -19,6 +19,8 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String email = '';
+    String password = '';
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),
@@ -30,11 +32,12 @@ class LoginForm extends StatelessWidget {
               hintText: 'emailHintLabel'.tr,
               prefixIconData: Icons.email_outlined,
               color: const Color(0xFF28AADC),
+              onTextChanged: (text) => email = text,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
               labelText: 'passwordLabel'.tr,
-              onTextChanged: () {},
+              onTextChanged: (text) => password = text,
             ),
             const SizedBox(height: 6),
             Align(

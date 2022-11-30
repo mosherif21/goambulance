@@ -16,6 +16,7 @@ class TextFormFieldPassword extends StatelessWidget {
     return Obx(
       () => TextFormField(
         obscureText: passwordHide.value,
+        onChanged: (text) => onTextChanged(text),
         decoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.lock_outlined,

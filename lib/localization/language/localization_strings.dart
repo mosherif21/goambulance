@@ -48,6 +48,7 @@ class Languages extends Translations {
           'confirmPassword': 'تاكيد كلمة المرور',
           'alreadyHaveAnAccount':
               'هل لديك حساب بالفعل؟ قم بتسجيل الدخول من هنا',
+          'errorValidEmail': 'يرجى ادخال',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -94,6 +95,7 @@ class Languages extends Translations {
               'Don\'t share the verification code sent to you with anyone!',
           'confirm': 'Confirm',
           'confirmPassword': 'Confirm Password',
+          'alreadyHaveAnAccount': 'Already Have an account? Login here',
           'alreadyHaveAnAccount': 'Already Have an account? Login here',
         },
       };

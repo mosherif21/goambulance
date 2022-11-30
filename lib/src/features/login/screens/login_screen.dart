@@ -17,8 +17,7 @@ class LoginScreen extends StatelessWidget {
     final double screenWidth = MediaQuery.of(context).size.width;
     // ConnectivityController connectivityController =
     ConnectivityChecker.checkConnection(context, screenHeight, true);
-    //final String email;
-    //final String password;
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(

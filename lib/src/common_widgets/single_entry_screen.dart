@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goambulance/src/common_widgets/text_form_field.dart';
 import 'package:lottie/lottie.dart';
 
+import '../constants/app_init_constants.dart';
 import '../constants/common_functions.dart';
 import '../constants/sizes.dart';
 
@@ -14,7 +15,8 @@ class SingleEntryScreen extends StatelessWidget {
       required this.textFormHint,
       required this.buttonTitle,
       required this.prefixIconData,
-      required this.onPressed})
+      required this.onPressed,
+      required this.inputType})
       : super(key: key);
   final String title;
   final String lottieAssetAnim;
@@ -23,10 +25,11 @@ class SingleEntryScreen extends StatelessWidget {
   final String buttonTitle;
   final IconData prefixIconData;
   final Function onPressed;
+  final InputType inputType;
   @override
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
-    //String textFieldString;
+    String textFieldString = '';
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kDefaultPaddingSize),
@@ -49,6 +52,7 @@ class SingleEntryScreen extends StatelessWidget {
               hintText: textFormHint,
               prefixIconData: prefixIconData,
               color: Colors.black,
+              onTextChanged: (text) => textFieldString = text,
             ),
             const SizedBox(
               height: 20.0,
@@ -66,7 +70,7 @@ class SingleEntryScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () => onPressed(),
+                onPressed: () {},
                 child: Text(
                   buttonTitle,
                   style: const TextStyle(

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../../common_widgets/framed_button.dart';
 import '../../../common_widgets/single_entry_screen.dart';
+import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import 'otp_verification.dart';
 
@@ -37,6 +38,7 @@ class ForgetPasswordLayout extends StatelessWidget {
                   lottieAssetAnim: kEmailOTPAnim,
                 ),
               ),
+              inputType: InputType.email,
             ),
           ),
         ),
@@ -59,6 +61,7 @@ class ForgetPasswordLayout extends StatelessWidget {
                   lottieAssetAnim: kPhoneOTPAnim,
                 ),
               ),
+              inputType: InputType.phone,
             ),
           ),
         ),

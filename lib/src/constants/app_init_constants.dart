@@ -10,6 +10,8 @@ import '../routing/splash_screen.dart';
 
 enum Language { english, arabic }
 
+enum InputType { email, phone }
+
 class AppInit {
   static bool showOnBoard = false;
   static bool notWebMobile = false;

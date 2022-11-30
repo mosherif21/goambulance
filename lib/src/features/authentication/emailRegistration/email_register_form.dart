@@ -13,6 +13,9 @@ class EmailRegisterForm extends StatelessWidget {
   final double height;
   @override
   Widget build(BuildContext context) {
+    String email = '';
+    String password = '';
+    String confirmPassword = '';
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),
@@ -24,16 +27,17 @@ class EmailRegisterForm extends StatelessWidget {
               hintText: 'emailHintLabel'.tr,
               prefixIconData: Icons.email_outlined,
               color: const Color(0xFF28AADC),
+              onTextChanged: (text) => email = text,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
               labelText: 'passwordLabel'.tr,
-              onTextChanged: () {},
+              onTextChanged: (text) => password = text,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
               labelText: 'confirmPassword'.tr,
-              onTextChanged: () {},
+              onTextChanged: (text) => confirmPassword = text,
             ),
             const SizedBox(height: 6),
             SizedBox(

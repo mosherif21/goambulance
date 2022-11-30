@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
+import 'package:goambulance/src/features/authentication/resetPassword/otp_verification.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../constants/sizes.dart';
@@ -13,7 +14,7 @@ class PhoneVerificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
     return Scaffold(
-      body: Container(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(kDefaultPaddingSize),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -51,7 +52,12 @@ class PhoneVerificationScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () => Get.to(
+                  () => OTPVerificationScreen(
+                    verificationType: 'phoneLabel'.tr,
+                    lottieAssetAnim: kPhoneOTPAnim,
+                  ),
+                ),
                 child: Text(
                   'continue'.tr,
                   style: const TextStyle(

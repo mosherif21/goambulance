@@ -19,7 +19,13 @@ class NoButtonDialogAlert {
       ? showCupertinoDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(
-            title: Text(title),
+            title: Text(
+              title,
+              style: const TextStyle(
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black),
+            ),
             content: content,
           ),
           barrierDismissible: dismissible,

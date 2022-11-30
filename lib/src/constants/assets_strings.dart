@@ -21,6 +21,8 @@ const String kOnBoardingAnim3 = "assets/lottie_animations/location_on_map.json";
 const String kEmailVerificationAnim =
     "assets/lottie_animations/email_verification.json";
 const String kPhoneVerificationAnim = "assets/lottie_animations/otp_code2.json";
+const String kPhoneOTPAnim = "assets/lottie_animations/otp_code3.json";
+const String kEmailOTPAnim = "assets/lottie_animations/mail_verification.json";
 
 //--Loading Assets
 const String kLoadingHeartAnim = "assets/lottie_animations/loading_heart.json";

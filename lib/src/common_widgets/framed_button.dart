@@ -26,7 +26,7 @@ class FramedIconButton extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(iconData, size: AppInit.notWebMobile ? 80.0 : 60.0),
+            Icon(iconData, size: AppInit.notWebMobile ? 80.0 : 50.0),
             const SizedBox(
               width: 10.0,
             ),
@@ -44,8 +44,8 @@ class FramedIconButton extends StatelessWidget {
                   subTitle,
                   style: const TextStyle(
                       color: Colors.black87,
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w100),
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.w500),
                 ),
               ],
             )

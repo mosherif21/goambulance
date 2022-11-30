@@ -25,13 +25,13 @@ class ATextTheme {
     ),
     subtitle2: GoogleFonts.poppins(
         color: Colors.black54, fontSize: AppInit.notWebMobile ? 20 : 14),
-    headline4: GoogleFonts.montserrat(
+    /*headline4: GoogleFonts.montserrat(
       color: Colors.white,
       fontSize: AppInit.notWebMobile ? 20 : 10,
       fontWeight: FontWeight.w700,
     ),
     subtitle1: GoogleFonts.poppins(
-        color: Colors.white54, fontSize: AppInit.notWebMobile ? 20 : 14),
+        color: Colors.white54, fontSize: AppInit.notWebMobile ? 20 : 14),*/
   );
   /*
   static TextTheme darkTextTheme = TextTheme(

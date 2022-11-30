@@ -40,8 +40,11 @@ class Languages extends Translations {
           'phoneLabel': 'رقم الهاتف',
           'phoneFieldLabel': 'ادخل رقم هاتفك',
           'emailVerification': 'ادخل الايميل للحصول على رمز التاكيد',
-          'phoneVerification': 'ادخل رقم الهاتف على رمز التاكيد',
+          'phoneVerification': 'ادخل رقم الهاتف للحصول على رمز التاكيد',
           'continue': 'اكمل',
+          'verificationCode': 'رمز تاكيد',
+          'verificationCodeShare': 'لا تشارك الرمز المرسل اليك مع اي احد!',
+          'confirm': 'تاكيد'
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -83,6 +86,10 @@ class Languages extends Translations {
           'phoneVerification':
               'Enter your Phone Number to get the verification code',
           'continue': 'CONTINUE',
+          'verificationCode': 'Verification Code',
+          'verificationCodeShare':
+              'Don\'t share the verification code sent to you with anyone!',
+          'confirm': 'Confirm',
         },
       };
 }

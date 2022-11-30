@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/text_form_field.dart';
-import 'package:goambulance/src/constants/assets_strings.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
-import 'package:goambulance/src/features/authentication/resetPassword/otp_verification.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../constants/sizes.dart';
+import '../constants/common_functions.dart';
+import '../constants/sizes.dart';
 
-class EmailVerificationScreen extends StatelessWidget {
-  const EmailVerificationScreen({Key? key}) : super(key: key);
+class SingleEntryScreen extends StatelessWidget {
+  const SingleEntryScreen(
+      {Key? key,
+      required this.title,
+      required this.lottieAssetAnim,
+      required this.textFormTitle,
+      required this.textFormHint,
+      required this.buttonTitle,
+      required this.prefixIconData,
+      required this.onPressed})
+      : super(key: key);
+  final String title;
+  final String lottieAssetAnim;
+  final String textFormTitle;
+  final String textFormHint;
+  final String buttonTitle;
+  final IconData prefixIconData;
+  final Function onPressed;
   @override
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
+    //String textFieldString;
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kDefaultPaddingSize),
@@ -20,20 +34,20 @@ class EmailVerificationScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Lottie.asset(
-              kEmailVerificationAnim,
+              lottieAssetAnim,
               height: screenHeight * 0.5,
             ),
             Text(
-              'emailVerification'.tr,
+              title,
               style: Theme.of(context).textTheme.headline5,
             ),
             const SizedBox(
               height: 20.0,
             ),
             TextFormFieldRegular(
-              labelText: 'emailLabel'.tr,
-              hintText: 'emailHintLabel'.tr,
-              prefixIconData: Icons.email_outlined,
+              labelText: textFormTitle,
+              hintText: textFormHint,
+              prefixIconData: prefixIconData,
               color: Colors.black,
             ),
             const SizedBox(
@@ -52,14 +66,9 @@ class EmailVerificationScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () => Get.to(
-                  () => OTPVerificationScreen(
-                    verificationType: 'emailLabel'.tr,
-                    lottieAssetAnim: kEmailOTPAnim,
-                  ),
-                ),
+                onPressed: () => onPressed(),
                 child: Text(
-                  'continue'.tr,
+                  buttonTitle,
                   style: const TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w500),
                 ),

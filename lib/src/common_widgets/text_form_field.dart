@@ -15,6 +15,7 @@ class TextFormFieldRegular extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: (string) {},
       cursorColor: color,
       decoration: InputDecoration(
         prefixIcon: Icon(

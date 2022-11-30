@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/authentication/resetPassword/email_verification.dart';
-import 'package:goambulance/src/features/authentication/resetPassword/phone_verification.dart';
 
 import '../../../common_widgets/framed_button.dart';
+import '../../../common_widgets/single_entry_screen.dart';
+import '../../../constants/assets_strings.dart';
+import 'otp_verification.dart';
 
 class ForgetPasswordLayout extends StatelessWidget {
   const ForgetPasswordLayout({Key? key}) : super(key: key);
@@ -23,7 +24,20 @@ class ForgetPasswordLayout extends StatelessWidget {
           subTitle: 'emailReset'.tr,
           iconData: Icons.mail_outline_rounded,
           onPressed: () => Get.to(
-            () => const EmailVerificationScreen(),
+            () => SingleEntryScreen(
+              title: 'emailVerification'.tr,
+              prefixIconData: Icons.email_outlined,
+              lottieAssetAnim: kEmailVerificationAnim,
+              textFormTitle: 'emailLabel'.tr,
+              textFormHint: 'emailHintLabel'.tr,
+              buttonTitle: 'continue'.tr,
+              onPressed: () => Get.to(
+                () => OTPVerificationScreen(
+                  verificationType: 'emailLabel'.tr,
+                  lottieAssetAnim: kEmailOTPAnim,
+                ),
+              ),
+            ),
           ),
         ),
         SizedBox(height: screenHeight * 0.02),
@@ -32,7 +46,20 @@ class ForgetPasswordLayout extends StatelessWidget {
           subTitle: 'numberReset'.tr,
           iconData: Icons.mobile_friendly_rounded,
           onPressed: () => Get.to(
-            () => const PhoneVerificationScreen(),
+            () => SingleEntryScreen(
+              title: 'phoneVerification'.tr,
+              prefixIconData: Icons.email_outlined,
+              lottieAssetAnim: kPhoneVerificationAnim,
+              textFormTitle: 'phoneLabel'.tr,
+              textFormHint: 'phoneFieldLabel'.tr,
+              buttonTitle: 'continue'.tr,
+              onPressed: () => Get.to(
+                () => OTPVerificationScreen(
+                  verificationType: 'phoneLabel'.tr,
+                  lottieAssetAnim: kPhoneOTPAnim,
+                ),
+              ),
+            ),
           ),
         ),
       ],

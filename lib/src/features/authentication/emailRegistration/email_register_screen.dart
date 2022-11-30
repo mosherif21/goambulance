@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/login/screens/login_screen.dart';
 
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../connectivity/connectivity.dart';
@@ -73,9 +72,7 @@ class EmailRegisterScreen extends StatelessWidget {
                 const SizedBox(height: 6),
                 RegularTextButton(
                   buttonText: 'alreadyHaveAnAccount'.tr,
-                  onPressed: () => Get.offAll(
-                    () => const LoginScreen(),
-                  ),
+                  onPressed: () => Get.back(),
                 ),
               ],
             ),

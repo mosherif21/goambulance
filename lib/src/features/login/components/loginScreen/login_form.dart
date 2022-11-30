@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_text_button.dart';
-import 'package:goambulance/src/common_widgets/text_form_field_with_suffix_icon_button.dart';
+import 'package:goambulance/src/common_widgets/text_form_field_passwords.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../../../../common_widgets/regular_bottom_sheet.dart';
@@ -32,12 +32,9 @@ class LoginForm extends StatelessWidget {
               color: const Color(0xFF28AADC),
             ),
             const SizedBox(height: 10),
-            TextFormFieldRegularSuffixIcon(
+            TextFormFieldPassword(
               labelText: 'passwordLabel'.tr,
-              hintText: 'passwordHintLabel'.tr,
-              prefixIconData: Icons.lock_outlined,
-              suffixIconData: Icons.remove_red_eye_sharp,
-              suffixIconButtonOnPressed: () {},
+              onTextChanged: () {},
             ),
             const SizedBox(height: 6),
             Align(
@@ -59,11 +56,13 @@ class LoginForm extends StatelessWidget {
               child: ElevatedButton(
                 style: kElevatedButtonRegularStyle,
                 onPressed: () {},
-                child: Text('loginTextTitle'.tr,
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500)),
+                child: Text(
+                  'loginTextTitle'.tr,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w500),
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

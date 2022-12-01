@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../constants/app_init_constants.dart';
+import '../../../../constants/app_init_constants.dart';
 
 final RxBool _confirmButtonEnable = false.obs;
 

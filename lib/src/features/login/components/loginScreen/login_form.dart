@@ -7,7 +7,7 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import '../../../../common_widgets/regular_bottom_sheet.dart';
 import '../../../../common_widgets/text_form_field.dart';
 import '../../../../constants/styles.dart';
-import '../../resetPassword/forgot_password.dart';
+import '../resetPassword/forgot_password.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({

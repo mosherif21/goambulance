@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
-
-import '../constants/sizes.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class RegularBottomSheet {
-  final BuildContext context;
   final Widget child;
-  const RegularBottomSheet({required this.child, required this.context});
+  const RegularBottomSheet({
+    required this.child,
+  });
   void showRegularBottomSheet() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => Wrap(
+    Get.bottomSheet(
+      Wrap(
         children: [
           Container(
-            padding: const EdgeInsets.all(kDefaultPaddingSize),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(25.0),
-                topRight: Radius.circular(25.0),
-              ),
-            ),
             child: child,
-          ),
+          )
         ],
       ),
+      backgroundColor: Colors.white,
+      elevation: 0,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
+        ),
+      ),
     );
+  }
+
+  void hideBottomSheet() {
+    if (Get.isBottomSheetOpen == true) Get.back();
   }
 }

@@ -8,7 +8,7 @@ class NotAvailableErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
+    final height = Get.context?.height;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -20,7 +20,7 @@ class NotAvailableErrorWidget extends StatelessWidget {
             children: [
               Image.asset(
                 kNotAvailableErrorAnim,
-                height: height * 0.5,
+                height: height! * 0.5,
               ),
               Column(
                 children: [

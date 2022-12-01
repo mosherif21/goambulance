@@ -13,10 +13,10 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = Get.context?.height;
+    final screenWidth = Get.context?.width;
     // ConnectivityController connectivityController =
-    ConnectivityChecker.checkConnection(context, screenHeight, true);
+    ConnectivityChecker.checkConnection(true);
 
     return SafeArea(
       child: Scaffold(
@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
-                  height: screenHeight * 0.25,
+                  height: screenHeight! * 0.25,
                 ),
                 const SizedBox(height: 10),
                 LoginForm(height: screenHeight),
@@ -66,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 AlternateLoginButtons(
                   screenHeight: screenHeight,
-                  screenWidth: screenWidth,
+                  screenWidth: screenWidth!,
                 ),
                 const SizedBox(height: 6),
                 RegularTextButton(

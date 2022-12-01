@@ -14,47 +14,50 @@ class LanguageSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     const TextStyle textStyle = TextStyle(
         fontSize: 25.0, fontWeight: FontWeight.w600, color: Colors.black54);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'chooseLanguage'.tr,
-          style: const TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
-              color: Colors.black87),
-        ),
-        const SizedBox(height: 10.0),
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: () => onEnglishLanguagePress(),
-            icon: const Image(
-              image: AssetImage(kUkFlagImage),
-              height: 60.0,
-            ),
-            label: Text(
-              'english'.tr,
-              style: textStyle,
+    return Container(
+      padding: const EdgeInsets.all(30.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'chooseLanguage'.tr,
+            style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87),
+          ),
+          const SizedBox(height: 10.0),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => onEnglishLanguagePress(),
+              icon: const Image(
+                image: AssetImage(kUkFlagImage),
+                height: 60.0,
+              ),
+              label: Text(
+                'english'.tr,
+                style: textStyle,
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: 10.0),
-        SizedBox(
-          width: double.infinity,
-          child: OutlinedButton.icon(
-            onPressed: () => onArabicLanguagePress(),
-            icon: const Image(
-              image: AssetImage(kSAFlagImage),
-              height: 60.0,
-            ),
-            label: Text(
-              'arabic'.tr,
-              style: textStyle,
+          const SizedBox(height: 10.0),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () => onArabicLanguagePress(),
+              icon: const Image(
+                image: AssetImage(kSAFlagImage),
+                height: 60.0,
+              ),
+              label: Text(
+                'arabic'.tr,
+                style: textStyle,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

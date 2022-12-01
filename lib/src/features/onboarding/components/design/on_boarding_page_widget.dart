@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:lottie/lottie.dart';
 
@@ -21,7 +22,7 @@ class OnBoardingPageTemplate extends StatelessWidget {
   final Color titleSubTextColor;
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height;
+    final double? height = Get.context?.height;
     return Container(
       padding: const EdgeInsets.all(kDefaultPaddingSize),
       color: onBoardingBackGroundColor,
@@ -30,7 +31,7 @@ class OnBoardingPageTemplate extends StatelessWidget {
         children: [
           Lottie.asset(
             onBoardingAnim,
-            height: height * 0.5,
+            height: height! * 0.5,
           ),
           Column(
             children: [

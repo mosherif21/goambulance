@@ -16,9 +16,8 @@ class ConnectivityController extends GetxController {
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   late StreamSubscription _internetSubscription;
-  late BuildContext _context;
-  late double _screenHeight;
   late bool _displayAlert = false;
+
   late bool _isAlertDisplayed = false;
   @override
   void onInit() {
@@ -51,26 +50,23 @@ class ConnectivityController extends GetxController {
 
   void _hideNetworkAlertDialog() {
     _isAlertDisplayed = false;
-    Navigator.pop(_context);
+    if (Get.isDialogOpen == true) Get.back();
   }
 
   void _showNetworkAlertDialog() {
+    final double? screenHeight = Get.context?.height;
     _isAlertDisplayed = true;
     NoButtonDialogAlert(
       title: 'noConnectionAlertTitle'.tr,
       content: Image.asset(
         kNoInternetAnim,
-        height: _screenHeight * 0.2,
+        height: screenHeight! * 0.2,
       ),
-      context: _context,
       dismissible: false,
     ).showNoButtonAlertDialog();
   }
 
-  void updateContext(
-      BuildContext context, double screenHeight, bool displayAlert) {
-    _context = context;
-    _screenHeight = screenHeight;
+  void updateDisplayAlert(bool displayAlert) {
     _displayAlert = displayAlert;
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:lottie/lottie.dart';
 
@@ -11,14 +10,18 @@ final RxBool _confirmButtonEnable = false.obs;
 
 class OTPVerificationScreen extends StatelessWidget {
   const OTPVerificationScreen(
-      {Key? key, required this.verificationType, required this.lottieAssetAnim})
+      {Key? key,
+      required this.verificationType,
+      required this.lottieAssetAnim,
+      required this.enteredString})
       : super(key: key);
   final String verificationType;
   final String lottieAssetAnim;
+  final String enteredString;
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = getScreenHeight(context);
+    double? screenHeight = Get.context?.height;
     // String verificationCode = '';
 
     return Scaffold(
@@ -30,13 +33,23 @@ class OTPVerificationScreen extends StatelessWidget {
             Lottie.asset(
               lottieAssetAnim,
               fit: BoxFit.contain,
-              height: screenHeight * 0.5,
+              height: screenHeight! * 0.5,
             ),
             Text(
               AppInit.currentDeviceLanguage == Language.english
                   ? '$verificationType ${'verificationCode'.tr}'
                   : '${'verificationCode'.tr} $verificationType',
               style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(
+              height: 10.0,
+            ),
+            Text(
+              enteredString,
+              style: const TextStyle(
+                  color: Colors.black87,
+                  fontSize: 15.0,
+                  fontWeight: FontWeight.w600),
             ),
             const SizedBox(
               height: 10.0,

@@ -46,9 +46,8 @@ class LoginForm extends StatelessWidget {
                   : Alignment.centerLeft,
               child: RegularTextButton(
                 buttonText: 'forgotPassword'.tr,
-                onPressed: () => RegularBottomSheet(
-                  context: context,
-                  child: const ForgetPasswordLayout(),
+                onPressed: () => const RegularBottomSheet(
+                  child: ForgetPasswordLayout(),
                 ).showRegularBottomSheet(),
               ),
             ),

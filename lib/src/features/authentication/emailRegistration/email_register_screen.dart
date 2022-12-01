@@ -13,10 +13,10 @@ class EmailRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = Get.context?.height;
+    final screenWidth = Get.context?.height;
     // ConnectivityController connectivityController =
-    ConnectivityChecker.checkConnection(context, screenHeight, true);
+    ConnectivityChecker.checkConnection(true);
     // final String email;
     // final String password;
     return SafeArea(
@@ -29,7 +29,7 @@ class EmailRegisterScreen extends StatelessWidget {
               children: [
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
-                  height: screenHeight * 0.25,
+                  height: screenHeight! * 0.25,
                 ),
                 const SizedBox(height: 10),
                 EmailRegisterForm(height: screenHeight),
@@ -67,7 +67,7 @@ class EmailRegisterScreen extends StatelessWidget {
                 ),
                 AlternateLoginButtons(
                   screenHeight: screenHeight,
-                  screenWidth: screenWidth,
+                  screenWidth: screenWidth!,
                 ),
                 const SizedBox(height: 6),
                 RegularTextButton(

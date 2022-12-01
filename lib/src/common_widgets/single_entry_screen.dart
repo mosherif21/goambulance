@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/text_form_field.dart';
 import 'package:lottie/lottie.dart';
 
 import '../constants/app_init_constants.dart';
-import '../constants/common_functions.dart';
 import '../constants/sizes.dart';
 
 class SingleEntryScreen extends StatelessWidget {
@@ -28,7 +28,7 @@ class SingleEntryScreen extends StatelessWidget {
   final InputType inputType;
   @override
   Widget build(BuildContext context) {
-    double screenHeight = getScreenHeight(context);
+    double? screenHeight = Get.context?.height;
     String textFieldString = '';
     return Scaffold(
       body: SingleChildScrollView(
@@ -38,7 +38,7 @@ class SingleEntryScreen extends StatelessWidget {
           children: [
             Lottie.asset(
               lottieAssetAnim,
-              height: screenHeight * 0.5,
+              height: screenHeight! * 0.5,
             ),
             Text(
               title,
@@ -70,7 +70,9 @@ class SingleEntryScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  onPressed(textFieldString);
+                },
                 child: Text(
                   buttonTitle,
                   style: const TextStyle(

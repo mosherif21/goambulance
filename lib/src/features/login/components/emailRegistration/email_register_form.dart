@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common_widgets/text_form_field.dart';
-import '../../../common_widgets/text_form_field_passwords.dart';
-import '../../../constants/styles.dart';
+import '../../../../common_widgets/text_form_field.dart';
+import '../../../../common_widgets/text_form_field_passwords.dart';
+import '../../../../constants/styles.dart';
 
 RxBool passwordHide = true.obs;
 RxBool confirmPasswordHide = true.obs;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../common_widgets/regular_text_button.dart';
-import '../../../connectivity/connectivity.dart';
-import '../../../constants/assets_strings.dart';
-import '../../../constants/sizes.dart';
-import '../../login/components/loginScreen/alternate_login_buttons.dart';
+import '../../../../common_widgets/regular_text_button.dart';
+import '../../../../connectivity/connectivity.dart';
+import '../../../../constants/assets_strings.dart';
+import '../../../../constants/sizes.dart';
+import '../loginScreen/alternate_login_buttons.dart';
 import 'email_register_form.dart';
 
 class EmailRegisterScreen extends StatelessWidget {

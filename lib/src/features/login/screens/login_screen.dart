@@ -6,7 +6,7 @@ import 'package:goambulance/src/features/login/components/loginScreen/alternate_
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/assets_strings.dart';
-import '../../authentication/emailRegistration/email_register_screen.dart';
+import '../components/emailRegistration/email_register_screen.dart';
 import '../components/loginScreen/login_form.dart';
 
 class LoginScreen extends StatelessWidget {

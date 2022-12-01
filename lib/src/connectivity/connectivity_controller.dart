@@ -17,7 +17,6 @@ class ConnectivityController extends GetxController {
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   late StreamSubscription _internetSubscription;
   late bool _displayAlert = false;
-
   late bool _isAlertDisplayed = false;
   @override
   void onInit() {

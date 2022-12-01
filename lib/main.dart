@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:get/get.dart';
@@ -16,7 +17,10 @@ Future<void> main() async {
 
   await AppInit.initializeConstants();
 
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

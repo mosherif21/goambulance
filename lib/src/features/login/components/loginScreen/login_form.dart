@@ -3,22 +3,21 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_text_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field_passwords.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../../common_widgets/regular_bottom_sheet.dart';
+import '../../../../common_widgets/regular_elevated_button.dart';
 import '../../../../common_widgets/text_form_field.dart';
-import '../../../../constants/styles.dart';
 import '../resetPassword/forgot_password.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
     Key? key,
-    required this.height,
   }) : super(key: key);
-
-  final double height;
 
   @override
   Widget build(BuildContext context) {
+    double height = getScreenHeight(context);
     String email = '';
     String password = '';
     return Form(
@@ -52,18 +51,9 @@ class LoginForm extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 6),
-            SizedBox(
-              width: double.infinity,
-              height: height * 0.05,
-              child: ElevatedButton(
-                style: kElevatedButtonRegularStyle,
-                onPressed: () {},
-                child: Text(
-                  'loginTextTitle'.tr,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500),
-                ),
-              ),
+            RegularElevatedButton(
+              buttonText: 'loginTextTitle'.tr,
+              height: height,
             ),
           ],
         ),

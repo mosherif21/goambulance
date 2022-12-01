@@ -15,6 +15,7 @@ class AlternateLoginButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     double buttonsHeight =
         AppInit.notWebMobile ? screenHeight * 0.06 : screenHeight * 0.05;
+    double buttonsWidth = screenWidth * 0.85;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -23,7 +24,7 @@ class AlternateLoginButtons extends StatelessWidget {
           text: 'loginWithMobile'.tr,
           onPressed: () {},
           height: buttonsHeight,
-          width: screenWidth,
+          width: buttonsWidth,
         ),
         const SizedBox(height: 6),
         SignInButton(
@@ -31,7 +32,7 @@ class AlternateLoginButtons extends StatelessWidget {
           text: 'loginWithGoogle'.tr,
           onPressed: () {},
           height: buttonsHeight,
-          width: screenWidth,
+          width: buttonsWidth,
         ),
         const SizedBox(height: 6),
         SignInButton(
@@ -39,7 +40,7 @@ class AlternateLoginButtons extends StatelessWidget {
           text: 'loginWithFacebook'.tr,
           onPressed: () {},
           height: buttonsHeight,
-          width: screenWidth,
+          width: buttonsWidth,
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:goambulance/src/features/login/components/loginScreen/alternate_login_buttons.dart';
 
+import '../../../common_widgets/or_divider.dart';
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
@@ -33,39 +34,8 @@ class LoginScreen extends StatelessWidget {
                   height: screenHeight * 0.25,
                 ),
                 const SizedBox(height: 10),
-                LoginForm(height: screenHeight),
-                Padding(
-                  padding: EdgeInsets.all(screenHeight * 0.02),
-                  child: Row(
-                    children: <Widget>[
-                      const Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          height: 8.0,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        'alternateLoginLabel'.tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: screenHeight * 0.02,
-                            color: Colors.black54),
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      const Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          height: 8.0,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                const LoginForm(),
+                OrDivider(screenHeight: screenHeight),
                 AlternateLoginButtons(
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
+import 'package:goambulance/src/constants/common_functions.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 
 class NotAvailableErrorWidget extends StatelessWidget {
@@ -8,7 +9,7 @@ class NotAvailableErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final height = Get.context?.height;
+    final height = getScreenHeight(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -20,7 +21,7 @@ class NotAvailableErrorWidget extends StatelessWidget {
             children: [
               Image.asset(
                 kNotAvailableErrorAnim,
-                height: height! * 0.5,
+                height: height * 0.5,
               ),
               Column(
                 children: [

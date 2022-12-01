@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 
 import '../../../../common_widgets/text_form_field.dart';
 import '../../../../common_widgets/text_form_field_passwords.dart';
-import '../../../../constants/styles.dart';
 
 RxBool passwordHide = true.obs;
 RxBool confirmPasswordHide = true.obs;
@@ -40,19 +40,8 @@ class EmailRegisterForm extends StatelessWidget {
               onTextChanged: (text) => confirmPassword = text,
             ),
             const SizedBox(height: 6),
-            SizedBox(
-              width: double.infinity,
-              height: height * 0.05,
-              child: ElevatedButton(
-                style: kElevatedButtonRegularStyle,
-                onPressed: () {},
-                child: Text(
-                  'signupTextTitle'.tr,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500),
-                ),
-              ),
-            )
+            RegularElevatedButton(
+                buttonText: 'signupTextTitle'.tr, height: height),
           ],
         ),
       ),

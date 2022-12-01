@@ -6,7 +6,7 @@ import '../../../../common_widgets/framed_button.dart';
 import '../../../../common_widgets/single_entry_screen.dart';
 import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/assets_strings.dart';
-import 'otp_verification.dart';
+import '../otpVerification/otp_verification.dart';
 
 class ForgetPasswordLayout extends StatelessWidget {
   const ForgetPasswordLayout({Key? key}) : super(key: key);
@@ -14,6 +14,7 @@ class ForgetPasswordLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
+    double screenWidth = getScreenWidth(context);
 
     return Container(
       padding: const EdgeInsets.all(30.0),
@@ -26,6 +27,8 @@ class ForgetPasswordLayout extends StatelessWidget {
           ),
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
+            height: screenHeight * 0.12,
+            width: screenWidth * 0.8,
             title: 'emailLabel'.tr,
             subTitle: 'emailReset'.tr,
             iconData: Icons.mail_outline_rounded,
@@ -50,6 +53,8 @@ class ForgetPasswordLayout extends StatelessWidget {
           ),
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
+            height: screenHeight * 0.12,
+            width: screenWidth * 0.8,
             title: 'phoneLabel'.tr,
             subTitle: 'numberReset'.tr,
             iconData: Icons.mobile_friendly_rounded,

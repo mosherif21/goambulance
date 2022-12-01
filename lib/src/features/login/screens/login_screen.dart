@@ -7,6 +7,7 @@ import '../../../common_widgets/regular_text_button.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
+import '../../../constants/common_functions.dart';
 import '../components/emailRegistration/email_register_screen.dart';
 import '../components/loginScreen/login_form.dart';
 
@@ -14,8 +15,8 @@ class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final screenHeight = Get.context?.height;
-    final screenWidth = Get.context?.width;
+    final screenHeight = getScreenHeight(context);
+    final screenWidth = getScreenWidth(context);
     // ConnectivityController connectivityController =
     ConnectivityChecker.checkConnection(true);
 
@@ -29,7 +30,7 @@ class LoginScreen extends StatelessWidget {
               children: [
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
-                  height: screenHeight! * 0.25,
+                  height: screenHeight * 0.25,
                 ),
                 const SizedBox(height: 10),
                 LoginForm(height: screenHeight),
@@ -67,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 AlternateLoginButtons(
                   screenHeight: screenHeight,
-                  screenWidth: screenWidth!,
+                  screenWidth: screenWidth,
                 ),
                 const SizedBox(height: 6),
                 RegularTextButton(

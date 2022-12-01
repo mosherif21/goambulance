@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/common_functions.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:lottie/lottie.dart';
 
@@ -21,7 +22,7 @@ class OTPVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double? screenHeight = Get.context?.height;
+    double? screenHeight = getScreenHeight(context);
     // String verificationCode = '';
 
     return Scaffold(
@@ -33,7 +34,7 @@ class OTPVerificationScreen extends StatelessWidget {
             Lottie.asset(
               lottieAssetAnim,
               fit: BoxFit.contain,
-              height: screenHeight! * 0.5,
+              height: screenHeight * 0.5,
             ),
             Text(
               AppInit.currentDeviceLanguage == Language.english

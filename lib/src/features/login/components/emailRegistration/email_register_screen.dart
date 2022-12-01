@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../../common_widgets/regular_text_button.dart';
 import '../../../../connectivity/connectivity.dart';
@@ -13,8 +14,8 @@ class EmailRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = Get.context?.height;
-    final screenWidth = Get.context?.height;
+    final screenHeight = getScreenHeight(context);
+    final screenWidth = getScreenWidth(context);
     // ConnectivityController connectivityController =
     ConnectivityChecker.checkConnection(true);
     // final String email;
@@ -29,7 +30,7 @@ class EmailRegisterScreen extends StatelessWidget {
               children: [
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
-                  height: screenHeight! * 0.25,
+                  height: screenHeight * 0.25,
                 ),
                 const SizedBox(height: 10),
                 EmailRegisterForm(height: screenHeight),
@@ -67,7 +68,7 @@ class EmailRegisterScreen extends StatelessWidget {
                 ),
                 AlternateLoginButtons(
                   screenHeight: screenHeight,
-                  screenWidth: screenWidth!,
+                  screenWidth: screenWidth,
                 ),
                 const SizedBox(height: 6),
                 RegularTextButton(

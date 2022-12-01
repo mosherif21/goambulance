@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../../common_widgets/framed_button.dart';
 import '../../../../common_widgets/single_entry_screen.dart';
@@ -12,7 +13,7 @@ class ForgetPasswordLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double? screenHeight = Get.context?.height;
+    double screenHeight = getScreenHeight(context);
 
     return Container(
       padding: const EdgeInsets.all(30.0),
@@ -23,7 +24,7 @@ class ForgetPasswordLayout extends StatelessWidget {
             'chooseForgetPasswordMethod'.tr,
             style: Theme.of(context).textTheme.headline5,
           ),
-          SizedBox(height: screenHeight! * 0.02),
+          SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
             title: 'emailLabel'.tr,
             subTitle: 'emailReset'.tr,

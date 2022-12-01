@@ -26,8 +26,4 @@ class RegularBottomSheet {
       ),
     );
   }
-
-  void hideBottomSheet() {
-    if (Get.isBottomSheetOpen == true) Get.back();
-  }
 }

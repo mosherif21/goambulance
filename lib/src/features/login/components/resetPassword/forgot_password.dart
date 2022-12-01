@@ -9,9 +9,11 @@ import 'otp_verification.dart';
 
 class ForgetPasswordLayout extends StatelessWidget {
   const ForgetPasswordLayout({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double? screenHeight = Get.context?.height;
+
     return Container(
       padding: const EdgeInsets.all(30.0),
       child: Column(
@@ -27,23 +29,23 @@ class ForgetPasswordLayout extends StatelessWidget {
             subTitle: 'emailReset'.tr,
             iconData: Icons.mail_outline_rounded,
             onPressed: () => Get.to(
-              () => SingleEntryScreen(
-                title: 'emailVerification'.tr,
-                prefixIconData: Icons.email_outlined,
-                lottieAssetAnim: kEmailVerificationAnim,
-                textFormTitle: 'emailLabel'.tr,
-                textFormHint: 'emailHintLabel'.tr,
-                buttonTitle: 'continue'.tr,
-                onPressed: (text) => Get.to(
-                  () => OTPVerificationScreen(
-                    verificationType: 'emailLabel'.tr,
-                    lottieAssetAnim: kEmailOTPAnim,
-                    enteredString: text,
-                  ),
-                ),
-                inputType: InputType.email,
-              ),
-            ),
+                () => SingleEntryScreen(
+                      title: 'emailVerification'.tr,
+                      prefixIconData: Icons.email_outlined,
+                      lottieAssetAnim: kEmailVerificationAnim,
+                      textFormTitle: 'emailLabel'.tr,
+                      textFormHint: 'emailHintLabel'.tr,
+                      buttonTitle: 'continue'.tr,
+                      onPressed: (text) => Get.to(
+                          () => OTPVerificationScreen(
+                                verificationType: 'emailLabel'.tr,
+                                lottieAssetAnim: kEmailOTPAnim,
+                                enteredString: text,
+                              ),
+                          transition: AppInit.getPageTransition()),
+                      inputType: InputType.email,
+                    ),
+                transition: AppInit.getPageTransition()),
           ),
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
@@ -59,14 +61,15 @@ class ForgetPasswordLayout extends StatelessWidget {
                 textFormHint: 'phoneFieldLabel'.tr,
                 buttonTitle: 'continue'.tr,
                 onPressed: (text) => Get.to(
-                  () => OTPVerificationScreen(
-                    verificationType: 'phoneLabel'.tr,
-                    lottieAssetAnim: kPhoneOTPAnim,
-                    enteredString: '+2$text',
-                  ),
-                ),
+                    () => OTPVerificationScreen(
+                          verificationType: 'phoneLabel'.tr,
+                          lottieAssetAnim: kPhoneOTPAnim,
+                          enteredString: '+2$text',
+                        ),
+                    transition: AppInit.getPageTransition()),
                 inputType: InputType.phone,
               ),
+              transition: AppInit.getPageTransition(),
             ),
           ),
         ],

@@ -24,6 +24,7 @@ class AppInit {
   static bool isLocaleSet = false;
   static late final Locale setLocale;
   static Language currentDeviceLanguage = Language.english;
+  static Transition transition = Transition.leftToRightWithFade;
 
   static Future<void> initializeConstants() async {
     prefs = await SharedPreferences.getInstance();
@@ -70,5 +71,11 @@ class AppInit {
       isInitialised = true;
       removeSplashScreen();
     }
+  }
+
+  static Transition getPageTransition() {
+    return AppInit.currentDeviceLanguage == Language.english
+        ? Transition.rightToLeftWithFade
+        : Transition.leftToRightWithFade;
   }
 }

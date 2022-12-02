@@ -17,10 +17,7 @@ Future<void> main() async {
 
   await AppInit.initializeConstants();
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]).then((value) => runApp(const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,6 +27,10 @@ class MyApp extends StatelessWidget {
     if (AppInit.showOnBoard) removeSplashScreen();
     return FlutterWebFrame(
       builder: (context) {
+        SystemChrome.setPreferredOrientations([
+          DeviceOrientation.portraitUp,
+          DeviceOrientation.portraitDown,
+        ]);
         return GetMaterialApp(
           translations: Languages(),
           locale: AppInit.setLocale,

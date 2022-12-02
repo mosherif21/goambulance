@@ -15,7 +15,7 @@ class EmailRegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(RegisterController());
-    final formKey = GlobalKey<FormState>();
+    //final formKey = GlobalKey<FormState>();
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),
@@ -41,13 +41,14 @@ class EmailRegisterForm extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             RegularElevatedButton(
-              buttonText: 'signupTextTitle'.tr,
+              buttonText: 'registerTextTitle'.tr,
               height: height,
               onPressed: () {
                 final email = controller.email.text;
                 final password = controller.password.text;
                 final passwordConfirm = controller.passwordConfirm.text;
-                if (formKey.currentState!.validate() &&
+                if (
+                    //formKey.currentState!.validate() &&
                     password.compareTo(passwordConfirm) == 0) {
                   RegisterController.instance.registerNewUser(
                     email,

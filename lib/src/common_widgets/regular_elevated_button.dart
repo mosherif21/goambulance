@@ -19,7 +19,7 @@ class RegularElevatedButton extends StatelessWidget {
       height: height * 0.05,
       child: ElevatedButton(
         style: kElevatedButtonRegularStyle,
-        onPressed: () {},
+        onPressed: () => onPressed(),
         child: Text(
           buttonText,
           style:

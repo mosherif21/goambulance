@@ -13,7 +13,6 @@ class ForgetPasswordLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
-
     return Container(
       padding: const EdgeInsets.all(30.0),
       child: Column(

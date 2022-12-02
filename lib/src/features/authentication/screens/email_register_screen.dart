@@ -31,7 +31,7 @@ class EmailRegisterScreen extends StatelessWidget {
                   image: const AssetImage(kLogoImageWithSlogan),
                   height: screenHeight * 0.25,
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: screenHeight * 0.02),
                 EmailRegisterForm(height: screenHeight),
                 Padding(
                   padding: EdgeInsets.all(screenHeight * 0.02),
@@ -69,7 +69,7 @@ class EmailRegisterScreen extends StatelessWidget {
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: screenHeight * 0.01),
                 RegularTextButton(
                   buttonText: 'alreadyHaveAnAccount'.tr,
                   onPressed: () => Get.back(),

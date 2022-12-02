@@ -20,7 +20,7 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     double height = getScreenHeight(context);
     final controller = Get.put(LoginController());
-    final formKey = GlobalKey<FormState>();
+    //final formKey = GlobalKey<FormState>();
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),

@@ -54,7 +54,10 @@ class LoginForm extends StatelessWidget {
             RegularElevatedButton(
               buttonText: 'loginTextTitle'.tr,
               height: height,
-              onPressed: () {},
+              onPressed: () {
+                controller.loginUser(
+                    controller.email.text, controller.password.text);
+              },
             ),
           ],
         ),

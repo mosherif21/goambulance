@@ -8,6 +8,8 @@ class RegisterController extends GetxController {
   final password = TextEditingController();
   final passwordConfirm = TextEditingController();
   void registerNewUser(String email, String password) {
-    if (kDebugMode) print('$email and $password');
+    if (kDebugMode) {
+      print('email register data is: email: $email and password: $password');
+    }
   }
 }

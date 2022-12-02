@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
 import 'package:goambulance/src/connectivity/connectivity_binding.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/features/login/screens/login_screen.dart';
+import 'package:goambulance/src/features/authentication/screens/login_screen.dart';
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
 import 'package:goambulance/src/routing/splash_screen.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';

@@ -14,7 +14,6 @@ class ForgetPasswordLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
-    double screenWidth = getScreenWidth(context);
 
     return Container(
       padding: const EdgeInsets.all(30.0),
@@ -28,7 +27,6 @@ class ForgetPasswordLayout extends StatelessWidget {
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
             height: screenHeight * 0.12,
-            width: screenWidth * 0.8,
             title: 'emailLabel'.tr,
             subTitle: 'emailReset'.tr,
             iconData: Icons.mail_outline_rounded,
@@ -54,7 +52,6 @@ class ForgetPasswordLayout extends StatelessWidget {
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
             height: screenHeight * 0.12,
-            width: screenWidth * 0.8,
             title: 'phoneLabel'.tr,
             subTitle: 'numberReset'.tr,
             iconData: Icons.mobile_friendly_rounded,

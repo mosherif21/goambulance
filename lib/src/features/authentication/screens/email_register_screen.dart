@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
 
-import '../../../../common_widgets/regular_text_button.dart';
-import '../../../../connectivity/connectivity.dart';
-import '../../../../constants/assets_strings.dart';
-import '../../../../constants/sizes.dart';
-import '../loginScreen/alternate_login_buttons.dart';
-import 'email_register_form.dart';
+import '../../../common_widgets/regular_text_button.dart';
+import '../../../connectivity/connectivity.dart';
+import '../../../constants/assets_strings.dart';
+import '../../../constants/sizes.dart';
+import '../components/emailRegistration/email_register_form.dart';
+import '../components/loginScreen/alternate_login_buttons.dart';
 
 class EmailRegisterScreen extends StatelessWidget {
   const EmailRegisterScreen({Key? key}) : super(key: key);

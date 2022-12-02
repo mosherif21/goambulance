@@ -1,28 +1,26 @@
 import 'package:flutter/material.dart';
 
 class FramedIconButton extends StatelessWidget {
-  const FramedIconButton(
-      {Key? key,
-      required this.title,
-      required this.subTitle,
-      required this.iconData,
-      required this.onPressed,
-      required this.height,
-      required this.width})
-      : super(key: key);
+  const FramedIconButton({
+    Key? key,
+    required this.title,
+    required this.subTitle,
+    required this.iconData,
+    required this.onPressed,
+    required this.height,
+  }) : super(key: key);
   final String title;
   final String subTitle;
   final IconData iconData;
   final Function onPressed;
   final double height;
-  final double width;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => onPressed(),
       child: Container(
         height: height,
-        width: width,
+        width: double.infinity,
         padding: EdgeInsets.all(height * 0.1),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),

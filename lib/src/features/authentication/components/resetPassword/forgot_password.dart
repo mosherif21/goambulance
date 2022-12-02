@@ -3,10 +3,8 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../../common_widgets/framed_button.dart';
-import '../../../../common_widgets/single_entry_screen.dart';
-import '../../../../constants/app_init_constants.dart';
-import '../../../../constants/assets_strings.dart';
-import '../otpVerification/otp_verification.dart';
+import '../otpVerification/email_verification_screen.dart';
+import '../otpVerification/phone_verification_screen.dart';
 
 class ForgetPasswordLayout extends StatelessWidget {
   const ForgetPasswordLayout({Key? key}) : super(key: key);
@@ -30,24 +28,7 @@ class ForgetPasswordLayout extends StatelessWidget {
             title: 'emailLabel'.tr,
             subTitle: 'emailReset'.tr,
             iconData: Icons.mail_outline_rounded,
-            onPressed: () => Get.to(
-                () => SingleEntryScreen(
-                      title: 'emailVerification'.tr,
-                      prefixIconData: Icons.email_outlined,
-                      lottieAssetAnim: kEmailVerificationAnim,
-                      textFormTitle: 'emailLabel'.tr,
-                      textFormHint: 'emailHintLabel'.tr,
-                      buttonTitle: 'continue'.tr,
-                      onPressed: (text) => Get.to(
-                          () => OTPVerificationScreen(
-                                verificationType: 'emailLabel'.tr,
-                                lottieAssetAnim: kEmailOTPAnim,
-                                enteredString: text,
-                              ),
-                          transition: AppInit.getPageTransition()),
-                      inputType: InputType.email,
-                    ),
-                transition: AppInit.getPageTransition()),
+            onPressed: () => getToEmailVerificationScreen(),
           ),
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
@@ -55,25 +36,7 @@ class ForgetPasswordLayout extends StatelessWidget {
             title: 'phoneLabel'.tr,
             subTitle: 'numberReset'.tr,
             iconData: Icons.mobile_friendly_rounded,
-            onPressed: () => Get.to(
-              () => SingleEntryScreen(
-                title: 'phoneVerification'.tr,
-                prefixIconData: Icons.email_outlined,
-                lottieAssetAnim: kPhoneVerificationAnim,
-                textFormTitle: 'phoneLabel'.tr,
-                textFormHint: 'phoneFieldLabel'.tr,
-                buttonTitle: 'continue'.tr,
-                onPressed: (text) => Get.to(
-                    () => OTPVerificationScreen(
-                          verificationType: 'phoneLabel'.tr,
-                          lottieAssetAnim: kPhoneOTPAnim,
-                          enteredString: '+2$text',
-                        ),
-                    transition: AppInit.getPageTransition()),
-                inputType: InputType.phone,
-              ),
-              transition: AppInit.getPageTransition(),
-            ),
+            onPressed: () => getToPhoneVerificationScreen(),
           ),
         ],
       ),

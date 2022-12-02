@@ -47,12 +47,12 @@ class OnBoardingScreen extends StatelessWidget {
           Positioned(
             bottom: 50,
             child: OnBoardingPageNextButton(
-              onPress: () {
+              onPress: () async {
                 obController.animateToPage(
                     page: obController.currentPage + 1, duration: 500);
                 if (currentPageCounter.value == numberOfPages) {
-                  RegularBottomSheet(
-                    child: LanguageSelect(
+                  await RegularBottomSheet.showRegularBottomSheet(
+                    LanguageSelect(
                       onEnglishLanguagePress: () async {
                         await setLocaleLanguage(
                           'en',
@@ -64,7 +64,7 @@ class OnBoardingScreen extends StatelessWidget {
                         );
                       },
                     ),
-                  ).showRegularBottomSheet();
+                  );
                 }
               },
             ),

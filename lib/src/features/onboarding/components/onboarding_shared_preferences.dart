@@ -26,6 +26,8 @@ Future<void> setLocaleLanguage(String languageCode) async {
   showLoadingScreen();
   await setOnBoardingLocale(languageCode);
   hideLoadingScreen();
-  Get.offAll(() => const LoginScreen(),
-      transition: AppInit.getPageTransition());
+  Get.offAll(
+    () => const LoginScreen(),
+    transition: AppInit.getPageTransition(),
+  );
 }

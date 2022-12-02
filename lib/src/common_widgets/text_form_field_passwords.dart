@@ -5,10 +5,10 @@ class TextFormFieldPassword extends StatelessWidget {
   const TextFormFieldPassword({
     Key? key,
     required this.labelText,
-    required this.onTextChanged,
+    required this.textController,
   }) : super(key: key);
   final String labelText;
-  final Function onTextChanged;
+  final TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class TextFormFieldPassword extends StatelessWidget {
     return Obx(
       () => TextFormField(
         obscureText: passwordHide.value,
-        onChanged: (text) => onTextChanged(text),
+        controller: textController,
         decoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.lock_outlined,

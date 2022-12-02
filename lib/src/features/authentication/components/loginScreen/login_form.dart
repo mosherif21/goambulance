@@ -4,6 +4,7 @@ import 'package:goambulance/src/common_widgets/regular_text_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field_passwords.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
+import 'package:goambulance/src/features/authentication/controllers/login_controller.dart';
 
 import '../../../../common_widgets/regular_bottom_sheet.dart';
 import '../../../../common_widgets/regular_elevated_button.dart';
@@ -18,8 +19,8 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double height = getScreenHeight(context);
-    String email = '';
-    String password = '';
+    final controller = Get.put(LoginController());
+    final formKey = GlobalKey<FormState>();
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),
@@ -31,12 +32,12 @@ class LoginForm extends StatelessWidget {
               hintText: 'emailHintLabel'.tr,
               prefixIconData: Icons.email_outlined,
               color: const Color(0xFF28AADC),
-              onTextChanged: (text) => email = text,
+              textController: controller.email,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
               labelText: 'passwordLabel'.tr,
-              onTextChanged: (text) => password = text,
+              textController: controller.password,
             ),
             const SizedBox(height: 6),
             Align(
@@ -45,15 +46,15 @@ class LoginForm extends StatelessWidget {
                   : Alignment.centerLeft,
               child: RegularTextButton(
                 buttonText: 'forgotPassword'.tr,
-                onPressed: () => const RegularBottomSheet(
-                  child: ForgetPasswordLayout(),
-                ).showRegularBottomSheet(),
+                onPressed: () => RegularBottomSheet.showRegularBottomSheet(
+                    const ForgetPasswordLayout()),
               ),
             ),
             const SizedBox(height: 6),
             RegularElevatedButton(
               buttonText: 'loginTextTitle'.tr,
               height: height,
+              onPressed: () {},
             ),
           ],
         ),

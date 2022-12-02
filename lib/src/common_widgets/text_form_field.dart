@@ -7,17 +7,17 @@ class TextFormFieldRegular extends StatelessWidget {
     required this.hintText,
     required this.prefixIconData,
     required this.color,
-    required this.onTextChanged,
+    required this.textController,
   }) : super(key: key);
   final String labelText;
   final String hintText;
   final IconData prefixIconData;
   final Color color;
-  final Function onTextChanged;
+  final TextEditingController textController;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged: (text) => onTextChanged(text),
+      controller: textController,
       cursorColor: color,
       decoration: InputDecoration(
         prefixIcon: Icon(

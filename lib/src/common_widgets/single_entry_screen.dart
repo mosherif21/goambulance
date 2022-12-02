@@ -16,7 +16,8 @@ class SingleEntryScreen extends StatelessWidget {
       required this.buttonTitle,
       required this.prefixIconData,
       required this.onPressed,
-      required this.inputType})
+      required this.inputType,
+      required this.textController})
       : super(key: key);
   final String title;
   final String lottieAssetAnim;
@@ -26,10 +27,12 @@ class SingleEntryScreen extends StatelessWidget {
   final IconData prefixIconData;
   final Function onPressed;
   final InputType inputType;
+  final TextEditingController textController;
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
-    String textFieldString = '';
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kDefaultPaddingSize),
@@ -52,7 +55,7 @@ class SingleEntryScreen extends StatelessWidget {
               hintText: textFormHint,
               prefixIconData: prefixIconData,
               color: Colors.black,
-              onTextChanged: (text) => textFieldString = text,
+              textController: textController,
             ),
             const SizedBox(
               height: 20.0,
@@ -70,9 +73,7 @@ class SingleEntryScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () {
-                  onPressed(textFieldString);
-                },
+                onPressed: () => onPressed(),
                 child: Text(
                   buttonTitle,
                   style: const TextStyle(

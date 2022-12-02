@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../common_widgets/regular_text_button.dart';
-import '../../../connectivity/connectivity.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/sizes.dart';
 import '../components/emailRegistration/email_register_form.dart';
@@ -17,7 +16,7 @@ class EmailRegisterScreen extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
     // ConnectivityController connectivityController =
-    ConnectivityChecker.checkConnection(true);
+    //ConnectivityChecker.checkConnection(true);
     // final String email;
     // final String password;
     return SafeArea(

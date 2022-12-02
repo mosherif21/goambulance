@@ -12,6 +12,7 @@ import '../common_widgets/no_button_dialog_alert.dart';
 import '../routing/splash_screen.dart';
 
 class ConnectivityController extends GetxController {
+  static ConnectivityController get instance => Get.find();
   RxBool isInternetConnected = false.obs;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;

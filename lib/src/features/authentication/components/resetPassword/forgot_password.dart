@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/common_widgets/regular_bottom_sheet.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../../common_widgets/framed_button.dart';
@@ -28,7 +29,10 @@ class ForgetPasswordLayout extends StatelessWidget {
             title: 'emailLabel'.tr,
             subTitle: 'emailReset'.tr,
             iconData: Icons.mail_outline_rounded,
-            onPressed: () => getToEmailVerificationScreen(),
+            onPressed: () {
+              RegularBottomSheet.hideBottomSheet();
+              getToEmailVerificationScreen();
+            },
           ),
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(
@@ -36,7 +40,10 @@ class ForgetPasswordLayout extends StatelessWidget {
             title: 'phoneLabel'.tr,
             subTitle: 'numberReset'.tr,
             iconData: Icons.mobile_friendly_rounded,
-            onPressed: () => getToPhoneVerificationScreen(),
+            onPressed: () {
+              RegularBottomSheet.hideBottomSheet();
+              getToPhoneVerificationScreen();
+            },
           ),
         ],
       ),

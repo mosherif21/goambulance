@@ -7,9 +7,11 @@ class RegularElevatedButton extends StatelessWidget {
     Key? key,
     required this.buttonText,
     required this.height,
+    required this.onPressed,
   }) : super(key: key);
   final String buttonText;
   final double height;
+  final Function onPressed;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

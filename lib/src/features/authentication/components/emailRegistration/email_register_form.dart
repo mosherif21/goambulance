@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
+import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
 
 import '../../../../common_widgets/text_form_field.dart';
 import '../../../../common_widgets/text_form_field_passwords.dart';
@@ -13,9 +14,8 @@ class EmailRegisterForm extends StatelessWidget {
   final double height;
   @override
   Widget build(BuildContext context) {
-    String email = '';
-    String password = '';
-    String confirmPassword = '';
+    final controller = Get.put(RegisterController());
+    final formKey = GlobalKey<FormState>();
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),
@@ -27,21 +27,35 @@ class EmailRegisterForm extends StatelessWidget {
               hintText: 'emailHintLabel'.tr,
               prefixIconData: Icons.email_outlined,
               color: const Color(0xFF28AADC),
-              onTextChanged: (text) => email = text,
+              textController: controller.email,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
               labelText: 'passwordLabel'.tr,
-              onTextChanged: (text) => password = text,
+              textController: controller.password,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
               labelText: 'confirmPassword'.tr,
-              onTextChanged: (text) => confirmPassword = text,
+              textController: controller.passwordConfirm,
             ),
             const SizedBox(height: 6),
             RegularElevatedButton(
-                buttonText: 'signupTextTitle'.tr, height: height),
+              buttonText: 'signupTextTitle'.tr,
+              height: height,
+              onPressed: () {
+                final email = controller.email.text;
+                final password = controller.password.text;
+                final passwordConfirm = controller.passwordConfirm.text;
+                if (formKey.currentState!.validate() &&
+                    password.compareTo(passwordConfirm) == 0) {
+                  RegisterController.instance.registerNewUser(
+                    email,
+                    password,
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),

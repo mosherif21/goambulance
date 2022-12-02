@@ -33,14 +33,14 @@ class LoginScreen extends StatelessWidget {
                   image: const AssetImage(kLogoImageWithSlogan),
                   height: screenHeight * 0.25,
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: screenHeight * 0.02),
                 const LoginForm(),
                 OrDivider(screenHeight: screenHeight),
                 AlternateLoginButtons(
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
                 ),
-                const SizedBox(height: 6),
+                SizedBox(height: screenHeight * 0.01),
                 RegularTextButton(
                   buttonText: 'noEmailAccount'.tr,
                   onPressed: () => Get.to(

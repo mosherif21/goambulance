@@ -2,12 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegularBottomSheet {
-  final Widget child;
-  const RegularBottomSheet({
-    required this.child,
-  });
-  void showRegularBottomSheet() {
-    Get.bottomSheet(
+  static Future<void> showRegularBottomSheet(Widget child) async {
+    await Get.bottomSheet(
       Wrap(
         children: [child],
       ),
@@ -19,6 +15,11 @@ class RegularBottomSheet {
           topRight: Radius.circular(25.0),
         ),
       ),
+      enterBottomSheetDuration: const Duration(milliseconds: 200),
     );
+  }
+
+  static void hideBottomSheet() {
+    if (Get.isBottomSheetOpen!) Get.back();
   }
 }

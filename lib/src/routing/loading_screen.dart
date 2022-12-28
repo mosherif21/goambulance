@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:lottie/lottie.dart';
-
-import '../constants/assets_strings.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 void showLoadingScreen() {
   final height = Get.context?.height;
+
   Get.dialog(
-      AlertDialog(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        content: SizedBox(
+    AlertDialog(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      content: WillPopScope(
+        onWillPop: () async => false,
+        child: SizedBox(
           height: AppInit.notWebMobile ? 812.0 : double.infinity,
           width: AppInit.notWebMobile ? 500.0 : double.infinity,
-          child: Lottie.asset(kLoadingHeartAnim, height: height! * 0.3),
+          child: LoadingAnimationWidget.inkDrop(
+            color: Colors.white,
+            size: height! * 0.08,
+          ),
         ),
       ),
-      barrierDismissible: false);
+    ),
+    barrierDismissible: false,
+  );
 }
 
 void hideLoadingScreen() {
-  if (Get.isDialogOpen == true) Get.back();
+  Get.back();
 }

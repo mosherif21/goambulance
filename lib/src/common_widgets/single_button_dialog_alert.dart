@@ -22,12 +22,18 @@ class SingleButtonDialogAlert {
   showSingleButtonAlertDialog() => Get.dialog(
         AppInit.isIos
             ? CupertinoAlertDialog(
-                title: Text(title),
+                title: Text(
+                  title,
+                  style: const TextStyle(color: Colors.white),
+                ),
                 content: content,
                 actions: <Widget>[
                   TextButton(
                     onPressed: onPressed(),
-                    child: Text(buttonText),
+                    child: Text(
+                      buttonText,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               )
@@ -37,7 +43,10 @@ class SingleButtonDialogAlert {
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => onPressed(),
-                    child: Text(buttonText),
+                    child: Text(
+                      buttonText,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),

@@ -17,7 +17,7 @@ class OrDivider extends StatelessWidget {
         children: <Widget>[
           const Expanded(
             child: Divider(
-              color: Colors.black54,
+              color: Colors.white,
               height: 8.0,
             ),
           ),
@@ -27,16 +27,17 @@ class OrDivider extends StatelessWidget {
           Text(
             'alternateLoginLabel'.tr,
             style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: screenHeight * 0.02,
-                color: Colors.black54),
+              fontWeight: FontWeight.w700,
+              fontSize: screenHeight * 0.02,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(
             width: 8.0,
           ),
           const Expanded(
             child: Divider(
-              color: Colors.black54,
+              color: Colors.white,
               height: 8.0,
             ),
           )

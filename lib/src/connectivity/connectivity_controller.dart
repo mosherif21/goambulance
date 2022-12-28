@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:lottie/lottie.dart';
 
 import '../common_widgets/no_button_dialog_alert.dart';
 import '../routing/splash_screen.dart';
@@ -38,7 +38,6 @@ class ConnectivityController extends GetxController {
       isInternetConnected.value = true;
       if (kDebugMode) print('Connected to internet');
       if (_isAlertDisplayed && _displayAlert) _hideNetworkAlertDialog();
-      AppInit.initialize();
     } else if (internetConnectionStatus ==
         InternetConnectionStatus.disconnected) {
       isInternetConnected.value = false;
@@ -58,9 +57,9 @@ class ConnectivityController extends GetxController {
     _isAlertDisplayed = true;
     NoButtonDialogAlert(
       title: 'noConnectionAlertTitle'.tr,
-      content: Image.asset(
+      content: Lottie.asset(
         kNoInternetAnim,
-        height: screenHeight! * 0.2,
+        height: screenHeight! * 0.25,
       ),
       dismissible: false,
     ).showNoButtonAlertDialog();

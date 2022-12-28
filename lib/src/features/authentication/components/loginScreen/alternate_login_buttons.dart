@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/routing/loading_screen.dart';
+
+import '../../../../error_widgets/not_available_error_widget.dart';
+import '../otpVerification/phone_verification_screen.dart';
 
 class AlternateLoginButtons extends StatelessWidget {
   final double screenHeight;
@@ -23,23 +28,35 @@ class AlternateLoginButtons extends StatelessWidget {
         SignInButton(
           Buttons.Phone,
           text: 'loginWithMobile'.tr,
-          onPressed: () {},
+          onPressed: () => getToPhoneVerificationScreen(),
           height: buttonsHeight,
           width: buttonsWidth,
         ),
         SizedBox(height: buttonSpacing),
-        SignInButton(
-          Buttons.GoogleDark,
-          text: 'loginWithGoogle'.tr,
-          onPressed: () {},
-          height: buttonsHeight,
-          width: buttonsWidth,
-        ),
+        AppInit.isIos
+            ? const SizedBox()
+            : SignInButton(
+                Buttons.GoogleDark,
+                text: 'loginWithGoogle'.tr,
+                onPressed: () async {
+                  showLoadingScreen();
+                  var returnMessage = await AuthenticationRepository.instance
+                      .signInWithGoogle();
+                  hideLoadingScreen();
+                  if (returnMessage.compareTo('success') != 0) {
+                    Get.snackbar('error'.tr, returnMessage,
+                        snackPosition: SnackPosition.BOTTOM,
+                        margin: const EdgeInsets.all(20.0));
+                  }
+                },
+                height: buttonsHeight,
+                width: buttonsWidth,
+              ),
         SizedBox(height: buttonSpacing),
         SignInButton(
           Buttons.Facebook,
           text: 'loginWithFacebook'.tr,
-          onPressed: () {},
+          onPressed: () => Get.to(() => const NotAvailableErrorWidget()),
           height: buttonsHeight,
           width: buttonsWidth,
         ),

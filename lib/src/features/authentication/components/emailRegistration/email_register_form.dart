@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
 
 import '../../../../common_widgets/text_form_field.dart';
@@ -26,8 +27,8 @@ class EmailRegisterForm extends StatelessWidget {
               labelText: 'emailLabel'.tr,
               hintText: 'emailHintLabel'.tr,
               prefixIconData: Icons.email_outlined,
-              color: const Color(0xFF28AADC),
               textController: controller.email,
+              inputType: InputType.email,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
@@ -40,21 +41,24 @@ class EmailRegisterForm extends StatelessWidget {
               textController: controller.passwordConfirm,
             ),
             const SizedBox(height: 6),
+            Obx(
+              () => controller.returnMessage.value.compareTo('success') != 0
+                  ? Text(
+                      controller.returnMessage.value,
+                      style: const TextStyle(color: Colors.red),
+                    )
+                  : const SizedBox(),
+            ),
+            const SizedBox(height: 6),
             RegularElevatedButton(
               buttonText: 'registerTextTitle'.tr,
-              height: height,
-              onPressed: () {
-                final email = controller.email.text;
-                final password = controller.password.text;
-                final passwordConfirm = controller.passwordConfirm.text;
-                if (
-                    //formKey.currentState!.validate() &&
-                    password.compareTo(passwordConfirm) == 0) {
-                  RegisterController.instance.registerNewUser(
-                    email,
-                    password,
-                  );
-                }
+              enabled: true,
+              onPressed: () async {
+                await controller.registerNewUser(
+                  controller.email.text,
+                  controller.password.text,
+                  controller.passwordConfirm.text,
+                );
               },
             ),
           ],

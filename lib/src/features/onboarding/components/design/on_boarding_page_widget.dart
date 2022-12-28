@@ -23,16 +23,16 @@ class OnBoardingPageTemplate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double height = getScreenHeight(context);
+    final double width = getScreenWidth(context);
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.all(kDefaultPaddingSize),
       color: onBoardingBackGroundColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Lottie.asset(
-            onBoardingAnim,
-            height: height * 0.5,
-          ),
+          Lottie.asset(onBoardingAnim,
+              height: height * 0.5, width: width * 0.8),
           Column(
             children: [
               Text(

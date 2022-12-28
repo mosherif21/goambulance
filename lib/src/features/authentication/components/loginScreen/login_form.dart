@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_text_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field_passwords.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
 import 'package:goambulance/src/features/authentication/controllers/login_controller.dart';
 
 import '../../../../common_widgets/regular_bottom_sheet.dart';
@@ -15,12 +14,9 @@ class LoginForm extends StatelessWidget {
   const LoginForm({
     Key? key,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    double height = getScreenHeight(context);
-    final controller = Get.put(LoginController());
-    //final formKey = GlobalKey<FormState>();
+    final controller = LoginController.instance;
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),
@@ -31,8 +27,8 @@ class LoginForm extends StatelessWidget {
               labelText: 'emailLabel'.tr,
               hintText: 'emailHintLabel'.tr,
               prefixIconData: Icons.email_outlined,
-              color: const Color(0xFF28AADC),
               textController: controller.email,
+              inputType: InputType.email,
             ),
             const SizedBox(height: 10),
             TextFormFieldPassword(
@@ -50,12 +46,20 @@ class LoginForm extends StatelessWidget {
                     const ForgetPasswordLayout()),
               ),
             ),
+            Obx(
+              () => controller.returnMessage.value.compareTo('success') != 0
+                  ? Text(
+                      controller.returnMessage.value,
+                      style: const TextStyle(color: Colors.red),
+                    )
+                  : const SizedBox(),
+            ),
             const SizedBox(height: 6),
             RegularElevatedButton(
+              enabled: true,
               buttonText: 'loginTextTitle'.tr,
-              height: height,
-              onPressed: () {
-                controller.loginUser(
+              onPressed: () async {
+                await controller.loginUser(
                     controller.email.text, controller.password.text);
               },
             ),

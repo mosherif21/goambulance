@@ -28,7 +28,11 @@ class FramedIconButton extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(iconData, size: height * 0.6),
+            Icon(
+              iconData,
+              size: height * 0.6,
+              color: Colors.black,
+            ),
             const SizedBox(
               width: 10.0,
             ),

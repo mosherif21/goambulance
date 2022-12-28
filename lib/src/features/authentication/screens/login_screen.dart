@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:goambulance/src/features/authentication/components/loginScreen/alternate_login_buttons.dart';
+import 'package:goambulance/src/features/authentication/controllers/login_controller.dart';
 
 import '../../../common_widgets/or_divider.dart';
 import '../../../common_widgets/regular_text_button.dart';
@@ -20,7 +21,7 @@ class LoginScreen extends StatelessWidget {
     final screenWidth = getScreenWidth(context);
     // ConnectivityController connectivityController =
     ConnectivityChecker.checkConnection(true);
-
+    Get.put(LoginController());
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(

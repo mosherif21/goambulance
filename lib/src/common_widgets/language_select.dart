@@ -30,9 +30,10 @@ class LanguageSelect extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(foregroundColor: Colors.black54),
               onPressed: () => onEnglishLanguagePress(),
-              icon: const Image(
-                image: AssetImage(kUkFlagImage),
+              icon: Image.asset(
+                kUkFlagImage,
                 height: 60.0,
               ),
               label: Text(
@@ -45,9 +46,10 @@ class LanguageSelect extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
+              style: OutlinedButton.styleFrom(foregroundColor: Colors.black54),
               onPressed: () => onArabicLanguagePress(),
-              icon: const Image(
-                image: AssetImage(kSAFlagImage),
+              icon: Image.asset(
+                kSAFlagImage,
                 height: 60.0,
               ),
               label: Text(

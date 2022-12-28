@@ -12,20 +12,32 @@ void getToPhoneVerificationScreen() {
   Get.to(
     () => SingleEntryScreen(
       title: 'phoneVerification'.tr,
-      prefixIconData: Icons.email_outlined,
+      prefixIconData: Icons.phone,
       lottieAssetAnim: kPhoneVerificationAnim,
       textFormTitle: 'phoneLabel'.tr,
       textFormHint: 'phoneFieldLabel'.tr,
       buttonTitle: 'continue'.tr,
-      onPressed: () => Get.to(
-          () => OTPVerificationScreen(
-                verificationType: 'phoneLabel'.tr,
-                lottieAssetAnim: kPhoneOTPAnim,
-                enteredString: '+2text',
-              ),
-          transition: AppInit.getPageTransition()),
-      inputType: InputType.phone,
       textController: controller.enteredData,
+      inputType: InputType.phone,
+      onPressed: () async {
+        var phoneNumber = controller.enteredData.value.text;
+        var returnMessage = '';
+        returnMessage = await controller.signInWithOTPPhone(phoneNumber);
+        if (returnMessage.compareTo('codeSent') == 0) {
+          Get.to(
+              () => OTPVerificationScreen(
+                    inputType: InputType.phone,
+                    verificationType: 'phoneLabel'.tr,
+                    lottieAssetAnim: kPhoneOTPAnim,
+                    enteredString: phoneNumber,
+                  ),
+              transition: AppInit.getPageTransition());
+        } else {
+          Get.snackbar('error'.tr, returnMessage,
+              snackPosition: SnackPosition.BOTTOM,
+              margin: const EdgeInsets.all(20.0));
+        }
+      },
     ),
     transition: AppInit.getPageTransition(),
   );

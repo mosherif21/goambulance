@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/common_widgets/or_divider.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../common_widgets/regular_text_button.dart';
@@ -33,38 +34,7 @@ class EmailRegisterScreen extends StatelessWidget {
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 EmailRegisterForm(height: screenHeight),
-                Padding(
-                  padding: EdgeInsets.all(screenHeight * 0.02),
-                  child: Row(
-                    children: <Widget>[
-                      const Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          height: 8.0,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      Text(
-                        'alternateLoginLabel'.tr,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: screenHeight * 0.02,
-                            color: Colors.black54),
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      const Expanded(
-                        child: Divider(
-                          color: Colors.black54,
-                          height: 8.0,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                OrDivider(screenHeight: screenHeight),
                 AlternateLoginButtons(
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,

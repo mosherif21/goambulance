@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 
 import '../constants/app_init_constants.dart';
 import '../constants/sizes.dart';
 
 class SingleEntryScreen extends StatelessWidget {
-  const SingleEntryScreen(
-      {Key? key,
-      required this.title,
-      required this.lottieAssetAnim,
-      required this.textFormTitle,
-      required this.textFormHint,
-      required this.buttonTitle,
-      required this.prefixIconData,
-      required this.onPressed,
-      required this.inputType,
-      required this.textController})
-      : super(key: key);
+  const SingleEntryScreen({
+    Key? key,
+    required this.title,
+    required this.lottieAssetAnim,
+    required this.textFormTitle,
+    required this.textFormHint,
+    required this.buttonTitle,
+    required this.prefixIconData,
+    required this.onPressed,
+    required this.textController,
+    required this.inputType,
+  }) : super(key: key);
   final String title;
   final String lottieAssetAnim;
   final String textFormTitle;
@@ -27,12 +30,12 @@ class SingleEntryScreen extends StatelessWidget {
   final IconData prefixIconData;
   final Function onPressed;
   final InputType inputType;
+
   final TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
-
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(kDefaultPaddingSize),
@@ -45,42 +48,39 @@ class SingleEntryScreen extends StatelessWidget {
             ),
             Text(
               title,
-              style: Theme.of(context).textTheme.headline5,
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            TextFormFieldRegular(
-              labelText: textFormTitle,
-              hintText: textFormHint,
-              prefixIconData: prefixIconData,
-              color: Colors.black,
-              textController: textController,
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: screenHeight * 0.05,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  backgroundColor: Colors.black,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(3),
-                    ),
-                  ),
-                ),
-                onPressed: () => onPressed(),
-                child: Text(
-                  buttonTitle,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500),
-                ),
+              style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: AppInit.notWebMobile ? 25 : 14,
+                fontWeight: FontWeight.w700,
               ),
             ),
+            const SizedBox(
+              height: 20.0,
+            ),
+            inputType == InputType.phone
+                ? IntlPhoneField(
+                    decoration: InputDecoration(
+                      labelText: textFormTitle,
+                      hintText: textFormHint,
+                      border: const OutlineInputBorder(
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    initialCountryCode: 'EG',
+                    onChanged: (phone) {
+                      textController.text = phone.completeNumber;
+                    },
+                  )
+                : TextFormFieldRegular(
+                    labelText: textFormTitle,
+                    hintText: textFormHint,
+                    prefixIconData: prefixIconData,
+                    textController: textController,
+                    inputType: inputType,
+                  ),
+            const SizedBox(height: 20.0),
+            RegularElevatedButton(
+                buttonText: buttonTitle, enabled: true, onPressed: onPressed),
           ],
         ),
       ),

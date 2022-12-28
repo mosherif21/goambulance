@@ -22,17 +22,21 @@ class NoButtonDialogAlert {
                   style: const TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.w600,
-                      color: Colors.black),
+                      color: Colors.white),
                 ),
-                content: content,
+                content:
+                    WillPopScope(onWillPop: () async => false, child: content),
               )
             : AlertDialog(
-                title: Text(title,
-                    style: const TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black)),
-                content: content,
+                title: Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.white),
+                ),
+                content:
+                    WillPopScope(onWillPop: () async => false, child: content),
               ),
         barrierDismissible: dismissible,
       );

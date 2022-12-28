@@ -3,6 +3,8 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
 import 'package:goambulance/src/constants/sizes.dart';
+import 'package:goambulance/src/features/authentication/controllers/otp_verification_controller.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../constants/app_init_constants.dart';
@@ -10,20 +12,21 @@ import '../../../../constants/app_init_constants.dart';
 final RxBool _confirmButtonEnable = false.obs;
 
 class OTPVerificationScreen extends StatelessWidget {
-  const OTPVerificationScreen(
-      {Key? key,
-      required this.verificationType,
-      required this.lottieAssetAnim,
-      required this.enteredString})
-      : super(key: key);
+  const OTPVerificationScreen({
+    Key? key,
+    required this.verificationType,
+    required this.lottieAssetAnim,
+    required this.enteredString,
+    required this.inputType,
+  }) : super(key: key);
   final String verificationType;
   final String lottieAssetAnim;
   final String enteredString;
+  final InputType inputType;
 
   @override
   Widget build(BuildContext context) {
     double? screenHeight = getScreenHeight(context);
-    // String verificationCode = '';
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -40,7 +43,11 @@ class OTPVerificationScreen extends StatelessWidget {
               AppInit.currentDeviceLanguage == Language.english
                   ? '$verificationType ${'verificationCode'.tr}'
                   : '${'verificationCode'.tr} $verificationType',
-              style: Theme.of(context).textTheme.headline5,
+              style: GoogleFonts.montserrat(
+                color: Colors.white,
+                fontSize: AppInit.notWebMobile ? 25 : 14,
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(
               height: 10.0,
@@ -48,7 +55,7 @@ class OTPVerificationScreen extends StatelessWidget {
             Text(
               enteredString,
               style: const TextStyle(
-                  color: Colors.black87,
+                  color: Colors.white70,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
             ),
@@ -58,7 +65,7 @@ class OTPVerificationScreen extends StatelessWidget {
             Text(
               'verificationCodeShare'.tr,
               style: const TextStyle(
-                  color: Colors.black87,
+                  color: Colors.white70,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
             ),
@@ -69,47 +76,21 @@ class OTPVerificationScreen extends StatelessWidget {
               numberOfFields: 6,
               borderColor: Colors.black54,
               keyboardType: TextInputType.number,
-              cursorColor: Colors.black,
-              focusedBorderColor: Colors.black,
+              cursorColor: Colors.white,
+              focusedBorderColor: Colors.white,
               showFieldAsBox: false,
               textStyle: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                   fontSize: 25.0,
                   fontWeight: FontWeight.w600),
               borderWidth: 4.0,
-              onCodeChanged: (code) {
-                _confirmButtonEnable.value = false;
-              },
-              onSubmit: (enteredVerificationCode) {
+              onSubmit: (enteredVerificationCode) async {
                 _confirmButtonEnable.value = true;
-                //  verificationCode = enteredVerificationCode;
+                await OtpVerificationController.instance.verifyOTP(
+                  verificationCode: enteredVerificationCode,
+                  inputType: inputType,
+                );
               },
-            ),
-            const SizedBox(
-              height: 30.0,
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: screenHeight * 0.05,
-              child: Obx(
-                () => ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    backgroundColor: Colors.black,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(3),
-                      ),
-                    ),
-                  ),
-                  onPressed: _confirmButtonEnable.value ? () {} : null,
-                  child: Text(
-                    'confirm'.tr,
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
             ),
           ],
         ),

@@ -30,7 +30,7 @@ class AppInit {
   static Language currentDeviceLanguage = Language.english;
   static Transition transition = Transition.leftToRightWithFade;
   // ignore: prefer_typing_uninitialized_variables
-  static late final token;
+  static late final notificationToken;
   static Future<void> initializeConstants() async {
     if (!isConstantsInitialised) {
       prefs = await SharedPreferences.getInstance();
@@ -76,7 +76,7 @@ class AppInit {
       }
       if (kDebugMode) print('Firebase initialized');
       if (!isWeb) {
-        token = await FirebaseMessaging.instance.getToken();
+        notificationToken = await FirebaseMessaging.instance.getToken();
       }
       Get.put(AuthenticationRepository());
       isInitialised = true;

@@ -44,7 +44,7 @@ class OTPVerificationScreen extends StatelessWidget {
                   ? '$verificationType ${'verificationCode'.tr}'
                   : '${'verificationCode'.tr} $verificationType',
               style: GoogleFonts.montserrat(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: AppInit.notWebMobile ? 25 : 14,
                 fontWeight: FontWeight.w700,
               ),
@@ -55,7 +55,7 @@ class OTPVerificationScreen extends StatelessWidget {
             Text(
               enteredString,
               style: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black87,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
             ),
@@ -65,7 +65,7 @@ class OTPVerificationScreen extends StatelessWidget {
             Text(
               'verificationCodeShare'.tr,
               style: const TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black87,
                   fontSize: 15.0,
                   fontWeight: FontWeight.w600),
             ),
@@ -76,11 +76,11 @@ class OTPVerificationScreen extends StatelessWidget {
               numberOfFields: 6,
               borderColor: Colors.black54,
               keyboardType: TextInputType.number,
-              cursorColor: Colors.white,
-              focusedBorderColor: Colors.white,
+              cursorColor: Colors.black,
+              focusedBorderColor: Colors.black,
               showFieldAsBox: false,
               textStyle: const TextStyle(
-                  color: Colors.white,
+                  color: Colors.black,
                   fontSize: 25.0,
                   fontWeight: FontWeight.w600),
               borderWidth: 4.0,

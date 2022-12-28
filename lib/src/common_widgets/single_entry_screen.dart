@@ -49,7 +49,7 @@ class SingleEntryScreen extends StatelessWidget {
             Text(
               title,
               style: GoogleFonts.montserrat(
-                color: Colors.white,
+                color: Colors.black,
                 fontSize: AppInit.notWebMobile ? 25 : 14,
                 fontWeight: FontWeight.w700,
               ),

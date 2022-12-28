@@ -55,13 +55,19 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#f7f6f1"
+  color_dark: "#f7f6f1"
   image: assets/images/logo.png
+  image_dark: assets/images/logo.png
   #branding: assets/images/logo.png
   #branding_dark: assets/images/logo.png
 
   android_12:
+    color: "#f7f6f1"
+    color_dark: "#f7f6f1"
     image: assets/images/logo.png
+    image_dark: assets/images/logo.png
     #branding: assets/images/logo.png
+    #branding_dark: assets/images/logo.png
 
 flutter:
   generate: true

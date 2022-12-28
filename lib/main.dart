@@ -9,7 +9,7 @@ import 'package:goambulance/src/features/authentication/screens/login_screen.dar
 import 'package:goambulance/src/features/home_page/screens/home_page_screen.dart';
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
 import 'package:goambulance/src/general/notifications.dart';
-import 'package:goambulance/src/routing/splash_screen.dart';
+import 'package:goambulance/src/general/splash_screen.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 

@@ -4,7 +4,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/routing/loading_screen.dart';
+import 'package:goambulance/src/general/loading_screen.dart';
 
 import '../../../../error_widgets/not_available_error_widget.dart';
 import '../otpVerification/phone_verification_screen.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
-import '../../../routing/loading_screen.dart';
+import '../../../general/loading_screen.dart';
 
 class ResetController extends GetxController {
   static ResetController get instance => Get.find();

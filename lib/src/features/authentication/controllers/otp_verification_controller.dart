@@ -4,7 +4,7 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
 
 import '../../../constants/app_init_constants.dart';
-import '../../../routing/loading_screen.dart';
+import '../../../general/loading_screen.dart';
 
 class OtpVerificationController extends GetxController {
   static OtpVerificationController get instance => Get.find();

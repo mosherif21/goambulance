@@ -9,7 +9,7 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:lottie/lottie.dart';
 
 import '../common_widgets/no_button_dialog_alert.dart';
-import '../routing/splash_screen.dart';
+import '../general/splash_screen.dart';
 
 class ConnectivityController extends GetxController {
   static ConnectivityController get instance => Get.find();

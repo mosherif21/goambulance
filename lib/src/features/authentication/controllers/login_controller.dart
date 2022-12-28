@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../../../authentication/authentication_repository.dart';
-import '../../../routing/loading_screen.dart';
+import '../../../general/loading_screen.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();

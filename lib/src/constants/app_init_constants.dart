@@ -9,7 +9,7 @@ import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
-import '../routing/splash_screen.dart';
+import '../general/splash_screen.dart';
 
 enum Language { english, arabic }
 

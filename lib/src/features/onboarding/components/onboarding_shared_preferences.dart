@@ -4,7 +4,7 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../localization/language/language_functions.dart';
-import '../../../routing/loading_screen.dart';
+import '../../../general/loading_screen.dart';
 import '../../authentication/screens/login_screen.dart';
 
 late SharedPreferences _prefs;

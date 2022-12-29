@@ -68,7 +68,7 @@ class Languages extends Translations {
           'emptyFields': 'لا يمكن أن تكون الخانات فارغة',
           'smallPass': 'لا يمكن أن تكون كلمة المرور أقل من 8 أحرف',
           'passwordNotMatch': 'كلمات المرور غير متطابقة',
-          'lang': 'عربى',
+          'lang': 'العربية',
           'logout': 'تسجيل الخروج',
           'qrCode': 'رمز الاستجابة السريع',
           'qrCodeEnter': 'اضف عن طريق رمز الاستجابة السريع',

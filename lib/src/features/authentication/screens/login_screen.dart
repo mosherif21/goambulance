@@ -36,26 +36,39 @@ class LoginScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () async {
-                      await RegularBottomSheet.showRegularBottomSheet(
-                        LanguageSelect(
-                          onEnglishLanguagePress: () async {
-                            await setLocaleLanguageBack('en');
-                          },
-                          onArabicLanguagePress: () async {
-                            await setLocaleLanguageBack('ar');
-                          },
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'lang'.tr,
-                      style: TextStyle(
-                          fontFamily: 'Bruno Ace',
-                          fontSize: screenHeight * 0.02,
-                          color: Colors.black54),
+                  alignment: AppInit.currentDeviceLanguage == Language.english
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: SizedBox(
+                    width: screenWidth * 0.21,
+                    child: TextButton(
+                      onPressed: () async {
+                        await RegularBottomSheet.showRegularBottomSheet(
+                          LanguageSelect(
+                            onEnglishLanguagePress: () async {
+                              await setLocaleLanguageBack('en');
+                            },
+                            onArabicLanguagePress: () async {
+                              await setLocaleLanguageBack('ar');
+                            },
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.language_rounded,
+                            color: Colors.black54,
+                          ),
+                          Text(
+                            'lang'.tr,
+                            style: TextStyle(
+                                fontFamily: 'Bruno Ace',
+                                fontSize: screenHeight * 0.02,
+                                color: Colors.black54),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/or_divider.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
+import '../../../../localization/language/language_functions.dart';
+import '../../../common_widgets/language_select.dart';
+import '../../../common_widgets/regular_bottom_sheet.dart';
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/sizes.dart';
@@ -16,18 +19,41 @@ class EmailRegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
-    // ConnectivityController connectivityController =
-    //ConnectivityChecker.checkConnection(true);
-    // final String email;
-    // final String password;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(kDefaultPaddingSize),
+            padding: const EdgeInsets.only(
+                left: kDefaultPaddingSize,
+                right: kDefaultPaddingSize,
+                bottom: kDefaultPaddingSize),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () async {
+                      await RegularBottomSheet.showRegularBottomSheet(
+                        LanguageSelect(
+                          onEnglishLanguagePress: () async {
+                            await setLocaleLanguageBack('en');
+                          },
+                          onArabicLanguagePress: () async {
+                            await setLocaleLanguageBack('ar');
+                          },
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'lang'.tr,
+                      style: TextStyle(
+                          fontFamily: 'Bruno Ace',
+                          fontSize: screenHeight * 0.02,
+                          color: Colors.black54),
+                    ),
+                  ),
+                ),
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
                   height: screenHeight * 0.25,

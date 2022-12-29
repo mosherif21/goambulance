@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../src/constants/app_init_constants.dart';
 import '../../src/features/onboarding/components/onboarding_shared_preferences.dart';
+import '../../src/general/loading_screen.dart';
 
 const String languageCode = 'languageCode';
 
@@ -50,4 +51,11 @@ Future<void> setOnBoardingLocale(
   await setShowOnBoarding();
   await Get.updateLocale(_locale(languageCode));
   await setLocale(languageCode);
+}
+
+Future<void> setLocaleLanguageBack(String languageCode) async {
+  showLoadingScreen();
+  await setOnBoardingLocale(languageCode);
+  hideLoadingScreen();
+  Get.back();
 }

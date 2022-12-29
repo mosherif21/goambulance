@@ -24,7 +24,7 @@ class SingleButtonDialogAlert {
             ? CupertinoAlertDialog(
                 title: Text(
                   title,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.black),
                 ),
                 content: content,
                 actions: <Widget>[
@@ -32,7 +32,7 @@ class SingleButtonDialogAlert {
                     onPressed: onPressed(),
                     child: Text(
                       buttonText,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                 ],
@@ -45,7 +45,7 @@ class SingleButtonDialogAlert {
                     onPressed: () => onPressed(),
                     child: Text(
                       buttonText,
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.black),
                     ),
                   ),
                 ],

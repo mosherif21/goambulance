@@ -22,7 +22,7 @@ class NoButtonDialogAlert {
                   style: const TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white),
+                      color: Colors.black),
                 ),
                 content:
                     WillPopScope(onWillPop: () async => false, child: content),
@@ -33,7 +33,7 @@ class NoButtonDialogAlert {
                   style: const TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white),
+                      color: Colors.black),
                 ),
                 content:
                     WillPopScope(onWillPop: () async => false, child: content),

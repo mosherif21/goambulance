@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'exception_errors/signin_email_password_exceptions.dart';

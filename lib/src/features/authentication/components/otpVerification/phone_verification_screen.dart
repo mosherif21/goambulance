@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../../common_widgets/single_entry_screen.dart';
 import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/assets_strings.dart';
-import '../../../../constants/common_functions.dart';
+import '../../../../general/common_functions.dart';
 import '../../controllers/otp_verification_controller.dart';
 import 'otp_verification.dart';
 
@@ -34,8 +34,7 @@ void getToPhoneVerificationScreen() {
                   ),
               transition: AppInit.getPageTransition());
         } else {
-          showSimpleSnackBar(
-              'error'.tr, returnMessage, SnackPosition.BOTTOM, Colors.white);
+          showSimpleSnackBar('error'.tr, returnMessage, SnackPosition.BOTTOM);
         }
       },
     ),

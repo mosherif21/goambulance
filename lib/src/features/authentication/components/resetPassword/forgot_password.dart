@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/regular_bottom_sheet.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
 import 'package:goambulance/src/features/authentication/components/resetPassword/email_reset_screen.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 
 import '../../../../common_widgets/framed_button.dart';
 

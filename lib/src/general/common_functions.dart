@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../features/home_page/screens/home_page_screen.dart';
@@ -15,10 +16,9 @@ void getToHomePage() {
   Get.offAll(() => const HomePageScreen());
 }
 
-void showSimpleSnackBar(
-    String title, String body, SnackPosition position, Color textColor) {
+void showSimpleSnackBar(String title, String body, SnackPosition position) {
   Get.snackbar(title, body,
-      colorText: textColor,
+      colorText: Colors.black,
       snackPosition: position,
       margin: const EdgeInsets.all(20.0));
 }

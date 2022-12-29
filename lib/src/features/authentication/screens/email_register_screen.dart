@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/or_divider.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../constants/assets_strings.dart';

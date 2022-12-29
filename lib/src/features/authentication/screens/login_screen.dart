@@ -9,7 +9,7 @@ import '../../../common_widgets/regular_text_button.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
-import '../../../constants/common_functions.dart';
+import '../../../general/common_functions.dart';
 import '../components/loginScreen/login_form.dart';
 import 'email_register_screen.dart';
 

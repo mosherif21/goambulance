@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/common_widgets/text_form_field.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';

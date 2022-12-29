@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:goambulance/src/constants/common_functions.dart';
 import 'package:goambulance/src/constants/sizes.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 import 'package:lottie/lottie.dart';
 
 class OnBoardingPageTemplate extends StatelessWidget {

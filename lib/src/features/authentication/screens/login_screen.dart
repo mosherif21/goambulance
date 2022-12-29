@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/common_widgets/language_change_button.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:goambulance/src/features/authentication/components/loginScreen/alternate_login_buttons.dart';
 import 'package:goambulance/src/features/authentication/controllers/login_controller.dart';
 
-import '../../../../localization/language/language_functions.dart';
-import '../../../common_widgets/language_select.dart';
 import '../../../common_widgets/or_divider.dart';
-import '../../../common_widgets/regular_bottom_sheet.dart';
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
@@ -35,43 +33,8 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Align(
-                  alignment: AppInit.currentDeviceLanguage == Language.english
-                      ? Alignment.centerRight
-                      : Alignment.centerLeft,
-                  child: SizedBox(
-                    width: screenWidth * 0.21,
-                    child: TextButton(
-                      onPressed: () async {
-                        await RegularBottomSheet.showRegularBottomSheet(
-                          LanguageSelect(
-                            onEnglishLanguagePress: () async {
-                              await setLocaleLanguageBack('en');
-                            },
-                            onArabicLanguagePress: () async {
-                              await setLocaleLanguageBack('ar');
-                            },
-                          ),
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          const Icon(
-                            Icons.language_rounded,
-                            color: Colors.black54,
-                          ),
-                          Text(
-                            'lang'.tr,
-                            style: TextStyle(
-                                fontFamily: 'Bruno Ace',
-                                fontSize: screenHeight * 0.02,
-                                color: Colors.black54),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                ButtonLanguageSelect(
+                    screenWidth: screenWidth, screenHeight: screenHeight),
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
                   height: screenHeight * 0.25,

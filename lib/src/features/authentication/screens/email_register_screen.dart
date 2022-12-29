@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/or_divider.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
-import '../../../../localization/language/language_functions.dart';
-import '../../../common_widgets/language_select.dart';
-import '../../../common_widgets/regular_bottom_sheet.dart';
+import '../../../common_widgets/language_change_button.dart';
 import '../../../common_widgets/regular_text_button.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/sizes.dart';
@@ -30,30 +28,8 @@ class EmailRegisterScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () async {
-                      await RegularBottomSheet.showRegularBottomSheet(
-                        LanguageSelect(
-                          onEnglishLanguagePress: () async {
-                            await setLocaleLanguageBack('en');
-                          },
-                          onArabicLanguagePress: () async {
-                            await setLocaleLanguageBack('ar');
-                          },
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'lang'.tr,
-                      style: TextStyle(
-                          fontFamily: 'Bruno Ace',
-                          fontSize: screenHeight * 0.02,
-                          color: Colors.black54),
-                    ),
-                  ),
-                ),
+                ButtonLanguageSelect(
+                    screenWidth: screenWidth, screenHeight: screenHeight),
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
                   height: screenHeight * 0.25,

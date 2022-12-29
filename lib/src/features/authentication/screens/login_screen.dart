@@ -33,8 +33,7 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ButtonLanguageSelect(
-                    screenWidth: screenWidth, screenHeight: screenHeight),
+                ButtonLanguageSelect(screenHeight: screenHeight),
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
                   height: screenHeight * 0.25,

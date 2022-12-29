@@ -4,6 +4,7 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 
 import '../../../../common_widgets/single_entry_screen.dart';
 import '../../../../constants/app_init_constants.dart';
+import '../../../../constants/common_functions.dart';
 import '../../controllers/reset_password_controller.dart';
 
 void getToResetPasswordScreen() {
@@ -25,13 +26,11 @@ void getToResetPasswordScreen() {
         returnMessage = await controller.resetPassword(email);
         if (returnMessage.compareTo('emailSent') == 0) {
           Get.back();
-          Get.snackbar('success'.tr, 'emailResetSuccess'.tr,
-              snackPosition: SnackPosition.BOTTOM,
-              margin: const EdgeInsets.all(20.0));
+          showSimpleSnackBar('success'.tr, 'emailResetSuccess'.tr,
+              SnackPosition.BOTTOM, Colors.white);
         } else {
-          Get.snackbar('error'.tr, returnMessage,
-              snackPosition: SnackPosition.BOTTOM,
-              margin: const EdgeInsets.all(20.0));
+          showSimpleSnackBar(
+              'error'.tr, returnMessage, SnackPosition.BOTTOM, Colors.white);
         }
       },
     ),

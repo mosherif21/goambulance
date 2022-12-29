@@ -14,3 +14,11 @@ double getScreenWidth(BuildContext context) {
 void getToHomePage() {
   Get.offAll(() => const HomePageScreen());
 }
+
+void showSimpleSnackBar(
+    String title, String body, SnackPosition position, Color textColor) {
+  Get.snackbar(title, body,
+      colorText: textColor,
+      snackPosition: position,
+      margin: const EdgeInsets.all(20.0));
+}

@@ -6,6 +6,7 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/general/loading_screen.dart';
 
+import '../../../../constants/common_functions.dart';
 import '../../../../error_widgets/not_available_error_widget.dart';
 import '../otpVerification/phone_verification_screen.dart';
 
@@ -44,9 +45,8 @@ class AlternateLoginButtons extends StatelessWidget {
                       .signInWithGoogle();
                   hideLoadingScreen();
                   if (returnMessage.compareTo('success') != 0) {
-                    Get.snackbar('error'.tr, returnMessage,
-                        snackPosition: SnackPosition.BOTTOM,
-                        margin: const EdgeInsets.all(20.0));
+                    showSimpleSnackBar('error'.tr, returnMessage,
+                        SnackPosition.BOTTOM, Colors.white);
                   }
                 },
                 height: buttonsHeight,

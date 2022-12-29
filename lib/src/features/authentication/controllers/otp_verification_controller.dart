@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/common_functions.dart';
@@ -47,12 +48,8 @@ class OtpVerificationController extends GetxController {
     if (returnMessage.compareTo('success') == 0) {
       getToHomePage();
     } else {
-      Get.snackbar(
-        'error'.tr,
-        returnMessage,
-        snackPosition: SnackPosition.BOTTOM,
-        margin: const EdgeInsets.all(20.0),
-      );
+      showSimpleSnackBar(
+          'error'.tr, returnMessage, SnackPosition.BOTTOM, Colors.white);
     }
   }
 }

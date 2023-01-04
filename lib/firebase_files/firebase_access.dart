@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/home_page/controllers/maps_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FirebaseDataAccess extends GetxController {
@@ -6,7 +7,11 @@ class FirebaseDataAccess extends GetxController {
 
   final LatLng _driverLocation =
       const LatLng(31.223958388803208, 29.93226379758089);
-  LatLng getDriverLocation() {
-    return _driverLocation;
+
+  void driverLocationChanged() {
+    final mapsController = MapsController.instance;
+    mapsController.getPolyPoints(
+      _driverLocation,
+    );
   }
 }

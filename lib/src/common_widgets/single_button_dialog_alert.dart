@@ -26,7 +26,7 @@ class SingleButtonDialogAlert {
                   title,
                   style: const TextStyle(color: Colors.black),
                 ),
-                content: content,
+                content: WillPopScope(onWillPop: () async => false, child: content),
                 actions: <Widget>[
                   TextButton(
                     onPressed: onPressed(),
@@ -39,7 +39,7 @@ class SingleButtonDialogAlert {
               )
             : AlertDialog(
                 title: Text(title),
-                content: content,
+                content: WillPopScope(onWillPop: () async => false, child: content),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => onPressed(),

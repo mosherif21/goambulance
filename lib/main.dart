@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
           home: AppInit.showOnBoard
               ? const OnBoardingScreen()
               : AuthenticationRepository.instance.isUserLoggedIn
-                  ? HomePageScreen()
+                  ? const HomePageScreen()
                   : const LoginScreen(),
         );
       },

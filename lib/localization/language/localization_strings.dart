@@ -72,6 +72,10 @@ class Languages extends Translations {
           'logout': 'تسجيل الخروج',
           'qrCode': 'رمز الاستجابة السريع',
           'qrCodeEnter': 'اضف عن طريق رمز الاستجابة السريع',
+          'locationService': 'خدمة الموقع',
+          'enableLocationService': 'يرجى تمكين خدمة الموقع لاستخدام التطبيق',
+          'locationPermission': 'إذن الموقع',
+          'enableLocationPermission': 'يرجى قبول إذن الموقع لاستخدام التطبيق',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -143,6 +147,12 @@ class Languages extends Translations {
           'logout': 'Logout',
           'qrCode': 'Qr code',
           'qrCodeEnter': 'Add using qr code',
+          'locationService': 'Location Service',
+          'enableLocationService':
+              'Please enable location service to use the app',
+          'locationPermission': 'Location permission',
+          'enableLocationPermission':
+              'Please accept locations permission to use the app',
         },
       };
 }

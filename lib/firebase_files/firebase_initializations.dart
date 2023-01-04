@@ -17,6 +17,7 @@ Future<void> activateWebAppCheck() async {
 
 Future<void> activateAndroidAppCheck() async {
   await FirebaseAppCheck.instance.activate(
+    // ignore: deprecated_member_use
     androidProvider: AndroidProvider.safetyNet,
   );
 }

@@ -59,6 +59,7 @@ class HomePageScreen extends StatelessWidget {
                           polylines: {
                             Polyline(
                                 polylineId: const PolylineId("route test"),
+                                // ignore: invalid_use_of_protected_member
                                 points: polylineCoordinates.value,
                                 width: 3),
                           },

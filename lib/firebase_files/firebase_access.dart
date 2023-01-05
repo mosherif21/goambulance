@@ -7,6 +7,11 @@ class FirebaseDataAccess extends GetxController {
 
   final LatLng _driverLocation =
       const LatLng(31.223958388803208, 29.93226379758089);
+  @override
+  void onInit() {
+    super.onInit();
+    driverLocationChanged();
+  }
 
   void driverLocationChanged() {
     final mapsController = MapsController.instance;

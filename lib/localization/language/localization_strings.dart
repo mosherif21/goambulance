@@ -76,6 +76,8 @@ class Languages extends Translations {
           'enableLocationService': 'يرجى تمكين خدمة الموقع لاستخدام التطبيق',
           'locationPermission': 'إذن الموقع',
           'enableLocationPermission': 'يرجى قبول إذن الموقع لاستخدام التطبيق',
+          'locationPermissionDeniedForever':
+              'تم رفض إذن المواقع إلى الأبد ، يرجى تمكينه من الإعدادات',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -153,6 +155,8 @@ class Languages extends Translations {
           'locationPermission': 'Location permission',
           'enableLocationPermission':
               'Please accept locations permission to use the app',
+          'locationPermissionDeniedForever':
+              'Locations permission denied forever please enable it from the settings',
         },
       };
 }

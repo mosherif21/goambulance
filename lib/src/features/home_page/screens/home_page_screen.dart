@@ -7,6 +7,7 @@ import 'package:goambulance/src/features/authentication/screens/login_screen.dar
 
 import '../../../constants/app_init_constants.dart';
 import '../../../error_widgets/not_available_error_widget.dart';
+import '../components/map/google_maps.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class HomePageScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    const GoogleMapWidget(),
                     const SizedBox(height: 20.0),
                     RegularElevatedButton(
                         buttonText: 'logout'.tr,

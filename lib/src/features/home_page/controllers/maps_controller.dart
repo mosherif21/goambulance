@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/firebase_files/firebase_access.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../../firebase_files/firebase_access.dart';
 import '../../../common_widgets/single_button_dialog_alert.dart';
 import '../../../constants/no_localization_strings.dart';
 
@@ -35,42 +35,43 @@ class MapsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _getLocationServices();
+    //_getLocationServices();
     _getLocationPermission();
-    serviceStatusStream =
-        Geolocator.getServiceStatusStream().listen((ServiceStatus status) {
-      if (kDebugMode) print(status);
-      if (status == ServiceStatus.disabled) {
-        positionStream.pause();
-        SingleButtonDialogAlert(
-          title: 'locationService'.tr,
-          content: Text(
-            'enableLocationService'.tr,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12.0,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          buttonText: 'oK'.tr,
-          onPressed: () {
-            Get.back();
-            _getLocationServices();
-          },
-          context: Get.context!,
-          dismissible: true,
-        ).showSingleButtonAlertDialog();
-      } else if (status == ServiceStatus.enabled) {
-        positionStream.resume();
-      }
-    });
+    // serviceStatusStream = Geolocator.getServiceStatusStream().listen(
+    //   (ServiceStatus status) {
+    //     if (kDebugMode) print(status);
+    //     if (status == ServiceStatus.disabled) {
+    //       positionStream.pause();
+    //       SingleButtonDialogAlert(
+    //         title: 'locationService'.tr,
+    //         content: Text(
+    //           'enableLocationService'.tr,
+    //           style: const TextStyle(
+    //             color: Colors.black,
+    //             fontSize: 12.0,
+    //             fontWeight: FontWeight.w500,
+    //           ),
+    //         ),
+    //         buttonText: 'oK'.tr,
+    //         onPressed: () {
+    //           Get.back();
+    //           _getLocationServices();
+    //         },
+    //         context: Get.context!,
+    //         dismissible: true,
+    //       ).showSingleButtonAlertDialog();
+    //     } else if (status == ServiceStatus.enabled) {
+    //       positionStream.resume();
+    //     }
+    //   },
+    // );
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-    serviceStatusStream.cancel();
-  }
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  //   serviceStatusStream.cancel();
+  // }
 
   void _getLocationServices() async {
     // Test if location services are enabled.
@@ -88,8 +89,9 @@ class MapsController extends GetxController {
           ),
         ),
         buttonText: 'oK'.tr,
-        onPressed: () {
+        onPressed: () async {
           Get.back();
+          await Geolocator.openLocationSettings();
           _getLocationServices();
         },
         context: Get.context!,
@@ -144,8 +146,10 @@ class MapsController extends GetxController {
           ),
         ),
         buttonText: 'oK'.tr,
-        onPressed: () {
+        onPressed: () async {
           Get.back();
+          await Geolocator.openLocationSettings();
+          _getLocationPermission();
         },
         context: Get.context!,
         dismissible: true,

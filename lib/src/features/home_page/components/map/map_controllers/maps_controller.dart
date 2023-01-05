@@ -13,6 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../firebase_files/firebase_access.dart';
 import '../../../../../common_widgets/single_button_dialog_alert.dart';
+import '../../../../../constants/no_localization_strings.dart';
 
 class MapsController extends GetxController {
   static MapsController get instance => Get.find();
@@ -240,24 +241,24 @@ class MapsController extends GetxController {
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
     );
-    // final List<LatLng> polylineCoordinatesLocal = [];
-    // await polylinePoints
-    //     .getRouteBetweenCoordinates(
-    //   googleMapsAPIKey,
-    //   PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
-    //   PointLatLng(driverLocation.latitude, driverLocation.longitude),
-    // )
-    //     .then(
-    //   (polylineResult) {
-    //     if (polylineResult.points.isNotEmpty) {
-    //       for (var point in polylineResult.points) {
-    //         polylineCoordinatesLocal
-    //             .add(LatLng(point.latitude, point.longitude));
-    //       }
-    //       if (kDebugMode) print('poly line points calculated');
-    //       polylineCoordinates.addAll(polylineCoordinatesLocal);
-    //     }
-    //   },
-    // );
+    final List<LatLng> polylineCoordinatesLocal = [];
+    await polylinePoints
+        .getRouteBetweenCoordinates(
+      googleMapsAPIKey,
+      PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
+      PointLatLng(driverLocation.latitude, driverLocation.longitude),
+    )
+        .then(
+      (polylineResult) {
+        if (polylineResult.points.isNotEmpty) {
+          for (var point in polylineResult.points) {
+            polylineCoordinatesLocal
+                .add(LatLng(point.latitude, point.longitude));
+          }
+          if (kDebugMode) print('poly line points calculated');
+          polylineCoordinates.addAll(polylineCoordinatesLocal);
+        }
+      },
+    );
   }
 }

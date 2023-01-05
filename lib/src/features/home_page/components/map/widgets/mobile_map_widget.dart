@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../general/common_functions.dart';
-import '../../controllers/maps_controller.dart';
+import '../../../../../general/common_functions.dart';
+import '../map_controllers/maps_controller.dart';
 
 class GoogleMapWidget extends StatelessWidget {
   const GoogleMapWidget({Key? key}) : super(key: key);

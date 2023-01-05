@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../firebase_files/firebase_access.dart';
-import '../../../common_widgets/single_button_dialog_alert.dart';
-import '../../../constants/no_localization_strings.dart';
+import '../../../../../../firebase_files/firebase_access.dart';
+import '../../../../../common_widgets/single_button_dialog_alert.dart';
 
 class MapsController extends GetxController {
   static MapsController get instance => Get.find();
@@ -43,48 +43,50 @@ class MapsController extends GetxController {
     await loadAmbulanceMarkerIcon();
     _getLocationServices();
     _getLocationPermission();
-    serviceStatusStream = Geolocator.getServiceStatusStream().listen(
-      (ServiceStatus status) {
-        if (kDebugMode) print(status);
-        if (status == ServiceStatus.disabled) {
-          serviceEnabled.value = false;
-          servicePermissionEnabled.value = false;
-          positionStream.pause();
-          if (kDebugMode) print('position listener paused');
-          locationServiceDialog = true;
-          SingleButtonDialogAlert(
-            title: 'locationService'.tr,
-            content: Text(
-              'enableLocationService'.tr,
-              style: const TextStyle(
-                color: Colors.black,
-                fontSize: 12.0,
-                fontWeight: FontWeight.w500,
+    if (!AppInit.isWeb) {
+      serviceStatusStream = Geolocator.getServiceStatusStream().listen(
+        (ServiceStatus status) {
+          if (kDebugMode) print(status);
+          if (status == ServiceStatus.disabled) {
+            serviceEnabled.value = false;
+            servicePermissionEnabled.value = false;
+            positionStream.pause();
+            if (kDebugMode) print('position listener paused');
+            locationServiceDialog = true;
+            SingleButtonDialogAlert(
+              title: 'locationService'.tr,
+              content: Text(
+                'enableLocationService'.tr,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-            buttonText: 'oK'.tr,
-            onPressed: () {
-              Get.back();
-              locationServiceDialog = false;
-            },
-            context: Get.context!,
-            dismissible: true,
-          ).showSingleButtonAlertDialog();
-        } else if (status == ServiceStatus.enabled) {
-          serviceEnabled.value = true;
-          servicePermissionEnabled.value = true;
-          positionStream.resume();
-          if (kDebugMode) print('position listener resumed');
-          if (locationServiceDialog) Get.back();
-        }
-      },
-    );
+              buttonText: 'oK'.tr,
+              onPressed: () {
+                Get.back();
+                locationServiceDialog = false;
+              },
+              context: Get.context!,
+              dismissible: true,
+            ).showSingleButtonAlertDialog();
+          } else if (status == ServiceStatus.enabled) {
+            serviceEnabled.value = true;
+            servicePermissionEnabled.value = true;
+            positionStream.resume();
+            if (kDebugMode) print('position listener resumed');
+            if (locationServiceDialog) Get.back();
+          }
+        },
+      );
+    }
   }
 
   @override
   void onClose() {
     super.onClose();
-    serviceStatusStream.cancel();
+    if (!AppInit.isWeb) serviceStatusStream.cancel();
   }
 
   Future<void> loadAmbulanceMarkerIcon() async {
@@ -184,7 +186,9 @@ class MapsController extends GetxController {
   }
 
   Future<void> getCurrentLocation() async {
-    var accuracy = await Geolocator.getLocationAccuracy();
+    var accuracy = AppInit.isWeb
+        ? LocationAccuracy.high
+        : await Geolocator.getLocationAccuracy();
     if (accuracy == LocationAccuracyStatus.reduced) {
       locationSettings = const LocationSettings(
         accuracy: LocationAccuracy.reduced,
@@ -236,24 +240,24 @@ class MapsController extends GetxController {
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
     );
-    final List<LatLng> polylineCoordinatesLocal = [];
-    await polylinePoints
-        .getRouteBetweenCoordinates(
-      googleMapsAPIKey,
-      PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
-      PointLatLng(driverLocation.latitude, driverLocation.longitude),
-    )
-        .then(
-      (polylineResult) {
-        if (polylineResult.points.isNotEmpty) {
-          for (var point in polylineResult.points) {
-            polylineCoordinatesLocal
-                .add(LatLng(point.latitude, point.longitude));
-          }
-          if (kDebugMode) print('poly line points calculated');
-          polylineCoordinates.addAll(polylineCoordinatesLocal);
-        }
-      },
-    );
+    // final List<LatLng> polylineCoordinatesLocal = [];
+    // await polylinePoints
+    //     .getRouteBetweenCoordinates(
+    //   googleMapsAPIKey,
+    //   PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
+    //   PointLatLng(driverLocation.latitude, driverLocation.longitude),
+    // )
+    //     .then(
+    //   (polylineResult) {
+    //     if (polylineResult.points.isNotEmpty) {
+    //       for (var point in polylineResult.points) {
+    //         polylineCoordinatesLocal
+    //             .add(LatLng(point.latitude, point.longitude));
+    //       }
+    //       if (kDebugMode) print('poly line points calculated');
+    //       polylineCoordinates.addAll(polylineCoordinatesLocal);
+    //     }
+    //   },
+    // );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/home_page/controllers/maps_controller.dart';
+import 'package:goambulance/src/features/home_page/components/map/map_controllers/maps_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FirebaseDataAccess extends GetxController {

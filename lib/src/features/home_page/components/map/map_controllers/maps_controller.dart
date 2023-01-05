@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:ui';
+import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -225,22 +225,23 @@ class MapsController extends GetxController {
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
         targetWidth: width);
-    FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ImageByteFormat.png))!
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
         .buffer
         .asUint8List();
   }
 
   Future<void> getPolyPoints(LatLng driverLocation) async {
-    PolylinePoints polylinePoints = PolylinePoints();
     driverMarker = Marker(
       markerId: const MarkerId('driver location'),
       icon: ambulanceDriverIcon,
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
     );
+
+    PolylinePoints polylinePoints = PolylinePoints();
     final List<LatLng> polylineCoordinatesLocal = [];
     await polylinePoints
         .getRouteBetweenCoordinates(

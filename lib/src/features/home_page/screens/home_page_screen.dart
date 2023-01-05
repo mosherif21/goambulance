@@ -13,7 +13,8 @@ class HomePageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    final mapsController = Get.put(MapsController());
+    //final mapsController =
+    Get.put(MapsController());
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -21,15 +22,9 @@ class HomePageScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Obx(
-                () => mapsController.servicePermissionEnabled.value
-                    ? SizedBox(
-                        height: screenHeight * 0.8,
-                        child: MapWidget(),
-                      )
-                    : SizedBox(
-                        height: screenHeight * 0.8,
-                        child: const Center(child: Text('location disabled'))),
+              SizedBox(
+                height: screenHeight * 0.8,
+                child: MapWidget(),
               ),
               const SizedBox(height: 20.0),
               RegularElevatedButton(

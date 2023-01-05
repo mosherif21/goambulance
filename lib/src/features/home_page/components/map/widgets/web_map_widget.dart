@@ -4,13 +4,16 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_maps/google_maps.dart';
 
+import '../../../../../general/common_functions.dart';
+import '../map_controllers/maps_controller.dart';
 import 'abstract_map_widget.dart';
 
 Widget getMap() {
-  String htmlId = "7";
+  String htmlId = "id_map_web";
 
   // ignore: undefined_prefixed_name
   ui.platformViewRegistry.registerViewFactory(htmlId, (int viewId) {
@@ -44,13 +47,24 @@ class WebMap extends StatelessWidget implements MapWidget {
 
   @override
   Widget build(BuildContext context) {
-    return getMap();
+    final double screenHeight = getScreenHeight(context);
+    final mapsController = MapsController.instance;
+    return Obx(
+      () => mapsController.servicePermissionEnabled.value
+          ? SizedBox(
+              height: screenHeight * 0.8,
+              child: getMap(),
+            )
+          : SizedBox(
+              height: screenHeight * 0.8,
+              child: const Center(child: Text('location disabled'))),
+    );
   }
 }
 
 MapWidget getMapWidget() {
   if (kDebugMode) {
-    print("Intra in get map web ");
+    print("get map web ");
   }
   return const WebMap();
 }

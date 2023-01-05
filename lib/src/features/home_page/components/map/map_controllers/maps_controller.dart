@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/text_dismissible_dialogue.dart';
@@ -11,6 +12,7 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../firebase_files/firebase_access.dart';
+import '../../../../../constants/no_localization_strings.dart';
 
 enum MapStatus {
   loadingMapData,
@@ -25,19 +27,16 @@ class MapsController extends GetxController {
 
   //final polylineCoordinates = <LatLng>[].obs;
 
-  late Rx<Polyline> routPolyLine;
+  late Rx<Polyline> routePolyLine;
   late Rx<Marker> driverMarker;
+  late BitmapDescriptor ambulanceDriverIcon;
 
   final RxBool serviceEnabled = false.obs;
   final RxBool servicePermissionEnabled = false.obs;
   bool locationServiceDialog = false;
   bool locationPermissionDialog = false;
-  MapStatus mapStatus = MapStatus.loadingMapData;
+  MapStatus mapStatus = MapStatus.noLocationService;
   final LocationAccuracy accuracy = LocationAccuracy.high;
-
-  late BitmapDescriptor ambulanceDriverIcon;
-  // late Marker currentLocationMarker;
-  // late BitmapDescriptor currentLocationIcon;
 
   late StreamSubscription<ServiceStatus> serviceStatusStream;
   late StreamSubscription<Position> positionStream;
@@ -56,7 +55,7 @@ class MapsController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await loadMarkersIcon();
+    await _loadMarkersIcon();
     _getLocationServices();
     _getLocationPermission();
     if (!AppInit.isWeb) {
@@ -97,7 +96,7 @@ class MapsController extends GetxController {
             positionStream.resume();
             servicePermissionEnabled.value = true;
           } else {
-            getCurrentLocation();
+            _getCurrentLocation();
           }
           if (kDebugMode) print('position listener resumed');
           if (locationServiceDialog) Get.back();
@@ -147,12 +146,12 @@ class MapsController extends GetxController {
         if (kDebugMode) print('location permission denied');
       } else {
         if (kDebugMode) print('location permission enabled');
-        getCurrentLocation();
+        _getCurrentLocation();
       }
     } else if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
       if (kDebugMode) print('location permission first enabled');
-      getCurrentLocation();
+      _getCurrentLocation();
     } else if (permission == LocationPermission.deniedForever) {
       if (kDebugMode) print('location permission denied forever');
       locationPermissionDialog = true;
@@ -170,7 +169,8 @@ class MapsController extends GetxController {
     }
   }
 
-  Future<void> getCurrentLocation() async {
+  void _getCurrentLocation() async {
+    mapStatus = MapStatus.loadingMapData;
     await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
       (locationPosition) {
         _currentLocation = locationPosition;
@@ -202,40 +202,36 @@ class MapsController extends GetxController {
       anchor: const Offset(0.5, 0.5),
     ).obs;
     try {
-      routPolyLine = Polyline(
-        polylineId: const PolylineId('router_driver'),
-        color: const Color(0xFF28AADC),
-        points: List.empty(growable: true),
-        width: 5,
-        startCap: Cap.roundCap,
-        endCap: Cap.roundCap,
-        jointType: JointType.round,
-        geodesic: true,
-      ).obs;
-      routPolyLine.value.points
-          .add(LatLng(_currentLocation!.latitude, _currentLocation!.longitude));
-      routPolyLine.value.points
-          .add(LatLng(driverLocation.latitude, driverLocation.longitude));
-      // final List<LatLng> polylineCoordinatesLocal = [];
-      // await polylinePoints
-      //     .getRouteBetweenCoordinates(
-      //   googleMapsAPIKey,
-      //   PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
-      //   PointLatLng(driverLocation.latitude, driverLocation.longitude),
-      //   travelMode: TravelMode.driving,
-      // )
-      //     .then(
-      //   (polylineResult) {
-      //     if (polylineResult.points.isNotEmpty) {
-      //       for (var point in polylineResult.points) {
-      //         polylineCoordinatesLocal
-      //             .add(LatLng(point.latitude, point.longitude));
-      //       }
-      //       if (kDebugMode) print('poly line points calculated');
-      //       polylineCoordinates.addAll(polylineCoordinatesLocal);
-      //     }
-      //   },
-      // );
+      final List<LatLng> polylineCoordinatesLocal = [];
+      await PolylinePoints()
+          .getRouteBetweenCoordinates(
+        googleMapsAPIKey,
+        PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
+        PointLatLng(driverLocation.latitude, driverLocation.longitude),
+        travelMode: TravelMode.driving,
+      )
+          .then(
+        (polylineResult) {
+          if (polylineResult.points.isNotEmpty) {
+            for (var point in polylineResult.points) {
+              polylineCoordinatesLocal
+                  .add(LatLng(point.latitude, point.longitude));
+            }
+            if (kDebugMode) print('poly line points calculated');
+            routePolyLine = Polyline(
+              polylineId: const PolylineId('router_driver'),
+              color: const Color(0xFF28AADC),
+              points: List.empty(growable: true),
+              width: 5,
+              startCap: Cap.roundCap,
+              endCap: Cap.roundCap,
+              jointType: JointType.round,
+              geodesic: true,
+            ).obs;
+            routePolyLine.value.points.addAll(polylineCoordinatesLocal);
+          }
+        },
+      );
     } catch (e) {
       if (kDebugMode) {
         e.printError();
@@ -243,20 +239,16 @@ class MapsController extends GetxController {
     }
   }
 
-  Future<void> loadMarkersIcon() async {
-    await getBytesFromAsset(
+  Future<void> _loadMarkersIcon() async {
+    await _getBytesFromAsset(
             AppInit.isWeb ? kAmbulanceMarkerImg : kAmbulanceMarkerImgUnscaled,
             130)
         .then((iconBytes) {
       ambulanceDriverIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    // await getBytesFromAsset(kAmbulanceMarkerImg, AppInit.isWeb ? 50 : 150)
-    //     .then((iconBytes) {
-    //   ambulanceDriverIcon = BitmapDescriptor.fromBytes(iconBytes);
-    // });
   }
 
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  Future<Uint8List> _getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
         targetWidth: width);

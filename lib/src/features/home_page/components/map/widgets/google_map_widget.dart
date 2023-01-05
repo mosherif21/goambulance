@@ -26,7 +26,7 @@ class GoogleMapWidget extends StatelessWidget {
               initialCameraPosition: CameraPosition(
                   target: mapsController.currentLocationGetter(), zoom: 14.5),
               polylines: {
-                mapsController.routPolyLine.value,
+                mapsController.routePolyLine.value,
               },
               markers: {
                 mapsController.driverMarker.value,

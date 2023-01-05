@@ -24,7 +24,7 @@ class TextSingleButtonDialogue {
           ),
         ),
         buttonText: buttonText,
-        onPressed: () => onPressed,
+        onPressed: () => onPressed(),
         context: Get.context!,
         dismissible: false,
       ).showSingleButtonAlertDialog();

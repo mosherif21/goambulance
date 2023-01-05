@@ -25,7 +25,7 @@ class SingleButtonDialogAlert {
                 title: Text(
                   title,
                   style: const TextStyle(
-                      fontSize: 25.0,
+                      fontSize: 20.0,
                       fontWeight: FontWeight.w600,
                       color: Colors.black),
                 ),
@@ -42,7 +42,13 @@ class SingleButtonDialogAlert {
                 ],
               )
             : AlertDialog(
-                title: Text(title),
+                title: Text(
+                  title,
+                  style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
+                ),
                 content:
                     WillPopScope(onWillPop: () async => false, child: content),
                 actions: <Widget>[

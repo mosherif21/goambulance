@@ -30,7 +30,7 @@ class MapsController extends GetxController {
   bool locationServiceDialog = false;
   bool locationPermissionDialog = false;
   MapStatus mapStatus = MapStatus.loadingMapData;
-
+  final LocationAccuracy accuracy = LocationAccuracy.high;
   late Marker driverMarker;
   late BitmapDescriptor ambulanceDriverIcon;
   // late Marker currentLocationMarker;
@@ -42,7 +42,7 @@ class MapsController extends GetxController {
     accuracy: LocationAccuracy.high,
     distanceFilter: distanceFilter,
   );
-  late Position? _currentLocation;
+  Position? _currentLocation;
 
   //final Completer<GoogleMapController> _googleMapController = Completer();
 
@@ -57,35 +57,7 @@ class MapsController extends GetxController {
     _getLocationServices();
     _getLocationPermission();
     if (!AppInit.isWeb) {
-      serviceStatusStream = Geolocator.getServiceStatusStream().listen(
-        (ServiceStatus status) {
-          if (kDebugMode) print(status);
-          if (status == ServiceStatus.disabled) {
-            serviceEnabled.value = false;
-            servicePermissionEnabled.value = false;
-            positionStream.pause();
-            mapStatus = MapStatus.noLocationService;
-            if (kDebugMode) print('position listener paused');
-            locationServiceDialog = true;
-            TextSingleButtonDialogue(
-              title: 'locationService'.tr,
-              body: 'enableLocationService'.tr,
-              onPressed: () {
-                Get.back();
-                locationServiceDialog = false;
-              },
-              buttonText: 'oK'.tr,
-            ).showTextSingleButtonDialogue();
-          } else if (status == ServiceStatus.enabled) {
-            mapStatus = MapStatus.loadingMapData;
-            serviceEnabled.value = true;
-            servicePermissionEnabled.value = true;
-            positionStream.resume();
-            if (kDebugMode) print('position listener resumed');
-            if (locationServiceDialog) Get.back();
-          }
-        },
-      );
+      _setupLocationServiceListener();
     }
   }
 
@@ -93,6 +65,42 @@ class MapsController extends GetxController {
   void onClose() {
     super.onClose();
     if (!AppInit.isWeb) serviceStatusStream.cancel();
+  }
+
+  void _setupLocationServiceListener() {
+    serviceStatusStream = Geolocator.getServiceStatusStream().listen(
+      (ServiceStatus status) {
+        if (kDebugMode) print(status);
+        if (status == ServiceStatus.disabled) {
+          serviceEnabled.value = false;
+          servicePermissionEnabled.value = false;
+          if (_currentLocation != null) positionStream.pause();
+          mapStatus = MapStatus.noLocationService;
+          if (kDebugMode) print('position listener paused');
+          locationServiceDialog = true;
+          TextSingleButtonDialogue(
+            title: 'locationService'.tr,
+            body: 'enableLocationService'.tr,
+            onPressed: () {
+              Get.back();
+              locationServiceDialog = false;
+            },
+            buttonText: 'oK'.tr,
+          ).showTextSingleButtonDialogue();
+        } else if (status == ServiceStatus.enabled) {
+          mapStatus = MapStatus.loadingMapData;
+          serviceEnabled.value = true;
+          if (_currentLocation != null) {
+            positionStream.resume();
+            servicePermissionEnabled.value = true;
+          } else {
+            getCurrentLocation();
+          }
+          if (kDebugMode) print('position listener resumed');
+          if (locationServiceDialog) Get.back();
+        }
+      },
+    );
   }
 
   void _getLocationServices() async {
@@ -160,8 +168,6 @@ class MapsController extends GetxController {
   }
 
   Future<void> getCurrentLocation() async {
-    LocationAccuracy accuracy = LocationAccuracy.high;
-
     await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
       (locationPosition) {
         _currentLocation = locationPosition;

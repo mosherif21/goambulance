@@ -6,14 +6,13 @@ import 'package:goambulance/src/features/authentication/screens/login_screen.dar
 import 'package:goambulance/src/general/common_functions.dart';
 
 import '../components/map/map_controllers/maps_controller.dart';
-import '../components/map/widgets/abstract_map_widget.dart';
+import '../components/map/widgets/google_map_widget.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    //final mapsController =
     Get.put(MapsController());
     return Scaffold(
       body: SafeArea(
@@ -24,7 +23,7 @@ class HomePageScreen extends StatelessWidget {
             children: [
               SizedBox(
                 height: screenHeight * 0.8,
-                child: MapWidget(),
+                child: const GoogleMapWidget(),
               ),
               const SizedBox(height: 20.0),
               RegularElevatedButton(

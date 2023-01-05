@@ -29,7 +29,10 @@ class MapsController extends GetxController {
 
   late StreamSubscription<ServiceStatus> serviceStatusStream;
   late StreamSubscription<Position> positionStream;
-  late final LocationSettings locationSettings;
+  final LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: distanceFilter,
+  );
   late Position? _currentLocation;
 
   //final Completer<GoogleMapController> _googleMapController = Completer();
@@ -187,22 +190,9 @@ class MapsController extends GetxController {
   }
 
   Future<void> getCurrentLocation() async {
-    var accuracy = AppInit.isWeb
-        ? LocationAccuracy.high
-        : await Geolocator.getLocationAccuracy();
-    if (accuracy == LocationAccuracyStatus.reduced) {
-      locationSettings = const LocationSettings(
-        accuracy: LocationAccuracy.reduced,
-        distanceFilter: distanceFilter,
-      );
-    } else {
-      locationSettings = const LocationSettings(
-        accuracy: LocationAccuracy.high,
-        distanceFilter: distanceFilter,
-      );
-    }
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then(
+    LocationAccuracy accuracy = LocationAccuracy.high;
+
+    await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
       (locationPosition) {
         _currentLocation = locationPosition;
         servicePermissionEnabled.value = true;
@@ -240,26 +230,32 @@ class MapsController extends GetxController {
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
     );
-
-    PolylinePoints polylinePoints = PolylinePoints();
-    final List<LatLng> polylineCoordinatesLocal = [];
-    await polylinePoints
-        .getRouteBetweenCoordinates(
-      googleMapsAPIKey,
-      PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
-      PointLatLng(driverLocation.latitude, driverLocation.longitude),
-    )
-        .then(
-      (polylineResult) {
-        if (polylineResult.points.isNotEmpty) {
-          for (var point in polylineResult.points) {
-            polylineCoordinatesLocal
-                .add(LatLng(point.latitude, point.longitude));
+    try {
+      PolylinePoints polylinePoints = PolylinePoints();
+      final List<LatLng> polylineCoordinatesLocal = [];
+      await polylinePoints
+          .getRouteBetweenCoordinates(
+        googleMapsAPIKey,
+        PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
+        PointLatLng(driverLocation.latitude, driverLocation.longitude),
+        travelMode: TravelMode.driving,
+      )
+          .then(
+        (polylineResult) {
+          if (polylineResult.points.isNotEmpty) {
+            for (var point in polylineResult.points) {
+              polylineCoordinatesLocal
+                  .add(LatLng(point.latitude, point.longitude));
+            }
+            if (kDebugMode) print('poly line points calculated');
+            polylineCoordinates.addAll(polylineCoordinatesLocal);
           }
-          if (kDebugMode) print('poly line points calculated');
-          polylineCoordinates.addAll(polylineCoordinatesLocal);
-        }
-      },
-    );
+        },
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        e.printError();
+      }
+    }
   }
 }

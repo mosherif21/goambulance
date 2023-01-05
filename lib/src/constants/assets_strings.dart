@@ -19,4 +19,4 @@ const String kPhoneVerificationAnim = "assets/lottie_animations/otp_code2.json";
 const String kPhoneOTPAnim = "assets/lottie_animations/otp_code3.json";
 const String kEmailOTPAnim = "assets/lottie_animations/mail_verification.json";
 const String kNoInternetAnim = "assets/lottie_animations/network_error.json";
-const String kAmbulanceMarkerImg = "assets/images/ambulance_marker_test.png";
+const String kAmbulanceMarkerImg = "assets/images/ambulance_marker.png";

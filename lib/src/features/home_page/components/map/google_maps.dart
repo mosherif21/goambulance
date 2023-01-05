@@ -13,7 +13,7 @@ class GoogleMapWidget extends StatelessWidget {
     final double screenHeight = getScreenHeight(context);
     final mapsController = Get.put(MapsController());
     return Obx(
-      () => mapsController.serviceEnabled.value
+      () => mapsController.servicePermissionEnabled.value
           ? SizedBox(
               height: screenHeight * 0.8,
               child: GoogleMap(

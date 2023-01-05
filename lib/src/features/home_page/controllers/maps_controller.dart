@@ -15,6 +15,7 @@ class MapsController extends GetxController {
   final Location _location = Location();
   final polylineCoordinates = <LatLng>[].obs;
   final RxBool serviceEnabled = false.obs;
+  final RxBool servicePermissionEnabled = false.obs;
   late Marker driverMarker;
   late LocationData? _currentLocation;
   late PermissionStatus _locationPermission;
@@ -61,6 +62,7 @@ class MapsController extends GetxController {
       if (_locationPermission == PermissionStatus.denied) {
         _locationPermission = await _location.requestPermission();
         if (_locationPermission != PermissionStatus.granted) {
+          servicePermissionEnabled.value = false;
           SingleButtonDialogAlert(
             title: 'locationPermission'.tr,
             content: Text(
@@ -80,6 +82,7 @@ class MapsController extends GetxController {
             dismissible: true,
           ).showSingleButtonAlertDialog();
         } else {
+          servicePermissionEnabled.value = true;
           getCurrentLocation();
         }
       }

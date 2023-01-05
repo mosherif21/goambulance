@@ -25,9 +25,8 @@ class MapsController extends GetxController {
   static MapsController get instance => Get.find();
   static const int distanceFilter = 40;
 
-  //final polylineCoordinates = <LatLng>[].obs;
+  final polylineCoordinates = <LatLng>[].obs;
 
-  late Rx<Polyline> routePolyLine;
   late Rx<Marker> driverMarker;
   late BitmapDescriptor ambulanceDriverIcon;
 
@@ -201,41 +200,29 @@ class MapsController extends GetxController {
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
     ).obs;
-    try {
-      final List<LatLng> polylineCoordinatesLocal = [];
-      await PolylinePoints()
-          .getRouteBetweenCoordinates(
-        googleMapsAPIKey,
+    final List<LatLng> polylineCoordinatesLocal = [];
+    if (!AppInit.isWeb) {
+      final polylineResult = await PolylinePoints().getRouteBetweenCoordinates(
+        AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
         PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
         PointLatLng(driverLocation.latitude, driverLocation.longitude),
         travelMode: TravelMode.driving,
-      )
-          .then(
-        (polylineResult) {
-          if (polylineResult.points.isNotEmpty) {
-            for (var point in polylineResult.points) {
-              polylineCoordinatesLocal
-                  .add(LatLng(point.latitude, point.longitude));
-            }
-            if (kDebugMode) print('poly line points calculated');
-            routePolyLine = Polyline(
-              polylineId: const PolylineId('router_driver'),
-              color: const Color(0xFF28AADC),
-              points: List.empty(growable: true),
-              width: 5,
-              startCap: Cap.roundCap,
-              endCap: Cap.roundCap,
-              jointType: JointType.round,
-              geodesic: true,
-            ).obs;
-            routePolyLine.value.points.addAll(polylineCoordinatesLocal);
-          }
-        },
       );
-    } catch (e) {
-      if (kDebugMode) {
-        e.printError();
+      if (polylineResult.points.isNotEmpty) {
+        if (polylineResult.points.isNotEmpty) {
+          for (var point in polylineResult.points) {
+            polylineCoordinatesLocal
+                .add(LatLng(point.latitude, point.longitude));
+            polylineCoordinates.assignAll(polylineCoordinatesLocal);
+          }
+        }
       }
+    } else {
+      polylineCoordinatesLocal
+          .add(LatLng(_currentLocation!.latitude, _currentLocation!.longitude));
+      polylineCoordinatesLocal
+          .add(LatLng(driverLocation.latitude, driverLocation.longitude));
+      polylineCoordinates.assignAll(polylineCoordinatesLocal);
     }
   }
 

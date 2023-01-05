@@ -26,7 +26,17 @@ class GoogleMapWidget extends StatelessWidget {
               initialCameraPosition: CameraPosition(
                   target: mapsController.currentLocationGetter(), zoom: 14.5),
               polylines: {
-                mapsController.routePolyLine.value,
+                Polyline(
+                  polylineId: const PolylineId('router_driver'),
+                  color: const Color(0xFF28AADC),
+                  // ignore: invalid_use_of_protected_member
+                  points: mapsController.polylineCoordinates.value,
+                  width: 4,
+                  startCap: Cap.roundCap,
+                  endCap: Cap.roundCap,
+                  jointType: JointType.round,
+                  geodesic: true,
+                ),
               },
               markers: {
                 mapsController.driverMarker.value,

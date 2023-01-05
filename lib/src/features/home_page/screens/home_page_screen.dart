@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
-import 'package:goambulance/src/constants/sizes.dart';
 import 'package:goambulance/src/features/authentication/screens/login_screen.dart';
 
 import '../../../constants/app_init_constants.dart';
@@ -18,7 +17,7 @@ class HomePageScreen extends StatelessWidget {
         : Scaffold(
             body: SafeArea(
               child: Container(
-                padding: const EdgeInsets.all(kDefaultPaddingSize),
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../firebase_files/firebase_access.dart';
@@ -13,19 +16,19 @@ import '../../../constants/no_localization_strings.dart';
 
 class MapsController extends GetxController {
   static MapsController get instance => Get.find();
-
+  static const int distanceFilter = 40;
   final polylineCoordinates = <LatLng>[].obs;
   final RxBool serviceEnabled = false.obs;
   final RxBool servicePermissionEnabled = false.obs;
   bool locationServiceDialog = false;
   bool locationPermissionDialog = false;
+
   late Marker driverMarker;
+  BitmapDescriptor ambulanceDriverIcon = BitmapDescriptor.defaultMarker;
+
   late StreamSubscription<ServiceStatus> serviceStatusStream;
   late StreamSubscription<Position> positionStream;
-  final LocationSettings locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.high,
-    distanceFilter: 40,
-  );
+  late final LocationSettings locationSettings;
   late Position? _currentLocation;
 
   //final Completer<GoogleMapController> _googleMapController = Completer();
@@ -35,8 +38,9 @@ class MapsController extends GetxController {
   }
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    await loadAmbulanceMarkerIcon();
     _getLocationServices();
     _getLocationPermission();
     serviceStatusStream = Geolocator.getServiceStatusStream().listen(
@@ -81,6 +85,12 @@ class MapsController extends GetxController {
   void onClose() {
     super.onClose();
     serviceStatusStream.cancel();
+  }
+
+  Future<void> loadAmbulanceMarkerIcon() async {
+    await getBytesFromAsset(kAmbulanceMarkerImg, 150).then((iconBytes) {
+      ambulanceDriverIcon = BitmapDescriptor.fromBytes(iconBytes);
+    });
   }
 
   void _getLocationServices() async {
@@ -174,6 +184,18 @@ class MapsController extends GetxController {
   }
 
   Future<void> getCurrentLocation() async {
+    var accuracy = await Geolocator.getLocationAccuracy();
+    if (accuracy == LocationAccuracyStatus.reduced) {
+      locationSettings = const LocationSettings(
+        accuracy: LocationAccuracy.reduced,
+        distanceFilter: distanceFilter,
+      );
+    } else {
+      locationSettings = const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: distanceFilter,
+      );
+    }
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then(
       (locationPosition) {
@@ -196,8 +218,24 @@ class MapsController extends GetxController {
     );
   }
 
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
+
   Future<void> getPolyPoints(LatLng driverLocation) async {
     PolylinePoints polylinePoints = PolylinePoints();
+    driverMarker = Marker(
+      markerId: const MarkerId('driver location'),
+      icon: ambulanceDriverIcon,
+      position: driverLocation,
+      anchor: const Offset(0.5, 0.5),
+    );
     final List<LatLng> polylineCoordinatesLocal = [];
     await polylinePoints
         .getRouteBetweenCoordinates(

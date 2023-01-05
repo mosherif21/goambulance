@@ -17,6 +17,8 @@ class MapsController extends GetxController {
   final polylineCoordinates = <LatLng>[].obs;
   final RxBool serviceEnabled = false.obs;
   final RxBool servicePermissionEnabled = false.obs;
+  bool locationServiceDialog = false;
+  bool locationPermissionDialog = false;
   late Marker driverMarker;
   late StreamSubscription<ServiceStatus> serviceStatusStream;
   late StreamSubscription<Position> positionStream;
@@ -35,49 +37,58 @@ class MapsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    //_getLocationServices();
+    _getLocationServices();
     _getLocationPermission();
-    // serviceStatusStream = Geolocator.getServiceStatusStream().listen(
-    //   (ServiceStatus status) {
-    //     if (kDebugMode) print(status);
-    //     if (status == ServiceStatus.disabled) {
-    //       positionStream.pause();
-    //       SingleButtonDialogAlert(
-    //         title: 'locationService'.tr,
-    //         content: Text(
-    //           'enableLocationService'.tr,
-    //           style: const TextStyle(
-    //             color: Colors.black,
-    //             fontSize: 12.0,
-    //             fontWeight: FontWeight.w500,
-    //           ),
-    //         ),
-    //         buttonText: 'oK'.tr,
-    //         onPressed: () {
-    //           Get.back();
-    //           _getLocationServices();
-    //         },
-    //         context: Get.context!,
-    //         dismissible: true,
-    //       ).showSingleButtonAlertDialog();
-    //     } else if (status == ServiceStatus.enabled) {
-    //       positionStream.resume();
-    //     }
-    //   },
-    // );
+    serviceStatusStream = Geolocator.getServiceStatusStream().listen(
+      (ServiceStatus status) {
+        if (kDebugMode) print(status);
+        if (status == ServiceStatus.disabled) {
+          serviceEnabled.value = false;
+          servicePermissionEnabled.value = false;
+          positionStream.pause();
+          if (kDebugMode) print('position listener paused');
+          locationServiceDialog = true;
+          SingleButtonDialogAlert(
+            title: 'locationService'.tr,
+            content: Text(
+              'enableLocationService'.tr,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 12.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            buttonText: 'oK'.tr,
+            onPressed: () {
+              Get.back();
+              locationServiceDialog = false;
+            },
+            context: Get.context!,
+            dismissible: true,
+          ).showSingleButtonAlertDialog();
+        } else if (status == ServiceStatus.enabled) {
+          serviceEnabled.value = true;
+          servicePermissionEnabled.value = true;
+          positionStream.resume();
+          if (kDebugMode) print('position listener resumed');
+          if (locationServiceDialog) Get.back();
+        }
+      },
+    );
   }
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  //   serviceStatusStream.cancel();
-  // }
+  @override
+  void onClose() {
+    super.onClose();
+    serviceStatusStream.cancel();
+  }
 
   void _getLocationServices() async {
     // Test if location services are enabled.
     serviceEnabled.value = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled.value) {
       if (kDebugMode) print('location disabled');
+      locationServiceDialog = true;
       SingleButtonDialogAlert(
         title: 'locationService'.tr,
         content: Text(
@@ -91,8 +102,9 @@ class MapsController extends GetxController {
         buttonText: 'oK'.tr,
         onPressed: () async {
           Get.back();
-          await Geolocator.openLocationSettings();
-          _getLocationServices();
+          locationServiceDialog = false;
+          // await Geolocator.openLocationSettings()
+          //     .then((value) => _getLocationPermission());
         },
         context: Get.context!,
         dismissible: true,
@@ -106,6 +118,7 @@ class MapsController extends GetxController {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        locationPermissionDialog = true;
         SingleButtonDialogAlert(
           title: 'locationPermission'.tr,
           content: Text(
@@ -119,6 +132,7 @@ class MapsController extends GetxController {
           buttonText: 'oK'.tr,
           onPressed: () {
             Get.back();
+            locationPermissionDialog = false;
             _getLocationPermission();
           },
           context: Get.context!,
@@ -131,10 +145,11 @@ class MapsController extends GetxController {
       }
     } else if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
-      if (kDebugMode) print('location permission enabled');
+      if (kDebugMode) print('location permission first enabled');
       getCurrentLocation();
     } else if (permission == LocationPermission.deniedForever) {
       if (kDebugMode) print('location permission denied forever');
+      locationPermissionDialog = true;
       SingleButtonDialogAlert(
         title: 'locationPermission'.tr,
         content: Text(
@@ -148,8 +163,9 @@ class MapsController extends GetxController {
         buttonText: 'oK'.tr,
         onPressed: () async {
           Get.back();
-          await Geolocator.openLocationSettings();
-          _getLocationPermission();
+          locationPermissionDialog = false;
+          // await Geolocator.openLocationSettings()
+          //     .then((value) => _getLocationPermission());
         },
         context: Get.context!,
         dismissible: true,
@@ -162,6 +178,7 @@ class MapsController extends GetxController {
         .then(
       (locationPosition) {
         _currentLocation = locationPosition;
+        servicePermissionEnabled.value = true;
         Get.put(FirebaseDataAccess());
       },
     );
@@ -169,6 +186,7 @@ class MapsController extends GetxController {
         Geolocator.getPositionStream(locationSettings: locationSettings).listen(
       (Position? position) {
         _currentLocation = position;
+        servicePermissionEnabled.value = true;
         if (kDebugMode) {
           print(position == null
               ? 'current location is Unknown'
@@ -194,6 +212,7 @@ class MapsController extends GetxController {
             polylineCoordinatesLocal
                 .add(LatLng(point.latitude, point.longitude));
           }
+          if (kDebugMode) print('poly line points calculated');
           polylineCoordinates.addAll(polylineCoordinatesLocal);
         }
       },

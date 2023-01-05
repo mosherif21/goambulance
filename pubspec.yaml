@@ -40,12 +40,12 @@ dependencies:
   #google maps dependencies
   google_maps_flutter: ^2.2.2
   google_maps_flutter_web: ^0.4.0+3
-  flutter_polyline_points: ^1.0.0
   geolocator: ^9.0.2
   geoflutterfire2: ^2.3.14
 
   #authentication dependencies
   google_sign_in: ^5.4.2
+  flutter_facebook_auth: ^5.0.7
 
   #UI dependencies
   cupertino_icons: ^1.0.5

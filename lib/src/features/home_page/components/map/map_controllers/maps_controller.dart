@@ -3,7 +3,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/common_widgets/text_dismissible_dialogue.dart';
@@ -12,7 +11,6 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../firebase_files/firebase_access.dart';
-import '../../../../../constants/no_localization_strings.dart';
 
 enum MapStatus {
   loadingMapData,
@@ -24,14 +22,19 @@ enum MapStatus {
 class MapsController extends GetxController {
   static MapsController get instance => Get.find();
   static const int distanceFilter = 40;
-  final polylineCoordinates = <LatLng>[].obs;
+
+  //final polylineCoordinates = <LatLng>[].obs;
+
+  late Rx<Polyline> routPolyLine;
+  late Rx<Marker> driverMarker;
+
   final RxBool serviceEnabled = false.obs;
   final RxBool servicePermissionEnabled = false.obs;
   bool locationServiceDialog = false;
   bool locationPermissionDialog = false;
   MapStatus mapStatus = MapStatus.loadingMapData;
   final LocationAccuracy accuracy = LocationAccuracy.high;
-  late Marker driverMarker;
+
   late BitmapDescriptor ambulanceDriverIcon;
   // late Marker currentLocationMarker;
   // late BitmapDescriptor currentLocationIcon;
@@ -44,7 +47,7 @@ class MapsController extends GetxController {
   );
   Position? _currentLocation;
 
-  //final Completer<GoogleMapController> _googleMapController = Completer();
+  late GoogleMapController googleMapController;
 
   LatLng currentLocationGetter() {
     return LatLng(_currentLocation!.latitude, _currentLocation!.longitude);
@@ -197,29 +200,42 @@ class MapsController extends GetxController {
       icon: ambulanceDriverIcon,
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
-    );
+    ).obs;
     try {
-      PolylinePoints polylinePoints = PolylinePoints();
-      final List<LatLng> polylineCoordinatesLocal = [];
-      await polylinePoints
-          .getRouteBetweenCoordinates(
-        googleMapsAPIKey,
-        PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
-        PointLatLng(driverLocation.latitude, driverLocation.longitude),
-        travelMode: TravelMode.driving,
-      )
-          .then(
-        (polylineResult) {
-          if (polylineResult.points.isNotEmpty) {
-            for (var point in polylineResult.points) {
-              polylineCoordinatesLocal
-                  .add(LatLng(point.latitude, point.longitude));
-            }
-            if (kDebugMode) print('poly line points calculated');
-            polylineCoordinates.addAll(polylineCoordinatesLocal);
-          }
-        },
-      );
+      routPolyLine = Polyline(
+        polylineId: const PolylineId('router_driver'),
+        color: const Color(0xFF28AADC),
+        points: List.empty(growable: true),
+        width: 5,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        jointType: JointType.round,
+        geodesic: true,
+      ).obs;
+      routPolyLine.value.points
+          .add(LatLng(_currentLocation!.latitude, _currentLocation!.longitude));
+      routPolyLine.value.points
+          .add(LatLng(driverLocation.latitude, driverLocation.longitude));
+      // final List<LatLng> polylineCoordinatesLocal = [];
+      // await polylinePoints
+      //     .getRouteBetweenCoordinates(
+      //   googleMapsAPIKey,
+      //   PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
+      //   PointLatLng(driverLocation.latitude, driverLocation.longitude),
+      //   travelMode: TravelMode.driving,
+      // )
+      //     .then(
+      //   (polylineResult) {
+      //     if (polylineResult.points.isNotEmpty) {
+      //       for (var point in polylineResult.points) {
+      //         polylineCoordinatesLocal
+      //             .add(LatLng(point.latitude, point.longitude));
+      //       }
+      //       if (kDebugMode) print('poly line points calculated');
+      //       polylineCoordinates.addAll(polylineCoordinatesLocal);
+      //     }
+      //   },
+      // );
     } catch (e) {
       if (kDebugMode) {
         e.printError();

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:lottie/lottie.dart' as lot;
 
+import '../../../../../general/common_functions.dart';
 import '../map_controllers/maps_controller.dart';
 
 class GoogleMapWidget extends StatelessWidget {
@@ -10,6 +13,7 @@ class GoogleMapWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = getScreenHeight(context);
     final mapsController = MapsController.instance;
     return Obx(
       () => mapsController.servicePermissionEnabled.value
@@ -38,7 +42,18 @@ class GoogleMapWidget extends StatelessWidget {
                       position: mapsController.currentLocationGetter()),
               },
             )
-          : const SizedBox(child: Center(child: Text('location disabled'))),
+          : SizedBox(
+              child: Center(
+                child: lot.Lottie.asset(
+                  mapsController.mapStatus == MapStatus.loadingMapData
+                      ? kLoadingMapAnim
+                      : kNoLocation,
+                  height: mapsController.mapStatus == MapStatus.loadingMapData
+                      ? screenHeight * 0.3
+                      : screenHeight * 0.4,
+                ),
+              ),
+            ),
     );
   }
 }

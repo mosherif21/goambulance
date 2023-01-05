@@ -2,18 +2,24 @@ import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/common_widgets/text_dismissible_dialogue.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../firebase_files/firebase_access.dart';
-import '../../../../../common_widgets/single_button_dialog_alert.dart';
 import '../../../../../constants/no_localization_strings.dart';
+
+enum MapStatus {
+  loadingMapData,
+  noLocationPermission,
+  noLocationService,
+  mapDataLoaded,
+}
 
 class MapsController extends GetxController {
   static MapsController get instance => Get.find();
@@ -23,9 +29,12 @@ class MapsController extends GetxController {
   final RxBool servicePermissionEnabled = false.obs;
   bool locationServiceDialog = false;
   bool locationPermissionDialog = false;
+  MapStatus mapStatus = MapStatus.loadingMapData;
 
   late Marker driverMarker;
-  BitmapDescriptor ambulanceDriverIcon = BitmapDescriptor.defaultMarker;
+  late BitmapDescriptor ambulanceDriverIcon;
+  // late Marker currentLocationMarker;
+  // late BitmapDescriptor currentLocationIcon;
 
   late StreamSubscription<ServiceStatus> serviceStatusStream;
   late StreamSubscription<Position> positionStream;
@@ -44,7 +53,7 @@ class MapsController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await loadAmbulanceMarkerIcon();
+    await loadMarkersIcon();
     _getLocationServices();
     _getLocationPermission();
     if (!AppInit.isWeb) {
@@ -55,27 +64,20 @@ class MapsController extends GetxController {
             serviceEnabled.value = false;
             servicePermissionEnabled.value = false;
             positionStream.pause();
+            mapStatus = MapStatus.noLocationService;
             if (kDebugMode) print('position listener paused');
             locationServiceDialog = true;
-            SingleButtonDialogAlert(
+            TextSingleButtonDialogue(
               title: 'locationService'.tr,
-              content: Text(
-                'enableLocationService'.tr,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              buttonText: 'oK'.tr,
+              body: 'enableLocationService'.tr,
               onPressed: () {
                 Get.back();
                 locationServiceDialog = false;
               },
-              context: Get.context!,
-              dismissible: true,
-            ).showSingleButtonAlertDialog();
+              buttonText: 'oK'.tr,
+            ).showTextSingleButtonDialogue();
           } else if (status == ServiceStatus.enabled) {
+            mapStatus = MapStatus.loadingMapData;
             serviceEnabled.value = true;
             servicePermissionEnabled.value = true;
             positionStream.resume();
@@ -93,38 +95,23 @@ class MapsController extends GetxController {
     if (!AppInit.isWeb) serviceStatusStream.cancel();
   }
 
-  Future<void> loadAmbulanceMarkerIcon() async {
-    await getBytesFromAsset(kAmbulanceMarkerImg, 150).then((iconBytes) {
-      ambulanceDriverIcon = BitmapDescriptor.fromBytes(iconBytes);
-    });
-  }
-
   void _getLocationServices() async {
     // Test if location services are enabled.
     serviceEnabled.value = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled.value) {
       if (kDebugMode) print('location disabled');
       locationServiceDialog = true;
-      SingleButtonDialogAlert(
+      TextSingleButtonDialogue(
         title: 'locationService'.tr,
-        content: Text(
-          'enableLocationService'.tr,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 12.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        buttonText: 'oK'.tr,
+        body: 'enableLocationService'.tr,
         onPressed: () async {
           Get.back();
           locationServiceDialog = false;
           // await Geolocator.openLocationSettings()
           //     .then((value) => _getLocationPermission());
         },
-        context: Get.context!,
-        dismissible: true,
-      ).showSingleButtonAlertDialog();
+        buttonText: 'oK'.tr,
+      ).showTextSingleButtonDialogue();
     }
   }
 
@@ -135,25 +122,17 @@ class MapsController extends GetxController {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         locationPermissionDialog = true;
-        SingleButtonDialogAlert(
+        TextSingleButtonDialogue(
           title: 'locationPermission'.tr,
-          content: Text(
-            'enableLocationPermission'.tr,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12.0,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          buttonText: 'oK'.tr,
+          body: 'enableLocationPermission'.tr,
           onPressed: () {
             Get.back();
             locationPermissionDialog = false;
             _getLocationPermission();
           },
-          context: Get.context!,
-          dismissible: true,
-        ).showSingleButtonAlertDialog();
+          buttonText: 'oK'.tr,
+        ).showTextSingleButtonDialogue();
+
         if (kDebugMode) print('location permission denied');
       } else {
         if (kDebugMode) print('location permission enabled');
@@ -166,26 +145,17 @@ class MapsController extends GetxController {
     } else if (permission == LocationPermission.deniedForever) {
       if (kDebugMode) print('location permission denied forever');
       locationPermissionDialog = true;
-      SingleButtonDialogAlert(
+      TextSingleButtonDialogue(
         title: 'locationPermission'.tr,
-        content: Text(
-          'locationPermissionDeniedForever'.tr,
-          style: const TextStyle(
-            color: Colors.black,
-            fontSize: 12.0,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        buttonText: 'oK'.tr,
+        body: 'locationPermissionDeniedForever'.tr,
         onPressed: () async {
           Get.back();
           locationPermissionDialog = false;
           // await Geolocator.openLocationSettings()
           //     .then((value) => _getLocationPermission());
         },
-        context: Get.context!,
-        dismissible: true,
-      ).showSingleButtonAlertDialog();
+        buttonText: 'oK'.tr,
+      ).showTextSingleButtonDialogue();
     }
   }
 
@@ -196,6 +166,7 @@ class MapsController extends GetxController {
       (locationPosition) {
         _currentLocation = locationPosition;
         servicePermissionEnabled.value = true;
+        mapStatus = MapStatus.mapDataLoaded;
         Get.put(FirebaseDataAccess());
       },
     );
@@ -204,6 +175,7 @@ class MapsController extends GetxController {
       (Position? position) {
         _currentLocation = position;
         servicePermissionEnabled.value = true;
+        mapStatus = MapStatus.mapDataLoaded;
         if (kDebugMode) {
           print(position == null
               ? 'current location is Unknown'
@@ -211,16 +183,6 @@ class MapsController extends GetxController {
         }
       },
     );
-  }
-
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
   }
 
   Future<void> getPolyPoints(LatLng driverLocation) async {
@@ -257,5 +219,28 @@ class MapsController extends GetxController {
         e.printError();
       }
     }
+  }
+
+  Future<void> loadMarkersIcon() async {
+    await getBytesFromAsset(
+            AppInit.isWeb ? kAmbulanceMarkerImg : kAmbulanceMarkerImgUnscaled,
+            130)
+        .then((iconBytes) {
+      ambulanceDriverIcon = BitmapDescriptor.fromBytes(iconBytes);
+    });
+    // await getBytesFromAsset(kAmbulanceMarkerImg, AppInit.isWeb ? 50 : 150)
+    //     .then((iconBytes) {
+    //   ambulanceDriverIcon = BitmapDescriptor.fromBytes(iconBytes);
+    // });
+  }
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 }

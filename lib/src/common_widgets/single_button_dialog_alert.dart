@@ -24,9 +24,13 @@ class SingleButtonDialogAlert {
             ? CupertinoAlertDialog(
                 title: Text(
                   title,
-                  style: const TextStyle(color: Colors.black),
+                  style: const TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black),
                 ),
-                content: WillPopScope(onWillPop: () async => false, child: content),
+                content:
+                    WillPopScope(onWillPop: () async => false, child: content),
                 actions: <Widget>[
                   TextButton(
                     onPressed: onPressed(),
@@ -39,7 +43,8 @@ class SingleButtonDialogAlert {
               )
             : AlertDialog(
                 title: Text(title),
-                content: WillPopScope(onWillPop: () async => false, child: content),
+                content:
+                    WillPopScope(onWillPop: () async => false, child: content),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () => onPressed(),

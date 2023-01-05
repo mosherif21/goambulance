@@ -4,7 +4,7 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/features/authentication/screens/login_screen.dart';
 
-import '../components/map/widgets/map_widget.dart';
+import '../components/map/widgets/abstract_map_widget.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);

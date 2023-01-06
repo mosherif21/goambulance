@@ -34,7 +34,9 @@ class MapsController extends GetxController {
 
   //maps vars
   final polylineCoordinates = <LatLng>[].obs;
-  late Rx<Marker> driverMarker;
+  late Rx<Marker> driverMarker = const Marker(
+    markerId: MarkerId('driver location'),
+  ).obs;
   late BitmapDescriptor ambulanceDriverIcon;
   late GoogleMapController googleMapController;
 
@@ -48,6 +50,7 @@ class MapsController extends GetxController {
   late StreamSubscription<Position> positionStream;
   Position? _currentLocation;
 
+  //firebase controller
   final FirebaseDataAccess firebase = Get.put(FirebaseDataAccess());
 
   LatLng currentLocationGetter() {
@@ -173,12 +176,12 @@ class MapsController extends GetxController {
 
   void _getCurrentLocation() async {
     mapStatus = MapStatus.loadingMapData;
-
     await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
       (locationPosition) {
         _currentLocation = locationPosition;
         servicePermissionEnabled.value = true;
         mapStatus = MapStatus.mapDataLoaded;
+        firebase.listenForDriverLocation = true;
         firebase.updateUserLocation(locationPosition);
       },
     );
@@ -201,12 +204,12 @@ class MapsController extends GetxController {
   }
 
   Future<void> getPolyPoints(LatLng driverLocation) async {
-    driverMarker = Marker(
+    driverMarker.value = Marker(
       markerId: const MarkerId('driver location'),
       icon: ambulanceDriverIcon,
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
-    ).obs;
+    );
     final List<LatLng> polylineCoordinatesLocal = [];
     if (!AppInit.isWeb) {
       final polylineResult = await PolylinePoints().getRouteBetweenCoordinates(

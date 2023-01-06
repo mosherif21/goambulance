@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -25,29 +23,32 @@ enum MapStatus {
 
 class MapsController extends GetxController {
   static MapsController get instance => Get.find();
+
+  //Location settings
   static const int distanceFilter = 40;
+  final LocationSettings locationSettings = const LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: distanceFilter,
+  );
+  final LocationAccuracy accuracy = LocationAccuracy.high;
 
+  //maps vars
   final polylineCoordinates = <LatLng>[].obs;
-
   late Rx<Marker> driverMarker;
   late BitmapDescriptor ambulanceDriverIcon;
+  late GoogleMapController googleMapController;
 
+  //location permissions and services vars
   final RxBool serviceEnabled = false.obs;
   final RxBool servicePermissionEnabled = false.obs;
   bool locationServiceDialog = false;
   bool locationPermissionDialog = false;
   MapStatus mapStatus = MapStatus.noLocationService;
-  final LocationAccuracy accuracy = LocationAccuracy.high;
-
   late StreamSubscription<ServiceStatus> serviceStatusStream;
   late StreamSubscription<Position> positionStream;
-  final LocationSettings locationSettings = const LocationSettings(
-    accuracy: LocationAccuracy.high,
-    distanceFilter: distanceFilter,
-  );
   Position? _currentLocation;
 
-  late GoogleMapController googleMapController;
+  final FirebaseDataAccess firebase = Get.put(FirebaseDataAccess());
 
   LatLng currentLocationGetter() {
     return LatLng(_currentLocation!.latitude, _currentLocation!.longitude);
@@ -172,40 +173,31 @@ class MapsController extends GetxController {
 
   void _getCurrentLocation() async {
     mapStatus = MapStatus.loadingMapData;
+
     await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
       (locationPosition) {
         _currentLocation = locationPosition;
-        _updateUserLocation(locationPosition);
         servicePermissionEnabled.value = true;
         mapStatus = MapStatus.mapDataLoaded;
-        Get.put(FirebaseDataAccess());
+        firebase.updateUserLocation(locationPosition);
       },
     );
     positionStream =
         Geolocator.getPositionStream(locationSettings: locationSettings).listen(
       (Position? position) {
-        _currentLocation = position;
-        servicePermissionEnabled.value = true;
-        mapStatus = MapStatus.mapDataLoaded;
+        if (position != null) {
+          _currentLocation = position;
+          firebase.updateUserLocation(position);
+          servicePermissionEnabled.value = true;
+          mapStatus = MapStatus.mapDataLoaded;
+        }
         if (kDebugMode) {
           print(position == null
               ? 'current location is Unknown'
               : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
         }
-        _updateUserLocation(position!);
       },
     );
-  }
-
-  Future<void> _updateUserLocation(Position position) async {
-    final userId = FirebaseAuth.instance.currentUser!.uid;
-    await FirebaseFirestore.instance
-        .collection('location')
-        .doc('users/$userId')
-        .set({
-      'latitude': position.latitude,
-      'longitude': position.longitude,
-    }, SetOptions(merge: true));
   }
 
   Future<void> getPolyPoints(LatLng driverLocation) async {

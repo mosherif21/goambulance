@@ -12,7 +12,7 @@ double getScreenWidth(BuildContext context) {
 }
 
 void getToHomePage() {
-  Get.offAll(() => HomePageScreen());
+  Get.offAll(() => const HomePageScreen());
 }
 
 void showSimpleSnackBar(String title, String body, SnackPosition position) {

@@ -203,7 +203,7 @@ class MapsController extends GetxController {
     );
   }
 
-  Future<void> getPolyPoints(LatLng driverLocation) async {
+  Future<void> getRoute(LatLng driverLocation) async {
     driverMarker.value = Marker(
       markerId: const MarkerId('driver location'),
       icon: ambulanceDriverIcon,

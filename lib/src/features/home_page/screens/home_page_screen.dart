@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/firebase_files/firebase_access.dart';
 import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/features/authentication/screens/login_screen.dart';
 import 'package:goambulance/src/general/common_functions.dart';
@@ -29,6 +30,7 @@ class HomePageScreen extends StatelessWidget {
               RegularElevatedButton(
                   buttonText: 'logout'.tr,
                   onPressed: () async {
+                    FirebaseDataAccess.instance.logout();
                     await AuthenticationRepository.instance
                         .logoutUser()
                         .then((value) => Get.offAll(() => const LoginScreen()));

@@ -13,7 +13,6 @@ class FirebaseDataAccess extends GetxController {
   final userId = FirebaseAuth.instance.currentUser!.uid;
   final fireStore = FirebaseFirestore.instance;
   final fireDatabase = FirebaseDatabase.instance;
-  final mapsController = MapsController.instance;
   bool listenForDriverLocation = false;
   late StreamSubscription driverLocationStreamSubscription;
   String userType = '';
@@ -55,7 +54,7 @@ class FirebaseDataAccess extends GetxController {
           for (var snapshot in snapshots.children) {
             Map<dynamic, dynamic> locationDataMap =
                 snapshot.value as Map<dynamic, dynamic>;
-            mapsController.getPolyPoints(LatLng(
+            MapsController.instance.getRoute(LatLng(
                 locationDataMap['latitude'], locationDataMap['longitude']));
           }
         }

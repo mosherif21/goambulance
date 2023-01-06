@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:ui' as ui;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -173,6 +175,7 @@ class MapsController extends GetxController {
     await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
       (locationPosition) {
         _currentLocation = locationPosition;
+        _updateUserLocation(locationPosition);
         servicePermissionEnabled.value = true;
         mapStatus = MapStatus.mapDataLoaded;
         Get.put(FirebaseDataAccess());
@@ -189,8 +192,20 @@ class MapsController extends GetxController {
               ? 'current location is Unknown'
               : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
         }
+        _updateUserLocation(position!);
       },
     );
+  }
+
+  Future<void> _updateUserLocation(Position position) async {
+    final userId = FirebaseAuth.instance.currentUser!.uid;
+    await FirebaseFirestore.instance
+        .collection('location')
+        .doc('users/$userId')
+        .set({
+      'latitude': position.latitude,
+      'longitude': position.longitude,
+    }, SetOptions(merge: true));
   }
 
   Future<void> getPolyPoints(LatLng driverLocation) async {

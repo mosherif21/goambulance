@@ -51,7 +51,7 @@ class MapsController extends GetxController {
   Position? _currentLocation;
 
   //firebase controller
-  final FirebaseDataAccess firebase = Get.put(FirebaseDataAccess());
+  final FirebaseDataAccess firebase = FirebaseDataAccess.instance;
 
   LatLng currentLocationGetter() {
     return LatLng(_currentLocation!.latitude, _currentLocation!.longitude);
@@ -182,6 +182,9 @@ class MapsController extends GetxController {
         servicePermissionEnabled.value = true;
         mapStatus = MapStatus.mapDataLoaded;
         firebase.listenForDriverLocation = true;
+        // firebase
+        //     .getUserType()
+        //     .then((value) =>
         firebase.updateUserLocation(locationPosition);
       },
     );

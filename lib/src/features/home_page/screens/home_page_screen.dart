@@ -15,6 +15,7 @@ class HomePageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     Get.put(MapsController());
+    Get.put(FirebaseDataAccess());
     return Scaffold(
       body: SafeArea(
         child: Container(

@@ -10,10 +10,22 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
    <application
         android:label="goambulance"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyC87q_5UFi7zHJQD8CnLy5VIDBDML4j0VY"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -43,7 +55,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-       <meta-data android:name="com.google.android.geo.API_KEY"
-           android:value="AIzaSyC87q_5UFi7zHJQD8CnLy5VIDBDML4j0VY"/>
     </application>
 </manifest>

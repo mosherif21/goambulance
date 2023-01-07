@@ -20,11 +20,6 @@ class FirebaseDataAccess extends GetxController {
   bool userInitialize = false;
   StreamSubscription? driverLocationStreamSubscription;
   UserType userType = UserType.user;
-  @override
-  void onInit() async {
-    super.onInit();
-    await getUserType();
-  }
 
   Future<void> getUserType() async {
     if (!userInitialize) {

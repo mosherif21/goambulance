@@ -51,7 +51,7 @@ class MapsController extends GetxController {
   Position? _currentLocation;
 
   //firebase controller
-  final FirebaseDataAccess firebase = FirebaseDataAccess.instance;
+  final FirebaseDataAccess firebase = Get.put(FirebaseDataAccess());
 
   LatLng currentLocationGetter() {
     return LatLng(_currentLocation!.latitude, _currentLocation!.longitude);
@@ -176,51 +176,53 @@ class MapsController extends GetxController {
 
   void _getCurrentLocation() async {
     mapStatus = MapStatus.loadingMapData;
-    await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
-      (locationPosition) {
-        _currentLocation = locationPosition;
-        servicePermissionEnabled.value = true;
-        mapStatus = MapStatus.mapDataLoaded;
-        firebase.listenForDriverLocation = true;
-        // firebase
-        //     .getUserType()
-        //     .then((value) =>
-        firebase.updateUserLocation(locationPosition);
-      },
-    );
-    positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings).listen(
-      (Position? position) {
-        if (position != null) {
-          _currentLocation = position;
-          firebase.updateUserLocation(position);
+    await firebase.getUserType().then((value) async {
+      await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
+        (locationPosition) {
+          _currentLocation = locationPosition;
           servicePermissionEnabled.value = true;
           mapStatus = MapStatus.mapDataLoaded;
-        }
-        if (kDebugMode) {
-          print(position == null
-              ? 'current location is Unknown'
-              : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
-        }
-      },
-    );
+          firebase.listenForDriverLocation = true;
+          firebase.updateUserLocation(locationPosition);
+        },
+      );
+      positionStream =
+          Geolocator.getPositionStream(locationSettings: locationSettings)
+              .listen(
+        (Position? position) {
+          if (position != null) {
+            _currentLocation = position;
+            firebase.updateUserLocation(position);
+            servicePermissionEnabled.value = true;
+            mapStatus = MapStatus.mapDataLoaded;
+          }
+          if (kDebugMode) {
+            print(position == null
+                ? 'current location is Unknown'
+                : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
+          }
+        },
+      );
+    });
   }
 
   Future<void> getRoute(LatLng driverLocation) async {
     driverMarker.value = Marker(
-      markerId: const MarkerId('driver location'),
+      markerId: const MarkerId('driver_location'),
       icon: ambulanceDriverIcon,
       position: driverLocation,
       anchor: const Offset(0.5, 0.5),
     );
-    final List<LatLng> polylineCoordinatesLocal = [];
+    List<LatLng> polylineCoordinatesLocal = [];
     if (!AppInit.isWeb) {
-      final polylineResult = await PolylinePoints().getRouteBetweenCoordinates(
-        AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
-        PointLatLng(_currentLocation!.latitude, _currentLocation!.longitude),
-        PointLatLng(driverLocation.latitude, driverLocation.longitude),
-        travelMode: TravelMode.driving,
-      );
+      PolylineResult polylineResult = await PolylinePoints()
+          .getRouteBetweenCoordinates(
+              AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
+              PointLatLng(
+                  _currentLocation!.latitude, _currentLocation!.longitude),
+              PointLatLng(driverLocation.latitude, driverLocation.longitude),
+              travelMode: TravelMode.driving,
+              optimizeWaypoints: true);
       if (polylineResult.points.isNotEmpty) {
         if (polylineResult.points.isNotEmpty) {
           for (var point in polylineResult.points) {

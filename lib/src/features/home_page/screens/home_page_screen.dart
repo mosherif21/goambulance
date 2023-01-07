@@ -4,6 +4,7 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_access.dart';
 import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/features/authentication/screens/login_screen.dart';
+import 'package:goambulance/src/features/home_page/components/speech_to_text_test/speech_to_text.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
 import '../components/map/map_controllers/maps_controller.dart';
@@ -15,7 +16,6 @@ class HomePageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     Get.put(MapsController());
-    Get.put(FirebaseDataAccess());
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -35,6 +35,12 @@ class HomePageScreen extends StatelessWidget {
                     await AuthenticationRepository.instance
                         .logoutUser()
                         .then((value) => Get.offAll(() => const LoginScreen()));
+                  },
+                  enabled: true),
+              RegularElevatedButton(
+                  buttonText: 'SPEECH TO TEXT TEST',
+                  onPressed: () {
+                    Get.to(() => const SpeechToTextWidget());
                   },
                   enabled: true),
             ],

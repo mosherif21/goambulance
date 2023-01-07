@@ -23,12 +23,17 @@ class SpeechController extends GetxController {
       if (available) {
         isListening.value = true;
         _speechToText.listen(
-            onResult: (listenedText) =>
-                spokenText.value = listenedText.recognizedWords);
-      } else {
-        isListening.value = false;
-        _speechToText.stop();
+          listenMode: ListenMode.dictation,
+          onResult: (listenedText) {
+            spokenText.value = listenedText.recognizedWords;
+            isListening.value = false;
+            _speechToText.stop();
+          },
+        );
       }
+    } else {
+      isListening.value = false;
+      _speechToText.stop();
     }
   }
 }

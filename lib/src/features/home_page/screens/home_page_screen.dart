@@ -24,7 +24,7 @@ class HomePageScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               SizedBox(
-                height: screenHeight * 0.8,
+                height: screenHeight * 0.75,
                 child: const GoogleMapWidget(),
               ),
               const SizedBox(height: 20.0),
@@ -37,6 +37,7 @@ class HomePageScreen extends StatelessWidget {
                         .then((value) => Get.offAll(() => const LoginScreen()));
                   },
                   enabled: true),
+              const SizedBox(height: 20.0),
               RegularElevatedButton(
                   buttonText: 'SPEECH TO TEXT TEST',
                   onPressed: () {

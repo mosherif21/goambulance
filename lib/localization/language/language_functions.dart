@@ -11,9 +11,6 @@ const String languageCode = 'languageCode';
 const String english = 'en';
 const String arabic = 'ar';
 
-//to update locale by user use following code: { Get.updateLocale(const Locale('ar', 'SA'));
-// setLocale('ar');}
-
 Future<void> setLocale(String aLanguageCode) async {
   await AppInit.prefs.setString(languageCode, aLanguageCode);
 }

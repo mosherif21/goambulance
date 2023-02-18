@@ -4,8 +4,8 @@
 const String kLogoImage = "assets/images/logo.png";
 const String kLogoImageWithSlogan =
     "assets/images/logo_with_slogan_transparent.png";
-const String kSAFlagImage = "assets/images/saudi_arabia_flag_back.gif";
-const String kUkFlagImage = "assets/images/uk_flag_back.gif";
+const String kSAFlagImage = "assets/Gifs/saudi_arabia_flag_back.gif";
+const String kUkFlagImage = "assets/Gifs/uk_flag_back.gif";
 const String kNotAvailableErrorAnim = "assets/images/error_beach.gif";
 
 //--Lottie assets

@@ -1,14 +1,17 @@
-import 'dart:ui';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
+import '../connectivity/connectivity_controller.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
+import '../general/notifications.dart';
 import '../general/splash_screen.dart';
 
 enum Language { english, arabic }
@@ -60,17 +63,17 @@ class AppInit {
     }
   }
 
-  static Future<void> initialize() async {
+  static Future<void> initializeFunctions() async {
     if (!isInitialised) {
       await initializeFireBaseApp();
       if (kDebugMode) print('firebase app initialized');
-      if (AppInit.isWeb || AppInit.webMobile) {
+      if (isWeb || webMobile) {
         await activateWebAppCheck();
         if (kDebugMode) print('web app check initialized');
-      } else if (AppInit.isAndroid) {
+      } else if (isAndroid) {
         await activateAndroidAppCheck();
         if (kDebugMode) print('android app check initialized');
-      } else if (AppInit.isIos) {
+      } else if (isIos) {
         await activateIosAppCheck();
         if (kDebugMode) print('ios app check initialized');
       }
@@ -84,8 +87,21 @@ class AppInit {
     }
   }
 
+  static Future<void> initialize() async {
+    WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+    await initializeConstants();
+    Get.put(ConnectivityController());
+    final internetConnectionStatus =
+        await InternetConnectionCheckerPlus().connectionStatus;
+    if (internetConnectionStatus == InternetConnectionStatus.connected) {
+      await initializeFunctions();
+    }
+    await initializeNotification();
+  }
+
   static Transition getPageTransition() {
-    return AppInit.currentDeviceLanguage == Language.english
+    return currentDeviceLanguage == Language.english
         ? Transition.rightToLeftWithFade
         : Transition.leftToRightWithFade;
   }

@@ -25,30 +25,5 @@ class ATextTheme {
     ),
     subtitle2: GoogleFonts.poppins(
         color: Colors.black54, fontSize: AppInit.notWebMobile ? 20 : 14),
-    /*headline4: GoogleFonts.montserrat(
-      color: Colors.white,
-      fontSize: AppInit.notWebMobile ? 20 : 10,
-      fontWeight: FontWeight.w700,
-    ),
-    subtitle1: GoogleFonts.poppins(
-        color: Colors.white54, fontSize: AppInit.notWebMobile ? 20 : 14),*/
   );
-  /*
-  static TextTheme darkTextTheme = TextTheme(
-    headline2: GoogleFonts.montserrat(
-      color: Colors.white,
-    ),
-    headline3: GoogleFonts.montserrat(
-      color: Colors.white60,
-      fontSize: 25.0,
-      fontWeight: FontWeight.w700,
-    ),
-    subtitle2: GoogleFonts.poppins(color: Colors.white54, fontSize: 24),
-    headline4: GoogleFonts.montserrat(
-      color: Colors.black,
-      fontSize: 25.0,
-      fontWeight: FontWeight.w700,
-    ),
-    subtitle1: GoogleFonts.poppins(color: Colors.black54, fontSize: 24),
-  );*/
 }

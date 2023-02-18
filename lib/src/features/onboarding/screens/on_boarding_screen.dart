@@ -15,7 +15,7 @@ class OnBoardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ConnectivityChecker.checkConnection(false);
+    ConnectivityChecker.checkConnection(displayAlert: false);
 
     return Scaffold(
       body: Stack(

@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
-    ConnectivityChecker.checkConnection(true);
+    ConnectivityChecker.checkConnection(displayAlert: true);
     Get.put(LoginController());
     return SafeArea(
       child: Scaffold(

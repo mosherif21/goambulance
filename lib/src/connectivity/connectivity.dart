@@ -1,7 +1,7 @@
 import 'connectivity_controller.dart';
 
 class ConnectivityChecker {
-  static ConnectivityController checkConnection(bool displayAlert) {
+  static ConnectivityController checkConnection({required bool displayAlert}) {
     final ConnectivityController connectivityController =
         ConnectivityController.instance;
     connectivityController.updateDisplayAlert(displayAlert);

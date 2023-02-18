@@ -60,7 +60,8 @@ class Languages extends Translations {
           'userDisabled': 'هذا المستخدم ممنوع من الاستخدام',
           'invalidPhoneNumber': 'رقم الهاتف غير صحيح',
           'wrongOTP': 'رمز التاكيد غير صحيح',
-          'failedGoogleAuth': 'تسجيل الدخول بجوجل فشل',
+          'failedGoogleAuth': 'تسجيل الدخول بجوجل فشل, حاول مرة اخرى',
+          'failedFacebookAuth': 'تسجيل الدخول بفيسبوك فشل, حاول مرة اخرى',
           'failedAuth': 'فشل تسجيل الدخول',
           'success': 'محاولة ناجحة',
           'error': 'حدث خطا',
@@ -138,6 +139,8 @@ class Languages extends Translations {
           'invalidPhoneNumber': 'Entered phone number is invalid',
           'wrongOTP': 'Entered OTP is wrong',
           'failedGoogleAuth': 'Google authentication failed. Please try again',
+          'failedFacebookAuth':
+              'Facebook authentication failed. Please try again',
           'failedAuth': 'Authentication failed',
           'success': 'Success',
           'error': 'Error',

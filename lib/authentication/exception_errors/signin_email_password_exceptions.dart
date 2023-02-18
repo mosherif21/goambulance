@@ -11,8 +11,7 @@ class SignInWithEmailAndPasswordFailure {
       case 'wrong-password':
         return SignInWithEmailAndPasswordFailure('wrongPassword'.tr);
       default:
-        return const SignInWithEmailAndPasswordFailure(
-            'An unknown error occurred');
+        return SignInWithEmailAndPasswordFailure('unknownError'.tr);
     }
   }
 }

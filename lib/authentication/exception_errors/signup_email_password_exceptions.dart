@@ -17,8 +17,7 @@ class SignUpWithEmailAndPasswordFailure {
       case 'user-disabled':
         return SignUpWithEmailAndPasswordFailure('userDisabled'.tr);
       default:
-        return const SignUpWithEmailAndPasswordFailure(
-            'An unknown error occurred');
+        return SignUpWithEmailAndPasswordFailure('unknownError'.tr);
     }
   }
 }

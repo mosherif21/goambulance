@@ -47,7 +47,7 @@ dependencies:
 
   #authentication dependencies
   google_sign_in: ^5.4.2
-  #flutter_facebook_auth: ^5.0.7
+  flutter_facebook_auth: ^5.0.7
 
   #UI dependencies
   cupertino_icons: ^1.0.5

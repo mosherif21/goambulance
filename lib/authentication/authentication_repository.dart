@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -148,6 +150,51 @@ class AuthenticationRepository extends GetxController {
       return ex.errorMessage;
     } catch (_) {}
     return returnMessage;
+  }
+
+  Future<String> signInWithFacebook() async {
+    if (AppInit.isWeb) {
+      try {
+        //web facebook login
+        FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+        facebookProvider.addScope('email');
+        facebookProvider.setCustomParameters({
+          'display': 'popup',
+        });
+        // Once signed in, return the UserCredential
+        UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithPopup(facebookProvider);
+        if (userCredential.user != null) {
+          getToHomePage();
+          return 'success';
+        }
+      } catch (e) {
+        if (kDebugMode) e.printError();
+      }
+    } else {
+      try {
+        // Trigger the sign-in flow
+        final LoginResult loginResult = await FacebookAuth.instance.login();
+        if (loginResult.accessToken?.token != null) {
+          // Create a credential from the access token
+          final OAuthCredential facebookAuthCredential =
+              FacebookAuthProvider.credential(loginResult.accessToken!.token);
+          // Once signed in, return the UserCredential
+          UserCredential userCredential = await FirebaseAuth.instance
+              .signInWithCredential(facebookAuthCredential);
+          if (userCredential.user != null) {
+            getToHomePage();
+            return 'success';
+          }
+        } else {
+          return 'failedFacebookAuth'.tr;
+        }
+      } catch (e) {
+        if (kDebugMode) e.printError();
+      }
+    }
+
+    return 'failedFacebookAuth'.tr;
   }
 
   Future<void> logoutUser() async {

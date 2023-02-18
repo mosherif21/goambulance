@@ -12,7 +12,7 @@ class ResetPasswordFailure {
       case 'user-not-found':
         return ResetPasswordFailure('noRegisteredEmail'.tr);
       default:
-        return const ResetPasswordFailure('An unknown error occurred');
+        return ResetPasswordFailure('unknownError'.tr);
     }
   }
 }

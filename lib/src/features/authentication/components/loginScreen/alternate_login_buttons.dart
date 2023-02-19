@@ -30,8 +30,8 @@ class AlternateLoginButtons extends StatelessWidget {
           Buttons.Phone,
           text: 'loginWithMobile'.tr,
           onPressed: () => getToPhoneVerificationScreen(),
-          width: double.infinity,
-          height: screenHeight * 0.05,
+          width: buttonsWidth,
+          height: buttonsHeight,
         ),
         SizedBox(height: buttonSpacing),
         AppInit.isIos
@@ -49,16 +49,25 @@ class AlternateLoginButtons extends StatelessWidget {
                         'error'.tr, returnMessage, SnackPosition.BOTTOM);
                   }
                 },
-                width: double.infinity,
-                height: screenHeight * 0.05,
+                width: buttonsWidth,
+                height: buttonsHeight,
               ),
         SizedBox(height: buttonSpacing),
         SignInButton(
           Buttons.Facebook,
           text: 'loginWithFacebook'.tr,
-          onPressed: () => Get.to(() => const NotAvailableErrorWidget()),
-          width: double.infinity,
-          height: screenHeight * 0.05,
+          onPressed: () async {
+            showLoadingScreen();
+            var returnMessage =
+                await AuthenticationRepository.instance.signInWithFacebook();
+            hideLoadingScreen();
+            if (returnMessage.compareTo('success') != 0) {
+              showSimpleSnackBar(
+                  'error'.tr, returnMessage, SnackPosition.BOTTOM);
+            }
+          },
+          width: buttonsWidth,
+          height: buttonsHeight,
         ),
       ],
     );

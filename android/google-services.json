@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "996996980213-labsmuef29maevbo6p86m36kvrf7p6a8.apps.googleusercontent.com",
+          "client_id": "996996980213-l439oklpveq0pbc4e1t377cqauktkkhf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.goambulance.goambulance",
-            "certificate_hash": "f9ef78f814ce15670522b9175cfeecd4a2390ba8"
+            "certificate_hash": "ceb84d935fce56c56af4a941137d7596f0658e36"
           }
         },
         {

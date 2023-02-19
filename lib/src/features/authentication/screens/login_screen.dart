@@ -22,42 +22,70 @@ class LoginScreen extends StatelessWidget {
     final screenWidth = getScreenWidth(context);
     ConnectivityChecker.checkConnection(displayAlert: true);
     Get.put(LoginController());
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.only(
-                left: kDefaultPaddingSize,
-                right: kDefaultPaddingSize,
-                bottom: kDefaultPaddingSize),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ButtonLanguageSelect(screenHeight: screenHeight),
-                Image(
-                  image: const AssetImage(kLogoImageWithSlogan),
-                  height: screenHeight * 0.25,
-                ),
-                SizedBox(height: screenHeight * 0.02),
-                const LoginForm(),
-                OrDivider(screenHeight: screenHeight),
-                AlternateLoginButtons(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                ),
-                SizedBox(height: screenHeight * 0.01),
-                RegularTextButton(
-                  buttonText: 'noEmailAccount'.tr,
-                  onPressed: () => Get.to(
-                    () => const EmailRegisterScreen(),
-                    transition: AppInit.getPageTransition(),
-                  ),
-                ),
-              ],
+    Widget widget;
+    switch (AppInit.getScreenSize(MediaQuery.of(context).size.width)) {
+      case ScreenSize.small:
+        widget = loginPageSmall(
+            screenHeight: screenHeight, screenWidth: screenWidth);
+        break;
+      case ScreenSize.medium:
+        widget = loginPageMedium(
+            screenHeight: screenHeight, screenWidth: screenWidth);
+        break;
+      case ScreenSize.large:
+        widget = loginPageLarge(
+            screenHeight: screenHeight, screenWidth: screenWidth);
+        break;
+    }
+    return SafeArea(child: widget);
+  }
+}
+
+Widget loginPageSmall(
+    {required double screenHeight, required double screenWidth}) {
+  return Scaffold(
+    body: SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.only(
+            left: kDefaultPaddingSize,
+            right: kDefaultPaddingSize,
+            bottom: kDefaultPaddingSize),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const ButtonLanguageSelect(),
+            Image(
+              image: const AssetImage(kLogoImageWithSlogan),
+              height: screenHeight * 0.25,
             ),
-          ),
+            SizedBox(height: screenHeight * 0.02),
+            const LoginForm(),
+            OrDivider(screenHeight: screenHeight),
+            AlternateLoginButtons(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+            ),
+            SizedBox(height: screenHeight * 0.01),
+            RegularTextButton(
+              buttonText: 'noEmailAccount'.tr,
+              onPressed: () => Get.to(
+                () => const EmailRegisterScreen(),
+                transition: AppInit.getPageTransition(),
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
+
+Widget loginPageMedium(
+    {required double screenHeight, required double screenWidth}) {
+  return const Scaffold();
+}
+
+Widget loginPageLarge(
+    {required double screenHeight, required double screenWidth}) {
+  return const Scaffold();
 }

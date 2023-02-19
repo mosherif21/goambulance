@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:goambulance/src/general/common_functions.dart';
 
 import '../constants/styles.dart';
 
@@ -15,10 +14,9 @@ class RegularElevatedButton extends StatelessWidget {
   final bool enabled;
   @override
   Widget build(BuildContext context) {
-    double screenHeight = getScreenHeight(context);
     return SizedBox(
       width: double.infinity,
-      height: screenHeight * 0.05,
+      height: 50,
       child: ElevatedButton(
         style: kElevatedButtonRegularStyle,
         onPressed: () => enabled ? onPressed() : null,

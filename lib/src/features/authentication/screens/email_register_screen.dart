@@ -28,7 +28,7 @@ class EmailRegisterScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ButtonLanguageSelect(screenHeight: screenHeight),
+                const ButtonLanguageSelect(),
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
                   height: screenHeight * 0.25,

@@ -18,8 +18,6 @@ class AlternateLoginButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double buttonsHeight =
-        AppInit.notWebMobile ? screenHeight * 0.06 : screenHeight * 0.05;
     double buttonsWidth = screenWidth * 0.85;
     double buttonSpacing = screenHeight * 0.01;
     return Column(
@@ -30,7 +28,7 @@ class AlternateLoginButtons extends StatelessWidget {
           text: 'loginWithMobile'.tr,
           onPressed: () => getToPhoneVerificationScreen(),
           width: buttonsWidth,
-          height: buttonsHeight,
+          height: 50.0,
         ),
         SizedBox(height: buttonSpacing),
         AppInit.isIos
@@ -49,7 +47,7 @@ class AlternateLoginButtons extends StatelessWidget {
                   }
                 },
                 width: buttonsWidth,
-                height: buttonsHeight,
+                height: 50.0,
               ),
         SizedBox(height: buttonSpacing),
         SignInButton(
@@ -66,7 +64,7 @@ class AlternateLoginButtons extends StatelessWidget {
             }
           },
           width: buttonsWidth,
-          height: buttonsHeight,
+          height: 50.0,
         ),
       ],
     );

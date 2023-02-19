@@ -18,6 +18,8 @@ enum Language { english, arabic }
 
 enum InputType { email, phone, text }
 
+enum ScreenSize { small, medium, large }
+
 class AppInit {
   static bool showOnBoard = false;
   static bool notWebMobile = false;
@@ -34,6 +36,19 @@ class AppInit {
   static Transition transition = Transition.leftToRightWithFade;
   // ignore: prefer_typing_uninitialized_variables
   static late final notificationToken;
+  static const _breakPoint1 = 600.0;
+  static const _breakPoint2 = 840.0;
+
+  static ScreenSize getScreenSize(double width) {
+    if (width < _breakPoint1) {
+      return ScreenSize.small;
+    } else if (width >= _breakPoint1 && width <= _breakPoint2) {
+      return ScreenSize.medium;
+    } else {
+      return ScreenSize.large;
+    }
+  }
+
   static Future<void> initializeConstants() async {
     if (!isConstantsInitialised) {
       prefs = await SharedPreferences.getInstance();

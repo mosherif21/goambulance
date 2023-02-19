@@ -7,9 +7,10 @@ import '../constants/app_init_constants.dart';
 import 'language_select.dart';
 
 class ButtonLanguageSelect extends StatelessWidget {
-  const ButtonLanguageSelect({Key? key, required this.screenHeight})
-      : super(key: key);
-  final double screenHeight;
+  const ButtonLanguageSelect({
+    Key? key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -17,7 +18,7 @@ class ButtonLanguageSelect extends StatelessWidget {
           ? Alignment.centerRight
           : Alignment.centerLeft,
       child: SizedBox(
-        width: screenHeight * 0.1,
+        width: 80.0,
         child: TextButton(
           onPressed: () async {
             await RegularBottomSheet.showRegularBottomSheet(
@@ -39,9 +40,9 @@ class ButtonLanguageSelect extends StatelessWidget {
               ),
               Text(
                 'lang'.tr,
-                style: TextStyle(
+                style: const TextStyle(
                     fontFamily: 'Bruno Ace',
-                    fontSize: screenHeight * 0.02,
+                    fontSize: 20.0,
                     color: Colors.black54),
               ),
             ],

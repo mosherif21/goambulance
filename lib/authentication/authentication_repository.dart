@@ -173,7 +173,6 @@ class AuthenticationRepository extends GetxController {
       }
     } else {
       try {
-        // Trigger the sign-in flow
         final LoginResult loginResult = await FacebookAuth.instance.login();
         if (loginResult.accessToken?.token != null) {
           // Create a credential from the access token
@@ -193,7 +192,6 @@ class AuthenticationRepository extends GetxController {
         if (kDebugMode) e.printError();
       }
     }
-
     return 'failedFacebookAuth'.tr;
   }
 

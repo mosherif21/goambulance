@@ -34,7 +34,8 @@ class HomePageScreen extends StatelessWidget {
                     FirebaseDataAccess.instance.logout();
                     await AuthenticationRepository.instance
                         .logoutUser()
-                        .then((value) => Get.offAll(() => const LoginScreen()));
+                        .whenComplete(
+                            () => Get.offAll(() => const LoginScreen()));
                   },
                   enabled: true),
               const SizedBox(height: 20.0),

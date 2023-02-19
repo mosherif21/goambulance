@@ -123,7 +123,7 @@ class MapsController extends GetxController {
           Get.back();
           locationServiceDialog = false;
           // await Geolocator.openLocationSettings()
-          //     .then((value) => _getLocationPermission());
+          //     .whenComplete(() => _getLocationPermission());
         },
         buttonText: 'oK'.tr,
       ).showTextSingleButtonDialogue();
@@ -176,7 +176,7 @@ class MapsController extends GetxController {
 
   void _getCurrentLocation() async {
     mapStatus = MapStatus.loadingMapData;
-    await firebase.getUserType().then((value) async {
+    await firebase.getUserType().whenComplete(() async {
       await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
         (locationPosition) {
           _currentLocation = locationPosition;

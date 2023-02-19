@@ -143,7 +143,7 @@ class AuthenticationRepository extends GetxController {
     try {
       await _auth
           .sendPasswordResetEmail(email: email)
-          .then((value) => returnMessage = 'emailSent');
+          .whenComplete(() => returnMessage = 'emailSent');
     } on FirebaseAuthException catch (e) {
       final ex = ResetPasswordFailure.code(e.code);
       if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');

@@ -7,20 +7,15 @@ import 'package:goambulance/src/features/home_page/screens/home_page_screen.dart
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 import 'authentication/authentication_repository.dart';
-import 'package:flutter/services.dart';
 
 void main() async {
-  await AppInit.initialize().then((value) => runApp(const MyApp()));
+  await AppInit.initialize().whenComplete(() => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     return GetMaterialApp(
       translations: Languages(),
       locale: AppInit.setLocale,

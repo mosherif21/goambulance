@@ -1,11 +1,12 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
+
 import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
@@ -19,6 +20,8 @@ enum Language { english, arabic }
 enum InputType { email, phone, text }
 
 enum ScreenSize { small, medium, large }
+
+enum AuthType { login, register }
 
 class AppInit {
   static bool showOnBoard = false;
@@ -36,6 +39,8 @@ class AppInit {
   static Transition transition = Transition.leftToRightWithFade;
   // ignore: prefer_typing_uninitialized_variables
   static late final notificationToken;
+  static final currentAuthType = AuthType.login.obs;
+
   static const _breakPoint1 = 600.0;
   static const _breakPoint2 = 840.0;
 

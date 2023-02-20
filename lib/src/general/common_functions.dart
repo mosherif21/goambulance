@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../features/home_page/screens/home_page_screen.dart';
 
@@ -12,7 +13,8 @@ double getScreenWidth(BuildContext context) {
 }
 
 void getToHomePage() {
-  Get.offAll(() => const HomePageScreen());
+  Get.offAll(() => const HomePageScreen())
+      ?.whenComplete(() => AppInit.currentAuthType.value = AuthType.login);
 }
 
 void showSimpleSnackBar(String title, String body, SnackPosition position) {

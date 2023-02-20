@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
 
-import '../../../../common_widgets/text_form_field.dart';
-import '../../../../common_widgets/text_form_field_passwords.dart';
+import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../general/common_widgets/text_form_field.dart';
+import '../../../../general/common_widgets/text_form_field_passwords.dart';
 
 class EmailRegisterForm extends StatelessWidget {
   const EmailRegisterForm({Key? key}) : super(key: key);

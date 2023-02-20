@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/common_widgets/single_button_dialog_alert.dart';
+import 'package:goambulance/src/general/common_widgets/single_button_dialog_alert.dart';
 
 class TextSingleButtonDialogue {
   final String title;

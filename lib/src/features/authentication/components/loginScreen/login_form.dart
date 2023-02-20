@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/common_widgets/regular_text_button.dart';
-import 'package:goambulance/src/common_widgets/text_form_field_passwords.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/authentication/controllers/login_controller.dart';
 
-import '../../../../common_widgets/regular_bottom_sheet.dart';
-import '../../../../common_widgets/regular_elevated_button.dart';
-import '../../../../common_widgets/text_form_field.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../general/common_widgets/regular_text_button.dart';
+import '../../../../general/common_widgets/text_form_field.dart';
+import '../../../../general/common_widgets/text_form_field_passwords.dart';
 import '../resetPassword/forgot_password.dart';
 
 class LoginForm extends StatelessWidget {

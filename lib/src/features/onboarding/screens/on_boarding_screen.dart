@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/common_widgets/regular_bottom_sheet.dart';
 import 'package:goambulance/src/connectivity/connectivity.dart';
 import 'package:goambulance/src/features/onboarding/components/design/on_boarding_next_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../common_widgets/language_select.dart';
+import '../../../general/common_widgets/language_select.dart';
+import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../components/design/liquid_swipe.dart';
 import '../components/models.dart';
 import '../components/onboarding_shared_preferences.dart';

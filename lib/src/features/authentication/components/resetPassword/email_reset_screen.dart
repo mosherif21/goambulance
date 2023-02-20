@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 
-import '../../../../common_widgets/single_entry_screen.dart';
 import '../../../../constants/app_init_constants.dart';
 import '../../../../general/common_functions.dart';
+import '../../../../general/common_widgets/single_entry_screen.dart';
 import '../../controllers/reset_password_controller.dart';
 
 void getToResetPasswordScreen() {

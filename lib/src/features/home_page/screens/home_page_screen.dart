@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_access.dart';
-import 'package:goambulance/src/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/features/authentication/screens/auth_screen.dart';
 import 'package:goambulance/src/features/home_page/components/speech_to_text_test/speech_to_text.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
+import '../../../general/common_widgets/regular_elevated_button.dart';
 import '../components/map/map_controllers/maps_controller.dart';
 import '../components/map/widgets/google_map_widget.dart';
 

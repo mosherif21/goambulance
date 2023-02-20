@@ -8,7 +8,7 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:lottie/lottie.dart';
 
-import '../common_widgets/no_button_dialog_alert.dart';
+import '../general/common_widgets/no_button_dialog_alert.dart';
 import '../general/splash_screen.dart';
 
 class ConnectivityController extends GetxController {

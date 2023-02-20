@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/common_widgets/regular_bottom_sheet.dart';
+import 'package:goambulance/src/general/common_widgets/regular_bottom_sheet.dart';
 
-import '../../localization/language/language_functions.dart';
-import '../constants/app_init_constants.dart';
+import '../../../localization/language/language_functions.dart';
+import '../../constants/app_init_constants.dart';
 import 'language_select.dart';
 
 class ButtonLanguageSelect extends StatelessWidget {

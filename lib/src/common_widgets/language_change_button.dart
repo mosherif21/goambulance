@@ -18,7 +18,7 @@ class ButtonLanguageSelect extends StatelessWidget {
           ? Alignment.centerRight
           : Alignment.centerLeft,
       child: SizedBox(
-        width: 80.0,
+        width: AppInit.currentDeviceLanguage == Language.english ? 75.0 : 85.0,
         child: TextButton(
           onPressed: () async {
             await RegularBottomSheet.showRegularBottomSheet(
@@ -37,12 +37,13 @@ class ButtonLanguageSelect extends StatelessWidget {
               const Icon(
                 Icons.language_rounded,
                 color: Colors.black54,
+                size: 24.0,
               ),
               Text(
                 'lang'.tr,
                 style: const TextStyle(
                     fontFamily: 'Bruno Ace',
-                    fontSize: 20.0,
+                    fontSize: 17.0,
                     color: Colors.black54),
               ),
             ],

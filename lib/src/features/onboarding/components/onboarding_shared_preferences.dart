@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../localization/language/language_functions.dart';
 import '../../../general/loading_screen.dart';
-import '../../authentication/screens/login_screen.dart';
+import '../../authentication/screens/auth_screen.dart';
 
 late SharedPreferences _prefs;
 Future<void> setShowOnBoarding() async {
@@ -27,7 +27,7 @@ Future<void> setLocaleLanguage(String languageCode) async {
   await setOnBoardingLocale(languageCode);
   hideLoadingScreen();
   Get.offAll(
-    () => const LoginScreen(),
+    () => const AuthenticationScreen(),
     transition: AppInit.getPageTransition(),
   );
 }

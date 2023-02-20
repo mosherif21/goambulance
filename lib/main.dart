@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/features/authentication/screens/login_screen.dart';
+import 'package:goambulance/src/features/authentication/screens/auth_screen.dart';
 import 'package:goambulance/src/features/home_page/screens/home_page_screen.dart';
 import 'package:goambulance/src/features/onboarding/screens/on_boarding_screen.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
+
 import 'authentication/authentication_repository.dart';
 
 void main() async {
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           ? const OnBoardingScreen()
           : AuthenticationRepository.instance.isUserLoggedIn
               ? const HomePageScreen()
-              : const LoginScreen(),
+              : const AuthenticationScreen(),
     );
   }
 }

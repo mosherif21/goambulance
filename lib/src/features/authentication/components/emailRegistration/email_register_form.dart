@@ -7,12 +7,9 @@ import 'package:goambulance/src/features/authentication/controllers/register_con
 import '../../../../common_widgets/text_form_field.dart';
 import '../../../../common_widgets/text_form_field_passwords.dart';
 
-RxBool passwordHide = true.obs;
-RxBool confirmPasswordHide = true.obs;
-
 class EmailRegisterForm extends StatelessWidget {
-  const EmailRegisterForm({Key? key, required this.height}) : super(key: key);
-  final double height;
+  const EmailRegisterForm({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(RegisterController());

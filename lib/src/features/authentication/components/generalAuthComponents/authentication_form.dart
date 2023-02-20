@@ -35,7 +35,7 @@ class AuthenticationForm extends StatelessWidget {
             screenHeight: screenHeight,
             screenWidth: screenWidth,
           ),
-          SizedBox(height: screenHeight * 0.01),
+          SizedBox(height: screenHeight * 0.002),
           Obx(
             () => RegularTextButton(
               buttonText: currentAuth.value == AuthType.login

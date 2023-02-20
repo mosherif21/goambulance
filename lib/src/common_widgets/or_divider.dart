@@ -12,7 +12,7 @@ class OrDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(screenHeight * 0.02),
+      padding: EdgeInsets.all(screenHeight * 0.01),
       child: Row(
         children: <Widget>[
           const Expanded(

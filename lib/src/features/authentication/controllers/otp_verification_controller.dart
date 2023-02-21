@@ -46,7 +46,10 @@ class OtpVerificationController extends GetxController {
     if (returnMessage.compareTo('success') == 0) {
       getToHomePage();
     } else {
-      showSimpleSnackBar('error'.tr, returnMessage, SnackPosition.BOTTOM);
+      showSimpleSnackBar(
+        'error'.tr,
+        returnMessage,
+      );
     }
   }
 }

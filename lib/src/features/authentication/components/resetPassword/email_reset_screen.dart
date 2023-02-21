@@ -27,9 +27,14 @@ void getToResetPasswordScreen() {
         if (returnMessage.compareTo('emailSent') == 0) {
           Get.back();
           showSimpleSnackBar(
-              'success'.tr, 'emailResetSuccess'.tr, SnackPosition.BOTTOM);
+            'success'.tr,
+            'emailResetSuccess'.tr,
+          );
         } else {
-          showSimpleSnackBar('error'.tr, returnMessage, SnackPosition.BOTTOM);
+          showSimpleSnackBar(
+            'error'.tr,
+            returnMessage,
+          );
         }
       },
     ),

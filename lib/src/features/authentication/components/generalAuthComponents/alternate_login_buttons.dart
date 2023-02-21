@@ -42,7 +42,9 @@ class AlternateLoginButtons extends StatelessWidget {
                   hideLoadingScreen();
                   if (returnMessage.compareTo('success') != 0) {
                     showSimpleSnackBar(
-                        'error'.tr, returnMessage, SnackPosition.BOTTOM);
+                      'error'.tr,
+                      returnMessage,
+                    );
                   }
                 },
                 width: buttonsWidth,
@@ -59,7 +61,9 @@ class AlternateLoginButtons extends StatelessWidget {
             hideLoadingScreen();
             if (returnMessage.compareTo('success') != 0) {
               showSimpleSnackBar(
-                  'error'.tr, returnMessage, SnackPosition.BOTTOM);
+                'error'.tr,
+                returnMessage,
+              );
             }
           },
           width: buttonsWidth,

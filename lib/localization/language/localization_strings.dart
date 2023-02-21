@@ -138,9 +138,9 @@ class Languages extends Translations {
           'userDisabled': 'This user is disabled',
           'invalidPhoneNumber': 'Entered phone number is invalid',
           'wrongOTP': 'Entered OTP is wrong',
-          'failedGoogleAuth': 'Google authentication failed. Please try again',
+          'failedGoogleAuth': 'Google authentication failed, Please try again',
           'failedFacebookAuth':
-              'Facebook authentication failed. Please try again',
+              'Facebook authentication failed, Please try again',
           'failedAuth': 'Authentication failed',
           'success': 'Success',
           'error': 'Error',

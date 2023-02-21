@@ -16,7 +16,7 @@ void getToHomePage() => Get.offAll(() => const HomePageScreen())
 
 SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 
-void showSimpleSnackBar(String title, String body, SnackPosition position) {
+void showFloatingSnackBar(String title, String body, SnackPosition position) {
   Get.snackbar(title, body,
       colorText: Colors.black,
       snackPosition: position,
@@ -24,6 +24,15 @@ void showSimpleSnackBar(String title, String body, SnackPosition position) {
           snackBarStatus = snackStatusCallBack!,
       barBlur: 20.0,
       margin: const EdgeInsets.all(20.0));
+}
+
+void showSimpleSnackBar(String title, String body) {
+  ScaffoldMessenger.of(Get.context!).showSnackBar(
+    SnackBar(
+      content: Text('$title. $body.'),
+      backgroundColor: Colors.red,
+    ),
+  );
 }
 
 Future<void> showLoadingScreen() async {

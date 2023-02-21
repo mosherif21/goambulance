@@ -21,7 +21,13 @@ enum InputType { email, phone, text }
 
 enum ScreenSize { small, medium, large }
 
-enum AuthType { login, register }
+enum AuthType {
+  emailLogin,
+  emailRegister,
+  facebook,
+  google,
+  phone,
+}
 
 class AppInit {
   static bool showOnBoard = false;
@@ -39,7 +45,7 @@ class AppInit {
   static Transition transition = Transition.leftToRightWithFade;
   // ignore: prefer_typing_uninitialized_variables
   static late final notificationToken;
-  static final currentAuthType = AuthType.login.obs;
+  static final currentAuthType = AuthType.emailLogin.obs;
 
   static const _breakPoint1 = 600.0;
   static const _breakPoint2 = 840.0;

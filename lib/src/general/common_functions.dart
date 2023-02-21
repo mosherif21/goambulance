@@ -11,8 +11,16 @@ double getScreenHeight(BuildContext context) =>
 double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
 
-void getToHomePage() => Get.offAll(() => const HomePageScreen())
-    ?.whenComplete(() => AppInit.currentAuthType.value = AuthType.login);
+void getToHomePage() => Get.offAll(() => const HomePageScreen());
+
+void authenticatedSetup(AuthType authType) {
+  AppInit.currentAuthType.value = AuthType.emailLogin;
+  // if (Get.isRegistered<LoginController>()) {
+  //   Get.delete<LoginController>();
+  // } else if (Get.isRegistered<RegisterController>()) {
+  //   Get.delete<RegisterController>();
+  // }
+}
 
 SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 

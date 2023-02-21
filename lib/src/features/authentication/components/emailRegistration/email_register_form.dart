@@ -13,7 +13,6 @@ class EmailRegisterForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(RegisterController());
-    //final formKey = GlobalKey<FormState>();
     return Form(
       child: Container(
         padding: const EdgeInsets.all(5),

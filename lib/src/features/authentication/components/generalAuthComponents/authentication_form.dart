@@ -24,7 +24,7 @@ class AuthenticationForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Obx(() => AppInit.currentAuthType.value == AuthType.login
+          Obx(() => AppInit.currentAuthType.value == AuthType.emailLogin
               ? const LoginForm()
               : const EmailRegisterForm()),
           OrDivider(screenHeight: screenHeight),
@@ -35,14 +35,15 @@ class AuthenticationForm extends StatelessWidget {
           SizedBox(height: screenHeight * 0.002),
           Obx(
             () => RegularTextButton(
-              buttonText: AppInit.currentAuthType.value == AuthType.login
+              buttonText: AppInit.currentAuthType.value == AuthType.emailLogin
                   ? 'noEmailAccount'.tr
                   : 'alreadyHaveAnAccount'.tr,
-              onPressed: () => AppInit.currentAuthType.value == AuthType.login
-                  ? Get.delete<LoginController>().whenComplete(
-                      () => AppInit.currentAuthType.value = AuthType.register)
-                  : Get.delete<RegisterController>().whenComplete(
-                      () => AppInit.currentAuthType.value = AuthType.login),
+              onPressed: () => AppInit.currentAuthType.value ==
+                      AuthType.emailLogin
+                  ? Get.delete<LoginController>().whenComplete(() =>
+                      AppInit.currentAuthType.value = AuthType.emailRegister)
+                  : Get.delete<RegisterController>().whenComplete(() =>
+                      AppInit.currentAuthType.value = AuthType.emailLogin),
             ),
           ),
         ],

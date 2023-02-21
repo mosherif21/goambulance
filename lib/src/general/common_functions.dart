@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../features/authentication/controllers/login_controller.dart';
+import '../features/authentication/controllers/register_controller.dart';
 import '../features/home_page/screens/home_page_screen.dart';
 
 double getScreenHeight(BuildContext context) =>
@@ -11,10 +13,16 @@ double getScreenHeight(BuildContext context) =>
 double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
 
-void getToHomePage() => Get.offAll(() => const HomePageScreen());
+void getToHomePage() => Get.offAll(() => const HomePageScreen())
+    ?.whenComplete(() => authenticatedSetup());
 
-void authenticatedSetup(AuthType authType) {
+void authenticatedSetup() {
   AppInit.currentAuthType.value = AuthType.emailLogin;
+  if (Get.isRegistered<LoginController>()) {
+    Get.delete<LoginController>();
+  } else if (Get.isRegistered<RegisterController>()) {
+    Get.delete<RegisterController>();
+  }
 }
 
 SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
@@ -33,7 +41,7 @@ void showSimpleSnackBar(String title, String body) {
   ScaffoldMessenger.of(Get.context!).showSnackBar(
     SnackBar(
       content: Text('$title. $body.'),
-      backgroundColor: Colors.red,
+      backgroundColor: const Color(0xFF28AADC),
     ),
   );
 }

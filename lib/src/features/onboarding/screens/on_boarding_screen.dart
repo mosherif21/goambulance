@@ -54,12 +54,12 @@ class OnBoardingScreen extends StatelessWidget {
                   await RegularBottomSheet.showRegularBottomSheet(
                     LanguageSelect(
                       onEnglishLanguagePress: () async {
-                        await setLocaleLanguage(
+                        await setOnBoardingLocaleLanguage(
                           'en',
                         );
                       },
                       onArabicLanguagePress: () async {
-                        await setLocaleLanguage(
+                        await setOnBoardingLocaleLanguage(
                           'ar',
                         );
                       },

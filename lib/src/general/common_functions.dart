@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../features/home_page/screens/home_page_screen.dart';
 
@@ -17,9 +18,46 @@ void getToHomePage() {
       ?.whenComplete(() => AppInit.currentAuthType.value = AuthType.login);
 }
 
+SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
+
 void showSimpleSnackBar(String title, String body, SnackPosition position) {
   Get.snackbar(title, body,
       colorText: Colors.black,
       snackPosition: position,
+      snackbarStatus: (snackStatusCallBack) =>
+          snackBarStatus = snackStatusCallBack!,
+      barBlur: 20.0,
       margin: const EdgeInsets.all(20.0));
+}
+
+Future<void> showLoadingScreen() async {
+  final height = Get.context?.height;
+  Get.dialog(
+    AlertDialog(
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      content: WillPopScope(
+        onWillPop: () async => false,
+        child: SizedBox(
+          height: AppInit.notWebMobile ? 812.0 : double.infinity,
+          width: AppInit.notWebMobile ? 500.0 : double.infinity,
+          child: LoadingAnimationWidget.inkDrop(
+            color: Colors.white,
+            size: height! * 0.08,
+          ),
+        ),
+      ),
+    ),
+    barrierDismissible: false,
+  );
+}
+
+void hideLoadingScreen() {
+  if (snackBarStatus == SnackbarStatus.CLOSING ||
+      snackBarStatus == SnackbarStatus.OPEN ||
+      snackBarStatus == SnackbarStatus.OPENING) {
+    Get.back(closeOverlays: true);
+  } else {
+    Get.back();
+  }
 }

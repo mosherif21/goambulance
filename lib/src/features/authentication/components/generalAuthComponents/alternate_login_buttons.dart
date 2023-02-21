@@ -4,7 +4,6 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/general/loading_screen.dart';
 
 import '../../../../general/common_functions.dart';
 import '../otpVerification/phone_verification_screen.dart';
@@ -37,14 +36,18 @@ class AlternateLoginButtons extends StatelessWidget {
                 Buttons.GoogleDark,
                 text: 'loginWithGoogle'.tr,
                 onPressed: () async {
+                  // showLoadingScreen();
+                  // var returnMessage = await AuthenticationRepository.instance
+                  //     .signInWithGoogle();
+                  // hideLoadingScreen();
+                  // if (returnMessage.compareTo('success') != 0) {
+                  //   showSimpleSnackBar(
+                  //       'error'.tr, returnMessage, SnackPosition.BOTTOM);
+                  // }
+
                   showLoadingScreen();
-                  var returnMessage = await AuthenticationRepository.instance
-                      .signInWithGoogle();
                   hideLoadingScreen();
-                  if (returnMessage.compareTo('success') != 0) {
-                    showSimpleSnackBar(
-                        'error'.tr, returnMessage, SnackPosition.BOTTOM);
-                  }
+                  showSimpleSnackBar("ay7aga", "ay7aga", SnackPosition.BOTTOM);
                 },
                 width: buttonsWidth,
                 height: 50.0,

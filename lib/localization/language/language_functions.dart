@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../../src/constants/app_init_constants.dart';
 import '../../src/features/onboarding/components/onboarding_shared_preferences.dart';
-import '../../src/general/loading_screen.dart';
+import '../../src/general/common_functions.dart';
 
 const String languageCode = 'languageCode';
 

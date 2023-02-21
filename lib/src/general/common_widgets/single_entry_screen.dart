@@ -35,54 +35,134 @@ class SingleEntryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = getScreenHeight(context);
-    return Scaffold(
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(kDefaultPaddingSize),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Lottie.asset(
-              lottieAssetAnim,
-              height: screenHeight * 0.5,
+    final screenHeight = getScreenHeight(context);
+    final screenWidth = getScreenWidth(context);
+    Widget entryScreenWidget;
+    switch (AppInit.getScreenSize(screenWidth)) {
+      case ScreenSize.small:
+      case ScreenSize.medium:
+        entryScreenWidget = entryScreenSmall(
+            screenHeight: screenHeight, screenWidth: screenWidth);
+        break;
+      case ScreenSize.large:
+        entryScreenWidget = entryScreenLarge(
+            screenHeight: screenHeight, screenWidth: screenWidth);
+        break;
+    }
+    return Scaffold(body: entryScreenWidget);
+  }
+
+  Widget entryScreenSmall(
+      {required double screenHeight, required double screenWidth}) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(kDefaultPaddingSize),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            lottieAssetAnim,
+            height: screenHeight * 0.5,
+          ),
+          Text(
+            title,
+            style: GoogleFonts.montserrat(
+              color: Colors.black,
+              fontSize: AppInit.notWebMobile ? 25 : 14,
+              fontWeight: FontWeight.w700,
             ),
-            Text(
-              title,
-              style: GoogleFonts.montserrat(
-                color: Colors.black,
-                fontSize: AppInit.notWebMobile ? 25 : 14,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            const SizedBox(
-              height: 20.0,
-            ),
-            inputType == InputType.phone
-                ? IntlPhoneField(
-                    decoration: InputDecoration(
-                      labelText: textFormTitle,
-                      hintText: textFormHint,
-                      border: const OutlineInputBorder(
-                        borderSide: BorderSide(),
-                      ),
-                    ),
-                    initialCountryCode: 'EG',
-                    onChanged: (phone) {
-                      textController.text = phone.completeNumber;
-                    },
-                  )
-                : TextFormFieldRegular(
+          ),
+          const SizedBox(
+            height: 20.0,
+          ),
+          inputType == InputType.phone
+              ? IntlPhoneField(
+                  decoration: InputDecoration(
                     labelText: textFormTitle,
                     hintText: textFormHint,
-                    prefixIconData: prefixIconData,
-                    textController: textController,
-                    inputType: inputType,
+                    border: const OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    ),
                   ),
-            const SizedBox(height: 20.0),
-            RegularElevatedButton(
-                buttonText: buttonTitle, enabled: true, onPressed: onPressed),
-          ],
-        ),
+                  initialCountryCode: 'EG',
+                  onChanged: (phone) {
+                    textController.text = phone.completeNumber;
+                  },
+                )
+              : TextFormFieldRegular(
+                  labelText: textFormTitle,
+                  hintText: textFormHint,
+                  prefixIconData: prefixIconData,
+                  textController: textController,
+                  inputType: inputType,
+                ),
+          const SizedBox(height: 20.0),
+          RegularElevatedButton(
+              buttonText: buttonTitle, enabled: true, onPressed: onPressed),
+        ],
+      ),
+    );
+  }
+
+  Widget entryScreenLarge(
+      {required double screenHeight, required double screenWidth}) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(kDefaultPaddingSize),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Lottie.asset(
+              lottieAssetAnim,
+              width: double.infinity,
+              height: screenHeight,
+            ),
+          ),
+          Expanded(
+            child: Center(
+              child: Column(
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.montserrat(
+                      color: Colors.black,
+                      fontSize: AppInit.notWebMobile ? 25 : 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  inputType == InputType.phone
+                      ? IntlPhoneField(
+                          decoration: InputDecoration(
+                            labelText: textFormTitle,
+                            hintText: textFormHint,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          initialCountryCode: 'EG',
+                          onChanged: (phone) {
+                            textController.text = phone.completeNumber;
+                          },
+                        )
+                      : TextFormFieldRegular(
+                          labelText: textFormTitle,
+                          hintText: textFormHint,
+                          prefixIconData: prefixIconData,
+                          textController: textController,
+                          inputType: inputType,
+                        ),
+                  const SizedBox(height: 20.0),
+                  RegularElevatedButton(
+                      buttonText: buttonTitle,
+                      enabled: true,
+                      onPressed: onPressed),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

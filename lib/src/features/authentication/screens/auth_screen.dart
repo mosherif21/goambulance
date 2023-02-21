@@ -34,42 +34,42 @@ class AuthenticationScreen extends StatelessWidget {
       child: Scaffold(body: authWidget),
     );
   }
-}
 
-Widget authScreenSmall(
-    {required double screenHeight, required double screenWidth}) {
-  return SingleChildScrollView(
-    child: Container(
-      padding: const EdgeInsets.only(
-          left: kDefaultPaddingSize,
-          right: kDefaultPaddingSize,
-          bottom: kDefaultPaddingSize),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: screenHeight * 0.01),
-          const ButtonLanguageSelect(),
-          Image(
-            image: const AssetImage(kLogoImageWithSlogan),
-            height: screenHeight * 0.25,
-          ),
-          SizedBox(height: screenHeight * 0.02),
-          AuthenticationForm(
-            screenHeight: screenHeight,
-            screenWidth: screenWidth,
-          ),
-        ],
+  Widget authScreenSmall(
+      {required double screenHeight, required double screenWidth}) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: const EdgeInsets.only(
+            left: kDefaultPaddingSize,
+            right: kDefaultPaddingSize,
+            bottom: kDefaultPaddingSize),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: screenHeight * 0.01),
+            const ButtonLanguageSelect(),
+            Image(
+              image: const AssetImage(kLogoImageWithSlogan),
+              height: screenHeight * 0.25,
+            ),
+            SizedBox(height: screenHeight * 0.02),
+            AuthenticationForm(
+              screenHeight: screenHeight,
+              screenWidth: screenWidth,
+            ),
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget authScreenMedium(
-    {required double screenHeight, required double screenWidth}) {
-  return const Scaffold();
-}
+  Widget authScreenMedium(
+      {required double screenHeight, required double screenWidth}) {
+    return const SingleChildScrollView();
+  }
 
-Widget authScreenLarge(
-    {required double screenHeight, required double screenWidth}) {
-  return const Scaffold();
+  Widget authScreenLarge(
+      {required double screenHeight, required double screenWidth}) {
+    return const SingleChildScrollView();
+  }
 }

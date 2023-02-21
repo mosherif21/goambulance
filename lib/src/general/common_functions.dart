@@ -54,8 +54,8 @@ Future<void> showLoadingScreen() async {
       content: WillPopScope(
         onWillPop: () async => false,
         child: SizedBox(
-          height: AppInit.notWebMobile ? 812.0 : double.infinity,
-          width: AppInit.notWebMobile ? 500.0 : double.infinity,
+          height: double.infinity,
+          width: double.infinity,
           child: LoadingAnimationWidget.inkDrop(
             color: Colors.white,
             size: height! * 0.08,

@@ -57,7 +57,7 @@ void hideLoadingScreen() {
       snackBarStatus == SnackbarStatus.OPEN ||
       snackBarStatus == SnackbarStatus.OPENING) {
     Get.back(closeOverlays: true);
-  } else {
+  } else if (snackBarStatus == SnackbarStatus.CLOSED) {
     Get.back();
   }
 }

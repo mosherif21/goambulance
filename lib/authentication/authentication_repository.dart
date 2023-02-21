@@ -35,7 +35,7 @@ class AuthenticationRepository extends GetxController {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (fireUser.value != null) {
-        getToHomePage();
+        await authenticatedSetup().whenComplete(() => getToHomePage());
         return 'success';
       }
     } on FirebaseAuthException catch (e) {
@@ -51,7 +51,7 @@ class AuthenticationRepository extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       if (fireUser.value != null) {
-        getToHomePage();
+        await authenticatedSetup().whenComplete(() => getToHomePage());
         return 'success';
       }
     } on FirebaseAuthException catch (e) {

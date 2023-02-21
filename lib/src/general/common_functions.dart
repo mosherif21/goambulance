@@ -13,15 +13,14 @@ double getScreenHeight(BuildContext context) =>
 double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
 
-void getToHomePage() => Get.offAll(() => const HomePageScreen())
-    ?.whenComplete(() => authenticatedSetup());
+void getToHomePage() => Get.offAll(() => const HomePageScreen());
 
-void authenticatedSetup() {
+Future<void> authenticatedSetup() async {
   AppInit.currentAuthType.value = AuthType.emailLogin;
   if (Get.isRegistered<LoginController>()) {
-    Get.delete<LoginController>();
+    await Get.delete<LoginController>();
   } else if (Get.isRegistered<RegisterController>()) {
-    Get.delete<RegisterController>();
+    await Get.delete<RegisterController>();
   }
 }
 

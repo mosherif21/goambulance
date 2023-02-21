@@ -38,11 +38,11 @@ class AuthenticationForm extends StatelessWidget {
               buttonText: AppInit.currentAuthType.value == AuthType.emailLogin
                   ? 'noEmailAccount'.tr
                   : 'alreadyHaveAnAccount'.tr,
-              onPressed: () => AppInit.currentAuthType.value ==
+              onPressed: () async => AppInit.currentAuthType.value ==
                       AuthType.emailLogin
-                  ? Get.delete<LoginController>().whenComplete(() =>
+                  ? await Get.delete<LoginController>().whenComplete(() =>
                       AppInit.currentAuthType.value = AuthType.emailRegister)
-                  : Get.delete<RegisterController>().whenComplete(() =>
+                  : await Get.delete<RegisterController>().whenComplete(() =>
                       AppInit.currentAuthType.value = AuthType.emailLogin),
             ),
           ),

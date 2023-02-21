@@ -5,18 +5,14 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../features/home_page/screens/home_page_screen.dart';
 
-double getScreenHeight(BuildContext context) {
-  return MediaQuery.of(context).size.height;
-}
+double getScreenHeight(BuildContext context) =>
+    MediaQuery.of(context).size.height;
 
-double getScreenWidth(BuildContext context) {
-  return MediaQuery.of(context).size.width;
-}
+double getScreenWidth(BuildContext context) =>
+    MediaQuery.of(context).size.width;
 
-void getToHomePage() {
-  Get.offAll(() => const HomePageScreen())
-      ?.whenComplete(() => AppInit.currentAuthType.value = AuthType.login);
-}
+void getToHomePage() => Get.offAll(() => const HomePageScreen())
+    ?.whenComplete(() => AppInit.currentAuthType.value = AuthType.login);
 
 SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 

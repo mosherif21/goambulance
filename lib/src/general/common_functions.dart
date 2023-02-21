@@ -15,11 +15,6 @@ void getToHomePage() => Get.offAll(() => const HomePageScreen());
 
 void authenticatedSetup(AuthType authType) {
   AppInit.currentAuthType.value = AuthType.emailLogin;
-  // if (Get.isRegistered<LoginController>()) {
-  //   Get.delete<LoginController>();
-  // } else if (Get.isRegistered<RegisterController>()) {
-  //   Get.delete<RegisterController>();
-  // }
 }
 
 SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;

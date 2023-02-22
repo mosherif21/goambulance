@@ -114,7 +114,7 @@ class SingleEntryScreen extends StatelessWidget {
             child: Lottie.asset(
               lottieAssetAnim,
               width: double.infinity,
-              height: screenHeight,
+              height: screenHeight * 0.75,
             ),
           ),
           Expanded(

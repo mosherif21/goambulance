@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
 
-import '../../../../general/common_widgets/or_divider.dart';
 import '../../../../general/common_widgets/regular_text_button.dart';
 import '../../controllers/login_controller.dart';
 import '../emailRegistration/email_register_form.dart';
@@ -27,7 +26,6 @@ class AuthenticationForm extends StatelessWidget {
           Obx(() => AppInit.currentAuthType.value == AuthType.emailLogin
               ? const LoginForm()
               : const EmailRegisterForm()),
-          OrDivider(screenHeight: screenHeight),
           AlternateLoginButtons(
             screenHeight: screenHeight,
             screenWidth: screenWidth,

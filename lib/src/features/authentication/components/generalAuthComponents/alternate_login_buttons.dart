@@ -6,6 +6,7 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../../../../general/common_functions.dart';
+import '../../../../general/common_widgets/or_divider.dart';
 import '../otpVerification/phone_verification_screen.dart';
 
 class AlternateLoginButtons extends StatelessWidget {
@@ -22,6 +23,7 @@ class AlternateLoginButtons extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        OrDivider(screenHeight: screenHeight),
         SignInButton(
           Buttons.Phone,
           text: 'loginWithMobile'.tr,

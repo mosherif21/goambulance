@@ -17,18 +17,21 @@ class TextFormFieldRegular extends StatelessWidget {
   final InputType inputType;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: textController,
-      keyboardType: inputType == InputType.email
-          ? TextInputType.emailAddress
-          : TextInputType.text,
-      decoration: InputDecoration(
-        prefixIcon: Icon(
-          prefixIconData,
+    return SizedBox(
+      width: double.infinity < 600.0 ? double.infinity : 600.0,
+      child: TextFormField(
+        controller: textController,
+        keyboardType: inputType == InputType.email
+            ? TextInputType.emailAddress
+            : TextInputType.text,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            prefixIconData,
+          ),
+          labelText: labelText,
+          hintText: hintText,
+          border: const OutlineInputBorder(),
         ),
-        labelText: labelText,
-        hintText: hintText,
-        border: const OutlineInputBorder(),
       ),
     );
   }

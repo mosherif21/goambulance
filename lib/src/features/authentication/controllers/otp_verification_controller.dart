@@ -33,6 +33,10 @@ class OtpVerificationController extends GetxController {
         await AuthenticationRepository.instance.verifyOTP(verificationCode);
     hideLoadingScreen();
     if (returnMessage.compareTo('success') == 0) {
+      if (inputType == InputType.phone &&
+          Get.isRegistered<OtpVerificationController>()) {
+        Get.delete<OtpVerificationController>();
+      }
       getToHomePage();
     } else {
       showSimpleSnackBar(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:goambulance/src/features/authentication/controllers/otp_verification_controller.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
@@ -50,153 +52,161 @@ class SingleEntryScreen extends StatelessWidget {
             screenHeight: screenHeight, screenWidth: screenWidth);
         break;
     }
-    return Scaffold(body: entryScreenWidget);
+    return WillPopScope(
+      onWillPop: () async {
+        if (inputType == InputType.phone &&
+            Get.isRegistered<OtpVerificationController>()) {
+          Get.delete<OtpVerificationController>();
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(kDefaultPaddingSize),
+            child: entryScreenWidget,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget entryScreenSmall(
       {required double screenHeight, required double screenWidth}) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(kDefaultPaddingSize),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Lottie.asset(
-            lottieAssetAnim,
-            height: screenHeight * 0.5,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Lottie.asset(
+          lottieAssetAnim,
+          height: screenHeight * 0.5,
+        ),
+        Text(
+          title,
+          style: GoogleFonts.montserrat(
+            color: Colors.black,
+            fontSize: AppInit.notWebMobile ? 25 : 14,
+            fontWeight: FontWeight.w700,
           ),
-          Text(
-            title,
-            style: GoogleFonts.montserrat(
-              color: Colors.black,
-              fontSize: AppInit.notWebMobile ? 25 : 14,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          const SizedBox(
-            height: 20.0,
-          ),
-          inputType == InputType.phone
-              ? IntlPhoneField(
-                  decoration: InputDecoration(
-                    labelText: textFormTitle,
-                    hintText: textFormHint,
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide(),
-                    ),
-                  ),
-                  initialCountryCode: 'EG',
-                  onChanged: (phone) {
-                    textController.text = phone.completeNumber;
-                  },
-                )
-              : TextFormFieldRegular(
+        ),
+        const SizedBox(
+          height: 20.0,
+        ),
+        inputType == InputType.phone
+            ? IntlPhoneField(
+                decoration: InputDecoration(
                   labelText: textFormTitle,
                   hintText: textFormHint,
-                  prefixIconData: prefixIconData,
-                  textController: textController,
-                  inputType: inputType,
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(),
+                  ),
                 ),
-          const SizedBox(height: 20.0),
-          RegularElevatedButton(
-              buttonText: buttonTitle, enabled: true, onPressed: onPressed),
-          inputType == InputType.phone
-              ? const SizedBox(height: 10.0)
-              : const SizedBox(),
-          inputType == InputType.phone
-              ? AlternateLoginButtons(
-                  screenHeight: screenHeight,
-                  screenWidth: screenWidth,
-                  showPhoneLogin: false,
-                )
-              : const SizedBox(),
-        ],
-      ),
+                initialCountryCode: 'EG',
+                onChanged: (phone) {
+                  textController.text = phone.completeNumber;
+                },
+              )
+            : TextFormFieldRegular(
+                labelText: textFormTitle,
+                hintText: textFormHint,
+                prefixIconData: prefixIconData,
+                textController: textController,
+                inputType: inputType,
+              ),
+        const SizedBox(height: 20.0),
+        RegularElevatedButton(
+            buttonText: buttonTitle, enabled: true, onPressed: onPressed),
+        inputType == InputType.phone
+            ? const SizedBox(height: 10.0)
+            : const SizedBox(),
+        inputType == InputType.phone
+            ? AlternateLoginButtons(
+                screenHeight: screenHeight,
+                screenWidth: screenWidth,
+                showPhoneLogin: false,
+              )
+            : const SizedBox(),
+      ],
     );
   }
 
   Widget entryScreenLarge(
       {required double screenHeight, required double screenWidth}) {
-    return Center(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.all(kDefaultPaddingSize),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Lottie.asset(
-                lottieAssetAnim,
-                width: double.infinity,
-                height: screenHeight * 0.75,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Lottie.asset(
+            lottieAssetAnim,
+            width: double.infinity,
+            height: screenHeight * 0.75,
+          ),
+        ),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(20.0),
+            decoration: const BoxDecoration(
+              boxShadow: [BoxShadow(blurRadius: 5.0)],
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(15),
               ),
             ),
-            Expanded(
-              child: Container(
-                padding: const EdgeInsets.all(20.0),
-                decoration: const BoxDecoration(
-                  boxShadow: [BoxShadow(blurRadius: 5.0)],
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15),
+            child: Column(
+              children: [
+                Text(
+                  title,
+                  style: GoogleFonts.montserrat(
+                    color: Colors.black,
+                    fontSize: AppInit.notWebMobile ? 25 : 14,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.montserrat(
-                        color: Colors.black,
-                        fontSize: AppInit.notWebMobile ? 25 : 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    inputType == InputType.phone
-                        ? IntlPhoneField(
-                            decoration: InputDecoration(
-                              labelText: textFormTitle,
-                              hintText: textFormHint,
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(),
-                              ),
-                            ),
-                            initialCountryCode: 'EG',
-                            onChanged: (phone) {
-                              textController.text = phone.completeNumber;
-                            },
-                          )
-                        : TextFormFieldRegular(
-                            labelText: textFormTitle,
-                            hintText: textFormHint,
-                            prefixIconData: prefixIconData,
-                            textController: textController,
-                            inputType: inputType,
-                          ),
-                    const SizedBox(height: 20.0),
-                    RegularElevatedButton(
-                        buttonText: buttonTitle,
-                        enabled: true,
-                        onPressed: onPressed),
-                    inputType == InputType.phone
-                        ? Column(
-                            children: [
-                              const SizedBox(height: 10.0),
-                              AlternateLoginButtons(
-                                screenHeight: screenHeight,
-                                screenWidth: screenWidth,
-                                showPhoneLogin: false,
-                              ),
-                            ],
-                          )
-                        : const SizedBox(),
-                  ],
+                const SizedBox(
+                  height: 20.0,
                 ),
-              ),
+                inputType == InputType.phone
+                    ? IntlPhoneField(
+                        decoration: InputDecoration(
+                          labelText: textFormTitle,
+                          hintText: textFormHint,
+                          border: const OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        initialCountryCode: 'EG',
+                        onChanged: (phone) {
+                          textController.text = phone.completeNumber;
+                        },
+                      )
+                    : TextFormFieldRegular(
+                        labelText: textFormTitle,
+                        hintText: textFormHint,
+                        prefixIconData: prefixIconData,
+                        textController: textController,
+                        inputType: inputType,
+                      ),
+                const SizedBox(height: 20.0),
+                RegularElevatedButton(
+                    buttonText: buttonTitle,
+                    enabled: true,
+                    onPressed: onPressed),
+                inputType == InputType.phone
+                    ? Column(
+                        children: [
+                          const SizedBox(height: 10.0),
+                          AlternateLoginButtons(
+                            screenHeight: screenHeight,
+                            screenWidth: screenWidth,
+                            showPhoneLogin: false,
+                          ),
+                        ],
+                      )
+                    : const SizedBox(),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

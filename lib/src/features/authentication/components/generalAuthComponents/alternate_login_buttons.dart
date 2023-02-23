@@ -12,8 +12,12 @@ import '../otpVerification/phone_verification_screen.dart';
 class AlternateLoginButtons extends StatelessWidget {
   final double screenHeight;
   final double screenWidth;
+  final bool showPhoneLogin;
   const AlternateLoginButtons(
-      {Key? key, required this.screenHeight, required this.screenWidth})
+      {Key? key,
+      required this.screenHeight,
+      required this.screenWidth,
+      required this.showPhoneLogin})
       : super(key: key);
 
   @override
@@ -24,14 +28,20 @@ class AlternateLoginButtons extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         OrDivider(screenHeight: screenHeight),
-        SignInButton(
-          Buttons.Phone,
-          text: 'loginWithMobile'.tr,
-          onPressed: () => getToPhoneVerificationScreen(),
-          width: buttonsWidth,
-          height: 50.0,
-        ),
-        SizedBox(height: buttonSpacing),
+        showPhoneLogin
+            ? Column(
+                children: [
+                  SignInButton(
+                    Buttons.Phone,
+                    text: 'loginWithMobile'.tr,
+                    onPressed: () => getToPhoneVerificationScreen(),
+                    width: buttonsWidth,
+                    height: 50.0,
+                  ),
+                  SizedBox(height: buttonSpacing),
+                ],
+              )
+            : const SizedBox(),
         AppInit.isIos
             ? const SizedBox()
             : SignInButton(

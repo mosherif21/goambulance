@@ -8,7 +8,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../constants/app_init_constants.dart';
 import '../../constants/sizes.dart';
-import '../../features/authentication/components/generalAuthComponents/alternate_login_phone.dart';
+import '../../features/authentication/components/generalAuthComponents/alternate_login_buttons.dart';
 
 class SingleEntryScreen extends StatelessWidget {
   const SingleEntryScreen({
@@ -103,9 +103,10 @@ class SingleEntryScreen extends StatelessWidget {
               ? const SizedBox(height: 10.0)
               : const SizedBox(),
           inputType == InputType.phone
-              ? AlternateLoginButtonsPhone(
+              ? AlternateLoginButtons(
                   screenHeight: screenHeight,
                   screenWidth: screenWidth,
+                  showPhoneLogin: false,
                 )
               : const SizedBox(),
         ],
@@ -178,12 +179,15 @@ class SingleEntryScreen extends StatelessWidget {
                         enabled: true,
                         onPressed: onPressed),
                     inputType == InputType.phone
-                        ? const SizedBox(height: 10.0)
-                        : const SizedBox(),
-                    inputType == InputType.phone
-                        ? AlternateLoginButtonsPhone(
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
+                        ? Column(
+                            children: [
+                              const SizedBox(height: 10.0),
+                              AlternateLoginButtons(
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth,
+                                showPhoneLogin: false,
+                              ),
+                            ],
                           )
                         : const SizedBox(),
                   ],

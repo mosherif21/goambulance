@@ -29,6 +29,7 @@ class AuthenticationForm extends StatelessWidget {
           AlternateLoginButtons(
             screenHeight: screenHeight,
             screenWidth: screenWidth,
+            showPhoneLogin: true,
           ),
           SizedBox(height: screenHeight * 0.002),
           Obx(

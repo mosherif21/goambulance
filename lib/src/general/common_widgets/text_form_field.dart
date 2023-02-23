@@ -18,7 +18,7 @@ class TextFormFieldRegular extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity < 600.0 ? double.infinity : 600.0,
+      width: double.infinity,
       child: TextFormField(
         controller: textController,
         keyboardType: inputType == InputType.email

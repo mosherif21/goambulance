@@ -24,24 +24,13 @@ class OtpVerificationController extends GetxController {
     return returnMessage;
   }
 
-  Future<String> verifyOTPPhone(String otp) async {
-    var returnMessage = await AuthenticationRepository.instance.verifyOTP(otp);
-    return returnMessage;
-  }
-
-  Future<String> verifyOTPEmail(String otp) async {
-    var returnMessage = await AuthenticationRepository.instance.verifyOTP(otp);
-    return returnMessage;
-  }
-
   Future<void> verifyOTP({
     required String verificationCode,
     required InputType inputType,
   }) async {
     showLoadingScreen();
-    var returnMessage = inputType == InputType.phone
-        ? await verifyOTPPhone(verificationCode)
-        : await verifyOTPEmail(verificationCode);
+    var returnMessage =
+        await AuthenticationRepository.instance.verifyOTP(verificationCode);
     hideLoadingScreen();
     if (returnMessage.compareTo('success') == 0) {
       getToHomePage();

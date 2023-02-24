@@ -38,7 +38,7 @@ class AlternateLoginButtons extends StatelessWidget {
                     width: buttonsWidth,
                     height: 50.0,
                     shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(15))),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                   ),
                   SizedBox(height: buttonSpacing),
                 ],
@@ -65,12 +65,12 @@ class AlternateLoginButtons extends StatelessWidget {
                 width: buttonsWidth,
                 height: 50.0,
                 shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
               ),
         SizedBox(height: buttonSpacing),
         SignInButton(
           shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15))),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           Buttons.Facebook,
           text: 'loginWithFacebook'.tr,
           onPressed: () async {

@@ -137,6 +137,7 @@ class SingleEntryScreen extends StatelessWidget {
       {required double screenHeight, required double screenWidth}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
           child: Lottie.asset(

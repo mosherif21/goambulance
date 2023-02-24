@@ -6,7 +6,7 @@ import '../../../../constants/assets_strings.dart';
 import '../../../../general/common_functions.dart';
 import '../../../../general/common_widgets/single_entry_screen.dart';
 import '../../controllers/otp_verification_controller.dart';
-import 'otp_verification.dart';
+import '../otpVerification/otp_verification.dart';
 
 void getToPhoneVerificationScreen() {
   final controller = Get.put(OtpVerificationController());

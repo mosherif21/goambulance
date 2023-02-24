@@ -41,7 +41,8 @@ class SingleEntryScreen extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
     Widget entryScreenWidget;
-    switch (AppInit.getScreenSize(screenWidth)) {
+    var screenType = AppInit.getScreenSize(screenWidth);
+    switch (screenType) {
       case ScreenSize.small:
         entryScreenWidget = entryScreenSmall(
             screenHeight: screenHeight, screenWidth: screenWidth);
@@ -61,6 +62,9 @@ class SingleEntryScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        backgroundColor: screenType == ScreenSize.small
+            ? Colors.white
+            : Colors.grey.shade100,
         body: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(kDefaultPaddingSize),

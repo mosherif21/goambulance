@@ -7,7 +7,7 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../../../../general/common_functions.dart';
 import '../../../../general/common_widgets/or_divider.dart';
-import '../otpVerification/phone_verification_screen.dart';
+import 'phone_verification_screen.dart';
 
 class AlternateLoginButtons extends StatelessWidget {
   final double screenHeight;
@@ -47,7 +47,7 @@ class AlternateLoginButtons extends StatelessWidget {
         AppInit.isIos
             ? const SizedBox()
             : SignInButton(
-                padding: const EdgeInsets.only(left: 15.0),
+                padding: const EdgeInsets.only(left: 10.0),
                 Buttons.GoogleDark,
                 text: 'loginWithGoogle'.tr,
                 onPressed: () async {

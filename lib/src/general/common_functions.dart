@@ -41,6 +41,10 @@ void showSimpleSnackBar(String title, String body) {
     SnackBar(
       content: Text('$title. $body.'),
       backgroundColor: const Color(0xFF28AADC),
+      behavior: SnackBarBehavior.floating,
+      elevation: 20.0,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
     ),
   );
 }

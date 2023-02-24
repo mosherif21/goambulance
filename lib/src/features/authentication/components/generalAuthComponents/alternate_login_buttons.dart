@@ -47,7 +47,7 @@ class AlternateLoginButtons extends StatelessWidget {
         AppInit.isIos
             ? const SizedBox()
             : SignInButton(
-                padding: const EdgeInsets.only(left: 10.0),
+                padding: const EdgeInsets.only(left: 5.0),
                 Buttons.GoogleDark,
                 text: 'loginWithGoogle'.tr,
                 onPressed: () async {

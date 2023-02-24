@@ -5,25 +5,25 @@ import 'package:google_fonts/google_fonts.dart';
 class ATextTheme {
   ATextTheme._();
   static TextTheme lightTextTheme = TextTheme(
-    headline2: GoogleFonts.montserrat(
+    displayMedium: GoogleFonts.montserrat(
       color: Colors.black87,
     ),
-    headline3: GoogleFonts.montserrat(
+    displaySmall: GoogleFonts.montserrat(
       color: Colors.black87,
       fontSize: AppInit.notWebMobile ? 20 : 14,
       fontWeight: FontWeight.w700,
     ),
-    headline5: GoogleFonts.montserrat(
+    headlineSmall: GoogleFonts.montserrat(
       color: Colors.black,
       fontSize: AppInit.notWebMobile ? 25 : 14,
       fontWeight: FontWeight.w700,
     ),
-    headline6: GoogleFonts.montserrat(
+    titleLarge: GoogleFonts.montserrat(
       color: Colors.black87,
       fontSize: AppInit.notWebMobile ? 18 : 10,
       fontWeight: FontWeight.w300,
     ),
-    subtitle2: GoogleFonts.poppins(
+    titleSmall: GoogleFonts.poppins(
         color: Colors.black54, fontSize: AppInit.notWebMobile ? 20 : 14),
   );
 }

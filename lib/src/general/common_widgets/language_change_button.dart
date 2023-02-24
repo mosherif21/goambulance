@@ -9,8 +9,9 @@ import 'language_select.dart';
 class ButtonLanguageSelect extends StatelessWidget {
   const ButtonLanguageSelect({
     Key? key,
+    required this.color,
   }) : super(key: key);
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -34,17 +35,15 @@ class ButtonLanguageSelect extends StatelessWidget {
           },
           child: Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.language_rounded,
-                color: Colors.black54,
+                color: color,
                 size: 24.0,
               ),
               Text(
                 'lang'.tr,
-                style: const TextStyle(
-                    fontFamily: 'Bruno Ace',
-                    fontSize: 17.0,
-                    color: Colors.black54),
+                style: TextStyle(
+                    fontFamily: 'Bruno Ace', fontSize: 17.0, color: color),
               ),
             ],
           ),

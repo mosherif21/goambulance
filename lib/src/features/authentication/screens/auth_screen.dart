@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:goambulance/src/constants/sizes.dart';
+import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
 
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
@@ -30,7 +32,17 @@ class AuthenticationScreen extends StatelessWidget {
             screenHeight: screenHeight, screenWidth: screenWidth);
         break;
     }
-    return authWidget;
+    return WillPopScope(
+        onWillPop: () async {
+          if (AppInit.currentAuthType.value == AuthType.emailRegister) {
+            AppInit.currentAuthType.value = AuthType.emailLogin;
+            Get.delete<RegisterController>();
+            return false;
+          } else {
+            return true;
+          }
+        },
+        child: authWidget);
   }
 
   Widget authScreenSmall(
@@ -47,10 +59,12 @@ class AuthenticationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: screenHeight * 0.01),
-                const ButtonLanguageSelect(),
+                const ButtonLanguageSelect(
+                  color: Colors.black54,
+                ),
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
-                  height: screenHeight * 0.25,
+                  height: screenHeight * 0.2,
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 AuthenticationForm(

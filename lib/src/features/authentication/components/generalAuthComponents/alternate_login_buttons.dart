@@ -37,6 +37,8 @@ class AlternateLoginButtons extends StatelessWidget {
                     onPressed: () => getToPhoneVerificationScreen(),
                     width: buttonsWidth,
                     height: 50.0,
+                    shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(15))),
                   ),
                   SizedBox(height: buttonSpacing),
                 ],
@@ -45,6 +47,7 @@ class AlternateLoginButtons extends StatelessWidget {
         AppInit.isIos
             ? const SizedBox()
             : SignInButton(
+                padding: const EdgeInsets.only(left: 15.0),
                 Buttons.GoogleDark,
                 text: 'loginWithGoogle'.tr,
                 onPressed: () async {
@@ -61,9 +64,13 @@ class AlternateLoginButtons extends StatelessWidget {
                 },
                 width: buttonsWidth,
                 height: 50.0,
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(15))),
               ),
         SizedBox(height: buttonSpacing),
         SignInButton(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15))),
           Buttons.Facebook,
           text: 'loginWithFacebook'.tr,
           onPressed: () async {

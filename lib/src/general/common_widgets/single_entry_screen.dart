@@ -150,7 +150,7 @@ class SingleEntryScreen extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(20.0),
             decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(blurRadius: 5.0)],
+              boxShadow: [BoxShadow(blurRadius: 2.0)],
               color: Colors.white,
               borderRadius: BorderRadius.all(
                 Radius.circular(15),

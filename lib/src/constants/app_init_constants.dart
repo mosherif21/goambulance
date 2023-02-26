@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
@@ -11,6 +12,7 @@ import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity_controller.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
+import '../general/notifications.dart';
 import '../general/splash_screen.dart';
 
 enum Language { english, arabic }
@@ -122,12 +124,14 @@ class AppInit {
       await initializeDatabase();
     }
 
-    // await initializeNotification();
+    await initializeNotification();
 
-    // await SystemChrome.setPreferredOrientations([
-    //   DeviceOrientation.portraitUp,
-    //   DeviceOrientation.portraitDown,
-    // ]);
+    if (!isWeb) {
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+    }
   }
 
   static Transition getPageTransition() {

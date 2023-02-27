@@ -24,6 +24,7 @@ class SpeechController extends GetxController {
         isListening.value = true;
         _speechToText.listen(
           listenMode: ListenMode.dictation,
+          localeId: Get.locale?.languageCode,
           onResult: (listenedText) {
             spokenText.value = listenedText.recognizedWords;
             isListening.value = false;

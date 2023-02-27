@@ -10,7 +10,9 @@ import 'package:goambulance/src/utils/theme/theme.dart';
 import 'authentication/authentication_repository.dart';
 
 void main() async {
-  await AppInit.initialize().whenComplete(() => runApp(const MyApp()));
+  await AppInit.initialize().whenComplete(
+    () => runApp(const MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -64,7 +64,7 @@ class AuthenticationScreen extends StatelessWidget {
                 ),
                 Image(
                   image: const AssetImage(kLogoImageWithSlogan),
-                  height: screenHeight * 0.2,
+                  height: screenHeight * 0.28,
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 AuthenticationForm(

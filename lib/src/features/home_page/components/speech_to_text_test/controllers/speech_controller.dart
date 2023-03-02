@@ -25,6 +25,7 @@ class SpeechController extends GetxController {
         _speechToText.listen(
           listenMode: ListenMode.dictation,
           localeId: Get.locale?.languageCode,
+          listenFor: const Duration(seconds: 5),
           onResult: (listenedText) {
             spokenText.value = listenedText.recognizedWords;
             isListening.value = false;

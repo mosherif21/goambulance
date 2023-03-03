@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
@@ -26,15 +27,15 @@ void getToResetPasswordScreen() {
         returnMessage = await controller.resetPassword(email);
         if (returnMessage.compareTo('emailSent') == 0) {
           Get.back();
-          showSimpleSnackBar(
-            'success'.tr,
-            'emailResetSuccess'.tr,
-          );
+          showAwesomeSnackbar(
+              title: 'success'.tr,
+              body: 'emailResetSuccess'.tr,
+              contentType: ContentType.success);
         } else {
-          showSimpleSnackBar(
-            'error'.tr,
-            returnMessage,
-          );
+          showAwesomeSnackbar(
+              title: 'error'.tr,
+              body: returnMessage,
+              contentType: ContentType.success);
         }
       },
     ),

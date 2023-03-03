@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
@@ -39,10 +40,10 @@ class OtpVerificationController extends GetxController {
       }
       getToHomePage();
     } else {
-      showSimpleSnackBar(
-        'error'.tr,
-        returnMessage,
-      );
+      showAwesomeSnackbar(
+          title: 'error'.tr,
+          body: returnMessage,
+          contentType: ContentType.failure);
     }
   }
 }

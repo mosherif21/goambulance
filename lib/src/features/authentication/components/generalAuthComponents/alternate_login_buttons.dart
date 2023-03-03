@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
@@ -56,10 +57,10 @@ class AlternateLoginButtons extends StatelessWidget {
                       .signInWithGoogle();
                   hideLoadingScreen();
                   if (returnMessage.compareTo('success') != 0) {
-                    showSimpleSnackBar(
-                      'error'.tr,
-                      returnMessage,
-                    );
+                    showAwesomeSnackbar(
+                        title: 'error'.tr,
+                        body: returnMessage,
+                        contentType: ContentType.failure);
                   }
                 },
                 width: buttonsWidth,
@@ -79,9 +80,10 @@ class AlternateLoginButtons extends StatelessWidget {
                 await AuthenticationRepository.instance.signInWithFacebook();
             hideLoadingScreen();
             if (returnMessage.compareTo('success') != 0) {
-              showSimpleSnackBar(
-                'error'.tr,
-                returnMessage,
+              showAwesomeSnackbar(
+                title: 'error'.tr,
+                body: returnMessage,
+                contentType: ContentType.failure,
               );
             }
           },

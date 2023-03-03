@@ -66,6 +66,7 @@ dependencies:
   animations: ^2.0.7
   device_preview: ^1.1.0
   feedback: ^2.5.0
+  awesome_snackbar_content: ^0.1.1
 
   #state management dependencies
   get: ^4.6.5

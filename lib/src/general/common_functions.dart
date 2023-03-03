@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
@@ -26,7 +27,10 @@ Future<void> authenticatedSetup() async {
 
 SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 
-void showFloatingSnackBar(String title, String body, SnackPosition position) {
+void showFloatingSnackBar(
+    {required String title,
+    required String body,
+    required SnackPosition position}) {
   Get.snackbar(title, body,
       colorText: Colors.black,
       snackPosition: position,
@@ -36,7 +40,10 @@ void showFloatingSnackBar(String title, String body, SnackPosition position) {
       margin: const EdgeInsets.all(20.0));
 }
 
-void showSimpleSnackBar(String title, String body) {
+void showSimpleSnackBar({
+  required String title,
+  required String body,
+}) {
   ScaffoldMessenger.of(Get.context!).showSnackBar(
     SnackBar(
       content: Text('$title. $body.'),
@@ -47,6 +54,26 @@ void showSimpleSnackBar(String title, String body) {
           borderRadius: BorderRadius.all(Radius.circular(10))),
     ),
   );
+}
+
+void showAwesomeSnackbar(
+    {required String title,
+    required String body,
+    required ContentType contentType}) {
+  ScaffoldMessenger.of(Get.context!)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        elevation: 0,
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        content: AwesomeSnackbarContent(
+          title: title,
+          message: body,
+          contentType: contentType,
+        ),
+      ),
+    );
 }
 
 Future<void> showLoadingScreen() async {

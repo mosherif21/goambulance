@@ -1,4 +1,3 @@
-//import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
@@ -13,10 +12,7 @@ import 'authentication/authentication_repository.dart';
 void main() async {
   await AppInit.initialize().whenComplete(
     () => runApp(
-      //const BetterFeedback(
-      //child:
       const MyApp(),
-      //  ),
     ),
   );
 }

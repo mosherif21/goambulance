@@ -82,7 +82,7 @@ class SingleEntryScreen extends StatelessWidget {
       children: [
         Lottie.asset(
           lottieAssetAnim,
-          height: screenHeight * 0.5,
+          height: screenHeight * 0.45,
         ),
         Text(
           title,
@@ -119,9 +119,6 @@ class SingleEntryScreen extends StatelessWidget {
         const SizedBox(height: 20.0),
         RegularElevatedButton(
             buttonText: buttonTitle, enabled: true, onPressed: onPressed),
-        inputType == InputType.phone
-            ? const SizedBox(height: 10.0)
-            : const SizedBox(),
         inputType == InputType.phone
             ? AlternateLoginButtons(
                 screenHeight: screenHeight,

@@ -14,51 +14,48 @@ class EmailRegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(RegisterController());
     return Form(
-      child: Container(
-        padding: const EdgeInsets.all(5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextFormFieldRegular(
-              labelText: 'emailLabel'.tr,
-              hintText: 'emailHintLabel'.tr,
-              prefixIconData: Icons.email_outlined,
-              textController: controller.email,
-              inputType: InputType.email,
-            ),
-            const SizedBox(height: 10),
-            TextFormFieldPassword(
-              labelText: 'passwordLabel'.tr,
-              textController: controller.password,
-            ),
-            const SizedBox(height: 10),
-            TextFormFieldPassword(
-              labelText: 'confirmPassword'.tr,
-              textController: controller.passwordConfirm,
-            ),
-            const SizedBox(height: 6),
-            Obx(
-              () => controller.returnMessage.value.compareTo('success') != 0
-                  ? Text(
-                      controller.returnMessage.value,
-                      style: const TextStyle(color: Colors.red),
-                    )
-                  : const SizedBox(),
-            ),
-            const SizedBox(height: 6),
-            RegularElevatedButton(
-              buttonText: 'registerTextTitle'.tr,
-              enabled: true,
-              onPressed: () async {
-                await controller.registerNewUser(
-                  controller.email.text,
-                  controller.password.text,
-                  controller.passwordConfirm.text,
-                );
-              },
-            ),
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormFieldRegular(
+            labelText: 'emailLabel'.tr,
+            hintText: 'emailHintLabel'.tr,
+            prefixIconData: Icons.email_outlined,
+            textController: controller.email,
+            inputType: InputType.email,
+          ),
+          const SizedBox(height: 10),
+          TextFormFieldPassword(
+            labelText: 'passwordLabel'.tr,
+            textController: controller.password,
+          ),
+          const SizedBox(height: 10),
+          TextFormFieldPassword(
+            labelText: 'confirmPassword'.tr,
+            textController: controller.passwordConfirm,
+          ),
+          const SizedBox(height: 6),
+          Obx(
+            () => controller.returnMessage.value.compareTo('success') != 0
+                ? Text(
+                    controller.returnMessage.value,
+                    style: const TextStyle(color: Colors.red),
+                  )
+                : const SizedBox(),
+          ),
+          const SizedBox(height: 6),
+          RegularElevatedButton(
+            buttonText: 'registerTextTitle'.tr,
+            enabled: true,
+            onPressed: () async {
+              await controller.registerNewUser(
+                controller.email.text,
+                controller.password.text,
+                controller.passwordConfirm.text,
+              );
+            },
+          ),
+        ],
       ),
     );
   }

@@ -44,14 +44,6 @@ class LoginForm extends StatelessWidget {
                   const ForgetPasswordLayout()),
             ),
           ),
-          Obx(
-            () => controller.returnMessage.value.compareTo('success') != 0
-                ? Text(
-                    controller.returnMessage.value,
-                    style: const TextStyle(color: Colors.red),
-                  )
-                : const SizedBox(),
-          ),
           const SizedBox(height: 6),
           RegularElevatedButton(
             enabled: true,

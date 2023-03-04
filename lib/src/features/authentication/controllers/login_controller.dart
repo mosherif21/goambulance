@@ -1,5 +1,5 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 import '../../../../authentication/authentication_repository.dart';
@@ -9,24 +9,26 @@ class LoginController extends GetxController {
   static LoginController get instance => Get.find();
   final email = TextEditingController();
   final password = TextEditingController();
-  RxString returnMessage = ''.obs;
   Future<void> loginUser(String email, String password) async {
+    String returnMessage = '';
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();
     if (email.isEmail && password.length >= 8) {
-      returnMessage.value = await AuthenticationRepository.instance
+      returnMessage = await AuthenticationRepository.instance
           .signInWithEmailAndPassword(email, password);
     } else if (email.isEmpty || password.isEmpty) {
-      returnMessage.value = 'emptyFields'.tr;
+      returnMessage = 'emptyFields'.tr;
     } else if (password.length < 8) {
-      returnMessage.value = 'smallPass'.tr;
+      returnMessage = 'smallPass'.tr;
     } else {
-      returnMessage.value = 'invalidEmailEntered'.tr;
+      returnMessage = 'invalidEmailEntered'.tr;
     }
     hideLoadingScreen();
-    if (kDebugMode) {
-      print('login data is: email: $email and password: $password');
-      print(returnMessage.value);
+    if (returnMessage.compareTo('success') != 0) {
+      showAwesomeSnackbar(
+          title: 'error'.tr,
+          body: returnMessage,
+          contentType: ContentType.failure);
     }
   }
 }

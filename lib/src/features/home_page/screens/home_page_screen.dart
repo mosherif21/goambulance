@@ -16,7 +16,6 @@ class HomePageScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
         child: Column(
           children: <Widget>[
-            const SizedBox(height: 20.0),
             RegularElevatedButton(
                 buttonText: 'logout'.tr,
                 onPressed: () async {

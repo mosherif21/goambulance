@@ -35,7 +35,7 @@ void getToResetPasswordScreen() {
           showAwesomeSnackbar(
               title: 'error'.tr,
               body: returnMessage,
-              contentType: ContentType.success);
+              contentType: ContentType.failure);
         }
       },
     ),

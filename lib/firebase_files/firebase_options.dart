@@ -73,6 +73,7 @@ class DefaultFirebaseOptions {
     projectId: 'ambulancebookingproject',
     databaseURL: 'https://ambulancebookingproject-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'ambulancebookingproject.appspot.com',
+    androidClientId: '996996980213-l439oklpveq0pbc4e1t377cqauktkkhf.apps.googleusercontent.com',
     iosClientId: '996996980213-8172m7d35r17qd730cjk6skirr4alsrf.apps.googleusercontent.com',
     iosBundleId: 'com.goambulance.goambulance',
   );

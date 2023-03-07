@@ -69,6 +69,7 @@ dependencies:
 
   #state management dependencies
   get: ^4.6.5
+  firebase_performance: ^0.9.0+15
 
 dev_dependencies:
   flutter_test:

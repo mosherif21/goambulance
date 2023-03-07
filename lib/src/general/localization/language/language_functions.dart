@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../src/constants/app_init_constants.dart';
-import '../../src/features/onboarding/components/onboarding_shared_preferences.dart';
-import '../../src/general/common_functions.dart';
+import '../../../constants/app_init_constants.dart';
+import '../../../features/onboarding/components/onboarding_shared_preferences.dart';
+import '../../common_functions.dart';
 
 const String languageCode = 'languageCode';
 

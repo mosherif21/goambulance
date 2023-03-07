@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../authentication/authentication_repository.dart';
-import '../../firebase_files/firebase_initializations.dart';
-import '../../localization/language/language_functions.dart';
-import '../connectivity/connectivity_controller.dart';
-import '../features/onboarding/components/onboarding_shared_preferences.dart';
-import '../general/notifications.dart';
-import '../general/splash_screen.dart';
+import '../../../authentication/authentication_repository.dart';
+import '../../../firebase_files/firebase_initializations.dart';
+import '../../../localization/language/language_functions.dart';
+import '../../connectivity/connectivity_controller.dart';
+import '../../features/onboarding/components/onboarding_shared_preferences.dart';
+import '../notifications.dart';
+import '../splash_screen.dart';
 
 enum Language { english, arabic }
 

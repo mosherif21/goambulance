@@ -9,7 +9,6 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:lottie/lottie.dart';
 
 import '../general/common_widgets/no_button_dialog_alert.dart';
-import '../general/splash_screen.dart';
 
 class ConnectivityController extends GetxController {
   static ConnectivityController get instance => Get.find();
@@ -41,7 +40,6 @@ class ConnectivityController extends GetxController {
     } else if (internetConnectionStatus ==
         InternetConnectionStatus.disconnected) {
       isInternetConnected.value = false;
-      removeSplashScreen();
       if (!_isAlertDisplayed && _displayAlert) _showNetworkAlertDialog();
       if (kDebugMode) print('Disconnected from internet');
     }

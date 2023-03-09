@@ -11,6 +11,8 @@ import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity_controller.dart';
+import '../features/authentication/screens/auth_screen.dart';
+import '../features/home_page/screens/home_page_screen.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../general/notifications.dart';
 import '../general/splash_screen.dart';
@@ -42,9 +44,12 @@ class AppInit {
   static bool isLocaleSet = false;
   static late final Locale setLocale;
   static Language currentDeviceLanguage = Language.english;
+  static InternetConnectionStatus internetConnectionStatus =
+      InternetConnectionStatus.disconnected;
   static Transition transition = Transition.leftToRightWithFade;
   // ignore: prefer_typing_uninitialized_variables
   static late final notificationToken;
+
   static final currentAuthType = AuthType.emailLogin.obs;
 
   static const _breakPoint1 = 600.0;
@@ -107,7 +112,13 @@ class AppInit {
       if (!isWeb) {
         notificationToken = await FirebaseMessaging.instance.getToken();
       }
-      Get.put(AuthenticationRepository());
+      Get.putAsync(() async {
+        return AuthenticationRepository();
+      }).whenComplete(
+        () => AuthenticationRepository.instance.isUserLoggedIn
+            ? Get.offAll(() => const HomePageScreen())
+            : Get.offAll(() => const AuthenticationScreen()),
+      );
       isInitialised = true;
       removeSplashScreen();
     }
@@ -118,11 +129,6 @@ class AppInit {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     await initializeConstants();
     Get.put(ConnectivityController());
-    final internetConnectionStatus =
-        await InternetConnectionCheckerPlus().connectionStatus;
-    if (internetConnectionStatus == InternetConnectionStatus.connected) {
-      await initializeDatabase();
-    }
 
     await initializeNotification();
 
@@ -132,6 +138,9 @@ class AppInit {
         DeviceOrientation.portraitDown,
       ]);
     }
+
+    internetConnectionStatus =
+        await InternetConnectionCheckerPlus().connectionStatus;
   }
 
   static Transition getPageTransition() {

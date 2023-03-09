@@ -6,7 +6,10 @@ import 'package:goambulance/authentication/exception_errors/password_reset_excep
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
+import '../src/features/authentication/screens/auth_screen.dart';
+import '../src/features/home_page/screens/home_page_screen.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
 import 'exception_errors/signup_email_password_exceptions.dart';
 
@@ -27,6 +30,16 @@ class AuthenticationRepository extends GetxController {
       isUserLoggedIn = true;
     }
     fireUser.bindStream(_auth.userChanges());
+  }
+
+  @override
+  void onReady() {
+    if (AppInit.initialInternetConnectionStatus ==
+        InternetConnectionStatus.disconnected) {
+      isUserLoggedIn
+          ? Get.offAll(() => const HomePageScreen())
+          : Get.offAll(() => const AuthenticationScreen());
+    }
   }
 
   Future<String> createUserWithEmailAndPassword(

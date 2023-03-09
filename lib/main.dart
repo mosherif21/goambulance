@@ -11,8 +11,8 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 
 import 'authentication/authentication_repository.dart';
 
-void main() async {
-  await AppInit.initialize().whenComplete(
+void main() {
+  AppInit.initialize().whenComplete(
     () => runApp(
       const MyApp(),
     ),
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       home: AppInit.showOnBoard
           ? const OnBoardingScreen()
-          : AppInit.internetConnectionStatus ==
+          : AppInit.initialInternetConnectionStatus ==
                   InternetConnectionStatus.disconnected
               ? const NotInternetErrorWidget()
               : AuthenticationRepository.instance.isUserLoggedIn

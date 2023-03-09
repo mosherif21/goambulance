@@ -11,8 +11,6 @@ import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity_controller.dart';
-import '../features/authentication/screens/auth_screen.dart';
-import '../features/home_page/screens/home_page_screen.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../general/notifications.dart';
 import '../general/splash_screen.dart';
@@ -44,7 +42,7 @@ class AppInit {
   static bool isLocaleSet = false;
   static late final Locale setLocale;
   static Language currentDeviceLanguage = Language.english;
-  static InternetConnectionStatus internetConnectionStatus =
+  static InternetConnectionStatus initialInternetConnectionStatus =
       InternetConnectionStatus.disconnected;
   static Transition transition = Transition.leftToRightWithFade;
   // ignore: prefer_typing_uninitialized_variables
@@ -113,13 +111,7 @@ class AppInit {
         notificationToken = await FirebaseMessaging.instance.getToken();
       }
       await initializeNotification();
-      Get.putAsync(() async {
-        return AuthenticationRepository();
-      }).whenComplete(
-        () => AuthenticationRepository.instance.isUserLoggedIn
-            ? Get.offAll(() => const HomePageScreen())
-            : Get.offAll(() => const AuthenticationScreen()),
-      );
+      Get.put(AuthenticationRepository());
       isInitialised = true;
       removeSplashScreen();
     }
@@ -128,8 +120,8 @@ class AppInit {
   static Future<void> initialize() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
     await initializeConstants();
-    Get.put(ConnectivityController());
 
     if (!isWeb) {
       await SystemChrome.setPreferredOrientations([
@@ -138,13 +130,19 @@ class AppInit {
       ]);
     }
 
-    internetConnectionStatus =
-        await InternetConnectionCheckerPlus().connectionStatus;
-    if (internetConnectionStatus == InternetConnectionStatus.disconnected) {
-      removeSplashScreen();
-    } else if (internetConnectionStatus == InternetConnectionStatus.connected) {
-      await AppInit.initializeDatabase();
-    }
+    initialInternetConnectionStatus = await InternetConnectionCheckerPlus()
+        .connectionStatus
+        .whenComplete(() async {
+      if (initialInternetConnectionStatus ==
+          InternetConnectionStatus.disconnected) {
+        removeSplashScreen();
+      } else if (initialInternetConnectionStatus ==
+          InternetConnectionStatus.connected) {
+        await AppInit.initializeDatabase().whenComplete(() {
+          Get.put(ConnectivityController());
+        });
+      }
+    });
   }
 
   static Transition getPageTransition() {

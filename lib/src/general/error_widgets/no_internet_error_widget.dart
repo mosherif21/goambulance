@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:goambulance/src/general/common_functions.dart';
+import 'package:lottie/lottie.dart';
 
 class NotInternetErrorWidget extends StatelessWidget {
   const NotInternetErrorWidget({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class NotInternetErrorWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image.asset(
+              Lottie.asset(
                 kNoInternetSwitchAnim,
                 height: height * 0.5,
               ),

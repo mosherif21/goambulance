@@ -112,6 +112,7 @@ class AppInit {
       if (!isWeb) {
         notificationToken = await FirebaseMessaging.instance.getToken();
       }
+      await initializeNotification();
       Get.putAsync(() async {
         return AuthenticationRepository();
       }).whenComplete(
@@ -130,8 +131,6 @@ class AppInit {
     await initializeConstants();
     Get.put(ConnectivityController());
 
-    await initializeNotification();
-
     if (!isWeb) {
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
@@ -141,6 +140,9 @@ class AppInit {
 
     internetConnectionStatus =
         await InternetConnectionCheckerPlus().connectionStatus;
+    if (internetConnectionStatus == InternetConnectionStatus.disconnected) {
+      removeSplashScreen();
+    }
   }
 
   static Transition getPageTransition() {

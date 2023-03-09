@@ -142,6 +142,8 @@ class AppInit {
         await InternetConnectionCheckerPlus().connectionStatus;
     if (internetConnectionStatus == InternetConnectionStatus.disconnected) {
       removeSplashScreen();
+    } else if (internetConnectionStatus == InternetConnectionStatus.connected) {
+      await AppInit.initializeDatabase();
     }
   }
 

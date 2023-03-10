@@ -56,10 +56,10 @@ class AlternateLoginButtons extends StatelessWidget {
                       .signInWithGoogle();
                   hideLoadingScreen();
                   if (returnMessage.compareTo('success') != 0) {
-                    showFloatingSnackBar(
-                        title: 'error'.tr,
-                        body: returnMessage,
-                        position: SnackPosition.BOTTOM);
+                    showSimpleSnackBar(
+                      title: 'error'.tr,
+                      body: returnMessage,
+                    );
                   }
                 },
                 width: buttonsWidth,
@@ -79,10 +79,9 @@ class AlternateLoginButtons extends StatelessWidget {
                 await AuthenticationRepository.instance.signInWithFacebook();
             hideLoadingScreen();
             if (returnMessage.compareTo('success') != 0) {
-              showFloatingSnackBar(
+              showSimpleSnackBar(
                 title: 'error'.tr,
                 body: returnMessage,
-                position: SnackPosition.BOTTOM,
               );
             }
           },

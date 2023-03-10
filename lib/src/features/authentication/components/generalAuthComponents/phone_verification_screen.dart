@@ -34,10 +34,9 @@ void getToPhoneVerificationScreen() {
                   ),
               transition: AppInit.getPageTransition());
         } else {
-          showFloatingSnackBar(
+          showSimpleSnackBar(
             title: 'error'.tr,
             body: returnMessage,
-            position: SnackPosition.BOTTOM,
           );
         }
       },

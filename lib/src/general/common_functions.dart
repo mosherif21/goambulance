@@ -12,23 +12,8 @@ double getScreenWidth(BuildContext context) =>
 
 void getToHomePage() => Get.offAll(() => const HomePageScreen());
 
-SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
-void showFloatingSnackBar(
-    {required String title,
-    required String body,
-    required SnackPosition position}) {
-  Get.snackbar(title, body,
-      colorText: Colors.black,
-      snackPosition: position,
-      snackbarStatus: (snackStatusCallBack) =>
-          snackBarStatus = snackStatusCallBack!,
-      barBlur: 20.0,
-      margin: const EdgeInsets.all(20.0));
-}
-
 Future<void> showLoadingScreen() async {
   final height = Get.context?.height;
-  //Get.closeAllSnackbars();
   Get.dialog(
     AlertDialog(
       elevation: 0,
@@ -50,31 +35,41 @@ Future<void> showLoadingScreen() async {
 }
 
 void hideLoadingScreen() {
-  if (snackBarStatus == SnackbarStatus.CLOSING ||
-      snackBarStatus == SnackbarStatus.OPEN ||
-      snackBarStatus == SnackbarStatus.OPENING) {
-    Get.back(closeOverlays: true);
-  } else if (snackBarStatus == SnackbarStatus.CLOSED) {
-    Get.back();
-  }
+  Get.back();
 }
 
-// void showSimpleSnackBar({
-//   required String title,
-//   required String body,
-// }) {
-//   ScaffoldMessenger.of(Get.context!).showSnackBar(
-//     SnackBar(
-//       content: Text('$title. $body.'),
-//       backgroundColor: const Color(0xFF28AADC),
-//       behavior: SnackBarBehavior.floating,
-//       elevation: 20.0,
-//       shape: const RoundedRectangleBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(10))),
-//     ),
-//   );
-// }
+void showSimpleSnackBar({
+  required String title,
+  required String body,
+}) {
+  ScaffoldMessenger.of(Get.context!).clearSnackBars();
+  ScaffoldMessenger.of(Get.context!).showSnackBar(
+    SnackBar(
+      content: Text('$title. $body.'),
+      backgroundColor: const Color(0xFF28AADC),
+      behavior: SnackBarBehavior.floating,
+      elevation: 20.0,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10))),
+    ),
+  );
+}
+
+//SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 //
+// void showFloatingSnackBar(
+//     {required String title,
+//     required String body,
+//     required SnackPosition position}) {
+//   Get.snackbar(title, body,
+//       colorText: Colors.black,
+//       snackPosition: position,
+//       snackbarStatus: (snackStatusCallBack) =>
+//           snackBarStatus = snackStatusCallBack!,
+//       barBlur: 20.0,
+//       margin: const EdgeInsets.all(20.0));
+// }
+
 // void showAwesomeSnackbar(
 //     {required String title,
 //     required String body,

@@ -39,10 +39,9 @@ class OtpVerificationController extends GetxController {
       }
       getToHomePage();
     } else {
-      showFloatingSnackBar(
+      showSimpleSnackBar(
         title: 'error'.tr,
         body: returnMessage,
-        position: SnackPosition.BOTTOM,
       );
     }
   }

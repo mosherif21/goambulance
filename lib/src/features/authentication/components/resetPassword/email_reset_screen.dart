@@ -26,16 +26,14 @@ void getToResetPasswordScreen() {
         returnMessage = await controller.resetPassword(email);
         if (returnMessage.compareTo('emailSent') == 0) {
           Get.back();
-          showFloatingSnackBar(
+          showSimpleSnackBar(
             title: 'success'.tr,
             body: 'emailResetSuccess'.tr,
-            position: SnackPosition.BOTTOM,
           );
         } else {
-          showFloatingSnackBar(
+          showSimpleSnackBar(
             title: 'error'.tr,
             body: returnMessage,
-            position: SnackPosition.BOTTOM,
           );
         }
       },

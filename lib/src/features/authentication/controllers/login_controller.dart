@@ -24,10 +24,9 @@ class LoginController extends GetxController {
     }
     hideLoadingScreen();
     if (returnMessage.compareTo('success') != 0) {
-      showFloatingSnackBar(
+      showSimpleSnackBar(
         title: 'error'.tr,
         body: returnMessage,
-        position: SnackPosition.BOTTOM,
       );
     }
   }

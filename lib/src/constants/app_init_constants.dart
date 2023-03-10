@@ -125,13 +125,10 @@ class AppInit {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     await initializeConstants();
-
-    if (!isWeb) {
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
-    }
+    await SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
 
     initialInternetConnectionStatus = await InternetConnectionCheckerPlus()
         .connectionStatus

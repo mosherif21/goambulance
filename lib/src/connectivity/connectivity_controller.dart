@@ -8,7 +8,6 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:lottie/lottie.dart';
 
-import '../features/authentication/screens/auth_screen.dart';
 import '../general/common_widgets/no_button_dialog_alert.dart';
 
 class ConnectivityController extends GetxController {
@@ -38,14 +37,7 @@ class ConnectivityController extends GetxController {
       isInternetConnected.value = true;
       if (kDebugMode) print('Connected to internet');
       if (_isAlertDisplayed && _displayAlert) _hideNetworkAlertDialog();
-      if (!AppInit.isInitialised && !AppInit.showOnBoard) {
-        AppInit.initializeDatabase().whenComplete(() {
-          Get.offAll(
-            () => const AuthenticationScreen(),
-            transition: AppInit.getPageTransition(),
-          );
-        });
-      }
+      AppInit.noInternetInitializedCheck();
     } else if (internetConnectionStatus ==
         InternetConnectionStatus.disconnected) {
       isInternetConnected.value = false;

@@ -142,6 +142,36 @@ class AppInit {
     });
   }
 
+  static Future<void> noInternetInitializedCheck() async {
+    if (!isInitialised && !showOnBoard) {
+      AppInit.initializeDatabase().whenComplete(() {
+        AuthenticationRepository.instance.isUserLoggedIn
+            ? Get.offAll(() => const HomePageScreen())
+            : Get.offAll(() => const AuthenticationScreen());
+      });
+    }
+  }
+
+  static Future<void> noInternetInitializedOnBoardingCheck() async {
+    initialInternetConnectionStatus = await InternetConnectionCheckerPlus()
+        .connectionStatus
+        .whenComplete(() async {
+      if (initialInternetConnectionStatus ==
+          InternetConnectionStatus.connected) {
+        await AppInit.initializeDatabase().whenComplete(() {
+          Get.put(ConnectivityController());
+        });
+        AuthenticationRepository.instance.isUserLoggedIn
+            ? Get.offAll(() => const HomePageScreen())
+            : Get.offAll(() => const AuthenticationScreen());
+      } else if (initialInternetConnectionStatus ==
+          InternetConnectionStatus.disconnected) {
+        showOnBoard = true;
+        Get.offAll(() => const NotInternetErrorWidget());
+      }
+    });
+  }
+
   static Widget? getInitialPage() {
     removeSplashScreen();
     return showOnBoard

@@ -1,4 +1,3 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -25,10 +24,11 @@ class LoginController extends GetxController {
     }
     hideLoadingScreen();
     if (returnMessage.compareTo('success') != 0) {
-      showAwesomeSnackbar(
-          title: 'error'.tr,
-          body: returnMessage,
-          contentType: ContentType.failure);
+      showFloatingSnackBar(
+        title: 'error'.tr,
+        body: returnMessage,
+        position: SnackPosition.BOTTOM,
+      );
     }
   }
 }

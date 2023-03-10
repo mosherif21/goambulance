@@ -11,7 +11,11 @@ import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity_controller.dart';
+import '../features/authentication/screens/auth_screen.dart';
+import '../features/home_page/screens/home_page_screen.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
+import '../features/onboarding/screens/on_boarding_screen.dart';
+import '../general/error_widgets/no_internet_error_widget.dart';
 import '../general/notifications.dart';
 import '../general/splash_screen.dart';
 
@@ -113,12 +117,19 @@ class AppInit {
       await initializeNotification();
       Get.put(AuthenticationRepository());
       isInitialised = true;
-      removeSplashScreen();
     }
   }
 
-  static Future<void> noInternetInitialize() async {
-    await initializeDatabase().whenComplete(() {});
+  static Widget? getInitialPage() {
+    removeSplashScreen();
+    return showOnBoard
+        ? const OnBoardingScreen()
+        : initialInternetConnectionStatus ==
+                InternetConnectionStatus.disconnected
+            ? const NotInternetErrorWidget()
+            : AuthenticationRepository.instance.isUserLoggedIn
+                ? const HomePageScreen()
+                : const AuthenticationScreen();
   }
 
   static Future<void> initialize() async {
@@ -138,9 +149,6 @@ class AppInit {
         .connectionStatus
         .whenComplete(() async {
       if (initialInternetConnectionStatus ==
-          InternetConnectionStatus.disconnected) {
-        removeSplashScreen();
-      } else if (initialInternetConnectionStatus ==
           InternetConnectionStatus.connected) {
         await AppInit.initializeDatabase().whenComplete(() {
           Get.put(ConnectivityController());

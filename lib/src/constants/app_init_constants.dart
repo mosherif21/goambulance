@@ -160,13 +160,13 @@ class AppInit {
           InternetConnectionStatus.connected) {
         await AppInit.initializeDatabase().whenComplete(() {
           Get.put(ConnectivityController());
+          AuthenticationRepository.instance.isUserLoggedIn
+              ? Get.offAll(() => const HomePageScreen())
+              : Get.offAll(() => const AuthenticationScreen());
         });
-        AuthenticationRepository.instance.isUserLoggedIn
-            ? Get.offAll(() => const HomePageScreen())
-            : Get.offAll(() => const AuthenticationScreen());
       } else if (initialInternetConnectionStatus ==
           InternetConnectionStatus.disconnected) {
-        showOnBoard = true;
+        showOnBoard = false;
         Get.offAll(() => const NotInternetErrorWidget());
       }
     });

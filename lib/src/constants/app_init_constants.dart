@@ -117,6 +117,10 @@ class AppInit {
     }
   }
 
+  static Future<void> noInternetInitialize() async {
+    await initializeDatabase().whenComplete(() {});
+  }
+
   static Future<void> initialize() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);

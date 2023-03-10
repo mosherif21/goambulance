@@ -37,7 +37,7 @@ class ConnectivityController extends GetxController {
       isInternetConnected.value = true;
       if (kDebugMode) print('Connected to internet');
       if (_isAlertDisplayed && _displayAlert) _hideNetworkAlertDialog();
-      if (!AppInit.isInitialised) {
+      if (!AppInit.isInitialised && !AppInit.showOnBoard) {
         AppInit.initializeDatabase();
       }
     } else if (internetConnectionStatus ==

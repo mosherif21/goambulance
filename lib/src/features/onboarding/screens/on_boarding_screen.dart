@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/connectivity/connectivity.dart';
 import 'package:goambulance/src/features/onboarding/components/design/on_boarding_next_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -15,8 +14,6 @@ class OnBoardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ConnectivityChecker.checkConnection(displayAlert: false);
-
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,

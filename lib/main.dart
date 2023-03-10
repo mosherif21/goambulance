@@ -4,8 +4,8 @@ import 'package:goambulance/localization/language/localization_strings.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 
-void main() {
-  AppInit.initialize().whenComplete(
+void main() async {
+  await AppInit.initialize().whenComplete(
     () => runApp(
       const MyApp(),
     ),

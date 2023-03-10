@@ -15,6 +15,7 @@ import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_page/screens/home_page_screen.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../features/onboarding/screens/on_boarding_screen.dart';
+import '../general/common_widgets/empty_scaffold.dart';
 import '../general/error_widgets/no_internet_error_widget.dart';
 import '../general/notifications.dart';
 import '../general/splash_screen.dart';
@@ -98,6 +99,7 @@ class AppInit {
 
   static Future<void> initializeDatabase() async {
     if (!isInitialised) {
+      isInitialised = true;
       await initializeFireBaseApp();
       if (kDebugMode) print('firebase app initialized');
       if (isWeb || webMobile) {
@@ -115,8 +117,7 @@ class AppInit {
         notificationToken = await FirebaseMessaging.instance.getToken();
       }
       await initializeNotification();
-      Get.put(AuthenticationRepository());
-      isInitialised = true;
+      Get.put(AuthenticationRepository(), permanent: true);
     }
   }
 
@@ -125,63 +126,52 @@ class AppInit {
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     await initializeConstants();
+    Get.put(ConnectivityController());
+
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-
-    initialInternetConnectionStatus = await InternetConnectionCheckerPlus()
-        .connectionStatus
-        .whenComplete(() async {
-      if (initialInternetConnectionStatus ==
-          InternetConnectionStatus.connected) {
-        await AppInit.initializeDatabase().whenComplete(() {
-          Get.put(ConnectivityController());
-        });
-      }
-    });
   }
 
-  static Future<void> noInternetInitializedCheck() async {
-    if (!isInitialised && !showOnBoard) {
+  static Future<void> internetInitialize() async {
+    if (!isInitialised) {
       AppInit.initializeDatabase().whenComplete(() {
-        AuthenticationRepository.instance.isUserLoggedIn
-            ? Get.offAll(() => const HomePageScreen())
-            : Get.offAll(() => const AuthenticationScreen());
+        if (!showOnBoard) {
+          removeSplashScreen();
+          AuthenticationRepository.instance.isUserLoggedIn
+              ? Get.offAll(() => const HomePageScreen(),
+                  transition: Transition.noTransition)
+              : Get.offAll(() => const AuthenticationScreen(),
+                  transition: Transition.noTransition);
+        }
       });
     }
   }
 
+  static Future<void> noInternetInitializeCheck() async {
+    if (!isInitialised) {
+      removeSplashScreen();
+      if (!showOnBoard) Get.offAll(() => const NotInternetErrorWidget());
+    }
+  }
+
   static Future<void> noInternetInitializedOnBoardingCheck() async {
-    initialInternetConnectionStatus = await InternetConnectionCheckerPlus()
-        .connectionStatus
-        .whenComplete(() async {
-      if (initialInternetConnectionStatus ==
-          InternetConnectionStatus.connected) {
-        await AppInit.initializeDatabase().whenComplete(() {
-          Get.put(ConnectivityController());
-          AuthenticationRepository.instance.isUserLoggedIn
-              ? Get.offAll(() => const HomePageScreen())
-              : Get.offAll(() => const AuthenticationScreen());
-        });
-      } else if (initialInternetConnectionStatus ==
-          InternetConnectionStatus.disconnected) {
-        showOnBoard = false;
-        Get.offAll(() => const NotInternetErrorWidget());
-      }
-    });
+    showOnBoard = false;
+    if (!isInitialised) {
+      Get.offAll(() => const NotInternetErrorWidget());
+    } else {
+      AuthenticationRepository.instance.isUserLoggedIn
+          ? Get.offAll(() => const HomePageScreen(),
+              transition: Transition.noTransition)
+          : Get.offAll(() => const AuthenticationScreen(),
+              transition: Transition.noTransition);
+    }
   }
 
   static Widget? getInitialPage() {
-    removeSplashScreen();
-    return showOnBoard
-        ? const OnBoardingScreen()
-        : initialInternetConnectionStatus ==
-                InternetConnectionStatus.disconnected
-            ? const NotInternetErrorWidget()
-            : AuthenticationRepository.instance.isUserLoggedIn
-                ? const HomePageScreen()
-                : const AuthenticationScreen();
+    if (showOnBoard) removeSplashScreen();
+    return showOnBoard ? const OnBoardingScreen() : const EmptyScaffold();
   }
 
   static Transition getPageTransition() {

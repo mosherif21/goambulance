@@ -28,6 +28,7 @@ void showFloatingSnackBar(
 
 Future<void> showLoadingScreen() async {
   final height = Get.context?.height;
+  //Get.closeAllSnackbars();
   Get.dialog(
     AlertDialog(
       elevation: 0,

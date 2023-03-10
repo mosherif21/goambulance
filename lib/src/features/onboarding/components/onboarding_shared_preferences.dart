@@ -23,7 +23,6 @@ Future<bool> getShowOnBoarding() async {
 Future<void> setOnBoardingLocaleLanguage(String languageCode) async {
   await showLoadingScreen().whenComplete(() async {
     await setOnBoardingLocale(languageCode);
-    hideLoadingScreen();
     await AppInit.noInternetInitializedOnBoardingCheck();
   });
 }

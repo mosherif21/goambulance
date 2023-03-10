@@ -15,8 +15,9 @@ class ResetController extends GetxController {
     }
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();
-    var returnMessage =
-        await AuthenticationRepository.instance.resetPassword(email: email);
+    var returnMessage = email.isEmpty
+        ? 'missingEmail'.tr
+        : await AuthenticationRepository.instance.resetPassword(email: email);
     hideLoadingScreen();
     return returnMessage;
   }

@@ -120,18 +120,6 @@ class AppInit {
     }
   }
 
-  static Widget? getInitialPage() {
-    removeSplashScreen();
-    return showOnBoard
-        ? const OnBoardingScreen()
-        : initialInternetConnectionStatus ==
-                InternetConnectionStatus.disconnected
-            ? const NotInternetErrorWidget()
-            : AuthenticationRepository.instance.isUserLoggedIn
-                ? const HomePageScreen()
-                : const AuthenticationScreen();
-  }
-
   static Future<void> initialize() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
@@ -155,6 +143,18 @@ class AppInit {
         });
       }
     });
+  }
+
+  static Widget? getInitialPage() {
+    removeSplashScreen();
+    return showOnBoard
+        ? const OnBoardingScreen()
+        : initialInternetConnectionStatus ==
+                InternetConnectionStatus.disconnected
+            ? const NotInternetErrorWidget()
+            : AuthenticationRepository.instance.isUserLoggedIn
+                ? const HomePageScreen()
+                : const AuthenticationScreen();
   }
 
   static Transition getPageTransition() {

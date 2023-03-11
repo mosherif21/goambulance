@@ -31,7 +31,7 @@ class TextFormFieldRegularInitialText extends StatelessWidget {
         ),
         labelText: labelText,
         hintText: hintText,
-        border: const OutlineInputBorder(),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
       ),
     );
   }

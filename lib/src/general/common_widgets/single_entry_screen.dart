@@ -40,19 +40,6 @@ class SingleEntryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
-    Widget entryScreenWidget;
-    var screenType = AppInit.getScreenSize(screenWidth);
-    switch (screenType) {
-      case ScreenSize.small:
-        entryScreenWidget = entryScreenSmall(
-            screenHeight: screenHeight, screenWidth: screenWidth);
-        break;
-      case ScreenSize.medium:
-      case ScreenSize.large:
-        entryScreenWidget = entryScreenLarge(
-            screenHeight: screenHeight, screenWidth: screenWidth);
-        break;
-    }
     return WillPopScope(
       onWillPop: () async {
         if (inputType == InputType.phone &&
@@ -62,99 +49,17 @@ class SingleEntryScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: screenType == ScreenSize.small
-            ? Colors.white
-            : Colors.grey.shade100,
+        backgroundColor: Colors.white,
         body: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(kDefaultPaddingSize),
-            child: entryScreenWidget,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget entryScreenSmall(
-      {required double screenHeight, required double screenWidth}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Lottie.asset(
-          lottieAssetAnim,
-          height: screenHeight * 0.45,
-        ),
-        Text(
-          title,
-          style: GoogleFonts.montserrat(
-            color: Colors.black,
-            fontSize: AppInit.notWebMobile ? 25 : 14,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-        const SizedBox(
-          height: 20.0,
-        ),
-        inputType == InputType.phone
-            ? IntlPhoneField(
-                decoration: InputDecoration(
-                  labelText: textFormTitle,
-                  hintText: textFormHint,
-                  border: const OutlineInputBorder(
-                    borderSide: BorderSide(),
-                  ),
-                ),
-                initialCountryCode: 'EG',
-                onChanged: (phone) {
-                  textController.text = phone.completeNumber;
-                },
-              )
-            : TextFormFieldRegular(
-                labelText: textFormTitle,
-                hintText: textFormHint,
-                prefixIconData: prefixIconData,
-                textController: textController,
-                inputType: inputType,
-              ),
-        const SizedBox(height: 20.0),
-        RegularElevatedButton(
-            buttonText: buttonTitle, enabled: true, onPressed: onPressed),
-        inputType == InputType.phone
-            ? AlternateLoginButtons(
-                screenHeight: screenHeight,
-                screenWidth: screenWidth,
-                showPhoneLogin: false,
-              )
-            : const SizedBox(),
-      ],
-    );
-  }
-
-  Widget entryScreenLarge(
-      {required double screenHeight, required double screenWidth}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Expanded(
-          child: Lottie.asset(
-            lottieAssetAnim,
-            width: double.infinity,
-            height: screenHeight * 0.75,
-          ),
-        ),
-        Expanded(
-          child: Container(
-            padding: const EdgeInsets.all(20.0),
-            decoration: const BoxDecoration(
-              boxShadow: [BoxShadow(blurRadius: 2.0)],
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(15),
-              ),
-            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Lottie.asset(
+                  lottieAssetAnim,
+                  height: screenHeight * 0.45,
+                ),
                 Text(
                   title,
                   style: GoogleFonts.montserrat(
@@ -193,22 +98,17 @@ class SingleEntryScreen extends StatelessWidget {
                     enabled: true,
                     onPressed: onPressed),
                 inputType == InputType.phone
-                    ? Column(
-                        children: [
-                          const SizedBox(height: 10.0),
-                          AlternateLoginButtons(
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
-                            showPhoneLogin: false,
-                          ),
-                        ],
+                    ? AlternateLoginButtons(
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                        showPhoneLogin: false,
                       )
                     : const SizedBox(),
               ],
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

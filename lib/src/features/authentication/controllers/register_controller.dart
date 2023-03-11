@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
@@ -10,25 +9,28 @@ class RegisterController extends GetxController {
   final email = TextEditingController();
   final password = TextEditingController();
   final passwordConfirm = TextEditingController();
-  RxString returnMessage = ''.obs;
 
   Future<void> registerNewUser(
       String email, String password, String passwordConfirm) async {
-    if (kDebugMode) {
-      print('email register data is: email: $email and password: $password');
-    }
+    String returnMessage = '';
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();
     if (password.compareTo(passwordConfirm) == 0 && password.length >= 8) {
-      returnMessage.value = await AuthenticationRepository.instance
+      returnMessage = await AuthenticationRepository.instance
           .createUserWithEmailAndPassword(email, password);
     } else if (email.isEmpty || password.isEmpty || passwordConfirm.isEmpty) {
-      returnMessage.value = 'emptyFields'.tr;
+      returnMessage = 'emptyFields'.tr;
     } else if (password.length < 8) {
-      returnMessage.value = 'smallPass'.tr;
+      returnMessage = 'smallPass'.tr;
     } else {
-      returnMessage.value = 'passwordNotMatch'.tr;
+      returnMessage = 'passwordNotMatch'.tr;
     }
     hideLoadingScreen();
+    if (returnMessage.compareTo('success') != 0) {
+      showSimpleSnackBar(
+        title: 'error'.tr,
+        body: returnMessage,
+      );
+    }
   }
 }

@@ -34,16 +34,7 @@ class EmailRegisterForm extends StatelessWidget {
             labelText: 'confirmPassword'.tr,
             textController: controller.passwordConfirm,
           ),
-          const SizedBox(height: 6),
-          Obx(
-            () => controller.returnMessage.value.compareTo('success') != 0
-                ? Text(
-                    controller.returnMessage.value,
-                    style: const TextStyle(color: Colors.red),
-                  )
-                : const SizedBox(),
-          ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 12),
           RegularElevatedButton(
             buttonText: 'registerTextTitle'.tr,
             enabled: true,

@@ -152,7 +152,7 @@ class AppInit {
     }
   }
 
-  static Future<void> noInternetInitializedOnBoardingCheck() async {
+  static Future<void> onBoardingPageNavigation() async {
     showOnBoard = false;
     if (!isInitialised) {
       Get.offAll(() => const NotInternetErrorWidget());

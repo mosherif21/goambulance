@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-import '../features/home_page/screens/home_page_screen.dart';
+import '../features/home_page/screens/home_screen.dart';
 
 double getScreenHeight(BuildContext context) =>
     MediaQuery.of(context).size.height;
@@ -10,7 +10,7 @@ double getScreenHeight(BuildContext context) =>
 double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
 
-void getToHomePage() => Get.offAll(() => const HomePageScreen());
+void getToHomePage() => Get.offAll(() => const HomeScreen());
 
 Future<void> showLoadingScreen() async {
   final height = Get.context?.height;

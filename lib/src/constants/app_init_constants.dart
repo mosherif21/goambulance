@@ -136,14 +136,10 @@ class AppInit {
 
   static Future<void> internetInitialize() async {
     if (!isInitialised) {
-      AppInit.initializeDatabase().whenComplete(() {
+      AppInit.initializeDatabase().whenComplete(() async {
         if (!showOnBoard) {
           removeSplashScreen();
-          AuthenticationRepository.instance.isUserLoggedIn
-              ? Get.offAll(() => const HomePageScreen(),
-                  transition: Transition.noTransition)
-              : Get.offAll(() => const AuthenticationScreen(),
-                  transition: Transition.noTransition);
+          await goToAuthenticationOrHomePage();
         }
       });
     }
@@ -161,12 +157,16 @@ class AppInit {
     if (!isInitialised) {
       Get.offAll(() => const NotInternetErrorWidget());
     } else {
-      AuthenticationRepository.instance.isUserLoggedIn
-          ? Get.offAll(() => const HomePageScreen(),
-              transition: Transition.noTransition)
-          : Get.offAll(() => const AuthenticationScreen(),
-              transition: Transition.noTransition);
+      await goToAuthenticationOrHomePage();
     }
+  }
+
+  static Future<void> goToAuthenticationOrHomePage() async {
+    AuthenticationRepository.instance.isUserLoggedIn
+        ? await Get.offAll(() => const HomePageScreen(),
+            transition: Transition.noTransition)
+        : await Get.offAll(() => const AuthenticationScreen(),
+            transition: Transition.noTransition);
   }
 
   static Widget? getInitialPage() {

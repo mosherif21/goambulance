@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/home_page/components/speech_to_text_test/controllers/speech_controller.dart';
+import 'package:goambulance/src/features/home_screen/components/speech_to_text_test/controllers/speech_controller.dart';
 
 class SpeechToTextWidget extends StatelessWidget {
   const SpeechToTextWidget({Key? key}) : super(key: key);

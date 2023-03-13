@@ -12,7 +12,7 @@ import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity_controller.dart';
 import '../features/authentication/screens/auth_screen.dart';
-import '../features/home_page/screens/home_screen.dart';
+import '../features/home_screen/screens/home_screen.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../features/onboarding/screens/on_boarding_screen.dart';
 import '../general/common_widgets/empty_scaffold.dart';

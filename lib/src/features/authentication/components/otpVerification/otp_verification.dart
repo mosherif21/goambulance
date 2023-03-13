@@ -9,8 +9,6 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../constants/app_init_constants.dart';
 
-final RxBool _confirmButtonEnable = false.obs;
-
 class OTPVerificationScreen extends StatelessWidget {
   const OTPVerificationScreen({
     Key? key,
@@ -85,7 +83,6 @@ class OTPVerificationScreen extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               borderWidth: 4.0,
               onSubmit: (enteredVerificationCode) async {
-                _confirmButtonEnable.value = true;
                 await OtpVerificationController.instance.verifyOTP(
                   verificationCode: enteredVerificationCode,
                   inputType: inputType,

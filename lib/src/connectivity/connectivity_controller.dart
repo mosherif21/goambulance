@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
@@ -55,6 +56,7 @@ class ConnectivityController extends GetxController {
       title: 'noConnectionAlertTitle'.tr,
       content: Lottie.asset(
         kNoInternetAnim,
+        fit: BoxFit.contain,
         height: screenHeight! * 0.25,
       ),
       dismissible: false,

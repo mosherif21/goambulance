@@ -21,6 +21,7 @@ class NotInternetErrorWidget extends StatelessWidget {
             children: [
               Lottie.asset(
                 kNoInternetSwitchAnim,
+                fit: BoxFit.contain,
                 height: height * 0.5,
               ),
               Column(

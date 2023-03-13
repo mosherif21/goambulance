@@ -32,7 +32,7 @@ class OnBoardingPageTemplate extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Lottie.asset(onBoardingAnim,
-              height: height * 0.5, width: width * 0.8),
+              fit: BoxFit.contain, height: height * 0.5, width: width * 0.8),
           Column(
             children: [
               Text(

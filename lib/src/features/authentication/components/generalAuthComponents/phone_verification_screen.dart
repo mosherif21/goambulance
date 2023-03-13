@@ -25,7 +25,7 @@ void getToPhoneVerificationScreen() {
         var returnMessage = '';
         returnMessage = await controller.signInWithOTPPhone(phoneNumber);
         if (returnMessage.compareTo('codeSent') == 0) {
-          Get.to(
+          await Get.to(
               () => OTPVerificationScreen(
                     inputType: InputType.phone,
                     verificationType: 'phoneLabel'.tr,

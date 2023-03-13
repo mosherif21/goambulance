@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/onboarding/components/design/on_boarding_next_button.dart';
+import 'package:goambulance/src/features/onboarding/controllers/onBoarding_controller.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../general/common_widgets/language_select.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../components/design/liquid_swipe.dart';
-import '../components/models.dart';
+import '../components/liquid_swipe.dart';
+import '../components/on_boarding_next_button.dart';
 import '../components/onboarding_shared_preferences.dart';
 
 class OnBoardingScreen extends StatelessWidget {
@@ -14,23 +14,25 @@ class OnBoardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final obController = Get.put(OnBoardingController());
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: [
-          const LiquidSwipeWidget(),
+          LiquidSwipeWidget(obController: obController),
           Obx(
-            () => currentPageCounter.value != numberOfPages
+            () => obController.currentPageCounter.value !=
+                    obController.numberOfPages
                 ? Positioned(
                     top: 50,
                     right: 30,
                     child: TextButton(
-                      onPressed: () =>
-                          obController.jumpToPage(page: numberOfPages),
+                      onPressed: () => obController.liquidSwipeController
+                          .jumpToPage(page: obController.numberOfPages),
                       child: Text(
                         'skipLabel'.tr,
                         style: TextStyle(
-                          color: currentPageCounter.value == 0
+                          color: obController.currentPageCounter.value == 0
                               ? Colors.grey
                               : Colors.white,
                           fontSize: 15.0,
@@ -45,9 +47,11 @@ class OnBoardingScreen extends StatelessWidget {
             bottom: 50,
             child: OnBoardingPageNextButton(
               onPress: () async {
-                obController.animateToPage(
-                    page: obController.currentPage + 1, duration: 500);
-                if (currentPageCounter.value == numberOfPages) {
+                obController.liquidSwipeController.animateToPage(
+                    page: obController.liquidSwipeController.currentPage + 1,
+                    duration: 500);
+                if (obController.currentPageCounter.value ==
+                    obController.numberOfPages) {
                   await RegularBottomSheet.showRegularBottomSheet(
                     LanguageSelect(
                       onEnglishLanguagePress: () async {
@@ -70,8 +74,8 @@ class OnBoardingScreen extends StatelessWidget {
             () => Positioned(
               bottom: 15,
               child: AnimatedSmoothIndicator(
-                activeIndex: currentPageCounter.value,
-                count: numberOfPages + 1,
+                activeIndex: obController.currentPageCounter.value,
+                count: obController.numberOfPages + 1,
                 effect: const ExpandingDotsEffect(
                   activeDotColor: Colors.black,
                   dotHeight: 10.0,

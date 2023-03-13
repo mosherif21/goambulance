@@ -152,12 +152,12 @@ class AppInit {
     }
   }
 
-  static Future<void> onBoardingPageNavigation() async {
+  static void onBoardingPageNavigation() {
     showOnBoard = false;
     if (!isInitialised) {
       Get.offAll(() => const NotInternetErrorWidget());
     } else {
-      await goToAuthenticationOrHomePage();
+      goToAuthenticationOrHomePage();
     }
   }
 

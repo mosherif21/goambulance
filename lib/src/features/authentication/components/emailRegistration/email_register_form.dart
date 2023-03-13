@@ -21,30 +21,24 @@ class EmailRegisterForm extends StatelessWidget {
             labelText: 'emailLabel'.tr,
             hintText: 'emailHintLabel'.tr,
             prefixIconData: Icons.email_outlined,
-            textController: controller.email,
+            textController: controller.emailTextController,
             inputType: InputType.email,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
             labelText: 'passwordLabel'.tr,
-            textController: controller.password,
+            textController: controller.passwordTextController,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
             labelText: 'confirmPassword'.tr,
-            textController: controller.passwordConfirm,
+            textController: controller.passwordConfirmTextController,
           ),
           const SizedBox(height: 12),
           RegularElevatedButton(
             buttonText: 'registerTextTitle'.tr,
             enabled: true,
-            onPressed: () async {
-              await controller.registerNewUser(
-                controller.email.text,
-                controller.password.text,
-                controller.passwordConfirm.text,
-              );
-            },
+            onPressed: () async => await controller.registerNewUser(),
           ),
         ],
       ),

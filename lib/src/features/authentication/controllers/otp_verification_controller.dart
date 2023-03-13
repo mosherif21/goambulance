@@ -35,7 +35,7 @@ class OtpVerificationController extends GetxController {
     if (returnMessage.compareTo('success') == 0) {
       if (inputType == InputType.phone &&
           Get.isRegistered<OtpVerificationController>()) {
-        Get.delete<OtpVerificationController>();
+        await Get.delete<OtpVerificationController>();
       }
       getToHomePage();
     } else {

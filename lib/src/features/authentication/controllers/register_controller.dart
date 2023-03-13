@@ -6,12 +6,14 @@ import '../../../general/common_functions.dart';
 
 class RegisterController extends GetxController {
   static RegisterController get instance => Get.find();
-  final email = TextEditingController();
-  final password = TextEditingController();
-  final passwordConfirm = TextEditingController();
+  final emailTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+  final passwordConfirmTextController = TextEditingController();
 
-  Future<void> registerNewUser(
-      String email, String password, String passwordConfirm) async {
+  Future<void> registerNewUser() async {
+    final email = emailTextController.text;
+    final password = passwordTextController.text;
+    final passwordConfirm = passwordConfirmTextController.text;
     String returnMessage = '';
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();

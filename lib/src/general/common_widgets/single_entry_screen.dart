@@ -44,7 +44,7 @@ class SingleEntryScreen extends StatelessWidget {
       onWillPop: () async {
         if (inputType == InputType.phone &&
             Get.isRegistered<OtpVerificationController>()) {
-          Get.delete<OtpVerificationController>();
+          await Get.delete<OtpVerificationController>();
         }
         return true;
       },

@@ -25,13 +25,13 @@ class LoginForm extends StatelessWidget {
             labelText: 'emailLabel'.tr,
             hintText: 'emailHintLabel'.tr,
             prefixIconData: Icons.email_outlined,
-            textController: controller.email,
+            textController: controller.emailTextController,
             inputType: InputType.email,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
             labelText: 'passwordLabel'.tr,
-            textController: controller.password,
+            textController: controller.passwordTextController,
           ),
           const SizedBox(height: 6),
           Align(
@@ -48,10 +48,7 @@ class LoginForm extends StatelessWidget {
           RegularElevatedButton(
             enabled: true,
             buttonText: 'loginTextTitle'.tr,
-            onPressed: () async {
-              await controller.loginUser(
-                  controller.email.text, controller.password.text);
-            },
+            onPressed: () async => await controller.loginUser(),
           ),
         ],
       ),

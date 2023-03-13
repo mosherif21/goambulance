@@ -6,9 +6,11 @@ import '../../../general/common_functions.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
-  final email = TextEditingController();
-  final password = TextEditingController();
-  Future<void> loginUser(String email, String password) async {
+  final emailTextController = TextEditingController();
+  final passwordTextController = TextEditingController();
+  Future<void> loginUser() async {
+    final email = emailTextController.text;
+    final password = passwordTextController.text;
     String returnMessage = '';
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();

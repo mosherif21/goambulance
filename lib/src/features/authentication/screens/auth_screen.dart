@@ -22,7 +22,7 @@ class AuthenticationScreen extends StatelessWidget {
       onWillPop: () async {
         if (AppInit.currentAuthType.value == AuthType.emailRegister) {
           AppInit.currentAuthType.value = AuthType.emailLogin;
-          Get.delete<RegisterController>();
+          await Get.delete<RegisterController>();
           return false;
         } else {
           return true;

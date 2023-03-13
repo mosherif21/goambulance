@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ConnectivityChecker.checkConnection(displayAlert: false);
+    ConnectivityChecker.checkConnection(displayAlert: true);
     final homeScreenController = Get.put(HomeScreenController());
     return PersistentTabView(
       context,
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
         duration: Duration(milliseconds: 200),
       ),
       navBarStyle:
-          NavBarStyle.style9, // Choose the nav bar style with this property.
+          NavBarStyle.style1, // Choose the nav bar style with this property.
     );
   }
 }

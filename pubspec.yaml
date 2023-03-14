@@ -22,7 +22,6 @@ dependencies:
   connectivity_plus: ^3.0.2
   internet_connection_checker_plus: ^1.0.1
   awesome_notifications: ^0.7.4+1
-  qr_code_scanner: ^1.0.1
   speech_to_text: ^6.1.1
   flutter_tts: ^3.6.3
 

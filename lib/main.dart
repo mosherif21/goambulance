@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           home: AppInit.getInitialPage(),
         );
       },
-      maximumSize: const Size(475.0, 812.0), // Maximum size
+      maximumSize: const Size(500.0, 812.0), // Maximum size
       enabled: AppInit.notWebMobile,
       backgroundColor: Colors.grey.shade500,
     );

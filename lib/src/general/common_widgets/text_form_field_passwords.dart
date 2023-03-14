@@ -23,7 +23,7 @@ class TextFormFieldPassword extends StatelessWidget {
           ),
           labelText: labelText,
           hintText: 'passwordHintLabel'.tr,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
           suffixIcon: IconButton(
             onPressed: () => passwordHide.value
                 ? passwordHide.value = false

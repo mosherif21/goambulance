@@ -30,7 +30,7 @@ class TextFormFieldRegular extends StatelessWidget {
           ),
           labelText: labelText,
           hintText: hintText,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0)),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
       ),
     );

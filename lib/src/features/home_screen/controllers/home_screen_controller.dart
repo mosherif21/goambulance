@@ -25,19 +25,19 @@ class HomeScreenController extends GetxController {
     return [
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),
-        title: ("Home"),
+        title: ('home'.tr),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.search(),
-        title: ("Search"),
+        title: ('Search'.tr),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.history(),
-        title: ("Requests"),
+        title: ('Requests'.tr),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
@@ -48,7 +48,7 @@ class HomeScreenController extends GetxController {
             'https://sooxt98.space/content/images/size/w100/2019/01/profile.png',
           ),
         ),
-        title: ("Profile"),
+        title: ('Account'.tr),
         activeColorPrimary: CupertinoColors.activeBlue,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),

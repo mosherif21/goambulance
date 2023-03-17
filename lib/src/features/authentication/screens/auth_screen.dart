@@ -42,9 +42,7 @@ class AuthenticationScreen extends StatelessWidget {
                   AppInit.isWeb
                       ? const SizedBox(height: 15.0)
                       : const SizedBox(),
-                  const ButtonLanguageSelect(
-                    color: Colors.black54,
-                  ),
+                  const ButtonLanguageSelect(color: Colors.black54),
                   Image(
                     image: const AssetImage(kLogoImageWithSlogan),
                     height: AppInit.notWebMobile

@@ -50,7 +50,7 @@ class AlternateLoginButtons extends StatelessWidget {
                 text: 'loginWithGoogle'.tr,
                 onPressed: () async {
                   showLoadingScreen();
-                  var returnMessage = await AuthenticationRepository.instance
+                  final returnMessage = await AuthenticationRepository.instance
                       .signInWithGoogle();
                   hideLoadingScreen();
                   if (returnMessage.compareTo('success') != 0) {

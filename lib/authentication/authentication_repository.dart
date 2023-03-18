@@ -103,7 +103,7 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<String> verifyOTP(String otp) async {
-    UserCredential credentials;
+    final UserCredential credentials;
     try {
       credentials = await _auth.signInWithCredential(
           PhoneAuthProvider.credential(
@@ -132,12 +132,11 @@ class AuthenticationRepository extends GetxController {
         GoogleSignInAuthentication? signInAuthentication =
             await googleSignInAccount.authentication;
 
-        AuthCredential credential = GoogleAuthProvider.credential(
+        final credential = GoogleAuthProvider.credential(
           idToken: signInAuthentication.idToken,
           accessToken: signInAuthentication.accessToken,
         );
-        UserCredential userCredential =
-            await _auth.signInWithCredential(credential);
+        final userCredential = await _auth.signInWithCredential(credential);
         if (userCredential.user != null) {
           getToHomePage();
           return 'success';
@@ -166,14 +165,12 @@ class AuthenticationRepository extends GetxController {
   Future<String> signInWithFacebook() async {
     if (AppInit.isWeb) {
       try {
-        //web facebook login
-        FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+        final facebookProvider = FacebookAuthProvider();
         facebookProvider.addScope('email');
         facebookProvider.setCustomParameters({
           'display': 'popup',
         });
-        // Once signed in, return the UserCredential
-        UserCredential userCredential =
+        final userCredential =
             await FirebaseAuth.instance.signInWithPopup(facebookProvider);
         if (userCredential.user != null) {
           getToHomePage();
@@ -186,11 +183,9 @@ class AuthenticationRepository extends GetxController {
       try {
         final LoginResult loginResult = await FacebookAuth.instance.login();
         if (loginResult.accessToken?.token != null) {
-          // Create a credential from the access token
-          final OAuthCredential facebookAuthCredential =
+          final facebookAuthCredential =
               FacebookAuthProvider.credential(loginResult.accessToken!.token);
-          // Once signed in, return the UserCredential
-          UserCredential userCredential = await FirebaseAuth.instance
+          final userCredential = await FirebaseAuth.instance
               .signInWithCredential(facebookAuthCredential);
           if (userCredential.user != null) {
             getToHomePage();

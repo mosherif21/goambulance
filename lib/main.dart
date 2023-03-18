@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
+import 'package:goambulance/src/connectivity/connectivity_controller.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    Get.put(ConnectivityController());
     return FlutterWebFrame(
       builder: (context) {
         return GetMaterialApp(

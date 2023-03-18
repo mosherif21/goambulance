@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
-import '../connectivity/connectivity_controller.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
@@ -124,10 +124,7 @@ class AppInit {
   static Future<void> initialize() async {
     WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
     await initializeConstants();
-    Get.put(ConnectivityController());
-
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -136,12 +133,14 @@ class AppInit {
 
   static Future<void> internetInitialize() async {
     if (!isInitialised) {
+      showLoadingScreen();
       AppInit.initializeDatabase().whenComplete(() async {
         if (!showOnBoard) {
           removeSplashScreen();
-          await goToAuthenticationOrHomePage();
+          await goToInitialPage();
         }
       });
+      hideLoadingScreen();
     }
   }
 
@@ -157,16 +156,20 @@ class AppInit {
     if (!isInitialised) {
       Get.offAll(() => const NotInternetErrorWidget());
     } else {
-      goToAuthenticationOrHomePage();
+      goToInitialPage();
     }
   }
 
-  static Future<void> goToAuthenticationOrHomePage() async {
+  static Future<void> goToInitialPage() async {
     AuthenticationRepository.instance.isUserLoggedIn
-        ? await Get.offAll(() => const HomeScreen(),
-            transition: Transition.noTransition)
-        : await Get.offAll(() => const AuthenticationScreen(),
-            transition: Transition.noTransition);
+        ? await Get.offAll(
+            () => const HomeScreen(),
+            transition: Transition.circularReveal,
+          )
+        : await Get.offAll(
+            () => const AuthenticationScreen(),
+            transition: Transition.circularReveal,
+          );
   }
 
   static Widget? getInitialPage() {

@@ -63,7 +63,7 @@ class ConnectivityController extends GetxController {
     ).showNoButtonAlertDialog();
   }
 
-  void updateDisplayAlert(bool displayAlert) {
+  void updateDisplayAlert({required bool displayAlert}) {
     _displayAlert = displayAlert;
   }
 

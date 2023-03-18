@@ -79,8 +79,8 @@ class AuthenticationRepository extends GetxController {
       await _auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,
           verificationCompleted: (credential) async {
-            final auth = await _auth.signInWithCredential(credential);
-            if (auth.user != null) {
+            await _auth.signInWithCredential(credential);
+            if (fireUser.value != null) {
               getToHomePage();
             }
           },
@@ -103,12 +103,10 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<String> verifyOTP(String otp) async {
-    final UserCredential credentials;
     try {
-      credentials = await _auth.signInWithCredential(
-          PhoneAuthProvider.credential(
-              verificationId: verificationId.value, smsCode: otp));
-      if (credentials.user != null) {
+      await _auth.signInWithCredential(PhoneAuthProvider.credential(
+          verificationId: verificationId.value, smsCode: otp));
+      if (fireUser.value != null) {
         return 'success';
       }
     } on FirebaseAuthException catch (e) {
@@ -129,15 +127,14 @@ class AuthenticationRepository extends GetxController {
           : GoogleSignIn();
       final googleSignInAccount = await googleSignIn?.signIn();
       if (googleSignInAccount != null) {
-        GoogleSignInAuthentication? signInAuthentication =
-            await googleSignInAccount.authentication;
+        final signInAuthentication = await googleSignInAccount.authentication;
 
         final credential = GoogleAuthProvider.credential(
           idToken: signInAuthentication.idToken,
           accessToken: signInAuthentication.accessToken,
         );
-        final userCredential = await _auth.signInWithCredential(credential);
-        if (userCredential.user != null) {
+        await _auth.signInWithCredential(credential);
+        if (fireUser.value != null) {
           getToHomePage();
           return 'success';
         }

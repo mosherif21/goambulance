@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../../constants/colors.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../settings/screens/settings_screen.dart';
 
@@ -26,19 +27,19 @@ class HomeScreenController extends GetxController {
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),
         title: ('home'.tr),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.search(),
         title: ('Search'.tr),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.history(),
         title: ('Requests'.tr),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -49,7 +50,7 @@ class HomeScreenController extends GetxController {
           ),
         ),
         title: ('Account'.tr),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];

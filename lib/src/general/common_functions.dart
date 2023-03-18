@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../authentication/authentication_repository.dart';
+import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 
 double getScreenHeight(BuildContext context) =>
@@ -54,6 +56,10 @@ void showSimpleSnackBar({
     ),
   );
 }
+
+Future<void> logout() async => await AuthenticationRepository.instance
+    .logoutUser()
+    .whenComplete(() => Get.offAll(() => const AuthenticationScreen()));
 
 //SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 //

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/src/features/authentication/screens/auth_screen.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 
 class HomeDashBoard extends StatelessWidget {
@@ -16,9 +18,12 @@ class HomeDashBoard extends StatelessWidget {
             const Text('Dashboard'),
             RegularElevatedButton(
               buttonText: 'logout'.tr,
-              onPressed: () async {},
+              onPressed: () async => await AuthenticationRepository.instance
+                  .logoutUser()
+                  .whenComplete(
+                      () => Get.offAll(() => const AuthenticationScreen())),
               enabled: true,
-            )
+            ),
           ],
         ),
       ),

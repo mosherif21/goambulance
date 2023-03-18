@@ -4,6 +4,8 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
 import '../../../constants/app_init_constants.dart';
+import '../../../constants/assets_strings.dart';
+import '../components/otpVerification/otp_verification.dart';
 
 class OtpVerificationController extends GetxController {
   static OtpVerificationController get instance => Get.find();
@@ -38,6 +40,27 @@ class OtpVerificationController extends GetxController {
         await Get.delete<OtpVerificationController>();
       }
       getToHomePage();
+    } else {
+      showSimpleSnackBar(
+        title: 'error'.tr,
+        body: returnMessage,
+      );
+    }
+  }
+
+  Future<void> otpOnClick() async {
+    var phoneNumber = enteredData.value.text;
+    var returnMessage = '';
+    returnMessage = await signInWithOTPPhone(phoneNumber);
+    if (returnMessage.compareTo('codeSent') == 0) {
+      await Get.to(
+          () => OTPVerificationScreen(
+                inputType: InputType.phone,
+                verificationType: 'phoneLabel'.tr,
+                lottieAssetAnim: kPhoneOTPAnim,
+                enteredString: phoneNumber,
+              ),
+          transition: AppInit.getPageTransition());
     } else {
       showSimpleSnackBar(
         title: 'error'.tr,

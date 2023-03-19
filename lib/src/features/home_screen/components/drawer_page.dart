@@ -1,17 +1,18 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/constants/colors.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 
 import '../controllers/home_screen_controller.dart';
 
-class MenuScreen extends StatelessWidget {
+class DrawerPage extends StatelessWidget {
   final List<MenuClass> mainMenu;
   final void Function(int)? callback;
   final int? current;
 
-  const MenuScreen(
+  const DrawerPage(
     this.mainMenu, {
     super.key,
     this.callback,
@@ -21,27 +22,17 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
-    const androidStyle = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    );
-    const iosStyle = TextStyle(color: Colors.white);
-    final style = kIsWeb
-        ? androidStyle
-        : Platform.isAndroid
-            ? androidStyle
-            : iosStyle;
+    final screenHeight = getScreenHeight(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Theme.of(context).primaryColor,
-              Colors.indigo,
+              kDefaultColor,
+              Colors.blue,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -49,13 +40,12 @@ class MenuScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(top: 50.0, left: 5.0),
+            padding: EdgeInsets.only(top: screenHeight * 0.1, left: 5.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // Spacer(),
                   Column(
                     children: [
                       Padding(
@@ -102,7 +92,6 @@ class MenuScreen extends StatelessWidget {
                                 item: item,
                                 callback: callback,
                                 widthBox: const SizedBox(width: 16.0),
-                                style: style,
                                 selected:
                                     homeScreenController.currentPage.value ==
                                         item.index,
@@ -112,23 +101,24 @@ class MenuScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Spacer(),
+                  SizedBox(height: screenHeight * 0.05),
                   Padding(
                     padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.white, width: 2.0),
+                        foregroundColor: const Color(0x44000000),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
                         textStyle: const TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {},
+                      onPressed: () async => await logout(),
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'logout',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
                     ),
@@ -147,7 +137,6 @@ class MenuScreen extends StatelessWidget {
 class MenuItemWidget extends StatelessWidget {
   final MenuClass? item;
   final Widget? widthBox;
-  final TextStyle? style;
   final void Function(int)? callback;
   final bool? selected;
 
@@ -155,25 +144,36 @@ class MenuItemWidget extends StatelessWidget {
     Key? key,
     this.item,
     this.widthBox,
-    this.style,
     this.callback,
     this.selected,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final androidStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: selected! ? Colors.white : Colors.grey.shade300,
+    );
+    final iosStyle =
+        TextStyle(color: selected! ? Colors.white : Colors.grey.shade300);
+    final style = kIsWeb
+        ? androidStyle
+        : AppInit.isAndroid
+            ? androidStyle
+            : iosStyle;
     return TextButton(
       onPressed: () => callback!(item!.index),
       style: TextButton.styleFrom(
-        foregroundColor: selected! ? const Color(0x44000000) : null,
+        foregroundColor: const Color(0x44000000),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(
             item!.icon,
-            color: Colors.white,
-            size: 24,
+            color: selected! ? Colors.white : Colors.grey.shade300,
+            size: 30,
           ),
           widthBox!,
           Expanded(

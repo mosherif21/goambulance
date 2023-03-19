@@ -4,11 +4,11 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../controllers/home_screen_controller.dart';
+import 'drawer_page.dart';
 import 'home_navigation_bar.dart';
-import 'menu_page.dart';
 
-class HomeScreenTest extends StatelessWidget {
-  const HomeScreenTest({super.key});
+class HomeNavigationDrawer extends StatelessWidget {
+  const HomeNavigationDrawer({super.key});
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
@@ -16,25 +16,26 @@ class HomeScreenTest extends StatelessWidget {
         AppInit.currentDeviceLanguage == Language.english ? false : true;
     return ZoomDrawer(
       controller: homeScreenController.zoomDrawerController,
-      menuScreen: MenuScreen(
+      menuScreen: DrawerPage(
         homeScreenController.mainMenu,
         callback: homeScreenController.updatePage,
         current: 0,
       ),
-      mainScreen: const MainScreen(),
+      mainScreen: const HomeNavigationBar(),
       openCurve: Curves.fastOutSlowIn,
       showShadow: false,
-      slideWidth: MediaQuery.of(context).size.width * (0.5),
+      slideWidth: MediaQuery.of(context).size.width * (0.55),
       isRtl: isRtl,
       mainScreenTapClose: true,
       borderRadius: 10,
       angle: 0.0,
       menuScreenWidth: double.infinity,
-      mainScreenScale: 0.2,
+      mainScreenScale: 0.25,
       moveMenuScreen: false,
       style: DrawerStyle.defaultStyle,
       drawerShadowsBackgroundColor: Colors.yellow,
       mainScreenAbsorbPointer: false,
+      disableDragGesture: false,
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.5),
@@ -46,28 +47,29 @@ class HomeScreenTest extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const rtl = false;
-    return ValueListenableBuilder<DrawerState>(
-      valueListenable: ZoomDrawer.of(context)!.stateNotifier,
-      builder: (context, state, child) {
-        return AbsorbPointer(
-          absorbing: state != DrawerState.closed,
-          child: child,
-        );
-      },
-      child: GestureDetector(
-        child: const HomeNavigationBar(),
-        onPanUpdate: (details) {
-          if (details.delta.dx < 6 && !rtl || details.delta.dx < -6 && rtl) {
-            ZoomDrawer.of(context)?.toggle.call();
-          }
-        },
-      ),
-    );
-  }
-}
+// class HomePage extends StatelessWidget {
+//   const HomePage({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final rtl =
+//         AppInit.currentDeviceLanguage == Language.english ? false : true;
+//     return ValueListenableBuilder<DrawerState>(
+//       valueListenable: ZoomDrawer.of(context)!.stateNotifier,
+//       builder: (context, state, child) {
+//         return AbsorbPointer(
+//           absorbing: state != DrawerState.closed,
+//           child: child,
+//         );
+//       },
+//       child: GestureDetector(
+//         child: const HomeNavigationBar();
+//         onPanUpdate: (details) {
+//           if (details.delta.dx < 6 && !rtl || details.delta.dx < -6 && rtl) {
+//             ZoomDrawer.of(context)?.toggle.call();
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }

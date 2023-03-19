@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:get/get.dart';
-import 'package:goambulance/src/features/home_screen/components/home_drawer.dart';
-import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
+import 'package:provider/provider.dart';
 
 import '../../../connectivity/connectivity.dart';
-import '../../../constants/app_init_constants.dart';
-import '../../../general/common_functions.dart';
-import '../components/navigation_bar.dart';
+import '../components/home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -15,17 +10,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
-    final homeScreenController = Get.put(HomeScreenController());
-    return ZoomDrawer(
-      controller: homeScreenController.zoomDrawerController,
-      menuScreen: const MenuScreen(),
-      mainScreen: HomeNavigationBar(homeScreenController: homeScreenController),
-      borderRadius: 24.0,
-      mainScreenScale: 0.2,
-      isRtl: AppInit.currentDeviceLanguage == Language.english ? false : true,
-      androidCloseOnBackTap: true,
-      angle: 0.0,
-      slideWidth: getScreenWidth(context) * 0.65,
+    //final homeScreenController = Get.put(HomeScreenController());
+    return ChangeNotifierProvider(
+      create: (_) => MenuProvider(),
+      child: const HomeScreen(),
     );
   }
 }

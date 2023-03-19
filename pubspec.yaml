@@ -24,7 +24,7 @@ dependencies:
   awesome_notifications: ^0.7.4+1
   speech_to_text: ^6.1.1
   flutter_tts: ^3.6.3
-
+  provider: ^6.0.5
 
   #firebase dependencies
   firebase_core: ^2.3.0
@@ -50,6 +50,7 @@ dependencies:
   google_sign_in: ^5.4.2
   flutter_facebook_auth: ^5.0.7
 
+
   #UI dependencies
   cupertino_icons: ^1.0.5
   google_fonts: ^4.0.1
@@ -70,6 +71,7 @@ dependencies:
   persistent_bottom_nav_bar: ^5.0.2
   line_icons: ^2.0.1
   flutter_zoom_drawer: ^3.0.4+1
+  flutter_platform_widgets: ^3.2.0
 
   #state management dependencies
   get: ^4.6.5

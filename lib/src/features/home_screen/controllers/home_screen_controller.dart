@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -12,6 +13,11 @@ class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
 
   final controller = PersistentTabController(initialIndex: 0);
+  final zoomDrawerController = ZoomDrawerController();
+
+  void toggleDrawer() {
+    zoomDrawerController.toggle?.call();
+  }
 
   List<Widget> buildScreens() {
     return [

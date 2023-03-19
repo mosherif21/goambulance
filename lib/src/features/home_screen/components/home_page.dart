@@ -21,7 +21,7 @@ class HomeNavigationDrawer extends StatelessWidget {
         callback: homeScreenController.updatePage,
         current: 0,
       ),
-      mainScreen: const HomePage(),
+      mainScreen:   const HomeNavigationBar(),
       openCurve: Curves.fastOutSlowIn,
       showShadow: false,
       slideWidth: MediaQuery.of(context).size.width * (0.5),
@@ -35,6 +35,7 @@ class HomeNavigationDrawer extends StatelessWidget {
       style: DrawerStyle.defaultStyle,
       drawerShadowsBackgroundColor: Colors.yellow,
       mainScreenAbsorbPointer: false,
+      disableDragGesture: false,
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.5),
@@ -46,28 +47,29 @@ class HomeNavigationDrawer extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    const rtl = false;
-    return ValueListenableBuilder<DrawerState>(
-      valueListenable: ZoomDrawer.of(context)!.stateNotifier,
-      builder: (context, state, child) {
-        return AbsorbPointer(
-          absorbing: state != DrawerState.closed,
-          child: child,
-        );
-      },
-      child: GestureDetector(
-        child: const HomeNavigationBar(),
-        onPanUpdate: (details) {
-          if (details.delta.dx < 6 && !rtl || details.delta.dx < -6 && rtl) {
-            ZoomDrawer.of(context)?.toggle.call();
-          }
-        },
-      ),
-    );
-  }
-}
+// class HomePage extends StatelessWidget {
+//   const HomePage({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final rtl =
+//         AppInit.currentDeviceLanguage == Language.english ? false : true;
+//     return ValueListenableBuilder<DrawerState>(
+//       valueListenable: ZoomDrawer.of(context)!.stateNotifier,
+//       builder: (context, state, child) {
+//         return AbsorbPointer(
+//           absorbing: state != DrawerState.closed,
+//           child: child,
+//         );
+//       },
+//       child: GestureDetector(
+//         child: const HomeNavigationBar();
+//         onPanUpdate: (details) {
+//           if (details.delta.dx < 6 && !rtl || details.delta.dx < -6 && rtl) {
+//             ZoomDrawer.of(context)?.toggle.call();
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/general/common_functions.dart';
 
 import '../controllers/home_screen_controller.dart';
 
@@ -20,6 +21,7 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
+    final screenHeight = getScreenHeight(context);
     const androidStyle = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.bold,
@@ -48,13 +50,12 @@ class DrawerPage extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(top: 50.0, left: 5.0),
+            padding: EdgeInsets.only(top: screenHeight * 0.1, left: 5.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  // Spacer(),
                   Column(
                     children: [
                       Padding(
@@ -111,7 +112,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Spacer(),
+                  SizedBox(height: screenHeight * 0.05),
                   Padding(
                     padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                     child: OutlinedButton(
@@ -122,12 +123,12 @@ class DrawerPage extends StatelessWidget {
                         ),
                         textStyle: const TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {},
+                      onPressed: () async => await logout(),
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           'logout',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                       ),
                     ),

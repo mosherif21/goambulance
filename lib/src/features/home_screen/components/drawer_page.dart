@@ -22,17 +22,6 @@ class DrawerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
     final screenHeight = getScreenHeight(context);
-    const androidStyle = TextStyle(
-      fontSize: 14,
-      fontWeight: FontWeight.bold,
-      color: Colors.white,
-    );
-    const iosStyle = TextStyle(color: Colors.white);
-    final style = kIsWeb
-        ? androidStyle
-        : AppInit.isAndroid
-            ? androidStyle
-            : iosStyle;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -42,7 +31,7 @@ class DrawerPage extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               Theme.of(context).primaryColor,
-              Colors.indigo,
+              Colors.blue,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -102,7 +91,6 @@ class DrawerPage extends StatelessWidget {
                                 item: item,
                                 callback: callback,
                                 widthBox: const SizedBox(width: 16.0),
-                                style: style,
                                 selected:
                                     homeScreenController.currentPage.value ==
                                         item.index,
@@ -118,6 +106,7 @@ class DrawerPage extends StatelessWidget {
                     child: OutlinedButton(
                       style: OutlinedButton.styleFrom(
                         side: const BorderSide(color: Colors.white, width: 2.0),
+                        foregroundColor: const Color(0x44000000),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16.0),
                         ),
@@ -147,7 +136,6 @@ class DrawerPage extends StatelessWidget {
 class MenuItemWidget extends StatelessWidget {
   final MenuClass? item;
   final Widget? widthBox;
-  final TextStyle? style;
   final void Function(int)? callback;
   final bool? selected;
 
@@ -155,25 +143,36 @@ class MenuItemWidget extends StatelessWidget {
     Key? key,
     this.item,
     this.widthBox,
-    this.style,
     this.callback,
     this.selected,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final androidStyle = TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.bold,
+      color: selected! ? Colors.white : Colors.grey.shade300,
+    );
+    final iosStyle =
+        TextStyle(color: selected! ? Colors.white : Colors.grey.shade300);
+    final style = kIsWeb
+        ? androidStyle
+        : AppInit.isAndroid
+            ? androidStyle
+            : iosStyle;
     return TextButton(
       onPressed: () => callback!(item!.index),
       style: TextButton.styleFrom(
-        foregroundColor: selected! ? const Color(0x44000000) : null,
+        foregroundColor: const Color(0x44000000),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(
             item!.icon,
-            color: Colors.white,
-            size: 24,
+            color: selected! ? Colors.white : Colors.grey.shade300,
+            size: 30,
           ),
           widthBox!,
           Expanded(

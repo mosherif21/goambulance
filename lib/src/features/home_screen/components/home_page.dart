@@ -18,7 +18,7 @@ class HomeNavigationDrawer extends StatelessWidget {
       controller: homeScreenController.zoomDrawerController,
       menuScreen: DrawerPage(
         homeScreenController.mainMenu,
-        callback: homeScreenController.updatePage,
+        callback: (index) async => await homeScreenController.updatePage(index),
         current: 0,
       ),
       mainScreen: const HomeNavigationBar(),

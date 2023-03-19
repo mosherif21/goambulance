@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../../constants/app_init_constants.dart';
 import '../../../constants/colors.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../settings/screens/settings_screen.dart';
@@ -23,7 +24,7 @@ class HomeScreenController extends GetxController {
     currentPage.value = index;
   }
 
-  void updatePage(int index) {
+  Future<void> updatePage(int index) async {
     updateCurrentPage(index);
     toggleDrawer();
   }
@@ -56,18 +57,21 @@ class HomeScreenController extends GetxController {
         title: ('home'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        isArabic: AppInit.currentDeviceLanguage == Language.arabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.search(),
-        title: ('Search'.tr),
+        title: ('search'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        isArabic: AppInit.currentDeviceLanguage == Language.arabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.history(),
-        title: ('Requests'.tr),
+        title: ('requests'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        isArabic: AppInit.currentDeviceLanguage == Language.arabic,
       ),
       PersistentBottomNavBarItem(
         icon: const CircleAvatar(
@@ -76,9 +80,10 @@ class HomeScreenController extends GetxController {
             'https://sooxt98.space/content/images/size/w100/2019/01/profile.png',
           ),
         ),
-        title: ('Account'.tr),
+        title: ('account'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
+        isArabic: AppInit.currentDeviceLanguage == Language.arabic,
       ),
     ];
   }

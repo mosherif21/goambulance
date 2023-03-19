@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../authentication/authentication_repository.dart';
+import '../../localization/language/language_functions.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
+import 'common_widgets/language_select.dart';
+import 'common_widgets/regular_bottom_sheet.dart';
 
 double getScreenHeight(BuildContext context) =>
     MediaQuery.of(context).size.height;
@@ -60,6 +63,17 @@ void showSimpleSnackBar({
 Future<void> logout() async => await AuthenticationRepository.instance
     .logoutUser()
     .whenComplete(() => Get.offAll(() => const AuthenticationScreen()));
+
+Future<void> displayChangeLang() async => await RegularBottomSheet.showRegularBottomSheet(
+  LanguageSelect(
+    onEnglishLanguagePress: () async {
+      await setLocaleLanguageBack('en');
+    },
+    onArabicLanguagePress: () async {
+      await setLocaleLanguageBack('ar');
+    },
+  ),
+);
 
 //SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 //

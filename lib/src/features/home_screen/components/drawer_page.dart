@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
 import '../../../general/common_widgets/language_change_button.dart';
@@ -26,19 +25,19 @@ class DrawerPage extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
 
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Container(
+      backgroundColor: Colors.grey.shade200,
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              kDefaultColor,
-              Colors.blue,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+        // decoration: const BoxDecoration(
+        //   gradient: LinearGradient(
+        //     colors: [
+        //       kDefaultColor,
+        //       Colors.blue,
+        //     ],
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //   ),
+        // ),
         child: SafeArea(
           child: Column(
             children: [
@@ -79,7 +78,7 @@ class DrawerPage extends StatelessWidget {
                               'name',
                               style: TextStyle(
                                 fontSize: 22,
-                                color: Colors.white,
+                                color: Colors.black,
                                 fontWeight: FontWeight.w900,
                               ),
                             ),
@@ -113,12 +112,12 @@ class DrawerPage extends StatelessWidget {
                         child: OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             side: const BorderSide(
-                                color: Colors.white, width: 2.0),
+                                color: Colors.black, width: 2.0),
                             foregroundColor: const Color(0x44000000),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(16.0),
                             ),
-                            textStyle: const TextStyle(color: Colors.white),
+                            textStyle: const TextStyle(color: Colors.black),
                           ),
                           onPressed: () async => await logout(),
                           child: Padding(
@@ -126,7 +125,7 @@ class DrawerPage extends StatelessWidget {
                             child: Text(
                               'logout'.tr,
                               style: const TextStyle(
-                                  fontSize: 18, color: Colors.white),
+                                  fontSize: 18, color: Colors.black),
                             ),
                           ),
                         ),
@@ -162,10 +161,10 @@ class MenuItemWidget extends StatelessWidget {
     final androidStyle = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
-      color: selected! ? Colors.white : Colors.black.withOpacity(0.5),
+      color: selected! ? Colors.black : Colors.black.withOpacity(0.5),
     );
     final iosStyle = TextStyle(
-        color: selected! ? Colors.white : Colors.black.withOpacity(0.5));
+        color: selected! ? Colors.black : Colors.black.withOpacity(0.5));
     final style = kIsWeb
         ? androidStyle
         : AppInit.isAndroid
@@ -181,7 +180,7 @@ class MenuItemWidget extends StatelessWidget {
         children: <Widget>[
           Icon(
             item!.icon,
-            color: selected! ? Colors.white : Colors.black.withOpacity(0.5),
+            color: selected! ? Colors.black : Colors.black.withOpacity(0.5),
             size: 30,
           ),
           widthBox!,

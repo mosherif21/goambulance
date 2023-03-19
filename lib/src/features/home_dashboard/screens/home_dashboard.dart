@@ -60,44 +60,138 @@ class HomeDashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
-    return Scaffold(
-        body: SizedBox(
-      /*
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Theme.of(context).primaryColor, Colors.blueGrey],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight)),*/
-      child: Center(
-        child: Column(
-          children: [
-            Column(
-              children: [
-                Row(
-                  children: [
-                    IconButton(
+    return SafeArea(
+      child: Scaffold(
+          body: Container(
+        padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+        /*
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [Theme.of(context).primaryColor, Colors.blueGrey],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight)),*/
+        child: Center(
+          child: Column(
+            children: [
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      IconButton(
                         onPressed: () {
                           homeScreenController.toggleDrawer();
                         },
-                        icon: Image.asset('assets/images/menu (1).png')),
+                        icon: const Icon(
+                          Icons.menu_outlined,
+                          size: 30,
+                        ),
+                      ),
+                      const Spacer(),
+                      badges.Badge(
+                        onTap: () {},
+                        badgeContent: const Text('3'),
+                        child: const Icon(
+                          Icons.notifications,
+                          size: 30,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                        child: Text(
+                          'First Aid Tips',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                          onPressed: () {}, child: const Text('View All'))
+                    ],
+                  ),
+                  CarouselSlider(
+                      items: imageSliders,
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        aspectRatio: 2.0,
+                        enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
+                      )),
+                  Row(children: const [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Text(
+                        'Order an Ambulance',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ),
+                  ]),
+                  Row(children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(50, 10, 0, 10),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(20),
+                              foregroundColor:
+                                  Colors.greenAccent, // <-- Splash color
+                            ),
+                            child: Image.asset(
+                              'assets/images/ambulance.png',
+                              fit: BoxFit.contain,
+                              width: 50,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text('Normal Request'),
+                          )
+                        ],
+                      ),
+                    ),
                     const Spacer(),
-                    badges.Badge(
-                      onTap: () {},
-                      badgeContent: const Text('3'),
-                      child: Image.asset(
-                        'assets/images/notification-bell.png',
-                        fit: BoxFit.contain,
-                        width: 40,
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 50, 10),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(20),
+                              foregroundColor:
+                                  Colors.greenAccent, // <-- Splash color
+                            ),
+                            child: Image.asset(
+                              'assets/images/sos.png',
+                              fit: BoxFit.contain,
+                              width: 50,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Text('SOS Request'),
+                          ),
+                        ],
                       ),
                     )
-                  ],
-                ),
-                Row(
-                  children: [
+                  ]),
+                  Row(children: [
                     const Padding(
                       padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
                       child: Text(
-                        'First Aid Tips',
+                        'Recent Trips',
                         style: TextStyle(
                           fontSize: 24,
                           fontStyle: FontStyle.italic,
@@ -106,113 +200,26 @@ class HomeDashBoard extends StatelessWidget {
                     ),
                     const Spacer(),
                     TextButton(onPressed: () {}, child: const Text('View All'))
-                  ],
-                ),
-                CarouselSlider(
-                    items: imageSliders,
-                    options: CarouselOptions(
-                      autoPlay: true,
-                      aspectRatio: 2.0,
-                      enlargeCenterPage: true,
-                      enlargeStrategy: CenterPageEnlargeStrategy.height,
-                    )),
-                Row(children: const [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: Text(
-                      'Order an Ambulance',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ),
-                ]),
-                Row(children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 10, 0, 10),
-                    child: Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(20),
-                            foregroundColor:
-                                Colors.greenAccent, // <-- Splash color
-                          ),
-                          child: Image.asset(
-                            'assets/images/ambulance.png',
-                            fit: BoxFit.contain,
-                            width: 50,
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text('Normal Request'),
-                        )
-                      ],
-                    ),
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 10, 50, 10),
-                    child: Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(20),
-                            foregroundColor:
-                                Colors.greenAccent, // <-- Splash color
-                          ),
-                          child: Image.asset(
-                            'assets/images/sos.png',
-                            fit: BoxFit.contain,
-                            width: 50,
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(top: 5),
-                          child: Text('SOS Request'),
-                        ),
-                      ],
-                    ),
-                  )
-                ]),
-                Row(children: [
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                    child: Text(
-                      'Recent Trips',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  TextButton(onPressed: () {}, child: const Text('View All'))
-                ]),
-              ],
-            ),
+                  ]),
+                ],
+              ),
 
-            /*RegularElevatedButton(
-              buttonText: 'show drawer',
-              onPressed: () {
-                homeScreenController.toggleDrawer();
-              },
-              enabled: true,
-            ),
-            RegularElevatedButton(
-              buttonText: 'logout'.tr,
-              onPressed: () async => await logout(),
-              enabled: true,
-            ),*/
-          ],
+              /*RegularElevatedButton(
+                buttonText: 'show drawer',
+                onPressed: () {
+                  homeScreenController.toggleDrawer();
+                },
+                enabled: true,
+              ),
+              RegularElevatedButton(
+                buttonText: 'logout'.tr,
+                onPressed: () async => await logout(),
+                enabled: true,
+              ),*/
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }

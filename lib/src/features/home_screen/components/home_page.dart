@@ -30,7 +30,7 @@ class HomeNavigationDrawer extends StatelessWidget {
       borderRadius: 10,
       angle: 0.0,
       menuScreenWidth: double.infinity,
-      mainScreenScale: 0.25,
+      mainScreenScale: 0.15,
       moveMenuScreen: false,
       style: DrawerStyle.defaultStyle,
       drawerShadowsBackgroundColor: Colors.yellow,
@@ -40,7 +40,6 @@ class HomeNavigationDrawer extends StatelessWidget {
         BoxShadow(
           color: Colors.black.withOpacity(0.5),
           blurRadius: 20.0,
-          offset: const Offset(0, 3), // changes position of shadow
         ),
       ],
     );

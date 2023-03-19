@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
 import '../controllers/home_screen_controller.dart';
@@ -27,10 +28,10 @@ class DrawerPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Container(
         height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Theme.of(context).primaryColor,
+              kDefaultColor,
               Colors.blue,
             ],
             begin: Alignment.topLeft,

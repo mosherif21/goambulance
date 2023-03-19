@@ -8,7 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../constants/colors.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../settings/screens/settings_screen.dart';
-import '../components/menu_page.dart';
+import '../components/drawer_page.dart';
 
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();

@@ -4,8 +4,8 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../controllers/home_screen_controller.dart';
+import 'drawer_page.dart';
 import 'home_navigation_bar.dart';
-import 'menu_page.dart';
 
 class HomeNavigationDrawer extends StatelessWidget {
   const HomeNavigationDrawer({super.key});

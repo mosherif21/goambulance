@@ -12,6 +12,6 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
     Get.put(HomeScreenController());
-    return const HomeScreenTest();
+    return const HomeNavigationDrawer();
   }
 }

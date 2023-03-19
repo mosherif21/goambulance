@@ -1,17 +1,16 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../controllers/home_screen_controller.dart';
 
-class MenuScreen extends StatelessWidget {
+class DrawerPage extends StatelessWidget {
   final List<MenuClass> mainMenu;
   final void Function(int)? callback;
   final int? current;
 
-  const MenuScreen(
+  const DrawerPage(
     this.mainMenu, {
     super.key,
     this.callback,
@@ -29,7 +28,7 @@ class MenuScreen extends StatelessWidget {
     const iosStyle = TextStyle(color: Colors.white);
     final style = kIsWeb
         ? androidStyle
-        : Platform.isAndroid
+        : AppInit.isAndroid
             ? androidStyle
             : iosStyle;
 

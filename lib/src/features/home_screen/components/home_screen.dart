@@ -7,8 +7,8 @@ import '../controllers/home_screen_controller.dart';
 import 'home_navigation_bar.dart';
 import 'menu_page.dart';
 
-class HomeScreenTest extends StatelessWidget {
-  const HomeScreenTest({super.key});
+class HomeNavigationDrawer extends StatelessWidget {
+  const HomeNavigationDrawer({super.key});
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
@@ -16,12 +16,12 @@ class HomeScreenTest extends StatelessWidget {
         AppInit.currentDeviceLanguage == Language.english ? false : true;
     return ZoomDrawer(
       controller: homeScreenController.zoomDrawerController,
-      menuScreen: MenuScreen(
+      menuScreen: DrawerPage(
         homeScreenController.mainMenu,
         callback: homeScreenController.updatePage,
         current: 0,
       ),
-      mainScreen: const MainScreen(),
+      mainScreen: const HomePage(),
       openCurve: Curves.fastOutSlowIn,
       showShadow: false,
       slideWidth: MediaQuery.of(context).size.width * (0.5),
@@ -46,8 +46,8 @@ class HomeScreenTest extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {

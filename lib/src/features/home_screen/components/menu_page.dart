@@ -48,87 +48,90 @@ class MenuScreen extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                // Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 24.0,
-                    left: 24.0,
-                    right: 24.0,
-                  ),
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      shape: BoxShape.circle,
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  // Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: 24.0,
+                      left: 24.0,
+                      right: 24.0,
                     ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 36.0,
-                    left: 24.0,
-                    right: 24.0,
-                  ),
-                  child: Text(
-                    'name',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ),
-                Obx(
-                  () => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ...mainMenu
-                          .map(
-                            (item) => MenuItemWidget(
-                              key: Key(item.index.toString()),
-                              item: item,
-                              callback: callback,
-                              widthBox: const SizedBox(width: 16.0),
-                              style: style,
-                              selected:
-                                  homeScreenController.currentPage.value ==
-                                      item.index,
-                            ),
-                          )
-                          .toList()
-                    ],
-                  ),
-                ),
-                // Spacer(),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.white, width: 2.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                      textStyle: const TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {},
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        'logout',
-                        style: TextStyle(fontSize: 18),
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        shape: BoxShape.circle,
                       ),
                     ),
                   ),
-                ),
-                // Spacer(),
-              ],
+                  const Padding(
+                    padding: EdgeInsets.only(
+                      bottom: 36.0,
+                      left: 24.0,
+                      right: 24.0,
+                    ),
+                    child: Text(
+                      'name',
+                      style: TextStyle(
+                        fontSize: 22,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                  Obx(
+                    () => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        ...mainMenu
+                            .map(
+                              (item) => MenuItemWidget(
+                                key: Key(item.index.toString()),
+                                item: item,
+                                callback: callback,
+                                widthBox: const SizedBox(width: 16.0),
+                                style: style,
+                                selected:
+                                    homeScreenController.currentPage.value ==
+                                        item.index,
+                              ),
+                            )
+                            .toList()
+                      ],
+                    ),
+                  ),
+                  // Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.white, width: 2.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16.0),
+                        ),
+                        textStyle: const TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {},
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          'logout',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Spacer(),
+                ],
+              ),
             ),
           ),
         ),

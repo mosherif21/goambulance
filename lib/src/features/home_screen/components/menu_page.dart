@@ -49,42 +49,46 @@ class MenuScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.only(top: 50.0, left: 5.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   // Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 24.0,
-                      left: 24.0,
-                      right: 24.0,
-                    ),
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300],
-                        shape: BoxShape.circle,
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: 24.0,
+                          left: 24.0,
+                          right: 24.0,
+                        ),
+                        child: Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 36.0,
-                      left: 24.0,
-                      right: 24.0,
-                    ),
-                    child: Text(
-                      'name',
-                      style: TextStyle(
-                        fontSize: 22,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          bottom: 36.0,
+                          left: 24.0,
+                          right: 24.0,
+                        ),
+                        child: Text(
+                          'name',
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   Obx(
                     () => Column(

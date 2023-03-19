@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/config.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 
 final List<String> imgList = [
@@ -64,39 +65,41 @@ class HomeDashBoard extends StatelessWidget {
       child: Scaffold(
           body: Container(
         padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-        /*
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Theme.of(context).primaryColor, Colors.blueGrey],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight)),*/
         child: Center(
           child: Column(
             children: [
               Column(
                 children: [
-                  Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          homeScreenController.toggleDrawer();
-                        },
-                        icon: const Icon(
-                          Icons.menu_outlined,
-                          size: 30,
-                        ),
-                      ),
-                      const Spacer(),
-                      badges.Badge(
-                        onTap: () {},
-                        badgeContent: const Text('3'),
-                        child: const Icon(
-                          Icons.notifications,
-                          size: 30,
-                        ),
-                      ),
-                    ],
-                  ),
+                  ValueListenableBuilder(
+                      valueListenable: homeScreenController
+                          .zoomDrawerController.stateNotifier!,
+                      builder: (BuildContext context, DrawerState drawerState,
+                          Widget? child) {
+                        return Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                homeScreenController.toggleDrawer();
+                              },
+                              icon: Icon(
+                                drawerState == DrawerState.open
+                                    ? Icons.close
+                                    : Icons.menu_outlined,
+                                size: 30,
+                              ),
+                            ),
+                            const Spacer(),
+                            badges.Badge(
+                              onTap: () {},
+                              badgeContent: const Text('3'),
+                              child: const Icon(
+                                Icons.notifications,
+                                size: 30,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
                   Row(
                     children: [
                       const Padding(

@@ -28,16 +28,6 @@ class DrawerPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade200,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
-        // decoration: const BoxDecoration(
-        //   gradient: LinearGradient(
-        //     colors: [
-        //       kDefaultColor,
-        //       Colors.blue,
-        //     ],
-        //     begin: Alignment.topLeft,
-        //     end: Alignment.bottomRight,
-        //   ),
-        // ),
         child: SafeArea(
           child: Column(
             children: [

@@ -16,7 +16,6 @@ class HomeScreenController extends GetxController {
 
   final controller = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
-
   final RxInt currentPage = 0.obs;
 
   void updateCurrentPage(int index) {

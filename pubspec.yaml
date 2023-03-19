@@ -72,6 +72,8 @@ dependencies:
   line_icons: ^2.0.1
   flutter_zoom_drawer: ^3.0.4+1
   flutter_platform_widgets: ^3.2.0
+  badges: ^3.0.2
+  carousel_slider: ^4.2.1
 
   #state management dependencies
   get: ^4.6.5

@@ -107,7 +107,7 @@ class DrawerPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.05),
+                      SizedBox(height: screenHeight * 0.04),
                       Padding(
                         padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                         child: OutlinedButton(

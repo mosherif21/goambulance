@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get.dart';
 
 import '../../../connectivity/connectivity.dart';
 import '../components/home_screen.dart';
+import '../controllers/home_screen_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,10 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
-    //final homeScreenController = Get.put(HomeScreenController());
-    return ChangeNotifierProvider(
-      create: (_) => MenuProvider(),
-      child: const HomeScreen(),
-    );
+    Get.put(HomeScreenController());
+    return const HomeScreenTest();
   }
 }

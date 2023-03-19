@@ -3,11 +3,11 @@ import 'package:goambulance/src/features/home_screen/controllers/home_screen_con
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class HomeNavigationBar extends StatelessWidget {
-  const HomeNavigationBar({Key? key, required this.homeScreenController})
-      : super(key: key);
-  final HomeScreenController homeScreenController;
+  const HomeNavigationBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final homeScreenController = HomeScreenController.instance;
     return PersistentTabView(
       context,
       controller: homeScreenController.controller,

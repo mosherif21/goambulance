@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-import 'home_screen.dart';
+import '../controllers/home_screen_controller.dart';
 
 class MenuScreen extends StatelessWidget {
   final List<MenuClass> mainMenu;
@@ -20,6 +20,7 @@ class MenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final homeScreenController = HomeScreenController.instance;
     const androidStyle = TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.bold,
@@ -83,9 +84,8 @@ class MenuScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Selector<MenuProvider, int>(
-                  selector: (_, provider) => provider.currentPage,
-                  builder: (_, index, __) => Column(
+                Obx(
+                  () => Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -97,7 +97,9 @@ class MenuScreen extends StatelessWidget {
                               callback: callback,
                               widthBox: const SizedBox(width: 16.0),
                               style: style,
-                              selected: index == item.index,
+                              selected:
+                                  homeScreenController.currentPage.value ==
+                                      item.index,
                             ),
                           )
                           .toList()

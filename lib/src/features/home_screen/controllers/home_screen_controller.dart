@@ -8,6 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../constants/colors.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../settings/screens/settings_screen.dart';
+import '../components/menu_page.dart';
 
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
@@ -15,9 +16,29 @@ class HomeScreenController extends GetxController {
   final controller = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
 
+  final RxInt currentPage = 0.obs;
+
+  void updateCurrentPage(int index) {
+    if (index == currentPage.value) return;
+    currentPage.value = index;
+  }
+
+  void updatePage(int index) {
+    updateCurrentPage(index);
+    toggleDrawer();
+  }
+
   void toggleDrawer() {
     zoomDrawerController.toggle?.call();
   }
+
+  List<MenuClass> mainMenu = const [
+    MenuClass("payment", Icons.payment, 0),
+    MenuClass("promos", Icons.card_giftcard, 1),
+    MenuClass("notifications", Icons.notifications, 2),
+    MenuClass("help", Icons.help, 3),
+    MenuClass("about_us", Icons.info_outline, 4),
+  ];
 
   List<Widget> buildScreens() {
     return [

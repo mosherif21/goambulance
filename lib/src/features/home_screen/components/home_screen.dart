@@ -1,43 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
-import 'package:goambulance/src/features/home_screen/components/page_structure.dart';
-import 'package:provider/provider.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 
+import '../controllers/home_screen_controller.dart';
+import 'home_navigation_bar.dart';
 import 'menu_page.dart';
 
-class HomeScreenTest extends StatefulWidget {
-  static List<MenuClass> mainMenu = const [
-    MenuClass("payment", Icons.payment, 0),
-    MenuClass("promos", Icons.card_giftcard, 1),
-    MenuClass("notifications", Icons.notifications, 2),
-    MenuClass("help", Icons.help, 3),
-    MenuClass("about_us", Icons.info_outline, 4),
-  ];
-
+class HomeScreenTest extends StatelessWidget {
   const HomeScreenTest({super.key});
-
-  @override
-  HomeScreenTestState createState() => HomeScreenTestState();
-}
-
-class HomeScreenTestState extends State<HomeScreenTest> {
-  final _drawerController = ZoomDrawerController();
-
   @override
   Widget build(BuildContext context) {
-    const isRtl = false;
+    final homeScreenController = HomeScreenController.instance;
+    final isRtl =
+        AppInit.currentDeviceLanguage == Language.english ? false : true;
     return ZoomDrawer(
-      controller: _drawerController,
+      controller: homeScreenController.zoomDrawerController,
       menuScreen: MenuScreen(
-        HomeScreenTest.mainMenu,
-        callback: _updatePage,
+        homeScreenController.mainMenu,
+        callback: homeScreenController.updatePage,
         current: 0,
       ),
       mainScreen: const MainScreen(),
       openCurve: Curves.fastOutSlowIn,
       showShadow: false,
-      slideWidth: MediaQuery.of(context).size.width * (0.65),
+      slideWidth: MediaQuery.of(context).size.width * (0.6),
       isRtl: isRtl,
       mainScreenTapClose: true,
       mainScreenOverlayColor: Colors.brown.withOpacity(0.5),
@@ -58,21 +45,11 @@ class HomeScreenTestState extends State<HomeScreenTest> {
       ],
     );
   }
-
-  void _updatePage(int index) {
-    context.read<MenuProvider>().updateCurrentPage(index);
-    _drawerController.toggle?.call();
-  }
 }
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
-  @override
-  MainScreenState createState() => MainScreenState();
-}
-
-class MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     const rtl = false;
@@ -85,7 +62,7 @@ class MainScreenState extends State<MainScreen> {
         );
       },
       child: GestureDetector(
-        child: const PageStructure(),
+        child: const HomeNavigationBar(),
         onPanUpdate: (details) {
           if (details.delta.dx < 6 && !rtl || details.delta.dx < -6 && rtl) {
             ZoomDrawer.of(context)?.toggle.call();
@@ -93,17 +70,5 @@ class MainScreenState extends State<MainScreen> {
         },
       ),
     );
-  }
-}
-
-class MenuProvider extends ChangeNotifier {
-  int _currentPage = 0;
-
-  int get currentPage => _currentPage;
-
-  void updateCurrentPage(int index) {
-    if (index == currentPage) return;
-    _currentPage = index;
-    notifyListeners();
   }
 }

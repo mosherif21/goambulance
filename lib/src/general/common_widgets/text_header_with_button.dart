@@ -26,7 +26,11 @@ class TextHeaderWithButton extends StatelessWidget {
         ),
         const Spacer(),
         TextButton(
-          style: TextButton.styleFrom(),
+          style: TextButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+            foregroundColor: Colors.grey.shade600,
+          ),
           onPressed: () => onPressed,
           child: Text(
             buttonText,

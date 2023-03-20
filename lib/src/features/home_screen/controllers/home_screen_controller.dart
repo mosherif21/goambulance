@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
@@ -15,6 +16,7 @@ class HomeScreenController extends GetxController {
 
   final controller = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
+  final carouselController = CarouselController();
   final RxInt currentPage = 0.obs;
 
   void updateCurrentPage(int index) {
@@ -88,7 +90,7 @@ class HomeScreenController extends GetxController {
     ];
   }
 
-  static final List<String> imgList = [
+  final List<String> imgList = [
     'assets/images/accident.png',
     'assets/images/burn.png',
     'assets/images/electrocute.png',
@@ -96,54 +98,4 @@ class HomeScreenController extends GetxController {
     'assets/images/nose.png',
     'assets/images/wound.png'
   ];
-  static final List<String> txtList= [
-    'firstAidTips1',
-    'firstAidTips2',
-    'firstAidTips3',
-    'firstAidTips4',
-    'firstAidTips5',
-    'firstAidTips6'
-  ];
-  final List<Widget> imageSliders = imgList
-      .map(
-        (item) => Container(
-          margin: const EdgeInsets.all(5.0),
-          child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-              child: Stack(
-                children: <Widget>[
-                  Image.asset(item, fit: BoxFit.contain, width: 1000.0),
-                  Positioned(
-                    bottom: 0.0,
-                    left: 0.0,
-                    right: 0.0,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        gradient: LinearGradient(
-                          colors: [
-                            Color.fromARGB(200, 0, 0, 0),
-                            Color.fromARGB(0, 0, 0, 0)
-                          ],
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                        ),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10.0, horizontal: 20.0),
-                      child: Text(
-                        '${txtList.elementAt(imgList.indexOf(item)).tr} ',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
-        ),
-      )
-      .toList();
 }

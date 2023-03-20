@@ -16,6 +16,7 @@ class RoundedElevatedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = getScreenWidth(context);
+    final screenHeight = getScreenHeight(context);
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: ElevatedButton(
@@ -27,7 +28,8 @@ class RoundedElevatedButton extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(15))),
           foregroundColor: Colors.grey.shade600,
           padding: const EdgeInsets.all(15),
-          fixedSize: Size(AppInit.isWeb ? 130.0 : screenWidth * 0.32, 100),
+          fixedSize: Size(AppInit.isWeb ? 130.0 : screenWidth * 0.35,
+              AppInit.isWeb ? 100.0 : screenHeight * 0.12),
         ),
         child: Column(
           children: [

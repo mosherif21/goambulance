@@ -19,7 +19,11 @@ class ButtonLanguageSelect extends StatelessWidget {
       child: SizedBox(
         width: AppInit.currentDeviceLanguage == Language.english ? 75.0 : 85.0,
         child: TextButton(
-          style: TextButton.styleFrom(foregroundColor: const Color(0x44000000)),
+          style: TextButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+            foregroundColor: Colors.grey.shade600,
+          ),
           onPressed: () async => await displayChangeLang(),
           child: Row(
             children: [

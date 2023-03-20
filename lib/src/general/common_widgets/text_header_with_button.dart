@@ -31,7 +31,7 @@ class TextHeaderWithButton extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(25))),
             foregroundColor: Colors.grey.shade600,
           ),
-          onPressed: () => onPressed,
+          onPressed: () => onPressed(),
           child: Text(
             buttonText,
             style: const TextStyle(

@@ -164,22 +164,25 @@ class MenuItemWidget extends StatelessWidget {
       style: TextButton.styleFrom(
         foregroundColor: const Color(0x44000000),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Icon(
-            item!.icon,
-            color: selected! ? Colors.black : Colors.black.withOpacity(0.5),
-            size: 30,
-          ),
-          widthBox!,
-          Expanded(
-            child: Text(
-              item!.title,
-              style: style,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: AppInit.isWeb ? 10 : 0.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              item!.icon,
+              color: selected! ? Colors.black : Colors.black.withOpacity(0.5),
+              size: 30,
             ),
-          )
-        ],
+            widthBox!,
+            Expanded(
+              child: Text(
+                item!.title,
+                style: style,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

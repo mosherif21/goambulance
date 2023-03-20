@@ -18,8 +18,13 @@ class RoundedElevatedButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = getScreenWidth(context);
     final screenHeight = getScreenHeight(context);
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
+    return SizedBox(
+      height: AppInit.isWeb
+          ? screenHeight <= 900
+              ? 100
+              : screenHeight * 0.11
+          : screenHeight * 0.13,
+      width: AppInit.isWeb ? 180.0 : screenWidth * 0.4,
       child: ElevatedButton(
         onPressed: () => onPressed(),
         style: ElevatedButton.styleFrom(
@@ -28,9 +33,7 @@ class RoundedElevatedButton extends StatelessWidget {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15))),
           foregroundColor: kDarkishColor,
-          padding: const EdgeInsets.all(15),
-          fixedSize: Size(AppInit.isWeb ? 130.0 : screenWidth * 0.35,
-              AppInit.isWeb ? 100.0 : screenHeight * 0.12),
+          padding: EdgeInsets.all(AppInit.isWeb ? 18 : 15),
         ),
         child: Column(
           children: [
@@ -39,7 +42,7 @@ class RoundedElevatedButton extends StatelessWidget {
               fit: BoxFit.contain,
               width: 40,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
             Text(buttonText),
           ],
         ),

@@ -7,7 +7,6 @@ import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../constants/app_init_constants.dart';
-import '../../../constants/colors.dart';
 import '../../../general/common_functions.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../settings/screens/settings_screen.dart';
@@ -66,21 +65,21 @@ class HomeScreenController extends GetxController {
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),
         title: ('home'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.search(),
         title: ('search'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.history(),
         title: ('requests'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),
@@ -92,7 +91,7 @@ class HomeScreenController extends GetxController {
           ),
         ),
         title: ('account'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),

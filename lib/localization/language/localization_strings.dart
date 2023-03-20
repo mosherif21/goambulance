@@ -30,7 +30,7 @@ class Languages extends Translations {
           'skipLabel': 'التخطى',
           'notAvailableErrorTitle': 'غير متاح حاليا',
           'notAvailableErrorSubTitle': 'نحن نعمل على اصلاح الوضع....',
-          'noConnectionAlertTitle': 'لا يوجد اتصال',
+          'noConnectionAlertTitle': 'لا يوجد انترنت',
           'noConnectionAlertContent': 'برجاء التاكد من اتصال الانترنت الخاص بك',
           'oK': 'حسنا',
           'loginWithGoogle': 'اكمل عن طريق جوجل',

@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_zoom_drawer/config.dart';
-import 'package:get/get.dart';
-import 'package:line_icons/line_icon.dart';
 
-class FirstAidTips extends StatelessWidget {
-  const FirstAidTips({Key? key}) : super(key: key);
-
+class FirstAidTipsPage extends StatelessWidget {
+  const FirstAidTipsPage({Key? key, required this.imgPath}) : super(key: key);
+  final String imgPath;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
       child: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/accident.png',
+              imgPath,
               fit: BoxFit.scaleDown,
               width: 200,
               height: 200,
@@ -29,7 +26,7 @@ class FirstAidTips extends StatelessWidget {
                 )
               ],
             ),
-            Text(
+            const Text(
                 'kalam kteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeer',
                 textAlign: TextAlign.center)
           ],

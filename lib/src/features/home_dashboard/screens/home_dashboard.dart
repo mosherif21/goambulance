@@ -72,7 +72,9 @@ class HomeDashBoard extends StatelessWidget {
                             label:
                                 'firstAidTips${homeScreenController.imgList.indexOf(img) + 1}'
                                     .tr,
-                            onPressed: () {Get.to(const FirstAidTips());},
+                            onPressed: () {
+                              Get.to(FirstAidTipsPage(imgPath: img));
+                            },
                           ),
                       ],
                       options: CarouselOptions(

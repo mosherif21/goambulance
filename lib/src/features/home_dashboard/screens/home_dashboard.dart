@@ -84,11 +84,9 @@ class HomeDashBoard extends StatelessWidget {
                         enlargeStrategy: CenterPageEnlargeStrategy.height,
                       ),
                     ),
-                    const SizedBox(height: 15),
                     TextHeader(
                       headerText: 'services'.tr,
                     ),
-                    const SizedBox(height: 10),
                     Row(
                       children: [
                         RoundedElevatedButton(
@@ -104,7 +102,6 @@ class HomeDashBoard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
                     TextHeaderWithButton(
                       headerText: 'recentRequests'.tr,
                       onPressed: () {},

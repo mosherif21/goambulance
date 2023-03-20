@@ -50,9 +50,8 @@ Future<void> setOnBoardingLocale(
   await setLocale(languageCode);
 }
 
-Future<void> setLocaleLanguageBack(String languageCode) async {
+Future<void> setLocaleLanguage(String languageCode) async {
   showLoadingScreen();
   await setOnBoardingLocale(languageCode);
   hideLoadingScreen();
-  Get.back();
 }

@@ -64,16 +64,19 @@ Future<void> logout() async => await AuthenticationRepository.instance
     .logoutUser()
     .whenComplete(() => Get.offAll(() => const AuthenticationScreen()));
 
-Future<void> displayChangeLang() async => await RegularBottomSheet.showRegularBottomSheet(
-  LanguageSelect(
-    onEnglishLanguagePress: () async {
-      await setLocaleLanguageBack('en');
-    },
-    onArabicLanguagePress: () async {
-      await setLocaleLanguageBack('ar');
-    },
-  ),
-);
+Future<void> displayChangeLang() async =>
+    await RegularBottomSheet.showRegularBottomSheet(
+      LanguageSelect(
+        onEnglishLanguagePress: () async {
+          await setLocaleLanguage('en');
+          Get.back();
+        },
+        onArabicLanguagePress: () async {
+          await setLocaleLanguage('ar');
+          Get.back();
+        },
+      ),
+    );
 
 //SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
 //

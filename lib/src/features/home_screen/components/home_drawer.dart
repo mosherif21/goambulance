@@ -23,7 +23,8 @@ class HomeNavigationDrawer extends StatelessWidget {
           MenuClass('promos'.tr, Icons.card_giftcard, 1),
           MenuClass('notifications'.tr, Icons.notifications, 2),
           MenuClass('help'.tr, Icons.help, 3),
-          MenuClass('aboutUs'.tr, Icons.info_outline, 4),
+          MenuClass('langLong'.tr, Icons.language, 4),
+          MenuClass('aboutUs'.tr, Icons.info_outline, 5),
         ],
         callback: (index) async =>
             await homeScreenController.onDrawerItemSelected(index),
@@ -32,7 +33,7 @@ class HomeNavigationDrawer extends StatelessWidget {
       mainScreen: const HomeNavigationBar(),
       openCurve: Curves.fastOutSlowIn,
       showShadow: false,
-      slideWidth: MediaQuery.of(context).size.width * (0.55),
+      slideWidth: MediaQuery.of(context).size.width * (0.6),
       isRtl: isRtl,
       mainScreenTapClose: true,
       borderRadius: 10,
@@ -46,7 +47,7 @@ class HomeNavigationDrawer extends StatelessWidget {
       disableDragGesture: false,
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.3),
+          color: Colors.black.withOpacity(0.2),
           blurRadius: 20.0,
           offset: const Offset(0, 40),
         ),

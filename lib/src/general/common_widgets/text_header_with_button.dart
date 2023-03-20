@@ -15,7 +15,7 @@ class TextHeaderWithButton extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          padding: const EdgeInsets.all(10),
           child: Text(
             headerText,
             style: const TextStyle(

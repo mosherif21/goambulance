@@ -8,6 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../constants/app_init_constants.dart';
 import '../../../constants/colors.dart';
+import '../../../general/common_functions.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../settings/screens/settings_screen.dart';
 
@@ -28,7 +29,24 @@ class HomeScreenController extends GetxController {
                 : false;
   }
 
-  Future<void> onDrawerItemSelected(int index) async {}
+  Future<void> onDrawerItemSelected(int index) async {
+    switch (index) {
+      case 0:
+        break;
+      case 1:
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+      case 4:
+        await displayChangeLang();
+        toggleDrawer();
+        break;
+      case 5:
+        break;
+    }
+  }
 
   void toggleDrawer() {
     zoomDrawerController.toggle?.call();

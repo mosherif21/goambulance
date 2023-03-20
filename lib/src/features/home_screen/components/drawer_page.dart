@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/general/common_functions.dart';
-
-import '../../../general/common_widgets/language_change_button.dart';
 
 class DrawerPage extends StatelessWidget {
   final List<MenuClass> mainMenu;
@@ -20,103 +16,96 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final homeScreenController = HomeScreenController.instance;
-    final screenHeight = getScreenHeight(context);
+    // final screenHeight = getScreenHeight(context);
 
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Column(
-              children: [
-                SizedBox(height: screenHeight * 0.04),
-                const ButtonLanguageSelect(color: Colors.black54),
-                SizedBox(height: screenHeight * 0.05),
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              bottom: 24.0,
-                              left: 24.0,
-                              right: 24.0,
-                            ),
-                            child: Container(
-                              width: 80,
-                              height: 80,
-                              decoration: BoxDecoration(
-                                color: Colors.grey[300],
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(
-                              bottom: 36.0,
-                              left: 24.0,
-                              right: 24.0,
-                            ),
-                            child: Text(
-                              'name',
-                              style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          ...mainMenu
-                              .map(
-                                (item) => MenuItemWidget(
-                                  key: Key(item.index.toString()),
-                                  item: item,
-                                  callback: callback,
-                                  widthBox: const SizedBox(width: 16.0),
-                                ),
-                              )
-                              .toList()
-                        ],
-                      ),
-                      SizedBox(height: screenHeight * 0.04),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Column(
+                    children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                                color: Colors.black, width: 2.0),
-                            foregroundColor: const Color(0x44000000),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16.0),
-                            ),
-                            textStyle: const TextStyle(color: Colors.black),
+                        padding: const EdgeInsets.only(
+                          bottom: 24.0,
+                          left: 24.0,
+                          right: 24.0,
+                        ),
+                        child: Container(
+                          width: 80,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            shape: BoxShape.circle,
                           ),
-                          onPressed: () async => await logout(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'logout'.tr,
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
-                            ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          bottom: 36.0,
+                          left: 24.0,
+                          right: 24.0,
+                        ),
+                        child: Text(
+                          'Mohamed Sherif',
+                          style: TextStyle(
+                            fontSize: 22,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      ...mainMenu
+                          .map(
+                            (item) => MenuItemWidget(
+                              key: Key(item.index.toString()),
+                              item: item,
+                              callback: callback,
+                              widthBox: const SizedBox(width: 16.0),
+                            ),
+                          )
+                          .toList()
+                    ],
+                  ),
+                  //SizedBox(height: screenHeight * 0.04),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+                  //   child: OutlinedButton(
+                  //     style: OutlinedButton.styleFrom(
+                  //       side: const BorderSide(
+                  //           color: Colors.black, width: 2.0),
+                  //       foregroundColor: const Color(0x44000000),
+                  //       shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(16.0),
+                  //       ),
+                  //       textStyle: const TextStyle(color: Colors.black),
+                  //     ),
+                  //     onPressed: () async => await logout(),
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.all(8.0),
+                  //       child: Text(
+                  //         'logout'.tr,
+                  //         style: const TextStyle(
+                  //             fontSize: 18, color: Colors.black),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                ],
+              ),
             ),
           ),
         ),

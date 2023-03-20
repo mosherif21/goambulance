@@ -41,7 +41,6 @@ class HomeScreenController extends GetxController {
         break;
       case 4:
         await displayChangeLang();
-        toggleDrawer();
         break;
       case 5:
         break;

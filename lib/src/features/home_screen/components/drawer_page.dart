@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
+import '../../../general/common_functions.dart';
+
 class DrawerPage extends StatelessWidget {
   final List<MenuClass> mainMenu;
   final void Function(int)? callback;
@@ -16,8 +18,7 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //final homeScreenController = HomeScreenController.instance;
-    // final screenHeight = getScreenHeight(context);
-
+    final screenHeight = getScreenHeight(context);
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       body: SizedBox(
@@ -32,6 +33,9 @@ class DrawerPage extends StatelessWidget {
                 children: <Widget>[
                   Column(
                     children: [
+                      SizedBox(
+                        height: screenHeight * 0.1,
+                      ),
                       Padding(
                         padding: const EdgeInsets.only(
                           bottom: 24.0,

@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/home_screen/components/first_aid_tips_page.dart';
+import 'package:goambulance/src/features/home_dashboard/components/first_aid_tips_page.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
@@ -87,20 +87,23 @@ class HomeDashBoard extends StatelessWidget {
                     TextHeader(
                       headerText: 'services'.tr,
                     ),
-                    Row(
-                      children: [
-                        RoundedElevatedButton(
-                          buttonText: 'normalRequest'.tr,
-                          imagePath: kAmbulanceImage,
-                          onPressed: () {},
-                        ),
-                        const Spacer(),
-                        RoundedElevatedButton(
-                          buttonText: 'sosRequest'.tr,
-                          imagePath: 'assets/images/sos.png',
-                          onPressed: () {},
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        children: [
+                          RoundedElevatedButton(
+                            buttonText: 'normalRequest'.tr,
+                            imagePath: kAmbulanceImage,
+                            onPressed: () {},
+                          ),
+                          const Spacer(),
+                          RoundedElevatedButton(
+                            buttonText: 'sosRequest'.tr,
+                            imagePath: 'assets/images/sos.png',
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
                     ),
                     TextHeaderWithButton(
                       headerText: 'recentRequests'.tr,

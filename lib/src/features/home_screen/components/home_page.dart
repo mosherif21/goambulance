@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../controllers/home_screen_controller.dart';
@@ -17,12 +18,12 @@ class HomeNavigationDrawer extends StatelessWidget {
     return ZoomDrawer(
       controller: homeScreenController.zoomDrawerController,
       menuScreen: DrawerPage(
-        const [
-          MenuClass("payment", Icons.payment, 0),
-          MenuClass("promos", Icons.card_giftcard, 1),
-          MenuClass("notifications", Icons.notifications, 2),
-          MenuClass("help", Icons.help, 3),
-          MenuClass("about_us", Icons.info_outline, 4),
+        [
+          MenuClass('payment'.tr, Icons.payment, 0),
+          MenuClass('promos'.tr, Icons.card_giftcard, 1),
+          MenuClass('notifications'.tr, Icons.notifications, 2),
+          MenuClass('help'.tr, Icons.help, 3),
+          MenuClass('aboutUs'.tr, Icons.info_outline, 4),
         ],
         callback: (index) async => await homeScreenController.updatePage(index),
         current: 0,
@@ -44,8 +45,9 @@ class HomeNavigationDrawer extends StatelessWidget {
       disableDragGesture: false,
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.5),
+          color: Colors.black.withOpacity(0.3),
           blurRadius: 20.0,
+          offset: const Offset(0, 40),
         ),
       ],
     );

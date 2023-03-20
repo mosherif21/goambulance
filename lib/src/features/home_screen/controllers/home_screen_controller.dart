@@ -22,12 +22,14 @@ class HomeScreenController extends GetxController {
     currentPage.value = index;
   }
 
-  bool isDrawerOpeningOrOpen(DrawerState drawerState) {
+  bool isDrawerOpen(DrawerState drawerState) {
     return drawerState == DrawerState.open
         ? true
         : drawerState == DrawerState.opening
             ? true
-            : false;
+            : drawerState == DrawerState.closing
+                ? true
+                : false;
   }
 
   Future<void> updatePage(int index) async {

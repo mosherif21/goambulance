@@ -7,6 +7,7 @@ const String kLogoImageWithSlogan =
 const String kSAFlagImage = "assets/Gifs/saudi_arabia_flag_back.gif";
 const String kUkFlagImage = "assets/Gifs/uk_flag_back.gif";
 const String kNotAvailableErrorAnim = "assets/images/error_beach.gif";
+const String kAmbulanceImage = "assets/images/ambulance.png";
 
 //--Lottie assets
 const String kOnBoardingAnim1 = "assets/lottie_animations/ambulance.json";

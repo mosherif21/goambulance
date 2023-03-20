@@ -4,7 +4,6 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 
 import '../../../general/common_widgets/language_change_button.dart';
-import '../controllers/home_screen_controller.dart';
 
 class DrawerPage extends StatelessWidget {
   final List<MenuClass> mainMenu;
@@ -20,7 +19,7 @@ class DrawerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeScreenController = HomeScreenController.instance;
+    //final homeScreenController = HomeScreenController.instance;
     final screenHeight = getScreenHeight(context);
 
     return Scaffold(
@@ -74,26 +73,21 @@ class DrawerPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Obx(
-                        () => Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            ...mainMenu
-                                .map(
-                                  (item) => MenuItemWidget(
-                                    key: Key(item.index.toString()),
-                                    item: item,
-                                    callback: callback,
-                                    widthBox: const SizedBox(width: 16.0),
-                                    selected: homeScreenController
-                                            .currentPage.value ==
-                                        item.index,
-                                  ),
-                                )
-                                .toList()
-                          ],
-                        ),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          ...mainMenu
+                              .map(
+                                (item) => MenuItemWidget(
+                                  key: Key(item.index.toString()),
+                                  item: item,
+                                  callback: callback,
+                                  widthBox: const SizedBox(width: 16.0),
+                                ),
+                              )
+                              .toList()
+                        ],
                       ),
                       SizedBox(height: screenHeight * 0.04),
                       Padding(
@@ -135,25 +129,22 @@ class MenuItemWidget extends StatelessWidget {
   final MenuClass? item;
   final Widget? widthBox;
   final void Function(int)? callback;
-  final bool? selected;
 
   const MenuItemWidget({
     Key? key,
     this.item,
     this.widthBox,
     this.callback,
-    this.selected,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final androidStyle = TextStyle(
+    const androidStyle = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
-      color: selected! ? Colors.black : Colors.black.withOpacity(0.5),
+      color: Colors.black,
     );
-    final iosStyle = TextStyle(
-        color: selected! ? Colors.black : Colors.black.withOpacity(0.5));
+    const iosStyle = TextStyle(color: Colors.black);
     final style = AppInit.isWeb
         ? androidStyle
         : AppInit.isAndroid
@@ -171,7 +162,7 @@ class MenuItemWidget extends StatelessWidget {
           children: <Widget>[
             Icon(
               item!.icon,
-              color: selected! ? Colors.black : Colors.black.withOpacity(0.5),
+              color: Colors.black,
               size: 30,
             ),
             widthBox!,

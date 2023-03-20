@@ -25,7 +25,8 @@ class HomeNavigationDrawer extends StatelessWidget {
           MenuClass('help'.tr, Icons.help, 3),
           MenuClass('aboutUs'.tr, Icons.info_outline, 4),
         ],
-        callback: (index) async => await homeScreenController.updatePage(index),
+        callback: (index) async =>
+            await homeScreenController.onDrawerItemSelected(index),
         current: 0,
       ),
       mainScreen: const HomeNavigationBar(),

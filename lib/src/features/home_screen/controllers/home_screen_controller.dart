@@ -17,12 +17,6 @@ class HomeScreenController extends GetxController {
   final controller = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
-  final RxInt currentPage = 0.obs;
-
-  void updateCurrentPage(int index) {
-    if (index == currentPage.value) return;
-    currentPage.value = index;
-  }
 
   bool isDrawerOpen(DrawerState drawerState) {
     return drawerState == DrawerState.open
@@ -34,9 +28,7 @@ class HomeScreenController extends GetxController {
                 : false;
   }
 
-  Future<void> updatePage(int index) async {
-    updateCurrentPage(index);
-  }
+  Future<void> onDrawerItemSelected(int index) async {}
 
   void toggleDrawer() {
     zoomDrawerController.toggle?.call();

@@ -96,6 +96,14 @@ class HomeScreenController extends GetxController {
     'assets/images/nose.png',
     'assets/images/wound.png'
   ];
+  static final List<String> txtList= [
+    'firstAidTips1',
+    'firstAidTips2',
+    'firstAidTips3',
+    'firstAidTips4',
+    'firstAidTips5',
+    'firstAidTips6'
+  ];
   final List<Widget> imageSliders = imgList
       .map(
         (item) => Container(
@@ -124,7 +132,7 @@ class HomeScreenController extends GetxController {
                       padding: const EdgeInsets.symmetric(
                           vertical: 10.0, horizontal: 20.0),
                       child: Text(
-                        'No. ${imgList.indexOf(item)} image',
+                        '${txtList.elementAt(imgList.indexOf(item)).tr} ',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,

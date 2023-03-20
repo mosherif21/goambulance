@@ -108,6 +108,12 @@ class Languages extends Translations {
           'enableLocationPermission': 'يرجى قبول إذن الموقع لاستخدام التطبيق',
           'locationPermissionDeniedForever':
               'تم رفض إذن المواقع إلى الأبد ، يرجى تمكينه من الإعدادات',
+          'firstAidTips1':'عضت كلب',
+          'firstAidTips2':'حرق',
+          'firstAidTips3':'صعق بالكهرباء',
+          'firstAidTips4':'كسر في العظام',
+          'firstAidTips5':'نزيف في الانف',
+          'firstAidTips6':'جرح',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -205,6 +211,12 @@ class Languages extends Translations {
               'Please accept locations permission to use the app',
           'locationPermissionDeniedForever':
               'Locations permission denied forever please enable it from the settings',
+          'firstAidTips1':'Dog Bite',
+          'firstAidTips2':'Burn',
+          'firstAidTips3':'Electrocute',
+          'firstAidTips4':'Bone Fracture',
+          'firstAidTips5':'Nose Bleed',
+          'firstAidTips6':'Wounded',
         },
       };
 }

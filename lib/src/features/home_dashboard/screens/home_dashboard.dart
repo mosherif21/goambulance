@@ -7,7 +7,7 @@ import 'package:goambulance/src/features/home_screen/controllers/home_screen_con
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
 import '../../../constants/assets_strings.dart';
-import '../../../general/common_widgets/labeled_image.dart';
+import '../../../general/common_widgets/clickable_labeled_image.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
 
@@ -61,24 +61,24 @@ class HomeDashBoard extends StatelessWidget {
                       onPressed: () {},
                       buttonText: 'viewAll'.tr,
                     ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: CarouselSlider(
-                        items: [
-                          for (String img in homeScreenController.imgList)
-                            LabeledImage(
-                              img: img,
-                              label:
-                                  'firstAidTips${homeScreenController.imgList.indexOf(img) + 1}'
-                                      .tr,
-                            ),
-                        ],
-                        options: CarouselOptions(
-                          autoPlay: true,
-                          aspectRatio: 2.0,
-                          enlargeCenterPage: true,
-                          enlargeStrategy: CenterPageEnlargeStrategy.height,
-                        ),
+                    CarouselSlider(
+                      carouselController:
+                          homeScreenController.carouselController,
+                      items: [
+                        for (String img in homeScreenController.imgList)
+                          ClickableLabeledImage(
+                            img: img,
+                            label:
+                                'firstAidTips${homeScreenController.imgList.indexOf(img) + 1}'
+                                    .tr,
+                            onPressed: () {},
+                          ),
+                      ],
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        aspectRatio: 2.0,
+                        enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
                       ),
                     ),
                     TextHeader(

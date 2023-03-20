@@ -1,5 +1,6 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 //-- Colors Constants
-const kDarkishColor = Color(0xff272727);
+final kDarkishColor = Colors.grey.shade600;
 const kDefaultColor = Color(0xFF28AADC);
+const kNavBarItems = Color(0xFF64EBB6);

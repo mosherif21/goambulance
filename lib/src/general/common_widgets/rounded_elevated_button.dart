@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/app_init_constants.dart';
+import '../../constants/colors.dart';
 import '../common_functions.dart';
 
 class RoundedElevatedButton extends StatelessWidget {
@@ -26,7 +27,7 @@ class RoundedElevatedButton extends StatelessWidget {
           backgroundColor: Colors.grey.shade200,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(15))),
-          foregroundColor: Colors.grey.shade600,
+          foregroundColor: kDarkishColor,
           padding: const EdgeInsets.all(15),
           fixedSize: Size(AppInit.isWeb ? 130.0 : screenWidth * 0.35,
               AppInit.isWeb ? 100.0 : screenHeight * 0.12),
@@ -38,7 +39,7 @@ class RoundedElevatedButton extends StatelessWidget {
               fit: BoxFit.contain,
               width: 40,
             ),
-            const SizedBox(height: 5),
+            const SizedBox(height: 10),
             Text(buttonText),
           ],
         ),

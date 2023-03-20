@@ -27,36 +27,36 @@ class HomeDashBoard extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    ValueListenableBuilder(
-                        valueListenable: homeScreenController
-                            .zoomDrawerController.stateNotifier!,
-                        builder: (BuildContext context, DrawerState drawerState,
-                            Widget? child) {
-                          return Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () {
-                                    homeScreenController.toggleDrawer();
-                                  },
-                                  icon: Icon(
-                                    homeScreenController
-                                            .isDrawerOpen(drawerState)
-                                        ? Icons.close
-                                        : Icons.menu_outlined,
-                                    size: 30,
-                                  )),
-                              const Spacer(),
-                              badges.Badge(
-                                onTap: () {},
-                                badgeContent: const Text('3'),
-                                child: const Icon(
-                                  Icons.notifications,
+                    Row(
+                      children: [
+                        ValueListenableBuilder(
+                            valueListenable: homeScreenController
+                                .zoomDrawerController.stateNotifier!,
+                            builder: (BuildContext context,
+                                DrawerState drawerState, Widget? child) {
+                              return IconButton(
+                                onPressed: () {
+                                  homeScreenController.toggleDrawer();
+                                },
+                                icon: Icon(
+                                  homeScreenController.isDrawerOpen(drawerState)
+                                      ? Icons.close
+                                      : Icons.menu_outlined,
                                   size: 30,
                                 ),
-                              ),
-                            ],
-                          );
-                        }),
+                              );
+                            }),
+                        const Spacer(),
+                        badges.Badge(
+                          onTap: () {},
+                          badgeContent: const Text('3'),
+                          child: const Icon(
+                            Icons.notifications,
+                            size: 30,
+                          ),
+                        ),
+                      ],
+                    ),
                     TextHeaderWithButton(
                       headerText: 'firstAidTips'.tr,
                       onPressed: () {},

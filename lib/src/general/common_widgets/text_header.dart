@@ -16,7 +16,7 @@ class TextHeader extends StatelessWidget {
             headerText,
             style: const TextStyle(
               fontSize: 24,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),

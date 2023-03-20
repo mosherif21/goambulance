@@ -19,7 +19,7 @@ ButtonStyle kOutlinedButtonStyle = OutlinedButton.styleFrom(
   shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(5))),
   foregroundColor: kDarkishColor,
-  side: const BorderSide(color: kDarkishColor),
+  side: BorderSide(color: kDarkishColor),
   padding: const EdgeInsets.symmetric(vertical: kButtonHeight),
 );
 

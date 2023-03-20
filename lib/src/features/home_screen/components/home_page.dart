@@ -17,7 +17,13 @@ class HomeNavigationDrawer extends StatelessWidget {
     return ZoomDrawer(
       controller: homeScreenController.zoomDrawerController,
       menuScreen: DrawerPage(
-        homeScreenController.mainMenu,
+        const [
+          MenuClass("payment", Icons.payment, 0),
+          MenuClass("promos", Icons.card_giftcard, 1),
+          MenuClass("notifications", Icons.notifications, 2),
+          MenuClass("help", Icons.help, 3),
+          MenuClass("about_us", Icons.info_outline, 4),
+        ],
         callback: (index) async => await homeScreenController.updatePage(index),
         current: 0,
       ),
@@ -45,30 +51,3 @@ class HomeNavigationDrawer extends StatelessWidget {
     );
   }
 }
-
-// class HomePage extends StatelessWidget {
-//   const HomePage({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final rtl =
-//         AppInit.currentDeviceLanguage == Language.english ? false : true;
-//     return ValueListenableBuilder<DrawerState>(
-//       valueListenable: ZoomDrawer.of(context)!.stateNotifier,
-//       builder: (context, state, child) {
-//         return AbsorbPointer(
-//           absorbing: state != DrawerState.closed,
-//           child: child,
-//         );
-//       },
-//       child: GestureDetector(
-//         child: const HomeNavigationBar();
-//         onPanUpdate: (details) {
-//           if (details.delta.dx < 6 && !rtl || details.delta.dx < -6 && rtl) {
-//             ZoomDrawer.of(context)?.toggle.call();
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }

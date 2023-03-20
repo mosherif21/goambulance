@@ -9,7 +9,6 @@ import '../../../constants/app_init_constants.dart';
 import '../../../constants/colors.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../settings/screens/settings_screen.dart';
-import '../components/drawer_page.dart';
 
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
@@ -23,6 +22,14 @@ class HomeScreenController extends GetxController {
     currentPage.value = index;
   }
 
+  bool isDrawerOpeningOrOpen(DrawerState drawerState) {
+    return drawerState == DrawerState.open
+        ? true
+        : drawerState == DrawerState.opening
+            ? true
+            : false;
+  }
+
   Future<void> updatePage(int index) async {
     updateCurrentPage(index);
     toggleDrawer();
@@ -31,14 +38,6 @@ class HomeScreenController extends GetxController {
   void toggleDrawer() {
     zoomDrawerController.toggle?.call();
   }
-
-  List<MenuClass> mainMenu = const [
-    MenuClass("payment", Icons.payment, 0),
-    MenuClass("promos", Icons.card_giftcard, 1),
-    MenuClass("notifications", Icons.notifications, 2),
-    MenuClass("help", Icons.help, 3),
-    MenuClass("about_us", Icons.info_outline, 4),
-  ];
 
   List<Widget> buildScreens() {
     return [
@@ -86,4 +85,55 @@ class HomeScreenController extends GetxController {
       ),
     ];
   }
+
+  static final List<String> imgList = [
+    'assets/images/accident.png',
+    'assets/images/burn.png',
+    'assets/images/electrocute.png',
+    'assets/images/fracture.png',
+    'assets/images/nose.png',
+    'assets/images/wound.png'
+  ];
+  final List<Widget> imageSliders = imgList
+      .map(
+        (item) => Container(
+          margin: const EdgeInsets.all(5.0),
+          child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+              child: Stack(
+                children: <Widget>[
+                  Image.asset(item, fit: BoxFit.contain, width: 1000.0),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color.fromARGB(200, 0, 0, 0),
+                            Color.fromARGB(0, 0, 0, 0)
+                          ],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 20.0),
+                      child: Text(
+                        'No. ${imgList.indexOf(item)} image',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ),
+      )
+      .toList();
 }

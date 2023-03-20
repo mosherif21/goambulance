@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
@@ -29,14 +28,14 @@ class DrawerPage extends StatelessWidget {
       body: SizedBox(
         height: MediaQuery.of(context).size.height,
         child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(height: screenHeight * 0.04),
-              const ButtonLanguageSelect(color: Colors.black54),
-              SizedBox(height: screenHeight * 0.05),
-              Padding(
-                padding: const EdgeInsets.only(left: 5.0),
-                child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              children: [
+                SizedBox(height: screenHeight * 0.04),
+                const ButtonLanguageSelect(color: Colors.black54),
+                SizedBox(height: screenHeight * 0.05),
+                SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,8 +122,8 @@ class DrawerPage extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -155,7 +154,7 @@ class MenuItemWidget extends StatelessWidget {
     );
     final iosStyle = TextStyle(
         color: selected! ? Colors.black : Colors.black.withOpacity(0.5));
-    final style = kIsWeb
+    final style = AppInit.isWeb
         ? androidStyle
         : AppInit.isAndroid
             ? androidStyle

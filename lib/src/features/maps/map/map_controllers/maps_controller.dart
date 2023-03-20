@@ -11,8 +11,8 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../firebase_files/firebase_access.dart';
-import '../../../../../constants/no_localization_strings.dart';
-import '../../../../../general/common_widgets/text_dismissible_dialogue.dart';
+import '../../../../constants/no_localization_strings.dart';
+import '../../../../general/common_widgets/text_dismissible_dialogue.dart';
 
 enum MapStatus {
   loadingMapData,

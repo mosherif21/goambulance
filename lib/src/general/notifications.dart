@@ -8,7 +8,7 @@ import '../constants/app_init_constants.dart';
 final messaging = FirebaseMessaging.instance;
 Future<void> initializeNotification() async {
   if (!AppInit.isWeb) {
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     //   if (kDebugMode) {
     //     print("Handling a foreground message: ${message.notification?.title}");
@@ -17,7 +17,7 @@ Future<void> initializeNotification() async {
     //   await _createNotification(
     //       message.notification!, Random().nextInt(10000));
     // });
-    await messaging.getInitialMessage();
+    // await messaging.getInitialMessage();
   }
 }
 

@@ -17,7 +17,6 @@ class DrawerPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //final homeScreenController = HomeScreenController.instance;
     final screenHeight = getScreenHeight(context);
     return Scaffold(
       backgroundColor: Colors.grey.shade200,

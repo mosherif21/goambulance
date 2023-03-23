@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -7,18 +5,19 @@ import 'package:flutter/material.dart';
 
 import '../constants/app_init_constants.dart';
 
+final messaging = FirebaseMessaging.instance;
 Future<void> initializeNotification() async {
   if (!AppInit.isWeb) {
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      if (kDebugMode) {
-        print("Handling a foreground message: ${message.notification?.title}");
-      }
-      await _initializeMessaging();
-      await _createNotifications(
-          message.notification!, Random().nextInt(10000));
-    });
-    await FirebaseMessaging.instance.getInitialMessage();
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    //   if (kDebugMode) {
+    //     print("Handling a foreground message: ${message.notification?.title}");
+    //   }/
+    //   await _initializeMessaging();
+    //   await _createNotification(
+    //       message.notification!, Random().nextInt(10000));
+    // });
+    await messaging.getInitialMessage();
   }
 }
 
@@ -29,7 +28,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   }
 }
 
-Future<void> _createNotifications(RemoteNotification message, int id) async {
+Future<void> _createNotification(RemoteNotification message, int id) async {
   await AwesomeNotifications().createNotification(
       content: NotificationContent(
     id: id,
@@ -50,7 +49,7 @@ Future<void> _initializeMessaging() async {
   ])) {
     if (kDebugMode) print('awesome notification initialized');
   }
-  final messaging = FirebaseMessaging.instance;
+
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
     announcement: false,

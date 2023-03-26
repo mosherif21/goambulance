@@ -51,8 +51,8 @@ void showSimpleSnackBar({
   ScaffoldMessenger.of(Get.context!).showSnackBar(
     SnackBar(
       content: Text('$title. $body.'),
-      backgroundColor: const Color(0xFF28AADC),
-      dismissDirection: DismissDirection.startToEnd,
+      backgroundColor: const Color(0xEE28AADC),
+      //dismissDirection: DismissDirection.startToEnd,
       behavior: SnackBarBehavior.floating,
       elevation: 20.0,
       shape: const RoundedRectangleBorder(
@@ -63,9 +63,9 @@ void showSimpleSnackBar({
 
 Future<void> logout() async {
   showLoadingScreen();
-  await AuthenticationRepository.instance
-      .logoutUser()
-      .whenComplete(() => Get.offAll(() => const AuthenticationScreen()));
+  await AuthenticationRepository.instance.logoutUser();
+  //await FirebaseDataAccess.instance.logoutFirebase();
+  Get.offAll(() => const AuthenticationScreen());
   hideLoadingScreen();
 }
 

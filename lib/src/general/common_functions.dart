@@ -52,6 +52,7 @@ void showSimpleSnackBar({
     SnackBar(
       content: Text('$title. $body.'),
       backgroundColor: const Color(0xFF28AADC),
+      dismissDirection: DismissDirection.startToEnd,
       behavior: SnackBarBehavior.floating,
       elevation: 20.0,
       shape: const RoundedRectangleBorder(

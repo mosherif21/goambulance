@@ -20,97 +20,94 @@ class HomeDashBoard extends StatelessWidget {
     final homeScreenController = HomeScreenController.instance;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
         body: Container(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Center(
             child: Column(
               children: [
-                Column(
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        ValueListenableBuilder(
-                            valueListenable: homeScreenController
-                                .zoomDrawerController.stateNotifier!,
-                            builder: (BuildContext context,
-                                DrawerState drawerState, Widget? child) {
-                              return IconButton(
-                                onPressed: () {
-                                  homeScreenController.toggleDrawer();
-                                },
-                                icon: Icon(
-                                  homeScreenController.isDrawerOpen(drawerState)
-                                      ? Icons.close
-                                      : Icons.menu_outlined,
-                                  size: 30,
-                                ),
-                              );
-                            }),
-                        const Spacer(),
-                        badges.Badge(
-                          onTap: () {},
-                          badgeContent: const Text('3'),
-                          child: const Icon(
-                            Icons.notifications,
+                    ValueListenableBuilder(
+                      valueListenable: homeScreenController
+                          .zoomDrawerController.stateNotifier!,
+                      builder: (BuildContext context, DrawerState drawerState,
+                          Widget? child) {
+                        return IconButton(
+                          onPressed: () {
+                            homeScreenController.toggleDrawer();
+                          },
+                          icon: Icon(
+                            homeScreenController.isDrawerOpen(drawerState)
+                                ? Icons.close
+                                : Icons.menu_outlined,
                             size: 30,
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                    TextHeaderWithButton(
-                      headerText: 'firstAidTips'.tr,
-                      onPressed: () {},
-                      buttonText: 'viewAll'.tr,
-                    ),
-                    CarouselSlider(
-                      carouselController:
-                          homeScreenController.carouselController,
-                      items: [
-                        for (String img in homeScreenController.imgList)
-                          ClickableLabeledImage(
-                            img: img,
-                            label:
-                                'firstAidTips${homeScreenController.imgList.indexOf(img) + 1}'
-                                    .tr,
-                            onPressed: () {
-                              Get.to(FirstAidTipsPage(imgPath: img));
-                            },
-                          ),
-                      ],
-                      options: CarouselOptions(
-                        autoPlay: true,
-                        aspectRatio: 2.0,
-                        enlargeCenterPage: true,
-                        enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    const Spacer(),
+                    badges.Badge(
+                      onTap: () {},
+                      badgeContent: const Text('3'),
+                      child: const Icon(
+                        Icons.notifications,
+                        size: 30,
                       ),
-                    ),
-                    TextHeader(
-                      headerText: 'services'.tr,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Row(
-                        children: [
-                          RoundedImageElevatedButton(
-                            buttonText: 'normalRequest'.tr,
-                            imagePath: kAmbulanceImage,
-                            onPressed: () {},
-                          ),
-                          const Spacer(),
-                          RoundedImageElevatedButton(
-                            buttonText: 'sosRequest'.tr,
-                            imagePath: 'assets/images/sos.png',
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                    TextHeaderWithButton(
-                      headerText: 'recentRequests'.tr,
-                      onPressed: () {},
-                      buttonText: 'viewAll'.tr,
                     ),
                   ],
+                ),
+                TextHeaderWithButton(
+                  headerText: 'firstAidTips'.tr,
+                  onPressed: () {},
+                  buttonText: 'viewAll'.tr,
+                ),
+                CarouselSlider(
+                  carouselController: homeScreenController.carouselController,
+                  items: [
+                    for (String img in homeScreenController.imgList)
+                      ClickableLabeledImage(
+                        img: img,
+                        label:
+                            'firstAidTips${homeScreenController.imgList.indexOf(img) + 1}'
+                                .tr,
+                        onPressed: () {
+                          Get.to(FirstAidTipsPage(imgPath: img));
+                        },
+                      ),
+                  ],
+                  options: CarouselOptions(
+                    autoPlay: true,
+                    aspectRatio: 2.0,
+                    enlargeCenterPage: true,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  ),
+                ),
+                TextHeader(
+                  headerText: 'services'.tr,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: [
+                      RoundedImageElevatedButton(
+                        buttonText: 'normalRequest'.tr,
+                        imagePath: kAmbulanceImage,
+                        onPressed: () {},
+                      ),
+                      const Spacer(),
+                      RoundedImageElevatedButton(
+                        buttonText: 'sosRequest'.tr,
+                        imagePath: 'assets/images/sos.png',
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ),
+                TextHeaderWithButton(
+                  headerText: 'recentRequests'.tr,
+                  onPressed: () {},
+                  buttonText: 'viewAll'.tr,
                 ),
               ],
             ),

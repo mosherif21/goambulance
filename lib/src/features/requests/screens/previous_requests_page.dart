@@ -8,7 +8,7 @@ class PreviousRequestsPage extends StatelessWidget {
     return const Scaffold(
       backgroundColor: Colors.blue,
       body: Center(
-        child: Text('search'),
+        child: Text('requests'),
       ),
     );
   }

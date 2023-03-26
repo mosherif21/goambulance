@@ -4,8 +4,8 @@ import '../../constants/app_init_constants.dart';
 import '../../constants/colors.dart';
 import '../common_functions.dart';
 
-class RoundedElevatedButton extends StatelessWidget {
-  const RoundedElevatedButton(
+class RoundedImageElevatedButton extends StatelessWidget {
+  const RoundedImageElevatedButton(
       {Key? key,
       required this.buttonText,
       required this.imagePath,
@@ -36,6 +36,7 @@ class RoundedElevatedButton extends StatelessWidget {
           padding: EdgeInsets.all(AppInit.isWeb ? 18 : 15),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               imagePath,

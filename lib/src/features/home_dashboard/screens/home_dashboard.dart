@@ -91,13 +91,13 @@ class HomeDashBoard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
-                          RoundedElevatedButton(
+                          RoundedImageElevatedButton(
                             buttonText: 'normalRequest'.tr,
                             imagePath: kAmbulanceImage,
                             onPressed: () {},
                           ),
                           const Spacer(),
-                          RoundedElevatedButton(
+                          RoundedImageElevatedButton(
                             buttonText: 'sosRequest'.tr,
                             imagePath: 'assets/images/sos.png',
                             onPressed: () {},

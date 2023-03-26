@@ -3,13 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/account/screens/account_screen.dart';
+import 'package:goambulance/src/features/search/screens/search_page.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../constants/app_init_constants.dart';
 import '../../../general/common_functions.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
-import '../../settings/screens/settings_screen.dart';
+import '../../requests/screens/previous_requests_page.dart';
 
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
@@ -53,9 +55,9 @@ class HomeScreenController extends GetxController {
   List<Widget> buildScreens() {
     return [
       const HomeDashBoard(),
-      const SettingsScreen(),
-      const SettingsScreen(),
-      const SettingsScreen(),
+      const SearchScreen(),
+      const PreviousRequestsPage(),
+      const AccountScreen(),
     ];
   }
 
@@ -92,6 +94,7 @@ class HomeScreenController extends GetxController {
       ),
     ];
   }
+
   final List<String> imgList = [
     'assets/images/accident.png',
     'assets/images/burn.png',

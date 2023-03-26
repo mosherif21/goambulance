@@ -17,7 +17,7 @@ double getScreenWidth(BuildContext context) =>
 
 void getToHomePage() => Get.offAll(() => const HomeScreen());
 
-Future<void> showLoadingScreen() async {
+void showLoadingScreen() {
   final height = Get.context?.height;
   Get.dialog(
     AlertDialog(
@@ -60,9 +60,13 @@ void showSimpleSnackBar({
   );
 }
 
-Future<void> logout() async => await AuthenticationRepository.instance
-    .logoutUser()
-    .whenComplete(() => Get.offAll(() => const AuthenticationScreen()));
+Future<void> logout() async {
+  showLoadingScreen();
+  await AuthenticationRepository.instance
+      .logoutUser()
+      .whenComplete(() => Get.offAll(() => const AuthenticationScreen()));
+  hideLoadingScreen();
+}
 
 Future<void> displayChangeLang() async =>
     await RegularBottomSheet.showRegularBottomSheet(

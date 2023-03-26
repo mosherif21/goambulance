@@ -84,12 +84,7 @@ class HomeScreenController extends GetxController {
         isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
-        icon: const CircleAvatar(
-          radius: 12,
-          backgroundImage: NetworkImage(
-            'https://sooxt98.space/content/images/size/w100/2019/01/profile.png',
-          ),
-        ),
+        icon: const Icon(Icons.account_circle_outlined),
         title: ('account'.tr),
         activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
@@ -97,7 +92,6 @@ class HomeScreenController extends GetxController {
       ),
     ];
   }
-
   final List<String> imgList = [
     'assets/images/accident.png',
     'assets/images/burn.png',

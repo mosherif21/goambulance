@@ -34,7 +34,7 @@ class HomeNavigationBar extends StatelessWidget {
         curve: Curves.ease,
         duration: Duration(milliseconds: 200),
       ),
-      navBarStyle: NavBarStyle.style1,
+      navBarStyle: NavBarStyle.style3,
     );
   }
 }

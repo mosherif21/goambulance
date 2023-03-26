@@ -41,7 +41,7 @@ class Languages extends Translations {
           'passwordLabel': 'كلمة المرور',
           'passwordHintLabel': 'ادخل كلمة المرور',
           'forgotPassword': 'لا تتذكر كلمة المرور؟',
-          'alternateLoginLabel': 'او عن طريق',
+          'alternateLoginLabel': 'او',
           'noEmailAccount':
               'ليس لديك حساب بريد الكترونى؟ انشئ حساب بريد الكترونى',
           'english': 'الانجليزية',

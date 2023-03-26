@@ -51,7 +51,7 @@ class MapsController extends GetxController {
   Position? _currentLocation;
 
   //firebase controller
-  final FirebaseDataAccess firebase = Get.put(FirebaseDataAccess());
+  final FirebaseDataAccess firebase = FirebaseDataAccess.instance;
 
   LatLng currentLocationGetter() {
     return LatLng(_currentLocation!.latitude, _currentLocation!.longitude);

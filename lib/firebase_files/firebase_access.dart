@@ -17,9 +17,6 @@ class FirebaseDataAccess extends GetxController {
   UserType userType = UserType.user;
   bool userInitialize = false;
 
-  //StreamSubscription? driverLocationStreamSubscription;
-  // bool listenForDriverLocation = false;
-
   Future<void> getUserType() async {
     if (!userInitialize) {
       userInitialize = true;
@@ -34,7 +31,8 @@ class FirebaseDataAccess extends GetxController {
     }
   }
 
-  //
+  //StreamSubscription? driverLocationStreamSubscription;
+  // bool listenForDriverLocation = false;
   // Future<void> updateUserLocation(Position position) async {
   //   final userTypeRef = userType == UserType.driver ? 'drivers' : 'users';
   //   final locationRef = 'locations/$userTypeRef/$userId';

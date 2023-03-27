@@ -17,14 +17,14 @@ dependencies:
     sdk: flutter
 
   #general dependencies
-  shared_preferences: ^2.0.15
+  shared_preferences: ^2.0.20
   flutter_native_splash: ^2.2.16
   connectivity_plus: ^3.0.2
   internet_connection_checker_plus: ^1.0.1
   awesome_notifications: ^0.7.4+1
   speech_to_text: ^6.1.1
   flutter_tts: ^3.6.3
-  provider: ^6.0.5
+  #provider: ^6.0.5
 
   #firebase dependencies
   firebase_core: ^2.3.0
@@ -47,9 +47,8 @@ dependencies:
   trust_location: ^2.0.13
 
   #authentication dependencies
-  google_sign_in: ^5.4.2
+  google_sign_in: ^6.0.2
   flutter_facebook_auth: ^5.0.7
-
 
   #UI dependencies
   cupertino_icons: ^1.0.5
@@ -72,7 +71,7 @@ dependencies:
   line_icons: ^2.0.1
   flutter_zoom_drawer: ^3.0.4+1
   flutter_platform_widgets: ^3.2.0
-  badges: ^3.0.2
+  badges: ^3.0.3
   carousel_slider: ^4.2.1
 
   #state management dependencies

@@ -52,8 +52,8 @@ class AlternateLoginButtons extends StatelessWidget {
                   showLoadingScreen();
                   final returnMessage = await AuthenticationRepository.instance
                       .signInWithGoogle();
-                  hideLoadingScreen();
                   if (returnMessage.compareTo('success') != 0) {
+                    hideLoadingScreen();
                     showSimpleSnackBar(
                       title: 'error'.tr,
                       body: returnMessage,
@@ -71,8 +71,8 @@ class AlternateLoginButtons extends StatelessWidget {
             showLoadingScreen();
             var returnMessage =
                 await AuthenticationRepository.instance.signInWithFacebook();
-            hideLoadingScreen();
             if (returnMessage.compareTo('success') != 0) {
+              hideLoadingScreen();
               showSimpleSnackBar(
                 title: 'error'.tr,
                 body: returnMessage,

@@ -13,17 +13,15 @@ class HomeNavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
-    final isRtl =
-        AppInit.currentDeviceLanguage == Language.english ? false : true;
     return ZoomDrawer(
       controller: homeScreenController.zoomDrawerController,
       menuScreen: DrawerPage(
         [
           MenuClass('payment'.tr, Icons.payment, 0),
-          MenuClass('promos'.tr, Icons.card_giftcard, 1),
-          MenuClass('notifications'.tr, Icons.notifications, 2),
-          MenuClass('help'.tr, Icons.help, 3),
-          MenuClass('langLong'.tr, Icons.language, 4),
+          MenuClass('notifications'.tr, Icons.notifications, 1),
+          MenuClass('settings'.tr, Icons.settings, 2),
+          MenuClass('langLong'.tr, Icons.language, 3),
+          MenuClass('help'.tr, Icons.help, 4),
           MenuClass('aboutUs'.tr, Icons.info_outline, 5),
         ],
         callback: (index) async =>
@@ -34,7 +32,7 @@ class HomeNavigationDrawer extends StatelessWidget {
       openCurve: Curves.fastOutSlowIn,
       showShadow: false,
       slideWidth: MediaQuery.of(context).size.width * (0.6),
-      isRtl: isRtl,
+      isRtl: AppInit.currentDeviceLanguage == Language.english ? false : true,
       mainScreenTapClose: true,
       borderRadius: 10,
       angle: 0.0,

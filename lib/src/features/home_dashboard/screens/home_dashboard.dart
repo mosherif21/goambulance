@@ -83,9 +83,7 @@ class HomeDashBoard extends StatelessWidget {
                     enlargeStrategy: CenterPageEnlargeStrategy.height,
                   ),
                 ),
-                TextHeader(
-                  headerText: 'services'.tr,
-                ),
+                TextHeader(headerText: 'services'.tr),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
@@ -98,7 +96,7 @@ class HomeDashBoard extends StatelessWidget {
                       const Spacer(),
                       RoundedImageElevatedButton(
                         buttonText: 'sosRequest'.tr,
-                        imagePath: 'assets/images/sos.png',
+                        imagePath: kSosImage,
                         onPressed: () {},
                       ),
                     ],

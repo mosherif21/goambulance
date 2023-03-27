@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
@@ -11,25 +10,27 @@ enum UserType { driver, user }
 class FirebaseDataAccess extends GetxController {
   static FirebaseDataAccess get instance => Get.find();
 
-  final userId = AuthenticationRepository.instance.fireUser.value?.uid;
-  final fireStore = FirebaseFirestore.instance;
-  final fireDatabase = FirebaseDatabase.instance;
+  late final String? userId;
+  late final FirebaseFirestore fireStore;
+  late final FirebaseDatabase fireDatabase;
   UserType userType = UserType.user;
   bool userInitialize = false;
-
-  Future<void> getUserType() async {
-    if (!userInitialize) {
-      userInitialize = true;
-      await fireDatabase.ref('users/drivers/$userId').get().then((snapshot) {
-        if (snapshot.exists) {
-          userType = UserType.driver;
-        } else {
-          userType = UserType.user;
-        }
-        if (kDebugMode) print('user type is $userType');
-      });
-    }
+  @override
+  void onInit() {
+    super.onInit();
+    userId = AuthenticationRepository.instance.fireUser.value?.uid;
+    fireStore = FirebaseFirestore.instance;
+    fireDatabase = FirebaseDatabase.instance;
   }
+
+  // await fireDatabase.ref('users/drivers/$userId').get().then((snapshot) {
+  //   if (snapshot.exists) {
+  //     userType = UserType.driver;
+  //   } else {
+  //     userType = UserType.user;
+  //   }
+  //   if (kDebugMode) print('user type is $userType');
+  // });
 
   //StreamSubscription? driverLocationStreamSubscription;
   // bool listenForDriverLocation = false;
@@ -63,10 +64,10 @@ class FirebaseDataAccess extends GetxController {
   // }
 
   Future<void> logoutFirebase() async {
-    if (userType == UserType.user) {
-      await fireDatabase.ref('locations/users/$userId').set(null);
-    } else {
-      await fireDatabase.ref('locations/drivers/$userId').set(null);
-    }
+    // if (userType == UserType.user) {
+    //   await fireDatabase.ref('locations/users/$userId').set(null);
+    // } else {
+    //   await fireDatabase.ref('locations/drivers/$userId').set(null);
+    // }
   }
 }

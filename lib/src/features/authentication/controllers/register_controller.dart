@@ -27,8 +27,8 @@ class RegisterController extends GetxController {
     } else {
       returnMessage = 'passwordNotMatch'.tr;
     }
-    hideLoadingScreen();
     if (returnMessage.compareTo('success') != 0) {
+      hideLoadingScreen();
       showSimpleSnackBar(
         title: 'error'.tr,
         body: returnMessage,

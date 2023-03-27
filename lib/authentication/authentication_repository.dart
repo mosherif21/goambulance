@@ -1,12 +1,17 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/general/common_functions.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../firebase_files/firebase_access.dart';
+import '../src/features/account/components/newAccount/register_user_data_page.dart';
 import '../src/features/authentication/controllers/login_controller.dart';
 import '../src/features/authentication/controllers/register_controller.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
@@ -21,6 +26,22 @@ class AuthenticationRepository extends GetxController {
   bool isUserLoggedIn = false;
   var verificationId = ''.obs;
   GoogleSignIn? googleSignIn;
+
+  late final FirebaseFirestore fireStore;
+  late final FirebaseDatabase fireDatabase;
+  UserType userType = UserType.user;
+
+  void userInit() async {
+    getIfUserRegistered();
+  }
+
+  void getIfUserRegistered() async {
+    Timer(const Duration(milliseconds: 2000), () {
+      if (kDebugMode) print('user id: ${fireUser.value?.uid}');
+      Get.offAll(() => const RegisterUserDataPage());
+    });
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -29,6 +50,8 @@ class AuthenticationRepository extends GetxController {
       isUserLoggedIn = true;
     }
     fireUser.bindStream(_auth.userChanges());
+    fireStore = FirebaseFirestore.instance;
+    fireDatabase = FirebaseDatabase.instance;
   }
 
   Future<void> authenticatedSetup() async {
@@ -46,7 +69,8 @@ class AuthenticationRepository extends GetxController {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (fireUser.value != null) {
-        await authenticatedSetup().whenComplete(() => getToHomePage());
+        await authenticatedSetup();
+        userInit();
         return 'success';
       }
     } on FirebaseAuthException catch (e) {
@@ -62,7 +86,8 @@ class AuthenticationRepository extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       if (fireUser.value != null) {
-        await authenticatedSetup().whenComplete(() => getToHomePage());
+        await authenticatedSetup();
+        userInit();
         return 'success';
       }
     } on FirebaseAuthException catch (e) {
@@ -81,7 +106,7 @@ class AuthenticationRepository extends GetxController {
           verificationCompleted: (credential) async {
             await _auth.signInWithCredential(credential);
             if (fireUser.value != null) {
-              getToHomePage();
+              userInit();
             }
           },
           verificationFailed: (e) {
@@ -135,7 +160,7 @@ class AuthenticationRepository extends GetxController {
         );
         await _auth.signInWithCredential(credential);
         if (fireUser.value != null) {
-          getToHomePage();
+          userInit();
           return 'success';
         }
       }
@@ -170,7 +195,7 @@ class AuthenticationRepository extends GetxController {
         final userCredential =
             await FirebaseAuth.instance.signInWithPopup(facebookProvider);
         if (userCredential.user != null) {
-          getToHomePage();
+          userInit();
           return 'success';
         }
       } catch (e) {
@@ -185,7 +210,7 @@ class AuthenticationRepository extends GetxController {
           final userCredential = await FirebaseAuth.instance
               .signInWithCredential(facebookAuthCredential);
           if (userCredential.user != null) {
-            getToHomePage();
+            userInit();
             return 'success';
           }
         } else {

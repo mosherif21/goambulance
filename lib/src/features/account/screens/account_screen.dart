@@ -9,16 +9,17 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('account'),
-            RegularElevatedButton(
-                buttonText: 'logout'.tr,
-                onPressed: () async => logout(),
-                enabled: true)
-          ],
-        ));
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text('account'),
+          RegularElevatedButton(
+              buttonText: 'logout'.tr,
+              onPressed: () async => logout(),
+              enabled: true),
+        ],
+      ),
+    );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/firebase_files/firebase_access.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
 import '../features/authentication/screens/auth_screen.dart';
-import '../features/home_screen/screens/home_screen.dart';
 import 'common_widgets/language_select.dart';
 import 'common_widgets/regular_bottom_sheet.dart';
 
@@ -14,8 +14,6 @@ double getScreenHeight(BuildContext context) =>
 
 double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
-
-void getToHomePage() => Get.offAll(() => const HomeScreen());
 
 void showLoadingScreen() {
   final height = Get.context?.height;
@@ -64,7 +62,7 @@ void showSimpleSnackBar({
 Future<void> logout() async {
   showLoadingScreen();
   await AuthenticationRepository.instance.logoutUser();
-  //await FirebaseDataAccess.instance.logoutFirebase();
+  await FirebaseDataAccess.instance.logoutFirebase();
   Get.offAll(() => const AuthenticationScreen());
   hideLoadingScreen();
 }

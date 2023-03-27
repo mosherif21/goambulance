@@ -21,8 +21,6 @@ class OtpVerificationController extends GetxController {
     } else {
       returnMessage = 'invalidPhoneNumber'.tr;
     }
-    hideLoadingScreen();
-
     return returnMessage;
   }
 
@@ -33,14 +31,13 @@ class OtpVerificationController extends GetxController {
     showLoadingScreen();
     var returnMessage =
         await AuthenticationRepository.instance.verifyOTP(verificationCode);
-    hideLoadingScreen();
     if (returnMessage.compareTo('success') == 0) {
       if (inputType == InputType.phone &&
           Get.isRegistered<OtpVerificationController>()) {
         await Get.delete<OtpVerificationController>();
       }
-      getToHomePage();
     } else {
+      hideLoadingScreen();
       showSimpleSnackBar(
         title: 'error'.tr,
         body: returnMessage,
@@ -62,6 +59,7 @@ class OtpVerificationController extends GetxController {
               ),
           transition: AppInit.getPageTransition());
     } else {
+      hideLoadingScreen();
       showSimpleSnackBar(
         title: 'error'.tr,
         body: returnMessage,

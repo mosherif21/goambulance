@@ -39,9 +39,9 @@ class HomeScreenController extends GetxController {
       case 2:
         break;
       case 3:
+        await displayChangeLang();
         break;
       case 4:
-        await displayChangeLang();
         break;
       case 5:
         break;

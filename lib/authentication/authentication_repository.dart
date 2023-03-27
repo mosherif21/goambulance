@@ -31,17 +31,6 @@ class AuthenticationRepository extends GetxController {
   late final FirebaseDatabase fireDatabase;
   UserType userType = UserType.user;
 
-  void userInit() async {
-    getIfUserRegistered();
-  }
-
-  void getIfUserRegistered() async {
-    Timer(const Duration(milliseconds: 2000), () {
-      if (kDebugMode) print('user id: ${fireUser.value?.uid}');
-      Get.offAll(() => const RegisterUserDataPage());
-    });
-  }
-
   @override
   void onInit() {
     super.onInit();
@@ -52,6 +41,17 @@ class AuthenticationRepository extends GetxController {
     fireUser.bindStream(_auth.userChanges());
     fireStore = FirebaseFirestore.instance;
     fireDatabase = FirebaseDatabase.instance;
+  }
+
+  void userInit() async {
+    getIfUserRegistered();
+  }
+
+  void getIfUserRegistered() async {
+    Timer(const Duration(milliseconds: 2000), () {
+      if (kDebugMode) print('user id: ${fireUser.value?.uid}');
+      Get.offAll(() => const RegisterUserDataPage());
+    });
   }
 
   Future<void> authenticatedSetup() async {

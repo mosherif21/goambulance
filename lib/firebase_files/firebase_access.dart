@@ -15,6 +15,7 @@ class FirebaseDataAccess extends GetxController {
   late final FirebaseDatabase fireDatabase;
   UserType userType = UserType.user;
   bool userInitialize = false;
+
   @override
   void onInit() {
     super.onInit();

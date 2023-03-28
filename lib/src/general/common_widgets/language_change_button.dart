@@ -17,7 +17,7 @@ class ButtonLanguageSelect extends StatelessWidget {
           ? Alignment.centerLeft
           : Alignment.centerRight,
       child: SizedBox(
-        width: AppInit.currentDeviceLanguage == Language.english ? 75.0 : 85.0,
+        width: AppInit.currentDeviceLanguage == Language.english ? 120.0 : 75.0,
         child: TextButton(
           style: TextButton.styleFrom(
             shape: const RoundedRectangleBorder(

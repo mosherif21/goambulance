@@ -49,6 +49,7 @@ class LoginForm extends StatelessWidget {
             enabled: true,
             buttonText: 'loginTextTitle'.tr,
             onPressed: () async => await controller.loginUser(),
+            color: Colors.black,
           ),
         ],
       ),

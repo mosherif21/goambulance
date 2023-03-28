@@ -4,21 +4,18 @@ import 'package:get/get.dart';
 class OrDivider extends StatelessWidget {
   const OrDivider({
     Key? key,
-    required this.screenHeight,
   }) : super(key: key);
-
-  final double screenHeight;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(screenHeight * 0.02),
+      padding: const EdgeInsets.all(15.0),
       child: Row(
         children: <Widget>[
           const Expanded(
             child: Divider(
               color: Colors.grey,
-              height: 8.0,
+              thickness: 1.0,
             ),
           ),
           const SizedBox(
@@ -28,7 +25,7 @@ class OrDivider extends StatelessWidget {
             'alternateLoginLabel'.tr,
             style: const TextStyle(
               fontWeight: FontWeight.w700,
-              fontSize: 15.0,
+              fontSize: 16.0,
               color: Colors.grey,
             ),
           ),
@@ -38,7 +35,7 @@ class OrDivider extends StatelessWidget {
           const Expanded(
             child: Divider(
               color: Colors.grey,
-              height: 8.0,
+              thickness: 1.0,
             ),
           )
         ],

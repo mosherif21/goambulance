@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../firebase_files/firebase_access.dart';
+import '../../../../general/common_functions.dart';
+import '../../../../general/common_widgets/regular_elevated_button.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
   const RegisterUserDataPage({Key? key}) : super(key: key);
@@ -13,11 +15,12 @@ class RegisterUserDataPage extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            //RegularElevatedButton(
-            //   buttonText: 'logout'.tr,
-            //   onPressed: () async => logout(),
-            //   enabled: true,
-            // ),
+            RegularElevatedButton(
+              buttonText: 'logout'.tr,
+              onPressed: () async => logout(),
+              enabled: true,
+              color: Colors.black,
+            ),
           ],
         ),
       ),

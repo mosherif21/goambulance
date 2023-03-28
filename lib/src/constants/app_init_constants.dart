@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/onboarding/screens/intro_screen.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
-import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/onboarding/components/onboarding_shared_preferences.dart';
 import '../features/onboarding/screens/on_boarding_screen.dart';
@@ -164,7 +164,7 @@ class AppInit {
             transition: Transition.circularReveal,
           )
         : await Get.offAll(
-            () => const AuthenticationScreen(),
+            () => const IntroScreen(),
             transition: Transition.circularReveal,
           );
   }

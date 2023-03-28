@@ -10,6 +10,8 @@ const String kProfileAnimated = "assets/Gifs/profile_animated_male.gif";
 const String kLogoImage = "assets/images/logo.png";
 const String kLogoImageWithSlogan =
     "assets/images/logo_with_slogan_transparent.png";
+const String kLogoImageWithName =
+    "assets/images/logo_with_name_transparent.png";
 const String kAmbulanceImage = "assets/images/ambulance.png";
 const String kSosImage = "assets/images/sos.png";
 const String kProfileImage = "assets/images/profile_male.png";

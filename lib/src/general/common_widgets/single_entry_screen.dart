@@ -95,9 +95,11 @@ class SingleEntryScreen extends StatelessWidget {
                       ),
                 const SizedBox(height: 20.0),
                 RegularElevatedButton(
-                    buttonText: buttonTitle,
-                    enabled: true,
-                    onPressed: onPressed),
+                  buttonText: buttonTitle,
+                  enabled: true,
+                  onPressed: onPressed,
+                  color: Colors.black,
+                ),
                 inputType == InputType.phone
                     ? AlternateLoginButtons(
                         screenHeight: screenHeight,

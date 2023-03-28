@@ -8,19 +8,15 @@ class TextHeader extends StatelessWidget {
   final String headerText;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: Text(
-            headerText,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Text(
+        headerText,
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
         ),
-      ],
+      ),
     );
   }
 }

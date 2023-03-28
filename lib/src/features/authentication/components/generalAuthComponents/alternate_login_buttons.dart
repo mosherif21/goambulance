@@ -27,7 +27,7 @@ class AlternateLoginButtons extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        OrDivider(screenHeight: screenHeight),
+        const OrDivider(),
         showPhoneLogin
             ? Column(
                 children: [

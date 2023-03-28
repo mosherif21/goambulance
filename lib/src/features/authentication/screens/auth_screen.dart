@@ -33,15 +33,13 @@ class AuthenticationScreen extends StatelessWidget {
           body: SingleChildScrollView(
             child: Container(
               padding: const EdgeInsets.only(
+                  top: 15.0,
                   left: kDefaultPaddingSize,
                   right: kDefaultPaddingSize,
                   bottom: kDefaultPaddingSize),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AppInit.isWeb
-                      ? const SizedBox(height: 15.0)
-                      : const SizedBox(),
                   const ButtonLanguageSelect(color: Colors.black54),
                   Image(
                     image: const AssetImage(kLogoImageWithSlogan),

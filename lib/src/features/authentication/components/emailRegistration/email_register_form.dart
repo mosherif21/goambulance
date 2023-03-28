@@ -39,6 +39,7 @@ class EmailRegisterForm extends StatelessWidget {
             buttonText: 'registerTextTitle'.tr,
             enabled: true,
             onPressed: () async => await controller.registerNewUser(),
+            color: Colors.black,
           ),
         ],
       ),

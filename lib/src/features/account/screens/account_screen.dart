@@ -15,9 +15,11 @@ class AccountScreen extends StatelessWidget {
         children: [
           const Text('account'),
           RegularElevatedButton(
-              buttonText: 'logout'.tr,
-              onPressed: () async => logout(),
-              enabled: true),
+            buttonText: 'logout'.tr,
+            onPressed: () async => logout(),
+            enabled: true,
+            color: Colors.black,
+          ),
         ],
       ),
     );

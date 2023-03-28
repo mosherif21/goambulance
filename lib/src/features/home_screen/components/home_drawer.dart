@@ -20,7 +20,7 @@ class HomeNavigationDrawer extends StatelessWidget {
           MenuClass('payment'.tr, Icons.payment, 0),
           MenuClass('notifications'.tr, Icons.notifications, 1),
           MenuClass('settings'.tr, Icons.settings, 2),
-          MenuClass('langLong'.tr, Icons.language, 3),
+          MenuClass('lang'.tr, Icons.language, 3),
           MenuClass('help'.tr, Icons.help, 4),
           MenuClass('aboutUs'.tr, Icons.info_outline, 5),
         ],

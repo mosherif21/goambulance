@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/authentication/screens/auth_screen.dart';
@@ -9,6 +10,7 @@ import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/sizes.dart';
 import '../../../general/common_functions.dart';
+import '../../../general/common_widgets/circle_button_text_icon.dart';
 import '../../../general/common_widgets/language_change_button.dart';
 import '../../../general/common_widgets/regular_elevated_button.dart';
 
@@ -33,11 +35,14 @@ class IntroScreen extends StatelessWidget {
               children: [
                 const ButtonLanguageSelect(color: Colors.black54),
                 Center(
-                  child: Image(
-                    image: const AssetImage(kLogoImage),
-                    height: AppInit.notWebMobile
-                        ? screenHeight * 0.27
-                        : screenHeight * 0.22,
+                  child: Hero(
+                    tag: 'loginLogo',
+                    child: Image(
+                      image: const AssetImage(kLogoImage),
+                      height: AppInit.notWebMobile
+                          ? screenHeight * 0.27
+                          : screenHeight * 0.22,
+                    ),
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.02),
@@ -61,13 +66,35 @@ class IntroScreen extends StatelessWidget {
                 RegularElevatedButton(
                   enabled: true,
                   buttonText: 'continue'.tr,
-                  onPressed: () async => await Get.to(
+                  onPressed: () => Get.to(
                     () => const AuthenticationScreen(),
                     transition: AppInit.getPageTransition(),
                   ),
                   color: kDefaultColor,
                 ),
                 const OrDivider(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Row(
+                    children: [
+                      CircleButtonIconAndText(
+                        onPressed: () {},
+                        buttonText: 'firstAid'.tr,
+                        iconData: FontAwesomeIcons.firstAid,
+                        iconColor: kDefaultColor,
+                        buttonColor: kDefaultColorLessShade,
+                      ),
+                      const Spacer(),
+                      CircleButtonIconAndText(
+                        onPressed: () {},
+                        buttonText: 'emergencyNumbers'.tr,
+                        iconData: Icons.phone,
+                        iconColor: kDefaultColor,
+                        buttonColor: kDefaultColorLessShade,
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
           ),

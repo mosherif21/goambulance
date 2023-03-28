@@ -41,11 +41,14 @@ class AuthenticationScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const ButtonLanguageSelect(color: Colors.black54),
-                  Image(
-                    image: const AssetImage(kLogoImageWithSlogan),
-                    height: AppInit.notWebMobile
-                        ? screenHeight * 0.27
-                        : screenHeight * 0.2,
+                  Hero(
+                    tag: 'loginLogo',
+                    child: Image(
+                      image: const AssetImage(kLogoImage),
+                      height: AppInit.notWebMobile
+                          ? screenHeight * 0.27
+                          : screenHeight * 0.2,
+                    ),
                   ),
                   SizedBox(height: screenHeight * 0.02),
                   AuthenticationForm(

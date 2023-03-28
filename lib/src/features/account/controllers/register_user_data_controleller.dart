@@ -6,6 +6,6 @@ class RegisterUserDataController extends GetxController {
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
-  final lTextController = TextEditingController();
-  final phoneConfirmTextController = TextEditingController();
+  final genderTextController = TextEditingController();
+  final nationalIdTextController = TextEditingController();
 }

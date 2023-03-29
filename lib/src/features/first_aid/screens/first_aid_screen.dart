@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/first_aid/components/first_aid_card.dart';
+import 'package:goambulance/src/general/common_widgets/back_button.dart';
+import 'package:goambulance/src/general/common_widgets/regular_clickable_card.dart';
 
+import '../../../constants/app_init_constants.dart';
 import '../../../general/common_functions.dart';
+import '../components/first_aid_tips_details_page.dart';
+import '../controllers/first_aid_assets.dart';
 
 class FirstAidScreen extends StatelessWidget {
   const FirstAidScreen({Key? key}) : super(key: key);
@@ -15,11 +19,12 @@ class FirstAidScreen extends StatelessWidget {
         backgroundColor: Colors.grey.shade100,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.only(
+                top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: screenHeight * 0.03),
+                const RegularBackButton(),
                 Text(
                   'firstAid'.tr,
                   style: const TextStyle(
@@ -31,7 +36,19 @@ class FirstAidScreen extends StatelessWidget {
                 for (int firstAidNumber = 1;
                     firstAidNumber <= 17;
                     firstAidNumber++)
-                  FirstAidCard(firstAidNumber: firstAidNumber),
+                  RegularClickableCard(
+                    onPressed: () => Get.to(
+                      () => FirstAidTipsDetailsPage(
+                        imgPath: getFirstAidDetailsPath(firstAidNumber),
+                      ),
+                      transition: AppInit.getPageTransition(),
+                    ),
+                    title: 'firstAidTips$firstAidNumber'.tr,
+                    subTitle: '',
+                    icon: Icons.arrow_forward_ios,
+                    iconColor: Colors.black54,
+                    imgPath: getFirstAidTipImage(firstAidNumber),
+                  ),
               ],
             ),
           ),

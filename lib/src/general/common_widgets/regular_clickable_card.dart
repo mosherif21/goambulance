@@ -1,24 +1,26 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:goambulance/src/features/first_aid/components/first_aid_tips_details_page.dart';
 
-import '../../../constants/app_init_constants.dart';
-import '../controllers/first_aid_assets.dart';
-
-class FirstAidCard extends StatelessWidget {
-  const FirstAidCard({Key? key, required this.firstAidNumber})
+class RegularClickableCard extends StatelessWidget {
+  const RegularClickableCard(
+      {Key? key,
+      required this.onPressed,
+      required this.title,
+      required this.subTitle,
+      required this.icon,
+      required this.iconColor,
+      required this.imgPath})
       : super(key: key);
-  final int firstAidNumber;
+  final Function onPressed;
+  final String imgPath;
+  final String title;
+  final String subTitle;
+  final IconData icon;
+  final Color iconColor;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.to(
-        () => FirstAidTipsDetailsPage(
-          imgPath: getFirstAidDetailsPath(firstAidNumber),
-        ),
-        transition: AppInit.getPageTransition(),
-      ),
+      onTap: () => onPressed(),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10.0),
         child: Container(
@@ -31,23 +33,21 @@ class FirstAidCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image(
-                image: AssetImage(
-                  getFirstAidTipImage(firstAidNumber),
-                ),
+                image: AssetImage(imgPath),
                 height: 35.0,
               ),
               const SizedBox(width: 5.0),
               AutoSizeText(
-                'firstAidTips$firstAidNumber'.tr,
+                title,
                 style: const TextStyle(
                   fontWeight: FontWeight.w600,
                 ),
                 maxLines: 2,
               ),
               const Spacer(),
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.black54,
+              Icon(
+                icon,
+                color: iconColor,
               ),
             ],
           ),

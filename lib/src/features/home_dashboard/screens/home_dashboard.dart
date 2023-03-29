@@ -63,8 +63,10 @@ class HomeDashBoard extends StatelessWidget {
                 ),
                 TextHeaderWithButton(
                   headerText: 'firstAidTips'.tr,
-                  onPressed: () => Get.to(() => const FirstAidScreen(),
-                      transition: AppInit.getPageTransition()),
+                  onPressed: () => Get.to(
+                    () => const FirstAidScreen(),
+                    transition: AppInit.getPageTransition(),
+                  ),
                   buttonText: 'viewAll'.tr,
                 ),
                 CarouselSlider(
@@ -79,10 +81,7 @@ class HomeDashBoard extends StatelessWidget {
                         onPressed: () {
                           Get.to(
                             FirstAidTipsDetailsPage(
-                              imgPath: getFirstAidDetailsPath(
-                                AppInit.currentDeviceLanguage,
-                                firstAidNumber,
-                              ),
+                              imgPath: getFirstAidDetailsPath(firstAidNumber),
                             ),
                           );
                         },

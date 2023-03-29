@@ -15,10 +15,7 @@ class FirstAidCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => Get.to(
         () => FirstAidTipsDetailsPage(
-          imgPath: getFirstAidDetailsPath(
-            AppInit.currentDeviceLanguage,
-            firstAidNumber,
-          ),
+          imgPath: getFirstAidDetailsPath(firstAidNumber),
         ),
         transition: AppInit.getPageTransition(),
       ),

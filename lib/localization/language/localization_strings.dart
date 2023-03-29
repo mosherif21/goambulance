@@ -110,7 +110,7 @@ class Languages extends Translations {
           'enableLocationPermission': 'يرجى قبول إذن الموقع لاستخدام التطبيق',
           'locationPermissionDeniedForever':
               'تم رفض إذن المواقع إلى الأبد ، يرجى تمكينه من الإعدادات',
-          'firstAidTips1': 'الفحص السريع',
+          'firstAidTips1': 'غياب الوعى',
           'firstAidTips2': 'الانعاش القلبى الرئوى',
           'firstAidTips3': 'انسداد مجرى الهواء',
           'firstAidTips4': 'سكر الدم',

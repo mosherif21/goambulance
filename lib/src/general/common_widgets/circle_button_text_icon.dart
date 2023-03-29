@@ -29,10 +29,7 @@ class CircleButtonIconAndText extends StatelessWidget {
               shadowColor: Colors.white,
               shape: const CircleBorder()),
           onPressed: () => onPressed(),
-          child: SizedBox(
-            height: 40.0,
-            child: icon,
-          ),
+          child: icon,
         ),
         const SizedBox(height: 5.0),
         Text(

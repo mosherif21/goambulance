@@ -3,7 +3,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/home_dashboard/components/first_aid_tips_page.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
@@ -11,6 +12,7 @@ import '../../../constants/assets_strings.dart';
 import '../../../general/common_widgets/clickable_labeled_image.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
+import '../../first_aid/components/first_aid_tips_details_page.dart';
 
 class HomeDashBoard extends StatelessWidget {
   const HomeDashBoard({Key? key}) : super(key: key);
@@ -65,14 +67,19 @@ class HomeDashBoard extends StatelessWidget {
                 CarouselSlider(
                   carouselController: homeScreenController.carouselController,
                   items: [
-                    for (String img in homeScreenController.imgList)
+                    for (int imageNumber = 1; imageNumber <= 17; imageNumber++)
                       ClickableLabeledImage(
-                        img: img,
-                        label:
-                            'firstAidTips${homeScreenController.imgList.indexOf(img) + 1}'
-                                .tr,
+                        img: getFirstAidTipImage(imageNumber),
+                        label: 'firstAidTips$imageNumber'.tr,
                         onPressed: () {
-                          Get.to(FirstAidTipsPage(imgPath: img));
+                          Get.to(
+                            FirstAidTipsDetailsPage(
+                              imgPath: getFirstAidDetailsPath(
+                                AppInit.currentDeviceLanguage,
+                                imageNumber,
+                              ),
+                            ),
+                          );
                         },
                       ),
                   ],

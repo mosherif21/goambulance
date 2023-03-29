@@ -94,13 +94,4 @@ class HomeScreenController extends GetxController {
       ),
     ];
   }
-
-  final List<String> imgList = [
-    'assets/images/accident.png',
-    'assets/images/burn.png',
-    'assets/images/electrocute.png',
-    'assets/images/fracture.png',
-    'assets/images/nose.png',
-    'assets/images/wound.png'
-  ];
 }

@@ -8,10 +8,10 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/features/home_screen/screens/home_screen.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../firebase_files/firebase_access.dart';
-import '../src/features/account/components/newAccount/register_user_data_page.dart';
 import '../src/features/authentication/controllers/login_controller.dart';
 import '../src/features/authentication/controllers/register_controller.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
@@ -48,10 +48,11 @@ class AuthenticationRepository extends GetxController {
   }
 
   void getIfUserRegistered() async {
-    Timer(const Duration(milliseconds: 2000), () {
-      if (kDebugMode) print('user id: ${fireUser.value?.uid}');
-      Get.offAll(() => const RegisterUserDataPage());
-    });
+    // Timer(const Duration(milliseconds: 2000), () {
+    //   if (kDebugMode) print('user id: ${fireUser.value?.uid}');
+    //   Get.offAll(() => const RegisterUserDataPage());
+    // });
+    Get.offAll(() => const HomeScreen());
   }
 
   Future<void> authenticatedSetup() async {

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/authentication/screens/auth_screen.dart';
+import 'package:goambulance/src/features/first_aid/screens/emergency_numbers_screen.dart';
+import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
 import 'package:goambulance/src/general/common_widgets/or_divider.dart';
+import 'package:line_icons/line_icon.dart';
 
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
@@ -78,19 +80,25 @@ class IntroScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleButtonIconAndText(
-                        onPressed: () {},
+                        onPressed: () => Get.to(
+                          () => const FirstAidScreen(),
+                          transition: AppInit.getPageTransition(),
+                        ),
                         buttonText: 'firstAid'.tr,
-                        iconData: FontAwesomeIcons.firstAid,
                         iconColor: kDefaultColor,
                         buttonColor: kDefaultColorLessShade,
+                        icon: LineIcon.firstAid(color: kDefaultColor),
                       ),
                       const Spacer(),
                       CircleButtonIconAndText(
-                        onPressed: () {},
+                        onPressed: () => Get.to(
+                          () => const EmergencyNumbersScreen(),
+                          transition: AppInit.getPageTransition(),
+                        ),
                         buttonText: 'emergencyNumbers'.tr,
-                        iconData: Icons.phone,
                         iconColor: kDefaultColor,
                         buttonColor: kDefaultColorLessShade,
+                        icon: LineIcon.phone(color: kDefaultColor),
                       ),
                     ],
                   ),

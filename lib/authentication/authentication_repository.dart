@@ -11,7 +11,6 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../firebase_files/firebase_access.dart';
-import '../src/features/account/components/newAccount/register_user_data_page.dart';
 import '../src/features/authentication/controllers/login_controller.dart';
 import '../src/features/authentication/controllers/register_controller.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
@@ -49,7 +48,7 @@ class AuthenticationRepository extends GetxController {
 
   void getIfUserRegistered() async {
     if (kDebugMode) print('user id: ${fireUser.value?.uid}');
-    Get.offAll(() => const RegisterUserDataPage());
+    //Get.offAll(() => const RegisterUserDataPage());
     //Get.offAll(() => const HomeScreen());
   }
 

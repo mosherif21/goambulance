@@ -36,13 +36,26 @@ class RegularClickableCard extends StatelessWidget {
                 image: AssetImage(imgPath),
                 height: 35.0,
               ),
-              const SizedBox(width: 5.0),
-              AutoSizeText(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
-                maxLines: 2,
+              const SizedBox(width: 10.0),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  AutoSizeText(
+                    title,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
+                  ),
+                  if (subTitle.isNotEmpty)
+                    Text(
+                      subTitle,
+                      style: const TextStyle(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15),
+                    ),
+                ],
               ),
               const Spacer(),
               Icon(

@@ -53,7 +53,7 @@ class Languages extends Translations {
           'phoneLabel': 'رقم الهاتف',
           'phoneFieldLabel': 'ادخل رقم هاتفك',
           'emailVerification':
-              'ادخل البريد الكترونى للحصول على رابط تغيير كلمة المرور',
+              'ادخل بريدك الالكترونى للحصول على رابط تغيير كلمة المرور',
           'phoneVerification': 'ادخل رقم الهاتف للحصول على رمز التاكيد',
           'continue': 'اكمل',
           'verificationCode': 'رمز تاكيد',

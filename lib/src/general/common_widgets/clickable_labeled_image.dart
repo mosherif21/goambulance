@@ -20,7 +20,10 @@ class ClickableLabeledImage extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(5.0)),
           child: Stack(
             children: <Widget>[
-              Image.asset(img, fit: BoxFit.contain, width: 1000.0),
+              Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(15),
+                  child: Image.asset(img, fit: BoxFit.contain, width: 1000.0)),
               Positioned(
                 bottom: 0.0,
                 left: 0.0,

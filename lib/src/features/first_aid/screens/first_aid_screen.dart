@@ -28,7 +28,10 @@ class FirstAidScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.02),
-                for (int i = 1; i <= 17; i++) FirstAidCard(firstAidNumber: i),
+                for (int firstAidNumber = 1;
+                    firstAidNumber <= 17;
+                    firstAidNumber++)
+                  FirstAidCard(firstAidNumber: firstAidNumber),
               ],
             ),
           ),

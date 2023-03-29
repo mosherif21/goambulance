@@ -231,7 +231,7 @@ class Languages extends Translations {
           'firstAidTips3': 'Choking',
           'firstAidTips4': 'Blood Sugar',
           'firstAidTips5': 'Heart Attacks',
-          'firstAidTips6': 'Bronchial Asthma and\n acute asthma attacks',
+          'firstAidTips6': 'Asthma attacks',
           'firstAidTips7': 'Cerebrovascular Stroke',
           'firstAidTips8': 'Epilepsy',
           'firstAidTips9': 'Severe Wound Bleeding',

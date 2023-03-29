@@ -5,6 +5,7 @@ import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
+import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
@@ -27,6 +28,7 @@ class HomeDashBoard extends StatelessWidget {
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Center(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
@@ -61,22 +63,25 @@ class HomeDashBoard extends StatelessWidget {
                 ),
                 TextHeaderWithButton(
                   headerText: 'firstAidTips'.tr,
-                  onPressed: () {},
+                  onPressed: () => Get.to(() => const FirstAidScreen(),
+                      transition: AppInit.getPageTransition()),
                   buttonText: 'viewAll'.tr,
                 ),
                 CarouselSlider(
                   carouselController: homeScreenController.carouselController,
                   items: [
-                    for (int imageNumber = 1; imageNumber <= 17; imageNumber++)
+                    for (int firstAidNumber = 1;
+                        firstAidNumber <= 17;
+                        firstAidNumber++)
                       ClickableLabeledImage(
-                        img: getFirstAidTipImage(imageNumber),
-                        label: 'firstAidTips$imageNumber'.tr,
+                        img: getFirstAidTipImage(firstAidNumber),
+                        label: 'firstAidTips$firstAidNumber'.tr,
                         onPressed: () {
                           Get.to(
                             FirstAidTipsDetailsPage(
                               imgPath: getFirstAidDetailsPath(
                                 AppInit.currentDeviceLanguage,
-                                imageNumber,
+                                firstAidNumber,
                               ),
                             ),
                           );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
+import '../../../general/common_widgets/back_button.dart';
 
 class FirstAidTipsDetailsPage extends StatelessWidget {
   const FirstAidTipsDetailsPage({Key? key, required this.imgPath})
@@ -13,13 +14,7 @@ class FirstAidTipsDetailsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back_ios),
-                  onPressed: () => Get.back(),
-                ),
-              ),
+              const RegularBackButton(),
               Image(
                 image: AssetImage(
                   imgPath,

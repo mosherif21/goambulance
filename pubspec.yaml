@@ -75,6 +75,8 @@ dependencies:
   carousel_slider: ^4.2.1
   auto_size_text: ^3.0.0
   flutter_phone_direct_caller: ^2.1.1
+  crea_radio_button: ^0.6.0
+  syncfusion_flutter_datepicker: ^21.1.37
 
   #state management dependencies
   get: ^4.6.5

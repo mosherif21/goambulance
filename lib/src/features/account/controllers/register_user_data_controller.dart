@@ -1,15 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
+
+enum Gender {
+  male,
+  female,
+}
 
 class RegisterUserDataController extends GetxController {
   static RegisterUserDataController get instance => Get.find();
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
-  final genderTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
+  final birthDateController = DateRangePickerController();
+  String gender = '';
 
   @override
   void onInit() {

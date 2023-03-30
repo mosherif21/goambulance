@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_access.dart';
@@ -63,6 +64,7 @@ Future<void> logout() async {
   showLoadingScreen();
   await AuthenticationRepository.instance.logoutUser();
   await FirebaseDataAccess.instance.logoutFirebase();
+  if (kDebugMode) print('signing out');
   Get.offAll(() => const AuthenticationScreen());
   hideLoadingScreen();
 }

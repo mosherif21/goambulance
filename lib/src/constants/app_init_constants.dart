@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
+import '../features/account/components/newAccount/register_user_data_page.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
@@ -49,8 +49,8 @@ class AppInit {
   static InternetConnectionStatus initialInternetConnectionStatus =
       InternetConnectionStatus.disconnected;
   static Transition transition = Transition.leftToRightWithFade;
-  // ignore: prefer_typing_uninitialized_variables
-  static late final notificationToken;
+  // // ignore: prefer_typing_uninitialized_variables
+  // static late final notificationToken;
 
   static final currentAuthType = AuthType.emailLogin.obs;
 
@@ -113,7 +113,7 @@ class AppInit {
       }
       if (kDebugMode) print('Firebase initialized');
       if (!isWeb) {
-        notificationToken = await FirebaseMessaging.instance.getToken();
+        // notificationToken = await FirebaseMessaging.instance.getToken();
       }
       await initializeNotification();
       Get.put(AuthenticationRepository(), permanent: true);
@@ -158,15 +158,25 @@ class AppInit {
   }
 
   static Future<void> goToInitialPage() async {
-    AuthenticationRepository.instance.isUserLoggedIn
-        ? await Get.offAll(
-            () => const HomeScreen(),
-            transition: Transition.circularReveal,
-          )
-        : await Get.offAll(
-            () => const IntroScreen(),
-            transition: Transition.circularReveal,
-          );
+    final authRepo = AuthenticationRepository.instance;
+    if (AuthenticationRepository.instance.isUserLoggedIn) {
+      await AuthenticationRepository.instance.userInit().whenComplete(() {
+        authRepo.isUserRegistered
+            ? Get.offAll(
+                () => const HomeScreen(),
+                transition: Transition.circularReveal,
+              )
+            : Get.offAll(
+                () => const RegisterUserDataPage(),
+                transition: Transition.circularReveal,
+              );
+      });
+    } else {
+      await Get.offAll(
+        () => const IntroScreen(),
+        transition: Transition.circularReveal,
+      );
+    }
   }
 
   static Widget? getInitialPage() {

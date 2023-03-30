@@ -1,10 +1,14 @@
+import 'package:crea_radio_button/crea_radio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 import 'package:goambulance/src/general/common_functions.dart';
+import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../../firebase_files/firebase_access.dart';
 
@@ -15,51 +19,94 @@ class RegisterUserDataPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(FirebaseDataAccess());
     final controller = Get.put(RegisterUserDataController());
-    final screenHeight = getScreenHeight(context);
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: screenHeight * 0.02),
-              Text(
-                'enterYourInfo'.tr,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                ),
+    //final screenHeight = getScreenHeight(context);
+    return WillPopScope(
+      onWillPop: () async {
+        await logout();
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                top: 10.0, left: 20.0, right: 20.0, bottom: 20.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomBackButton(onPressed: () async => await logout()),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    'enterYourInfo'.tr,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextHeader(headerText: 'enterFullName'.tr, fontSize: 18),
+                  TextFormFieldRegular(
+                    labelText: 'fullName'.tr,
+                    hintText: 'enterFullName'.tr,
+                    prefixIconData: Icons.person,
+                    textController: controller.nameTextController,
+                    inputType: InputType.text,
+                    editable: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextHeader(headerText: 'emailHintLabel'.tr, fontSize: 18),
+                  TextFormFieldRegular(
+                    labelText: 'emailLabel'.tr,
+                    hintText: 'emailHintLabel'.tr,
+                    prefixIconData: Icons.email,
+                    textController: controller.emailTextController,
+                    inputType: InputType.text,
+                    editable: controller.emailTextController.text.isNotEmpty
+                        ? false
+                        : true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextHeader(headerText: 'enterNationalId'.tr, fontSize: 18),
+                  TextFormFieldRegular(
+                    labelText: 'nationalId'.tr,
+                    hintText: 'enterNationalId'.tr,
+                    prefixIconData: Icons.email,
+                    textController: controller.nationalIdTextController,
+                    inputType: InputType.text,
+                    editable: true,
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextHeader(headerText: 'enterGender'.tr, fontSize: 18),
+                  RadioButtonGroup(
+                    buttonHeight: 40,
+                    buttonWidth: 140,
+                    circular: true,
+                    mainColor: Colors.grey,
+                    selectedColor: kDefaultColorLessShade,
+                    unselectEnabled: true,
+                    options: [
+                      RadioOption(Gender.male, 'male'.tr),
+                      RadioOption(Gender.female, 'female'.tr),
+                    ],
+                    callback: (RadioOption radioValue) => controller.gender =
+                        radioValue.value == Gender.male ? 'male' : 'female',
+                  ),
+                  const SizedBox(height: 10.0),
+                  TextHeader(headerText: 'enterBirthDate'.tr, fontSize: 18),
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: kDefaultColorLessShade,
+                      borderRadius: BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                    padding: const EdgeInsets.all(10.0),
+                    child: SfDateRangePicker(
+                      controller: controller.birthDateController,
+                      selectionMode: DateRangePickerSelectionMode.single,
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 10.0),
-              TextHeader(headerText: 'enterFullName'.tr, fontSize: 15),
-              TextFormFieldRegular(
-                labelText: 'fullName'.tr,
-                hintText: 'enterFullName'.tr,
-                prefixIconData: Icons.person,
-                textController: controller.nameTextController,
-                inputType: InputType.text,
-                editable: true,
-              ),
-              const SizedBox(height: 10.0),
-              TextHeader(headerText: 'emailHintLabel'.tr, fontSize: 15),
-              TextFormFieldRegular(
-                labelText: 'emailLabel'.tr,
-                hintText: 'emailHintLabel'.tr,
-                prefixIconData: Icons.email,
-                textController: controller.emailTextController,
-                inputType: InputType.text,
-                editable: controller.emailTextController.text.isNotEmpty
-                    ? false
-                    : true,
-              ),
-              // RegularElevatedButton(
-              //   buttonText: 'logout'.tr,
-              //   onPressed: () async => logout(),
-              //   enabled: true,
-              //   color: Colors.black,
-              // ),
-            ],
+            ),
           ),
         ),
       ),

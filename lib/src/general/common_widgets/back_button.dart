@@ -12,3 +12,15 @@ class RegularBackButton extends StatelessWidget {
     );
   }
 }
+
+class CustomBackButton extends StatelessWidget {
+  const CustomBackButton({Key? key, required this.onPressed}) : super(key: key);
+  final Function onPressed;
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.arrow_back_ios),
+      onPressed: () => onPressed(),
+    );
+  }
+}

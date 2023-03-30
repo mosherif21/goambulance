@@ -44,10 +44,10 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> userInit() async {
-    getIfUserRegistered();
+    await getIfUserRegistered();
   }
 
-  void getIfUserRegistered() async {
+  Future<void> getIfUserRegistered() async {
     if (kDebugMode) print('user id: ${fireUser.value?.uid}');
     isUserRegistered = false;
   }

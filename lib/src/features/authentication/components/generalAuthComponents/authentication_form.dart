@@ -41,8 +41,9 @@ class AuthenticationForm extends StatelessWidget {
                       AuthType.emailLogin
                   ? await Get.delete<LoginController>().whenComplete(() =>
                       AppInit.currentAuthType.value = AuthType.emailRegister)
-                  : await Get.delete<RegisterController>().whenComplete(() =>
-                      AppInit.currentAuthType.value = AuthType.emailLogin),
+                  : await Get.delete<EmailRegisterController>().whenComplete(
+                      () =>
+                          AppInit.currentAuthType.value = AuthType.emailLogin),
             ),
           ),
         ],

@@ -23,9 +23,9 @@ class IntroScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     ConnectivityChecker.checkConnection(displayAlert: false);
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.only(
                 top: 15.0,

@@ -12,7 +12,7 @@ class EmailRegisterForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(RegisterController());
+    final controller = Get.put(EmailRegisterController());
     return Form(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

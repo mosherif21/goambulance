@@ -13,10 +13,10 @@ class EmergencyNumbersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
-        body: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      body: SafeArea(
+        child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.only(
                 top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),

@@ -10,10 +10,10 @@ class NotInternetErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final height = getScreenHeight(context);
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Container(
           padding: const EdgeInsets.all(kDefaultPaddingSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

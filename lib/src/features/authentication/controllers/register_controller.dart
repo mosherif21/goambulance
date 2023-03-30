@@ -4,8 +4,8 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 
 import '../../../general/common_functions.dart';
 
-class RegisterController extends GetxController {
-  static RegisterController get instance => Get.find();
+class EmailRegisterController extends GetxController {
+  static EmailRegisterController get instance => Get.find();
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final passwordConfirmTextController = TextEditingController();

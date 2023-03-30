@@ -20,9 +20,9 @@ class DrawerPage extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: SafeArea(
+      body: SafeArea(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(5.0),

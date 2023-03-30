@@ -255,6 +255,16 @@ class Languages extends Translations {
           'emergencyNumber4': 'Gas emergency',
           'emergencyNumber5': 'Electricity emergency',
           'emergencyNumber6': 'Traffic police',
+          'enterFullName': 'Enter your Full Name',
+          'fullName': 'Full Name',
+          'enterYourInfo':
+              'Please enter your personal information to complete your account',
+          'enterNationalId': 'Please enter your National ID',
+          'nationalId': 'National ID',
+          'enterBirthDate': 'Please enter your Birth Date',
+          'birthDate': 'Birth Date',
+          'enterGender': 'Please choose your Gender',
+          'enterPhoto': 'Please add your Photo',
         },
       };
 }

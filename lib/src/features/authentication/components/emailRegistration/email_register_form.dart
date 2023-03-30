@@ -23,6 +23,7 @@ class EmailRegisterForm extends StatelessWidget {
             prefixIconData: Icons.email_outlined,
             textController: controller.emailTextController,
             inputType: InputType.email,
+            editable: true,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(

@@ -91,7 +91,7 @@ class HomeDashBoard extends StatelessWidget {
                   enlargeStrategy: CenterPageEnlargeStrategy.height,
                 ),
               ),
-              TextHeader(headerText: 'services'.tr),
+              TextHeader(headerText: 'services'.tr, fontSize: 24),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(

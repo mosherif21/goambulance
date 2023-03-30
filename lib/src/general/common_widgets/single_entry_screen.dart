@@ -92,6 +92,7 @@ class SingleEntryScreen extends StatelessWidget {
                         prefixIconData: prefixIconData,
                         textController: textController,
                         inputType: inputType,
+                        editable: true,
                       ),
                 const SizedBox(height: 20.0),
                 RegularElevatedButton(

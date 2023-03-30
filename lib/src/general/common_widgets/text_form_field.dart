@@ -9,17 +9,20 @@ class TextFormFieldRegular extends StatelessWidget {
     required this.prefixIconData,
     required this.textController,
     required this.inputType,
+    required this.editable,
   }) : super(key: key);
   final String labelText;
   final String hintText;
   final IconData prefixIconData;
   final TextEditingController textController;
   final InputType inputType;
+  final bool editable;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: TextFormField(
+        enabled: editable,
         controller: textController,
         keyboardType: inputType == InputType.email
             ? TextInputType.emailAddress

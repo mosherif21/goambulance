@@ -259,11 +259,11 @@ class Languages extends Translations {
           'fullName': 'Full Name',
           'enterYourInfo':
               'Please enter your personal information to complete your account',
-          'enterNationalId': 'Please enter your National ID',
+          'enterNationalId': 'Enter your National ID',
           'nationalId': 'National ID',
-          'enterBirthDate': 'Please enter your Birth Date',
+          'enterBirthDate': 'Enter your Birth Date',
           'birthDate': 'Birth Date',
-          'enterGender': 'Please choose your Gender',
+          'enterGender': 'Choose your Gender',
           'enterPhoto': 'Please add your Photo',
         },
       };

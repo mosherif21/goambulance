@@ -4,6 +4,7 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
+import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
 import '../../../../../firebase_files/firebase_access.dart';
 
@@ -30,29 +31,27 @@ class RegisterUserDataPage extends StatelessWidget {
                   fontWeight: FontWeight.w800,
                 ),
               ),
-              SizedBox(height: screenHeight * 0.03),
+              const SizedBox(height: 10.0),
+              TextHeader(headerText: 'enterFullName'.tr, fontSize: 15),
               TextFormFieldRegular(
                 labelText: 'fullName'.tr,
                 hintText: 'enterFullName'.tr,
                 prefixIconData: Icons.person,
                 textController: controller.nameTextController,
                 inputType: InputType.text,
+                editable: true,
               ),
-              SizedBox(height: screenHeight * 0.03),
+              const SizedBox(height: 10.0),
+              TextHeader(headerText: 'emailHintLabel'.tr, fontSize: 15),
               TextFormFieldRegular(
-                labelText: '',
-                hintText: '',
-                prefixIconData: Icons.person,
-                textController: controller.nameTextController,
+                labelText: 'emailLabel'.tr,
+                hintText: 'emailHintLabel'.tr,
+                prefixIconData: Icons.email,
+                textController: controller.emailTextController,
                 inputType: InputType.text,
-              ),
-              SizedBox(height: screenHeight * 0.03),
-              TextFormFieldRegular(
-                labelText: '',
-                hintText: '',
-                prefixIconData: Icons.person,
-                textController: controller.nameTextController,
-                inputType: InputType.text,
+                editable: controller.emailTextController.text.isNotEmpty
+                    ? false
+                    : true,
               ),
               // RegularElevatedButton(
               //   buttonText: 'logout'.tr,

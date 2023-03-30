@@ -143,7 +143,7 @@ class Languages extends Translations {
           'enterGender': 'اختر جنسك',
           'enterPhoto': 'الرجاء إضافة صورتك الشخصية',
           'male': 'ذكر',
-          'female': 'انثى',
+          'female': 'عافية ذوق',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',

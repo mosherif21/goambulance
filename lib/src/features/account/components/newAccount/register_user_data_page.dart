@@ -1,5 +1,6 @@
 import 'package:crea_radio_button/crea_radio_button.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/colors.dart';
@@ -34,7 +35,10 @@ class RegisterUserDataPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomBackButton(onPressed: () async => await logout()),
+                  CustomBackButton(
+                    onPressed: () async => await logout(),
+                    buttonText: 'logout'.tr,
+                  ),
                   const SizedBox(height: 10.0),
                   Text(
                     'enterYourInfo'.tr,
@@ -70,7 +74,7 @@ class RegisterUserDataPage extends StatelessWidget {
                   TextFormFieldRegular(
                     labelText: 'nationalId'.tr,
                     hintText: 'enterNationalId'.tr,
-                    prefixIconData: Icons.email,
+                    prefixIconData: FontAwesomeIcons.idCard,
                     textController: controller.nationalIdTextController,
                     inputType: InputType.text,
                     editable: true,

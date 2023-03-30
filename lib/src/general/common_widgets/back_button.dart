@@ -14,13 +14,28 @@ class RegularBackButton extends StatelessWidget {
 }
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({Key? key, required this.onPressed}) : super(key: key);
+  const CustomBackButton(
+      {Key? key, required this.onPressed, required this.buttonText})
+      : super(key: key);
   final Function onPressed;
+  final String buttonText;
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back_ios),
-      onPressed: () => onPressed(),
+    return Row(
+      children: [
+        IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => onPressed(),
+        ),
+        Text(
+          buttonText,
+          style: const TextStyle(
+            color: Colors.black87,
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ],
     );
   }
 }

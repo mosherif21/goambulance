@@ -4,14 +4,17 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/colors.dart';
+import 'package:goambulance/src/features/account/components/newAccount/profile_photo_select.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
+import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../../firebase_files/firebase_access.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
   const RegisterUserDataPage({Key? key}) : super(key: key);
@@ -107,6 +110,19 @@ class RegisterUserDataPage extends StatelessWidget {
                       controller: controller.birthDateController,
                       selectionMode: DateRangePickerSelectionMode.single,
                     ),
+                  ),
+                  TextHeader(headerText: 'enterPhoto'.tr, fontSize: 18),
+                  RegularElevatedButton(
+                    buttonText: 'addPhoto'.tr,
+                    onPressed: () => RegularBottomSheet.showRegularBottomSheet(
+                      ProfilePhotoSelect(
+                        onCapturePhotoPress: () =>
+                            controller.captureProfilePic(),
+                        onChoosePhotoPress: () => controller.pickProfilePic(),
+                      ),
+                    ),
+                    enabled: true,
+                    color: Colors.black,
                   ),
                 ],
               ),

@@ -18,6 +18,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../../firebase_files/firebase_access.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
+import 'id_photo_select.dart';
 import 'medical_history_insert_page.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
@@ -27,6 +28,7 @@ class RegisterUserDataPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(FirebaseDataAccess());
     final controller = Get.put(RegisterUserDataController());
+
     //final screenHeight = getScreenHeight(context);
     return WillPopScope(
       onWillPop: () async {
@@ -221,9 +223,9 @@ class RegisterUserDataPage extends StatelessWidget {
                                           : 'changeNationalID'.tr,
                                   onPressed: () =>
                                       RegularBottomSheet.showRegularBottomSheet(
-                                    ProfilePhotoSelect(
-                                      onCapturePhotoPress: () =>
-                                          controller.captureProfilePic(),
+                                    IDPhotoSelect(
+                                      onCaptureIDPress: () =>
+                                          controller.captureIDPic(),
                                       onChoosePhotoPress: () =>
                                           controller.pickProfilePic(),
                                     ),

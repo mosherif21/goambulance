@@ -1,3 +1,4 @@
+import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,7 +22,10 @@ class RegisterUserDataController extends GetxController {
   final picker = ImagePicker();
   String gender = '';
   late Rx<XFile?> profileImage = XFile('').obs;
+  late Rx<XFile?> iDImage = XFile('').obs;
+
   RxBool isProfileImageAdded = false.obs;
+  RxBool isIDImageAdded = false.obs;
 
   @override
   void onInit() async {
@@ -48,6 +52,14 @@ class RegisterUserDataController extends GetxController {
     if (addedImage != null) {
       isProfileImageAdded.value = true;
       profileImage.value = addedImage;
+    }
+  }
+  Future<void> captureIDPic() async {
+    RegularBottomSheet.hideBottomSheet();
+    final imagesPath = await CunningDocumentScanner.getPictures();
+    if (imagesPath != null) {
+      isIDImageAdded.value = true;
+      iDImage.value = await picker.pickImage(source:ImageSource.values[imagesPath as int]);
     }
   }
 }

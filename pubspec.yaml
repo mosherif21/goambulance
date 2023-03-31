@@ -81,6 +81,7 @@ dependencies:
   cross_file_image: ^1.0.0
   adaptive_dialog: ^1.8.3
   material_dialogs: ^1.1.4
+  cunning_document_scanner: ^1.1.2
 
   #state management dependencies
   get: ^4.6.5

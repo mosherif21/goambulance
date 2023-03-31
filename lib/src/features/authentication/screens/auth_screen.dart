@@ -31,6 +31,7 @@ class AuthenticationScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Container(
               padding: const EdgeInsets.only(
                   top: 15.0,

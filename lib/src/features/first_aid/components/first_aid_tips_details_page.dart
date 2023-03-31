@@ -10,18 +10,20 @@ class FirstAidTipsDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const RegularBackButton(),
-              Image(
-                image: AssetImage(
-                  imgPath,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const RegularBackButton(padding: 10),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Image(
+                  image: AssetImage(
+                    imgPath,
+                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

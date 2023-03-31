@@ -19,10 +19,11 @@ class RegisterUserDataController extends GetxController {
   final birthDateController = DateRangePickerController();
   final picker = ImagePicker();
   String gender = '';
-  late final XFile? image;
+  late Rx<XFile?> image = XFile('').obs;
+  RxBool isProfileImageAdded = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
     final user = AuthenticationRepository.instance.fireUser.value;
     final userEmail = user?.email ?? '';
@@ -32,10 +33,20 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> pickProfilePic() async {
-    image = await picker.pickImage(source: ImageSource.gallery);
+    Get.back();
+    final addedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (addedImage != null) {
+      isProfileImageAdded.value = true;
+      image.value = addedImage;
+    }
   }
 
   Future<void> captureProfilePic() async {
-    image = await picker.pickImage(source: ImageSource.camera);
+    Get.back();
+    final addedImage = await picker.pickImage(source: ImageSource.camera);
+    if (addedImage != null) {
+      isProfileImageAdded.value = true;
+      image.value = addedImage;
+    }
   }
 }

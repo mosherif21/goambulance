@@ -16,37 +16,40 @@ class EmergencyNumbersScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.only(
-                top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const RegularBackButton(),
-                Text(
-                  'emergencyNumbers'.tr,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w800,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+              top: 5.0, bottom: 20.0, left: 20.0, right: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const RegularBackButton(padding: 0),
+              Text(
+                'emergencyNumbers'.tr,
+                style: const TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.w800,
                 ),
-                SizedBox(height: screenHeight * 0.02),
-                for (int emergencyNumber = 1;
-                    emergencyNumber <= 6;
-                    emergencyNumber++)
-                  RegularClickableCard(
-                    onPressed: () async =>
-                        await FlutterPhoneDirectCaller.callNumber(
-                            emergencyNumbers[emergencyNumber - 1]),
-                    title: 'emergencyNumber$emergencyNumber'.tr,
-                    subTitle: emergencyNumbers[emergencyNumber - 1],
-                    icon: Icons.call,
-                    iconColor: Colors.green,
-                    imgPath: getEmergencyNumberImage(emergencyNumber),
-                  ),
-              ],
-            ),
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              Expanded(
+                child: ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemBuilder: (BuildContext context, int emergencyNumber) {
+                    return RegularClickableCard(
+                      onPressed: () async =>
+                          await FlutterPhoneDirectCaller.callNumber(
+                              emergencyNumbers[emergencyNumber]),
+                      title: 'emergencyNumber${emergencyNumber + 1}'.tr,
+                      subTitle: emergencyNumbers[emergencyNumber],
+                      icon: Icons.call,
+                      iconColor: Colors.green,
+                      imgPath: getEmergencyNumberImage(emergencyNumber + 1),
+                    );
+                  },
+                  itemCount: 6,
+                ),
+              ),
+            ],
           ),
         ),
       ),

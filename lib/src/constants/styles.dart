@@ -36,3 +36,11 @@ ButtonStyle kElevatedButtonRegularStyle = ElevatedButton.styleFrom(
   backgroundColor: Colors.black,
   foregroundColor: Colors.white,
 );
+
+class NoPhysicsScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
+  }
+}

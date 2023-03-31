@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegularBackButton extends StatelessWidget {
-  const RegularBackButton({Key? key}) : super(key: key);
-
+  const RegularBackButton({Key? key, required this.padding}) : super(key: key);
+  final double padding;
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.arrow_back_ios),
-      onPressed: () => Get.back(),
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: IconButton(
+        icon: const Icon(Icons.arrow_back_ios),
+        onPressed: () => Get.back(),
+      ),
     );
   }
 }

@@ -78,6 +78,7 @@ dependencies:
   crea_radio_button: ^0.6.0
   syncfusion_flutter_datepicker: ^21.1.37
   image_picker: ^0.8.7+1
+  cross_file_image: ^1.0.0
 
   #state management dependencies
   get: ^4.6.5

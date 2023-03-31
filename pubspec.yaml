@@ -79,6 +79,8 @@ dependencies:
   syncfusion_flutter_datepicker: ^21.1.37
   image_picker: ^0.8.7+1
   cross_file_image: ^1.0.0
+  adaptive_dialog: ^1.8.3
+  material_dialogs: ^1.1.4
 
   #state management dependencies
   get: ^4.6.5

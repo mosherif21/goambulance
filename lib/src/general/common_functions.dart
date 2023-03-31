@@ -2,7 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_access.dart';
+import 'package:goambulance/src/constants/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:material_dialogs/dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
@@ -61,12 +65,35 @@ void showSimpleSnackBar({
 }
 
 Future<void> logout() async {
-  showLoadingScreen();
-  await AuthenticationRepository.instance.logoutUser();
-  await FirebaseDataAccess.instance.logoutFirebase();
-  if (kDebugMode) print('signing out');
-  Get.offAll(() => const AuthenticationScreen());
-  hideLoadingScreen();
+  Dialogs.materialDialog(
+      msg: 'logoutConfirm'.tr,
+      title: 'logout'.tr,
+      color: Colors.white,
+      context: Get.context!,
+      actions: [
+        IconsButton(
+          onPressed: () async {
+            showLoadingScreen();
+            await AuthenticationRepository.instance.logoutUser();
+            await FirebaseDataAccess.instance.logoutFirebase();
+            if (kDebugMode) print('signing out');
+            Get.offAll(() => const AuthenticationScreen());
+            hideLoadingScreen();
+          },
+          text: 'yes'.tr,
+          iconData: Icons.logout,
+          color: kDefaultColor,
+          textStyle: const TextStyle(color: Colors.white),
+          iconColor: Colors.white,
+        ),
+        IconsOutlineButton(
+          onPressed: () => Get.back(),
+          text: 'no'.tr,
+          iconData: Icons.cancel_outlined,
+          textStyle: const TextStyle(color: Colors.grey),
+          iconColor: Colors.grey,
+        ),
+      ]);
 }
 
 Future<void> displayChangeLang() async =>

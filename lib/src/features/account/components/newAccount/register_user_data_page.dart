@@ -8,6 +8,7 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/components/newAccount/profile_photo_select.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
+import 'package:goambulance/src/features/home_screen/screens/home_screen.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
@@ -33,7 +34,7 @@ class RegisterUserDataPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Colors.grey.shade100,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(
@@ -232,6 +233,15 @@ class RegisterUserDataPage extends StatelessWidget {
                                 ),
                               ),
                             ],
+                          ),
+                        ),
+                        RegularCard(
+                          child: RegularElevatedButton(
+                            buttonText: 'continue'.tr,
+                            onPressed: () =>
+                                Get.offAll(() => const HomeScreen()),
+                            enabled: true,
+                            color: kDefaultColor,
                           ),
                         ),
                       ],

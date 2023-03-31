@@ -90,6 +90,7 @@ class Languages extends Translations {
           'passwordNotMatch': 'كلمات المرور غير متطابقة',
           'lang': 'اللغة',
           'logout': 'تسجيل الخروج',
+          'logoutConfirm': 'هل تريد تسجيل الخروج؟',
           'qrCode': 'رمز الاستجابة السريع',
           'qrCodeEnter': 'اضف عن طريق رمز الاستجابة السريع',
           'normalRequest': 'طلب عادى',
@@ -154,6 +155,8 @@ class Languages extends Translations {
           'capturePhoto': 'التقط صورة',
           'pick': 'اختر',
           'capture': 'التقط',
+          'yes': 'نعم',
+          'no': 'لا',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -231,6 +234,7 @@ class Languages extends Translations {
           'passwordNotMatch': 'Passwords doesn\'t match',
           'lang': 'Language',
           'logout': 'Logout',
+          'logoutConfirm': 'Are you sure you want to logout?',
           'qrCode': 'Qr code',
           'qrCodeEnter': 'Add using qr code',
           'normalRequest': 'Normal Request',
@@ -298,6 +302,8 @@ class Languages extends Translations {
           'capturePhoto': 'Capture a photo',
           'pick': 'Pick',
           'capture': 'Capture',
+          'yes': 'Yes',
+          'no': 'No',
         },
       };
 }

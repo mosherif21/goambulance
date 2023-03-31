@@ -8,7 +8,6 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/components/newAccount/profile_photo_select.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
-import 'package:goambulance/src/features/home_screen/screens/home_screen.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
@@ -19,6 +18,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../../firebase_files/firebase_access.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
+import 'medical_history_insert_page.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
   const RegisterUserDataPage({Key? key}) : super(key: key);
@@ -238,8 +238,9 @@ class RegisterUserDataPage extends StatelessWidget {
                         RegularCard(
                           child: RegularElevatedButton(
                             buttonText: 'continue'.tr,
-                            onPressed: () =>
-                                Get.offAll(() => const HomeScreen()),
+                            onPressed: () => Get.to(
+                                () => const MedicalHistoryInsertPage(),
+                                transition: AppInit.getPageTransition()),
                             enabled: true,
                             color: kDefaultColor,
                           ),

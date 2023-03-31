@@ -157,6 +157,7 @@ class Languages extends Translations {
           'capture': 'التقط',
           'yes': 'نعم',
           'no': 'لا',
+          'enterMedicalHistory': 'يرجى إدخال سجلك الطبي لإكمال انشاء حسابك',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -304,6 +305,8 @@ class Languages extends Translations {
           'capture': 'Capture',
           'yes': 'Yes',
           'no': 'No',
+          'enterMedicalHistory':
+              'Please enter your Medical History to complete your account registration',
         },
       };
 }

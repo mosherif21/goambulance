@@ -20,7 +20,7 @@ class RegisterUserDataController extends GetxController {
   final birthDateController = DateRangePickerController();
   final picker = ImagePicker();
   String gender = '';
-  late Rx<XFile?> image = XFile('').obs;
+  late Rx<XFile?> profileImage = XFile('').obs;
   RxBool isProfileImageAdded = false.obs;
 
   @override
@@ -38,7 +38,7 @@ class RegisterUserDataController extends GetxController {
     final addedImage = await picker.pickImage(source: ImageSource.gallery);
     if (addedImage != null) {
       isProfileImageAdded.value = true;
-      image.value = addedImage;
+      profileImage.value = addedImage;
     }
   }
 
@@ -47,7 +47,7 @@ class RegisterUserDataController extends GetxController {
     final addedImage = await picker.pickImage(source: ImageSource.camera);
     if (addedImage != null) {
       isProfileImageAdded.value = true;
-      image.value = addedImage;
+      profileImage.value = addedImage;
     }
   }
 }

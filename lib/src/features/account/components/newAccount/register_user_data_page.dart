@@ -17,6 +17,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../../firebase_files/firebase_access.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../../general/common_widgets/regular_card.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
   const RegisterUserDataPage({Key? key}) : super(key: key);
@@ -32,6 +33,7 @@ class RegisterUserDataPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(
@@ -59,103 +61,178 @@ class RegisterUserDataPage extends StatelessWidget {
                           maxLines: 2,
                         ),
                         const SizedBox(height: 10.0),
-                        TextHeader(
-                            headerText: 'enterFullName'.tr, fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'fullName'.tr,
-                          hintText: 'enterFullName'.tr,
-                          prefixIconData: Icons.person,
-                          textController: controller.nameTextController,
-                          inputType: InputType.text,
-                          editable: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        TextHeader(
-                            headerText: 'emailHintLabel'.tr, fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'emailLabel'.tr,
-                          hintText: 'emailHintLabel'.tr,
-                          prefixIconData: Icons.email,
-                          textController: controller.emailTextController,
-                          inputType: InputType.text,
-                          editable:
-                              controller.emailTextController.text.isNotEmpty
-                                  ? false
-                                  : true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        TextHeader(
-                            headerText: 'enterNationalId'.tr, fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'nationalId'.tr,
-                          hintText: 'enterNationalId'.tr,
-                          prefixIconData: FontAwesomeIcons.idCard,
-                          textController: controller.nationalIdTextController,
-                          inputType: InputType.text,
-                          editable: true,
-                        ),
-                        const SizedBox(height: 10.0),
-                        TextHeader(headerText: 'enterGender'.tr, fontSize: 18),
-                        RadioButtonGroup(
-                          buttonHeight: 40,
-                          buttonWidth: 140,
-                          circular: true,
-                          mainColor: Colors.grey,
-                          selectedColor: kDefaultColorLessShade,
-                          unselectEnabled: true,
-                          options: [
-                            RadioOption(Gender.male, 'male'.tr),
-                            RadioOption(Gender.female, 'female'.tr),
-                          ],
-                          callback: (RadioOption radioValue) =>
-                              controller.gender =
-                                  radioValue.value == Gender.male
-                                      ? 'male'
-                                      : 'female',
-                        ),
-                        const SizedBox(height: 10.0),
-                        TextHeader(
-                            headerText: 'enterBirthDate'.tr, fontSize: 18),
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: kDefaultColorLessShade,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          padding: const EdgeInsets.all(10.0),
-                          child: SfDateRangePicker(
-                            controller: controller.birthDateController,
-                            selectionMode: DateRangePickerSelectionMode.single,
-                          ),
-                        ),
-                        TextHeader(headerText: 'enterPhoto'.tr, fontSize: 18),
-                        Obx(() => controller.isProfileImageAdded.value
-                            ? Center(
-                                child: CircleAvatar(
-                                    radius: 80,
-                                    backgroundImage:
-                                        XFileImage(controller.image.value!)),
-                              )
-                            : const SizedBox()),
-                        const SizedBox(height: 10.0),
-                        Obx(
-                          () => RegularElevatedButton(
-                            buttonText: controller.isProfileImageAdded.value
-                                ? 'changePhoto'.tr
-                                : 'addPhoto'.tr,
-                            onPressed: () =>
-                                RegularBottomSheet.showRegularBottomSheet(
-                              ProfilePhotoSelect(
-                                onCapturePhotoPress: () =>
-                                    controller.captureProfilePic(),
-                                onChoosePhotoPress: () =>
-                                    controller.pickProfilePic(),
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'enterFullName'.tr, fontSize: 18),
+                              TextFormFieldRegular(
+                                labelText: 'fullName'.tr,
+                                hintText: 'enterFullName'.tr,
+                                prefixIconData: Icons.person,
+                                textController: controller.nameTextController,
+                                inputType: InputType.text,
+                                editable: true,
                               ),
-                            ),
-                            enabled: true,
-                            color: kDefaultColor,
+                            ],
                           ),
-                        )
+                        ),
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'emailHintLabel'.tr,
+                                  fontSize: 18),
+                              TextFormFieldRegular(
+                                labelText: 'emailLabel'.tr,
+                                hintText: 'emailHintLabel'.tr,
+                                prefixIconData: Icons.email,
+                                textController: controller.emailTextController,
+                                inputType: InputType.text,
+                                editable: controller
+                                        .emailTextController.text.isNotEmpty
+                                    ? false
+                                    : true,
+                              ),
+                            ],
+                          ),
+                        ),
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'enterNationalId'.tr,
+                                  fontSize: 18),
+                              TextFormFieldRegular(
+                                labelText: 'nationalId'.tr,
+                                hintText: 'enterNationalId'.tr,
+                                prefixIconData: FontAwesomeIcons.idCard,
+                                textController:
+                                    controller.nationalIdTextController,
+                                inputType: InputType.text,
+                                editable: true,
+                              ),
+                            ],
+                          ),
+                        ),
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'enterGender'.tr, fontSize: 18),
+                              RadioButtonGroup(
+                                buttonHeight: 40,
+                                buttonWidth: 115,
+                                circular: true,
+                                mainColor: Colors.grey,
+                                selectedColor: kDefaultColorLessShade,
+                                unselectEnabled: true,
+                                options: [
+                                  RadioOption(Gender.male, 'male'.tr),
+                                  RadioOption(Gender.female, 'female'.tr),
+                                ],
+                                callback: (RadioOption radioValue) =>
+                                    controller.gender =
+                                        radioValue.value == Gender.male
+                                            ? 'male'
+                                            : 'female',
+                              ),
+                            ],
+                          ),
+                        ),
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'enterBirthDate'.tr,
+                                  fontSize: 18),
+                              Container(
+                                decoration: const BoxDecoration(
+                                  color: kDefaultColorLessShade,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(20.0)),
+                                ),
+                                padding: const EdgeInsets.all(10.0),
+                                child: SfDateRangePicker(
+                                  controller: controller.birthDateController,
+                                  selectionMode:
+                                      DateRangePickerSelectionMode.single,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'enterPhoto'.tr, fontSize: 18),
+                              Obx(() => controller.isProfileImageAdded.value
+                                  ? Center(
+                                      child: CircleAvatar(
+                                          radius: 80,
+                                          backgroundImage: XFileImage(
+                                              controller.profileImage.value!)),
+                                    )
+                                  : const SizedBox()),
+                              const SizedBox(height: 10.0),
+                              Obx(
+                                () => RegularElevatedButton(
+                                  buttonText:
+                                      controller.isProfileImageAdded.value
+                                          ? 'changePhoto'.tr
+                                          : 'addPhoto'.tr,
+                                  onPressed: () =>
+                                      RegularBottomSheet.showRegularBottomSheet(
+                                    ProfilePhotoSelect(
+                                      onCapturePhotoPress: () =>
+                                          controller.captureProfilePic(),
+                                      onChoosePhotoPress: () =>
+                                          controller.pickProfilePic(),
+                                    ),
+                                  ),
+                                  enabled: true,
+                                  color: kDefaultColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'enterNationalIDPhoto'.tr,
+                                  fontSize: 18),
+                              Obx(
+                                () => RegularElevatedButton(
+                                  buttonText:
+                                      controller.isProfileImageAdded.value
+                                          ? 'addNationalID'.tr
+                                          : 'changeNationalID'.tr,
+                                  onPressed: () =>
+                                      RegularBottomSheet.showRegularBottomSheet(
+                                    ProfilePhotoSelect(
+                                      onCapturePhotoPress: () =>
+                                          controller.captureProfilePic(),
+                                      onChoosePhotoPress: () =>
+                                          controller.pickProfilePic(),
+                                    ),
+                                  ),
+                                  enabled: true,
+                                  color: kDefaultColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),

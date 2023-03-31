@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/authentication/controllers/otp_verification_controller.dart';
@@ -69,13 +70,15 @@ class SingleEntryScreen extends StatelessWidget {
                         fit: BoxFit.contain,
                         height: screenHeight * 0.4,
                       ),
-                      Text(
+                      AutoSizeText(
                         title,
                         style: GoogleFonts.montserrat(
                           color: Colors.black,
                           fontSize: AppInit.notWebMobile ? 25 : 14,
                           fontWeight: FontWeight.w700,
                         ),
+                        maxLines: 2,
+                        minFontSize: 10,
                       ),
                       const SizedBox(
                         height: 20.0,

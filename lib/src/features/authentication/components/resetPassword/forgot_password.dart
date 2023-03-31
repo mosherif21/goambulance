@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/authentication/components/resetPassword/email_reset_screen.dart';
@@ -17,9 +18,10 @@ class ForgetPasswordLayout extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          AutoSizeText(
             'chooseForgetPasswordMethod'.tr,
             style: Theme.of(context).textTheme.headlineSmall,
+            maxLines: 2,
           ),
           SizedBox(height: screenHeight * 0.02),
           FramedIconButton(

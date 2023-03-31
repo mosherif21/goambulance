@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class TextHeader extends StatelessWidget {
@@ -12,12 +13,14 @@ class TextHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Text(
+      child: AutoSizeText(
         headerText,
         style: TextStyle(
           fontSize: fontSize,
           fontWeight: FontWeight.w600,
         ),
+        maxLines: 1,
+        minFontSize: 14,
       ),
     );
   }

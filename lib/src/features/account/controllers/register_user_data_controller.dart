@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
+import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
 enum Gender {
   male,
@@ -33,7 +34,7 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> pickProfilePic() async {
-    Get.back();
+    RegularBottomSheet.hideBottomSheet();
     final addedImage = await picker.pickImage(source: ImageSource.gallery);
     if (addedImage != null) {
       isProfileImageAdded.value = true;
@@ -42,7 +43,7 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> captureProfilePic() async {
-    Get.back();
+    RegularBottomSheet.hideBottomSheet();
     final addedImage = await picker.pickImage(source: ImageSource.camera);
     if (addedImage != null) {
       isProfileImageAdded.value = true;

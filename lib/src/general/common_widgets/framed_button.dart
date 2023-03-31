@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class FramedIconButton extends StatelessWidget {
@@ -40,19 +41,21 @@ class FramedIconButton extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                AutoSizeText(
                   title,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20.0,
                       fontWeight: FontWeight.w400),
+                  maxLines: 1,
                 ),
-                Text(
+                AutoSizeText(
                   subTitle,
                   style: const TextStyle(
                       color: Colors.black87,
                       fontSize: 12.0,
                       fontWeight: FontWeight.w500),
+                  maxLines: 1,
                 ),
               ],
             )

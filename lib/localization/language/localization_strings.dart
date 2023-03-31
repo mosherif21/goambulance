@@ -137,7 +137,7 @@ class Languages extends Translations {
           'female': 'عافية ذوق',
           'fullName': 'الاسم الكامل',
           'enterFullName': 'أدخل اسمك الكامل',
-          'enterYourInfo': 'الرجاء إدخال بياناتك الشخصية لإكمال حسابك',
+          'enterYourInfo': 'الرجاء إدخال بياناتك الشخصية لإكمال انشاء حسابك',
           'enterNationalId': 'أدخل رقمك القومي',
           'nationalId': 'الرقم القومي',
           'enterBirthDate': 'اختر تاريخ ميلادك',
@@ -149,6 +149,8 @@ class Languages extends Translations {
           'choosePicMethod': 'الرجاء اختيار طريقة اضافة صورتك الشخصية',
           'pickGallery': 'اختر من المعرض',
           'capturePhoto': 'التقط صورة',
+          'pick': 'اختر',
+          'capture': 'التقط',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -276,7 +278,7 @@ class Languages extends Translations {
           'fullName': 'Full Name',
           'enterFullName': 'Enter your Full Name',
           'enterYourInfo':
-              'Please enter your personal information to complete your account',
+              'Please enter your personal information to complete your account registration',
           'enterNationalId': 'Enter your National ID',
           'nationalId': 'National ID',
           'enterBirthDate': 'Choose your Birth Date',
@@ -288,6 +290,8 @@ class Languages extends Translations {
           'choosePicMethod': 'Please choose a method to add your photo',
           'pickGallery': 'Pick from gallery',
           'capturePhoto': 'Capture a photo',
+          'pick': 'Pick',
+          'capture': 'Capture',
         },
       };
 }

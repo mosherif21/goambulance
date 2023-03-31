@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:crea_radio_button/crea_radio_button.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:flutter/material.dart';
@@ -49,12 +50,13 @@ class RegisterUserDataPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        AutoSizeText(
                           'enterYourInfo'.tr,
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
                           ),
+                          maxLines: 2,
                         ),
                         const SizedBox(height: 10.0),
                         TextHeader(
@@ -151,7 +153,7 @@ class RegisterUserDataPage extends StatelessWidget {
                               ),
                             ),
                             enabled: true,
-                            color: Colors.black,
+                            color: kDefaultColor,
                           ),
                         )
                       ],

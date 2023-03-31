@@ -74,11 +74,11 @@ Future<void> displayChangeLang() async =>
       LanguageSelect(
         onEnglishLanguagePress: () async {
           await setLocaleLanguage('en');
-          Get.back();
+          RegularBottomSheet.hideBottomSheet();
         },
         onArabicLanguagePress: () async {
           await setLocaleLanguage('ar');
-          Get.back();
+          RegularBottomSheet.hideBottomSheet();
         },
       ),
     );

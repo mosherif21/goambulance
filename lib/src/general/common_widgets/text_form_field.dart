@@ -26,7 +26,9 @@ class TextFormFieldRegular extends StatelessWidget {
         controller: textController,
         keyboardType: inputType == InputType.email
             ? TextInputType.emailAddress
-            : TextInputType.text,
+            : inputType == InputType.numbers
+                ? TextInputType.number
+                : TextInputType.text,
         decoration: InputDecoration(
           prefixIcon: Icon(
             prefixIconData,

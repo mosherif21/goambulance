@@ -4,14 +4,18 @@ import 'package:goambulance/src/general/common_functions.dart';
 
 import '../../../../general/common_widgets/framed_button.dart';
 
-class IDPhotoSelect extends StatelessWidget {
-  const IDPhotoSelect({
+class PhotoSelect extends StatelessWidget {
+  const PhotoSelect({
     Key? key,
-    required this.onCaptureIDPress,
-    required this.onChoosePhotoPress,
+    required this.onCapturePhotoPress,
+    this.onChoosePhotoPress,
+    required this.headerText,
+    required this.displayGalleryPick,
   }) : super(key: key);
-  final Function onCaptureIDPress;
-  final Function onChoosePhotoPress;
+  final String headerText;
+  final Function onCapturePhotoPress;
+  final Function? onChoosePhotoPress;
+  final bool displayGalleryPick;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
@@ -21,27 +25,28 @@ class IDPhotoSelect extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'choosePicMethod'.tr,
+            headerText,
             style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w700,
                 color: Colors.black87),
           ),
-          const SizedBox(height: 10.0),
-          FramedIconButton(
-            height: screenHeight * 0.11,
-            title: 'pick'.tr,
-            subTitle: 'pickGallery'.tr,
-            iconData: Icons.photo,
-            onPressed: () => onChoosePhotoPress(),
-          ),
+          if (displayGalleryPick) const SizedBox(height: 15.0),
+          if (displayGalleryPick)
+            FramedIconButton(
+              height: screenHeight * 0.11,
+              title: 'pick'.tr,
+              subTitle: 'pickGallery'.tr,
+              iconData: Icons.photo,
+              onPressed: () => onChoosePhotoPress!(),
+            ),
           const SizedBox(height: 10.0),
           FramedIconButton(
             height: screenHeight * 0.11,
             title: 'capture'.tr,
             subTitle: 'capturePhoto'.tr,
             iconData: Icons.camera_alt,
-            onPressed: () => onCaptureIDPress(),
+            onPressed: () => onCapturePhotoPress(),
           ),
         ],
       ),

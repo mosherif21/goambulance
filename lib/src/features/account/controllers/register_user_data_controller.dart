@@ -1,4 +1,5 @@
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
+import 'package:eg_nid/eg_nid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,27 +15,52 @@ enum Gender {
 
 class RegisterUserDataController extends GetxController {
   static RegisterUserDataController get instance => Get.find();
+
+  //controllers
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
   final birthDateController = DateRangePickerController();
-  final picker = ImagePicker();
-  String gender = '';
-  late Rx<XFile?> profileImage = XFile('').obs;
-  late Rx<XFile?> iDImage = XFile('').obs;
 
+  //gender
+  Gender gender = Gender.male;
+  RxBool nationalIdGenderSet = false.obs;
+
+  //images
+  final picker = ImagePicker();
+  late Rx<XFile?> profileImage = XFile('').obs;
+  late RxString iDImage = ''.obs;
   RxBool isProfileImageAdded = false.obs;
   RxBool isIDImageAdded = false.obs;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
     final user = AuthenticationRepository.instance.fireUser.value;
     final userEmail = user?.email ?? '';
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
     emailTextController.text = userEmail;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    nationalIdTextController.addListener(() {
+      final nationalId = nationalIdTextController.text;
+      if (nationalId.length == 14) {
+        final nationalIdData = NIDInfo(nid: nationalId);
+        final birthDate = nationalIdData.birthDay;
+        birthDateController.displayDate = birthDate;
+        birthDateController.selectedDate =
+            DateTime(birthDate.year, birthDate.month, birthDate.day);
+        gender = nationalIdData.sex.compareTo('Male') == 0
+            ? Gender.male
+            : Gender.female;
+        nationalIdGenderSet.value = true;
+      }
+    });
   }
 
   Future<void> pickProfilePic() async {
@@ -54,12 +80,13 @@ class RegisterUserDataController extends GetxController {
       profileImage.value = addedImage;
     }
   }
+
   Future<void> captureIDPic() async {
     RegularBottomSheet.hideBottomSheet();
     final imagesPath = await CunningDocumentScanner.getPictures();
-    if (imagesPath != null) {
+    if (imagesPath!.isNotEmpty) {
       isIDImageAdded.value = true;
-      iDImage.value = await picker.pickImage(source:ImageSource.values[imagesPath as int]);
+      iDImage.value = imagesPath[0];
     }
   }
 }

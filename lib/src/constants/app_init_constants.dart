@@ -21,7 +21,7 @@ import '../general/splash_screen.dart';
 
 enum Language { english, arabic }
 
-enum InputType { email, phone, text }
+enum InputType { email, phone, text, numbers }
 
 enum ScreenSize { small, medium, large }
 

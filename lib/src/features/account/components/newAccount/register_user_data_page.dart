@@ -1,12 +1,13 @@
+import 'dart:io';
+
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:crea_radio_button/crea_radio_button.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/colors.dart';
-import 'package:goambulance/src/features/account/components/newAccount/profile_photo_select.dart';
+import 'package:goambulance/src/features/account/components/newAccount/photo_select.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
@@ -18,7 +19,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../../firebase_files/firebase_access.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
-import 'id_photo_select.dart';
+import 'gender_select_group.dart';
 import 'medical_history_insert_page.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
@@ -116,37 +117,31 @@ class RegisterUserDataPage extends StatelessWidget {
                                 prefixIconData: FontAwesomeIcons.idCard,
                                 textController:
                                     controller.nationalIdTextController,
-                                inputType: InputType.text,
+                                inputType: InputType.numbers,
                                 editable: true,
                               ),
                             ],
                           ),
                         ),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'enterGender'.tr, fontSize: 18),
-                              RadioButtonGroup(
-                                buttonHeight: 40,
-                                buttonWidth: 115,
-                                circular: true,
-                                mainColor: Colors.grey,
-                                selectedColor: kDefaultColorLessShade,
-                                unselectEnabled: true,
-                                options: [
-                                  RadioOption(Gender.male, 'male'.tr),
-                                  RadioOption(Gender.female, 'female'.tr),
-                                ],
-                                callback: (RadioOption radioValue) =>
-                                    controller.gender =
-                                        radioValue.value == Gender.male
-                                            ? 'male'
-                                            : 'female',
-                              ),
-                            ],
-                          ),
+                        Obx(
+                          () => controller.nationalIdGenderSet.value
+                              ? RegularCard(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      TextHeader(
+                                          headerText: 'enterGender'.tr,
+                                          fontSize: 18),
+                                      GenderRadioGroup(
+                                        defaultGender: controller.gender,
+                                        onGenderSelected: (gender) =>
+                                            controller.gender = gender,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : const SizedBox(),
                         ),
                         RegularCard(
                           child: Column(
@@ -194,11 +189,13 @@ class RegisterUserDataPage extends StatelessWidget {
                                           : 'addPhoto'.tr,
                                   onPressed: () =>
                                       RegularBottomSheet.showRegularBottomSheet(
-                                    ProfilePhotoSelect(
+                                    PhotoSelect(
+                                      headerText: 'choosePicMethod'.tr,
                                       onCapturePhotoPress: () =>
                                           controller.captureProfilePic(),
                                       onChoosePhotoPress: () =>
                                           controller.pickProfilePic(),
+                                      displayGalleryPick: true,
                                     ),
                                   ),
                                   enabled: true,
@@ -215,19 +212,28 @@ class RegisterUserDataPage extends StatelessWidget {
                               TextHeader(
                                   headerText: 'enterNationalIDPhoto'.tr,
                                   fontSize: 18),
+                              Obx(() => controller.isIDImageAdded.value
+                                  ? Center(
+                                      child: Image(
+                                        image: FileImage(
+                                          File(controller.iDImage.value),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox()),
+                              const SizedBox(height: 10.0),
                               Obx(
                                 () => RegularElevatedButton(
-                                  buttonText:
-                                      controller.isProfileImageAdded.value
-                                          ? 'addNationalID'.tr
-                                          : 'changeNationalID'.tr,
+                                  buttonText: controller.isIDImageAdded.value
+                                      ? 'changeNationalID'.tr
+                                      : 'addNationalID'.tr,
                                   onPressed: () =>
                                       RegularBottomSheet.showRegularBottomSheet(
-                                    IDPhotoSelect(
-                                      onCaptureIDPress: () =>
+                                    PhotoSelect(
+                                      headerText: 'chooseIDMethod'.tr,
+                                      onCapturePhotoPress: () =>
                                           controller.captureIDPic(),
-                                      onChoosePhotoPress: () =>
-                                          controller.pickProfilePic(),
+                                      displayGalleryPick: false,
                                     ),
                                   ),
                                   enabled: true,

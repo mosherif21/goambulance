@@ -15,7 +15,7 @@ class RegularCard extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           decoration: const BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            borderRadius: BorderRadius.all(Radius.circular(15.0)),
           ),
           child: child),
     );

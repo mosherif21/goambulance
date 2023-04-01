@@ -49,14 +49,15 @@ class FramedIconButton extends StatelessWidget {
                       fontWeight: FontWeight.w400),
                   maxLines: 1,
                 ),
-                AutoSizeText(
-                  subTitle,
-                  style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.w500),
-                  maxLines: 1,
-                ),
+                if (subTitle.isNotEmpty)
+                  AutoSizeText(
+                    subTitle,
+                    style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.w500),
+                    maxLines: 1,
+                  ),
               ],
             )
           ],

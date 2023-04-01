@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_functions.dart';
@@ -24,27 +25,28 @@ class PhotoSelect extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
+          AutoSizeText(
             headerText,
             style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w700,
                 color: Colors.black87),
+            maxLines: 2,
           ),
           if (displayGalleryPick) const SizedBox(height: 15.0),
           if (displayGalleryPick)
             FramedIconButton(
               height: screenHeight * 0.11,
-              title: 'pick'.tr,
-              subTitle: 'pickGallery'.tr,
+              title: 'pickGallery'.tr,
+              subTitle: '',
               iconData: Icons.photo,
               onPressed: () => onChoosePhotoPress!(),
             ),
           const SizedBox(height: 10.0),
           FramedIconButton(
             height: screenHeight * 0.11,
-            title: 'capture'.tr,
-            subTitle: 'capturePhoto'.tr,
+            title: 'capturePhoto'.tr,
+            subTitle: '',
             iconData: Icons.camera_alt,
             onPressed: () => onCapturePhotoPress(),
           ),

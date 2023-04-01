@@ -154,11 +154,10 @@ class Languages extends Translations {
           'chooseIDMethod': 'الرجاء اختيار طريقة اضافة صورة الرقم القومى',
           'pickGallery': 'اختر من المعرض',
           'capturePhoto': 'التقط صورة',
-          'pick': 'اختر',
-          'capture': 'التقط',
           'yes': 'نعم',
           'no': 'لا',
           'enterMedicalHistory': 'يرجى إدخال سجلك الطبي لإكمال انشاء حسابك',
+          'save': 'حفظ',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -303,12 +302,11 @@ class Languages extends Translations {
           'chooseIDMethod': 'Please choose a method to add your National ID',
           'pickGallery': 'Pick from gallery',
           'capturePhoto': 'Capture a photo',
-          'pick': 'Pick',
-          'capture': 'Capture',
           'yes': 'Yes',
           'no': 'No',
           'enterMedicalHistory':
               'Please enter your Medical History to complete your account registration',
+          'save': 'Save',
         },
       };
 }

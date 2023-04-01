@@ -46,8 +46,11 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       RegularCard(
                         child: RegularElevatedButton(
                           buttonText: 'save'.tr,
-                          onPressed: () => Get.to(() => const HomeScreen(),
-                              transition: AppInit.getPageTransition()),
+                          onPressed: () async {
+                            //await Get.delete<RegisterUserDataController>();
+                            Get.offAll(() => const HomeScreen(),
+                                transition: AppInit.getPageTransition());
+                          },
                           enabled: true,
                           color: kDefaultColor,
                         ),

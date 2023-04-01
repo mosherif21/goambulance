@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
     Get.put(HomeScreenController());
-    if (!Get.isRegistered<FirebaseDataAccess>()) Get.put(FirebaseDataAccess());
+    Get.put(FirebaseDataAccess());
     return const HomeNavigationDrawer();
   }
 }

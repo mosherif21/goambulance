@@ -144,7 +144,7 @@ class Languages extends Translations {
           'enterBirthDate': 'اختر تاريخ ميلادك',
           'birthDate': 'تاريخ الميلاد',
           'enterGender': 'اختر جنسك',
-          'addPhoto': 'اضف صورة',
+          'addPhoto': 'اضف الصورة الشخصية',
           'changePhoto': 'تغيير الصورة',
           'addNationalID': 'اضف الرقم القومى',
           'changeNationalID': 'تغيير الرقم القومى',

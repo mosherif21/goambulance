@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cross_file_image/cross_file_image.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -19,7 +20,6 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../../firebase_files/firebase_access.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
-import 'gender_select_group.dart';
 import 'medical_history_insert_page.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
@@ -123,25 +123,41 @@ class RegisterUserDataPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Obx(
-                          () => controller.nationalIdGenderSet.value
-                              ? RegularCard(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      TextHeader(
-                                          headerText: 'enterGender'.tr,
-                                          fontSize: 18),
-                                      GenderRadioGroup(
-                                        defaultGender: controller.gender,
-                                        onGenderSelected: (gender) =>
-                                            controller.gender = gender,
-                                      )
-                                    ],
+                        RegularCard(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              TextHeader(
+                                  headerText: 'enterGender'.tr, fontSize: 18),
+                              CustomRadioButton(
+                                key: controller.genderRadioKey,
+                                buttonTextStyle: const ButtonTextStyle(
+                                  selectedColor: Colors.white,
+                                  unSelectedColor: Colors.black87,
+                                  textStyle: TextStyle(
+                                    fontSize: 16,
                                   ),
-                                )
-                              : const SizedBox(),
+                                ),
+                                unSelectedColor: Theme.of(context).canvasColor,
+                                buttonLables: ['male'.tr, 'female'.tr],
+                                spacing: 10,
+                                elevation: 0,
+                                enableShape: true,
+                                horizontal: false,
+                                enableButtonWrap: false,
+                                width: 110,
+                                absoluteZeroSpacing: false,
+                                padding: 15,
+                                selectedColor: kDefaultColor,
+                                buttonValues: const [
+                                  Gender.male,
+                                  Gender.female,
+                                ],
+                                radioButtonValue: (gender) =>
+                                    controller.gender = gender,
+                              ),
+                            ],
+                          ),
                         ),
                         RegularCard(
                           child: Column(

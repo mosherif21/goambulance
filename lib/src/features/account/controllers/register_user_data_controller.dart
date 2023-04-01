@@ -1,4 +1,5 @@
 import 'package:cunning_document_scanner/cunning_document_scanner.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -24,8 +25,8 @@ class RegisterUserDataController extends GetxController {
   final birthDateController = DateRangePickerController();
 
   //gender
-  Gender gender = Gender.male;
-  RxBool nationalIdGenderSet = false.obs;
+  Gender? gender;
+  final genderRadioKey = GlobalKey<CustomRadioButtonState<Gender>>();
 
   //images
   final picker = ImagePicker();
@@ -51,14 +52,14 @@ class RegisterUserDataController extends GetxController {
       final nationalId = nationalIdTextController.text;
       if (nationalId.length == 14) {
         final nationalIdData = NIDInfo(nid: nationalId);
+        gender = nationalIdData.sex.compareTo('Male') == 0
+            ? Gender.male
+            : Gender.female;
+        genderRadioKey.currentState?.selectButton(gender!);
         final birthDate = nationalIdData.birthDay;
         birthDateController.displayDate = birthDate;
         birthDateController.selectedDate =
             DateTime(birthDate.year, birthDate.month, birthDate.day);
-        gender = nationalIdData.sex.compareTo('Male') == 0
-            ? Gender.male
-            : Gender.female;
-        nationalIdGenderSet.value = true;
       }
     });
   }

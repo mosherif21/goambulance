@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class RegularElevatedButton extends StatelessWidget {
@@ -24,10 +25,11 @@ class RegularElevatedButton extends StatelessWidget {
           foregroundColor: Colors.white,
         ),
         onPressed: () => enabled ? onPressed() : null,
-        child: Text(
+        child: AutoSizeText(
           buttonText,
           style:
               const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          maxLines: 1,
         ),
       ),
     );

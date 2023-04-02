@@ -116,7 +116,7 @@ class RegisterUserDataController extends GetxController {
     }
   }
 
-  Future<void> savePersonalInformation() async {
+  Future<void> checkPersonalInformation() async {
     showLoadingScreen();
 
     final name = nameTextController.text;

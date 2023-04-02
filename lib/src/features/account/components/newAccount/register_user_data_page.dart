@@ -289,7 +289,7 @@ class RegisterUserDataPage extends StatelessWidget {
                           child: RegularElevatedButton(
                             buttonText: 'continue'.tr,
                             onPressed: () async =>
-                                await controller.savePersonalInformation(),
+                                await controller.checkPersonalInformation(),
                             enabled: true,
                             color: kDefaultColor,
                           ),

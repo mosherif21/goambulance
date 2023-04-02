@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
@@ -20,7 +21,6 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../../firebase_files/firebase_access.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
-import 'medical_history_insert_page.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
   const RegisterUserDataPage({Key? key}) : super(key: key);
@@ -66,142 +66,164 @@ class RegisterUserDataPage extends StatelessWidget {
                           maxLines: 2,
                         ),
                         const SizedBox(height: 10.0),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'enterFullName'.tr, fontSize: 18),
-                              TextFormFieldRegular(
-                                labelText: 'fullName'.tr,
-                                hintText: 'enterFullName'.tr,
-                                prefixIconData: Icons.person,
-                                textController: controller.nameTextController,
-                                inputType: InputType.text,
-                                editable: true,
-                                textInputAction: TextInputAction.next,
-                              ),
-                            ],
+                        Obx(
+                          () => RegularCard(
+                            highlightRed: controller.highlightName.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextHeader(
+                                    headerText: 'enterFullName'.tr,
+                                    fontSize: 18),
+                                TextFormFieldRegular(
+                                  labelText: 'fullName'.tr,
+                                  hintText: 'enterFullName'.tr,
+                                  prefixIconData: Icons.person,
+                                  textController: controller.nameTextController,
+                                  inputType: InputType.text,
+                                  editable: true,
+                                  textInputAction: TextInputAction.next,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'emailHintLabel'.tr,
-                                  fontSize: 18),
-                              TextFormFieldRegular(
-                                labelText: 'emailLabel'.tr,
-                                hintText: 'emailHintLabel'.tr,
-                                prefixIconData: Icons.email,
-                                textController: controller.emailTextController,
-                                inputType: InputType.text,
-                                editable: controller
-                                        .emailTextController.text.isNotEmpty
-                                    ? false
-                                    : true,
-                                textInputAction: TextInputAction.next,
-                              ),
-                            ],
+                        Obx(
+                          () => RegularCard(
+                            highlightRed: controller.highlightEmail.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextHeader(
+                                    headerText: 'emailHintLabel'.tr,
+                                    fontSize: 18),
+                                TextFormFieldRegular(
+                                  labelText: 'emailLabel'.tr,
+                                  hintText: 'emailHintLabel'.tr,
+                                  prefixIconData: Icons.email,
+                                  textController:
+                                      controller.emailTextController,
+                                  inputType: InputType.text,
+                                  editable: controller
+                                          .emailTextController.text.isNotEmpty
+                                      ? false
+                                      : true,
+                                  textInputAction: TextInputAction.next,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'enterNationalId'.tr,
-                                  fontSize: 18),
-                              TextFormFieldRegular(
-                                labelText: 'nationalId'.tr,
-                                hintText: 'enterNationalId'.tr,
-                                prefixIconData: FontAwesomeIcons.idCard,
-                                textController:
-                                    controller.nationalIdTextController,
-                                inputType: InputType.numbers,
-                                editable: true,
-                                textInputAction: TextInputAction.done,
-                              ),
-                            ],
+                        Obx(
+                          () => RegularCard(
+                            highlightRed: controller.highlightNationalId.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextHeader(
+                                    headerText: 'enterNationalId'.tr,
+                                    fontSize: 18),
+                                TextFormFieldRegular(
+                                  labelText: 'nationalId'.tr,
+                                  hintText: 'enterNationalId'.tr,
+                                  prefixIconData: FontAwesomeIcons.idCard,
+                                  textController:
+                                      controller.nationalIdTextController,
+                                  inputType: InputType.numbers,
+                                  editable: true,
+                                  textInputAction: TextInputAction.done,
+                                  inputFormatter:
+                                      LengthLimitingTextInputFormatter(14),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'enterGender'.tr, fontSize: 18),
-                              CustomRadioButton(
-                                key: controller.genderRadioKey,
-                                buttonTextStyle: const ButtonTextStyle(
-                                  selectedColor: Colors.white,
-                                  unSelectedColor: Colors.black87,
-                                  textStyle: TextStyle(
-                                    fontSize: 16,
+                        Obx(
+                          () => RegularCard(
+                            highlightRed: controller.highlightGender.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextHeader(
+                                    headerText: 'enterGender'.tr, fontSize: 18),
+                                CustomRadioButton(
+                                  key: controller.genderRadioKey,
+                                  buttonTextStyle: const ButtonTextStyle(
+                                    selectedColor: Colors.white,
+                                    unSelectedColor: Colors.black87,
+                                    textStyle: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  unSelectedColor:
+                                      Theme.of(context).canvasColor,
+                                  buttonLables: ['male'.tr, 'female'.tr],
+                                  spacing: 10,
+                                  elevation: 0,
+                                  enableShape: true,
+                                  horizontal: false,
+                                  enableButtonWrap: false,
+                                  width: 110,
+                                  absoluteZeroSpacing: false,
+                                  padding: 15,
+                                  selectedColor: kDefaultColor,
+                                  buttonValues: const [
+                                    Gender.male,
+                                    Gender.female,
+                                  ],
+                                  radioButtonValue: (gender) =>
+                                      controller.gender = gender,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Obx(
+                          () => RegularCard(
+                            highlightRed: controller.highlightBirthdate.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextHeader(
+                                    headerText: 'enterBirthDate'.tr,
+                                    fontSize: 18),
+                                Container(
+                                  decoration: const BoxDecoration(
+                                    color: kDefaultColorLessShade,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20.0)),
+                                  ),
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: SfDateRangePicker(
+                                    controller: controller.birthDateController,
+                                    selectionMode:
+                                        DateRangePickerSelectionMode.single,
                                   ),
                                 ),
-                                unSelectedColor: Theme.of(context).canvasColor,
-                                buttonLables: ['male'.tr, 'female'.tr],
-                                spacing: 10,
-                                elevation: 0,
-                                enableShape: true,
-                                horizontal: false,
-                                enableButtonWrap: false,
-                                width: 110,
-                                absoluteZeroSpacing: false,
-                                padding: 15,
-                                selectedColor: kDefaultColor,
-                                buttonValues: const [
-                                  Gender.male,
-                                  Gender.female,
-                                ],
-                                radioButtonValue: (gender) =>
-                                    controller.gender = gender,
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'enterBirthDate'.tr,
-                                  fontSize: 18),
-                              Container(
-                                decoration: const BoxDecoration(
-                                  color: kDefaultColorLessShade,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20.0)),
-                                ),
-                                padding: const EdgeInsets.all(10.0),
-                                child: SfDateRangePicker(
-                                  controller: controller.birthDateController,
-                                  selectionMode:
-                                      DateRangePickerSelectionMode.single,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'enterPhoto'.tr, fontSize: 18),
-                              Obx(() => controller.isProfileImageAdded.value
-                                  ? Center(
-                                      child: CircleAvatar(
-                                          radius: 80,
-                                          backgroundImage: XFileImage(
-                                              controller.profileImage.value!)),
-                                    )
-                                  : const SizedBox()),
-                              const SizedBox(height: 10.0),
-                              Obx(
-                                () => RegularElevatedButton(
+                        Obx(
+                          () => RegularCard(
+                            highlightRed: controller.highlightProfilePic.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextHeader(
+                                    headerText: 'enterPhoto'.tr, fontSize: 18),
+                                controller.isProfileImageAdded.value
+                                    ? Center(
+                                        child: CircleAvatar(
+                                            radius: 80,
+                                            backgroundImage: XFileImage(
+                                                controller
+                                                    .profileImage.value!)),
+                                      )
+                                    : const SizedBox(),
+                                const SizedBox(height: 10.0),
+                                RegularElevatedButton(
                                   buttonText:
                                       controller.isProfileImageAdded.value
                                           ? 'changePhoto'.tr
@@ -220,32 +242,35 @@ class RegisterUserDataPage extends StatelessWidget {
                                   enabled: true,
                                   color: kDefaultColor,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                        RegularCard(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              TextHeader(
-                                  headerText: 'enterNationalIDPhoto'.tr,
-                                  fontSize: 18),
-                              Obx(() => controller.isIDImageAdded.value
-                                  ? Center(
-                                      child: Image(
-                                        image: FileImage(
-                                          File(controller.iDImage.value),
+                        Obx(
+                          () => RegularCard(
+                            highlightRed:
+                                controller.highlightNationalIdPick.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                TextHeader(
+                                    headerText: 'enterNationalIDPhoto'.tr,
+                                    fontSize: 18),
+                                controller.isNationalIDImageAdded.value
+                                    ? Center(
+                                        child: Image(
+                                          image: FileImage(
+                                            File(controller.iDImage.value),
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                  : const SizedBox()),
-                              const SizedBox(height: 10.0),
-                              Obx(
-                                () => RegularElevatedButton(
-                                  buttonText: controller.isIDImageAdded.value
-                                      ? 'changeNationalID'.tr
-                                      : 'addNationalID'.tr,
+                                      )
+                                    : const SizedBox(),
+                                const SizedBox(height: 10.0),
+                                RegularElevatedButton(
+                                  buttonText:
+                                      controller.isNationalIDImageAdded.value
+                                          ? 'changeNationalID'.tr
+                                          : 'addNationalID'.tr,
                                   onPressed: () =>
                                       RegularBottomSheet.showRegularBottomSheet(
                                     PhotoSelect(
@@ -258,16 +283,16 @@ class RegisterUserDataPage extends StatelessWidget {
                                   enabled: true,
                                   color: kDefaultColor,
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                        RegularCard(
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
                           child: RegularElevatedButton(
                             buttonText: 'continue'.tr,
-                            onPressed: () => Get.to(
-                                () => const MedicalHistoryInsertPage(),
-                                transition: AppInit.getPageTransition()),
+                            onPressed: () async =>
+                                await controller.savePersonalInformation(),
                             enabled: true,
                             color: kDefaultColor,
                           ),

@@ -1,13 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/home_screen/screens/home_screen.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
 import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/colors.dart';
-import '../../../../general/common_widgets/regular_card.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../home_screen/screens/home_screen.dart';
 
 class MedicalHistoryInsertPage extends StatelessWidget {
   const MedicalHistoryInsertPage({Key? key}) : super(key: key);
@@ -43,11 +42,11 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         maxLines: 2,
                       ),
                       const SizedBox(height: 10.0),
-                      RegularCard(
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
                         child: RegularElevatedButton(
                           buttonText: 'save'.tr,
                           onPressed: () async {
-                            //await Get.delete<RegisterUserDataController>();
                             Get.offAll(() => const HomeScreen(),
                                 transition: AppInit.getPageTransition());
                           },

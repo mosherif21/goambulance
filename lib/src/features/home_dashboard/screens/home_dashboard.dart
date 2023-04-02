@@ -3,7 +3,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
@@ -64,7 +63,6 @@ class HomeDashBoard extends StatelessWidget {
                 headerText: 'firstAidTips'.tr,
                 onPressed: () => Get.to(
                   () => const FirstAidScreen(),
-                  transition: AppInit.getPageTransition(),
                 ),
                 buttonText: 'viewAll'.tr,
               ),

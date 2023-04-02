@@ -149,7 +149,7 @@ class Languages extends Translations {
           'addNationalID': 'اضف الرقم القومى',
           'changeNationalID': 'تغيير الرقم القومى',
           'enterPhoto': 'الرجاء إضافة صورتك الشخصية',
-          'enterNationalIDPhoto': 'الرجاء إضافة صورتك الرقم القومى',
+          'enterNationalIDPhoto': 'الرجاء إضافة صورة الرقم القومى',
           'choosePicMethod': 'الرجاء اختيار طريقة اضافة صورتك الشخصية',
           'chooseIDMethod': 'الرجاء اختيار طريقة اضافة صورة الرقم القومى',
           'pickGallery': 'اختر من المعرض',
@@ -158,6 +158,8 @@ class Languages extends Translations {
           'no': 'لا',
           'enterMedicalHistory': 'يرجى إدخال سجلك الطبي لإكمال انشاء حسابك',
           'save': 'حفظ',
+          'requiredFields':
+              'يرجى إكمال جميع المعلومات المميزة باللون الأحمر بشكل صحيح',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -307,6 +309,8 @@ class Languages extends Translations {
           'enterMedicalHistory':
               'Please enter your Medical History to complete your account registration',
           'save': 'Save',
+          'requiredFields':
+              'Please provide all of the information highlighted in red correctly',
         },
       };
 }

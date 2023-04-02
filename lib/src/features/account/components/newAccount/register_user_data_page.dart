@@ -79,6 +79,7 @@ class RegisterUserDataPage extends StatelessWidget {
                                 textController: controller.nameTextController,
                                 inputType: InputType.text,
                                 editable: true,
+                                textInputAction: TextInputAction.next,
                               ),
                             ],
                           ),
@@ -100,6 +101,7 @@ class RegisterUserDataPage extends StatelessWidget {
                                         .emailTextController.text.isNotEmpty
                                     ? false
                                     : true,
+                                textInputAction: TextInputAction.next,
                               ),
                             ],
                           ),
@@ -119,6 +121,7 @@ class RegisterUserDataPage extends StatelessWidget {
                                     controller.nationalIdTextController,
                                 inputType: InputType.numbers,
                                 editable: true,
+                                textInputAction: TextInputAction.done,
                               ),
                             ],
                           ),

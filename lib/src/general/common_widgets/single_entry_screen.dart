@@ -104,6 +104,7 @@ class SingleEntryScreen extends StatelessWidget {
                               textController: textController,
                               inputType: inputType,
                               editable: true,
+                              textInputAction: TextInputAction.done,
                             ),
                       const SizedBox(height: 20.0),
                       RegularElevatedButton(

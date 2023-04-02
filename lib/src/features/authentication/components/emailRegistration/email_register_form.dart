@@ -24,16 +24,19 @@ class EmailRegisterForm extends StatelessWidget {
             textController: controller.emailTextController,
             inputType: InputType.email,
             editable: true,
+            textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
             labelText: 'passwordLabel'.tr,
             textController: controller.passwordTextController,
+            textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
             labelText: 'confirmPassword'.tr,
             textController: controller.passwordConfirmTextController,
+            textInputAction: TextInputAction.done,
           ),
           const SizedBox(height: 12),
           RegularElevatedButton(

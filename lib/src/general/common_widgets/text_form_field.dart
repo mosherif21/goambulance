@@ -10,6 +10,7 @@ class TextFormFieldRegular extends StatelessWidget {
     required this.textController,
     required this.inputType,
     required this.editable,
+    required this.textInputAction,
   }) : super(key: key);
   final String labelText;
   final String hintText;
@@ -17,11 +18,13 @@ class TextFormFieldRegular extends StatelessWidget {
   final TextEditingController textController;
   final InputType inputType;
   final bool editable;
+  final TextInputAction textInputAction;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: TextFormField(
+        textInputAction: textInputAction,
         enabled: editable,
         controller: textController,
         keyboardType: inputType == InputType.email

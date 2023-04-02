@@ -149,11 +149,12 @@ class RegisterUserDataController extends GetxController {
         !highlightBirthdate.value &&
         !highlightProfilePic.value &&
         !highlightNationalIdPick.value) {
+      hideLoadingScreen();
       Get.to(() => const MedicalHistoryInsertPage(),
           transition: AppInit.getPageTransition());
     } else {
+      hideLoadingScreen();
       showSimpleSnackBar(text: 'requiredFields'.tr);
     }
-    hideLoadingScreen();
   }
 }

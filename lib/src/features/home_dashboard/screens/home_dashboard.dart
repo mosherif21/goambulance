@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ import 'package:goambulance/src/features/home_screen/controllers/home_screen_con
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
 import '../../../constants/assets_strings.dart';
-import '../../../general/common_widgets/clickable_labeled_image.dart';
+import '../../../general/common_widgets/labeled_image.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
 import '../../first_aid/components/first_aid_tips_details_page.dart';
@@ -61,9 +62,8 @@ class HomeDashBoard extends StatelessWidget {
               ),
               TextHeaderWithButton(
                 headerText: 'firstAidTips'.tr,
-                onPressed: () => Get.to(
-                  () => const FirstAidScreen(),
-                ),
+                onPressed: () => Get.to(() => const FirstAidScreen(),
+                    transition: Transition.noTransition),
                 buttonText: 'viewAll'.tr,
               ),
               CarouselSlider(
@@ -72,11 +72,19 @@ class HomeDashBoard extends StatelessWidget {
                   for (int firstAidNumber = 1;
                       firstAidNumber <= 17;
                       firstAidNumber++)
-                    ClickableLabeledImage(
-                      img: getFirstAidTipImage(firstAidNumber),
-                      label: 'firstAidTips$firstAidNumber'.tr,
-                      onPressed: () => Get.to(
-                        () => FirstAidTipsDetailsPage(
+                    Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: OpenContainer(
+                        useRootNavigator: true,
+                        closedElevation: 0,
+                        openElevation: 0,
+                        closedBuilder: (context, action) =>
+                            clickableLabeledImage(
+                          img: getFirstAidTipImage(firstAidNumber),
+                          label: 'firstAidTips$firstAidNumber'.tr,
+                        ),
+                        openBuilder: (context, action) =>
+                            FirstAidTipsDetailsPage(
                           imgPath: getFirstAidDetailsPath(firstAidNumber),
                         ),
                       ),

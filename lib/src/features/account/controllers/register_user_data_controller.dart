@@ -1,4 +1,3 @@
-import 'package:cunning_document_scanner/cunning_document_scanner.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,7 +34,8 @@ class RegisterUserDataController extends GetxController {
   //images
   final picker = ImagePicker();
   late Rx<XFile?> profileImage = XFile('').obs;
-  late RxString iDImage = ''.obs;
+  late Rx<XFile?> iDImage = XFile('').obs;
+
   RxBool isProfileImageAdded = false.obs;
   RxBool isNationalIDImageAdded = false.obs;
 
@@ -89,6 +89,15 @@ class RegisterUserDataController extends GetxController {
     }
   }
 
+  Future<void> pickIdPic() async {
+    RegularBottomSheet.hideBottomSheet();
+    final addedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (addedImage != null) {
+      isNationalIDImageAdded.value = true;
+      iDImage.value = addedImage;
+    }
+  }
+
   Future<void> captureProfilePic() async {
     RegularBottomSheet.hideBottomSheet();
     final addedImage = await picker.pickImage(source: ImageSource.camera);
@@ -100,10 +109,10 @@ class RegisterUserDataController extends GetxController {
 
   Future<void> captureIDPic() async {
     RegularBottomSheet.hideBottomSheet();
-    final imagesPath = await CunningDocumentScanner.getPictures();
-    if (imagesPath!.isNotEmpty) {
+    final addedImage = await picker.pickImage(source: ImageSource.camera);
+    if (addedImage != null) {
       isNationalIDImageAdded.value = true;
-      iDImage.value = imagesPath[0];
+      iDImage.value = addedImage;
     }
   }
 
@@ -140,10 +149,10 @@ class RegisterUserDataController extends GetxController {
         !highlightBirthdate.value &&
         !highlightProfilePic.value &&
         !highlightNationalIdPick.value) {
-      Get.offAll(() => const MedicalHistoryInsertPage(),
+      Get.to(() => const MedicalHistoryInsertPage(),
           transition: AppInit.getPageTransition());
     } else {
-      showSimpleSnackBar(title: 'error'.tr, body: 'requiredFields'.tr);
+      showSimpleSnackBar(text: 'requiredFields'.tr);
     }
     hideLoadingScreen();
   }

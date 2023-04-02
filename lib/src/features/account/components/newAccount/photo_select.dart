@@ -9,14 +9,12 @@ class PhotoSelect extends StatelessWidget {
   const PhotoSelect({
     Key? key,
     required this.onCapturePhotoPress,
-    this.onChoosePhotoPress,
+    required this.onChoosePhotoPress,
     required this.headerText,
-    required this.displayGalleryPick,
   }) : super(key: key);
   final String headerText;
   final Function onCapturePhotoPress;
-  final Function? onChoosePhotoPress;
-  final bool displayGalleryPick;
+  final Function onChoosePhotoPress;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
@@ -33,15 +31,14 @@ class PhotoSelect extends StatelessWidget {
                 color: Colors.black87),
             maxLines: 2,
           ),
-          if (displayGalleryPick) const SizedBox(height: 15.0),
-          if (displayGalleryPick)
-            FramedIconButton(
-              height: screenHeight * 0.11,
-              title: 'pickGallery'.tr,
-              subTitle: '',
-              iconData: Icons.photo,
-              onPressed: () => onChoosePhotoPress!(),
-            ),
+          const SizedBox(height: 15.0),
+          FramedIconButton(
+            height: screenHeight * 0.11,
+            title: 'pickGallery'.tr,
+            subTitle: '',
+            iconData: Icons.photo,
+            onPressed: () => onChoosePhotoPress(),
+          ),
           const SizedBox(height: 10.0),
           FramedIconButton(
             height: screenHeight * 0.11,

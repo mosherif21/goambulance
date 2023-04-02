@@ -30,8 +30,7 @@ class EmailRegisterController extends GetxController {
     if (returnMessage.compareTo('success') != 0) {
       hideLoadingScreen();
       showSimpleSnackBar(
-        title: 'error'.tr,
-        body: returnMessage,
+        text: returnMessage,
       );
     }
   }

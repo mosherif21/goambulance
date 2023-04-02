@@ -39,8 +39,7 @@ class OtpVerificationController extends GetxController {
     } else {
       hideLoadingScreen();
       showSimpleSnackBar(
-        title: 'error'.tr,
-        body: returnMessage,
+        text: returnMessage,
       );
     }
   }
@@ -61,8 +60,7 @@ class OtpVerificationController extends GetxController {
     } else {
       hideLoadingScreen();
       showSimpleSnackBar(
-        title: 'error'.tr,
-        body: returnMessage,
+        text: returnMessage,
       );
     }
   }

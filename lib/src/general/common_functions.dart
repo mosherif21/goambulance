@@ -47,13 +47,12 @@ void hideLoadingScreen() {
 }
 
 void showSimpleSnackBar({
-  required String title,
-  required String body,
+  required String text,
 }) {
   ScaffoldMessenger.of(Get.context!).clearSnackBars();
   ScaffoldMessenger.of(Get.context!).showSnackBar(
     SnackBar(
-      content: Text('$title. $body.'),
+      content: Text('$text.'),
       backgroundColor: const Color(0xEE28AADC),
       //dismissDirection: DismissDirection.startToEnd,
       behavior: SnackBarBehavior.floating,

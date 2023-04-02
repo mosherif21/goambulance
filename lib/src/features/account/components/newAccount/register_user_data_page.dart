@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
@@ -216,10 +214,10 @@ class RegisterUserDataPage extends StatelessWidget {
                                 controller.isProfileImageAdded.value
                                     ? Center(
                                         child: CircleAvatar(
-                                            radius: 80,
-                                            backgroundImage: XFileImage(
-                                                controller
-                                                    .profileImage.value!)),
+                                          radius: 80,
+                                          backgroundImage: XFileImage(
+                                              controller.profileImage.value!),
+                                        ),
                                       )
                                     : const SizedBox(),
                                 const SizedBox(height: 10.0),
@@ -236,7 +234,6 @@ class RegisterUserDataPage extends StatelessWidget {
                                           controller.captureProfilePic(),
                                       onChoosePhotoPress: () =>
                                           controller.pickProfilePic(),
-                                      displayGalleryPick: true,
                                     ),
                                   ),
                                   enabled: true,
@@ -259,9 +256,8 @@ class RegisterUserDataPage extends StatelessWidget {
                                 controller.isNationalIDImageAdded.value
                                     ? Center(
                                         child: Image(
-                                          image: FileImage(
-                                            File(controller.iDImage.value),
-                                          ),
+                                          image: XFileImage(
+                                              controller.iDImage.value!),
                                         ),
                                       )
                                     : const SizedBox(),
@@ -277,7 +273,8 @@ class RegisterUserDataPage extends StatelessWidget {
                                       headerText: 'chooseIDMethod'.tr,
                                       onCapturePhotoPress: () =>
                                           controller.captureIDPic(),
-                                      displayGalleryPick: false,
+                                      onChoosePhotoPress: () =>
+                                          controller.pickIdPic(),
                                     ),
                                   ),
                                   enabled: true,

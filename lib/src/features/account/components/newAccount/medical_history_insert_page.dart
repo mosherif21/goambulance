@@ -46,10 +46,9 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         padding: const EdgeInsets.all(15.0),
                         child: RegularElevatedButton(
                           buttonText: 'save'.tr,
-                          onPressed: () async {
+                          onPressed: () async =>
                             Get.offAll(() => const HomeScreen(),
-                                transition: AppInit.getPageTransition());
-                          },
+                                transition: AppInit.getPageTransition()),
                           enabled: true,
                           color: kDefaultColor,
                         ),

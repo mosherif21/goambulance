@@ -3,6 +3,8 @@ import 'package:eg_nid/eg_nid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/firebase_files/firebase_access.dart';
+import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +13,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../authentication/authentication_repository.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../home_screen/screens/home_screen.dart';
 
 enum Gender {
   male,
@@ -60,6 +63,12 @@ class RegisterUserDataController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    nameTextController.addListener(() {
+      if (nameTextController.text.isNotEmpty) highlightName.value = false;
+    });
+    emailTextController.addListener(() {
+      if (emailTextController.text.isEmail) highlightEmail.value = false;
+    });
     nationalIdTextController.addListener(() {
       final nationalId = nationalIdTextController.text;
       if (NIDInfo.NIDCheck(nid: nationalId)) {
@@ -73,6 +82,9 @@ class RegisterUserDataController extends GetxController {
           birthDateController.displayDate = birthDate;
           birthDateController.selectedDate =
               DateTime(birthDate.year, birthDate.month, birthDate.day);
+          highlightNationalId.value = false;
+          highlightGender.value = false;
+          highlightBirthdate.value = false;
         } catch (e) {
           if (kDebugMode) print(e.toString());
         }
@@ -86,6 +98,7 @@ class RegisterUserDataController extends GetxController {
     if (addedImage != null) {
       isProfileImageAdded.value = true;
       profileImage.value = addedImage;
+      highlightProfilePic.value = false;
     }
   }
 
@@ -95,6 +108,7 @@ class RegisterUserDataController extends GetxController {
     if (addedImage != null) {
       isNationalIDImageAdded.value = true;
       iDImage.value = addedImage;
+      highlightNationalIdPick.value = false;
     }
   }
 
@@ -104,6 +118,7 @@ class RegisterUserDataController extends GetxController {
     if (addedImage != null) {
       isProfileImageAdded.value = true;
       profileImage.value = addedImage;
+      highlightProfilePic.value = false;
     }
   }
 
@@ -113,6 +128,7 @@ class RegisterUserDataController extends GetxController {
     if (addedImage != null) {
       isNationalIDImageAdded.value = true;
       iDImage.value = addedImage;
+      highlightNationalIdPick.value = false;
     }
   }
 
@@ -151,6 +167,35 @@ class RegisterUserDataController extends GetxController {
           transition: AppInit.getPageTransition());
     } else {
       showSimpleSnackBar(text: 'requiredFields'.tr);
+    }
+  }
+
+  Future<void> savePersonalInformation() async {
+    showLoadingScreen();
+    final name = nameTextController.text;
+    final email = emailTextController.text;
+    final nationalId = nationalIdTextController.text;
+    final birthDate = birthDateController.selectedDate;
+    final userInfo = UserInfoSave(
+      name: name,
+      email: email,
+      nationalId: nationalId,
+      birthDate: birthDate!,
+      gender: gender == Gender.male ? 'male' : 'female',
+    );
+
+    final functionStatus = await FirebaseDataAccess.instance
+        .saveUserPersonalInformation(
+            userInfo: userInfo,
+            profilePic: profileImage.value!,
+            nationalID: iDImage.value!);
+    if (functionStatus == FunctionStatus.success) {
+      hideLoadingScreen();
+      Get.offAll(() => const HomeScreen(),
+          transition: AppInit.getPageTransition());
+    } else {
+      showSimpleSnackBar(text: 'saveUserInfoError'.tr);
+      hideLoadingScreen();
     }
   }
 }

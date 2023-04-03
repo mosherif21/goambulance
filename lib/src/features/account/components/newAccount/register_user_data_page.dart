@@ -146,33 +146,34 @@ class RegisterUserDataPage extends StatelessWidget {
                                 TextHeader(
                                     headerText: 'enterGender'.tr, fontSize: 18),
                                 CustomRadioButton(
-                                  key: controller.genderRadioKey,
-                                  buttonTextStyle: const ButtonTextStyle(
-                                    selectedColor: Colors.white,
-                                    unSelectedColor: Colors.black87,
-                                    textStyle: TextStyle(
-                                      fontSize: 16,
+                                    key: controller.genderRadioKey,
+                                    buttonTextStyle: const ButtonTextStyle(
+                                      selectedColor: Colors.white,
+                                      unSelectedColor: Colors.black87,
+                                      textStyle: TextStyle(
+                                        fontSize: 16,
+                                      ),
                                     ),
-                                  ),
-                                  unSelectedColor:
-                                      Theme.of(context).canvasColor,
-                                  buttonLables: ['male'.tr, 'female'.tr],
-                                  spacing: 10,
-                                  elevation: 0,
-                                  enableShape: true,
-                                  horizontal: false,
-                                  enableButtonWrap: false,
-                                  width: 110,
-                                  absoluteZeroSpacing: false,
-                                  padding: 15,
-                                  selectedColor: kDefaultColor,
-                                  buttonValues: const [
-                                    Gender.male,
-                                    Gender.female,
-                                  ],
-                                  radioButtonValue: (gender) =>
-                                      controller.gender = gender,
-                                ),
+                                    unSelectedColor:
+                                        Theme.of(context).canvasColor,
+                                    buttonLables: ['male'.tr, 'female'.tr],
+                                    spacing: 10,
+                                    elevation: 0,
+                                    enableShape: true,
+                                    horizontal: false,
+                                    enableButtonWrap: false,
+                                    width: 110,
+                                    absoluteZeroSpacing: false,
+                                    padding: 15,
+                                    selectedColor: kDefaultColor,
+                                    buttonValues: const [
+                                      Gender.male,
+                                      Gender.female,
+                                    ],
+                                    radioButtonValue: (gender) {
+                                      controller.gender = gender;
+                                      controller.highlightGender.value = false;
+                                    }),
                               ],
                             ),
                           ),
@@ -195,6 +196,8 @@ class RegisterUserDataPage extends StatelessWidget {
                                   padding: const EdgeInsets.all(10.0),
                                   child: SfDateRangePicker(
                                     controller: controller.birthDateController,
+                                    onSelectionChanged: (args) => controller
+                                        .highlightBirthdate.value = false,
                                     selectionMode:
                                         DateRangePickerSelectionMode.single,
                                   ),

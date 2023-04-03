@@ -135,7 +135,7 @@ class Languages extends Translations {
           'emergencyNumber5': 'طوارئ الكهرباء',
           'emergencyNumber6': 'شرطة المرور',
           'male': 'ذكر',
-          'female': 'عافية ذوق',
+          'female': 'انثى',
           'fullName': 'الاسم الكامل',
           'enterFullName': 'أدخل اسمك الكامل',
           'enterYourInfo': 'الرجاء إدخال بياناتك الشخصية لإكمال انشاء حسابك',
@@ -160,6 +160,8 @@ class Languages extends Translations {
           'save': 'حفظ',
           'requiredFields':
               'يرجى إكمال جميع المعلومات المميزة باللون الأحمر بشكل صحيح',
+          'saveUserInfoError':
+              'حفظ المعلومات الخاصة بك فشل، يرجى المحاولة مرة أخرى',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -311,6 +313,8 @@ class Languages extends Translations {
           'save': 'Save',
           'requiredFields':
               'Please provide all of the information highlighted in red correctly',
+          'saveUserInfoError':
+              'Failed to save your information, please try again',
         },
       };
 }

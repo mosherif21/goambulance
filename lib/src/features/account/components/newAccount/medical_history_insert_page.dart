@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
-import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/colors.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
-import '../../../home_screen/screens/home_screen.dart';
+import '../../controllers/register_user_data_controller.dart';
 
 class MedicalHistoryInsertPage extends StatelessWidget {
   const MedicalHistoryInsertPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //final controller = RegisterUserDataController.instance;
+    final controller = RegisterUserDataController.instance;
     //final screenHeight = getScreenHeight(context);
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
@@ -47,8 +46,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         child: RegularElevatedButton(
                           buttonText: 'save'.tr,
                           onPressed: () async =>
-                            Get.offAll(() => const HomeScreen(),
-                                transition: AppInit.getPageTransition()),
+                              await controller.savePersonalInformation(),
                           enabled: true,
                           color: kDefaultColor,
                         ),

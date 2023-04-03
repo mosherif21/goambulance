@@ -1,11 +1,20 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../src/features/account/components/models.dart';
 
 enum UserType { driver, user }
+
+enum FunctionStatus { success, failure }
 
 class FirebaseDataAccess extends GetxController {
   static FirebaseDataAccess get instance => Get.find();
@@ -13,6 +22,8 @@ class FirebaseDataAccess extends GetxController {
   late final String? userId;
   late final FirebaseFirestore fireStore;
   late final FirebaseDatabase fireDatabase;
+  late final FirebaseStorage fireStorage;
+  late final DocumentReference firestoreUserDocRef;
   UserType userType = UserType.user;
   bool userInitialize = false;
 
@@ -20,8 +31,56 @@ class FirebaseDataAccess extends GetxController {
   void onInit() {
     super.onInit();
     userId = AuthenticationRepository.instance.fireUser.value?.uid;
+    firestoreUserDocRef = fireStore
+        .collection('users')
+        .doc('patients')
+        .collection('userInfo')
+        .doc(userId!);
     fireStore = FirebaseFirestore.instance;
     fireDatabase = FirebaseDatabase.instance;
+    fireStorage = FirebaseStorage.instance;
+  }
+
+  Future<FunctionStatus> saveUserPersonalInformation(
+      {required UserInfoSave userInfo,
+      required XFile profilePic,
+      required XFile nationalID}) async {
+    try {
+      await firestoreUserDocRef.set(userInfo.toJson());
+
+      var userStorageReference =
+          fireStorage.ref().child('users').child(userId!);
+
+      final profilePicMetadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': profilePic.path},
+      );
+      final nationalIdMetadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': nationalID.path},
+      );
+
+      if (AppInit.isWeb) {
+        await userStorageReference
+            .child('profilePic')
+            .putData(await profilePic.readAsBytes(), profilePicMetadata);
+        await userStorageReference
+            .child('nationalId')
+            .putData(await nationalID.readAsBytes(), nationalIdMetadata);
+      } else {
+        await userStorageReference
+            .child('profilePic')
+            .putFile(File(profilePic.path), profilePicMetadata);
+        await userStorageReference
+            .child('nationalId')
+            .putFile(File(nationalID.path), nationalIdMetadata);
+      }
+
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    }
   }
 
   // await fireDatabase.ref('users/drivers/$userId').get().then((snapshot) {

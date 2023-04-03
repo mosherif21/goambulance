@@ -9,10 +9,9 @@ class RegularTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      // style: TextButton.styleFrom(
-      //     surfaceTintColor: Colors.transparent,
-      //     shadowColor: Colors.transparent,
-      //     backgroundColor: Colors.transparent),
+      style: TextButton.styleFrom(
+        splashFactory: InkSparkle.splashFactory,
+      ),
       onPressed: () => onPressed(),
       child: Text(
         buttonText,

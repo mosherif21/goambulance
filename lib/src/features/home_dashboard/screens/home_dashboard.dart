@@ -37,9 +37,7 @@ class HomeDashBoard extends StatelessWidget {
                     builder: (BuildContext context, DrawerState drawerState,
                         Widget? child) {
                       return IconButton(
-                        onPressed: () {
-                          homeScreenController.toggleDrawer();
-                        },
+                        onPressed: () => homeScreenController.toggleDrawer(),
                         icon: Icon(
                           homeScreenController.isDrawerOpen(drawerState)
                               ? Icons.close

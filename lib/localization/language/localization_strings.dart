@@ -44,7 +44,7 @@ class Languages extends Translations {
           'alternateLoginLabel': 'او',
           'noEmailAccount':
               'ليس لديك حساب بريد الكترونى؟ انشئ حساب بريد الكترونى',
-          'english': 'الانجليزية',
+          'english': 'ENGLISH',
           'arabic': 'العربية',
           'chooseLanguage': 'اختر لغتك المفضلة',
           'chooseForgetPasswordMethod': 'اختر طريقة تغيير كلمة المرور',
@@ -189,7 +189,7 @@ class Languages extends Translations {
           'alternateLoginLabel': 'OR',
           'noEmailAccount': 'Don\'t have an email account? Register with email',
           'english': 'ENGLISH',
-          'arabic': 'ARABIC',
+          'arabic': 'العربية',
           'chooseLanguage': 'Choose your preferred language',
           'chooseForgetPasswordMethod':
               'Choose a method to reset your password',

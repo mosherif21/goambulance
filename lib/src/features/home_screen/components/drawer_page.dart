@@ -145,6 +145,7 @@ class MenuItemWidget extends StatelessWidget {
     return TextButton(
       onPressed: () => callback!(item!.index),
       style: TextButton.styleFrom(
+        splashFactory: InkSparkle.splashFactory,
         foregroundColor: const Color(0x44000000),
       ),
       child: Padding(

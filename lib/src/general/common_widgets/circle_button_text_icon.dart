@@ -19,17 +19,18 @@ class CircleButtonIconAndText extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
+        Material(
+          shape: const CircleBorder(),
+          color: buttonColor,
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            splashFactory: InkSparkle.splashFactory,
+            child: Padding(
               padding: const EdgeInsets.all(20.0),
-              elevation: 0,
-              backgroundColor: buttonColor,
-              foregroundColor: Colors.white,
-              surfaceTintColor: Colors.white,
-              shadowColor: Colors.white,
-              shape: const CircleBorder()),
-          onPressed: () => onPressed(),
-          child: icon,
+              child: icon,
+            ),
+            onTap: () => onPressed(),
+          ),
         ),
         const SizedBox(height: 5.0),
         Text(

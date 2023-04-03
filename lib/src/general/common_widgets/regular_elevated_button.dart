@@ -20,6 +20,7 @@ class RegularElevatedButton extends StatelessWidget {
       height: 45,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          splashFactory: InkSparkle.splashFactory,
           elevation: 0,
           backgroundColor: color,
           foregroundColor: Colors.white,

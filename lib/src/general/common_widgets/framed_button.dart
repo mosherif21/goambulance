@@ -17,50 +17,52 @@ class FramedIconButton extends StatelessWidget {
   final double height;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onPressed(),
-      child: Container(
-        height: height,
-        width: double.infinity,
-        padding: EdgeInsets.all(height * 0.1),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.grey.shade200,
-        ),
-        child: Row(
-          children: [
-            Icon(
-              iconData,
-              size: height * 0.6,
-              color: Colors.black,
-            ),
-            const SizedBox(
-              width: 10.0,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AutoSizeText(
-                  title,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w400),
-                  maxLines: 1,
-                ),
-                if (subTitle.isNotEmpty)
+    return Material(
+      borderRadius: BorderRadius.circular(10.0),
+      color: Colors.grey.shade200,
+      child: InkWell(
+        splashFactory: InkSparkle.splashFactory,
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () => onPressed(),
+        child: Container(
+          height: height,
+          width: double.infinity,
+          padding: EdgeInsets.all(height * 0.1),
+          child: Row(
+            children: [
+              Icon(
+                iconData,
+                size: height * 0.6,
+                color: Colors.black,
+              ),
+              const SizedBox(
+                width: 10.0,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   AutoSizeText(
-                    subTitle,
+                    title,
                     style: const TextStyle(
-                        color: Colors.black87,
-                        fontSize: 12.0,
-                        fontWeight: FontWeight.w500),
+                        color: Colors.black,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w400),
                     maxLines: 1,
                   ),
-              ],
-            )
-          ],
+                  if (subTitle.isNotEmpty)
+                    AutoSizeText(
+                      subTitle,
+                      style: const TextStyle(
+                          color: Colors.black87,
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w500),
+                      maxLines: 1,
+                    ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

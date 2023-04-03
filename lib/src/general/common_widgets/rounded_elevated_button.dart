@@ -28,6 +28,7 @@ class RoundedImageElevatedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () => onPressed(),
         style: ElevatedButton.styleFrom(
+          splashFactory: InkSparkle.splashFactory,
           elevation: 0,
           backgroundColor: Colors.grey.shade200,
           shape: const RoundedRectangleBorder(

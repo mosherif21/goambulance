@@ -12,7 +12,7 @@ class HomeNavigationDrawer extends StatelessWidget {
   const HomeNavigationDrawer({super.key});
   @override
   Widget build(BuildContext context) {
-    final homeScreenController = HomeScreenController.instance;
+    final homeScreenController = Get.put(HomeScreenController());
     return ZoomDrawer(
       controller: homeScreenController.zoomDrawerController,
       menuScreen: DrawerPage(

@@ -62,7 +62,7 @@ class RegisterUserDataController extends GetxController {
     super.onReady();
     nationalIdTextController.addListener(() {
       final nationalId = nationalIdTextController.text;
-      if (nationalId.isNumericOnly && nationalId.length == 14) {
+      if (NIDInfo.NIDCheck(nid: nationalId)) {
         try {
           final nationalIdData = NIDInfo(nid: nationalId);
           gender = nationalIdData.sex.compareTo('Male') == 0
@@ -117,8 +117,6 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> checkPersonalInformation() async {
-    showLoadingScreen();
-
     final name = nameTextController.text;
     final email = emailTextController.text;
     final nationalId = nationalIdTextController.text;
@@ -126,7 +124,7 @@ class RegisterUserDataController extends GetxController {
     highlightName.value = name.isEmpty ? true : false;
     highlightEmail.value = email.isEmail ? false : true;
 
-    if (nationalId.isNumericOnly && nationalId.length == 14) {
+    if (NIDInfo.NIDCheck(nid: nationalId)) {
       try {
         NIDInfo(nid: nationalId);
         highlightNationalId.value = false;
@@ -149,11 +147,9 @@ class RegisterUserDataController extends GetxController {
         !highlightBirthdate.value &&
         !highlightProfilePic.value &&
         !highlightNationalIdPick.value) {
-      hideLoadingScreen();
       Get.to(() => const MedicalHistoryInsertPage(),
           transition: AppInit.getPageTransition());
     } else {
-      hideLoadingScreen();
       showSimpleSnackBar(text: 'requiredFields'.tr);
     }
   }

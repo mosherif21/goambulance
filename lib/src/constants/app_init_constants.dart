@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/firebase_files/firebase_access.dart';
 import 'package:goambulance/src/features/intro_screen/screens/intro_screen.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,6 +32,10 @@ enum AuthType {
   google,
   phone,
 }
+
+enum UserType { driver, user }
+
+enum FunctionStatus { success, failure }
 
 class AppInit {
   static bool showOnBoard = false;
@@ -136,7 +139,7 @@ class AppInit {
       AppInit.initializeDatabase().whenComplete(() async {
         if (!showOnBoard) {
           removeSplashScreen();
-          await goToInitialPage();
+          await goToInitPage();
         }
       });
     }
@@ -154,14 +157,15 @@ class AppInit {
     if (!isInitialised) {
       Get.offAll(() => const NotInternetErrorWidget());
     } else {
-      goToInitialPage();
+      goToInitPage();
     }
   }
 
-  static Future<void> goToInitialPage() async {
+  static Future<void> goToInitPage() async {
     final authRepo = AuthenticationRepository.instance;
     if (AuthenticationRepository.instance.isUserLoggedIn) {
-      await AuthenticationRepository.instance.userInit().whenComplete(() {
+      final functionStatus = await AuthenticationRepository.instance.userInit();
+      if (functionStatus == FunctionStatus.success) {
         if (authRepo.userType == UserType.driver) {
           Get.offAll(
             () => const HomeScreen(),
@@ -178,7 +182,7 @@ class AppInit {
                   transition: Transition.circularReveal,
                 );
         }
-      });
+      }
     } else {
       await Get.offAll(
         () => const IntroScreen(),

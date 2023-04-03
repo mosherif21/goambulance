@@ -12,10 +12,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../src/features/account/components/models.dart';
 
-enum UserType { driver, user }
-
-enum FunctionStatus { success, failure }
-
 class FirebaseDataAccess extends GetxController {
   static FirebaseDataAccess get instance => Get.find();
 

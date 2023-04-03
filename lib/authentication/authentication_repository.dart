@@ -9,7 +9,6 @@ import 'package:goambulance/authentication/exception_errors/password_reset_excep
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../firebase_files/firebase_access.dart';
 import '../src/features/authentication/controllers/login_controller.dart';
 import '../src/features/authentication/controllers/register_controller.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
@@ -38,7 +37,7 @@ class AuthenticationRepository extends GetxController {
     fireUser.bindStream(_auth.userChanges());
   }
 
-  Future<void> userInit() async {
+  Future<FunctionStatus> userInit() async {
     final fireStore = FirebaseFirestore.instance;
     final String userId = fireUser.value!.uid;
     final firestoreUserDocRef = fireStore
@@ -51,25 +50,31 @@ class AuthenticationRepository extends GetxController {
         .doc('ambulanceDrivers')
         .collection('driverInfo')
         .doc(userId);
-
-    await firestoreDriverDocRef
-        .get()
-        .then((DocumentSnapshot userSnapshot) async {
-      if (userSnapshot.exists) {
-        userType = UserType.driver;
-        isUserRegistered = true;
-      } else {
-        await firestoreUserDocRef.get().then((DocumentSnapshot userSnapshot) {
-          if (userSnapshot.exists) {
-            userType = UserType.user;
-            isUserRegistered = true;
-          } else {
-            userType = UserType.user;
-            isUserRegistered = false;
-          }
-        });
-      }
-    });
+    try {
+      await firestoreDriverDocRef
+          .get()
+          .then((DocumentSnapshot userSnapshot) async {
+        if (userSnapshot.exists) {
+          userType = UserType.driver;
+          isUserRegistered = true;
+        } else {
+          await firestoreUserDocRef.get().then((DocumentSnapshot userSnapshot) {
+            if (userSnapshot.exists) {
+              userType = UserType.user;
+              isUserRegistered = true;
+            } else {
+              userType = UserType.user;
+              isUserRegistered = false;
+            }
+          });
+        }
+      });
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      await logoutUser();
+      return FunctionStatus.failure;
+    }
   }
 
   Future<void> authenticatedSetup() async {
@@ -89,7 +94,7 @@ class AuthenticationRepository extends GetxController {
       if (fireUser.value != null) {
         await authenticatedSetup();
         isUserLoggedIn = true;
-        AppInit.goToInitialPage();
+        AppInit.goToInitPage();
         return 'success';
       }
     } on FirebaseAuthException catch (e) {
@@ -107,7 +112,7 @@ class AuthenticationRepository extends GetxController {
       if (fireUser.value != null) {
         await authenticatedSetup();
         isUserLoggedIn = true;
-        AppInit.goToInitialPage();
+        AppInit.goToInitPage();
         return 'success';
       }
     } on FirebaseAuthException catch (e) {
@@ -127,7 +132,7 @@ class AuthenticationRepository extends GetxController {
             await _auth.signInWithCredential(credential);
             if (fireUser.value != null) {
               isUserLoggedIn = true;
-              AppInit.goToInitialPage();
+              AppInit.goToInitPage();
             }
           },
           verificationFailed: (e) {
@@ -154,7 +159,7 @@ class AuthenticationRepository extends GetxController {
           verificationId: verificationId.value, smsCode: otp));
       if (fireUser.value != null) {
         isUserLoggedIn = true;
-        AppInit.goToInitialPage();
+        AppInit.goToInitPage();
         return 'success';
       }
     } on FirebaseAuthException catch (e) {
@@ -184,7 +189,7 @@ class AuthenticationRepository extends GetxController {
         await _auth.signInWithCredential(credential);
         if (fireUser.value != null) {
           isUserLoggedIn = true;
-          AppInit.goToInitialPage();
+          AppInit.goToInitPage();
           return 'success';
         }
       }
@@ -220,7 +225,7 @@ class AuthenticationRepository extends GetxController {
             await FirebaseAuth.instance.signInWithPopup(facebookProvider);
         if (userCredential.user != null) {
           isUserLoggedIn = true;
-          AppInit.goToInitialPage();
+          AppInit.goToInitPage();
           return 'success';
         }
       } catch (e) {
@@ -236,7 +241,7 @@ class AuthenticationRepository extends GetxController {
               .signInWithCredential(facebookAuthCredential);
           if (userCredential.user != null) {
             isUserLoggedIn = true;
-            AppInit.goToInitialPage();
+            AppInit.goToInitPage();
             return 'success';
           }
         } else {

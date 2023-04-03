@@ -72,7 +72,6 @@ class AuthenticationRepository extends GetxController {
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
-      await logoutUser();
       return FunctionStatus.failure;
     }
   }

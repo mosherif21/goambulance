@@ -71,7 +71,6 @@ class FirebaseDataAccess extends GetxController {
             .child('nationalId')
             .putFile(File(nationalID.path), nationalIdMetadata);
       }
-
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

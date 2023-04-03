@@ -73,8 +73,8 @@ class Languages extends Translations {
           'userDisabled': 'هذا المستخدم ممنوع من الاستخدام',
           'invalidPhoneNumber': 'رقم الهاتف غير صحيح',
           'wrongOTP': 'رمز التاكيد غير صحيح',
-          'failedGoogleAuth': 'تسجيل الدخول بجوجل فشل, حاول مرة اخرى',
-          'failedFacebookAuth': 'تسجيل الدخول بفيسبوك فشل, حاول مرة اخرى',
+          'failedGoogleAuth': 'تسجيل الدخول بجوجل فشل، حاول مرة اخرى',
+          'failedFacebookAuth': 'تسجيل الدخول بفيسبوك فشل، حاول مرة اخرى',
           'failedAuth': 'فشل تسجيل الدخول',
           'success': 'محاولة ناجحة',
           'error': 'حدث خطا',
@@ -110,7 +110,7 @@ class Languages extends Translations {
           'locationPermission': 'إذن الموقع',
           'enableLocationPermission': 'يرجى قبول إذن الموقع لاستخدام التطبيق',
           'locationPermissionDeniedForever':
-              'تم رفض إذن المواقع إلى الأبد ، يرجى تمكينه من الإعدادات',
+              'تم رفض إذن المواقع إلى الأبد، يرجى تمكينه من الإعدادات',
           'firstAidTips1': 'غياب الوعى',
           'firstAidTips2': 'الانعاش القلبى الرئوى',
           'firstAidTips3': 'انسداد مجرى الهواء',
@@ -162,6 +162,7 @@ class Languages extends Translations {
               'يرجى إكمال جميع المعلومات المميزة باللون الأحمر بشكل صحيح',
           'saveUserInfoError':
               'حفظ المعلومات الخاصة بك فشل، يرجى المحاولة مرة أخرى',
+          'loginFailed': 'فشل تسجيل الدخول، يرجى المحاولة مرة أخرى',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -315,6 +316,7 @@ class Languages extends Translations {
               'Please provide all of the information highlighted in red correctly',
           'saveUserInfoError':
               'Failed to save your information, please try again',
+          'loginFailed': 'Login failed, please try again',
         },
       };
 }

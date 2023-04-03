@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/firebase_files/firebase_access.dart';
 import 'package:goambulance/src/features/intro_screen/screens/intro_screen.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -161,15 +162,22 @@ class AppInit {
     final authRepo = AuthenticationRepository.instance;
     if (AuthenticationRepository.instance.isUserLoggedIn) {
       await AuthenticationRepository.instance.userInit().whenComplete(() {
-        authRepo.isUserRegistered
-            ? Get.offAll(
-                () => const HomeScreen(),
-                transition: Transition.circularReveal,
-              )
-            : Get.offAll(
-                () => const RegisterUserDataPage(),
-                transition: Transition.circularReveal,
-              );
+        if (authRepo.userType == UserType.driver) {
+          Get.offAll(
+            () => const HomeScreen(),
+            transition: Transition.circularReveal,
+          );
+        } else if (authRepo.userType == UserType.user) {
+          authRepo.isUserRegistered
+              ? Get.offAll(
+                  () => const HomeScreen(),
+                  transition: Transition.circularReveal,
+                )
+              : Get.offAll(
+                  () => const RegisterUserDataPage(),
+                  transition: Transition.circularReveal,
+                );
+        }
       });
     } else {
       await Get.offAll(

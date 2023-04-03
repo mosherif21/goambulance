@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -27,8 +26,6 @@ class AuthenticationRepository extends GetxController {
   var verificationId = ''.obs;
   GoogleSignIn? googleSignIn;
 
-  late final FirebaseFirestore fireStore;
-  late final FirebaseDatabase fireDatabase;
   UserType userType = UserType.user;
 
   @override
@@ -39,17 +36,40 @@ class AuthenticationRepository extends GetxController {
       isUserLoggedIn = true;
     }
     fireUser.bindStream(_auth.userChanges());
-    fireStore = FirebaseFirestore.instance;
-    fireDatabase = FirebaseDatabase.instance;
   }
 
   Future<void> userInit() async {
-    await getIfUserRegistered();
-  }
+    final fireStore = FirebaseFirestore.instance;
+    final String userId = fireUser.value!.uid;
+    final firestoreUserDocRef = fireStore
+        .collection('users')
+        .doc('patients')
+        .collection('userInfo')
+        .doc(userId);
+    final firestoreDriverDocRef = fireStore
+        .collection('users')
+        .doc('ambulanceDrivers')
+        .collection('driverInfo')
+        .doc(userId);
 
-  Future<void> getIfUserRegistered() async {
-    if (kDebugMode) print('user id: ${fireUser.value?.uid}');
-    isUserRegistered = false;
+    await firestoreDriverDocRef
+        .get()
+        .then((DocumentSnapshot userSnapshot) async {
+      if (userSnapshot.exists) {
+        userType = UserType.driver;
+        isUserRegistered = true;
+      } else {
+        await firestoreUserDocRef.get().then((DocumentSnapshot userSnapshot) {
+          if (userSnapshot.exists) {
+            userType = UserType.user;
+            isUserRegistered = true;
+          } else {
+            userType = UserType.user;
+            isUserRegistered = false;
+          }
+        });
+      }
+    });
   }
 
   Future<void> authenticatedSetup() async {

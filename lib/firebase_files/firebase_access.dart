@@ -31,14 +31,14 @@ class FirebaseDataAccess extends GetxController {
   void onInit() {
     super.onInit();
     userId = AuthenticationRepository.instance.fireUser.value?.uid;
+    fireStore = FirebaseFirestore.instance;
+    fireDatabase = FirebaseDatabase.instance;
+    fireStorage = FirebaseStorage.instance;
     firestoreUserDocRef = fireStore
         .collection('users')
         .doc('patients')
         .collection('userInfo')
         .doc(userId!);
-    fireStore = FirebaseFirestore.instance;
-    fireDatabase = FirebaseDatabase.instance;
-    fireStorage = FirebaseStorage.instance;
   }
 
   Future<FunctionStatus> saveUserPersonalInformation(

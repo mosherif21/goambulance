@@ -127,10 +127,12 @@ class RegisterUserDataController extends GetxController {
     final addedImage = await picker.pickImage(source: ImageSource.camera);
     if (addedImage != null) {
       isNationalIDImageAdded.value = true;
+
       iDImage.value = addedImage;
       highlightNationalIdPick.value = false;
     }
   }
+
 
   Future<void> checkPersonalInformation() async {
     final name = nameTextController.text;

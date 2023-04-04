@@ -166,6 +166,7 @@ class AppInit {
     final authRepo = AuthenticationRepository.instance;
     if (AuthenticationRepository.instance.isUserLoggedIn) {
       final functionStatus = await AuthenticationRepository.instance.userInit();
+
       if (functionStatus == FunctionStatus.success) {
         if (authRepo.userType == UserType.driver) {
           Get.offAll(
@@ -184,6 +185,7 @@ class AppInit {
                 );
         }
       } else {
+        hideLoadingScreen();
         await authRepo.logoutUser();
         showSimpleSnackBar(text: 'loginFailed'.tr);
       }

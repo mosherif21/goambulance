@@ -12,8 +12,8 @@ const String kLogoImageWithSlogan =
     "assets/images/logo_with_slogan_transparent.png";
 const String kLogoImageWithName =
     "assets/images/logo_with_name_transparent.png";
-const String kAmbulanceImage = "assets/images/ambulance.png";
-const String kSosImage = "assets/images/sos.png";
+const String kAmbulanceImage = "assets/images/ambulance_above_medium.svg";
+const String kSosImage = "assets/images/sos.svg";
 const String kProfileImage = "assets/images/profile_male.png";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_marker.png";
 const String kAmbulanceMarkerImgUnscaled =

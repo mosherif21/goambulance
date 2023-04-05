@@ -48,6 +48,7 @@ class OtpVerificationController extends GetxController {
     var phoneNumber = enteredData.value.text;
     var returnMessage = '';
     returnMessage = await signInWithOTPPhone(phoneNumber);
+    hideLoadingScreen();
     if (returnMessage.compareTo('codeSent') == 0) {
       await Get.to(
           () => OTPVerificationScreen(
@@ -58,10 +59,15 @@ class OtpVerificationController extends GetxController {
               ),
           transition: AppInit.getPageTransition());
     } else {
-      hideLoadingScreen();
       showSimpleSnackBar(
         text: returnMessage,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    enteredData.dispose();
+    super.dispose();
   }
 }

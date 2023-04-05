@@ -16,7 +16,7 @@ import '../../requests/screens/previous_requests_page.dart';
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
 
-  final controller = PersistentTabController(initialIndex: 0);
+  final homeBottomTabController = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
 
@@ -93,5 +93,11 @@ class HomeScreenController extends GetxController {
         isArabic: isArabic,
       ),
     ];
+  }
+
+  @override
+  void dispose() {
+    homeBottomTabController.dispose();
+    super.dispose();
   }
 }

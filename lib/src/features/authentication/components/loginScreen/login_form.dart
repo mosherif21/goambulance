@@ -35,6 +35,7 @@ class LoginForm extends StatelessWidget {
             labelText: 'passwordLabel'.tr,
             textController: controller.passwordTextController,
             textInputAction: TextInputAction.done,
+            onSubmitted: () async => await controller.loginUser(),
           ),
           const SizedBox(height: 6),
           Align(

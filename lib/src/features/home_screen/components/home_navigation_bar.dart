@@ -10,7 +10,7 @@ class HomeNavigationBar extends StatelessWidget {
     final homeScreenController = HomeScreenController.instance;
     return PersistentTabView(
       context,
-      controller: homeScreenController.controller,
+      controller: homeScreenController.homeBottomTabController,
       screens: homeScreenController.buildScreens(),
       items: homeScreenController.navBarsItems(),
       confineInSafeArea: true,

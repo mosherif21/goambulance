@@ -7,17 +7,20 @@ class TextFormFieldPassword extends StatelessWidget {
     required this.labelText,
     required this.textController,
     required this.textInputAction,
+    this.onSubmitted,
   }) : super(key: key);
   final String labelText;
   final TextEditingController textController;
   final TextInputAction textInputAction;
-
+  final Function? onSubmitted;
   @override
   Widget build(BuildContext context) {
     RxBool passwordHide = true.obs;
     return Obx(
       () => TextFormField(
         textInputAction: textInputAction,
+        onFieldSubmitted:
+            onSubmitted != null ? (enteredString) => onSubmitted!() : null,
         obscureText: passwordHide.value,
         controller: textController,
         decoration: InputDecoration(

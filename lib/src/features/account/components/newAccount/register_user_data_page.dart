@@ -27,8 +27,6 @@ class RegisterUserDataPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(FirebaseDataAccess());
     final controller = Get.put(RegisterUserDataController());
-
-    //final screenHeight = getScreenHeight(context);
     return WillPopScope(
       onWillPop: () async {
         await logout();
@@ -102,10 +100,9 @@ class RegisterUserDataPage extends StatelessWidget {
                                   textController:
                                       controller.emailTextController,
                                   inputType: InputType.text,
-                                  editable: controller
-                                          .emailTextController.text.isNotEmpty
-                                      ? false
-                                      : true,
+                                  editable: controller.makeEmailEditable
+                                      ? true
+                                      : false,
                                   textInputAction: TextInputAction.next,
                                 ),
                               ],

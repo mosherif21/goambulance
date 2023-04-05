@@ -50,14 +50,19 @@ class RegisterUserDataController extends GetxController {
   RxBool highlightProfilePic = false.obs;
   RxBool highlightNationalIdPick = false.obs;
 
+  bool makeEmailEditable = true;
+
   @override
   void onInit() {
     super.onInit();
     final user = AuthenticationRepository.instance.fireUser.value;
-    final userEmail = user?.email ?? '';
+    if (user?.email != null) {
+      emailTextController.text = user!.email!;
+      makeEmailEditable = false;
+    }
+
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
-    emailTextController.text = userEmail;
   }
 
   @override
@@ -133,7 +138,6 @@ class RegisterUserDataController extends GetxController {
     }
   }
 
-
   Future<void> checkPersonalInformation() async {
     final name = nameTextController.text;
     final email = emailTextController.text;
@@ -199,5 +203,15 @@ class RegisterUserDataController extends GetxController {
       showSimpleSnackBar(text: 'saveUserInfoError'.tr);
       hideLoadingScreen();
     }
+  }
+
+  @override
+  void dispose() {
+    nameTextController.dispose();
+    emailTextController.dispose();
+    phoneTextController.dispose();
+    nationalIdTextController.dispose();
+    birthDateController.dispose();
+    super.dispose();
   }
 }

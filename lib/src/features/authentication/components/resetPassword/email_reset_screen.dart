@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 
 import '../../../../constants/app_init_constants.dart';
-import '../../../../general/common_functions.dart';
 import '../../../../general/common_widgets/single_entry_screen.dart';
 import '../../controllers/reset_password_controller.dart';
 
@@ -19,22 +18,8 @@ void getToResetPasswordScreen() {
       buttonTitle: 'confirm'.tr,
       textController: controller.emailController,
       inputType: InputType.email,
-      onPressed: () async {
-        String returnMessage = '';
-        String email = controller.emailController.value.text.trim();
-
-        returnMessage = await controller.resetPassword(email);
-        if (returnMessage.compareTo('emailSent') == 0) {
-          Get.back();
-          showSimpleSnackBar(
-            text: 'emailResetSuccess'.tr,
-          );
-        } else {
-          showSimpleSnackBar(
-            text: returnMessage,
-          );
-        }
-      },
+      onPressed: () async => await controller
+          .resetPassword(controller.emailController.value.text.trim()),
     ),
     transition: AppInit.getPageTransition(),
   );

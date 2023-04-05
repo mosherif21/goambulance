@@ -34,4 +34,12 @@ class EmailRegisterController extends GetxController {
       );
     }
   }
+
+  @override
+  void dispose() {
+    emailTextController.dispose();
+    passwordTextController.dispose();
+    passwordConfirmTextController.dispose();
+    super.dispose();
+  }
 }

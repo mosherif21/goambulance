@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
@@ -9,16 +8,32 @@ class ResetController extends GetxController {
   static ResetController get instance => Get.find();
   final emailController = TextEditingController();
 
-  Future<String> resetPassword(String email) async {
-    if (kDebugMode) {
-      print('email reset data is: $email');
-    }
+  Future<void> resetPassword(String email) async {
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();
-    var returnMessage = email.isEmpty
+    String returnMessage = email.isEmpty
         ? 'missingEmail'.tr
-        : await AuthenticationRepository.instance.resetPassword(email: email);
+        : !email.isEmail
+            ? 'invalidEmailEntered'.tr
+            : await AuthenticationRepository.instance
+                .resetPassword(email: email);
+
+    if (returnMessage.compareTo('emailSent') == 0) {
+      Get.back();
+      showSimpleSnackBar(
+        text: 'emailResetSuccess'.tr,
+      );
+    } else {
+      showSimpleSnackBar(
+        text: returnMessage,
+      );
+    }
     hideLoadingScreen();
-    return returnMessage;
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
   }
 }

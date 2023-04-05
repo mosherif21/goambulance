@@ -37,6 +37,7 @@ class EmailRegisterForm extends StatelessWidget {
             labelText: 'confirmPassword'.tr,
             textController: controller.passwordConfirmTextController,
             textInputAction: TextInputAction.done,
+            onSubmitted: () async => await controller.registerNewUser(),
           ),
           const SizedBox(height: 12),
           RegularElevatedButton(

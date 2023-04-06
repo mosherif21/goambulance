@@ -60,7 +60,6 @@ class RegisterUserDataController extends GetxController {
       emailTextController.text = user!.email!;
       makeEmailEditable = false;
     }
-
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
   }

@@ -7,7 +7,7 @@ import '../../../../constants/colors.dart';
 import '../../../../general/common_functions.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../controllers/register_user_data_controller.dart';
-import 'no_medical_history_item.dart';
+import 'medical_history_item.dart';
 
 class MedicalHistoryInsertPage extends StatelessWidget {
   const MedicalHistoryInsertPage({Key? key}) : super(key: key);
@@ -55,21 +55,20 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.all(20.0),
                           child: SingleChildScrollView(
-                            physics: const BouncingScrollPhysics(),
-                            child:
-                                // Column(
-                                //   children: [
-                                //     for (int i = 0; i < 5; i++)
-                                //       MedicalHistoryItem(
-                                //         screenHeight: screenHeight,
-                                //       )
-                                //   ],
-                                // )
+                              physics: const BouncingScrollPhysics(),
+                              child: Column(
+                                children: [
+                                  for (int i = 0; i < 5; i++)
+                                    MedicalHistoryItem(
+                                      screenHeight: screenHeight,
+                                    )
+                                ],
+                              )
 
-                                NoMedicalHistory(
-                              screenHeight: screenHeight,
-                            ),
-                          ),
+                              //     NoMedicalHistory(
+                              //   screenHeight: screenHeight,
+                              // ),
+                              ),
                         ),
                       ),
                       const SizedBox(height: 10.0),

@@ -1,7 +1,8 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/assets_strings.dart';
 
 class MedicalHistoryItem extends StatelessWidget {
@@ -22,63 +23,65 @@ class MedicalHistoryItem extends StatelessWidget {
           Radius.circular(15),
         ),
       ),
-      child: Stack(
+      child: Row(
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const AutoSizeText(
                 'disease',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: screenHeight * 0.015,
+                  fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  fontFamily: 'Bruno Ace',
                 ),
+                maxLines: 1,
               ),
               const SizedBox(height: 10.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image(
-                    image: const AssetImage(kVirusImg),
-                    height: screenHeight * 0.1,
+                  SvgPicture.asset(
+                    kMedicalHistoryItemImg,
+                    height: screenHeight * 0.05,
                   ),
-                  SizedBox(width: screenHeight * 0.01),
+                  const SizedBox(height: 10),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const AutoSizeText(
                         'item',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: screenHeight * 0.02,
+                          fontSize: 15,
                           fontWeight: FontWeight.w600,
-                          fontFamily: 'Bruno Ace',
                         ),
+                        maxLines: 1,
                       ),
-                      SizedBox(height: screenHeight * 0.01),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
-                          Text(
+                          AutoSizeText(
                             'countIs'.tr,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
-                              fontSize: screenHeight * 0.015,
+                              fontSize: 15,
                               fontFamily: 'Bruno Ace',
                             ),
+                            maxLines: 1,
                           ),
                           const SizedBox(width: 5.0),
-                          Text(
+                          const AutoSizeText(
                             '299',
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: screenHeight * 0.015,
+                              fontSize: 15,
                               fontWeight: FontWeight.w700,
                               fontFamily: 'Bruno Ace',
                             ),
+                            maxLines: 1,
                           ),
                         ],
                       )
@@ -88,37 +91,14 @@ class MedicalHistoryItem extends StatelessWidget {
               )
             ],
           ),
-          Positioned(
-            right:
-                AppInit.currentDeviceLanguage == Language.english ? 10.0 : null,
-            left:
-                AppInit.currentDeviceLanguage == Language.arabic ? 10.0 : null,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.settings,
-                      size: screenHeight * 0.05,
-                    ),
-                    color: Colors.black,
-                    onPressed: () {},
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.005),
-                IconButton(
-                  icon: Icon(
-                    Icons.close,
-                    size: screenHeight * 0.05,
-                  ),
-                  color: Colors.black,
-                  onPressed: () async {},
-                ),
-                SizedBox(height: screenHeight * 0.005),
-              ],
+          const Spacer(),
+          IconButton(
+            icon: const Icon(
+              Icons.delete,
+              size: 40,
+              color: Colors.red,
             ),
+            onPressed: () {},
           ),
         ],
       ),

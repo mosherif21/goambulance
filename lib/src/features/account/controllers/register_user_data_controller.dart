@@ -52,6 +52,8 @@ class RegisterUserDataController extends GetxController {
 
   bool makeEmailEditable = true;
 
+  //medical history
+  //var userProducts = <AssistantProProduct>[].obs;
   @override
   void onInit() {
     super.onInit();

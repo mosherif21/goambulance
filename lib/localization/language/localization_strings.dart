@@ -163,6 +163,7 @@ class Languages extends Translations {
           'saveUserInfoError':
               'حفظ المعلومات الخاصة بك فشل، يرجى المحاولة مرة أخرى',
           'loginFailed': 'فشل تسجيل الدخول، يرجى المحاولة مرة أخرى',
+          'noMedicalHistory': 'لم تتم إضافة أي تاريخ طبي للأمراض أو الحساسية',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -317,6 +318,7 @@ class Languages extends Translations {
           'saveUserInfoError':
               'Failed to save your information, please try again',
           'loginFailed': 'Login failed, please try again',
+          'noMedicalHistory': 'No medical history diseases or allergies added',
         },
       };
 }

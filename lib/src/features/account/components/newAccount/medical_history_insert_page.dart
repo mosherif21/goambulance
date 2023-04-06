@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
 import '../../../../constants/colors.dart';
+import '../../../../general/common_functions.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../controllers/register_user_data_controller.dart';
+import 'no_medical_history_item.dart';
 
 class MedicalHistoryInsertPage extends StatelessWidget {
   const MedicalHistoryInsertPage({Key? key}) : super(key: key);
@@ -13,7 +15,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = RegisterUserDataController.instance;
-    //final screenHeight = getScreenHeight(context);
+    final screenHeight = getScreenHeight(context);
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -39,6 +41,36 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                         ),
                         maxLines: 2,
+                      ),
+                      const SizedBox(height: 10.0),
+                      Container(
+                        height: screenHeight * 0.65,
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
+                        child: Container(
+                          padding: const EdgeInsets.all(20.0),
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child:
+                                // Column(
+                                //   children: [
+                                //     for (int i = 0; i < 5; i++)
+                                //       MedicalHistoryItem(
+                                //         screenHeight: screenHeight,
+                                //       )
+                                //   ],
+                                // )
+
+                                NoMedicalHistory(
+                              screenHeight: screenHeight,
+                            ),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 10.0),
                       Padding(

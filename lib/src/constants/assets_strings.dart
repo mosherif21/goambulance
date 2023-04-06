@@ -16,6 +16,8 @@ const String kAmbulanceImage = "assets/images/ambulance_above_medium.svg";
 const String kSosImage = "assets/images/sos.svg";
 const String kProfileImage = "assets/images/profile_male.png";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_marker.png";
+const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";
+const String kVirusImg = "assets/images/virus_large.png";
 const String kAmbulanceMarkerImgUnscaled =
     "assets/images/ambulance_marker_unscaled.png";
 

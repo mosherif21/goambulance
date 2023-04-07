@@ -59,7 +59,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                                   .selectedBloodType
                                   .value = selectedBloodType as String,
                               items: bloodTypes,
-                              dropDownValue:
+                              title:
                                   controller.selectedBloodType.value.isNotEmpty
                                       ? controller.selectedBloodType.value
                                       : 'pickBloodType'.tr,
@@ -81,11 +81,14 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                               onValueChanged: (selectedDiabetesType) =>
                                   controller.diabeticType.value =
                                       selectedDiabetesType as String,
-                              items: diabetesTypes,
-                              dropDownValue:
-                                  controller.diabeticType.value.isNotEmpty
-                                      ? controller.diabeticType.value
-                                      : 'no'.tr,
+                              items: [
+                                'no'.tr,
+                                'Type 1',
+                                'Type 2',
+                              ],
+                              title: controller.diabeticType.value.isNotEmpty
+                                  ? controller.diabeticType.value
+                                  : 'no'.tr,
                             ),
                           ],
                         ),
@@ -98,7 +101,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         children: [
                           TextHeader(
                               headerText: 'askBloodPressurePatient'.tr,
-                              fontSize: 12),
+                              fontSize: 18),
                           const SizedBox(height: 5.0),
                           Row(
                             children: [
@@ -122,7 +125,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'askHeartPatient'.tr, fontSize: 12),
+                              headerText: 'askHeartPatient'.tr, fontSize: 18),
                           const SizedBox(height: 5.0),
                           Row(
                             children: [
@@ -158,10 +161,11 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                             //     for (int i = 0; i < 2; i++)
                             //       MedicalHistoryItem(
                             //         screenHeight: screenHeight,
-                            //         item: DiseaseItem(
+                            //         diseaseItem: DiseaseItem(
                             //           diseaseName: 'Blood pressure',
                             //           diseaseMedicine: '',
                             //         ),
+                            //            onDeletePressed:(){}
                             //       )
                             //   ],
                             // ),

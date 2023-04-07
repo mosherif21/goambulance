@@ -163,7 +163,7 @@ class Languages extends Translations {
           'saveUserInfoError':
               'حفظ المعلومات الخاصة بك فشل، يرجى المحاولة مرة أخرى',
           'loginFailed': 'فشل تسجيل الدخول، يرجى المحاولة مرة أخرى',
-          'noMedicalHistory': 'لم تتم إضافة أي تاريخ طبي للأمراض أو الحساسية',
+          'noMedicalHistory': 'لم تتم إضافة أي أمراض أو حساسية',
           'addAllergiesOrDiseases': 'اضف مرض/حساسية',
           'diseaseName': 'اسم المرض/الحساسية',
           'medicines': 'الادوية',
@@ -172,7 +172,7 @@ class Languages extends Translations {
           'pickBloodType': 'اختر فصيلة الدم',
           'askDiabetic': 'هل انت مريض سكر؟',
           'askHeartPatient': 'هل انت مريض قلب؟',
-          'askBloodPressurePatient': 'هل انت مريض ضغط دم؟',
+          'askBloodPressurePatient': 'هل انت مريض ضغط الدم؟',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -327,7 +327,7 @@ class Languages extends Translations {
           'saveUserInfoError':
               'Failed to save your information, please try again',
           'loginFailed': 'Login failed, please try again',
-          'noMedicalHistory': 'No medical history diseases or allergies added',
+          'noMedicalHistory': 'No diseases or allergies added',
           'addAllergiesOrDiseases': 'Add Disease/Allergy',
           'diseaseName': 'Disease/Allergy name',
           'medicines': 'Medicine/s',

@@ -10,10 +10,12 @@ class MedicalHistoryItem extends StatelessWidget {
   const MedicalHistoryItem({
     Key? key,
     required this.screenHeight,
-    required this.item,
+    required this.diseaseItem,
+    required this.onDeletePressed,
   }) : super(key: key);
   final double screenHeight;
-  final DiseaseItem item;
+  final DiseaseItem diseaseItem;
+  final Function onDeletePressed;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,7 +35,7 @@ class MedicalHistoryItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AutoSizeText(
-                item.diseaseName,
+                diseaseItem.diseaseName,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -60,7 +62,7 @@ class MedicalHistoryItem extends StatelessWidget {
                     maxLines: 1,
                   ),
                   AutoSizeText(
-                    item.diseaseMedicine,
+                    diseaseItem.diseaseMedicine,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 12,
@@ -78,7 +80,7 @@ class MedicalHistoryItem extends StatelessWidget {
               size: 40,
               color: Colors.red,
             ),
-            onPressed: () {},
+            onPressed: () => onDeletePressed(),
           ),
         ],
       ),

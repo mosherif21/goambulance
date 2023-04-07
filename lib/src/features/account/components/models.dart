@@ -39,7 +39,3 @@ final List<String> bloodTypes = [
   'B-',
   'AB-',
 ];
-final List<String> diabetesTypes = [
-  'Type 1',
-  'Type 2',
-];

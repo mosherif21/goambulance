@@ -9,26 +9,26 @@ class CustomDropDown extends StatelessWidget {
     Key? key,
     required this.onValueChanged,
     required this.items,
-    required this.dropDownValue,
+    required this.title,
   }) : super(key: key);
   final Function onValueChanged;
   final List items;
-  final String dropDownValue;
+  final String title;
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
-        // hint: AutoSizeText(
-        //   title,
-        //   style: const TextStyle(
-        //     fontSize: 14,
-        //     fontWeight: FontWeight.bold,
-        //     color: Colors.white,
-        //   ),
-        //   overflow: TextOverflow.ellipsis,
-        //   maxLines: 1,
-        // ),
+        hint: AutoSizeText(
+          title,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
         items: items
             .map((item) => DropdownMenuItem<String>(
                   value: item,
@@ -44,7 +44,6 @@ class CustomDropDown extends StatelessWidget {
                   ),
                 ))
             .toList(),
-        value: dropDownValue,
         onChanged: (value) => onValueChanged(value),
         buttonStyleData: ButtonStyleData(
           height: 50,
@@ -68,7 +67,6 @@ class CustomDropDown extends StatelessWidget {
         ),
         dropdownStyleData: DropdownStyleData(
           maxHeight: 200,
-          width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
             color: kDefaultColor,

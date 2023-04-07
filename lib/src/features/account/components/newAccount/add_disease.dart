@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:goambulance/src/general/common_functions.dart';
 
 class AddDiseaseSelect extends StatelessWidget {
   const AddDiseaseSelect({
@@ -13,7 +12,7 @@ class AddDiseaseSelect extends StatelessWidget {
   final Function onAddAllergySelect;
   @override
   Widget build(BuildContext context) {
-    final screenHeight = getScreenHeight(context);
+    //final screenHeight = getScreenHeight(context);
     return Container(
       padding: const EdgeInsets.all(30.0),
       child: Column(

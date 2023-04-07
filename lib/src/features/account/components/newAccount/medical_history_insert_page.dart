@@ -160,7 +160,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                             //         screenHeight: screenHeight,
                             //         item: DiseaseItem(
                             //           diseaseName: 'Blood pressure',
-                            //           diseaseMedicine: 'micardis',
+                            //           diseaseMedicine: '',
                             //         ),
                             //       )
                             //   ],

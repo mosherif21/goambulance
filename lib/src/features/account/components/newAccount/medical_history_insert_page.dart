@@ -59,9 +59,11 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                                 headerText: 'chooseBloodType'.tr, fontSize: 18),
                             const SizedBox(height: 5.0),
                             CustomDropDown(
-                              onValueChanged: (selectedBloodType) => controller
-                                  .selectedBloodType
-                                  .value = selectedBloodType as String,
+                              onValueChanged: (selectedBloodType) {
+                                controller.selectedBloodType.value =
+                                    selectedBloodType as String;
+                                controller.highlightBloodType.value = false;
+                              },
                               items: bloodTypes,
                               title:
                                   controller.selectedBloodType.value.isNotEmpty
@@ -148,16 +150,9 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: double.infinity,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(15),
-                        ),
-                      ),
-                      child: const SingleChildScrollView(
+                    const RegularCard(
+                      highlightRed: false,
+                      child: SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         child:
                             // Column(

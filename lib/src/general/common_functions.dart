@@ -53,7 +53,7 @@ void showSimpleSnackBar({
   ScaffoldMessenger.of(Get.context!).showSnackBar(
     SnackBar(
       content: Text('$text.'),
-      backgroundColor: const Color(0xEE28AADC),
+      backgroundColor: kDefaultColor,
       //dismissDirection: DismissDirection.startToEnd,
       behavior: SnackBarBehavior.floating,
       elevation: 20.0,
@@ -64,7 +64,7 @@ void showSimpleSnackBar({
 }
 
 Future<void> logout() async {
-  await displayBinaryAlertDialog(
+  displayBinaryAlertDialog(
       title: 'logout'.tr,
       body: 'logoutConfirm'.tr,
       positiveButtonText: 'yes'.tr,
@@ -80,7 +80,7 @@ Future<void> logout() async {
       negativeButtonOnPressed: () => Get.back());
 }
 
-Future<void> displayBinaryAlertDialog({
+void displayBinaryAlertDialog({
   required String title,
   required String body,
   required String positiveButtonText,
@@ -88,14 +88,14 @@ Future<void> displayBinaryAlertDialog({
   required Function positiveButtonOnPressed,
   required Function negativeButtonOnPressed,
 }) async {
-  await Dialogs.materialDialog(
+  Dialogs.materialDialog(
       title: title,
       msg: body,
       color: Colors.white,
       context: Get.context!,
       actions: [
         IconsButton(
-          onPressed: () async => await positiveButtonOnPressed(),
+          onPressed: () => positiveButtonOnPressed(),
           text: positiveButtonText,
           iconData: Icons.logout,
           color: kDefaultColor,
@@ -103,7 +103,7 @@ Future<void> displayBinaryAlertDialog({
           iconColor: Colors.white,
         ),
         IconsOutlineButton(
-          onPressed: () async => await negativeButtonOnPressed(),
+          onPressed: () => negativeButtonOnPressed(),
           text: negativeButtonText,
           iconData: Icons.cancel_outlined,
           textStyle: const TextStyle(color: Colors.grey),
@@ -139,24 +139,4 @@ Future<void> displayChangeLang() async =>
 //           snackBarStatus = snackStatusCallBack!,
 //       barBlur: 20.0,
 //       margin: const EdgeInsets.all(20.0));
-// }
-
-// void showAwesomeSnackbar(
-//     {required String title,
-//     required String body,
-//     required ContentType contentType}) {
-//   ScaffoldMessenger.of(Get.context!)
-//     ..hideCurrentSnackBar()
-//     ..showSnackBar(
-//       SnackBar(
-//         elevation: 0,
-//         behavior: SnackBarBehavior.floating,
-//         backgroundColor: Colors.transparent,
-//         content: AwesomeSnackbarContent(
-//           title: title,
-//           message: body,
-//           contentType: contentType,
-//         ),
-//       ),
-//     );
 // }

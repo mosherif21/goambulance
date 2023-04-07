@@ -3,7 +3,6 @@ import 'package:eg_nid/eg_nid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/firebase_files/firebase_access.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
 import 'package:goambulance/src/general/common_functions.dart';
@@ -13,7 +12,6 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../authentication/authentication_repository.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../../home_screen/screens/home_screen.dart';
 
 enum Gender {
   male,
@@ -76,10 +74,12 @@ class RegisterUserDataController extends GetxController {
   void onReady() {
     super.onReady();
     nameTextController.addListener(() {
-      if (nameTextController.text.isNotEmpty) highlightName.value = false;
+      if (nameTextController.text.trim().isNotEmpty) {
+        highlightName.value = false;
+      }
     });
     emailTextController.addListener(() {
-      if (emailTextController.text.isEmail) highlightEmail.value = false;
+      if (emailTextController.text.trim().isEmail) highlightEmail.value = false;
     });
     nationalIdTextController.addListener(() {
       final nationalId = nationalIdTextController.text;
@@ -146,12 +146,10 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> checkPersonalInformation() async {
-    final name = nameTextController.text;
-    final email = emailTextController.text;
-    final nationalId = nationalIdTextController.text;
-
-    highlightName.value = name.isEmpty ? true : false;
-    highlightEmail.value = email.isEmail ? false : true;
+    highlightName.value = nameTextController.text.trim().isEmpty ? true : false;
+    highlightEmail.value =
+        emailTextController.text.trim().isEmail ? false : true;
+    final nationalId = nationalIdTextController.text.trim();
 
     if (NIDInfo.NIDCheck(nid: nationalId)) {
       try {
@@ -184,31 +182,35 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> savePersonalInformation() async {
-    showLoadingScreen();
-    final name = nameTextController.text;
-    final email = emailTextController.text;
-    final nationalId = nationalIdTextController.text;
-    final birthDate = birthDateController.selectedDate;
-    final userInfo = UserInfoSave(
-      name: name,
-      email: email,
-      nationalId: nationalId,
-      birthDate: birthDate!,
-      gender: gender == Gender.male ? 'male' : 'female',
-    );
-
-    final functionStatus = await FirebaseDataAccess.instance
-        .saveUserPersonalInformation(
-            userInfo: userInfo,
-            profilePic: profileImage.value!,
-            nationalID: iDImage.value!);
-    if (functionStatus == FunctionStatus.success) {
-      hideLoadingScreen();
-      Get.offAll(() => const HomeScreen(),
-          transition: AppInit.getPageTransition());
+    highlightBloodType.value = selectedBloodType.value.isEmpty ? true : false;
+    if (!highlightBloodType.value) {
+      // showLoadingScreen();
+      // final name = nameTextController.text.trim();
+      // final email = emailTextController.text.trim();
+      // final nationalId = nationalIdTextController.text.trim();
+      // final birthDate = birthDateController.selectedDate;
+      // final userInfo = UserInfoSave(
+      //   name: name,
+      //   email: email,
+      //   nationalId: nationalId,
+      //   birthDate: birthDate!,
+      //   gender: gender == Gender.male ? 'male' : 'female',
+      // );
+      // final functionStatus = await FirebaseDataAccess.instance
+      //     .saveUserPersonalInformation(
+      //     userInfo: userInfo,
+      //     profilePic: profileImage.value!,
+      //     nationalID: iDImage.value!);
+      // if (functionStatus == FunctionStatus.success) {
+      //   hideLoadingScreen();
+      //   Get.offAll(() => const HomeScreen(),
+      //       transition: AppInit.getPageTransition());
+      // } else {
+      //   showSimpleSnackBar(text: 'saveUserInfoError'.tr);
+      //   hideLoadingScreen();
+      // }
     } else {
-      showSimpleSnackBar(text: 'saveUserInfoError'.tr);
-      hideLoadingScreen();
+      showSimpleSnackBar(text: 'requiredFields'.tr);
     }
   }
 

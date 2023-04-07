@@ -137,7 +137,7 @@ class Languages extends Translations {
           'male': 'ذكر',
           'female': 'انثى',
           'fullName': 'الاسم الكامل',
-          'enterFullName': 'أدخل اسمك الكامل',
+          'enterFullName': 'أدخل اسمك بالكامل',
           'enterYourInfo': 'الرجاء إدخال بياناتك الشخصية لإكمال انشاء حسابك',
           'enterNationalId': 'أدخل رقمك القومي',
           'nationalId': 'الرقم القومي',

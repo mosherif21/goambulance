@@ -9,7 +9,8 @@ class RegularBackButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.all(padding),
       child: IconButton(
-        icon: const Icon(Icons.arrow_back_ios),
+        splashRadius: 22,
+        icon: const Center(child: Icon(Icons.arrow_back_ios)),
         onPressed: () => Get.back(),
       ),
     );
@@ -18,27 +19,23 @@ class RegularBackButton extends StatelessWidget {
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton(
-      {Key? key, required this.onPressed, required this.buttonText})
+      {Key? key, required this.onPressed, required this.padding})
       : super(key: key);
   final Function onPressed;
-  final String buttonText;
+  final double padding;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => onPressed(),
-        ),
-        Text(
-          buttonText,
-          style: const TextStyle(
-            color: Colors.black87,
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: Row(
+        children: [
+          IconButton(
+            splashRadius: 22,
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () => onPressed(),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

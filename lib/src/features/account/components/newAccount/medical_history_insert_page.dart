@@ -21,17 +21,21 @@ class MedicalHistoryInsertPage extends StatelessWidget {
     final controller = RegisterUserDataController.instance;
     // final screenHeight = getScreenHeight(context);
     return Scaffold(
+      appBar: AppBar(
+        leading: const RegularBackButton(padding: 0),
+        elevation: 0,
+        scrolledUnderElevation: 5,
+        backgroundColor: Colors.grey.shade100,
+      ),
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(
-              top: 10.0, left: 20.0, right: 20.0, bottom: 20.0),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const RegularBackButton(padding: 0),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

@@ -34,26 +34,27 @@ class RegisterUserDataPage extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        appBar: AppBar(
+          leading: CustomBackButton(
+              onPressed: () async => await logout(), padding: 3),
+          elevation: 0,
+          scrolledUnderElevation: 5,
+          backgroundColor: Colors.grey.shade100,
+        ),
         backgroundColor: Colors.grey.shade100,
         body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.only(
-                top: 10.0, left: 20.0, right: 20.0, bottom: 20.0),
+            padding:
+                const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomBackButton(
-                  onPressed: () async => await logout(),
-                  buttonText: 'logout'.tr,
-                ),
-                const SizedBox(height: 10.0),
                 Expanded(
                   child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 5.0),
                         AutoSizeText(
                           'enterYourInfo'.tr,
                           style: const TextStyle(

@@ -54,6 +54,7 @@ class RegisterUserDataController extends GetxController {
 
   //medical history
   //var userProducts = <AssistantProProduct>[].obs;
+  RxString selectedBloodType = ''.obs;
   @override
   void onInit() {
     super.onInit();

@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 
 import '../../../../constants/assets_strings.dart';
 import '../../../../general/common_functions.dart';
@@ -15,7 +14,6 @@ class NoMedicalHistory extends StatelessWidget {
   final double screenHeight;
   @override
   Widget build(BuildContext context) {
-    final controller = RegisterUserDataController.instance;
     final screenHeight = getScreenHeight(context);
     return Center(
       child: Container(

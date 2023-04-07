@@ -19,6 +19,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../../firebase_files/firebase_access.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
+import 'medical_history_insert_page.dart';
 
 class RegisterUserDataPage extends StatelessWidget {
   const RegisterUserDataPage({Key? key}) : super(key: key);
@@ -288,8 +289,11 @@ class RegisterUserDataPage extends StatelessWidget {
                           padding: const EdgeInsets.all(15.0),
                           child: RegularElevatedButton(
                             buttonText: 'continue'.tr,
-                            onPressed: () async =>
-                                await controller.checkPersonalInformation(),
+                            // onPressed: () async =>
+                            //     await controller.checkPersonalInformation(),
+                            onPressed: () async => Get.to(
+                                () => const MedicalHistoryInsertPage(),
+                                transition: AppInit.getPageTransition()),
                             enabled: true,
                             color: kDefaultColor,
                           ),

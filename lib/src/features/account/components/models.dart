@@ -19,3 +19,14 @@ class UserInfoSave {
         'gender': gender,
       };
 }
+
+final List<String> bloodTypes = [
+  'A+',
+  'O+',
+  'B+',
+  'AB+',
+  'A-',
+  'O-',
+  'B-',
+  'AB-',
+];

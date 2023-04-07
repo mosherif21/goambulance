@@ -83,6 +83,7 @@ dependencies:
   material_dialogs: ^1.1.4
   custom_radio_grouped_button: ^2.2.0
   flutter_svg: ^2.0.4
+  dropdown_button2: ^2.0.0
 
 
 

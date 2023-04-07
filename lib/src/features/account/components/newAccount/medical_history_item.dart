@@ -44,7 +44,7 @@ class MedicalHistoryItem extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     kMedicalHistoryItemImg,
-                    height: screenHeight * 0.05,
+                    height: screenHeight * 0.06,
                   ),
                   const SizedBox(height: 10),
                   Column(

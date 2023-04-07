@@ -164,6 +164,9 @@ class Languages extends Translations {
               'حفظ المعلومات الخاصة بك فشل، يرجى المحاولة مرة أخرى',
           'loginFailed': 'فشل تسجيل الدخول، يرجى المحاولة مرة أخرى',
           'noMedicalHistory': 'لم تتم إضافة أي تاريخ طبي للأمراض أو الحساسية',
+          'addAllergiesOrDiseases': 'اضف مرض/حساسية',
+          'diseaseName': 'اسم المرض/الحساسية',
+          'medicines': 'الادوية',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -319,6 +322,9 @@ class Languages extends Translations {
               'Failed to save your information, please try again',
           'loginFailed': 'Login failed, please try again',
           'noMedicalHistory': 'No medical history diseases or allergies added',
+          'addAllergiesOrDiseases': 'Add Disease/Allergy',
+          'diseaseName': 'Disease/Allergy name',
+          'medicines': 'Medicine/s',
         },
       };
 }

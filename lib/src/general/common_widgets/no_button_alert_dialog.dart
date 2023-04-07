@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
-class NoButtonDialogAlert {
+class NoButtonAlertDialog {
   final String title;
   final Widget content;
   final bool dismissible;
   final Color? backgroundColor;
-  const NoButtonDialogAlert({
+  const NoButtonAlertDialog({
     this.backgroundColor,
     required this.title,
     required this.content,

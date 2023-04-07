@@ -64,30 +64,47 @@ void showSimpleSnackBar({
 }
 
 Future<void> logout() async {
-  Dialogs.materialDialog(
-      msg: 'logoutConfirm'.tr,
+  await displayBinaryAlertDialog(
       title: 'logout'.tr,
+      body: 'logoutConfirm'.tr,
+      positiveButtonText: 'yes'.tr,
+      negativeButtonText: 'no'.tr,
+      positiveButtonOnPressed: () async {
+        showLoadingScreen();
+        await AuthenticationRepository.instance.logoutUser();
+        await FirebaseDataAccess.instance.logoutFirebase();
+        if (kDebugMode) print('signing out');
+        Get.offAll(() => const AuthenticationScreen());
+        hideLoadingScreen();
+      },
+      negativeButtonOnPressed: () => Get.back());
+}
+
+Future<void> displayBinaryAlertDialog({
+  required String title,
+  required String body,
+  required String positiveButtonText,
+  required String negativeButtonText,
+  required Function positiveButtonOnPressed,
+  required Function negativeButtonOnPressed,
+}) async {
+  await Dialogs.materialDialog(
+      title: title,
+      msg: body,
       color: Colors.white,
       context: Get.context!,
       actions: [
         IconsButton(
-          onPressed: () async {
-            showLoadingScreen();
-            await AuthenticationRepository.instance.logoutUser();
-            await FirebaseDataAccess.instance.logoutFirebase();
-            if (kDebugMode) print('signing out');
-            Get.offAll(() => const AuthenticationScreen());
-            hideLoadingScreen();
-          },
-          text: 'yes'.tr,
+          onPressed: () async => await positiveButtonOnPressed(),
+          text: positiveButtonText,
           iconData: Icons.logout,
           color: kDefaultColor,
           textStyle: const TextStyle(color: Colors.white),
           iconColor: Colors.white,
         ),
         IconsOutlineButton(
-          onPressed: () => Get.back(),
-          text: 'no'.tr,
+          onPressed: () async => await negativeButtonOnPressed(),
+          text: negativeButtonText,
           iconData: Icons.cancel_outlined,
           textStyle: const TextStyle(color: Colors.grey),
           iconColor: Colors.grey,

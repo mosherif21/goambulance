@@ -7,30 +7,28 @@ import '../../constants/colors.dart';
 class CustomDropDown extends StatelessWidget {
   const CustomDropDown({
     Key? key,
-    required this.title,
     required this.onValueChanged,
     required this.items,
-    this.dropDownValue,
+    required this.dropDownValue,
   }) : super(key: key);
-  final String title;
   final Function onValueChanged;
   final List items;
-  final String? dropDownValue;
+  final String dropDownValue;
   @override
   Widget build(BuildContext context) {
     return DropdownButtonHideUnderline(
       child: DropdownButton2(
         isExpanded: true,
-        hint: AutoSizeText(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 1,
-        ),
+        // hint: AutoSizeText(
+        //   title,
+        //   style: const TextStyle(
+        //     fontSize: 14,
+        //     fontWeight: FontWeight.bold,
+        //     color: Colors.white,
+        //   ),
+        //   overflow: TextOverflow.ellipsis,
+        //   maxLines: 1,
+        // ),
         items: items
             .map((item) => DropdownMenuItem<String>(
                   value: item,

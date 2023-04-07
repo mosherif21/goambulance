@@ -167,6 +167,12 @@ class Languages extends Translations {
           'addAllergiesOrDiseases': 'اضف مرض/حساسية',
           'diseaseName': 'اسم المرض/الحساسية',
           'medicines': 'الادوية',
+          'medicineName': 'اسم الدواء: ',
+          'chooseBloodType': 'الرجاء اختيار فصيلة دمك:',
+          'pickBloodType': 'اختر فصيلة الدم',
+          'askDiabetic': 'هل انت مريض سكر؟',
+          'askHeartPatient': 'هل انت مريض قلب؟',
+          'askBloodPressurePatient': 'هل انت مريض ضغط دم؟',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -325,6 +331,12 @@ class Languages extends Translations {
           'addAllergiesOrDiseases': 'Add Disease/Allergy',
           'diseaseName': 'Disease/Allergy name',
           'medicines': 'Medicine/s',
+          'medicineName': 'Medicine name: ',
+          'chooseBloodType': 'Please choose your blood type',
+          'pickBloodType': 'Select blood type',
+          'askDiabetic': 'Are you diabetic?',
+          'askHeartPatient': 'Are you a heart patient?',
+          'askBloodPressurePatient': 'Are you a blood pressure patient?',
         },
       };
 }

@@ -53,8 +53,13 @@ class RegisterUserDataController extends GetxController {
   bool makeEmailEditable = true;
 
   //medical history
-  //var userProducts = <AssistantProProduct>[].obs;
+  var diseasesList = <DiseaseItem>[].obs;
+  RxBool highlightBloodType = false.obs;
   RxString selectedBloodType = ''.obs;
+  RxString diabeticType = ''.obs;
+  bool bloodPressurePatient = false;
+  bool heartPatient = false;
+
   @override
   void onInit() {
     super.onInit();

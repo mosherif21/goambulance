@@ -21,9 +21,9 @@ dependencies:
   flutter_native_splash: ^2.2.16
   connectivity_plus: ^3.0.2
   internet_connection_checker_plus: ^1.0.1
-  awesome_notifications: ^0.7.4+1
   speech_to_text: ^6.1.1
   flutter_tts: ^3.6.3
+  awesome_notifications: ^0.7.4+1
   #provider: ^6.0.5
   eg_nid: ^0.0.1
   #image: ^4.0.15
@@ -65,7 +65,7 @@ dependencies:
   toggle_switch: ^2.0.1
   intl_phone_field: ^3.1.0
   animations: ^2.0.7
-  device_preview: ^1.1.0
+  #device_preview: ^1.1.0
   shimmer: ^2.0.0
   flutter_web_frame: ^0.0.3
   persistent_bottom_nav_bar: ^5.0.2
@@ -84,6 +84,7 @@ dependencies:
   custom_radio_grouped_button: ^2.2.0
   flutter_svg: ^2.0.4
   dropdown_button2: ^2.0.0
+  rolling_switch: ^0.0.2
 
 
 

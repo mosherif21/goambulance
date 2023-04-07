@@ -9,9 +9,7 @@ import '../../../../general/common_functions.dart';
 class NoMedicalHistory extends StatelessWidget {
   const NoMedicalHistory({
     Key? key,
-    required this.screenHeight,
   }) : super(key: key);
-  final double screenHeight;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);

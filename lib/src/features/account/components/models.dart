@@ -20,6 +20,15 @@ class UserInfoSave {
       };
 }
 
+class DiseaseItem {
+  final String diseaseName;
+  final String diseaseMedicine;
+  DiseaseItem({
+    required this.diseaseName,
+    required this.diseaseMedicine,
+  });
+}
+
 final List<String> bloodTypes = [
   'A+',
   'O+',
@@ -29,4 +38,8 @@ final List<String> bloodTypes = [
   'O-',
   'B-',
   'AB-',
+];
+final List<String> diabetesTypes = [
+  'Type 1',
+  'Type 2',
 ];

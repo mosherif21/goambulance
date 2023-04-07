@@ -4,13 +4,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/assets_strings.dart';
+import '../models.dart';
 
 class MedicalHistoryItem extends StatelessWidget {
   const MedicalHistoryItem({
     Key? key,
     required this.screenHeight,
+    required this.item,
   }) : super(key: key);
   final double screenHeight;
+  final DiseaseItem item;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,9 +32,9 @@ class MedicalHistoryItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AutoSizeText(
-                'disease',
-                style: TextStyle(
+              AutoSizeText(
+                item.diseaseName,
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
@@ -47,45 +50,22 @@ class MedicalHistoryItem extends StatelessWidget {
                     height: screenHeight * 0.06,
                   ),
                   const SizedBox(height: 10),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const AutoSizeText(
-                        'item',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        maxLines: 1,
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            'countIs'.tr,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontFamily: 'Bruno Ace',
-                            ),
-                            maxLines: 1,
-                          ),
-                          const SizedBox(width: 5.0),
-                          const AutoSizeText(
-                            '299',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Bruno Ace',
-                            ),
-                            maxLines: 1,
-                          ),
-                        ],
-                      )
-                    ],
+                  AutoSizeText(
+                    'medicineName'.tr,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                  ),
+                  AutoSizeText(
+                    item.diseaseMedicine,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                    maxLines: 1,
                   ),
                 ],
               )

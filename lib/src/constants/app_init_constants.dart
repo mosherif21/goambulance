@@ -17,7 +17,6 @@ import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
 import '../general/common_widgets/empty_scaffold.dart';
 import '../general/error_widgets/no_internet_error_widget.dart';
-import '../general/notifications.dart';
 import '../general/splash_screen.dart';
 
 enum Language { english, arabic }
@@ -120,7 +119,7 @@ class AppInit {
       if (!isWeb) {
         // notificationToken = await FirebaseMessaging.instance.getToken();
       }
-      await initializeNotification();
+      //await initializeNotification();
       Get.put(AuthenticationRepository(), permanent: true);
     }
   }

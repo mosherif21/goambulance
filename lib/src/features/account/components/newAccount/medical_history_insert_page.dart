@@ -36,6 +36,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
           padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
+            controller: controller.medicalHistoryScrollController,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -164,11 +165,29 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                                     for (var diseaseItem
                                         in controller.diseasesList)
                                       MedicalHistoryItem(
-                                        diseaseItem: diseaseItem,
-                                        onDeletePressed: () => controller
-                                            .diseasesList
-                                            .remove(diseaseItem),
-                                      )
+                                          diseaseItem: diseaseItem,
+                                          onDeletePressed: () {
+                                            controller.diseasesList
+                                                .remove(diseaseItem);
+                                            if (controller
+                                                .diseasesList.isEmpty) {
+                                              Future.delayed(const Duration(
+                                                      milliseconds: 50))
+                                                  .whenComplete(
+                                                () => controller
+                                                    .medicalHistoryScrollController
+                                                    .animateTo(
+                                                  controller
+                                                      .medicalHistoryScrollController
+                                                      .position
+                                                      .maxScrollExtent,
+                                                  duration: const Duration(
+                                                      milliseconds: 700),
+                                                  curve: Curves.easeIn,
+                                                ),
+                                              );
+                                            }
+                                          })
                                   ],
                                 )
                               : const NoMedicalHistory(),

@@ -29,6 +29,7 @@ class RegisterUserDataController extends GetxController {
   final birthDateController = DateRangePickerController();
   final diseaseNameController = TextEditingController();
   final medicinesController = TextEditingController();
+  final medicalHistoryScrollController = ScrollController();
 
   //gender
   Gender? gender;

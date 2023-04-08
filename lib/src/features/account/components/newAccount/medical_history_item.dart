@@ -64,14 +64,18 @@ class MedicalHistoryItem extends StatelessWidget {
                       maxLines: 1,
                     ),
                   if (diseaseItem.diseaseMedicines.isNotEmpty)
-                    AutoSizeText(
-                      diseaseItem.diseaseMedicines,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
+                    SizedBox(
+                      width: 60,
+                      child: AutoSizeText(
+                        diseaseItem.diseaseMedicines,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
                     ),
                 ],
               )

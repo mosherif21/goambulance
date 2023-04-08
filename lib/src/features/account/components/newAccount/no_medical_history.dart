@@ -27,7 +27,7 @@ class NoMedicalHistory extends StatelessWidget {
             SizedBox(height: screenHeight * 0.02),
             AutoSizeText(
               'noMedicalHistory'.tr,
-              maxLines: 2,
+              maxLines: 1,
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 20,

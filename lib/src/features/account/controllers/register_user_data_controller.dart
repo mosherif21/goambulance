@@ -26,9 +26,9 @@ class RegisterUserDataController extends GetxController {
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
-  final diseaseNameController = TextEditingController();
-  final medicineNameController = TextEditingController();
   final birthDateController = DateRangePickerController();
+  final diseaseNameController = TextEditingController();
+  final medicinesController = TextEditingController();
 
   //gender
   Gender? gender;
@@ -235,6 +235,8 @@ class RegisterUserDataController extends GetxController {
     phoneTextController.dispose();
     nationalIdTextController.dispose();
     birthDateController.dispose();
+    diseaseNameController.dispose();
+    medicinesController.dispose();
     super.dispose();
   }
 }

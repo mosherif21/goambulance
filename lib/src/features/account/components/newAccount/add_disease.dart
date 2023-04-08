@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 
 import '../../../../constants/app_init_constants.dart';
@@ -44,17 +45,28 @@ class AddDisease extends StatelessWidget {
           TextFormFieldMultiline(
             labelText: 'medicineName'.tr,
             hintText: 'enterMedicineName'.tr,
-            textController: controller.medicineNameController,
+            textController: controller.medicinesController,
             textInputAction: TextInputAction.done,
-            onSubmitted: () {
-              Get.back();
-            },
+            // onSubmitted: () {
+            //   Get.back();
+            // },
           ),
           const SizedBox(height: 10.0),
           RegularElevatedButton(
             buttonText: 'add'.tr,
             onPressed: () {
-              Get.back();
+              if (controller.diseaseNameController.text.trim().isNotEmpty) {
+                final diseaseName =
+                    controller.diseaseNameController.text.trim();
+                final diseaseMedicines =
+                    controller.medicinesController.text.trim();
+                controller.diseasesList.add(DiseaseItem(
+                    diseaseName: diseaseName,
+                    diseaseMedicines: diseaseMedicines));
+                controller.diseaseNameController.clear();
+                controller.medicinesController.clear();
+                Get.back();
+              }
             },
             enabled: true,
             color: kDefaultColor,

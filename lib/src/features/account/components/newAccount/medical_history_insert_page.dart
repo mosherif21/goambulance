@@ -14,6 +14,7 @@ import '../../../../general/common_widgets/text_header.dart';
 import '../../controllers/register_user_data_controller.dart';
 import 'add_disease.dart';
 import 'medical_history_item.dart';
+import 'no_medical_history.dart';
 
 class MedicalHistoryInsertPage extends StatelessWidget {
   const MedicalHistoryInsertPage({Key? key}) : super(key: key);
@@ -152,22 +153,26 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    RegularCard(
-                      highlightRed: false,
-                      child: SingleChildScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            for (int i = 0; i < 2; i++)
-                              MedicalHistoryItem(
-                                  diseaseItem: DiseaseItem(
-                                    diseaseName: 'Blood pressure',
-                                    diseaseMedicine: '',
-                                  ),
-                                  onDeletePressed: () {})
-                          ],
+                    Obx(
+                      () => RegularCard(
+                        highlightRed: false,
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: controller.diseasesList.isNotEmpty
+                              ? Column(
+                                  children: [
+                                    for (var diseaseItem
+                                        in controller.diseasesList)
+                                      MedicalHistoryItem(
+                                        diseaseItem: diseaseItem,
+                                        onDeletePressed: () => controller
+                                            .diseasesList
+                                            .remove(diseaseItem),
+                                      )
+                                  ],
+                                )
+                              : const NoMedicalHistory(),
                         ),
-                        //const NoMedicalHistory(),
                       ),
                     ),
                     const SizedBox(height: 10.0),

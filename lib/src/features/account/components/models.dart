@@ -22,10 +22,10 @@ class UserInfoSave {
 
 class DiseaseItem {
   final String diseaseName;
-  final String diseaseMedicine;
+  final String diseaseMedicines;
   DiseaseItem({
     required this.diseaseName,
-    required this.diseaseMedicine,
+    required this.diseaseMedicines,
   });
 }
 

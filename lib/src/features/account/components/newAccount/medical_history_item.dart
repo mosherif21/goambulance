@@ -53,24 +53,26 @@ class MedicalHistoryItem extends StatelessWidget {
                     height: screenHeight * 0.06,
                   ),
                   const SizedBox(height: 10),
-                  AutoSizeText(
-                    '${'medicineName'.tr}: ',
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
+                  if (diseaseItem.diseaseMedicines.isNotEmpty)
+                    AutoSizeText(
+                      '${'medicineName'.tr}: ',
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 1,
                     ),
-                    maxLines: 1,
-                  ),
-                  AutoSizeText(
-                    diseaseItem.diseaseMedicine,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
+                  if (diseaseItem.diseaseMedicines.isNotEmpty)
+                    AutoSizeText(
+                      diseaseItem.diseaseMedicines,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 12,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
                 ],
               )
             ],

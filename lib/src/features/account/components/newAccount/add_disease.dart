@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
@@ -36,35 +37,34 @@ class AddDisease extends StatelessWidget {
             labelText: 'diseaseName'.tr,
             hintText: 'enterDiseaseName'.tr,
             prefixIconData: Icons.coronavirus_outlined,
-            textController: controller.diseaseNameController,
+            textController: controller.diseaseNameTextController,
             inputType: InputType.text,
             editable: true,
             textInputAction: TextInputAction.next,
+            inputFormatter: LengthLimitingTextInputFormatter(50),
           ),
           const SizedBox(height: 10),
           TextFormFieldMultiline(
             labelText: 'medicineName'.tr,
             hintText: 'enterMedicineName'.tr,
-            textController: controller.medicinesController,
+            textController: controller.medicinesTextController,
             textInputAction: TextInputAction.done,
-            // onSubmitted: () {
-            //   Get.back();
-            // },
+            inputFormatter: LengthLimitingTextInputFormatter(100),
           ),
           const SizedBox(height: 10.0),
           RegularElevatedButton(
             buttonText: 'add'.tr,
             onPressed: () {
-              if (controller.diseaseNameController.text.trim().isNotEmpty) {
+              if (controller.diseaseNameTextController.text.trim().isNotEmpty) {
                 final diseaseName =
-                    controller.diseaseNameController.text.trim();
+                    controller.diseaseNameTextController.text.trim();
                 final diseaseMedicines =
-                    controller.medicinesController.text.trim();
+                    controller.medicinesTextController.text.trim();
                 controller.diseasesList.add(DiseaseItem(
                     diseaseName: diseaseName,
                     diseaseMedicines: diseaseMedicines));
-                controller.diseaseNameController.clear();
-                controller.medicinesController.clear();
+                controller.diseaseNameTextController.clear();
+                controller.medicinesTextController.clear();
                 Get.back();
               }
             },

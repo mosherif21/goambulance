@@ -28,9 +28,10 @@ class RegisterUserDataController extends GetxController {
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
+  final additionalInformationTextController = TextEditingController();
   final birthDateController = DateRangePickerController();
-  final diseaseNameController = TextEditingController();
-  final medicinesController = TextEditingController();
+  final diseaseNameTextController = TextEditingController();
+  final medicinesTextController = TextEditingController();
   final medicalHistoryScrollController = ScrollController();
 
   //gender
@@ -215,6 +216,8 @@ class RegisterUserDataController extends GetxController {
             bloodPressurePatient: bloodPressurePatient,
             heartPatient: heartPatient,
             diseasesList: diseasesList,
+            additionalInformation:
+                additionalInformationTextController.text.trim(),
           );
           final functionStatus =
               await FirebaseDataAccess.instance.saveUserPersonalInformation(
@@ -248,9 +251,10 @@ class RegisterUserDataController extends GetxController {
     phoneTextController.dispose();
     nationalIdTextController.dispose();
     birthDateController.dispose();
-    diseaseNameController.dispose();
-    medicinesController.dispose();
+    diseaseNameTextController.dispose();
+    medicinesTextController.dispose();
     medicalHistoryScrollController.dispose();
+    additionalInformationTextController.dispose();
     super.dispose();
   }
 }

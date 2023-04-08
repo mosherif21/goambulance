@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
@@ -10,6 +11,7 @@ import '../../../../general/common_widgets/dropdown_list_custom.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../../general/common_widgets/text_header.dart';
 import '../../controllers/register_user_data_controller.dart';
 import 'add_disease.dart';
@@ -192,6 +194,28 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                                 )
                               : const NoMedicalHistory(),
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 10.0),
+                    RegularCard(
+                      highlightRed: controller.highlightBloodType.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(
+                              headerText: 'enterAdditionalInformation'.tr,
+                              fontSize: 18),
+                          const SizedBox(height: 5.0),
+                          TextFormFieldMultiline(
+                            labelText: 'additionalInformation'.tr,
+                            hintText: 'enterAdditionalInformation'.tr,
+                            textController:
+                                controller.additionalInformationTextController,
+                            textInputAction: TextInputAction.done,
+                            inputFormatter:
+                                LengthLimitingTextInputFormatter(150),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 10.0),

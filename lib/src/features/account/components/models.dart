@@ -23,21 +23,25 @@ class UserInfoSave {
 class MedicalInfoSave {
   final String bloodType;
   final String diabetesPatient;
+  final String additionalInformation;
   final bool bloodPressurePatient;
   final bool heartPatient;
   final List<DiseaseItem> diseasesList;
-  MedicalInfoSave(
-      {required this.bloodType,
-      required this.diabetesPatient,
-      required this.bloodPressurePatient,
-      required this.heartPatient,
-      required this.diseasesList});
+  MedicalInfoSave({
+    required this.bloodType,
+    required this.diabetesPatient,
+    required this.bloodPressurePatient,
+    required this.heartPatient,
+    required this.diseasesList,
+    required this.additionalInformation,
+  });
   Map<String, dynamic> toJson() {
     return {
       'bloodType': bloodType,
       'diabetesPatient': diabetesPatient,
       'bloodPressurePatient': bloodPressurePatient,
       'heartPatient': heartPatient,
+      'additionalInformation': additionalInformation,
     };
   }
 }

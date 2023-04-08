@@ -40,7 +40,6 @@ class MedicalInfoSave {
       'bloodPressurePatient': bloodPressurePatient,
       'heartPatient': heartPatient,
       'additionalInformation': additionalInformation,
-      'userRegistered': true,
     };
   }
 }

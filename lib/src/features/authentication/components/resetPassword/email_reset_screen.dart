@@ -10,7 +10,7 @@ void getToResetPasswordScreen() {
   final controller = Get.put(ResetController());
   Get.to(
     () => SingleEntryScreen(
-      title: 'emailVerification'.tr,
+      title: 'passwordResetLink'.tr,
       prefixIconData: Icons.email_outlined,
       lottieAssetAnim: kEmailVerificationAnim,
       textFormTitle: 'emailLabel'.tr,

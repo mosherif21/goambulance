@@ -52,7 +52,7 @@ class Languages extends Translations {
           'numberReset': 'تغيير البريد الكترونى عن طريق كود برقم الهاتف',
           'phoneLabel': 'رقم الهاتف',
           'phoneFieldLabel': 'ادخل رقم هاتفك',
-          'emailVerification':
+          'passwordResetLink':
               'ادخل بريدك الالكترونى للحصول على رابط تغيير كلمة المرور',
           'phoneVerification': 'ادخل رقم الهاتف للحصول على رمز التاكيد',
           'continue': 'اكمل',
@@ -221,7 +221,8 @@ class Languages extends Translations {
           'numberReset': 'Reset password via Phone OTP Verification',
           'phoneLabel': 'Phone Number',
           'phoneFieldLabel': 'Enter your Phone Number',
-          'emailVerification': 'Enter your E-Mail to get the verification code',
+          'passwordResetLink':
+              'Enter your E-Mail to get the password reset link',
           'phoneVerification':
               'Enter your Phone Number to get the verification code',
           'continue': 'CONTINUE',

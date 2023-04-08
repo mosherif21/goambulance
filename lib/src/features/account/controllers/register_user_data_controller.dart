@@ -215,7 +215,6 @@ class RegisterUserDataController extends GetxController {
                 diabeticType.value.isEmpty ? 'No' : diabeticType.value,
             bloodPressurePatient: bloodPressurePatient,
             heartPatient: heartPatient,
-            diseasesList: diseasesList,
             additionalInformation:
                 additionalInformationTextController.text.trim(),
           );
@@ -225,6 +224,7 @@ class RegisterUserDataController extends GetxController {
             profilePic: profileImage.value!,
             nationalID: iDImage.value!,
             medicalInfoSave: medicalHistoryInfo,
+            diseasesList: diseasesList,
           );
           if (functionStatus == FunctionStatus.success) {
             hideLoadingScreen();

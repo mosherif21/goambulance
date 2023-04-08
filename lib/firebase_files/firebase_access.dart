@@ -45,11 +45,13 @@ class FirebaseDataAccess extends GetxController {
     userStorageReference = fireStorage.ref().child('users').child(userId!);
   }
 
-  Future<FunctionStatus> saveUserPersonalInformation(
-      {required UserInfoSave userInfo,
-      required XFile profilePic,
-      required XFile nationalID,
-      required MedicalInfoSave medicalInfoSave}) async {
+  Future<FunctionStatus> saveUserPersonalInformation({
+    required UserInfoSave userInfo,
+    required XFile profilePic,
+    required XFile nationalID,
+    required MedicalInfoSave medicalInfoSave,
+    required List<DiseaseItem> diseasesList,
+  }) async {
     try {
       final profilePicMetadata = SettableMetadata(
         contentType: 'image/jpeg',
@@ -77,7 +79,15 @@ class FirebaseDataAccess extends GetxController {
       }
       await firestoreUserDocRef.set(userInfo.toJson());
       await firestoreUserMedicalDocRef.set(medicalInfoSave.toJson());
-
+      if (diseasesList.isNotEmpty) {
+        final fireStoreUserDiseasesRef =
+            firestoreUserMedicalDocRef.collection('diseases');
+        for (var diseaseItem in diseasesList) {
+          await fireStoreUserDiseasesRef
+              .doc('${diseasesList.indexOf(diseaseItem)}')
+              .set(diseaseItem.toJson());
+        }
+      }
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

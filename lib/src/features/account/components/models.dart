@@ -26,13 +26,11 @@ class MedicalInfoSave {
   final String additionalInformation;
   final bool bloodPressurePatient;
   final bool heartPatient;
-  final List<DiseaseItem> diseasesList;
   MedicalInfoSave({
     required this.bloodType,
     required this.diabetesPatient,
     required this.bloodPressurePatient,
     required this.heartPatient,
-    required this.diseasesList,
     required this.additionalInformation,
   });
   Map<String, dynamic> toJson() {
@@ -42,6 +40,7 @@ class MedicalInfoSave {
       'bloodPressurePatient': bloodPressurePatient,
       'heartPatient': heartPatient,
       'additionalInformation': additionalInformation,
+      'userRegistered': true,
     };
   }
 }
@@ -53,6 +52,12 @@ class DiseaseItem {
     required this.diseaseName,
     required this.diseaseMedicines,
   });
+  Map<String, dynamic> toJson() {
+    return {
+      'diseaseName': diseaseName,
+      'diseaseMedicines': diseaseMedicines,
+    };
+  }
 }
 
 final List<String> bloodTypes = [

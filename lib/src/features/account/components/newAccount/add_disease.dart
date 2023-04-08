@@ -7,6 +7,7 @@ import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/colors.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';
+import '../../../../general/common_widgets/text_form_field_multiline.dart';
 
 class AddDisease extends StatelessWidget {
   const AddDisease({
@@ -33,20 +34,17 @@ class AddDisease extends StatelessWidget {
           TextFormFieldRegular(
             labelText: 'diseaseName'.tr,
             hintText: 'enterDiseaseName'.tr,
-            prefixIconData: Icons.email_outlined,
+            prefixIconData: Icons.coronavirus_outlined,
             textController: controller.diseaseNameController,
             inputType: InputType.text,
             editable: true,
             textInputAction: TextInputAction.next,
           ),
           const SizedBox(height: 10),
-          TextFormFieldRegular(
+          TextFormFieldMultiline(
             labelText: 'medicineName'.tr,
             hintText: 'enterMedicineName'.tr,
-            prefixIconData: Icons.email_outlined,
             textController: controller.medicineNameController,
-            inputType: InputType.text,
-            editable: true,
             textInputAction: TextInputAction.done,
             onSubmitted: () {
               Get.back();

@@ -20,6 +20,8 @@ class FirebaseDataAccess extends GetxController {
   late final FirebaseDatabase fireDatabase;
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserDocRef;
+  late final DocumentReference firestoreUserMedicalDocRef;
+  late final Reference userStorageReference;
   UserType userType = UserType.user;
   bool userInitialize = false;
 
@@ -35,18 +37,20 @@ class FirebaseDataAccess extends GetxController {
         .doc('patients')
         .collection('userInfo')
         .doc(userId!);
+    firestoreUserMedicalDocRef = fireStore
+        .collection('users')
+        .doc('patients')
+        .collection('medicalInfo')
+        .doc(userId!);
+    userStorageReference = fireStorage.ref().child('users').child(userId!);
   }
 
   Future<FunctionStatus> saveUserPersonalInformation(
       {required UserInfoSave userInfo,
       required XFile profilePic,
-      required XFile nationalID}) async {
+      required XFile nationalID,
+      required MedicalInfoSave medicalInfoSave}) async {
     try {
-      await firestoreUserDocRef.set(userInfo.toJson());
-
-      var userStorageReference =
-          fireStorage.ref().child('users').child(userId!);
-
       final profilePicMetadata = SettableMetadata(
         contentType: 'image/jpeg',
         customMetadata: {'picked-file-path': profilePic.path},
@@ -71,6 +75,9 @@ class FirebaseDataAccess extends GetxController {
             .child('nationalId')
             .putFile(File(nationalID.path), nationalIdMetadata);
       }
+      await firestoreUserDocRef.set(userInfo.toJson());
+      await firestoreUserMedicalDocRef.set(medicalInfoSave.toJson());
+
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

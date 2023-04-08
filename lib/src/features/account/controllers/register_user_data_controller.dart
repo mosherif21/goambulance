@@ -10,8 +10,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
+import '../../../../firebase_files/firebase_access.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../home_screen/screens/home_screen.dart';
 
 enum Gender {
   male,
@@ -194,31 +196,40 @@ class RegisterUserDataController extends GetxController {
         negativeButtonText: 'disagree'.tr,
         positiveButtonOnPressed: () async {
           Get.back();
-          // showLoadingScreen();
-          // final name = nameTextController.text.trim();
-          // final email = emailTextController.text.trim();
-          // final nationalId = nationalIdTextController.text.trim();
-          // final birthDate = birthDateController.selectedDate;
-          // final userInfo = UserInfoSave(
-          //   name: name,
-          //   email: email,
-          //   nationalId: nationalId,
-          //   birthDate: birthDate!,
-          //   gender: gender == Gender.male ? 'male' : 'female',
-          // );
-          // final functionStatus = await FirebaseDataAccess.instance
-          //     .saveUserPersonalInformation(
-          //     userInfo: userInfo,
-          //     profilePic: profileImage.value!,
-          //     nationalID: iDImage.value!);
-          // if (functionStatus == FunctionStatus.success) {
-          //   hideLoadingScreen();
-          //   Get.offAll(() => const HomeScreen(),
-          //       transition: AppInit.getPageTransition());
-          // } else {
-          //   showSimpleSnackBar(text: 'saveUserInfoError'.tr);
-          //   hideLoadingScreen();
-          // }
+          showLoadingScreen();
+          final name = nameTextController.text.trim();
+          final email = emailTextController.text.trim();
+          final nationalId = nationalIdTextController.text.trim();
+          final birthDate = birthDateController.selectedDate;
+          final userInfo = UserInfoSave(
+            name: name,
+            email: email,
+            nationalId: nationalId,
+            birthDate: birthDate!,
+            gender: gender == Gender.male ? 'male' : 'female',
+          );
+          final medicalHistoryInfo = MedicalInfoSave(
+            bloodType: selectedBloodType.value,
+            diabetesPatient: diabeticType.value,
+            bloodPressurePatient: bloodPressurePatient,
+            heartPatient: heartPatient,
+            diseasesList: diseasesList,
+          );
+          final functionStatus =
+              await FirebaseDataAccess.instance.saveUserPersonalInformation(
+            userInfo: userInfo,
+            profilePic: profileImage.value!,
+            nationalID: iDImage.value!,
+            medicalInfoSave: medicalHistoryInfo,
+          );
+          if (functionStatus == FunctionStatus.success) {
+            hideLoadingScreen();
+            Get.offAll(() => const HomeScreen(),
+                transition: AppInit.getPageTransition());
+          } else {
+            showSimpleSnackBar(text: 'saveUserInfoError'.tr);
+            hideLoadingScreen();
+          }
         },
         negativeButtonOnPressed: () => Get.back(),
         positiveButtonIcon: Icons.check_circle_outline,
@@ -238,6 +249,7 @@ class RegisterUserDataController extends GetxController {
     birthDateController.dispose();
     diseaseNameController.dispose();
     medicinesController.dispose();
+    medicalHistoryScrollController.dispose();
     super.dispose();
   }
 }

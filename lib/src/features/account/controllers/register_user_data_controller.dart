@@ -210,7 +210,8 @@ class RegisterUserDataController extends GetxController {
           );
           final medicalHistoryInfo = MedicalInfoSave(
             bloodType: selectedBloodType.value,
-            diabetesPatient: diabeticType.value,
+            diabetesPatient:
+                diabeticType.value.isEmpty ? 'No' : diabeticType.value,
             bloodPressurePatient: bloodPressurePatient,
             heartPatient: heartPatient,
             diseasesList: diseasesList,

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
@@ -19,12 +20,13 @@ class LanguageSelect extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
+          AutoSizeText(
             'chooseLanguage'.tr,
             style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w700,
                 color: Colors.black87),
+            maxLines: 2,
           ),
           const SizedBox(height: 10.0),
           SizedBox(

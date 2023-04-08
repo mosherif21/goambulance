@@ -13,6 +13,7 @@ class TextFormFieldRegular extends StatelessWidget {
     required this.editable,
     required this.textInputAction,
     this.inputFormatter,
+    this.onSubmitted,
   }) : super(key: key);
   final String labelText;
   final String hintText;
@@ -22,12 +23,15 @@ class TextFormFieldRegular extends StatelessWidget {
   final bool editable;
   final TextInputAction textInputAction;
   final TextInputFormatter? inputFormatter;
+  final Function? onSubmitted;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: TextFormField(
         textInputAction: textInputAction,
+        onFieldSubmitted:
+            onSubmitted != null ? (enteredString) => onSubmitted!() : null,
         inputFormatters: inputFormatter != null ? [inputFormatter!] : [],
         enabled: editable,
         controller: textController,

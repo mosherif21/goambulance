@@ -4,20 +4,21 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/assets_strings.dart';
+import '../../../../general/common_functions.dart';
 import '../models.dart';
 
 class MedicalHistoryItem extends StatelessWidget {
   const MedicalHistoryItem({
     Key? key,
-    required this.screenHeight,
     required this.diseaseItem,
     required this.onDeletePressed,
   }) : super(key: key);
-  final double screenHeight;
+
   final DiseaseItem diseaseItem;
   final Function onDeletePressed;
   @override
   Widget build(BuildContext context) {
+    final screenHeight = getScreenHeight(context);
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 15),
@@ -53,7 +54,7 @@ class MedicalHistoryItem extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   AutoSizeText(
-                    'medicineName'.tr,
+                    '${'medicineName'.tr}: ',
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 13,
@@ -67,6 +68,7 @@ class MedicalHistoryItem extends StatelessWidget {
                       color: Colors.black,
                       fontSize: 12,
                     ),
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                   ),
                 ],

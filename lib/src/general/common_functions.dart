@@ -65,19 +65,22 @@ void showSimpleSnackBar({
 
 Future<void> logout() async {
   displayBinaryAlertDialog(
-      title: 'logout'.tr,
-      body: 'logoutConfirm'.tr,
-      positiveButtonText: 'yes'.tr,
-      negativeButtonText: 'no'.tr,
-      positiveButtonOnPressed: () async {
-        showLoadingScreen();
-        await AuthenticationRepository.instance.logoutUser();
-        await FirebaseDataAccess.instance.logoutFirebase();
-        if (kDebugMode) print('signing out');
-        Get.offAll(() => const AuthenticationScreen());
-        hideLoadingScreen();
-      },
-      negativeButtonOnPressed: () => Get.back());
+    title: 'logout'.tr,
+    body: 'logoutConfirm'.tr,
+    positiveButtonText: 'yes'.tr,
+    negativeButtonText: 'no'.tr,
+    positiveButtonOnPressed: () async {
+      showLoadingScreen();
+      await AuthenticationRepository.instance.logoutUser();
+      await FirebaseDataAccess.instance.logoutFirebase();
+      if (kDebugMode) print('signing out');
+      Get.offAll(() => const AuthenticationScreen());
+      hideLoadingScreen();
+    },
+    negativeButtonOnPressed: () => Get.back(),
+    positiveButtonIcon: Icons.logout,
+    negativeButtonIcon: Icons.cancel_outlined,
+  );
 }
 
 void displayBinaryAlertDialog({
@@ -87,6 +90,8 @@ void displayBinaryAlertDialog({
   required String negativeButtonText,
   required Function positiveButtonOnPressed,
   required Function negativeButtonOnPressed,
+  required IconData positiveButtonIcon,
+  required IconData negativeButtonIcon,
 }) async {
   Dialogs.materialDialog(
       title: title,
@@ -97,7 +102,7 @@ void displayBinaryAlertDialog({
         IconsButton(
           onPressed: () => positiveButtonOnPressed(),
           text: positiveButtonText,
-          iconData: Icons.logout,
+          iconData: positiveButtonIcon,
           color: kDefaultColor,
           textStyle: const TextStyle(color: Colors.white),
           iconColor: Colors.white,
@@ -105,7 +110,7 @@ void displayBinaryAlertDialog({
         IconsOutlineButton(
           onPressed: () => negativeButtonOnPressed(),
           text: negativeButtonText,
-          iconData: Icons.cancel_outlined,
+          iconData: negativeButtonIcon,
           textStyle: const TextStyle(color: Colors.grey),
           iconColor: Colors.grey,
         ),

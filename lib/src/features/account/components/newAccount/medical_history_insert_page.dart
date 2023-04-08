@@ -7,11 +7,13 @@ import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import '../../../../constants/colors.dart';
 import '../../../../general/common_widgets/custom_rolling_switch.dart';
 import '../../../../general/common_widgets/dropdown_list_custom.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/text_header.dart';
 import '../../controllers/register_user_data_controller.dart';
-import 'no_medical_history.dart';
+import 'add_disease.dart';
+import 'medical_history_item.dart';
 
 class MedicalHistoryInsertPage extends StatelessWidget {
   const MedicalHistoryInsertPage({Key? key}) : super(key: key);
@@ -19,7 +21,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = RegisterUserDataController.instance;
-    // final screenHeight = getScreenHeight(context);
+
     return Scaffold(
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),
@@ -150,25 +152,22 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const RegularCard(
+                    RegularCard(
                       highlightRed: false,
                       child: SingleChildScrollView(
-                        physics: BouncingScrollPhysics(),
-                        child:
-                            // Column(
-                            //   children: [
-                            //     for (int i = 0; i < 2; i++)
-                            //       MedicalHistoryItem(
-                            //         screenHeight: screenHeight,
-                            //         diseaseItem: DiseaseItem(
-                            //           diseaseName: 'Blood pressure',
-                            //           diseaseMedicine: '',
-                            //         ),
-                            //            onDeletePressed:(){}
-                            //       )
-                            //   ],
-                            // ),
-                            NoMedicalHistory(),
+                        physics: const BouncingScrollPhysics(),
+                        child: Column(
+                          children: [
+                            for (int i = 0; i < 2; i++)
+                              MedicalHistoryItem(
+                                  diseaseItem: DiseaseItem(
+                                    diseaseName: 'Blood pressure',
+                                    diseaseMedicine: '',
+                                  ),
+                                  onDeletePressed: () {})
+                          ],
+                        ),
+                        //const NoMedicalHistory(),
                       ),
                     ),
                     const SizedBox(height: 10.0),
@@ -177,7 +176,10 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                           top: 15.0, left: 15.0, right: 15.0),
                       child: RegularElevatedButton(
                         buttonText: 'addAllergiesOrDiseases'.tr,
-                        onPressed: () {},
+                        onPressed: () async =>
+                            await RegularBottomSheet.showRegularBottomSheet(
+                          AddDisease(controller: controller),
+                        ),
                         enabled: true,
                         color: kDefaultColor,
                       ),

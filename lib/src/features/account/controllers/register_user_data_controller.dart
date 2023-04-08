@@ -1,7 +1,7 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
@@ -26,6 +26,8 @@ class RegisterUserDataController extends GetxController {
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
+  final diseaseNameController = TextEditingController();
+  final medicineNameController = TextEditingController();
   final birthDateController = DateRangePickerController();
 
   //gender
@@ -184,31 +186,43 @@ class RegisterUserDataController extends GetxController {
   Future<void> savePersonalInformation() async {
     highlightBloodType.value = selectedBloodType.value.isEmpty ? true : false;
     if (!highlightBloodType.value) {
-      // showLoadingScreen();
-      // final name = nameTextController.text.trim();
-      // final email = emailTextController.text.trim();
-      // final nationalId = nationalIdTextController.text.trim();
-      // final birthDate = birthDateController.selectedDate;
-      // final userInfo = UserInfoSave(
-      //   name: name,
-      //   email: email,
-      //   nationalId: nationalId,
-      //   birthDate: birthDate!,
-      //   gender: gender == Gender.male ? 'male' : 'female',
-      // );
-      // final functionStatus = await FirebaseDataAccess.instance
-      //     .saveUserPersonalInformation(
-      //     userInfo: userInfo,
-      //     profilePic: profileImage.value!,
-      //     nationalID: iDImage.value!);
-      // if (functionStatus == FunctionStatus.success) {
-      //   hideLoadingScreen();
-      //   Get.offAll(() => const HomeScreen(),
-      //       transition: AppInit.getPageTransition());
-      // } else {
-      //   showSimpleSnackBar(text: 'saveUserInfoError'.tr);
-      //   hideLoadingScreen();
-      // }
+      displayBinaryAlertDialog(
+        title: 'confirm'.tr,
+        body: 'personalInfoShare'.tr,
+        positiveButtonText: 'agree'.tr,
+        negativeButtonText: 'disagree'.tr,
+        positiveButtonOnPressed: () async {
+          Get.back();
+          // showLoadingScreen();
+          // final name = nameTextController.text.trim();
+          // final email = emailTextController.text.trim();
+          // final nationalId = nationalIdTextController.text.trim();
+          // final birthDate = birthDateController.selectedDate;
+          // final userInfo = UserInfoSave(
+          //   name: name,
+          //   email: email,
+          //   nationalId: nationalId,
+          //   birthDate: birthDate!,
+          //   gender: gender == Gender.male ? 'male' : 'female',
+          // );
+          // final functionStatus = await FirebaseDataAccess.instance
+          //     .saveUserPersonalInformation(
+          //     userInfo: userInfo,
+          //     profilePic: profileImage.value!,
+          //     nationalID: iDImage.value!);
+          // if (functionStatus == FunctionStatus.success) {
+          //   hideLoadingScreen();
+          //   Get.offAll(() => const HomeScreen(),
+          //       transition: AppInit.getPageTransition());
+          // } else {
+          //   showSimpleSnackBar(text: 'saveUserInfoError'.tr);
+          //   hideLoadingScreen();
+          // }
+        },
+        negativeButtonOnPressed: () => Get.back(),
+        positiveButtonIcon: Icons.check_circle_outline,
+        negativeButtonIcon: Icons.cancel_outlined,
+      );
     } else {
       showSimpleSnackBar(text: 'requiredFields'.tr);
     }

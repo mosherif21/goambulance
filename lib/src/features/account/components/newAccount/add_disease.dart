@@ -7,6 +7,7 @@ import 'package:goambulance/src/features/account/controllers/register_user_data_
 
 import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/colors.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';
 import '../../../../general/common_widgets/text_form_field_multiline.dart';
@@ -65,7 +66,7 @@ class AddDisease extends StatelessWidget {
                     diseaseMedicines: diseaseMedicines));
                 controller.diseaseNameTextController.clear();
                 controller.medicinesTextController.clear();
-                Get.back();
+                RegularBottomSheet.hideBottomSheet();
               }
             },
             enabled: true,

@@ -196,9 +196,21 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: RegularElevatedButton(
+                        buttonText: 'addAllergiesOrDiseases'.tr,
+                        onPressed: () async =>
+                            await RegularBottomSheet.showRegularBottomSheet(
+                          AddDisease(controller: controller),
+                        ),
+                        enabled: true,
+                        color: kDefaultColor,
+                      ),
+                    ),
                     const SizedBox(height: 10.0),
                     RegularCard(
-                      highlightRed: controller.highlightBloodType.value,
+                      highlightRed: false,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -218,22 +230,8 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 10.0),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 15.0, left: 15.0, right: 15.0),
-                      child: RegularElevatedButton(
-                        buttonText: 'addAllergiesOrDiseases'.tr,
-                        onPressed: () async =>
-                            await RegularBottomSheet.showRegularBottomSheet(
-                          AddDisease(controller: controller),
-                        ),
-                        enabled: true,
-                        color: kDefaultColor,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                       child: RegularElevatedButton(
                         buttonText: 'save'.tr,
                         onPressed: () async =>

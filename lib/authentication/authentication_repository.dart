@@ -51,7 +51,7 @@ class AuthenticationRepository extends GetxController {
             userType = UserType.driver;
           } else if (userDoc['type'].toString().compareTo('patient') == 0) {
             isUserRegistered = true;
-            if (userDoc['criticalUser'] as bool == true) {
+            if (userDoc['criticalUser'] as bool) {
               userType = UserType.criticalUser;
             } else {
               userType = UserType.regularUser;

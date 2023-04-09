@@ -202,7 +202,7 @@ class AppInit {
 
   static Transition getPageTransition() {
     return currentDeviceLanguage == Language.english
-        ? Transition.rightToLeftWithFade
-        : Transition.leftToRightWithFade;
+        ? Transition.rightToLeft
+        : Transition.leftToRight;
   }
 }

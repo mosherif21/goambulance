@@ -92,6 +92,7 @@ class RegisterUserDataController extends GetxController {
       if (NIDInfo.NIDCheck(nid: nationalId)) {
         try {
           final nationalIdData = NIDInfo(nid: nationalId);
+          FocusManager.instance.primaryFocus?.unfocus();
           gender = nationalIdData.sex.compareTo('Male') == 0
               ? Gender.male
               : Gender.female;

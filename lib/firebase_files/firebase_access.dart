@@ -84,7 +84,7 @@ class FirebaseDataAccess extends GetxController {
             firestoreUserMedicalDocRef.collection('diseases');
         for (var diseaseItem in diseasesList) {
           await fireStoreUserDiseasesRef
-              .doc('${diseasesList.indexOf(diseaseItem)}')
+              .doc('${diseasesList.indexOf(diseaseItem) + 1}')
               .set(diseaseItem.toJson());
         }
       }

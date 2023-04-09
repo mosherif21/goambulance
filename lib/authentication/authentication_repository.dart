@@ -40,25 +40,30 @@ class AuthenticationRepository extends GetxController {
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = fireStore.collection('users');
     try {
-      await firestoreUsersCollRef
-          .where(FieldPath.documentId, isEqualTo: userId)
-          .get()
-          .then((value) {});
+      await firestoreUsersCollRef.doc(userId).get().then((snapshot) {
+        if (snapshot.exists) {
+          final userDoc = snapshot.data()!;
+          if (userDoc['type'].toString().compareTo('medic') == 0) {
+            isUserRegistered = true;
+            userType = UserType.medic;
+          } else if (userDoc['type'].toString().compareTo('driver') == 0) {
+            isUserRegistered = true;
+            userType = UserType.driver;
+          } else if (userDoc['type'].toString().compareTo('patient') == 0) {
+            isUserRegistered = true;
+            if (userDoc['criticalUser'] as bool == true) {
+              userType = UserType.criticalUser;
+            } else {
+              userType = UserType.regularUser;
+            }
+          }
+          if (kDebugMode) print('$userType');
+        } else {
+          userType = UserType.regularUser;
+          isUserRegistered = false;
+        }
+      });
 
-      // if (userSnapshot.exists) {
-      //   userType = UserType.driver;
-      //   isUserRegistered = true;
-      // } else {
-      // await firestoreUserDocRef.get().then((DocumentSnapshot userSnapshot) {
-      //   if (userSnapshot.exists) {
-      //     // userType = UserType.user;
-      //     isUserRegistered = true;
-      //   } else {
-      //     // userType = UserType.user;
-      //     isUserRegistered = false;
-      //   }
-      // });
-      //}
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

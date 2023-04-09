@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -18,8 +19,7 @@ class FirebaseDataAccess extends GetxController {
   late final FirebaseFirestore fireStore;
   late final FirebaseDatabase fireDatabase;
   late final FirebaseStorage fireStorage;
-  late final DocumentReference firestoreUserDocRef;
-  late final DocumentReference firestoreUserMedicalDocRef;
+  late final DocumentReference firestoreUserRef;
   late final Reference userStorageReference;
   UserType userType = UserType.regularUser;
 
@@ -30,16 +30,8 @@ class FirebaseDataAccess extends GetxController {
     fireStore = FirebaseFirestore.instance;
     fireDatabase = FirebaseDatabase.instance;
     fireStorage = FirebaseStorage.instance;
-    firestoreUserDocRef = fireStore
-        .collection('users')
-        .doc('patients')
-        .collection('userInfo')
-        .doc(userId!);
-    firestoreUserMedicalDocRef = fireStore
-        .collection('users')
-        .doc('patients')
-        .collection('medicalInfo')
-        .doc(userId!);
+
+    firestoreUserRef = fireStore.collection('users').doc(userId!);
     userStorageReference = fireStorage.ref().child('users').child(userId!);
   }
 
@@ -47,46 +39,51 @@ class FirebaseDataAccess extends GetxController {
     required UserInfo userInfo,
     required XFile profilePic,
     required XFile nationalID,
-    required MedicalInfo medicalInfoSave,
   }) async {
     try {
-      // final profilePicMetadata = SettableMetadata(
-      //   contentType: 'image/jpeg',
-      //   customMetadata: {'picked-file-path': profilePic.path},
-      // );
-      // final nationalIdMetadata = SettableMetadata(
-      //   contentType: 'image/jpeg',
-      //   customMetadata: {'picked-file-path': nationalID.path},
-      // );
-      //
-      // if (AppInit.isWeb) {
-      //   await userStorageReference
-      //       .child('profilePic')
-      //       .putData(await profilePic.readAsBytes(), profilePicMetadata);
-      //   await userStorageReference
-      //       .child('nationalId')
-      //       .putData(await nationalID.readAsBytes(), nationalIdMetadata);
-      // } else {
-      //   await userStorageReference
-      //       .child('profilePic')
-      //       .putFile(File(profilePic.path), profilePicMetadata);
-      //   await userStorageReference
-      //       .child('nationalId')
-      //       .putFile(File(nationalID.path), nationalIdMetadata);
-      // }
-      //
-      // await firestoreUserMedicalDocRef.set(medicalInfoSave.toJson());
-      // if (medicalInfoSave.diseasesList.isNotEmpty) {
-      //   final fireStoreUserDiseasesRef =
-      //       firestoreUserMedicalDocRef.collection('diseases');
-      //   for (var diseaseItem in medicalInfoSave.diseasesList) {
-      //     await fireStoreUserDiseasesRef
-      //         .doc('${medicalInfoSave.diseasesList.indexOf(diseaseItem) + 1}')
-      //         .set(diseaseItem.toJson());
-      //   }
-      // }
-      // await firestoreUserDocRef
-      //     .set({...userInfo.toJson(), 'criticalUser': false});
+      final profilePicMetadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': profilePic.path},
+      );
+      final nationalIdMetadata = SettableMetadata(
+        contentType: 'image/jpeg',
+        customMetadata: {'picked-file-path': nationalID.path},
+      );
+      if (AppInit.isWeb) {
+        await userStorageReference
+            .child('profilePic')
+            .putData(await profilePic.readAsBytes(), profilePicMetadata);
+        await userStorageReference
+            .child('nationalId')
+            .putData(await nationalID.readAsBytes(), nationalIdMetadata);
+      } else {
+        await userStorageReference
+            .child('profilePic')
+            .putFile(File(profilePic.path), profilePicMetadata);
+        await userStorageReference
+            .child('nationalId')
+            .putFile(File(nationalID.path), nationalIdMetadata);
+      }
+      var userInfoBatch = fireStore.batch();
+
+      userInfoBatch.set(firestoreUserRef, {
+        ...userInfo.toJson(),
+        'criticalUser': false,
+        'type': 'patient',
+      });
+
+      if (userInfo.diseasesList.isNotEmpty) {
+        final fireStoreUserDiseasesRef =
+            firestoreUserRef.collection('diseases');
+        for (var diseaseItem in userInfo.diseasesList) {
+          {
+            var diseaseRef = fireStoreUserDiseasesRef
+                .doc('${userInfo.diseasesList.indexOf(diseaseItem) + 1}');
+            userInfoBatch.set(diseaseRef, diseaseItem.toJson());
+          }
+        }
+      }
+      await userInfoBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

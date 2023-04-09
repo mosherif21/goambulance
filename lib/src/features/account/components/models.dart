@@ -37,8 +37,8 @@ class MedicalInfoSave {
     return {
       'bloodType': bloodType,
       'diabetesPatient': diabetesPatient,
-      'bloodPressurePatient': bloodPressurePatient,
-      'heartPatient': heartPatient,
+      'bloodPressurePatient': bloodPressurePatient ? 'Yes' : 'No',
+      'heartPatient': heartPatient ? 'Yes' : 'No',
       'additionalInformation': additionalInformation,
     };
   }

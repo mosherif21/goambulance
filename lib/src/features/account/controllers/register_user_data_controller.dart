@@ -104,6 +104,7 @@ class RegisterUserDataController extends GetxController {
           highlightNationalId.value = false;
           highlightGender.value = false;
           highlightBirthdate.value = false;
+          FocusManager.instance.primaryFocus?.unfocus();
         } catch (e) {
           if (kDebugMode) print(e.toString());
         }

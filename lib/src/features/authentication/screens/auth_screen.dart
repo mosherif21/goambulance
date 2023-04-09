@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:goambulance/src/constants/sizes.dart';
-import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
 
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
@@ -22,7 +20,6 @@ class AuthenticationScreen extends StatelessWidget {
       onWillPop: () async {
         if (AppInit.currentAuthType.value == AuthType.emailRegister) {
           AppInit.currentAuthType.value = AuthType.emailLogin;
-          await Get.delete<EmailRegisterController>();
           return false;
         } else {
           return true;

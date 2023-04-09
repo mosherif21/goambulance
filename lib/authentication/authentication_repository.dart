@@ -9,8 +9,6 @@ import 'package:goambulance/authentication/exception_errors/password_reset_excep
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-import '../src/features/authentication/controllers/login_controller.dart';
-import '../src/features/authentication/controllers/register_controller.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
 import 'exception_errors/signup_email_password_exceptions.dart';
 
@@ -78,11 +76,6 @@ class AuthenticationRepository extends GetxController {
 
   Future<void> authenticatedSetup() async {
     AppInit.currentAuthType.value = AuthType.emailLogin;
-    if (Get.isRegistered<LoginController>()) {
-      await Get.delete<LoginController>();
-    } else if (Get.isRegistered<EmailRegisterController>()) {
-      await Get.delete<EmailRegisterController>();
-    }
   }
 
   Future<String> createUserWithEmailAndPassword(
@@ -131,6 +124,7 @@ class AuthenticationRepository extends GetxController {
             await _auth.signInWithCredential(credential);
             if (fireUser.value != null) {
               isUserLoggedIn = true;
+              await authenticatedSetup();
               AppInit.goToInitPage();
             }
           },
@@ -158,6 +152,7 @@ class AuthenticationRepository extends GetxController {
           verificationId: verificationId.value, smsCode: otp));
       if (fireUser.value != null) {
         isUserLoggedIn = true;
+        await authenticatedSetup();
         AppInit.goToInitPage();
         return 'success';
       }
@@ -188,6 +183,7 @@ class AuthenticationRepository extends GetxController {
         await _auth.signInWithCredential(credential);
         if (fireUser.value != null) {
           isUserLoggedIn = true;
+          await authenticatedSetup();
           AppInit.goToInitPage();
           return 'success';
         }
@@ -224,6 +220,7 @@ class AuthenticationRepository extends GetxController {
             await FirebaseAuth.instance.signInWithPopup(facebookProvider);
         if (userCredential.user != null) {
           isUserLoggedIn = true;
+          await authenticatedSetup();
           AppInit.goToInitPage();
           return 'success';
         }
@@ -240,6 +237,7 @@ class AuthenticationRepository extends GetxController {
               .signInWithCredential(facebookAuthCredential);
           if (userCredential.user != null) {
             isUserLoggedIn = true;
+            await authenticatedSetup();
             AppInit.goToInitPage();
             return 'success';
           }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -22,8 +21,7 @@ class FirebaseDataAccess extends GetxController {
   late final DocumentReference firestoreUserDocRef;
   late final DocumentReference firestoreUserMedicalDocRef;
   late final Reference userStorageReference;
-  UserType userType = UserType.user;
-  bool userInitialize = false;
+  UserType userType = UserType.regularUser;
 
   @override
   void onInit() {
@@ -46,48 +44,49 @@ class FirebaseDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> saveUserPersonalInformation({
-    required UserInfoSave userInfo,
+    required UserInfo userInfo,
     required XFile profilePic,
     required XFile nationalID,
-    required MedicalInfoSave medicalInfoSave,
-    required List<DiseaseItem> diseasesList,
+    required MedicalInfo medicalInfoSave,
   }) async {
     try {
-      final profilePicMetadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': profilePic.path},
-      );
-      final nationalIdMetadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': nationalID.path},
-      );
-
-      if (AppInit.isWeb) {
-        await userStorageReference
-            .child('profilePic')
-            .putData(await profilePic.readAsBytes(), profilePicMetadata);
-        await userStorageReference
-            .child('nationalId')
-            .putData(await nationalID.readAsBytes(), nationalIdMetadata);
-      } else {
-        await userStorageReference
-            .child('profilePic')
-            .putFile(File(profilePic.path), profilePicMetadata);
-        await userStorageReference
-            .child('nationalId')
-            .putFile(File(nationalID.path), nationalIdMetadata);
-      }
-      await firestoreUserDocRef.set(userInfo.toJson());
-      await firestoreUserMedicalDocRef.set(medicalInfoSave.toJson());
-      if (diseasesList.isNotEmpty) {
-        final fireStoreUserDiseasesRef =
-            firestoreUserMedicalDocRef.collection('diseases');
-        for (var diseaseItem in diseasesList) {
-          await fireStoreUserDiseasesRef
-              .doc('${diseasesList.indexOf(diseaseItem) + 1}')
-              .set(diseaseItem.toJson());
-        }
-      }
+      // final profilePicMetadata = SettableMetadata(
+      //   contentType: 'image/jpeg',
+      //   customMetadata: {'picked-file-path': profilePic.path},
+      // );
+      // final nationalIdMetadata = SettableMetadata(
+      //   contentType: 'image/jpeg',
+      //   customMetadata: {'picked-file-path': nationalID.path},
+      // );
+      //
+      // if (AppInit.isWeb) {
+      //   await userStorageReference
+      //       .child('profilePic')
+      //       .putData(await profilePic.readAsBytes(), profilePicMetadata);
+      //   await userStorageReference
+      //       .child('nationalId')
+      //       .putData(await nationalID.readAsBytes(), nationalIdMetadata);
+      // } else {
+      //   await userStorageReference
+      //       .child('profilePic')
+      //       .putFile(File(profilePic.path), profilePicMetadata);
+      //   await userStorageReference
+      //       .child('nationalId')
+      //       .putFile(File(nationalID.path), nationalIdMetadata);
+      // }
+      //
+      // await firestoreUserMedicalDocRef.set(medicalInfoSave.toJson());
+      // if (medicalInfoSave.diseasesList.isNotEmpty) {
+      //   final fireStoreUserDiseasesRef =
+      //       firestoreUserMedicalDocRef.collection('diseases');
+      //   for (var diseaseItem in medicalInfoSave.diseasesList) {
+      //     await fireStoreUserDiseasesRef
+      //         .doc('${medicalInfoSave.diseasesList.indexOf(diseaseItem) + 1}')
+      //         .set(diseaseItem.toJson());
+      //   }
+      // }
+      // await firestoreUserDocRef
+      //     .set({...userInfo.toJson(), 'criticalUser': false});
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

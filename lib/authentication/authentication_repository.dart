@@ -23,7 +23,7 @@ class AuthenticationRepository extends GetxController {
   var verificationId = ''.obs;
   GoogleSignIn? googleSignIn;
 
-  UserType userType = UserType.user;
+  UserType userType = UserType.regularUser;
 
   @override
   void onInit() {
@@ -38,35 +38,27 @@ class AuthenticationRepository extends GetxController {
   Future<FunctionStatus> userInit() async {
     final fireStore = FirebaseFirestore.instance;
     final String userId = fireUser.value!.uid;
-    final firestoreUserDocRef = fireStore
-        .collection('users')
-        .doc('patients')
-        .collection('userInfo')
-        .doc(userId);
-    final firestoreDriverDocRef = fireStore
-        .collection('users')
-        .doc('ambulanceDrivers')
-        .collection('driverInfo')
-        .doc(userId);
+    final firestoreUsersCollRef = fireStore.collection('users');
     try {
-      await firestoreDriverDocRef
+      await firestoreUsersCollRef
+          .where(FieldPath.documentId, isEqualTo: userId)
           .get()
-          .then((DocumentSnapshot userSnapshot) async {
-        if (userSnapshot.exists) {
-          userType = UserType.driver;
-          isUserRegistered = true;
-        } else {
-          await firestoreUserDocRef.get().then((DocumentSnapshot userSnapshot) {
-            if (userSnapshot.exists) {
-              userType = UserType.user;
-              isUserRegistered = true;
-            } else {
-              userType = UserType.user;
-              isUserRegistered = false;
-            }
-          });
-        }
-      });
+          .then((value) {});
+
+      // if (userSnapshot.exists) {
+      //   userType = UserType.driver;
+      //   isUserRegistered = true;
+      // } else {
+      // await firestoreUserDocRef.get().then((DocumentSnapshot userSnapshot) {
+      //   if (userSnapshot.exists) {
+      //     // userType = UserType.user;
+      //     isUserRegistered = true;
+      //   } else {
+      //     // userType = UserType.user;
+      //     isUserRegistered = false;
+      //   }
+      // });
+      //}
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

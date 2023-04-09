@@ -204,14 +204,14 @@ class RegisterUserDataController extends GetxController {
           final email = emailTextController.text.trim();
           final nationalId = nationalIdTextController.text.trim();
           final birthDate = birthDateController.selectedDate;
-          final userInfo = UserInfoSave(
+          final userInfo = UserInfo(
             name: name,
             email: email,
             nationalId: nationalId,
             birthDate: birthDate!,
             gender: gender == Gender.male ? 'male' : 'female',
           );
-          final medicalHistoryInfo = MedicalInfoSave(
+          final medicalHistoryInfo = MedicalInfo(
             bloodType: selectedBloodType.value,
             diabetesPatient:
                 diabeticType.value.isEmpty ? 'No' : diabeticType.value,
@@ -219,6 +219,7 @@ class RegisterUserDataController extends GetxController {
             heartPatient: heartPatient,
             additionalInformation:
                 additionalInformationTextController.text.trim(),
+            diseasesList: diseasesList,
           );
           final functionStatus =
               await FirebaseDataAccess.instance.saveUserPersonalInformation(
@@ -226,7 +227,6 @@ class RegisterUserDataController extends GetxController {
             profilePic: profileImage.value!,
             nationalID: iDImage.value!,
             medicalInfoSave: medicalHistoryInfo,
-            diseasesList: diseasesList,
           );
           if (functionStatus == FunctionStatus.success) {
             hideLoadingScreen();

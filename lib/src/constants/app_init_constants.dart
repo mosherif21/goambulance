@@ -34,7 +34,7 @@ enum AuthType {
   phone,
 }
 
-enum UserType { driver, user }
+enum UserType { driver, medic, regularUser, criticalUser }
 
 enum FunctionStatus { success, failure }
 
@@ -166,12 +166,14 @@ class AppInit {
     if (AuthenticationRepository.instance.isUserLoggedIn) {
       final functionStatus = await AuthenticationRepository.instance.userInit();
       if (functionStatus == FunctionStatus.success) {
-        if (authRepo.userType == UserType.driver) {
+        if (authRepo.userType == UserType.driver ||
+            authRepo.userType == UserType.medic ||
+            authRepo.userType == UserType.criticalUser) {
           Get.offAll(
             () => const HomeScreen(),
             transition: Transition.circularReveal,
           );
-        } else if (authRepo.userType == UserType.user) {
+        } else if (authRepo.userType == UserType.regularUser) {
           authRepo.isUserRegistered
               ? Get.offAll(
                   () => const HomeScreen(),

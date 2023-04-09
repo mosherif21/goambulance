@@ -1,10 +1,10 @@
-class UserInfoSave {
+class UserInfo {
   final String name;
   final String email;
   final String nationalId;
   final DateTime birthDate;
   final String gender;
-  UserInfoSave({
+  UserInfo({
     required this.name,
     required this.email,
     required this.nationalId,
@@ -20,18 +20,20 @@ class UserInfoSave {
       };
 }
 
-class MedicalInfoSave {
+class MedicalInfo {
   final String bloodType;
   final String diabetesPatient;
   final String additionalInformation;
   final bool bloodPressurePatient;
   final bool heartPatient;
-  MedicalInfoSave({
+  final List<DiseaseItem> diseasesList;
+  MedicalInfo({
     required this.bloodType,
     required this.diabetesPatient,
     required this.bloodPressurePatient,
     required this.heartPatient,
     required this.additionalInformation,
+    required this.diseasesList,
   });
   Map<String, dynamic> toJson() {
     return {

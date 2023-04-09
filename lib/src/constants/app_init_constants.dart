@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -53,8 +54,7 @@ class AppInit {
   static InternetConnectionStatus initialInternetConnectionStatus =
       InternetConnectionStatus.disconnected;
   static Transition transition = Transition.leftToRightWithFade;
-  // // ignore: prefer_typing_uninitialized_variables
-  // static late final notificationToken;
+  static late final String? notificationToken;
 
   static final currentAuthType = AuthType.emailLogin.obs;
 
@@ -117,7 +117,7 @@ class AppInit {
       }
       if (kDebugMode) print('Firebase initialized');
       if (!isWeb) {
-        // notificationToken = await FirebaseMessaging.instance.getToken();
+        notificationToken = await FirebaseMessaging.instance.getToken();
       }
       //await initializeNotification();
       Get.put(AuthenticationRepository(), permanent: true);

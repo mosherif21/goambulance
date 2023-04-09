@@ -34,6 +34,8 @@ class UserInfo {
         'bloodPressurePatient': bloodPressurePatient ? 'Yes' : 'No',
         'heartPatient': heartPatient ? 'Yes' : 'No',
         'additionalInformation': additionalInformation,
+        'criticalUser': false,
+        'type': 'patient',
       };
 }
 

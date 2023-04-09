@@ -66,11 +66,7 @@ class FirebaseDataAccess extends GetxController {
       }
       var userInfoBatch = fireStore.batch();
 
-      userInfoBatch.set(firestoreUserRef, {
-        ...userInfo.toJson(),
-        'criticalUser': false,
-        'type': 'patient',
-      });
+      userInfoBatch.set(firestoreUserRef, userInfo.toJson());
 
       if (userInfo.diseasesList.isNotEmpty) {
         final fireStoreUserDiseasesRef =

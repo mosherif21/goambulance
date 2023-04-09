@@ -33,21 +33,23 @@ class EmergencyNumbersScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int emergencyNumber) {
-                    return RegularClickableCard(
-                      onPressed: () async =>
-                          await FlutterPhoneDirectCaller.callNumber(
-                              emergencyNumbers[emergencyNumber]),
-                      title: 'emergencyNumber${emergencyNumber + 1}'.tr,
-                      subTitle: emergencyNumbers[emergencyNumber],
-                      icon: Icons.call,
-                      iconColor: Colors.green,
-                      imgPath: getEmergencyNumberImage(emergencyNumber + 1),
-                    );
-                  },
-                  itemCount: 6,
+                child: StretchingOverscrollIndicator(
+                  axisDirection: AxisDirection.down,
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, int emergencyNumber) {
+                      return RegularClickableCard(
+                        onPressed: () async =>
+                            await FlutterPhoneDirectCaller.callNumber(
+                                emergencyNumbers[emergencyNumber]),
+                        title: 'emergencyNumber${emergencyNumber + 1}'.tr,
+                        subTitle: emergencyNumbers[emergencyNumber],
+                        icon: Icons.call,
+                        iconColor: Colors.green,
+                        imgPath: getEmergencyNumberImage(emergencyNumber + 1),
+                      );
+                    },
+                    itemCount: 6,
+                  ),
                 ),
               ),
             ],

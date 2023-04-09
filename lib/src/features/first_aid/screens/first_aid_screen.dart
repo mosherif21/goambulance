@@ -34,24 +34,26 @@ class FirstAidScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: ListView.builder(
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int firstAidNumber) {
-                    return RegularClickableCard(
-                      onPressed: () => Get.to(
-                        () => FirstAidTipsDetailsPage(
-                          imgPath: getFirstAidDetailsPath(firstAidNumber + 1),
+                child: StretchingOverscrollIndicator(
+                  axisDirection: AxisDirection.down,
+                  child: ListView.builder(
+                    itemBuilder: (BuildContext context, int firstAidNumber) {
+                      return RegularClickableCard(
+                        onPressed: () => Get.to(
+                          () => FirstAidTipsDetailsPage(
+                            imgPath: getFirstAidDetailsPath(firstAidNumber + 1),
+                          ),
+                          transition: AppInit.getPageTransition(),
                         ),
-                        transition: AppInit.getPageTransition(),
-                      ),
-                      title: 'firstAidTips${firstAidNumber + 1}'.tr,
-                      subTitle: '',
-                      icon: Icons.arrow_forward_ios,
-                      iconColor: Colors.black54,
-                      imgPath: getFirstAidTipImage(firstAidNumber + 1),
-                    );
-                  },
-                  itemCount: 16,
+                        title: 'firstAidTips${firstAidNumber + 1}'.tr,
+                        subTitle: '',
+                        icon: Icons.arrow_forward_ios,
+                        iconColor: Colors.black54,
+                        imgPath: getFirstAidTipImage(firstAidNumber + 1),
+                      );
+                    },
+                    itemCount: 16,
+                  ),
                 ),
               ),
             ],

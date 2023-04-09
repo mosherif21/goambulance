@@ -17,10 +17,13 @@ class FirstAidTipsDetailsPage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Image(
-            image: AssetImage(
-              imgPath,
+        child: StretchingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          child: SingleChildScrollView(
+            child: Image(
+              image: AssetImage(
+                imgPath,
+              ),
             ),
           ),
         ),

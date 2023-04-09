@@ -7,8 +7,11 @@ class PreviousRequestsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.blue,
-      body: Center(
-        child: Text('requests'),
+      body: StretchingOverscrollIndicator(
+        axisDirection: AxisDirection.down,
+        child: Center(
+          child: Text('requests'),
+        ),
       ),
     );
   }

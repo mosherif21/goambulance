@@ -30,33 +30,35 @@ class AuthenticationScreen extends StatelessWidget {
       },
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-              padding: const EdgeInsets.only(
-                  top: 15.0,
-                  left: kDefaultPaddingSize,
-                  right: kDefaultPaddingSize,
-                  bottom: kDefaultPaddingSize),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const ButtonLanguageSelect(color: Colors.black54),
-                  Hero(
-                    tag: 'loginLogo',
-                    child: Image(
-                      image: const AssetImage(kLogoImage),
-                      height: AppInit.notWebMobile
-                          ? screenHeight * 0.27
-                          : screenHeight * 0.2,
+          child: StretchingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.only(
+                    top: 15.0,
+                    left: kDefaultPaddingSize,
+                    right: kDefaultPaddingSize,
+                    bottom: kDefaultPaddingSize),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const ButtonLanguageSelect(color: Colors.black54),
+                    Hero(
+                      tag: 'loginLogo',
+                      child: Image(
+                        image: const AssetImage(kLogoImage),
+                        height: AppInit.notWebMobile
+                            ? screenHeight * 0.27
+                            : screenHeight * 0.2,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: screenHeight * 0.02),
-                  AuthenticationForm(
-                    screenHeight: screenHeight,
-                    screenWidth: screenWidth,
-                  ),
-                ],
+                    SizedBox(height: screenHeight * 0.02),
+                    AuthenticationForm(
+                      screenHeight: screenHeight,
+                      screenWidth: screenWidth,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

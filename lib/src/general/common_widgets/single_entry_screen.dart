@@ -58,69 +58,71 @@ class SingleEntryScreen extends StatelessWidget {
             children: [
               const RegularBackButton(padding: 10.0),
               Expanded(
-                child: SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPaddingSize),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Lottie.asset(
-                        lottieAssetAnim,
-                        fit: BoxFit.contain,
-                        height: screenHeight * 0.4,
-                      ),
-                      AutoSizeText(
-                        title,
-                        style: GoogleFonts.montserrat(
-                          color: Colors.black,
-                          fontSize: AppInit.notWebMobile ? 25 : 14,
-                          fontWeight: FontWeight.w700,
+                child: StretchingOverscrollIndicator(
+                  axisDirection: AxisDirection.down,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: kDefaultPaddingSize),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Lottie.asset(
+                          lottieAssetAnim,
+                          fit: BoxFit.contain,
+                          height: screenHeight * 0.4,
                         ),
-                        maxLines: 2,
-                        minFontSize: 10,
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      inputType == InputType.phone
-                          ? IntlPhoneField(
-                              decoration: InputDecoration(
+                        AutoSizeText(
+                          title,
+                          style: GoogleFonts.montserrat(
+                            color: Colors.black,
+                            fontSize: AppInit.notWebMobile ? 25 : 14,
+                            fontWeight: FontWeight.w700,
+                          ),
+                          maxLines: 2,
+                          minFontSize: 10,
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        inputType == InputType.phone
+                            ? IntlPhoneField(
+                                decoration: InputDecoration(
+                                  labelText: textFormTitle,
+                                  hintText: textFormHint,
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(),
+                                  ),
+                                ),
+                                initialCountryCode: 'EG',
+                                onChanged: (phone) {
+                                  textController.text = phone.completeNumber;
+                                },
+                              )
+                            : TextFormFieldRegular(
                                 labelText: textFormTitle,
                                 hintText: textFormHint,
-                                border: const OutlineInputBorder(
-                                  borderSide: BorderSide(),
-                                ),
+                                prefixIconData: prefixIconData,
+                                textController: textController,
+                                inputType: inputType,
+                                editable: true,
+                                textInputAction: TextInputAction.done,
                               ),
-                              initialCountryCode: 'EG',
-                              onChanged: (phone) {
-                                textController.text = phone.completeNumber;
-                              },
-                            )
-                          : TextFormFieldRegular(
-                              labelText: textFormTitle,
-                              hintText: textFormHint,
-                              prefixIconData: prefixIconData,
-                              textController: textController,
-                              inputType: inputType,
-                              editable: true,
-                              textInputAction: TextInputAction.done,
-                            ),
-                      const SizedBox(height: 20.0),
-                      RegularElevatedButton(
-                        buttonText: buttonTitle,
-                        enabled: true,
-                        onPressed: onPressed,
-                        color: Colors.black,
-                      ),
-                      inputType == InputType.phone
-                          ? AlternateLoginButtons(
-                              screenHeight: screenHeight,
-                              screenWidth: screenWidth,
-                              showPhoneLogin: false,
-                            )
-                          : const SizedBox(),
-                    ],
+                        const SizedBox(height: 20.0),
+                        RegularElevatedButton(
+                          buttonText: buttonTitle,
+                          enabled: true,
+                          onPressed: onPressed,
+                          color: Colors.black,
+                        ),
+                        inputType == InputType.phone
+                            ? AlternateLoginButtons(
+                                screenHeight: screenHeight,
+                                screenWidth: screenWidth,
+                                showPhoneLogin: false,
+                              )
+                            : const SizedBox(),
+                      ],
+                    ),
                   ),
                 ),
               )

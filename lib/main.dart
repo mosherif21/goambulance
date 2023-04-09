@@ -22,6 +22,12 @@ class MyApp extends StatelessWidget {
     return FlutterWebFrame(
       builder: (context) {
         return GetMaterialApp(
+          builder: (context, child) {
+            return ScrollConfiguration(
+              behavior: NonScrollPhysics(),
+              child: child!,
+            );
+          },
           translations: Languages(),
           locale: AppInit.setLocale,
           fallbackLocale: const Locale('en', 'US'),
@@ -34,5 +40,13 @@ class MyApp extends StatelessWidget {
       enabled: AppInit.notWebMobile,
       backgroundColor: Colors.grey.shade500,
     );
+  }
+}
+
+class NonScrollPhysics extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
   }
 }

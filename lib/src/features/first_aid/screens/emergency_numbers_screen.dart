@@ -29,30 +29,23 @@ class EmergencyNumbersScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: StretchingOverscrollIndicator(
-                  axisDirection: AxisDirection.down,
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext context, int emergencyNumber) {
-                      return RegularClickableCard(
-                        onPressed: () async =>
-                            await FlutterPhoneDirectCaller.callNumber(
-                                emergencyNumbers[emergencyNumber]),
-                        title: 'emergencyNumber${emergencyNumber + 1}'.tr,
-                        subTitle: emergencyNumbers[emergencyNumber],
-                        icon: Icons.call,
-                        iconColor: Colors.green,
-                        imgPath: getEmergencyNumberImage(emergencyNumber + 1),
-                      );
-                    },
-                    itemCount: 6,
-                  ),
-                ),
-              ),
-            ],
+          child: StretchingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int emergencyNumber) {
+                return RegularClickableCard(
+                  onPressed: () async =>
+                      await FlutterPhoneDirectCaller.callNumber(
+                          emergencyNumbers[emergencyNumber]),
+                  title: 'emergencyNumber${emergencyNumber + 1}'.tr,
+                  subTitle: emergencyNumbers[emergencyNumber],
+                  icon: Icons.call,
+                  iconColor: Colors.green,
+                  imgPath: getEmergencyNumberImage(emergencyNumber + 1),
+                );
+              },
+              itemCount: 6,
+            ),
           ),
         ),
       ),

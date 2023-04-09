@@ -30,33 +30,26 @@ class FirstAidScreen extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: StretchingOverscrollIndicator(
-                  axisDirection: AxisDirection.down,
-                  child: ListView.builder(
-                    itemBuilder: (BuildContext context, int firstAidNumber) {
-                      return RegularClickableCard(
-                        onPressed: () => Get.to(
-                          () => FirstAidTipsDetailsPage(
-                            imgPath: getFirstAidDetailsPath(firstAidNumber + 1),
-                          ),
-                          transition: AppInit.getPageTransition(),
-                        ),
-                        title: 'firstAidTips${firstAidNumber + 1}'.tr,
-                        subTitle: '',
-                        icon: Icons.arrow_forward_ios,
-                        iconColor: Colors.black54,
-                        imgPath: getFirstAidTipImage(firstAidNumber + 1),
-                      );
-                    },
-                    itemCount: 16,
+          child: StretchingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int firstAidNumber) {
+                return RegularClickableCard(
+                  onPressed: () => Get.to(
+                    () => FirstAidTipsDetailsPage(
+                      imgPath: getFirstAidDetailsPath(firstAidNumber + 1),
+                    ),
+                    transition: AppInit.getPageTransition(),
                   ),
-                ),
-              ),
-            ],
+                  title: 'firstAidTips${firstAidNumber + 1}'.tr,
+                  subTitle: '',
+                  icon: Icons.arrow_forward_ios,
+                  iconColor: Colors.black54,
+                  imgPath: getFirstAidTipImage(firstAidNumber + 1),
+                );
+              },
+              itemCount: 16,
+            ),
           ),
         ),
       ),

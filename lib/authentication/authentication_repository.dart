@@ -58,9 +58,6 @@ class AuthenticationRepository extends GetxController {
             }
           }
           if (kDebugMode) print('$userType');
-        } else {
-          userType = UserType.regularUser;
-          isUserRegistered = false;
         }
       });
 

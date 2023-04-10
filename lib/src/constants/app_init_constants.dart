@@ -167,22 +167,23 @@ class AppInit {
       final functionStatus = await AuthenticationRepository.instance.userInit();
       if (functionStatus == FunctionStatus.success) {
         if (authRepo.userType == UserType.driver ||
-            authRepo.userType == UserType.medic ||
-            authRepo.userType == UserType.criticalUser) {
+            authRepo.userType == UserType.medic) {
           Get.offAll(
             () => const HomeScreen(),
             transition: Transition.circularReveal,
           );
-        } else if (authRepo.userType == UserType.regularUser) {
-          authRepo.isUserRegistered
-              ? Get.offAll(
-                  () => const HomeScreen(),
-                  transition: Transition.circularReveal,
-                )
-              : Get.offAll(
-                  () => const RegisterUserDataPage(),
-                  transition: Transition.circularReveal,
-                );
+        } else if (authRepo.userType == UserType.regularUser ||
+            authRepo.userType == UserType.criticalUser) {
+          if (authRepo.isUserPhoneRegistered && authRepo.isUserRegistered) {
+            Get.offAll(() => const HomeScreen(),
+                transition: Transition.circularReveal);
+          } else if (!authRepo.isUserPhoneRegistered &&
+              authRepo.isUserRegistered) {
+            getOfAllPhoneVerificationScreen(linkWithPhone: true);
+          } else {
+            Get.offAll(() => const RegisterUserDataPage(),
+                transition: Transition.circularReveal);
+          }
         }
       } else {
         hideLoadingScreen();

@@ -20,6 +20,7 @@ class AuthenticationRepository extends GetxController {
   late final Rx<User?> fireUser;
   bool isUserLoggedIn = false;
   bool isUserRegistered = false;
+  bool isUserPhoneRegistered = false;
   var verificationId = ''.obs;
   GoogleSignIn? googleSignIn;
 
@@ -31,8 +32,18 @@ class AuthenticationRepository extends GetxController {
     fireUser = Rx<User?>(_auth.currentUser);
     if (fireUser.value != null) {
       isUserLoggedIn = true;
+      if (fireUser.value!.phoneNumber != null) {
+        isUserPhoneRegistered = true;
+      }
     }
     fireUser.bindStream(_auth.userChanges());
+  }
+
+  Future<void> authenticatedSetup() async {
+    AppInit.currentAuthType.value = AuthType.emailLogin;
+    if (fireUser.value!.phoneNumber != null) {
+      isUserPhoneRegistered = true;
+    }
   }
 
   Future<FunctionStatus> userInit() async {
@@ -65,11 +76,8 @@ class AuthenticationRepository extends GetxController {
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
       return FunctionStatus.failure;
-    }
-  }
-
-  Future<void> authenticatedSetup() async {
-    AppInit.currentAuthType.value = AuthType.emailLogin;
+    } catch (_) {}
+    return FunctionStatus.failure;
   }
 
   Future<String> createUserWithEmailAndPassword(
@@ -88,7 +96,7 @@ class AuthenticationRepository extends GetxController {
       if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
       return ex.errorMessage;
     } catch (_) {}
-    return 'default/failed';
+    return 'unknownError'.tr;
   }
 
   Future<String> signInWithEmailAndPassword(
@@ -106,10 +114,11 @@ class AuthenticationRepository extends GetxController {
       if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
       return ex.errorMessage;
     } catch (_) {}
-    return 'default/failed';
+    return 'unknownError'.tr;
   }
 
-  Future<String> signInWithPhoneNumber(String phoneNumber) async {
+  Future<String> signInWithPhoneNumber(
+      {required String phoneNumber, required bool linkWithPhone}) async {
     String returnMessage = 'codeSent';
     try {
       await _auth.verifyPhoneNumber(
@@ -119,7 +128,9 @@ class AuthenticationRepository extends GetxController {
             if (fireUser.value != null) {
               isUserLoggedIn = true;
               await authenticatedSetup();
-              AppInit.goToInitPage();
+              if (!linkWithPhone) {
+                AppInit.goToInitPage();
+              }
             }
           },
           verificationFailed: (e) {
@@ -133,14 +144,35 @@ class AuthenticationRepository extends GetxController {
           });
     } on FirebaseAuthException catch (e) {
       returnMessage = e.code;
-    } catch (e) {
-      returnMessage = e.toString();
+    } catch (_) {
+      returnMessage = 'unknownError'.tr;
     }
 
     return returnMessage;
   }
 
-  Future<String> verifyOTP(String otp) async {
+  Future<String> linkPhoneCredentialWithAccount({required String otp}) async {
+    if (fireUser.value != null) {
+      try {
+        final credential = PhoneAuthProvider.credential(
+            verificationId: verificationId.value, smsCode: otp);
+        await fireUser.value!
+            .linkWithCredential(credential)
+            .whenComplete(() => AppInit.goToInitPage());
+      } on FirebaseAuthException catch (ex) {
+        if (ex.code.compareTo('credential-already-in-use') == 0) {
+          return 'phoneNumberAlreadyLinked'.tr;
+        } else if (ex.code.compareTo('provider-already-linked') == 0) {
+          return 'phoneNumberAlreadyYourAccount'.tr;
+        } else if (ex.code.compareTo('invalid-verification-code') == 0) {
+          return 'wrongOTP'.tr;
+        }
+      } catch (_) {}
+    }
+    return 'unknownError'.tr;
+  }
+
+  Future<String> signInVerifyOTP({required String otp}) async {
     try {
       await _auth.signInWithCredential(PhoneAuthProvider.credential(
           verificationId: verificationId.value, smsCode: otp));
@@ -150,8 +182,8 @@ class AuthenticationRepository extends GetxController {
         AppInit.goToInitPage();
         return 'success';
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code.compareTo('invalid-verification-code') == 0) {
+    } on FirebaseAuthException catch (ex) {
+      if (ex.code.compareTo('invalid-verification-code') == 0) {
         return 'wrongOTP'.tr;
       }
     } catch (_) {}
@@ -248,5 +280,10 @@ class AuthenticationRepository extends GetxController {
   Future<void> logoutUser() async {
     await googleSignIn?.signOut();
     await _auth.signOut();
+    isUserRegistered = false;
+    isUserLoggedIn = false;
+    isUserPhoneRegistered = false;
+    verificationId = ''.obs;
+    userType = UserType.regularUser;
   }
 }

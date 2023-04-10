@@ -184,6 +184,8 @@ class Languages extends Translations {
               'ستتم مشاركة معلوماتك مع المستشفى في حال طلب سيارة إسعاف',
           'additionalInformation': 'معلومات إضافية',
           'enterAdditionalInformation': 'أدخل أي معلومات إضافية',
+          'phoneNumberAlreadyLinked': 'رقم الهاتف هذا مرتبط بالفعل بحساب آخر',
+          'phoneNumberAlreadyYourAccount': 'رقم الهاتف هذا مرتبط بالفعل بحسابك',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -360,6 +362,10 @@ class Languages extends Translations {
               'Your information will be shared with the hospital in case you request an ambulance',
           'additionalInformation': 'Additional information',
           'enterAdditionalInformation': 'Enter any additional information',
+          'phoneNumberAlreadyLinked':
+              'This Phone number is already linked with another account',
+          'phoneNumberAlreadyYourAccount':
+              'This Phone number is already linked with your account',
         },
       };
 }

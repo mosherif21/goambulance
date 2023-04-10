@@ -16,12 +16,12 @@ class OTPVerificationScreen extends StatelessWidget {
     required this.verificationType,
     required this.lottieAssetAnim,
     required this.enteredString,
-    required this.inputType,
+    required this.linkWithPhone,
   }) : super(key: key);
   final String verificationType;
   final String lottieAssetAnim;
   final String enteredString;
-  final InputType inputType;
+  final bool linkWithPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,7 @@ class OTPVerificationScreen extends StatelessWidget {
                           onSubmit: (enteredVerificationCode) async {
                             await OtpVerificationController.instance.verifyOTP(
                               verificationCode: enteredVerificationCode,
-                              inputType: inputType,
+                              linkWithPhone: linkWithPhone,
                             );
                           },
                         ),

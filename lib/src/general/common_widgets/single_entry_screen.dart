@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/authentication/controllers/otp_verification_controller.dart';
+import 'package:goambulance/src/features/authentication/controllers/reset_password_controller.dart';
 import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
@@ -26,6 +27,7 @@ class SingleEntryScreen extends StatelessWidget {
     required this.onPressed,
     required this.textController,
     required this.inputType,
+    required this.linkWithPhone,
   }) : super(key: key);
   final String title;
   final String lottieAssetAnim;
@@ -35,6 +37,7 @@ class SingleEntryScreen extends StatelessWidget {
   final IconData prefixIconData;
   final Function onPressed;
   final InputType inputType;
+  final bool linkWithPhone;
 
   final TextEditingController textController;
 
@@ -47,6 +50,9 @@ class SingleEntryScreen extends StatelessWidget {
         if (inputType == InputType.phone &&
             Get.isRegistered<OtpVerificationController>()) {
           await Get.delete<OtpVerificationController>();
+        } else if (inputType == InputType.email &&
+            Get.isRegistered<ResetController>()) {
+          await Get.delete<ResetController>();
         }
         return true;
       },
@@ -114,7 +120,7 @@ class SingleEntryScreen extends StatelessWidget {
                           onPressed: onPressed,
                           color: Colors.black,
                         ),
-                        inputType == InputType.phone
+                        inputType == InputType.phone && !linkWithPhone
                             ? AlternateLoginButtons(
                                 screenHeight: screenHeight,
                                 screenWidth: screenWidth,

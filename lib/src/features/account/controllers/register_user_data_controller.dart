@@ -13,7 +13,6 @@ import '../../../../authentication/authentication_repository.dart';
 import '../../../../firebase_files/firebase_access.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../../home_screen/screens/home_screen.dart';
 
 enum Gender {
   male,
@@ -228,11 +227,10 @@ class RegisterUserDataController extends GetxController {
           );
           if (functionStatus == FunctionStatus.success) {
             hideLoadingScreen();
-            Get.offAll(() => const HomeScreen(),
-                transition: AppInit.getPageTransition());
+            AppInit.goToInitPage();
           } else {
-            showSimpleSnackBar(text: 'saveUserInfoError'.tr);
             hideLoadingScreen();
+            showSimpleSnackBar(text: 'saveUserInfoError'.tr);
           }
         },
         negativeButtonOnPressed: () => Get.back(),

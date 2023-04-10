@@ -79,7 +79,8 @@ class FirebaseDataAccess extends GetxController {
           }
         }
       }
-      await userInfoBatch.commit();
+      await userInfoBatch.commit().whenComplete(
+          () => AuthenticationRepository.instance.isUserRegistered = true);
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

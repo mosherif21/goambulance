@@ -18,6 +18,7 @@ void getToResetPasswordScreen() {
       buttonTitle: 'confirm'.tr,
       textController: controller.emailController,
       inputType: InputType.email,
+      linkWithPhone: false,
       onPressed: () async => await controller
           .resetPassword(controller.emailController.value.text.trim()),
     ),

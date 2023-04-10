@@ -7,7 +7,6 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../../../../general/common_functions.dart';
 import '../../../../general/common_widgets/or_divider.dart';
-import 'phone_verification_screen.dart';
 
 class AlternateLoginButtons extends StatelessWidget {
   final double screenHeight;
@@ -34,7 +33,8 @@ class AlternateLoginButtons extends StatelessWidget {
                   SignInButton(
                     Buttons.Phone,
                     text: 'loginWithMobile'.tr,
-                    onPressed: () => getToPhoneVerificationScreen(),
+                    onPressed: () =>
+                        getToPhoneVerificationScreen(linkWithPhone: false),
                     width: buttonsWidth,
                     height: 50.0,
                   ),

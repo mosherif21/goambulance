@@ -10,33 +10,22 @@ import '../components/otpVerification/otp_verification.dart';
 class OtpVerificationController extends GetxController {
   static OtpVerificationController get instance => Get.find();
   final enteredData = TextEditingController();
-
-  Future<String> signInWithOTPPhone(String phoneNumber) async {
-    FocusManager.instance.primaryFocus?.unfocus();
-    showLoadingScreen();
-    String returnMessage;
-    if (phoneNumber.length == 13 && phoneNumber.isPhoneNumber) {
-      returnMessage = await AuthenticationRepository.instance
-          .signInWithPhoneNumber(phoneNumber);
-    } else {
-      returnMessage = 'invalidPhoneNumber'.tr;
-    }
-    return returnMessage;
-  }
+  final authenticationRepository = AuthenticationRepository.instance;
 
   Future<void> verifyOTP({
     required String verificationCode,
-    required InputType inputType,
+    required bool linkWithPhone,
   }) async {
     showLoadingScreen();
-    var returnMessage =
-        await AuthenticationRepository.instance.verifyOTP(verificationCode);
-    if (returnMessage.compareTo('success') == 0) {
-      if (inputType == InputType.phone &&
-          Get.isRegistered<OtpVerificationController>()) {
-        await Get.delete<OtpVerificationController>();
-      }
+    String returnMessage = '';
+    if (linkWithPhone) {
+      returnMessage =
+          await authenticationRepository.signInVerifyOTP(otp: verificationCode);
     } else {
+      returnMessage = await authenticationRepository
+          .linkPhoneCredentialWithAccount(otp: verificationCode);
+    }
+    if (returnMessage.compareTo('success') != 0) {
       hideLoadingScreen();
       showSimpleSnackBar(
         text: returnMessage,
@@ -44,24 +33,29 @@ class OtpVerificationController extends GetxController {
     }
   }
 
-  Future<void> otpOnClick() async {
-    var phoneNumber = enteredData.value.text;
-    var returnMessage = '';
-    returnMessage = await signInWithOTPPhone(phoneNumber);
+  Future<void> otpOnClick({required bool linkWithPhone}) async {
+    String phoneNumber = enteredData.value.text.trim();
+    String returnMessage = '';
+    FocusManager.instance.primaryFocus?.unfocus();
+    showLoadingScreen();
+    if (phoneNumber.length == 13 && phoneNumber.isPhoneNumber) {
+      returnMessage = await authenticationRepository.signInWithPhoneNumber(
+          phoneNumber: phoneNumber, linkWithPhone: false);
+    } else {
+      returnMessage = 'invalidPhoneNumber'.tr;
+    }
     hideLoadingScreen();
     if (returnMessage.compareTo('codeSent') == 0) {
       await Get.to(
           () => OTPVerificationScreen(
-                inputType: InputType.phone,
                 verificationType: 'phoneLabel'.tr,
                 lottieAssetAnim: kPhoneOTPAnim,
                 enteredString: phoneNumber,
+                linkWithPhone: linkWithPhone,
               ),
           transition: AppInit.getPageTransition());
     } else {
-      showSimpleSnackBar(
-        text: returnMessage,
-      );
+      showSimpleSnackBar(text: returnMessage);
     }
   }
 

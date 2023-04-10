@@ -10,9 +10,13 @@ import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
+import '../constants/app_init_constants.dart';
+import '../constants/assets_strings.dart';
+import '../features/authentication/controllers/otp_verification_controller.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import 'common_widgets/language_select.dart';
 import 'common_widgets/regular_bottom_sheet.dart';
+import 'common_widgets/single_entry_screen.dart';
 
 double getScreenHeight(BuildContext context) =>
     MediaQuery.of(context).size.height;
@@ -80,6 +84,46 @@ Future<void> logout() async {
     negativeButtonOnPressed: () => Get.back(),
     positiveButtonIcon: Icons.logout,
     negativeButtonIcon: Icons.cancel_outlined,
+  );
+}
+
+void getToPhoneVerificationScreen({required bool linkWithPhone}) {
+  final controller = Get.put(OtpVerificationController());
+  Get.to(
+    () => SingleEntryScreen(
+      title: 'phoneVerification'.tr,
+      prefixIconData: Icons.phone,
+      lottieAssetAnim: kPhoneVerificationAnim,
+      textFormTitle: 'phoneLabel'.tr,
+      textFormHint: 'phoneFieldLabel'.tr,
+      buttonTitle: 'continue'.tr,
+      textController: controller.enteredData,
+      inputType: InputType.phone,
+      linkWithPhone: linkWithPhone,
+      onPressed: () async =>
+          await controller.otpOnClick(linkWithPhone: linkWithPhone),
+    ),
+    transition: AppInit.getPageTransition(),
+  );
+}
+
+void getOfAllPhoneVerificationScreen({required bool linkWithPhone}) {
+  final controller = Get.put(OtpVerificationController());
+  Get.offAll(
+    () => SingleEntryScreen(
+      title: 'phoneVerification'.tr,
+      prefixIconData: Icons.phone,
+      lottieAssetAnim: kPhoneVerificationAnim,
+      textFormTitle: 'phoneLabel'.tr,
+      textFormHint: 'phoneFieldLabel'.tr,
+      buttonTitle: 'continue'.tr,
+      textController: controller.enteredData,
+      inputType: InputType.phone,
+      linkWithPhone: linkWithPhone,
+      onPressed: () async =>
+          await controller.otpOnClick(linkWithPhone: linkWithPhone),
+    ),
+    transition: AppInit.getPageTransition(),
   );
 }
 

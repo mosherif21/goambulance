@@ -24,8 +24,6 @@ class SingleEntryScreen extends StatelessWidget {
     required this.textFormHint,
     required this.buttonTitle,
     required this.prefixIconData,
-    required this.onPressed,
-    required this.textController,
     required this.inputType,
     required this.linkWithPhone,
   }) : super(key: key);
@@ -35,16 +33,18 @@ class SingleEntryScreen extends StatelessWidget {
   final String textFormHint;
   final String buttonTitle;
   final IconData prefixIconData;
-  final Function onPressed;
   final InputType inputType;
   final bool linkWithPhone;
-
-  final TextEditingController textController;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
+    if (inputType == InputType.phone) {
+      Get.put(OtpVerificationController());
+    } else if (inputType == InputType.email) {
+      Get.put(ResetController());
+    }
     return WillPopScope(
       onWillPop: () async {
         if (inputType == InputType.phone &&
@@ -57,82 +57,94 @@ class SingleEntryScreen extends StatelessWidget {
         return true;
       },
       child: Scaffold(
+        appBar: AppBar(
+          leading: CustomBackButton(
+              onPressed: () async => await logout(), padding: 3),
+          elevation: 0,
+          scrolledUnderElevation: 5,
+          backgroundColor: Colors.white,
+        ),
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const RegularBackButton(padding: 10.0),
-              Expanded(
-                child: StretchingOverscrollIndicator(
-                  axisDirection: AxisDirection.down,
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: kDefaultPaddingSize),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Lottie.asset(
-                          lottieAssetAnim,
-                          fit: BoxFit.contain,
-                          height: screenHeight * 0.4,
-                        ),
-                        AutoSizeText(
-                          title,
-                          style: GoogleFonts.montserrat(
-                            color: Colors.black,
-                            fontSize: AppInit.notWebMobile ? 25 : 14,
-                            fontWeight: FontWeight.w700,
-                          ),
-                          maxLines: 2,
-                          minFontSize: 10,
-                        ),
-                        const SizedBox(
-                          height: 20.0,
-                        ),
-                        inputType == InputType.phone
-                            ? IntlPhoneField(
-                                decoration: InputDecoration(
-                                  labelText: textFormTitle,
-                                  hintText: textFormHint,
-                                  border: const OutlineInputBorder(
-                                    borderSide: BorderSide(),
-                                  ),
-                                ),
-                                initialCountryCode: 'EG',
-                                onChanged: (phone) {
-                                  textController.text = phone.completeNumber;
-                                },
-                              )
-                            : TextFormFieldRegular(
-                                labelText: textFormTitle,
-                                hintText: textFormHint,
-                                prefixIconData: prefixIconData,
-                                textController: textController,
-                                inputType: inputType,
-                                editable: true,
-                                textInputAction: TextInputAction.done,
-                              ),
-                        const SizedBox(height: 20.0),
-                        RegularElevatedButton(
-                          buttonText: buttonTitle,
-                          enabled: true,
-                          onPressed: onPressed,
-                          color: Colors.black,
-                        ),
-                        inputType == InputType.phone && !linkWithPhone
-                            ? AlternateLoginButtons(
-                                screenHeight: screenHeight,
-                                screenWidth: screenWidth,
-                                showPhoneLogin: false,
-                              )
-                            : const SizedBox(),
-                      ],
-                    ),
+          child: StretchingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            child: SingleChildScrollView(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    lottieAssetAnim,
+                    fit: BoxFit.contain,
+                    height: screenHeight * 0.4,
                   ),
-                ),
-              )
-            ],
+                  AutoSizeText(
+                    title,
+                    style: GoogleFonts.montserrat(
+                      color: Colors.black,
+                      fontSize: AppInit.notWebMobile ? 25 : 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 2,
+                    minFontSize: 10,
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  inputType == InputType.phone
+                      ? IntlPhoneField(
+                          decoration: InputDecoration(
+                            labelText: textFormTitle,
+                            hintText: textFormHint,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          initialCountryCode: 'EG',
+                          onChanged: (phone) {
+                            OtpVerificationController
+                                .instance
+                                .phoneTextController
+                                .text = phone.completeNumber;
+                          },
+                        )
+                      : TextFormFieldRegular(
+                          labelText: textFormTitle,
+                          hintText: textFormHint,
+                          prefixIconData: prefixIconData,
+                          textController:
+                              ResetController.instance.emailController,
+                          inputType: inputType,
+                          editable: true,
+                          textInputAction: TextInputAction.done,
+                        ),
+                  const SizedBox(height: 20.0),
+                  RegularElevatedButton(
+                    buttonText: buttonTitle,
+                    enabled: true,
+                    onPressed: () async {
+                      if (inputType == InputType.phone) {
+                        await OtpVerificationController.instance
+                            .otpOnClick(linkWithPhone: linkWithPhone);
+                      } else {
+                        final controller = ResetController.instance;
+                        await controller.resetPassword(
+                            controller.emailController.value.text.trim());
+                      }
+                    },
+                    color: Colors.black,
+                  ),
+                  inputType == InputType.phone && !linkWithPhone
+                      ? AlternateLoginButtons(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                          showPhoneLogin: false,
+                        )
+                      : const SizedBox(),
+                ],
+              ),
+            ),
           ),
         ),
       ),

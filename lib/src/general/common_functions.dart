@@ -12,7 +12,6 @@ import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
 import '../constants/app_init_constants.dart';
 import '../constants/assets_strings.dart';
-import '../features/authentication/controllers/otp_verification_controller.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import 'common_widgets/language_select.dart';
 import 'common_widgets/regular_bottom_sheet.dart';
@@ -76,7 +75,9 @@ Future<void> logout() async {
     positiveButtonOnPressed: () async {
       showLoadingScreen();
       await AuthenticationRepository.instance.logoutUser();
-      await FirebaseDataAccess.instance.logoutFirebase();
+      if (Get.isRegistered<FirebaseDataAccess>()) {
+        await FirebaseDataAccess.instance.logoutFirebase();
+      }
       if (kDebugMode) print('signing out');
       Get.offAll(() => const AuthenticationScreen());
       hideLoadingScreen();
@@ -88,7 +89,6 @@ Future<void> logout() async {
 }
 
 void getToPhoneVerificationScreen({required bool linkWithPhone}) {
-  final controller = Get.put(OtpVerificationController());
   Get.to(
     () => SingleEntryScreen(
       title: 'phoneVerification'.tr,
@@ -97,18 +97,14 @@ void getToPhoneVerificationScreen({required bool linkWithPhone}) {
       textFormTitle: 'phoneLabel'.tr,
       textFormHint: 'phoneFieldLabel'.tr,
       buttonTitle: 'continue'.tr,
-      textController: controller.enteredData,
       inputType: InputType.phone,
       linkWithPhone: linkWithPhone,
-      onPressed: () async =>
-          await controller.otpOnClick(linkWithPhone: linkWithPhone),
     ),
     transition: AppInit.getPageTransition(),
   );
 }
 
 void getOfAllPhoneVerificationScreen({required bool linkWithPhone}) {
-  final controller = Get.put(OtpVerificationController());
   Get.offAll(
     () => SingleEntryScreen(
       title: 'phoneVerification'.tr,
@@ -117,11 +113,8 @@ void getOfAllPhoneVerificationScreen({required bool linkWithPhone}) {
       textFormTitle: 'phoneLabel'.tr,
       textFormHint: 'phoneFieldLabel'.tr,
       buttonTitle: 'continue'.tr,
-      textController: controller.enteredData,
       inputType: InputType.phone,
       linkWithPhone: linkWithPhone,
-      onPressed: () async =>
-          await controller.otpOnClick(linkWithPhone: linkWithPhone),
     ),
     transition: AppInit.getPageTransition(),
   );

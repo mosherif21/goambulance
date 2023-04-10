@@ -9,7 +9,7 @@ import '../components/otpVerification/otp_verification.dart';
 
 class OtpVerificationController extends GetxController {
   static OtpVerificationController get instance => Get.find();
-  final enteredData = TextEditingController();
+  final phoneTextController = TextEditingController();
   final authenticationRepository = AuthenticationRepository.instance;
 
   Future<void> verifyOTP({
@@ -34,7 +34,7 @@ class OtpVerificationController extends GetxController {
   }
 
   Future<void> otpOnClick({required bool linkWithPhone}) async {
-    String phoneNumber = enteredData.value.text.trim();
+    String phoneNumber = phoneTextController.value.text.trim();
     String returnMessage = '';
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();
@@ -61,7 +61,7 @@ class OtpVerificationController extends GetxController {
 
   @override
   void dispose() {
-    enteredData.dispose();
+    phoneTextController.dispose();
     super.dispose();
   }
 }

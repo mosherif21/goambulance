@@ -88,7 +88,7 @@ Future<void> logout() async {
   );
 }
 
-void getToPhoneVerificationScreen({required bool linkWithPhone}) {
+void getToPhoneVerificationScreen() {
   Get.to(
     () => SingleEntryScreen(
       title: 'phoneVerification'.tr,
@@ -98,7 +98,7 @@ void getToPhoneVerificationScreen({required bool linkWithPhone}) {
       textFormHint: 'phoneFieldLabel'.tr,
       buttonTitle: 'continue'.tr,
       inputType: InputType.phone,
-      linkWithPhone: linkWithPhone,
+      linkWithPhone: false,
     ),
     transition: AppInit.getPageTransition(),
   );

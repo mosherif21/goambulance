@@ -19,11 +19,11 @@ class OtpVerificationController extends GetxController {
     showLoadingScreen();
     String returnMessage = '';
     if (linkWithPhone) {
-      returnMessage =
-          await authenticationRepository.signInVerifyOTP(otp: verificationCode);
-    } else {
       returnMessage = await authenticationRepository
           .linkPhoneCredentialWithAccount(otp: verificationCode);
+    } else {
+      returnMessage =
+          await authenticationRepository.signInVerifyOTP(otp: verificationCode);
     }
     if (returnMessage.compareTo('success') != 0) {
       hideLoadingScreen();

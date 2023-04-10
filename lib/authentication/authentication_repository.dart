@@ -156,9 +156,10 @@ class AuthenticationRepository extends GetxController {
       try {
         final credential = PhoneAuthProvider.credential(
             verificationId: verificationId.value, smsCode: otp);
-        await fireUser.value!
-            .linkWithCredential(credential)
-            .whenComplete(() => AppInit.goToInitPage());
+        await fireUser.value!.linkWithCredential(credential);
+        isUserPhoneRegistered = true;
+        AppInit.goToInitPage();
+        return 'success';
       } on FirebaseAuthException catch (ex) {
         if (ex.code.compareTo('credential-already-in-use') == 0) {
           return 'phoneNumberAlreadyLinked'.tr;
@@ -167,7 +168,9 @@ class AuthenticationRepository extends GetxController {
         } else if (ex.code.compareTo('invalid-verification-code') == 0) {
           return 'wrongOTP'.tr;
         }
-      } catch (_) {}
+      } catch (e) {
+        if (kDebugMode) print(e.toString());
+      }
     }
     return 'unknownError'.tr;
   }

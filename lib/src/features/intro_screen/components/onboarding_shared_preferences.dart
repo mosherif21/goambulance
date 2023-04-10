@@ -1,8 +1,8 @@
-import 'package:goambulance/src/general/common_functions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../localization/language/language_functions.dart';
 import '../../../constants/app_init_constants.dart';
+import '../../../general/general_functions.dart';
 
 late SharedPreferences _prefs;
 Future<void> setShowOnBoarding() async {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
-import 'package:goambulance/src/general/common_functions.dart';
 
 import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
+import '../../../general/general_functions.dart';
 import '../components/otpVerification/otp_verification.dart';
 
 class OtpVerificationController extends GetxController {

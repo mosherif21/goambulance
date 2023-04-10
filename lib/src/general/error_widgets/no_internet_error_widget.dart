@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:goambulance/src/constants/sizes.dart';
-import 'package:goambulance/src/general/common_functions.dart';
+import 'package:goambulance/src/general/general_functions.dart';
 import 'package:lottie/lottie.dart';
 
 class NotInternetErrorWidget extends StatelessWidget {

@@ -11,10 +11,10 @@ import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/sizes.dart';
-import '../../../general/common_functions.dart';
 import '../../../general/common_widgets/circle_button_text_icon.dart';
 import '../../../general/common_widgets/language_change_button.dart';
 import '../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../general/general_functions.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
-import '../../../general/common_functions.dart';
+import '../../../general/general_functions.dart';
 
 class DrawerPage extends StatelessWidget {
   final List<MenuClass> mainMenu;

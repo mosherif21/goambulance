@@ -9,7 +9,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../constants/app_init_constants.dart';
-import '../../../general/common_functions.dart';
+import '../../../general/general_functions.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../requests/screens/previous_requests_page.dart';
 

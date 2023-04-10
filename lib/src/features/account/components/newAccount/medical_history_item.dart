@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/assets_strings.dart';
-import '../../../../general/common_functions.dart';
+import '../../../../general/general_functions.dart';
 import '../models.dart';
 
 class MedicalHistoryItem extends StatelessWidget {

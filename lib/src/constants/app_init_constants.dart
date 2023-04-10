@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/intro_screen/screens/intro_screen.dart';
-import 'package:goambulance/src/general/common_functions.dart';
+import 'package:goambulance/src/general/general_functions.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

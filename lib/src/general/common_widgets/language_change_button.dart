@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../constants/app_init_constants.dart';
-import '../common_functions.dart';
+import '../general_functions.dart';
 
 class ButtonLanguageSelect extends StatelessWidget {
   const ButtonLanguageSelect({

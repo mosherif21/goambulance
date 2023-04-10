@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../../authentication/authentication_repository.dart';
-import '../../../general/common_functions.dart';
+import '../../../general/general_functions.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();

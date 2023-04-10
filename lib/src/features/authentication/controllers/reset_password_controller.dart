@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
-import '../../../general/common_functions.dart';
+import '../../../general/general_functions.dart';
 
 class ResetController extends GetxController {
   static ResetController get instance => Get.find();

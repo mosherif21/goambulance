@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
-import '../../../../general/common_functions.dart';
 import '../../../../general/common_widgets/or_divider.dart';
+import '../../../../general/general_functions.dart';
 
 class AlternateLoginButtons extends StatelessWidget {
   final double screenHeight;

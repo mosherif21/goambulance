@@ -9,11 +9,11 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/components/newAccount/photo_select.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
-import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
+import 'package:goambulance/src/general/general_functions.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../../firebase_files/firebase_access.dart';

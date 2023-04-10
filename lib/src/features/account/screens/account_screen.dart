@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/general/common_functions.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
+
+import '../../../general/general_functions.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);

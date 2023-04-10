@@ -4,8 +4,8 @@ import 'package:goambulance/src/constants/sizes.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
-import '../../../general/common_functions.dart';
 import '../../../general/common_widgets/language_change_button.dart';
+import '../../../general/general_functions.dart';
 import '../components/generalAuthComponents/authentication_form.dart';
 
 class AuthenticationScreen extends StatelessWidget {

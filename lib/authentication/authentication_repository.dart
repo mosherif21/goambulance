@@ -32,18 +32,14 @@ class AuthenticationRepository extends GetxController {
     fireUser = Rx<User?>(_auth.currentUser);
     if (fireUser.value != null) {
       isUserLoggedIn = true;
-      if (fireUser.value!.phoneNumber != null) {
-        isUserPhoneRegistered = true;
-      }
+      checkUserHasPhoneNumber();
     }
     fireUser.bindStream(_auth.userChanges());
   }
 
   Future<void> authenticatedSetup() async {
     AppInit.currentAuthType.value = AuthType.emailLogin;
-    if (fireUser.value!.phoneNumber != null) {
-      isUserPhoneRegistered = true;
-    }
+    checkUserHasPhoneNumber();
   }
 
   Future<FunctionStatus> userInit() async {
@@ -151,13 +147,21 @@ class AuthenticationRepository extends GetxController {
     return returnMessage;
   }
 
+  void checkUserHasPhoneNumber() {
+    if (fireUser.value!.phoneNumber != null) {
+      if (fireUser.value!.phoneNumber!.isPhoneNumber) {
+        isUserPhoneRegistered = true;
+      }
+    }
+  }
+
   Future<String> linkPhoneCredentialWithAccount({required String otp}) async {
     if (fireUser.value != null) {
       try {
         final credential = PhoneAuthProvider.credential(
             verificationId: verificationId.value, smsCode: otp);
         await fireUser.value!.linkWithCredential(credential);
-        isUserPhoneRegistered = true;
+        checkUserHasPhoneNumber();
         AppInit.goToInitPage();
         return 'success';
       } on FirebaseAuthException catch (ex) {

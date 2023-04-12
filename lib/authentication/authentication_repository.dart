@@ -37,6 +37,14 @@ class AuthenticationRepository extends GetxController {
     fireUser.bindStream(_auth.userChanges());
   }
 
+  void checkUserHasPhoneNumber() {
+    if (fireUser.value!.phoneNumber != null) {
+      if (fireUser.value!.phoneNumber!.isPhoneNumber) {
+        isUserPhoneRegistered = true;
+      }
+    }
+  }
+
   Future<void> authenticatedSetup() async {
     AppInit.currentAuthType.value = AuthType.emailLogin;
     checkUserHasPhoneNumber();
@@ -147,14 +155,6 @@ class AuthenticationRepository extends GetxController {
     return returnMessage;
   }
 
-  void checkUserHasPhoneNumber() {
-    if (fireUser.value!.phoneNumber != null) {
-      if (fireUser.value!.phoneNumber!.isPhoneNumber) {
-        isUserPhoneRegistered = true;
-      }
-    }
-  }
-
   Future<String> linkPhoneCredentialWithAccount({required String otp}) async {
     if (fireUser.value != null) {
       try {
@@ -200,7 +200,7 @@ class AuthenticationRepository extends GetxController {
 
   Future<String> signInWithGoogle() async {
     try {
-      googleSignIn = kIsWeb
+      googleSignIn = AppInit.isWeb
           ? GoogleSignIn(
               clientId:
                   '996996980213-nuisd4i1fat65pjs4lu76d2r020fdj9b.apps.googleusercontent.com')

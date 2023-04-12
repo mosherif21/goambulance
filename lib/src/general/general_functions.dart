@@ -116,7 +116,7 @@ void getOfAllPhoneVerificationScreen({required bool linkWithPhone}) {
       inputType: InputType.phone,
       linkWithPhone: linkWithPhone,
     ),
-    transition: AppInit.getPageTransition(),
+    transition: Transition.circularReveal,
   );
 }
 

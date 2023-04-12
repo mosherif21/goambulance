@@ -21,7 +21,8 @@ enum Gender {
 
 class RegisterUserDataController extends GetxController {
   static RegisterUserDataController get instance => Get.find();
-
+  //vars
+  late final String phoneNumber;
   //controllers
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
@@ -73,6 +74,7 @@ class RegisterUserDataController extends GetxController {
     }
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
+    phoneNumber = user!.phoneNumber!;
   }
 
   @override
@@ -217,6 +219,7 @@ class RegisterUserDataController extends GetxController {
             additionalInformation:
                 additionalInformationTextController.text.trim(),
             diseasesList: diseasesList,
+            phoneNumber: phoneNumber,
           );
 
           final functionStatus =

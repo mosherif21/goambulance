@@ -174,14 +174,15 @@ class AppInit {
           );
         } else if (authRepo.userType == UserType.regularUser ||
             authRepo.userType == UserType.criticalUser) {
-          if (authRepo.isUserPhoneRegistered && authRepo.isUserRegistered) {
-            Get.offAll(() => const HomeScreen(),
-                transition: Transition.circularReveal);
-          } else if (!authRepo.isUserPhoneRegistered &&
-              authRepo.isUserRegistered) {
+          if (!authRepo.isUserPhoneRegistered && !authRepo.isUserRegistered) {
             getOfAllPhoneVerificationScreen(linkWithPhone: true);
-          } else {
+          } else if (authRepo.isUserPhoneRegistered &&
+              !authRepo.isUserRegistered) {
             Get.offAll(() => const RegisterUserDataPage(),
+                transition: Transition.circularReveal);
+          } else if (authRepo.isUserPhoneRegistered &&
+              authRepo.isUserRegistered) {
+            Get.offAll(() => const HomeScreen(),
                 transition: Transition.circularReveal);
           }
         }

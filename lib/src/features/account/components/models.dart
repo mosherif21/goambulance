@@ -7,6 +7,7 @@ class UserInfo {
   final String bloodType;
   final String diabetesPatient;
   final String additionalInformation;
+  final String phoneNumber;
   final bool bloodPressurePatient;
   final bool heartPatient;
   final List<DiseaseItem> diseasesList;
@@ -21,12 +22,14 @@ class UserInfo {
     required this.bloodPressurePatient,
     required this.heartPatient,
     required this.additionalInformation,
+    required this.phoneNumber,
     required this.diseasesList,
   });
   Map<String, dynamic> toJson() => {
         'name': name,
         'email': email,
         'nationalId': nationalId,
+        'phoneNo': phoneNumber,
         'birthdate': birthDate,
         'gender': gender,
         'bloodType': bloodType,
@@ -34,8 +37,8 @@ class UserInfo {
         'bloodPressurePatient': bloodPressurePatient ? 'Yes' : 'No',
         'heartPatient': heartPatient ? 'Yes' : 'No',
         'additionalInformation': additionalInformation,
-        'criticalUser': false,
         'type': 'patient',
+        'criticalUser': false,
       };
 }
 

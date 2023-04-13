@@ -160,7 +160,7 @@ class AuthenticationRepository extends GetxController {
       try {
         final credential = PhoneAuthProvider.credential(
             verificationId: verificationId.value, smsCode: otp);
-        await fireUser.value!.linkWithCredential(credential);
+        await fireUser.value!.updatePhoneNumber(credential);
         checkUserHasPhoneNumber();
         AppInit.goToInitPage();
         return 'success';

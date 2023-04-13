@@ -18,7 +18,6 @@ import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
 import '../general/common_widgets/empty_scaffold.dart';
 import '../general/error_widgets/no_internet_error_widget.dart';
-import '../general/splash_screen.dart';
 
 enum Language { english, arabic }
 
@@ -41,6 +40,7 @@ class AppInit {
   static bool webMobile = false;
   static bool isInitialised = false;
   static bool isConstantsInitialised = false;
+  static bool splashRemoved = false;
   static late SharedPreferences prefs;
   static bool isLocaleSet = false;
   static late final Locale setLocale;
@@ -198,6 +198,13 @@ class AppInit {
   static Widget? getInitialPage() {
     if (showOnBoard) removeSplashScreen();
     return showOnBoard ? const OnBoardingScreen() : const EmptyScaffold();
+  }
+
+  static void removeSplashScreen() {
+    if (!splashRemoved) {
+      FlutterNativeSplash.remove();
+      splashRemoved = true;
+    }
   }
 
   static Transition getPageTransition() {

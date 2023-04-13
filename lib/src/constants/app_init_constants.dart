@@ -132,7 +132,6 @@ class AppInit {
     if (!isInitialised) {
       AppInit.initializeDatabase().whenComplete(() async {
         if (!showOnBoard) {
-          removeSplashScreen();
           await goToInitPage();
         }
       });
@@ -159,6 +158,7 @@ class AppInit {
     final authRepo = AuthenticationRepository.instance;
     if (AuthenticationRepository.instance.isUserLoggedIn) {
       final functionStatus = await AuthenticationRepository.instance.userInit();
+      if (!splashRemoved) removeSplashScreen();
       if (functionStatus == FunctionStatus.success) {
         if (authRepo.userType == UserType.driver ||
             authRepo.userType == UserType.medic) {
@@ -182,10 +182,12 @@ class AppInit {
         }
       } else {
         hideLoadingScreen();
+        if (!splashRemoved) removeSplashScreen();
         await authRepo.logoutUser();
         showSimpleSnackBar(text: 'loginFailed'.tr);
       }
     } else {
+      if (!splashRemoved) removeSplashScreen();
       await Get.offAll(
         () => const IntroScreen(),
         transition: Transition.circularReveal,

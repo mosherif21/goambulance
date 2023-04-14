@@ -83,30 +83,6 @@ class DrawerPage extends StatelessWidget {
                           .toList()
                     ],
                   ),
-                  //SizedBox(height: screenHeight * 0.04),
-                  // Padding(
-                  //   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-                  //   child: OutlinedButton(
-                  //     style: OutlinedButton.styleFrom(
-                  //       side: const BorderSide(
-                  //           color: Colors.black, width: 2.0),
-                  //       foregroundColor: const Color(0x44000000),
-                  //       shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(16.0),
-                  //       ),
-                  //       textStyle: const TextStyle(color: Colors.black),
-                  //     ),
-                  //     onPressed: () async => await logout(),
-                  //     child: Padding(
-                  //       padding: const EdgeInsets.all(8.0),
-                  //       child: Text(
-                  //         'logout'.tr,
-                  //         style: const TextStyle(
-                  //             fontSize: 18, color: Colors.black),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

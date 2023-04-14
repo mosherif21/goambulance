@@ -21,7 +21,6 @@ class FirebaseDataAccess extends GetxController {
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserRef;
   late final Reference userStorageReference;
-  UserType userType = UserType.regularUser;
 
   @override
   void onInit() {

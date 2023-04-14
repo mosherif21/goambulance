@@ -54,8 +54,10 @@ class SingleEntryScreen extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: CustomBackButton(
-              onPressed: () async => await logout(), padding: 3),
+          leading: linkWithPhone
+              ? const RegularBackButton(padding: 0)
+              : CustomBackButton(
+                  onPressed: () async => await logout(), padding: 3),
           elevation: 0,
           scrolledUnderElevation: 5,
           backgroundColor: Colors.white,

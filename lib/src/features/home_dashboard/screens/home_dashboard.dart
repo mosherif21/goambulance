@@ -76,6 +76,7 @@ class HomeDashBoard extends StatelessWidget {
                             enlargeStrategy: CenterPageEnlargeStrategy.height,
                           ),
                         ),
+                        const SizedBox(height: 15),
                         TextHeader(headerText: 'services'.tr, fontSize: 24),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -103,6 +104,7 @@ class HomeDashBoard extends StatelessWidget {
                             ],
                           ),
                         ),
+                        const SizedBox(height: 15),
                         TextHeaderWithButton(
                           headerText: 'recentRequests'.tr,
                           onPressed: () => homeScreenController

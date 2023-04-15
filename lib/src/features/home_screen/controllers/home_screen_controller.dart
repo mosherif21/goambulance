@@ -21,6 +21,7 @@ class HomeScreenController extends GetxController {
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
   RxBool hideNavBar = false.obs;
+
   bool isDrawerOpen(DrawerState drawerState) {
     return drawerState == DrawerState.open
         ? true

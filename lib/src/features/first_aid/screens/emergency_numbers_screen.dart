@@ -44,7 +44,7 @@ class EmergencyNumbersScreen extends StatelessWidget {
                   imgPath: getEmergencyNumberImage(emergencyNumber + 1),
                 );
               },
-              itemCount: 6,
+              itemCount: emergencyNumbers.length,
             ),
           ),
         ),

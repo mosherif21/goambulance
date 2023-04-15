@@ -1,4 +1,4 @@
-class UserInfo {
+class UserInformation {
   final String name;
   final String email;
   final String nationalId;
@@ -8,10 +8,10 @@ class UserInfo {
   final String diabetesPatient;
   final String additionalInformation;
   final String phoneNumber;
-  final bool bloodPressurePatient;
-  final bool heartPatient;
+  final String bloodPressurePatient;
+  final String heartPatient;
   final List<DiseaseItem> diseasesList;
-  UserInfo({
+  UserInformation({
     required this.name,
     required this.email,
     required this.nationalId,
@@ -34,8 +34,8 @@ class UserInfo {
         'gender': gender,
         'bloodType': bloodType,
         'diabetesPatient': diabetesPatient,
-        'bloodPressurePatient': bloodPressurePatient ? 'Yes' : 'No',
-        'heartPatient': heartPatient ? 'Yes' : 'No',
+        'bloodPressurePatient': bloodPressurePatient,
+        'heartPatient': heartPatient,
         'additionalInformation': additionalInformation,
         'type': 'patient',
         'criticalUser': false,

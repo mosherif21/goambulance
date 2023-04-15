@@ -21,7 +21,7 @@ class NoRequestsHistory extends StatelessWidget {
           children: [
             Image(
               image: const AssetImage(kNoRequestsHistory),
-              height: screenHeight * 0.18,
+              height: screenHeight * 0.16,
             ),
             SizedBox(height: screenHeight * 0.02),
             AutoSizeText(

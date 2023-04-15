@@ -21,7 +21,6 @@ class FirebaseDataAccess extends GetxController {
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserRef;
   late final Reference userStorageReference;
-
   @override
   void onInit() {
     super.onInit();
@@ -35,7 +34,7 @@ class FirebaseDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> saveUserPersonalInformation({
-    required UserInfo userInfo,
+    required UserInformation userRegisterInfo,
     required XFile profilePic,
     required XFile nationalID,
   }) async {
@@ -64,14 +63,14 @@ class FirebaseDataAccess extends GetxController {
             .putFile(File(nationalID.path), nationalIdMetadata);
       }
 
-      firestoreUserRef.set(userInfo.toJson());
-      if (userInfo.diseasesList.isNotEmpty) {
+      firestoreUserRef.set(userRegisterInfo.toJson());
+      if (userRegisterInfo.diseasesList.isNotEmpty) {
         final fireStoreUserDiseasesRef =
             firestoreUserRef.collection('diseases');
-        for (var diseaseItem in userInfo.diseasesList) {
+        for (var diseaseItem in userRegisterInfo.diseasesList) {
           {
-            var diseaseRef = fireStoreUserDiseasesRef
-                .doc('${userInfo.diseasesList.indexOf(diseaseItem) + 1}');
+            var diseaseRef = fireStoreUserDiseasesRef.doc(
+                '${userRegisterInfo.diseasesList.indexOf(diseaseItem) + 1}');
             diseaseRef.set(diseaseItem.toJson());
           }
         }

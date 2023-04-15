@@ -205,7 +205,7 @@ class RegisterUserDataController extends GetxController {
           final email = emailTextController.text.trim();
           final nationalId = nationalIdTextController.text.trim();
           final birthDate = birthDateController.selectedDate;
-          final userInfo = UserInfo(
+          final userInfo = UserInformation(
             name: name,
             email: email,
             nationalId: nationalId,
@@ -214,8 +214,8 @@ class RegisterUserDataController extends GetxController {
             bloodType: selectedBloodType.value,
             diabetesPatient:
                 diabeticType.value.isEmpty ? 'No' : diabeticType.value,
-            bloodPressurePatient: bloodPressurePatient,
-            heartPatient: heartPatient,
+            bloodPressurePatient: bloodPressurePatient ? 'Yes' : 'No',
+            heartPatient: heartPatient ? 'Yes' : 'No',
             additionalInformation:
                 additionalInformationTextController.text.trim(),
             diseasesList: diseasesList,
@@ -224,7 +224,7 @@ class RegisterUserDataController extends GetxController {
 
           final functionStatus =
               await FirebaseDataAccess.instance.saveUserPersonalInformation(
-            userInfo: userInfo,
+            userRegisterInfo: userInfo,
             profilePic: profileImage.value!,
             nationalID: iDImage.value!,
           );

@@ -7,6 +7,7 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import 'exception_errors/signin_email_password_exceptions.dart';
@@ -23,8 +24,8 @@ class AuthenticationRepository extends GetxController {
   bool isUserPhoneRegistered = false;
   var verificationId = ''.obs;
   GoogleSignIn? googleSignIn;
-
   UserType userType = UserType.regularUser;
+  late UserInformation userInfo;
 
   @override
   void onInit() {
@@ -55,17 +56,46 @@ class AuthenticationRepository extends GetxController {
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = fireStore.collection('users');
     try {
-      await firestoreUsersCollRef.doc(userId).get().then((snapshot) {
+      await firestoreUsersCollRef.doc(userId).get().then((snapshot) async {
         if (snapshot.exists) {
           final userDoc = snapshot.data()!;
-          if (userDoc['type'].toString().compareTo('medic') == 0) {
+          final user = userDoc['type'].toString();
+          if (user.compareTo('medic') == 0) {
             isUserRegistered = true;
             userType = UserType.medic;
-          } else if (userDoc['type'].toString().compareTo('driver') == 0) {
+          } else if (user.compareTo('driver') == 0) {
             isUserRegistered = true;
             userType = UserType.driver;
-          } else if (userDoc['type'].toString().compareTo('patient') == 0) {
+          } else if (user.compareTo('patient') == 0) {
             isUserRegistered = true;
+            final List<DiseaseItem> diseasesList = [];
+            final diseasesReference = snapshot.reference.collection('diseases');
+            await diseasesReference.get().then((diseasesSnapshot) {
+              for (var disease in diseasesSnapshot.docs) {
+                final diseaseDoc = disease.data();
+                diseasesList.add(
+                  DiseaseItem(
+                    diseaseName: diseaseDoc['diseaseName'].toString(),
+                    diseaseMedicines: diseaseDoc['diseaseMedicines'].toString(),
+                  ),
+                );
+              }
+            });
+            userInfo = UserInformation(
+                name: userDoc['name'].toString(),
+                email: userDoc['email'].toString(),
+                nationalId: userDoc['nationalId'].toString(),
+                birthDate: userDoc['birthdate'].toDate(),
+                gender: userDoc['gender'].toString(),
+                bloodType: userDoc['bloodType'].toString(),
+                diabetesPatient: userDoc['diabetesPatient'].toString(),
+                bloodPressurePatient:
+                    userDoc['bloodPressurePatient'].toString(),
+                heartPatient: userDoc['heartPatient'].toString(),
+                additionalInformation:
+                    userDoc['additionalInformation'].toString(),
+                phoneNumber: userDoc['phoneNo'].toString(),
+                diseasesList: diseasesList);
             if (userDoc['criticalUser'] as bool) {
               userType = UserType.criticalUser;
             } else {
@@ -80,8 +110,10 @@ class AuthenticationRepository extends GetxController {
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
       return FunctionStatus.failure;
-    } catch (_) {}
-    return FunctionStatus.failure;
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+      return FunctionStatus.failure;
+    }
   }
 
   Future<String> createUserWithEmailAndPassword(

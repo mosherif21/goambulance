@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
 import '../../../general/general_functions.dart';
@@ -18,72 +20,54 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
+    final userName = AuthenticationRepository.instance.userInfo.name;
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       body: SafeArea(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+        child: StretchingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
           child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: screenHeight * 0.1,
+            child: SizedBox(
+              height: screenHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: screenHeight * 0.2,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        bottom: 36.0,
+                        left: 24.0,
+                        right: 24.0,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 24.0,
-                          left: 24.0,
-                          right: 24.0,
-                        ),
-                        child: Container(
-                          width: 80,
-                          height: 80,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[300],
-                            shape: BoxShape.circle,
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          bottom: 36.0,
-                          left: 24.0,
-                          right: 24.0,
-                        ),
-                        child: Text(
-                          'Mohamed Sherif',
-                          style: TextStyle(
-                            fontSize: 22,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w900,
-                          ),
+                      child: AutoSizeText(
+                        userName,
+                        maxLines: 1,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
-                    ],
-                  ),
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      ...mainMenu
-                          .map(
-                            (item) => MenuItemWidget(
-                              key: Key(item.index.toString()),
-                              item: item,
-                              callback: callback,
-                              widthBox: const SizedBox(width: 16.0),
-                            ),
-                          )
-                          .toList()
-                    ],
-                  ),
-                ],
+                    ),
+                    Expanded(
+                      child: ListView.builder(
+                        itemBuilder: (context, index) {
+                          return MenuItemWidget(
+                            key: Key(index.toString()),
+                            item: mainMenu[index],
+                            callback: callback,
+                            widthBox: const SizedBox(width: 16.0),
+                          );
+                        },
+                        itemCount: mainMenu.length,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

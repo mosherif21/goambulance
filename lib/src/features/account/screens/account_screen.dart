@@ -10,7 +10,7 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey.shade100,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

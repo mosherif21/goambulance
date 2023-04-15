@@ -35,7 +35,7 @@ class DrawerPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      height: screenHeight * 0.2,
+                      height: screenHeight * 0.25,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(

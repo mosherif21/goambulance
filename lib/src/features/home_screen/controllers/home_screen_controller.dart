@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/search/screens/search_page.dart';
 import 'package:line_icons/line_icon.dart';
@@ -19,7 +20,7 @@ class HomeScreenController extends GetxController {
   final homeBottomTabController = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
-
+  RxBool hideNavBar = false.obs;
   bool isDrawerOpen(DrawerState drawerState) {
     return drawerState == DrawerState.open
         ? true
@@ -67,28 +68,28 @@ class HomeScreenController extends GetxController {
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),
         title: ('home'.tr),
-        activeColorPrimary: Colors.black,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.search(),
         title: ('search'.tr),
-        activeColorPrimary: Colors.black,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.history(),
         title: ('requests'.tr),
-        activeColorPrimary: Colors.black,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.account_circle_outlined),
         title: ('account'.tr),
-        activeColorPrimary: Colors.black,
+        activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
         isArabic: isArabic,
       ),

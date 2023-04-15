@@ -13,43 +13,55 @@ class HomeNavigationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = Get.put(HomeScreenController());
-    return ZoomDrawer(
-      controller: homeScreenController.zoomDrawerController,
-      menuScreen: DrawerPage(
-        [
-          MenuClass('payment'.tr, Icons.payment, 0),
-          MenuClass('notifications'.tr, Icons.notifications, 1),
-          MenuClass('settings'.tr, Icons.settings, 2),
-          MenuClass('lang'.tr, Icons.language, 3),
-          MenuClass('help'.tr, Icons.help, 4),
-          MenuClass('aboutUs'.tr, Icons.info_outline, 5),
-        ],
-        callback: (index) async =>
-            await homeScreenController.onDrawerItemSelected(index),
-        current: 0,
-      ),
-      mainScreen: const HomeNavigationBar(),
-      openCurve: Curves.fastOutSlowIn,
-      showShadow: false,
-      slideWidth: MediaQuery.of(context).size.width * (0.6),
-      isRtl: AppInit.currentDeviceLanguage == Language.english ? false : true,
-      mainScreenTapClose: true,
-      borderRadius: 10,
-      angle: 0.0,
-      menuScreenWidth: double.infinity,
-      mainScreenScale: 0.15,
-      moveMenuScreen: false,
-      style: DrawerStyle.defaultStyle,
-      drawerShadowsBackgroundColor: Colors.yellow,
-      mainScreenAbsorbPointer: false,
-      disableDragGesture: false,
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          blurRadius: 20.0,
-          offset: const Offset(0, 40),
+    return WillPopScope(
+      onWillPop: () async {
+        final drawerState =
+            homeScreenController.zoomDrawerController.stateNotifier?.value;
+        if (drawerState == DrawerState.open ||
+            drawerState == DrawerState.opening) {
+          homeScreenController.toggleDrawer();
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: ZoomDrawer(
+        controller: homeScreenController.zoomDrawerController,
+        menuScreen: DrawerPage(
+          [
+            MenuClass('payment'.tr, Icons.payment, 0),
+            MenuClass('notifications'.tr, Icons.notifications, 1),
+            MenuClass('settings'.tr, Icons.settings, 2),
+            MenuClass('lang'.tr, Icons.language, 3),
+            MenuClass('help'.tr, Icons.help, 4),
+            MenuClass('aboutUs'.tr, Icons.info_outline, 5),
+          ],
+          callback: (index) async =>
+              await homeScreenController.onDrawerItemSelected(index),
+          current: 0,
         ),
-      ],
+        mainScreen: const HomeNavigationBar(),
+        openCurve: Curves.fastOutSlowIn,
+        showShadow: false,
+        slideWidth: MediaQuery.of(context).size.width * (0.6),
+        isRtl: AppInit.currentDeviceLanguage == Language.english ? false : true,
+        mainScreenTapClose: true,
+        borderRadius: 10,
+        angle: 0.0,
+        menuScreenWidth: double.infinity,
+        mainScreenScale: 0.15,
+        moveMenuScreen: false,
+        style: DrawerStyle.defaultStyle,
+        mainScreenAbsorbPointer: true,
+        disableDragGesture: false,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.shade300, //New
+            blurRadius: 10.0,
+            offset: const Offset(0, 15),
+          ),
+        ],
+      ),
     );
   }
 }

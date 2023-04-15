@@ -82,20 +82,20 @@ class AuthenticationRepository extends GetxController {
               }
             });
             userInfo = UserInformation(
-                name: userDoc['name'].toString(),
-                email: userDoc['email'].toString(),
-                nationalId: userDoc['nationalId'].toString(),
-                birthDate: userDoc['birthdate'].toDate(),
-                gender: userDoc['gender'].toString(),
-                bloodType: userDoc['bloodType'].toString(),
-                diabetesPatient: userDoc['diabetesPatient'].toString(),
-                bloodPressurePatient:
-                    userDoc['bloodPressurePatient'].toString(),
-                heartPatient: userDoc['heartPatient'].toString(),
-                additionalInformation:
-                    userDoc['additionalInformation'].toString(),
-                phoneNumber: userDoc['phoneNo'].toString(),
-                diseasesList: diseasesList);
+              name: userDoc['name'].toString(),
+              email: userDoc['email'].toString(),
+              nationalId: userDoc['nationalId'].toString(),
+              birthDate: userDoc['birthdate'].toDate(),
+              gender: userDoc['gender'].toString(),
+              bloodType: userDoc['bloodType'].toString(),
+              diabetesPatient: userDoc['diabetesPatient'].toString(),
+              bloodPressurePatient: userDoc['bloodPressurePatient'].toString(),
+              heartPatient: userDoc['heartPatient'].toString(),
+              additionalInformation:
+                  userDoc['additionalInformation'].toString(),
+              phoneNumber: userDoc['phoneNo'].toString(),
+              diseasesList: diseasesList,
+            );
             if (userDoc['criticalUser'] as bool) {
               userType = UserType.criticalUser;
             } else {

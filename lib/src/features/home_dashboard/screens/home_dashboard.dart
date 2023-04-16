@@ -1,10 +1,11 @@
 import 'package:animations/animations.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
-import 'package:goambulance/src/features/home_dashboard/components/home_screen_appbar.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
@@ -14,6 +15,7 @@ import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
 import '../../../general/general_functions.dart';
 import '../../first_aid/components/first_aid_tips_details_page.dart';
+import '../../notifications/screens/notifications_screen.dart';
 import '../components/no_requests_history.dart';
 
 class HomeDashBoard extends StatelessWidget {
@@ -24,13 +26,52 @@ class HomeDashBoard extends StatelessWidget {
     final homeScreenController = HomeScreenController.instance;
     final screenHeight = getScreenHeight(context);
     return Scaffold(
+      appBar: AppBar(
+        leading: ValueListenableBuilder(
+          valueListenable:
+              homeScreenController.zoomDrawerController.stateNotifier!,
+          builder:
+              (BuildContext context, DrawerState drawerState, Widget? child) {
+            return IconButton(
+              splashRadius: 25,
+              onPressed: () => homeScreenController.toggleDrawer(),
+              icon: Icon(
+                homeScreenController.isDrawerOpen(drawerState)
+                    ? Icons.close
+                    : Icons.menu_outlined,
+                size: 30,
+              ),
+            );
+          },
+        ),
+        actions: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(right: 8),
+            child: GestureDetector(
+              onTap: () async =>
+                  await Get.to(() => const NotificationsScreen()),
+              child: const badges.Badge(
+                badgeContent: Text('3'),
+                child: Icon(
+                  Icons.notifications,
+                  size: 30,
+                ),
+              ),
+            ),
+          ),
+        ],
+        elevation: 0,
+        scrolledUnderElevation: 5,
+        backgroundColor: Colors.grey.shade100,
+      ),
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: Column(
             children: [
-              HomeAppBar(homeScreenController: homeScreenController),
+              //HomeAppBar(homeScreenController: homeScreenController),
               Expanded(
                 child: StretchingOverscrollIndicator(
                   axisDirection: AxisDirection.down,

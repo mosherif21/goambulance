@@ -15,6 +15,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../constants/app_init_constants.dart';
 import '../../../general/general_functions.dart';
+import '../../help_center/screens/help_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../requests/screens/previous_requests_page.dart';
 
@@ -51,6 +52,7 @@ class HomeScreenController extends GetxController {
         await displayChangeLang();
         break;
       case 4:
+        await Get.to(() => const HelpScreen());
         break;
       case 5:
         await Get.to(() => const AboutUsScreen());

@@ -5,7 +5,11 @@ import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
+import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
+import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:goambulance/src/features/search/screens/search_page.dart';
+import 'package:goambulance/src/features/settings/components/about_us_page.dart';
+import 'package:goambulance/src/features/settings/screens/settings_screen.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -35,10 +39,13 @@ class HomeScreenController extends GetxController {
   Future<void> onDrawerItemSelected(int index) async {
     switch (index) {
       case 0:
+        await Get.to(() => const PaymentScreen());
         break;
       case 1:
+        await Get.to(() => const NotificationsScreen());
         break;
       case 2:
+        await Get.to(() => const SettingsScreen());
         break;
       case 3:
         await displayChangeLang();
@@ -46,6 +53,7 @@ class HomeScreenController extends GetxController {
       case 4:
         break;
       case 5:
+        await Get.to(() => const AboutUsScreen());
         break;
     }
   }

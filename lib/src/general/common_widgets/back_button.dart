@@ -10,7 +10,12 @@ class RegularBackButton extends StatelessWidget {
       padding: EdgeInsets.all(padding),
       child: IconButton(
         splashRadius: 22,
-        icon: const Center(child: Icon(Icons.arrow_back_ios)),
+        icon: const Center(
+          child: Icon(
+            Icons.arrow_back_ios_sharp,
+            size: 30,
+          ),
+        ),
         onPressed: () => Get.back(),
       ),
     );
@@ -31,7 +36,10 @@ class CustomBackButton extends StatelessWidget {
         children: [
           IconButton(
             splashRadius: 22,
-            icon: const Icon(Icons.arrow_back_ios),
+            icon: const Icon(
+              Icons.arrow_back_ios_sharp,
+              size: 30,
+            ),
             onPressed: () => onPressed(),
           ),
         ],

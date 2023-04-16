@@ -22,6 +22,7 @@ class HomeDashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
+    final screenHeight = getScreenHeight(context);
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
@@ -113,6 +114,7 @@ class HomeDashBoard extends StatelessWidget {
                           buttonText: 'viewAll'.tr,
                         ),
                         const NoRequestsHistory(),
+                        SizedBox(height: screenHeight * 0.1)
                       ],
                     ),
                   ),

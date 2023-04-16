@@ -158,7 +158,7 @@ class AppInit {
     final authRepo = AuthenticationRepository.instance;
     if (AuthenticationRepository.instance.isUserLoggedIn) {
       final functionStatus = await AuthenticationRepository.instance.userInit();
-      if (!splashRemoved) removeSplashScreen();
+      removeSplashScreen();
       if (functionStatus == FunctionStatus.success) {
         if (authRepo.userType == UserType.driver ||
             authRepo.userType == UserType.medic) {
@@ -169,7 +169,7 @@ class AppInit {
         } else if (authRepo.userType == UserType.regularUser ||
             authRepo.userType == UserType.criticalUser) {
           if (!authRepo.isUserPhoneRegistered && !authRepo.isUserRegistered) {
-            getOfAllPhoneVerificationScreen(linkWithPhone: true);
+            getOfAllPhoneVerificationScreen();
           } else if (authRepo.isUserPhoneRegistered &&
               !authRepo.isUserRegistered) {
             Get.offAll(() => const RegisterUserDataPage(),
@@ -182,12 +182,12 @@ class AppInit {
         }
       } else {
         hideLoadingScreen();
-        if (!splashRemoved) removeSplashScreen();
+        removeSplashScreen();
         await authRepo.logoutUser();
         showSimpleSnackBar(text: 'loginFailed'.tr);
       }
     } else {
-      if (!splashRemoved) removeSplashScreen();
+      removeSplashScreen();
       await Get.offAll(
         () => const IntroScreen(),
         transition: Transition.circularReveal,

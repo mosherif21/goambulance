@@ -24,7 +24,6 @@ class MedicalHistoryInsertPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = RegisterUserDataController.instance;
-
     return Scaffold(
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),

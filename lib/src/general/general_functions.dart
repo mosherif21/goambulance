@@ -10,6 +10,7 @@ import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
+import '../connectivity/connectivity.dart';
 import '../constants/app_init_constants.dart';
 import '../constants/assets_strings.dart';
 import '../features/authentication/screens/auth_screen.dart';
@@ -110,7 +111,8 @@ void getToPhoneVerificationScreen() {
   );
 }
 
-void getOfAllPhoneVerificationScreen({required bool linkWithPhone}) {
+void getOfAllPhoneVerificationScreen() {
+  ConnectivityChecker.checkConnection(displayAlert: true);
   Get.offAll(
     () => SingleEntryScreen(
       title: 'phoneVerification'.tr,
@@ -120,7 +122,7 @@ void getOfAllPhoneVerificationScreen({required bool linkWithPhone}) {
       textFormHint: 'phoneFieldLabel'.tr,
       buttonTitle: 'continue'.tr,
       inputType: InputType.phone,
-      linkWithPhone: linkWithPhone,
+      linkWithPhone: true,
     ),
     transition: Transition.circularReveal,
   );

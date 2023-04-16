@@ -17,6 +17,7 @@ import 'package:goambulance/src/general/general_functions.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../../firebase_files/firebase_access.dart';
+import '../../../../connectivity/connectivity.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 
@@ -25,6 +26,7 @@ class RegisterUserDataPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ConnectivityChecker.checkConnection(displayAlert: true);
     Get.put(FirebaseDataAccess());
     final controller = Get.put(RegisterUserDataController());
     return WillPopScope(

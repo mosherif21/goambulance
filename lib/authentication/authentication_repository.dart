@@ -22,7 +22,7 @@ class AuthenticationRepository extends GetxController {
   bool isUserLoggedIn = false;
   bool isUserRegistered = false;
   bool isUserPhoneRegistered = false;
-  var verificationId = ''.obs;
+  String verificationId = '';
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.regularUser;
   late UserInformation userInfo;
@@ -173,10 +173,10 @@ class AuthenticationRepository extends GetxController {
             returnMessage = e.code;
           },
           codeSent: (verificationId, resendToken) {
-            this.verificationId.value = verificationId;
+            this.verificationId = verificationId;
           },
           codeAutoRetrievalTimeout: (verificationId) {
-            this.verificationId.value = verificationId;
+            this.verificationId = verificationId;
           });
     } on FirebaseAuthException catch (e) {
       returnMessage = e.code;
@@ -191,7 +191,7 @@ class AuthenticationRepository extends GetxController {
     if (fireUser.value != null) {
       try {
         final credential = PhoneAuthProvider.credential(
-            verificationId: verificationId.value, smsCode: otp);
+            verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
         checkUserHasPhoneNumber();
         AppInit.goToInitPage();
@@ -214,7 +214,7 @@ class AuthenticationRepository extends GetxController {
   Future<String> signInVerifyOTP({required String otp}) async {
     try {
       await _auth.signInWithCredential(PhoneAuthProvider.credential(
-          verificationId: verificationId.value, smsCode: otp));
+          verificationId: verificationId, smsCode: otp));
       if (fireUser.value != null) {
         isUserLoggedIn = true;
         await authenticatedSetup();
@@ -322,7 +322,7 @@ class AuthenticationRepository extends GetxController {
     isUserRegistered = false;
     isUserLoggedIn = false;
     isUserPhoneRegistered = false;
-    verificationId = ''.obs;
+    verificationId = '';
     userType = UserType.regularUser;
   }
 }

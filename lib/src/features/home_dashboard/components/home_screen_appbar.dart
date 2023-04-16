@@ -33,7 +33,7 @@ class HomeAppBar extends StatelessWidget {
         ),
         const Spacer(),
         Container(
-          margin: const EdgeInsets.only(right: 10),
+          margin: const EdgeInsets.only(right: 8),
           child: GestureDetector(
             onTap: () async => await Get.to(() => const NotificationsScreen()),
             child: const badges.Badge(

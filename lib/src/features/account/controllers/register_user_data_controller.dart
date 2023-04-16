@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
-import '../../../../firebase_files/firebase_access.dart';
+import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../constants/app_init_constants.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
@@ -222,8 +222,8 @@ class RegisterUserDataController extends GetxController {
             phoneNumber: phoneNumber,
           );
 
-          final functionStatus =
-              await FirebaseDataAccess.instance.saveUserPersonalInformation(
+          final functionStatus = await FirebasePatientDataAccess.instance
+              .saveUserPersonalInformation(
             userRegisterInfo: userInfo,
             profilePic: profileImage.value!,
             nationalID: iDImage.value!,

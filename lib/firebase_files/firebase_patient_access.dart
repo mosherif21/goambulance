@@ -12,8 +12,8 @@ import 'package:image_picker/image_picker.dart';
 
 import '../src/features/account/components/models.dart';
 
-class FirebaseDataAccess extends GetxController {
-  static FirebaseDataAccess get instance => Get.find();
+class FirebasePatientDataAccess extends GetxController {
+  static FirebasePatientDataAccess get instance => Get.find();
 
   late final String? userId;
   late final FirebaseFirestore fireStore;

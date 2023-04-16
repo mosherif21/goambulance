@@ -8,7 +8,7 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../../../firebase_files/firebase_access.dart';
+import '../../../../../../firebase_files/firebase_patient_access.dart';
 
 enum MapStatus {
   loadingMapData,
@@ -47,7 +47,7 @@ class MapsController extends GetxController {
   Position? _currentLocation;
 
   //firebase controller
-  final FirebaseDataAccess firebase = FirebaseDataAccess.instance;
+  final FirebasePatientDataAccess firebase = FirebasePatientDataAccess.instance;
 
   LatLng currentLocationGetter() {
     return LatLng(_currentLocation!.latitude, _currentLocation!.longitude);

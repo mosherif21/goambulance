@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/firebase_files/firebase_access.dart';
+import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_dialogs/dialogs.dart';
@@ -82,8 +82,8 @@ Future<void> logout() async {
     positiveButtonOnPressed: () async {
       showLoadingScreen();
       await AuthenticationRepository.instance.logoutUser();
-      if (Get.isRegistered<FirebaseDataAccess>()) {
-        await FirebaseDataAccess.instance.logoutFirebase();
+      if (Get.isRegistered<FirebasePatientDataAccess>()) {
+        await FirebasePatientDataAccess.instance.logoutFirebase();
       }
       if (kDebugMode) print('signing out');
       Get.offAll(() => const AuthenticationScreen());

@@ -44,7 +44,7 @@ class AppInit {
   static late SharedPreferences prefs;
   static bool isLocaleSet = false;
   static late final Locale setLocale;
-  static Language currentDeviceLanguage = Language.english;
+  static Language currentLanguage = Language.english;
   static InternetConnectionStatus initialInternetConnectionStatus =
       InternetConnectionStatus.disconnected;
   static Transition transition = Transition.leftToRightWithFade;
@@ -208,7 +208,7 @@ class AppInit {
   }
 
   static Transition getPageTransition() {
-    return currentDeviceLanguage == Language.english
+    return currentLanguage == Language.english
         ? Transition.rightToLeft
         : Transition.leftToRight;
   }

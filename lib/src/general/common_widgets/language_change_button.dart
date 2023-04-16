@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../constants/app_init_constants.dart';
 import '../general_functions.dart';
 
 class ButtonLanguageSelect extends StatelessWidget {
@@ -13,11 +12,9 @@ class ButtonLanguageSelect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: AppInit.currentDeviceLanguage == Language.english
-          ? Alignment.centerLeft
-          : Alignment.centerRight,
+      alignment: isLangEnglish() ? Alignment.centerLeft : Alignment.centerRight,
       child: SizedBox(
-        width: AppInit.currentDeviceLanguage == Language.english ? 120.0 : 75.0,
+        width: isLangEnglish() ? 120.0 : 75.0,
         child: TextButton(
           style: TextButton.styleFrom(
             splashFactory: InkSparkle.splashFactory,

@@ -31,13 +31,13 @@ Future<Locale> getLocale() async {
 Locale _locale(String aLanguageCode) {
   switch (aLanguageCode) {
     case english:
-      AppInit.currentDeviceLanguage = Language.english;
+      AppInit.currentLanguage = Language.english;
       return const Locale(english, 'US');
     case arabic:
-      AppInit.currentDeviceLanguage = Language.arabic;
+      AppInit.currentLanguage = Language.arabic;
       return const Locale(arabic, 'SA');
     default:
-      AppInit.currentDeviceLanguage = Language.english;
+      AppInit.currentLanguage = Language.english;
       return const Locale(english, 'US');
   }
 }

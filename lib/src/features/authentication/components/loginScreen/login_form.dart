@@ -8,6 +8,7 @@ import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/regular_text_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';
 import '../../../../general/common_widgets/text_form_field_passwords.dart';
+import '../../../../general/general_functions.dart';
 import '../resetPassword/forgot_password.dart';
 
 class LoginForm extends StatelessWidget {
@@ -39,9 +40,8 @@ class LoginForm extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Align(
-            alignment: AppInit.currentDeviceLanguage == Language.english
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
+            alignment:
+                isLangEnglish() ? Alignment.centerRight : Alignment.centerLeft,
             child: RegularTextButton(
               buttonText: 'forgotPassword'.tr,
               onPressed: () => RegularBottomSheet.showRegularBottomSheet(

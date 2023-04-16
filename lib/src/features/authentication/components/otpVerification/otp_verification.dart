@@ -48,7 +48,7 @@ class OTPVerificationScreen extends StatelessWidget {
                     height: screenHeight * 0.4,
                   ),
                   AutoSizeText(
-                    AppInit.currentDeviceLanguage == Language.english
+                    isLangEnglish()
                         ? '$verificationType ${'verificationCode'.tr}'
                         : '${'verificationCode'.tr} $verificationType',
                     style: GoogleFonts.montserrat(

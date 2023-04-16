@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 
+import '../../../general/general_functions.dart';
 import '../controllers/home_screen_controller.dart';
 import 'drawer_page.dart';
 import 'home_navigation_bar.dart';
@@ -44,7 +44,7 @@ class HomeNavigationDrawer extends StatelessWidget {
         openCurve: Curves.fastOutSlowIn,
         showShadow: false,
         slideWidth: MediaQuery.of(context).size.width * (0.6),
-        isRtl: AppInit.currentDeviceLanguage == Language.english ? false : true,
+        isRtl: isLangEnglish() ? false : true,
         mainScreenTapClose: true,
         borderRadius: 10,
         angle: 0.0,

@@ -111,6 +111,7 @@ void getToPhoneVerificationScreen() {
   );
 }
 
+bool isLangEnglish() => AppInit.currentLanguage == Language.english;
 void getOfAllPhoneVerificationScreen() {
   ConnectivityChecker.checkConnection(displayAlert: true);
   Get.offAll(

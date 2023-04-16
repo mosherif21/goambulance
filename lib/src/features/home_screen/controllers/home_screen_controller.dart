@@ -13,7 +13,6 @@ import 'package:goambulance/src/features/settings/screens/settings_screen.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
-import '../../../constants/app_init_constants.dart';
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
@@ -74,7 +73,7 @@ class HomeScreenController extends GetxController {
   }
 
   List<PersistentBottomNavBarItem> navBarsItems() {
-    final isArabic = AppInit.currentDeviceLanguage == Language.arabic;
+    final isArabic = !isLangEnglish();
     return [
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),

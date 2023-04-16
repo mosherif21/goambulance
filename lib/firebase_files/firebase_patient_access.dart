@@ -28,7 +28,6 @@ class FirebasePatientDataAccess extends GetxController {
     fireStore = FirebaseFirestore.instance;
     fireDatabase = FirebaseDatabase.instance;
     fireStorage = FirebaseStorage.instance;
-
     firestoreUserRef = fireStore.collection('users').doc(userId!);
     userStorageReference = fireStorage.ref().child('users').child(userId!);
   }

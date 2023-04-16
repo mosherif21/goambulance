@@ -1,5 +1,4 @@
 import 'package:animations/animations.dart';
-import 'package:badges/badges.dart' as badges;
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
@@ -15,8 +14,8 @@ import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
 import '../../../general/general_functions.dart';
 import '../../first_aid/components/first_aid_tips_details_page.dart';
-import '../../notifications/screens/notifications_screen.dart';
 import '../components/no_requests_history.dart';
+import '../components/notifications_button.dart';
 
 class HomeDashBoard extends StatelessWidget {
   const HomeDashBoard({Key? key}) : super(key: key);
@@ -44,23 +43,7 @@ class HomeDashBoard extends StatelessWidget {
             );
           },
         ),
-        actions: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.only(right: 8),
-            child: GestureDetector(
-              onTap: () async =>
-                  await Get.to(() => const NotificationsScreen()),
-              child: const badges.Badge(
-                badgeContent: Text('3'),
-                child: Icon(
-                  Icons.notifications,
-                  size: 30,
-                ),
-              ),
-            ),
-          ),
-        ],
+        actions: const [NotificationsButton()],
         elevation: 0,
         scrolledUnderElevation: 5,
         backgroundColor: Colors.grey.shade100,

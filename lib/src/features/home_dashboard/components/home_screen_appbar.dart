@@ -1,7 +1,10 @@
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
+import 'package:get/get.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
+
+import '../../notifications/screens/notifications_screen.dart';
 
 class HomeAppBar extends StatelessWidget {
   const HomeAppBar({Key? key, required this.homeScreenController})
@@ -29,12 +32,17 @@ class HomeAppBar extends StatelessWidget {
           },
         ),
         const Spacer(),
-        badges.Badge(
-          onTap: () {},
-          badgeContent: const Text('3'),
-          child: const Icon(
-            Icons.notifications,
-            size: 30,
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: GestureDetector(
+            onTap: () async => await Get.to(() => const NotificationsScreen()),
+            child: const badges.Badge(
+              badgeContent: Text('3'),
+              child: Icon(
+                Icons.notifications,
+                size: 30,
+              ),
+            ),
           ),
         ),
       ],

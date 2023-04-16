@@ -13,7 +13,7 @@ class RegularBackButton extends StatelessWidget {
         icon: const Center(
           child: Icon(
             Icons.arrow_back_ios_sharp,
-            size: 30,
+            size: 28,
           ),
         ),
         onPressed: () => Get.back(),
@@ -38,7 +38,7 @@ class CustomBackButton extends StatelessWidget {
             splashRadius: 22,
             icon: const Icon(
               Icons.arrow_back_ios_sharp,
-              size: 30,
+              size: 28,
             ),
             onPressed: () => onPressed(),
           ),

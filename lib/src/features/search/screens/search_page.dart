@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../general/general_functions.dart';
+
 class SearchScreen extends StatelessWidget {
   const SearchScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = getScreenHeight(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -15,8 +18,9 @@ class SearchScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text('search'),
+                children: [
+                  const Text('search'),
+                  SizedBox(height: screenHeight * 0.1),
                 ],
               ),
             ),

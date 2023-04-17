@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 
 import '../../../../constants/app_init_constants.dart';
+import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/single_entry_screen.dart';
 
 void getToResetPasswordScreen() {

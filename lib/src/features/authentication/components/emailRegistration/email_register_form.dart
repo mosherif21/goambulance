@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
 
+import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';
 import '../../../../general/common_widgets/text_form_field_passwords.dart';

@@ -19,18 +19,7 @@ import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
 import '../general/common_widgets/empty_scaffold.dart';
 import '../general/error_widgets/no_internet_error_widget.dart';
-
-enum Language { english, arabic }
-
-enum InputType { email, phone, text, numbers }
-
-enum ScreenSize { small, medium, large }
-
-enum AuthType { emailLogin, emailRegister, facebook, google, phone }
-
-enum UserType { driver, medic, regularUser, criticalUser }
-
-enum FunctionStatus { success, failure }
+import 'enums.dart';
 
 class AppInit {
   static bool showOnBoard = false;

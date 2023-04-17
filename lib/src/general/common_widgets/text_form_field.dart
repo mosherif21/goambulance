@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
+
+import '../../constants/enums.dart';
 
 class TextFormFieldRegular extends StatelessWidget {
   const TextFormFieldRegular({

@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 
-import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/colors.dart';
+import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';

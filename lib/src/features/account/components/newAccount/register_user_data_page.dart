@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/components/newAccount/photo_select.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
@@ -18,6 +17,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../../firebase_files/firebase_patient_access.dart';
 import '../../../../connectivity/connectivity.dart';
+import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 

@@ -5,6 +5,7 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lottie/lottie.dart' as lot;
 
+import '../../../../constants/enums.dart';
 import '../../../../general/general_functions.dart';
 import '../map_controllers/maps_controller.dart';
 

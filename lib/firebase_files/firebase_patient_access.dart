@@ -10,6 +10,7 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
 
 class FirebasePatientDataAccess extends GetxController {

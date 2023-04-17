@@ -15,6 +15,7 @@ import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity.dart';
 import '../constants/app_init_constants.dart';
 import '../constants/assets_strings.dart';
+import '../constants/enums.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import 'common_widgets/language_select.dart';
 import 'common_widgets/regular_bottom_sheet.dart';

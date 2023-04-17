@@ -12,12 +12,8 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../../../../authentication/authentication_repository.dart';
 import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../constants/app_init_constants.dart';
+import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
-
-enum Gender {
-  male,
-  female,
-}
 
 class RegisterUserDataController extends GetxController {
   static RegisterUserDataController get instance => Get.find();

@@ -10,6 +10,7 @@ import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../src/constants/enums.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
 import 'exception_errors/signup_email_password_exceptions.dart';
 

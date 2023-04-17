@@ -9,13 +9,7 @@ import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../firebase_files/firebase_patient_access.dart';
-
-enum MapStatus {
-  loadingMapData,
-  noLocationPermission,
-  noLocationService,
-  mapDataLoaded,
-}
+import '../../../../constants/enums.dart';
 
 class MapsController extends GetxController {
   static MapsController get instance => Get.find();

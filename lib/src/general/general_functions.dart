@@ -242,9 +242,9 @@ Future<bool> handleGeneralPermission({
       positiveButtonText: 'goToSettings'.tr,
       negativeButtonText: 'cancel'.tr,
       positiveButtonOnPressed: () async {
-        if (await openAppSettings()) {
-          Get.back();
-          await openAppSettings();
+        Get.back();
+        if (!await openAppSettings()) {
+          showSimpleSnackBar(text: deniedForeverSnackBarBody);
         }
       },
       negativeButtonOnPressed: () {

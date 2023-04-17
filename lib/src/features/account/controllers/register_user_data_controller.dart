@@ -115,25 +115,21 @@ class RegisterUserDataController extends GetxController {
 
   Future<void> pickProfilePic() async {
     RegularBottomSheet.hideBottomSheet();
-    if (await handleStoragePermission()) {
-      final addedImage = await picker.pickImage(source: ImageSource.gallery);
-      if (addedImage != null) {
-        isProfileImageAdded.value = true;
-        profileImage.value = addedImage;
-        highlightProfilePic.value = false;
-      }
+    final addedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (addedImage != null) {
+      isProfileImageAdded.value = true;
+      profileImage.value = addedImage;
+      highlightProfilePic.value = false;
     }
   }
 
   Future<void> pickIdPic() async {
     RegularBottomSheet.hideBottomSheet();
-    if (await handleStoragePermission()) {
-      final addedImage = await picker.pickImage(source: ImageSource.gallery);
-      if (addedImage != null) {
-        isNationalIDImageAdded.value = true;
-        iDImage.value = addedImage;
-        highlightNationalIdPick.value = false;
-      }
+    final addedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (addedImage != null) {
+      isNationalIDImageAdded.value = true;
+      iDImage.value = addedImage;
+      highlightNationalIdPick.value = false;
     }
   }
 

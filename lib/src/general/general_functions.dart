@@ -185,12 +185,6 @@ Future<bool> handleCameraPermission() async => await handleGeneralPermission(
       deniedForeverSnackBarBody: 'cameraPermissionDeniedForever'.tr,
     );
 
-Future<bool> handleStoragePermission() async => await handleGeneralPermission(
-      permission: Permission.storage,
-      deniedSnackBarText: 'enableStoragePermission'.tr,
-      deniedForeverSnackBarTitle: 'storagePermission'.tr,
-      deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
-    );
 Future<bool> handleMicrophonePermission() async =>
     await handleGeneralPermission(
       permission: Permission.microphone,
@@ -218,6 +212,12 @@ Future<bool> handleCallPermission() async => await handleGeneralPermission(
       deniedForeverSnackBarBody: 'callPermissionDeniedForever'.tr,
     );
 
+// Future<bool> handleStoragePermission() async => await handleGeneralPermission(
+//       permission: Permission.storage,
+//       deniedSnackBarText: 'enableStoragePermission'.tr,
+//       deniedForeverSnackBarTitle: 'storagePermission'.tr,
+//       deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
+//     );
 Future<bool> handleGeneralPermission({
   required Permission permission,
   required String deniedSnackBarText,

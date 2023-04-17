@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:location/location.dart' as location_lib;
+import 'package:location/location.dart' as loc;
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
@@ -201,7 +201,7 @@ Future<bool> handleLocationPermission() async => await handleGeneralPermission(
     );
 Future<bool> handleLocationService() async {
   try {
-    final location = location_lib.Location();
+    final location = loc.Location();
     if (await location.serviceEnabled()) {
       return true;
     } else {

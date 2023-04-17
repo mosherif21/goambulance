@@ -66,8 +66,9 @@ void showSimpleSnackBar({
     SnackBar(
       content: Text('$text.'),
       backgroundColor: kDefaultColor,
-      //dismissDirection: DismissDirection.startToEnd,
       behavior: SnackBarBehavior.floating,
+      showCloseIcon: true,
+      closeIconColor: Colors.white,
       elevation: 20.0,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -176,25 +177,30 @@ Future<void> displayChangeLang() async =>
       ),
     );
 
-Future<bool> handleCameraPermission() async => await handleGeneralPermission(
+Future<bool> handleCameraPermission({required bool showSnackBar}) async =>
+    await handleGeneralPermission(
       permission: Permission.camera,
       deniedSnackBarText: 'enableCameraPermission'.tr,
       deniedForeverSnackBarTitle: 'cameraPermission'.tr,
       deniedForeverSnackBarBody: 'cameraPermissionDeniedForever'.tr,
+      showSnackBar: showSnackBar,
     );
 
-Future<bool> handleMicrophonePermission() async =>
+Future<bool> handleMicrophonePermission({required bool showSnackBar}) async =>
     await handleGeneralPermission(
       permission: Permission.microphone,
       deniedSnackBarText: 'enableMicPermission'.tr,
       deniedForeverSnackBarTitle: 'micPermission'.tr,
       deniedForeverSnackBarBody: 'micPermissionDeniedForever'.tr,
+      showSnackBar: showSnackBar,
     );
-Future<bool> handleLocationPermission() async => await handleGeneralPermission(
+Future<bool> handleLocationPermission({required bool showSnackBar}) async =>
+    await handleGeneralPermission(
       permission: Permission.location,
       deniedSnackBarText: 'enableLocationPermission'.tr,
       deniedForeverSnackBarTitle: 'locationPermission'.tr,
       deniedForeverSnackBarBody: 'locationPermissionDeniedForever'.tr,
+      showSnackBar: showSnackBar,
     );
 Future<bool> handleLocationService() async {
   try {
@@ -223,23 +229,30 @@ Future<bool> handleLocationService() async {
   return false;
 }
 
-Future<bool> handleLocation() async =>
-    await handleLocationPermission() && await handleLocationService()
+Future<bool> handleLocation({required bool showSnackBar}) async =>
+    await handleLocationPermission(
+              showSnackBar: showSnackBar,
+            ) &&
+            await handleLocationService()
         ? true
         : false;
 
-Future<bool> handleContactsPermission() async => await handleGeneralPermission(
+Future<bool> handleContactsPermission({required bool showSnackBar}) async =>
+    await handleGeneralPermission(
       permission: Permission.contacts,
       deniedSnackBarText: 'enableContactsPermission'.tr,
       deniedForeverSnackBarTitle: 'contactsPermission'.tr,
       deniedForeverSnackBarBody: 'contactsPermissionDeniedForever'.tr,
+      showSnackBar: showSnackBar,
     );
 
-Future<bool> handleCallPermission() async => await handleGeneralPermission(
+Future<bool> handleCallPermission({required bool showSnackBar}) async =>
+    await handleGeneralPermission(
       permission: Permission.phone,
       deniedSnackBarText: 'enableCallPermission'.tr,
       deniedForeverSnackBarTitle: 'callPermission'.tr,
       deniedForeverSnackBarBody: 'callPermissionDeniedForever'.tr,
+      showSnackBar: showSnackBar,
     );
 
 // Future<bool> handleStoragePermission() async => await handleGeneralPermission(
@@ -254,6 +267,7 @@ Future<bool> handleGeneralPermission({
   required String deniedSnackBarText,
   required String deniedForeverSnackBarTitle,
   required String deniedForeverSnackBarBody,
+  required bool showSnackBar,
 }) async {
   try {
     PermissionStatus permissionStatus = await permission.status;
@@ -276,12 +290,14 @@ Future<bool> handleGeneralPermission({
         positiveButtonOnPressed: () async {
           Get.back();
           if (!await openAppSettings()) {
-            showSimpleSnackBar(text: deniedForeverSnackBarBody);
+            if (showSnackBar) {
+              showSimpleSnackBar(text: deniedForeverSnackBarBody);
+            }
           }
         },
         negativeButtonOnPressed: () {
           Get.back();
-          showSimpleSnackBar(text: deniedForeverSnackBarBody);
+          if (showSnackBar) showSimpleSnackBar(text: deniedForeverSnackBarBody);
         },
         positiveButtonIcon: Icons.settings,
         negativeButtonIcon: Icons.cancel_outlined,

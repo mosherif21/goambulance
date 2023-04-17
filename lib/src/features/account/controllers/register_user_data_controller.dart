@@ -135,7 +135,7 @@ class RegisterUserDataController extends GetxController {
 
   Future<void> captureProfilePic() async {
     RegularBottomSheet.hideBottomSheet();
-    if (await handleCameraPermission()) {
+    if (await handleCameraPermission(showSnackBar: true)) {
       final addedImage = await picker.pickImage(source: ImageSource.camera);
       if (addedImage != null) {
         isProfileImageAdded.value = true;
@@ -147,7 +147,7 @@ class RegisterUserDataController extends GetxController {
 
   Future<void> captureIDPic() async {
     RegularBottomSheet.hideBottomSheet();
-    if (await handleCameraPermission()) {
+    if (await handleCameraPermission(showSnackBar: true)) {
       final addedImage = await picker.pickImage(source: ImageSource.camera);
       if (addedImage != null) {
         isNationalIDImageAdded.value = true;

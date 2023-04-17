@@ -8,6 +8,7 @@ import 'package:goambulance/src/general/common_widgets/regular_elevated_button.d
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 
@@ -100,6 +101,11 @@ class SingleEntryScreen extends StatelessWidget {
                             ),
                           ),
                           initialCountryCode: 'EG',
+                          countries: const ['EG'],
+                          pickerDialogStyle: PickerDialogStyle(
+                            searchFieldInputDecoration:
+                                InputDecoration(hintText: 'searchCountry'.tr),
+                          ),
                           onChanged: (phone) {
                             OtpVerificationController
                                 .instance

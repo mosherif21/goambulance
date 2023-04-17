@@ -28,6 +28,12 @@ class HomeScreenController extends GetxController {
   final carouselController = CarouselController();
   RxBool hideNavBar = false.obs;
 
+  @override
+  void onReady() {
+    handleLocation(showSnackBar: false);
+    super.onReady();
+  }
+
   bool isDrawerOpen(DrawerState drawerState) =>
       drawerState == DrawerState.open ||
               drawerState == DrawerState.opening ||
@@ -39,7 +45,7 @@ class HomeScreenController extends GetxController {
     if (AppInit.isWeb) {
       Get.to(() => const MakingNormalRequestPage());
     } else {
-      if (await handleLocation()) {
+      if (await handleLocation(showSnackBar: false)) {
         Get.to(() => const MakingNormalRequestPage());
       }
     }

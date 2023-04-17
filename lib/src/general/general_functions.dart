@@ -203,8 +203,23 @@ Future<bool> handleLocationService() async {
   try {
     if (await Geolocator.isLocationServiceEnabled()) {
       return true;
-    } else {}
-    //await Geolocator.isLocationServiceEnabled()
+    } else {
+      Dialogs.materialDialog(
+          title: 'locationService'.tr,
+          msg: 'enableLocationService'.tr,
+          color: Colors.white,
+          context: Get.context!,
+          actions: [
+            IconsButton(
+              onPressed: () => Get.back(),
+              text: 'ok'.tr,
+              iconData: Icons.check_circle_outline,
+              color: kDefaultColor,
+              textStyle: const TextStyle(color: Colors.white),
+              iconColor: Colors.white,
+            ),
+          ]);
+    }
   } catch (err) {
     if (kDebugMode) print(err.toString());
   }

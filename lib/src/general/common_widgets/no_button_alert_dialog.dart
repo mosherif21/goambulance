@@ -24,8 +24,8 @@ class NoButtonAlertDialog {
                       fontWeight: FontWeight.w600,
                       color: Colors.black),
                 ),
-                content:
-                    WillPopScope(onWillPop: () async => false, child: content),
+                content: WillPopScope(
+                    onWillPop: () async => dismissible, child: content),
               )
             : AlertDialog(
                 title: Text(
@@ -35,8 +35,8 @@ class NoButtonAlertDialog {
                       fontWeight: FontWeight.w600,
                       color: Colors.black),
                 ),
-                content:
-                    WillPopScope(onWillPop: () async => false, child: content),
+                content: WillPopScope(
+                    onWillPop: () async => dismissible, child: content),
               ),
         barrierDismissible: dismissible,
       );

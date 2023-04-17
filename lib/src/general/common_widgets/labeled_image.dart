@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 Widget clickableLabeledImage({
@@ -30,13 +31,14 @@ Widget clickableLabeledImage({
             ),
             padding:
                 const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-            child: Text(
+            child: AutoSizeText(
               label,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
+              maxLines: 1,
             ),
           ),
         ),

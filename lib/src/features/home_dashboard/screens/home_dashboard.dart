@@ -6,16 +6,15 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
-import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
-import '../../../constants/assets_strings.dart';
 import '../../../general/common_widgets/labeled_image.dart';
-import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
 import '../../../general/general_functions.dart';
 import '../../first_aid/components/first_aid_tips_details_page.dart';
 import '../components/no_requests_history.dart';
 import '../components/notifications_button.dart';
+import '../components/services_buttons.dart';
+import '../components/services_page.dart';
 
 class HomeDashBoard extends StatelessWidget {
   const HomeDashBoard({Key? key}) : super(key: key);
@@ -102,35 +101,13 @@ class HomeDashBoard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        TextHeader(headerText: 'services'.tr, fontSize: 24),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                flex: isUserCritical() ? 3 : 1,
-                                child: RoundedImageElevatedButton(
-                                  buttonText: 'normalRequest'.tr,
-                                  imagePath: kAmbulanceImage,
-                                  onPressed: () async =>
-                                      await homeScreenController
-                                          .onNormalRequestClick(),
-                                ),
-                              ),
-                              const Spacer(),
-                              if (isUserCritical())
-                                Expanded(
-                                  flex: 3,
-                                  child: RoundedImageElevatedButton(
-                                    buttonText: 'sosRequest'.tr,
-                                    imagePath: kSosImage,
-                                    onPressed: () {},
-                                  ),
-                                ),
-                            ],
-                          ),
+                        TextHeaderWithButton(
+                          headerText: 'services'.tr,
+                          onPressed: () async =>
+                              await Get.to(() => const ServicesScreen()),
+                          buttonText: 'viewAll'.tr,
                         ),
+                        const ServicesButtons(),
                         const SizedBox(height: 15),
                         TextHeaderWithButton(
                           headerText: 'recentRequests'.tr,

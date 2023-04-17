@@ -14,6 +14,7 @@ const String kLogoImageWithName =
     "assets/images/logo_with_name_transparent.png";
 const String kAmbulanceImage = "assets/images/ambulance_above_medium.svg";
 const String kSosImage = "assets/images/sos.svg";
+const String kSosMessageImage = "assets/images/sosMessage.svg";
 const String kNoRequestsHistory = "assets/images/requests_history_large.png";
 const String kProfileImage = "assets/images/profile_male.png";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_marker.png";

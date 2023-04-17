@@ -106,7 +106,8 @@ class Languages extends Translations {
           'notifications': 'الاشعارات',
           'aboutUs': 'معلومات عنا',
           'locationService': 'خدمة الموقع',
-          'enableLocationService': 'يرجى تمكين خدمة الموقع لاستخدام التطبيق',
+          'enableLocationService':
+              'الرجاء تمكين خدمة الموقع لاستخدام هذه الميزة',
           'locationPermission': 'إذن الموقع',
           'locationPermissionDeniedForever':
               'تم رفض إذن المواقع إلى الأبد، يرجى تمكينه من الإعدادات',
@@ -125,13 +126,18 @@ class Languages extends Translations {
           'contactsPermission': 'اذن جهات الاتصال',
           'contactsPermissionDeniedForever':
               'تم رفض إذن جهات الاتصال إلى الأبد، يرجى تمكينه من الإعدادات',
-          'enableLocationPermission': 'يرجى تمكين اذن الموقع لاستخدام التطبيق',
-          'enableCameraPermission': 'يرجى تمكين اذن الكاميرا لاستخدام التطبيق',
-          'enableStoragePermission': 'يرجى تمكين اذن الذاكرة لاستخدام التطبيق',
-          'enableCallPermission': 'يرجى تمكين اذن المكالمات لاستخدام التطبيق',
-          'enableMicPermission': 'يرجى تمكين اذن المايكروفون لاستخدام التطبيق',
+          'enableLocationPermission':
+              'الرجاء تمكين اذن الموقع لاستخدام هذه الميزة',
+          'enableCameraPermission':
+              'الرجاء تمكين اذن الكاميرا لاستخدام هذه الميزة',
+          'enableStoragePermission':
+              'الرجاء تمكين اذن الذاكرة لاستخدام هذه الميزة',
+          'enableCallPermission':
+              'الرجاء تمكين اذن المكالمات لاستخدام هذه الميزة',
+          'enableMicPermission':
+              'الرجاء تمكين اذن المايكروفون لاستخدام هذه الميزة',
           'enableContactsPermission':
-              'يرجى تمكين اذن جهات الاتصال لاستخدام التطبيق',
+              'الرجاء تمكين اذن جهات الاتصال لاستخدام هذه الميزة',
           'firstAidTips1': 'غياب الوعى',
           'firstAidTips2': 'الانعاش القلبى الرئوى',
           'firstAidTips3': 'انسداد مجرى الهواء',
@@ -211,6 +217,7 @@ class Languages extends Translations {
           'cancel': 'الغاء',
           'goToSettings': 'اذهب للاعدادات',
           'searchCountry': 'البحث عن البلد',
+          'sosMessage': 'رسالة استغاثة',
           'useMobileToRegister':
               'الرجاء استخدام تطبيق الهاتف لتسجيل البيانات الخاصة بك',
         },
@@ -308,9 +315,9 @@ class Languages extends Translations {
           'aboutUs': 'About Us',
           'locationService': 'Location Service',
           'enableLocationService':
-              'Please enable location service to use the app',
+              'Please enable location service to use this feature',
           'acceptLocationPermission':
-              'Please enable location service to use the app',
+              'Please enable location service to use this feature',
           'locationPermission': 'Location permission',
           'locationPermissionDeniedForever':
               'Locations permission denied forever please enable it from the settings',
@@ -330,17 +337,17 @@ class Languages extends Translations {
           'contactsPermissionDeniedForever':
               'Contacts permission denied forever please enable it from the settings',
           'enableLocationPermission':
-              'Please accept location permission to use the app',
+              'Please accept location permission to use this feature',
           'enableCameraPermission':
-              'Please accept camera permission to use the app',
+              'Please accept camera permission to use this feature',
           'enableStoragePermission':
-              'Please accept storage permission to use the app',
+              'Please accept storage permission to use this feature',
           'enableCallPermission':
-              'Please accept call permission to use the app',
+              'Please accept call permission to use this feature',
           'enableMicPermission':
-              'Please accept microphone permission to use the app',
+              'Please accept microphone permission to use this feature',
           'enableContactsPermission':
-              'Please accept contacts permission to use the app',
+              'Please accept contacts permission to use this feature ',
           'firstAidTips1': 'Rapid assessment for patient',
           'firstAidTips2': 'Cardiopulmonary Resuscitation',
           'firstAidTips3': 'Choking',
@@ -424,6 +431,7 @@ class Languages extends Translations {
           'cancel': 'Cancel',
           'goToSettings': 'Go to settings',
           'searchCountry': 'Search for country',
+          'sosMessage': 'SOS Message',
           'useMobileToRegister':
               'Please use the mobile application to register your data',
         },

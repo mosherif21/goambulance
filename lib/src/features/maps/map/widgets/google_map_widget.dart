@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,17 +7,29 @@ import 'package:lottie/lottie.dart' as lot;
 
 import '../../../../constants/enums.dart';
 import '../../../../general/general_functions.dart';
-import '../map_controllers/maps_controller.dart';
 
 class GoogleMapWidget extends StatelessWidget {
-  const GoogleMapWidget({Key? key}) : super(key: key);
+  const GoogleMapWidget({
+    Key? key,
+    required this.mapLoading,
+    required this.initialCameraPosition,
+    required this.polyLines,
+    required this.markers,
+    required this.mapController,
+    required this.locationAvailable,
+  }) : super(key: key);
+  final RxBool mapLoading;
+  final RxBool locationAvailable;
+  final LatLng initialCameraPosition;
+  final Set<Polyline> polyLines;
+  final Set<Marker> markers;
+  final GoogleMapController mapController;
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    final mapsController = MapsController.instance;
     return Obx(
-      () => mapsController.servicePermissionEnabled.value
+      () => locationAvailable.value
           ? GoogleMap(
               compassEnabled: false,
               rotateGesturesEnabled: false,

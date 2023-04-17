@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 
 import '../../../general/common_widgets/back_button.dart';
@@ -36,9 +37,11 @@ class EmergencyNumbersScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, int emergencyNumber) {
                 return RegularClickableCard(
                   onPressed: () async {
-                    if (await handleCallPermission()) {
-                      await FlutterPhoneDirectCaller.callNumber(
-                          emergencyNumbers[emergencyNumber]);
+                    if (AppInit.isWeb) {
+                      if (await handleCallPermission()) {
+                        await FlutterPhoneDirectCaller.callNumber(
+                            emergencyNumbers[emergencyNumber]);
+                      }
                     }
                   },
                   title: 'emergencyNumber${emergencyNumber + 1}'.tr,

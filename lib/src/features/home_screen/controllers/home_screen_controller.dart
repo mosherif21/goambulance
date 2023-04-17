@@ -13,6 +13,7 @@ import 'package:goambulance/src/features/settings/screens/settings_screen.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../../constants/app_init_constants.dart';
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
@@ -27,19 +28,18 @@ class HomeScreenController extends GetxController {
   final carouselController = CarouselController();
   RxBool hideNavBar = false.obs;
 
-  bool isDrawerOpen(DrawerState drawerState) {
-    return drawerState == DrawerState.open
-        ? true
-        : drawerState == DrawerState.opening
-            ? true
-            : drawerState == DrawerState.closing
-                ? true
-                : false;
-  }
+  bool isDrawerOpen(DrawerState drawerState) =>
+      drawerState == DrawerState.open ||
+              drawerState == DrawerState.opening ||
+              drawerState == DrawerState.closing
+          ? true
+          : false;
 
   Future<void> onNormalRequestClick() async {
-    if (await handleLocationPermission()) {
-      if (await handleLocationService()) {
+    if (AppInit.isWeb) {
+      Get.to(() => const MakingNormalRequestPage());
+    } else {
+      if (await handleLocation()) {
         Get.to(() => const MakingNormalRequestPage());
       }
     }

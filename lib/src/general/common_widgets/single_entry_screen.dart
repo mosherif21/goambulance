@@ -48,7 +48,7 @@ class SingleEntryScreen extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         if (linkWithPhone) {
-          await logout();
+          logoutDialogue();
         }
         return true;
       },
@@ -56,7 +56,7 @@ class SingleEntryScreen extends StatelessWidget {
         appBar: AppBar(
           leading: linkWithPhone
               ? CustomBackButton(
-                  onPressed: () async => await logout(), padding: 3)
+                  onPressed: () async => logoutDialogue(), padding: 3)
               : const RegularBackButton(padding: 0),
           elevation: 0,
           scrolledUnderElevation: 5,

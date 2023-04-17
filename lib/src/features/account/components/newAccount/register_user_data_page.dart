@@ -31,13 +31,13 @@ class RegisterUserDataPage extends StatelessWidget {
     final controller = Get.put(RegisterUserDataController());
     return WillPopScope(
       onWillPop: () async {
-        await logout();
+        logoutDialogue();
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: CustomBackButton(
-              onPressed: () async => await logout(), padding: 3),
+              onPressed: () async => logoutDialogue(), padding: 3),
           elevation: 0,
           scrolledUnderElevation: 5,
           backgroundColor: Colors.grey.shade100,

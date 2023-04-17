@@ -210,6 +210,8 @@ class Languages extends Translations {
           'phoneNumberAlreadyYourAccount': 'رقم الهاتف هذا مرتبط بالفعل بحسابك',
           'cancel': 'الغاء',
           'goToSettings': 'اذهب للاعدادات',
+          'useMobileToRegister':
+              'الرجاء استخدام تطبيق الهاتف لتسجيل البيانات الخاصة بك',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -420,6 +422,8 @@ class Languages extends Translations {
               'This Phone number is already linked with your account',
           'cancel': 'Cancel',
           'goToSettings': 'Go to settings',
+          'useMobileToRegister':
+              'Please use the mobile application to register your data',
         },
       };
 }

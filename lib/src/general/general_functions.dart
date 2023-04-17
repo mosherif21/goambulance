@@ -75,43 +75,41 @@ void showSimpleSnackBar({
   );
 }
 
+void logoutDialogue() async => displayBinaryAlertDialog(
+      title: 'logout'.tr,
+      body: 'logoutConfirm'.tr,
+      positiveButtonText: 'yes'.tr,
+      negativeButtonText: 'no'.tr,
+      positiveButtonOnPressed: () async => await logout(),
+      negativeButtonOnPressed: () => Get.back(),
+      positiveButtonIcon: Icons.logout,
+      negativeButtonIcon: Icons.cancel_outlined,
+    );
+
 Future<void> logout() async {
-  displayBinaryAlertDialog(
-    title: 'logout'.tr,
-    body: 'logoutConfirm'.tr,
-    positiveButtonText: 'yes'.tr,
-    negativeButtonText: 'no'.tr,
-    positiveButtonOnPressed: () async {
-      showLoadingScreen();
-      await AuthenticationRepository.instance.logoutUser();
-      if (Get.isRegistered<FirebasePatientDataAccess>()) {
-        await FirebasePatientDataAccess.instance.logoutFirebase();
-      }
-      if (kDebugMode) print('signing out');
-      Get.offAll(() => const AuthenticationScreen());
-      hideLoadingScreen();
-    },
-    negativeButtonOnPressed: () => Get.back(),
-    positiveButtonIcon: Icons.logout,
-    negativeButtonIcon: Icons.cancel_outlined,
-  );
+  showLoadingScreen();
+  await AuthenticationRepository.instance.logoutUser();
+  if (Get.isRegistered<FirebasePatientDataAccess>()) {
+    await FirebasePatientDataAccess.instance.logoutFirebase();
+  }
+  if (kDebugMode) print('signing out');
+  Get.offAll(() => const AuthenticationScreen());
+  hideLoadingScreen();
 }
 
-void getToPhoneVerificationScreen() {
-  Get.to(
-    () => SingleEntryScreen(
-      title: 'phoneVerification'.tr,
-      prefixIconData: Icons.phone,
-      lottieAssetAnim: kPhoneVerificationAnim,
-      textFormTitle: 'phoneLabel'.tr,
-      textFormHint: 'phoneFieldLabel'.tr,
-      buttonTitle: 'continue'.tr,
-      inputType: InputType.phone,
-      linkWithPhone: false,
-    ),
-    transition: AppInit.getPageTransition(),
-  );
-}
+void getToPhoneVerificationScreen() => Get.to(
+      () => SingleEntryScreen(
+        title: 'phoneVerification'.tr,
+        prefixIconData: Icons.phone,
+        lottieAssetAnim: kPhoneVerificationAnim,
+        textFormTitle: 'phoneLabel'.tr,
+        textFormHint: 'phoneFieldLabel'.tr,
+        buttonTitle: 'continue'.tr,
+        inputType: InputType.phone,
+        linkWithPhone: false,
+      ),
+      transition: AppInit.getPageTransition(),
+    );
 
 bool isLangEnglish() => AppInit.currentLanguage == Language.english;
 void getOfAllPhoneVerificationScreen() {
@@ -140,30 +138,29 @@ void displayBinaryAlertDialog({
   required Function negativeButtonOnPressed,
   required IconData positiveButtonIcon,
   required IconData negativeButtonIcon,
-}) async {
-  Dialogs.materialDialog(
-      title: title,
-      msg: body,
-      color: Colors.white,
-      context: Get.context!,
-      actions: [
-        IconsButton(
-          onPressed: () => positiveButtonOnPressed(),
-          text: positiveButtonText,
-          iconData: positiveButtonIcon,
-          color: kDefaultColor,
-          textStyle: const TextStyle(color: Colors.white),
-          iconColor: Colors.white,
-        ),
-        IconsOutlineButton(
-          onPressed: () => negativeButtonOnPressed(),
-          text: negativeButtonText,
-          iconData: negativeButtonIcon,
-          textStyle: const TextStyle(color: Colors.grey),
-          iconColor: Colors.grey,
-        ),
-      ]);
-}
+}) async =>
+    await Dialogs.materialDialog(
+        title: title,
+        msg: body,
+        color: Colors.white,
+        context: Get.context!,
+        actions: [
+          IconsButton(
+            onPressed: () => positiveButtonOnPressed(),
+            text: positiveButtonText,
+            iconData: positiveButtonIcon,
+            color: kDefaultColor,
+            textStyle: const TextStyle(color: Colors.white),
+            iconColor: Colors.white,
+          ),
+          IconsOutlineButton(
+            onPressed: () => negativeButtonOnPressed(),
+            text: negativeButtonText,
+            iconData: negativeButtonIcon,
+            textStyle: const TextStyle(color: Colors.grey),
+            iconColor: Colors.grey,
+          ),
+        ]);
 
 Future<void> displayChangeLang() async =>
     await RegularBottomSheet.showRegularBottomSheet(
@@ -225,6 +222,11 @@ Future<bool> handleLocationService() async {
   }
   return false;
 }
+
+Future<bool> handleLocation() async =>
+    await handleLocationPermission() && await handleLocationService()
+        ? true
+        : false;
 
 Future<bool> handleContactsPermission() async => await handleGeneralPermission(
       permission: Permission.contacts,

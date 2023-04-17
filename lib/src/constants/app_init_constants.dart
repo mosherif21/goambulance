@@ -13,6 +13,7 @@ import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../features/account/components/newAccount/register_user_data_page.dart';
+import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
@@ -159,8 +160,14 @@ class AppInit {
             getOfAllPhoneVerificationScreen();
           } else if (authRepo.isUserPhoneRegistered &&
               !authRepo.isUserRegistered) {
-            Get.offAll(() => const RegisterUserDataPage(),
-                transition: Transition.circularReveal);
+            if (AppInit.isWeb) {
+              await authRepo.logoutUser();
+              Get.offAll(() => const AuthenticationScreen());
+              showSimpleSnackBar(text: 'useMobileToRegister'.tr);
+            } else {
+              Get.offAll(() => const RegisterUserDataPage(),
+                  transition: Transition.circularReveal);
+            }
           } else if (authRepo.isUserPhoneRegistered &&
               authRepo.isUserRegistered) {
             Get.offAll(() => const HomeScreen(),

@@ -108,9 +108,30 @@ class Languages extends Translations {
           'locationService': 'خدمة الموقع',
           'enableLocationService': 'يرجى تمكين خدمة الموقع لاستخدام التطبيق',
           'locationPermission': 'إذن الموقع',
-          'enableLocationPermission': 'يرجى قبول إذن الموقع لاستخدام التطبيق',
           'locationPermissionDeniedForever':
               'تم رفض إذن المواقع إلى الأبد، يرجى تمكينه من الإعدادات',
+          'cameraPermission': 'اذن الكاميرا',
+          'cameraPermissionDeniedForever':
+              'تم رفض إذن الكاميرا إلى الأبد، يرجى تمكينه من الإعدادات',
+          'storagePermission': 'اذن الذاكرة',
+          'storagePermissionDeniedForever':
+              'تم رفض إذن الذاكرة إلى الأبد، يرجى تمكينه من الإعدادات',
+          'callPermission': 'اذن الاتصال',
+          'callPermissionDeniedForever':
+              'تم رفض إذن المكالمات إلى الأبد، يرجى تمكينه من الإعدادات',
+          'micPermission': 'اذن المايكروفون',
+          'micPermissionDeniedForever':
+              'تم رفض إذن المايكروفون إلى الأبد، يرجى تمكينه من الإعدادات',
+          'contactsPermission': 'اذن جهات الاتصال',
+          'contactsPermissionDeniedForever':
+              'تم رفض إذن جهات الاتصال إلى الأبد، يرجى تمكينه من الإعدادات',
+          'enableLocationPermission': 'يرجى تمكين اذن الموقع لاستخدام التطبيق',
+          'enableCameraPermission': 'يرجى تمكين اذن الكاميرا لاستخدام التطبيق',
+          'enableStoragePermission': 'يرجى تمكين اذن الذاكرة لاستخدام التطبيق',
+          'enableCallPermission': 'يرجى تمكين اذن المكالمات لاستخدام التطبيق',
+          'enableMicPermission': 'يرجى تمكين اذن المايكروفون لاستخدام التطبيق',
+          'enableContactsPermission':
+              'يرجى تمكين اذن جهات الاتصال لاستخدام التطبيق',
           'firstAidTips1': 'غياب الوعى',
           'firstAidTips2': 'الانعاش القلبى الرئوى',
           'firstAidTips3': 'انسداد مجرى الهواء',
@@ -187,6 +208,8 @@ class Languages extends Translations {
           'enterAdditionalInformation': 'أدخل أي معلومات إضافية',
           'phoneNumberAlreadyLinked': 'رقم الهاتف هذا مرتبط بالفعل بحساب آخر',
           'phoneNumberAlreadyYourAccount': 'رقم الهاتف هذا مرتبط بالفعل بحسابك',
+          'cancel': 'الغاء',
+          'goToSettings': 'اذهب للاعدادات',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -283,11 +306,38 @@ class Languages extends Translations {
           'locationService': 'Location Service',
           'enableLocationService':
               'Please enable location service to use the app',
+          'acceptLocationPermission':
+              'Please enable location service to use the app',
           'locationPermission': 'Location permission',
-          'enableLocationPermission':
-              'Please accept locations permission to use the app',
           'locationPermissionDeniedForever':
               'Locations permission denied forever please enable it from the settings',
+          'cameraPermission': 'Camera permission',
+          'cameraPermissionDeniedForever':
+              'Camera permission denied forever please enable it from the settings',
+          'storagePermission': 'Storage permission',
+          'storagePermissionDeniedForever':
+              'Storage permission denied forever please enable it from the settings',
+          'callPermission': 'Call permission',
+          'callPermissionDeniedForever':
+              'Call permission denied forever please enable it from the settings',
+          'micPermission': 'Microphone permission',
+          'micPermissionDeniedForever':
+              'Microphone permission denied forever please enable it from the settings',
+          'contactsPermission': 'Contacts permission',
+          'contactsPermissionDeniedForever':
+              'Contacts permission denied forever please enable it from the settings',
+          'enableLocationPermission':
+              'Please accept location permission to use the app',
+          'enableCameraPermission':
+              'Please accept camera permission to use the app',
+          'enableStoragePermission':
+              'Please accept storage permission to use the app',
+          'enableCallPermission':
+              'Please accept call permission to use the app',
+          'enableMicPermission':
+              'Please accept microphone permission to use the app',
+          'enableContactsPermission':
+              'Please accept contacts permission to use the app',
           'firstAidTips1': 'Rapid assessment for patient',
           'firstAidTips2': 'Cardiopulmonary Resuscitation',
           'firstAidTips3': 'Choking',
@@ -357,7 +407,7 @@ class Languages extends Translations {
           'askHeartPatient': 'Are you a heart patient?',
           'askBloodPressurePatient': 'Are you a blood pressure patient?',
           'add': 'Add',
-          'agree': 'Agree',
+          'agree': 'I agree',
           'disagree': 'Disagree',
           'diseaseInfo': 'Please enter the disease/allergy information',
           'personalInfoShare':
@@ -368,6 +418,8 @@ class Languages extends Translations {
               'This Phone number is already linked with another account',
           'phoneNumberAlreadyYourAccount':
               'This Phone number is already linked with your account',
+          'cancel': 'Cancel',
+          'goToSettings': 'Go to settings',
         },
       };
 }

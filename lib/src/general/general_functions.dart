@@ -7,6 +7,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
@@ -177,17 +178,82 @@ Future<void> displayChangeLang() async =>
       ),
     );
 
-//SnackbarStatus snackBarStatus = SnackbarStatus.CLOSED;
-//
-// void showFloatingSnackBar(
-//     {required String title,
-//     required String body,
-//     required SnackPosition position}) {
-//   Get.snackbar(title, body,
-//       colorText: Colors.black,
-//       snackPosition: position,
-//       snackbarStatus: (snackStatusCallBack) =>
-//           snackBarStatus = snackStatusCallBack!,
-//       barBlur: 20.0,
-//       margin: const EdgeInsets.all(20.0));
-// }
+Future<bool> handleCameraPermission() async => await handleGeneralPermission(
+      permission: Permission.camera,
+      deniedSnackBarText: 'enableCameraPermission'.tr,
+      deniedForeverSnackBarTitle: 'cameraPermission'.tr,
+      deniedForeverSnackBarBody: 'cameraPermissionDeniedForever'.tr,
+    );
+
+Future<bool> handleStoragePermission() async => await handleGeneralPermission(
+      permission: Permission.storage,
+      deniedSnackBarText: 'enableStoragePermission'.tr,
+      deniedForeverSnackBarTitle: 'storagePermission'.tr,
+      deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
+    );
+Future<bool> handleMicrophonePermission() async =>
+    await handleGeneralPermission(
+      permission: Permission.microphone,
+      deniedSnackBarText: 'enableMicPermission'.tr,
+      deniedForeverSnackBarTitle: 'micPermission'.tr,
+      deniedForeverSnackBarBody: 'micPermissionDeniedForever'.tr,
+    );
+Future<bool> handleLocationPermission() async => await handleGeneralPermission(
+      permission: Permission.location,
+      deniedSnackBarText: 'enableLocationPermission'.tr,
+      deniedForeverSnackBarTitle: 'locationPermission'.tr,
+      deniedForeverSnackBarBody: 'locationPermissionDeniedForever'.tr,
+    );
+Future<bool> handleContactsPermission() async => await handleGeneralPermission(
+      permission: Permission.contacts,
+      deniedSnackBarText: 'enableContactsPermission'.tr,
+      deniedForeverSnackBarTitle: 'contactsPermission'.tr,
+      deniedForeverSnackBarBody: 'contactsPermissionDeniedForever'.tr,
+    );
+
+Future<bool> handleCallPermission() async => await handleGeneralPermission(
+      permission: Permission.phone,
+      deniedSnackBarText: 'enableCallPermission'.tr,
+      deniedForeverSnackBarTitle: 'callPermission'.tr,
+      deniedForeverSnackBarBody: 'callPermissionDeniedForever'.tr,
+    );
+
+Future<bool> handleGeneralPermission({
+  required Permission permission,
+  required String deniedSnackBarText,
+  required String deniedForeverSnackBarTitle,
+  required String deniedForeverSnackBarBody,
+}) async {
+  PermissionStatus permissionStatus = await permission.status;
+  if (permissionStatus.isGranted) {
+    return true;
+  } else if (permissionStatus.isDenied) {
+    permissionStatus = await permission.request();
+  }
+
+  if (permissionStatus.isGranted) {
+    return true;
+  } else if (permissionStatus.isDenied) {
+    showSimpleSnackBar(text: deniedSnackBarText);
+  } else if (permissionStatus.isPermanentlyDenied) {
+    displayBinaryAlertDialog(
+      title: deniedForeverSnackBarTitle,
+      body: deniedForeverSnackBarBody,
+      positiveButtonText: 'goToSettings'.tr,
+      negativeButtonText: 'cancel'.tr,
+      positiveButtonOnPressed: () async {
+        if (await openAppSettings()) {
+          Get.back();
+          await openAppSettings();
+        }
+      },
+      negativeButtonOnPressed: () {
+        Get.back();
+        showSimpleSnackBar(text: deniedForeverSnackBarBody);
+      },
+      positiveButtonIcon: Icons.settings,
+      negativeButtonIcon: Icons.cancel_outlined,
+    );
+  }
+  return false;
+}

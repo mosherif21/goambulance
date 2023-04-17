@@ -24,9 +24,9 @@ dependencies:
   speech_to_text: ^6.1.1
   flutter_tts: ^3.6.3
   awesome_notifications: ^0.7.4+1
-  #provider: ^6.0.5
   eg_nid: ^0.0.1
   #image: ^4.0.15
+  permission_handler: ^10.2.0
 
   #firebase dependencies
   firebase_core: ^2.3.0

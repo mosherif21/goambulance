@@ -16,6 +16,7 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
+import '../../requests/components/making_request/normal_request_page.dart';
 import '../../requests/screens/previous_requests_page.dart';
 
 class HomeScreenController extends GetxController {
@@ -34,6 +35,14 @@ class HomeScreenController extends GetxController {
             : drawerState == DrawerState.closing
                 ? true
                 : false;
+  }
+
+  Future<void> onNormalRequestClick() async {
+    if (await handleLocationPermission()) {
+      if (await handleLocationService()) {
+        Get.to(() => const MakingNormalRequestPage());
+      }
+    }
   }
 
   Future<void> onDrawerItemSelected(int index) async {

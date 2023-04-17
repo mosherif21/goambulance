@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:location/location.dart' as location_lib;
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
@@ -198,6 +199,21 @@ Future<bool> handleLocationPermission() async => await handleGeneralPermission(
       deniedForeverSnackBarTitle: 'locationPermission'.tr,
       deniedForeverSnackBarBody: 'locationPermissionDeniedForever'.tr,
     );
+Future<bool> handleLocationService() async {
+  try {
+    final location = location_lib.Location();
+    if (await location.serviceEnabled()) {
+      return true;
+    } else {
+      await location.requestService();
+    }
+    if (await location.serviceEnabled()) return true;
+  } catch (err) {
+    if (kDebugMode) print(err.toString());
+  }
+  return false;
+}
+
 Future<bool> handleContactsPermission() async => await handleGeneralPermission(
       permission: Permission.contacts,
       deniedSnackBarText: 'enableContactsPermission'.tr,
@@ -225,36 +241,40 @@ Future<bool> handleGeneralPermission({
   required String deniedForeverSnackBarTitle,
   required String deniedForeverSnackBarBody,
 }) async {
-  PermissionStatus permissionStatus = await permission.status;
-  if (permissionStatus.isGranted) {
-    return true;
-  } else if (permissionStatus.isDenied) {
-    permissionStatus = await permission.request();
-  }
+  try {
+    PermissionStatus permissionStatus = await permission.status;
+    if (permissionStatus.isGranted) {
+      return true;
+    } else if (permissionStatus.isDenied) {
+      permissionStatus = await permission.request();
+    }
 
-  if (permissionStatus.isGranted) {
-    return true;
-  } else if (permissionStatus.isDenied) {
-    showSimpleSnackBar(text: deniedSnackBarText);
-  } else if (permissionStatus.isPermanentlyDenied) {
-    displayBinaryAlertDialog(
-      title: deniedForeverSnackBarTitle,
-      body: deniedForeverSnackBarBody,
-      positiveButtonText: 'goToSettings'.tr,
-      negativeButtonText: 'cancel'.tr,
-      positiveButtonOnPressed: () async {
-        Get.back();
-        if (!await openAppSettings()) {
+    if (permissionStatus.isGranted) {
+      return true;
+    } else if (permissionStatus.isDenied) {
+      showSimpleSnackBar(text: deniedSnackBarText);
+    } else if (permissionStatus.isPermanentlyDenied) {
+      displayBinaryAlertDialog(
+        title: deniedForeverSnackBarTitle,
+        body: deniedForeverSnackBarBody,
+        positiveButtonText: 'goToSettings'.tr,
+        negativeButtonText: 'cancel'.tr,
+        positiveButtonOnPressed: () async {
+          Get.back();
+          if (!await openAppSettings()) {
+            showSimpleSnackBar(text: deniedForeverSnackBarBody);
+          }
+        },
+        negativeButtonOnPressed: () {
+          Get.back();
           showSimpleSnackBar(text: deniedForeverSnackBarBody);
-        }
-      },
-      negativeButtonOnPressed: () {
-        Get.back();
-        showSimpleSnackBar(text: deniedForeverSnackBarBody);
-      },
-      positiveButtonIcon: Icons.settings,
-      negativeButtonIcon: Icons.cancel_outlined,
-    );
+        },
+        positiveButtonIcon: Icons.settings,
+        negativeButtonIcon: Icons.cancel_outlined,
+      );
+    }
+  } catch (err) {
+    if (kDebugMode) print(err.toString());
   }
   return false;
 }

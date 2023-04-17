@@ -113,7 +113,9 @@ class HomeDashBoard extends StatelessWidget {
                                 child: RoundedImageElevatedButton(
                                   buttonText: 'normalRequest'.tr,
                                   imagePath: kAmbulanceImage,
-                                  onPressed: () {},
+                                  onPressed: () async =>
+                                      await homeScreenController
+                                          .onNormalRequestClick(),
                                 ),
                               ),
                               const Spacer(),

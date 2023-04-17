@@ -9,7 +9,6 @@ version: 1.0.0+1
 environment:
   sdk: '>=2.18.2 <3.0.0'
 
-
 dependencies:
   flutter:
     sdk: flutter
@@ -46,7 +45,7 @@ dependencies:
   google_maps_flutter_web: ^0.4.0+3
   geolocator: ^9.0.2
   flutter_polyline_points: ^1.0.0
-  trust_location: ^2.0.13
+  location: ^4.4.0
 
   #authentication dependencies
   google_sign_in: ^6.0.2
@@ -65,7 +64,6 @@ dependencies:
   toggle_switch: ^2.0.1
   intl_phone_field: ^3.1.0
   animations: ^2.0.7
-  #device_preview: ^1.1.0
   shimmer: ^2.0.0
   flutter_web_frame: ^0.0.3
   persistent_bottom_nav_bar: ^5.0.2

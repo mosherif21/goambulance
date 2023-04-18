@@ -46,7 +46,7 @@ class MakingNormalRequestPage extends StatelessWidget {
                       myLocationEnabled: true,
                       initialCameraPosition: CameraPosition(
                         target: makingRequestController.currentLocationGetter(),
-                        zoom: 14.5,
+                        zoom: 15.5,
                       ),
                       polylines: makingRequestController.mapPolyLines,
                       markers: makingRequestController.mapMarkers,

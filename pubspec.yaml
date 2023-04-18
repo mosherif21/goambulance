@@ -46,6 +46,7 @@ dependencies:
   geolocator: ^9.0.2
   location: ^4.4.0
   flutter_polyline_points: ^1.0.0
+  flutter_google_places_sdk: ^0.3.2+8
 
   #authentication dependencies
   google_sign_in: ^6.0.2

@@ -22,6 +22,34 @@ class RegularBackButton extends StatelessWidget {
   }
 }
 
+class CircleBackButton extends StatelessWidget {
+  const CircleBackButton({Key? key, required this.padding}) : super(key: key);
+  final double padding;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(padding),
+      child: Material(
+        elevation: 5,
+        shape: const CircleBorder(),
+        color: Colors.white,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          splashFactory: InkSparkle.splashFactory,
+          child: const Padding(
+            padding: EdgeInsets.all(10),
+            child: Icon(
+              Icons.arrow_back_ios_sharp,
+              size: 28,
+            ),
+          ),
+          onTap: () => Get.back(),
+        ),
+      ),
+    );
+  }
+}
+
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton(
       {Key? key, required this.onPressed, required this.padding})

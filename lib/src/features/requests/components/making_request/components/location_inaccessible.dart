@@ -19,34 +19,36 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Lottie.asset(
-            makingRequestController.mapLoading.value
-                ? kLoadingMapAnim
-                : kNoLocation,
-            height: screenHeight * 0.4,
-          ),
-          const SizedBox(height: 10),
-          if (!makingRequestController.locationServiceEnabled.value)
-            RoundedElevatedButton(
-              buttonText: 'enableLocationServiceButton'.tr,
-              onPressed: () async => await Location().requestService(),
-              enabled: true,
-              color: Colors.black,
+      child: Obx(
+        () => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Lottie.asset(
+              makingRequestController.mapLoading.value
+                  ? kLoadingMapAnim
+                  : kNoLocation,
+              height: screenHeight * 0.4,
             ),
-          const SizedBox(height: 10),
-          if (!makingRequestController.locationPermissionGranted.value)
-            RoundedElevatedButton(
-              buttonText: 'enableLocationPermissionButton'.tr,
-              onPressed: () async =>
-                  await makingRequestController.setupLocationPermission(),
-              enabled: true,
-              color: Colors.black,
-            ),
-        ],
+            const SizedBox(height: 10),
+            if (!makingRequestController.locationServiceEnabled.value)
+              RoundedElevatedButton(
+                buttonText: 'enableLocationServiceButton'.tr,
+                onPressed: () async => await Location().requestService(),
+                enabled: true,
+                color: Colors.black,
+              ),
+            const SizedBox(height: 10),
+            if (!makingRequestController.locationPermissionGranted.value)
+              RoundedElevatedButton(
+                buttonText: 'enableLocationPermissionButton'.tr,
+                onPressed: () async =>
+                    await makingRequestController.setupLocationPermission(),
+                enabled: true,
+                color: Colors.black,
+              ),
+          ],
+        ),
       ),
     );
   }

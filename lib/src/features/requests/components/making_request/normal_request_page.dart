@@ -66,7 +66,8 @@ class MakingNormalRequestPage extends StatelessWidget {
                             height: screenHeight * 0.4,
                           ),
                           const SizedBox(height: 10),
-                          if (!makingRequestController.mapLoading.value)
+                          if (!makingRequestController
+                              .locationServiceEnabled.value)
                             RoundedElevatedButton(
                               buttonText: 'enableLocationServiceButton'.tr,
                               onPressed: () async =>
@@ -79,10 +80,9 @@ class MakingNormalRequestPage extends StatelessWidget {
                               .locationPermissionGranted.value)
                             RoundedElevatedButton(
                               buttonText: 'enableLocationPermissionButton'.tr,
-                              onPressed: () async => makingRequestController
-                                      .locationPermissionGranted.value =
-                                  await handleLocationPermission(
-                                      showSnackBar: true),
+                              onPressed: () async =>
+                                  await makingRequestController
+                                      .setupLocationPermission(),
                               enabled: true,
                               color: Colors.black,
                             ),

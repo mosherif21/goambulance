@@ -25,38 +25,62 @@ class MakingRequestController extends GetxController {
   final RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
   final RxSet<Marker> mapMarkers = <Marker>{}.obs;
   late GoogleMapController mapController;
-  late BitmapDescriptor ambulanceDriverIcon;
 
   //location permissions and services vars
   final locationAvailable = false.obs;
   final mapLoading = false.obs;
-
   late Position? currentLocation;
-
   late StreamSubscription<ServiceStatus>? serviceStatusStream;
   late StreamSubscription<Position>? currentPositionStream;
-
   bool locationServiceDialog = false;
   bool positionStreamInitialized = false;
   RxBool locationPermissionGranted = false.obs;
+  RxBool locationServiceEnabled = false.obs;
+
   @override
   void onInit() async {
     setupLocationServiceListener();
+    setupLocationPermission();
     super.onInit();
+  }
+
+  Future<void> setupLocationPermission() async {
+    await handleLocationPermission(showSnackBar: true).then(
+      (permissionGranted) => {
+        locationPermissionGranted.value = permissionGranted,
+        if (permissionGranted && locationServiceEnabled.value)
+          getCurrentLocation(),
+      },
+    );
   }
 
   void setupLocationServiceListener() async {
     try {
-      locationPermissionGranted.value =
-          await handleLocationPermission(showSnackBar: true);
-      mapLoading.value = await handleLocationService();
-      if (mapLoading.value) getCurrentLocation();
       serviceStatusStream = Geolocator.getServiceStatusStream().listen(
         (ServiceStatus status) {
           if (kDebugMode) print(status);
-          if (status == ServiceStatus.disabled) {
-            if (positionStreamInitialized) currentPositionStream?.pause();
-            if (kDebugMode) print('position listener paused');
+
+          if (status == ServiceStatus.enabled) {
+            locationServiceEnabled.value = true;
+
+            if (locationPermissionGranted.value) {
+              if (positionStreamInitialized) {
+                currentPositionStream?.resume();
+                if (kDebugMode) print('position listener resumed');
+              } else {
+                getCurrentLocation();
+              }
+            }
+
+            if (locationServiceDialog) Get.back();
+          } else if (status == ServiceStatus.disabled) {
+            locationServiceEnabled.value = false;
+
+            if (positionStreamInitialized) {
+              currentPositionStream?.pause();
+              if (kDebugMode) print('position listener paused');
+            }
+
             locationServiceDialog = true;
             Dialogs.materialDialog(
               title: 'locationService'.tr,
@@ -77,15 +101,6 @@ class MakingRequestController extends GetxController {
                 ),
               ],
             );
-          } else if (status == ServiceStatus.enabled) {
-            if (locationServiceDialog) Get.back();
-            mapLoading.value = true;
-            if (positionStreamInitialized) {
-              currentPositionStream?.resume();
-            } else {
-              getCurrentLocation();
-            }
-            if (kDebugMode) print('position listener resumed');
           }
         },
       );
@@ -96,6 +111,7 @@ class MakingRequestController extends GetxController {
 
   void getCurrentLocation() async {
     try {
+      mapLoading.value = true;
       await Geolocator.getCurrentPosition(desiredAccuracy: accuracy).then(
         (locationPosition) {
           currentLocation = locationPosition;

@@ -32,8 +32,8 @@ class ResetController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     emailController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

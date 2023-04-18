@@ -5,13 +5,6 @@ enum Gender {
   female,
 }
 
-enum MapStatus {
-  loadingMapData,
-  noLocationPermission,
-  noLocationService,
-  mapDataLoaded,
-}
-
 enum Language { english, arabic }
 
 enum InputType { email, phone, text, numbers }

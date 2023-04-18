@@ -218,6 +218,10 @@ class Languages extends Translations {
           'goToSettings': 'اذهب للاعدادات',
           'searchCountry': 'البحث عن البلد',
           'sosMessage': 'رسالة استغاثة',
+          'enableLocationPermissionButton': 'اعطي الأذن',
+          'enableLocationServiceButton': 'تمكين الموقع',
+          'useMobileToThisFeature':
+              'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الميزة',
           'useMobileToRegister':
               'الرجاء استخدام تطبيق الهاتف لتسجيل البيانات الخاصة بك',
         },
@@ -432,6 +436,10 @@ class Languages extends Translations {
           'goToSettings': 'Go to settings',
           'searchCountry': 'Search for country',
           'sosMessage': 'SOS Message',
+          'enableLocationPermissionButton': 'Grant permission',
+          'enableLocationServiceButton': 'Enable Location',
+          'useMobileToThisFeature':
+              'Please use the mobile app to use this feature',
           'useMobileToRegister':
               'Please use the mobile application to register your data',
         },

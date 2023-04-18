@@ -245,7 +245,7 @@ class RegisterUserDataController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     nameTextController.dispose();
     emailTextController.dispose();
     phoneTextController.dispose();
@@ -255,6 +255,6 @@ class RegisterUserDataController extends GetxController {
     medicinesTextController.dispose();
     medicalHistoryScrollController.dispose();
     additionalInformationTextController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

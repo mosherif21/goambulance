@@ -42,6 +42,8 @@ class EmergencyNumbersScreen extends StatelessWidget {
                         await FlutterPhoneDirectCaller.callNumber(
                             emergencyNumbers[emergencyNumber]);
                       }
+                    } else {
+                      showSimpleSnackBar(text: 'useMobileToThisFeature'.tr);
                     }
                   },
                   title: 'emergencyNumber${emergencyNumber + 1}'.tr,

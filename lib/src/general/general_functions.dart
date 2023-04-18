@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:location/location.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
@@ -178,6 +179,81 @@ Future<void> displayChangeLang() async =>
       ),
     );
 
+Future<bool> handleLocationPermission({required bool showSnackBar}) async {
+  try {
+    LocationPermission locationPermission = await Geolocator.checkPermission();
+
+    if (locationPermission == LocationPermission.always ||
+        locationPermission == LocationPermission.whileInUse) {
+      return true;
+    } else if (locationPermission == LocationPermission.denied) {
+      locationPermission = await Geolocator.requestPermission();
+    }
+
+    if (locationPermission == LocationPermission.always ||
+        locationPermission == LocationPermission.whileInUse) {
+      return true;
+    } else if (locationPermission == LocationPermission.denied) {
+      if (showSnackBar) {
+        showSimpleSnackBar(text: 'enableLocationPermission'.tr);
+      }
+    } else if (locationPermission == LocationPermission.deniedForever) {
+      final deniedForeverText = 'locationPermissionDeniedForever'.tr;
+      if (!AppInit.isWeb) {
+        displayBinaryAlertDialog(
+          title: 'locationPermission'.tr,
+          body: deniedForeverText,
+          positiveButtonText: 'goToSettings'.tr,
+          negativeButtonText: 'cancel'.tr,
+          positiveButtonOnPressed: () async {
+            Get.back();
+            if (!await Geolocator.openAppSettings()) {
+              if (showSnackBar) {
+                showSimpleSnackBar(text: deniedForeverText);
+              }
+            }
+          },
+          negativeButtonOnPressed: () {
+            Get.back();
+            if (showSnackBar) {
+              showSimpleSnackBar(text: deniedForeverText);
+            }
+          },
+          positiveButtonIcon: Icons.settings,
+          negativeButtonIcon: Icons.cancel_outlined,
+        );
+      } else {
+        if (showSnackBar) {
+          showSimpleSnackBar(text: deniedForeverText);
+        }
+      }
+    }
+  } catch (err) {
+    if (kDebugMode) print(err.toString());
+  }
+  return false;
+}
+
+Future<bool> handleLocationService() async {
+  try {
+    final location = Location();
+    if (await location.serviceEnabled()) {
+      return true;
+    } else {
+      await location.requestService();
+    }
+  } catch (err) {
+    if (kDebugMode) print(err.toString());
+  }
+  return false;
+}
+
+Future<bool> handleLocation({required bool showSnackBar}) async =>
+    await handleLocationPermission(showSnackBar: showSnackBar) &&
+            await handleLocationService()
+        ? true
+        : false;
+
 Future<bool> handleCameraPermission({required bool showSnackBar}) async =>
     await handleGeneralPermission(
       permission: Permission.camera,
@@ -195,48 +271,6 @@ Future<bool> handleMicrophonePermission({required bool showSnackBar}) async =>
       deniedForeverSnackBarBody: 'micPermissionDeniedForever'.tr,
       showSnackBar: showSnackBar,
     );
-Future<bool> handleLocationPermission({required bool showSnackBar}) async =>
-    await handleGeneralPermission(
-      permission: Permission.location,
-      deniedSnackBarText: 'enableLocationPermission'.tr,
-      deniedForeverSnackBarTitle: 'locationPermission'.tr,
-      deniedForeverSnackBarBody: 'locationPermissionDeniedForever'.tr,
-      showSnackBar: showSnackBar,
-    );
-Future<bool> handleLocationService() async {
-  try {
-    if (await Geolocator.isLocationServiceEnabled()) {
-      return true;
-    } else {
-      Dialogs.materialDialog(
-          title: 'locationService'.tr,
-          msg: 'enableLocationService'.tr,
-          color: Colors.white,
-          context: Get.context!,
-          actions: [
-            IconsButton(
-              onPressed: () => Get.back(),
-              text: 'ok'.tr,
-              iconData: Icons.check_circle_outline,
-              color: kDefaultColor,
-              textStyle: const TextStyle(color: Colors.white),
-              iconColor: Colors.white,
-            ),
-          ]);
-    }
-  } catch (err) {
-    if (kDebugMode) print(err.toString());
-  }
-  return false;
-}
-
-Future<bool> handleLocation({required bool showSnackBar}) async =>
-    await handleLocationPermission(
-              showSnackBar: showSnackBar,
-            ) &&
-            await handleLocationService()
-        ? true
-        : false;
 
 Future<bool> handleContactsPermission({required bool showSnackBar}) async =>
     await handleGeneralPermission(
@@ -256,12 +290,14 @@ Future<bool> handleCallPermission({required bool showSnackBar}) async =>
       showSnackBar: showSnackBar,
     );
 
-// Future<bool> handleStoragePermission() async => await handleGeneralPermission(
-//       permission: Permission.storage,
-//       deniedSnackBarText: 'enableStoragePermission'.tr,
-//       deniedForeverSnackBarTitle: 'storagePermission'.tr,
-//       deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
-//     );
+Future<bool> handleStoragePermission({required bool showSnackBar}) async =>
+    await handleGeneralPermission(
+      permission: Permission.storage,
+      deniedSnackBarText: 'enableStoragePermission'.tr,
+      deniedForeverSnackBarTitle: 'storagePermission'.tr,
+      deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
+      showSnackBar: showSnackBar,
+    );
 
 Future<bool> handleGeneralPermission({
   required Permission permission,
@@ -270,42 +306,46 @@ Future<bool> handleGeneralPermission({
   required String deniedForeverSnackBarBody,
   required bool showSnackBar,
 }) async {
-  try {
-    PermissionStatus permissionStatus = await permission.status;
-    if (permissionStatus.isGranted) {
-      return true;
-    } else if (permissionStatus.isDenied) {
-      permissionStatus = await permission.request();
-    }
+  if (!AppInit.isWeb) {
+    try {
+      var permissionStatus = await permission.status;
+      if (permissionStatus.isGranted) {
+        return true;
+      } else if (permissionStatus.isDenied) {
+        permissionStatus = await permission.request();
+      }
 
-    if (permissionStatus.isGranted) {
-      return true;
-    } else if (permissionStatus.isDenied) {
-      showSimpleSnackBar(text: deniedSnackBarText);
-    } else if (permissionStatus.isPermanentlyDenied) {
-      displayBinaryAlertDialog(
-        title: deniedForeverSnackBarTitle,
-        body: deniedForeverSnackBarBody,
-        positiveButtonText: 'goToSettings'.tr,
-        negativeButtonText: 'cancel'.tr,
-        positiveButtonOnPressed: () async {
-          Get.back();
-          if (!await openAppSettings()) {
+      if (permissionStatus.isGranted) {
+        return true;
+      } else if (permissionStatus.isDenied) {
+        showSimpleSnackBar(text: deniedSnackBarText);
+      } else if (permissionStatus.isPermanentlyDenied) {
+        displayBinaryAlertDialog(
+          title: deniedForeverSnackBarTitle,
+          body: deniedForeverSnackBarBody,
+          positiveButtonText: 'goToSettings'.tr,
+          negativeButtonText: 'cancel'.tr,
+          positiveButtonOnPressed: () async {
+            Get.back();
+            if (!await openAppSettings()) {
+              if (showSnackBar) {
+                showSimpleSnackBar(text: deniedForeverSnackBarBody);
+              }
+            }
+          },
+          negativeButtonOnPressed: () {
+            Get.back();
             if (showSnackBar) {
               showSimpleSnackBar(text: deniedForeverSnackBarBody);
             }
-          }
-        },
-        negativeButtonOnPressed: () {
-          Get.back();
-          if (showSnackBar) showSimpleSnackBar(text: deniedForeverSnackBarBody);
-        },
-        positiveButtonIcon: Icons.settings,
-        negativeButtonIcon: Icons.cancel_outlined,
-      );
+          },
+          positiveButtonIcon: Icons.settings,
+          negativeButtonIcon: Icons.cancel_outlined,
+        );
+      }
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
     }
-  } catch (err) {
-    if (kDebugMode) print(err.toString());
   }
   return false;
 }

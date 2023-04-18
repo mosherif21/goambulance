@@ -36,10 +36,10 @@ class EmailRegisterController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     emailTextController.dispose();
     passwordTextController.dispose();
     passwordConfirmTextController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

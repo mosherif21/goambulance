@@ -4,14 +4,13 @@ import 'package:get/get.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../general/common_widgets/rounded_image_button.dart';
 import '../../../general/general_functions.dart';
-import '../../home_screen/controllers/home_screen_controller.dart';
+import '../../requests/components/making_request/normal_request_page.dart';
 
 class ServicesButtons extends StatelessWidget {
   const ServicesButtons({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final homeScreenController = HomeScreenController.instance;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Flex(
@@ -23,7 +22,7 @@ class ServicesButtons extends StatelessWidget {
               buttonText: 'normalRequest'.tr,
               imagePath: kAmbulanceImage,
               onPressed: () async =>
-                  await homeScreenController.onNormalRequestClick(),
+                  await Get.to(() => const MakingNormalRequestPage()),
             ),
           ),
           if (isUserCritical()) const Spacer(),

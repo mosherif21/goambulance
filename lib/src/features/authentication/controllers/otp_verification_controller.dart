@@ -60,8 +60,8 @@ class OtpVerificationController extends GetxController {
   }
 
   @override
-  void dispose() {
+  void onClose() {
     phoneTextController.dispose();
-    super.dispose();
+    super.onClose();
   }
 }

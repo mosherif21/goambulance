@@ -240,7 +240,9 @@ Future<bool> handleLocationService() async {
     if (await location.serviceEnabled()) {
       return true;
     } else {
-      await location.requestService();
+      if (await location.requestService()) {
+        return true;
+      }
     }
   } catch (err) {
     if (kDebugMode) print(err.toString());
@@ -248,11 +250,9 @@ Future<bool> handleLocationService() async {
   return false;
 }
 
-Future<bool> handleLocation({required bool showSnackBar}) async =>
-    await handleLocationPermission(showSnackBar: showSnackBar) &&
-            await handleLocationService()
-        ? true
-        : false;
+Future<void> handleLocation({required bool showSnackBar}) async =>
+    await handleLocationService().whenComplete(
+        () async => await handleLocationPermission(showSnackBar: showSnackBar));
 
 Future<bool> handleCameraPermission({required bool showSnackBar}) async =>
     await handleGeneralPermission(

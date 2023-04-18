@@ -8,7 +8,7 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../constants/assets_strings.dart';
 import '../../../../general/common_widgets/back_button.dart';
-import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../general/general_functions.dart';
 
 class MakingNormalRequestPage extends StatelessWidget {
@@ -65,17 +65,19 @@ class MakingNormalRequestPage extends StatelessWidget {
                                 : kNoLocation,
                             height: screenHeight * 0.4,
                           ),
+                          const SizedBox(height: 10),
                           if (!makingRequestController.mapLoading.value)
-                            RegularElevatedButton(
+                            RoundedElevatedButton(
                               buttonText: 'enableLocationServiceButton'.tr,
                               onPressed: () async =>
                                   await Location().requestService(),
                               enabled: true,
                               color: Colors.black,
                             ),
+                          const SizedBox(height: 10),
                           if (!makingRequestController
                               .locationPermissionGranted.value)
-                            RegularElevatedButton(
+                            RoundedElevatedButton(
                               buttonText: 'enableLocationPermissionButton'.tr,
                               onPressed: () async => makingRequestController
                                       .locationPermissionGranted.value =

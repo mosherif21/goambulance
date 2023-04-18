@@ -100,6 +100,10 @@ class MakingRequestController extends GetxController {
         (locationPosition) {
           currentLocation = locationPosition;
           locationAvailable.value = true;
+          if (kDebugMode) {
+            print(
+                'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');
+          }
         },
       );
       positionStreamInitialized = true;

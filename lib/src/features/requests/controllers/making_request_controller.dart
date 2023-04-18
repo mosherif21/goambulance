@@ -39,17 +39,25 @@ class MakingRequestController extends GetxController {
 
   @override
   void onInit() async {
+    locationInit();
     setupLocationServiceListener();
-    setupLocationPermission();
     super.onInit();
+  }
+
+  void locationInit() {
+    handleLocationService().then((locationService) {
+      locationServiceEnabled.value = locationService;
+      setupLocationPermission();
+    });
   }
 
   Future<void> setupLocationPermission() async {
     await handleLocationPermission(showSnackBar: true).then(
-      (permissionGranted) => {
-        locationPermissionGranted.value = permissionGranted,
-        if (permissionGranted && locationServiceEnabled.value)
-          getCurrentLocation(),
+      (permissionGranted) {
+        locationPermissionGranted.value = permissionGranted;
+        if (permissionGranted && locationServiceEnabled.value) {
+          getCurrentLocation();
+        }
       },
     );
   }

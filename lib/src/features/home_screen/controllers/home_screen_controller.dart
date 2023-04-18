@@ -76,35 +76,30 @@ class HomeScreenController extends GetxController {
   }
 
   List<PersistentBottomNavBarItem> navBarsItems() {
-    final isArabic = !isLangEnglish();
     return [
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),
         title: ('home'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
-        isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.search(),
         title: ('search'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
-        isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.history(),
         title: ('requests'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
-        isArabic: isArabic,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.account_circle_outlined),
         title: ('account'.tr),
         activeColorPrimary: kDefaultColor,
         inactiveColorPrimary: CupertinoColors.systemGrey,
-        isArabic: isArabic,
       ),
     ];
   }

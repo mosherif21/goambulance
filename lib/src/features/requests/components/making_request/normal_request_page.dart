@@ -39,7 +39,7 @@ class MakingNormalRequestPage extends StatelessWidget {
                     : const RegularBackButton(padding: 15),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

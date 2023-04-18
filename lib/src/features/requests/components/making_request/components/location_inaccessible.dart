@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../constants/assets_strings.dart';
-import '../../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../controllers/making_request_controller.dart';
 
 class MakingRequestLocationInaccessible extends StatelessWidget {
@@ -30,23 +28,6 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                   : kNoLocation,
               height: screenHeight * 0.4,
             ),
-            const SizedBox(height: 10),
-            if (!makingRequestController.locationServiceEnabled.value)
-              RoundedElevatedButton(
-                buttonText: 'enableLocationServiceButton'.tr,
-                onPressed: () async => await Location().requestService(),
-                enabled: true,
-                color: Colors.black,
-              ),
-            const SizedBox(height: 10),
-            if (!makingRequestController.locationPermissionGranted.value)
-              RoundedElevatedButton(
-                buttonText: 'enableLocationPermissionButton'.tr,
-                onPressed: () async =>
-                    await makingRequestController.setupLocationPermission(),
-                enabled: true,
-                color: Colors.black,
-              ),
           ],
         ),
       ),

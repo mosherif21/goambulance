@@ -163,6 +163,11 @@ class MakingRequestController extends GetxController {
     super.onClose();
   }
 
+// final places = FlutterGooglePlacesSdk('my-key');
+// final predictions =
+//     await places.findAutocompletePredictions('Tel Aviv');
+// print('Result: $predictions');
+
 // Polyline(
 //   polylineId: const PolylineId('router_driver'),
 //   color: const Color(0xFF28AADC),

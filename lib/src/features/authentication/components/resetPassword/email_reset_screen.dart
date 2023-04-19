@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 
-import '../../../../constants/app_init_constants.dart';
 import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/single_entry_screen.dart';
+import '../../../../general/general_functions.dart';
 
 void getToResetPasswordScreen() {
   Get.to(
@@ -18,6 +18,6 @@ void getToResetPasswordScreen() {
       inputType: InputType.email,
       linkWithPhone: false,
     ),
-    transition: AppInit.getPageTransition(),
+    transition: getPageTransition(),
   );
 }

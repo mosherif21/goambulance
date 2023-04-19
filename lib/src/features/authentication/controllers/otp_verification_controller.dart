@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
-import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../general/general_functions.dart';
 import '../components/otpVerification/otp_verification.dart';
@@ -47,13 +46,14 @@ class OtpVerificationController extends GetxController {
     hideLoadingScreen();
     if (returnMessage.compareTo('codeSent') == 0) {
       await Get.to(
-          () => OTPVerificationScreen(
-                verificationType: 'phoneLabel'.tr,
-                lottieAssetAnim: kPhoneOTPAnim,
-                enteredString: phoneNumber,
-                linkWithPhone: linkWithPhone,
-              ),
-          transition: AppInit.getPageTransition());
+        () => OTPVerificationScreen(
+          verificationType: 'phoneLabel'.tr,
+          lottieAssetAnim: kPhoneOTPAnim,
+          enteredString: phoneNumber,
+          linkWithPhone: linkWithPhone,
+        ),
+        transition: getPageTransition(),
+      );
     } else {
       showSimpleSnackBar(text: returnMessage);
     }

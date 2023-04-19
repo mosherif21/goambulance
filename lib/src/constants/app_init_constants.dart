@@ -189,10 +189,4 @@ class AppInit {
       splashRemoved = true;
     }
   }
-
-  static Transition getPageTransition() {
-    return currentLanguage == Language.english
-        ? Transition.rightToLeft
-        : Transition.leftToRight;
-  }
 }

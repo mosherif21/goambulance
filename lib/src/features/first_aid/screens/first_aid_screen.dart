@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
-import '../../../constants/app_init_constants.dart';
 import '../../../general/common_widgets/regular_clickable_card.dart';
+import '../../../general/general_functions.dart';
 import '../components/first_aid_tips_details_page.dart';
 import '../controllers/first_aid_assets.dart';
 
@@ -39,7 +39,7 @@ class FirstAidScreen extends StatelessWidget {
                     () => FirstAidTipsDetailsPage(
                       imgPath: getFirstAidDetailsPath(firstAidNumber + 1),
                     ),
-                    transition: AppInit.getPageTransition(),
+                    transition: getPageTransition(),
                   ),
                   title: 'firstAidTips${firstAidNumber + 1}'.tr,
                   subTitle: '',

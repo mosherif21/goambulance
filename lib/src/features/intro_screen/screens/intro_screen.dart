@@ -72,7 +72,7 @@ class IntroScreen extends StatelessWidget {
                     buttonText: 'continue'.tr,
                     onPressed: () => Get.to(
                       () => const AuthenticationScreen(),
-                      transition: AppInit.getPageTransition(),
+                      transition: getPageTransition(),
                     ),
                     color: kDefaultColor,
                   ),
@@ -84,7 +84,7 @@ class IntroScreen extends StatelessWidget {
                         CircleButtonIconAndText(
                           onPressed: () => Get.to(
                             () => const FirstAidScreen(),
-                            transition: AppInit.getPageTransition(),
+                            transition: getPageTransition(),
                           ),
                           buttonText: 'firstAid'.tr,
                           iconColor: kDefaultColor,
@@ -98,7 +98,7 @@ class IntroScreen extends StatelessWidget {
                         CircleButtonIconAndText(
                           onPressed: () => Get.to(
                             () => const EmergencyNumbersScreen(),
-                            transition: AppInit.getPageTransition(),
+                            transition: getPageTransition(),
                           ),
                           buttonText: 'emergencyNumbers'.tr,
                           iconColor: kDefaultColor,

@@ -111,7 +111,7 @@ void getToPhoneVerificationScreen() => Get.to(
         inputType: InputType.phone,
         linkWithPhone: false,
       ),
-      transition: AppInit.getPageTransition(),
+      transition: getPageTransition(),
     );
 
 bool isLangEnglish() => AppInit.currentLanguage == Language.english;
@@ -232,6 +232,12 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
     if (kDebugMode) print(err.toString());
   }
   return false;
+}
+
+Transition getPageTransition() {
+  return AppInit.currentLanguage == Language.english
+      ? Transition.rightToLeft
+      : Transition.leftToRight;
 }
 
 Future<bool> handleLocationService() async {

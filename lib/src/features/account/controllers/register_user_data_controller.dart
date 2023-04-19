@@ -182,8 +182,10 @@ class RegisterUserDataController extends GetxController {
         !highlightBirthdate.value &&
         !highlightProfilePic.value &&
         !highlightNationalIdPick.value) {
-      Get.to(() => const MedicalHistoryInsertPage(),
-          transition: AppInit.getPageTransition());
+      Get.to(
+        () => const MedicalHistoryInsertPage(),
+        transition: getPageTransition(),
+      );
     } else {
       showSimpleSnackBar(text: 'requiredFields'.tr);
     }

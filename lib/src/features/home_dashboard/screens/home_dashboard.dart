@@ -63,8 +63,10 @@ class HomeDashBoard extends StatelessWidget {
                       children: [
                         TextHeaderWithButton(
                           headerText: 'firstAidTips'.tr,
-                          onPressed: () => Get.to(() => const FirstAidScreen(),
-                              transition: Transition.noTransition),
+                          onPressed: () => Get.to(
+                            () => const FirstAidScreen(),
+                            transition: getPageTransition(),
+                          ),
                           buttonText: 'viewAll'.tr,
                         ),
                         CarouselSlider(
@@ -103,8 +105,10 @@ class HomeDashBoard extends StatelessWidget {
                         const SizedBox(height: 15),
                         TextHeaderWithButton(
                           headerText: 'services'.tr,
-                          onPressed: () async =>
-                              await Get.to(() => const ServicesScreen()),
+                          onPressed: () async => await Get.to(
+                            () => const ServicesScreen(),
+                            transition: getPageTransition(),
+                          ),
                           buttonText: 'viewAll'.tr,
                         ),
                         const ServicesButtons(),

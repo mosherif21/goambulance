@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
@@ -42,22 +41,37 @@ class HomeScreenController extends GetxController {
   Future<void> onDrawerItemSelected(int index) async {
     switch (index) {
       case 0:
-        await Get.to(() => const PaymentScreen());
+        await Get.to(
+          () => const PaymentScreen(),
+          transition: getPageTransition(),
+        );
         break;
       case 1:
-        await Get.to(() => const NotificationsScreen());
+        await Get.to(
+          () => const NotificationsScreen(),
+          transition: getPageTransition(),
+        );
         break;
       case 2:
-        await Get.to(() => const SettingsScreen());
+        await Get.to(
+          () => const SettingsScreen(),
+          transition: getPageTransition(),
+        );
         break;
       case 3:
         await displayChangeLang();
         break;
       case 4:
-        await Get.to(() => const HelpScreen());
+        await Get.to(
+          () => const HelpScreen(),
+          transition: getPageTransition(),
+        );
         break;
       case 5:
-        await Get.to(() => const AboutUsScreen());
+        await Get.to(
+          () => const AboutUsScreen(),
+          transition: getPageTransition(),
+        );
         break;
     }
   }
@@ -98,7 +112,7 @@ class HomeScreenController extends GetxController {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.account_circle_outlined),
         title: ('account'.tr),
-        activeColorPrimary:Colors.black,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];

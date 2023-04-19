@@ -39,7 +39,7 @@ const String kEmailOTPAnim = "assets/lottie_animations/mail_verification.json";
 const String kNoInternetAnim = "assets/lottie_animations/network_error.json";
 const String kNoInternetSwitchAnim =
     "assets/lottie_animations/no_internet.json";
-const String kLoadingMapAnim = "assets/lottie_animations/loading_map3.json";
+const String kLoadingMapAnim = "assets/lottie_animations/loading_map4.json";
 const String kNoLocation = "assets/lottie_animations/no_location_service.json";
 const String kMapPin = "assets/lottie_animations/map_pin.json";
 

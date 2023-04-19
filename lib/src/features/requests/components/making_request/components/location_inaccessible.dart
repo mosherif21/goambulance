@@ -37,7 +37,10 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                         makingRequestController.mapLoading.value
                             ? kLoadingMapAnim
                             : kNoLocation,
-                        height: screenHeight * 0.4,
+                        //: kNoLocation,
+                        height: makingRequestController.mapLoading.value
+                            ? screenHeight * 0.6
+                            : screenHeight * 0.4,
                       ),
                     ),
                   ),

@@ -20,6 +20,7 @@ const String kProfileImage = "assets/images/profile_male.png";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_marker.png";
 const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";
 const String kMedicalHistoryItemImg = "assets/images/medical_history_item.svg";
+const String kMyLocation = "assets/images/myLocation.svg";
 const String kAmbulanceMarkerImgUnscaled =
     "assets/images/ambulance_marker_unscaled.png";
 
@@ -36,8 +37,9 @@ const String kEmailOTPAnim = "assets/lottie_animations/mail_verification.json";
 const String kNoInternetAnim = "assets/lottie_animations/network_error.json";
 const String kNoInternetSwitchAnim =
     "assets/lottie_animations/no_internet.json";
-const String kLoadingMapAnim = "assets/lottie_animations/loading_map.json";
+const String kLoadingMapAnim = "assets/lottie_animations/loading_map3.json";
 const String kNoLocation = "assets/lottie_animations/no_location_service.json";
+const String kMapPin = "assets/lottie_animations/map_pin.json";
 
 //--Files assets
 const String kMapStyle = "assets/files/mapStyle.txt";

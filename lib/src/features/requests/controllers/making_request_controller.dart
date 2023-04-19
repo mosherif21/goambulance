@@ -43,10 +43,11 @@ class MakingRequestController extends GetxController {
   late StreamSubscription<Position>? currentPositionStream;
   bool locationServiceDialog = false;
   bool positionStreamInitialized = false;
-  RxBool locationPermissionGranted = false.obs;
-  RxBool locationServiceEnabled = false.obs;
-  RxBool mapEnabled = false.obs;
+  final locationPermissionGranted = false.obs;
+  final locationServiceEnabled = false.obs;
+  final mapEnabled = false.obs;
   late String mapStyle;
+
   @override
   void onReady() async {
     await locationInit();

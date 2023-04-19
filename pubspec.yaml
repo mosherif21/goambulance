@@ -26,7 +26,6 @@ dependencies:
   eg_nid: ^0.0.1
   #image: ^4.0.15
   permission_handler: ^10.2.0
-  #change_app_package_name: ^1.1.0
 
   #firebase dependencies
   firebase_core: ^2.3.0
@@ -48,7 +47,6 @@ dependencies:
   location: ^4.4.0
   flutter_polyline_points: ^1.0.0
   flutter_google_places_hoc081098: ^1.2.0
-  geocoder2: ^1.4.0
 
   #authentication dependencies
   google_sign_in: ^6.0.2

@@ -1,4 +1,4 @@
-package com.goambulance.Goambulance
+package com.goambulance.goambulance
 
 import io.flutter.embedding.android.FlutterActivity
 

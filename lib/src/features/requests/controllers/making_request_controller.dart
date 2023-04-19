@@ -4,12 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/general/general_functions.dart';
+// ignore: depend_on_referenced_packages
+import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// ignore: depend_on_referenced_packages
+import 'package:google_maps_webservice/places.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 
@@ -50,6 +53,15 @@ class MakingRequestController extends GetxController {
   late String mapStyle;
   late CameraPosition currentCameraPosition;
   final RxDouble mapPinMargin = 85.0.obs;
+  late final GoogleMapsPlaces places;
+  @override
+  void onInit() async {
+    places = GoogleMapsPlaces(
+        apiKey: googleMapsAPIKey,
+        apiHeaders: await const GoogleApiHeaders().getHeaders());
+    super.onInit();
+  }
+
   @override
   void onReady() async {
     await locationInit();
@@ -97,20 +109,37 @@ class MakingRequestController extends GetxController {
           if (kDebugMode) print(response.errorMessage ?? '');
         },
         region: 'EG',
-        cursorColor: Colors.black,
         mode: Mode.overlay,
         language: isLangEnglish() ? 'en' : 'ar',
-        backArrowIcon: const Icon(Icons.arrow_back_ios_sharp),
       );
-      if (predictions != null && predictions.description != null) {
-        if (kDebugMode) print(predictions.description);
+      if (predictions != null) {
         searchedLocation =
-            await getLocationFromAddress(address: predictions.description!);
+            await getLocationFromAddress(placeId: predictions.placeId!);
         enableMap();
         animateToLocation(locationLatLng: searchedLocation);
       }
     } catch (err) {
       if (kDebugMode) print(err.toString());
+    }
+  }
+
+  Future<LatLng> getLocationFromAddress({required String placeId}) async {
+    final detail = await places.getDetailsByPlaceId(
+      placeId,
+      language: isLangEnglish() ? 'en' : 'ar',
+    );
+    final latitude = detail.result.geometry!.location.lat;
+    final longitude = detail.result.geometry!.location.lng;
+    return LatLng(latitude, longitude);
+  }
+
+  Future<String> getAddressFromLocation({required LatLng latLng}) async {
+    final result = await places.searchNearbyWithRadius(
+        Location(lat: latLng.latitude, lng: latLng.longitude), 1);
+    if (result.status == "OK" && result.results.isNotEmpty) {
+      return result.results[0].formattedAddress!;
+    } else {
+      throw Exception("Failed to get place ID");
     }
   }
 
@@ -121,25 +150,6 @@ class MakingRequestController extends GetxController {
       zoom: 15.5,
     );
     return currentCameraPosition;
-  }
-
-  Future<String> getAddressFromLocation({required LatLng latLng}) async {
-    final addressResult = await Geocoder2.getDataFromCoordinates(
-      latitude: latLng.latitude,
-      longitude: latLng.longitude,
-      googleMapApiKey: googleMapsAPIKey,
-      language: isLangEnglish() ? 'en' : 'ar',
-    );
-    return addressResult.address;
-  }
-
-  Future<LatLng> getLocationFromAddress({required String address}) async {
-    GeoData locationResult = await Geocoder2.getDataFromAddress(
-      address: address,
-      googleMapApiKey: googleMapsAPIKey,
-      language: isLangEnglish() ? 'en' : 'ar',
-    );
-    return LatLng(locationResult.latitude, locationResult.longitude);
   }
 
   void setupLocationServiceListener() async {
@@ -286,6 +296,7 @@ class MakingRequestController extends GetxController {
 
     super.onClose();
   }
+}
 
 // Polyline(
 //   polylineId: const PolylineId('router_driver'),
@@ -359,4 +370,3 @@ class MakingRequestController extends GetxController {
 //       .buffer
 //       .asUint8List();
 // }
-}

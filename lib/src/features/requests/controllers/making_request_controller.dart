@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
@@ -125,21 +125,22 @@ class MakingRequestController extends GetxController {
   }
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
-    final placeMarks = await placemarkFromCoordinates(
-      latLng.latitude,
-      latLng.longitude,
-      localeIdentifier: isLangEnglish() ? 'en' : 'ar',
+    final addresses = await Geocoder2.getDataFromCoordinates(
+      latitude: latLng.latitude,
+      longitude: latLng.longitude,
+      googleMapApiKey: googleMapsAPIKey,
+      language: isLangEnglish() ? 'en' : 'ar',
     );
-    final address = placeMarks[0].street!;
-    return address;
+    return addresses.address;
   }
 
   Future<LatLng> getLocationFromAddress({required String address}) async {
-    final locations = await locationFromAddress(
-      address,
-      localeIdentifier: isLangEnglish() ? 'en' : 'ar',
+    final location = await Geocoder2.getDataFromAddress(
+      address: address,
+      googleMapApiKey: googleMapsAPIKey,
+      language: isLangEnglish() ? 'en' : 'ar',
     );
-    return LatLng(locations[0].latitude, locations[0].longitude);
+    return LatLng(location.latitude, location.longitude);
   }
 
   void setupLocationServiceListener() async {

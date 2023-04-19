@@ -24,7 +24,7 @@ Future<bool> getIfLocaleIsSet() async {
   }
 }
 
-Future<Locale> getLocale() async {
+Locale getLocale() {
   String? aLanguageCode = AppInit.prefs.getString(languageCode);
   return _locale(aLanguageCode!);
 }

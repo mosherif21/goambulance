@@ -220,7 +220,9 @@ class Languages extends Translations {
           'sosMessage': 'رسالة استغاثة',
           'enableLocationPermissionButton': 'اعطي الأذن',
           'enableLocationServiceButton': 'تمكين الموقع',
+          'locationNotAccessed': 'لا يمكن الوصول إلى موقعك',
           'searchPlace': 'البحث عن مكان',
+          'requestHere': 'اطلب هنا',
           'useMobileToThisFeature':
               'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الميزة',
           'useMobileToRegister':
@@ -440,6 +442,8 @@ class Languages extends Translations {
           'enableLocationPermissionButton': 'Grant permission',
           'enableLocationServiceButton': 'Enable Location',
           'searchPlace': 'Search for a place',
+          'requestHere': 'Request here',
+          'locationNotAccessed': 'Your location can\'t be accessed',
           'useMobileToThisFeature':
               'Please use the mobile app to use this feature',
           'useMobileToRegister':

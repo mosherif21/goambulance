@@ -84,27 +84,36 @@ class MakingRequestController extends GetxController {
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
     showLoadingScreen();
-    final predictions = await PlacesAutocomplete.show(
-      context: context,
-      apiKey: googleMapsAPIKey,
-      hint: 'search'.tr,
-      onError: (response) {
-        if (kDebugMode) print(response.errorMessage ?? '');
-      },
-      region: 'EG',
-      cursorColor: Colors.black,
-      mode: Mode.overlay,
-      language: isLangEnglish() ? 'en' : 'ar',
-    );
-    if (predictions != null) {
-      if (kDebugMode) print(predictions.description);
-      List<Location> locations =
-          await locationFromAddress(predictions.description!);
-      searchedLocation = LatLng(locations[0].latitude, locations[0].longitude);
-      enableMap();
-      animateToLocation(locationLatLng: searchedLocation);
+    try {
+      final predictions = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: googleMapsAPIKey,
+        hint: 'search'.tr,
+        onError: (response) {
+          if (kDebugMode) print(response.errorMessage ?? '');
+        },
+        region: 'EG',
+        cursorColor: Colors.black,
+        mode: Mode.overlay,
+        language: isLangEnglish() ? 'en' : 'ar',
+        backArrowIcon: const Icon(Icons.arrow_back_ios_sharp),
+      );
+      if (predictions != null) {
+        if (kDebugMode) print(predictions.description);
+        List<Location> locations =
+            await locationFromAddress(predictions.description!);
+        searchedLocation =
+            LatLng(locations[0].latitude, locations[0].longitude);
+        enableMap();
+        animateToLocation(locationLatLng: searchedLocation);
+      } else {
+        // showSimpleSnackBar(text: text);
+      }
+      hideLoadingScreen();
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      hideLoadingScreen();
     }
-    hideLoadingScreen();
   }
 
   void setupLocationServiceListener() async {
@@ -127,13 +136,11 @@ class MakingRequestController extends GetxController {
 
             if (locationServiceDialog) Get.back();
           } else if (status == ServiceStatus.disabled) {
-            locationServiceEnabled.value = false;
-
             if (positionStreamInitialized) {
               currentPositionStream?.pause();
               if (kDebugMode) print('position listener paused');
             }
-
+            locationServiceEnabled.value = false;
             locationServiceDialog = true;
             Dialogs.materialDialog(
               title: 'locationService'.tr,

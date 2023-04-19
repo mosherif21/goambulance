@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -43,36 +44,56 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Obx(
-                  () => !makingRequestController.locationServiceEnabled.value
-                      ? RoundedElevatedButton(
-                          buttonText: 'enableLocationServiceButton'.tr,
-                          onPressed: () async => await handleLocationService(),
-                          enabled: true,
-                          color: Colors.black,
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                const SizedBox(height: 10),
-                Obx(
-                  () => !makingRequestController.locationPermissionGranted.value
-                      ? RoundedElevatedButton(
-                          buttonText: 'enableLocationPermissionButton'.tr,
-                          onPressed: () async => await makingRequestController
-                              .setupLocationPermission(),
-                          enabled: true,
-                          color: Colors.black,
-                        )
-                      : const SizedBox.shrink(),
-                ),
-                const SizedBox(height: 10),
-                Obx(
                   () => !makingRequestController.mapLoading.value
-                      ? RoundedElevatedButton(
-                          buttonText: 'searchPlace'.tr,
-                          onPressed: () async => await makingRequestController
-                              .googlePlacesSearch(context: context),
-                          enabled: true,
-                          color: Colors.black,
+                      ? Column(
+                          children: [
+                            AutoSizeText(
+                              'locationNotAccessed'.tr,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w800,
+                              ),
+                              maxLines: 2,
+                            ),
+                            const SizedBox(height: 10),
+                            Obx(
+                              () => !makingRequestController
+                                      .locationServiceEnabled.value
+                                  ? RoundedElevatedButton(
+                                      buttonText:
+                                          'enableLocationServiceButton'.tr,
+                                      onPressed: () async =>
+                                          await handleLocationService(),
+                                      enabled: true,
+                                      color: Colors.black,
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                            const SizedBox(height: 10),
+                            Obx(
+                              () => !makingRequestController
+                                      .locationPermissionGranted.value
+                                  ? RoundedElevatedButton(
+                                      buttonText:
+                                          'enableLocationPermissionButton'.tr,
+                                      onPressed: () async =>
+                                          await makingRequestController
+                                              .setupLocationPermission(),
+                                      enabled: true,
+                                      color: Colors.black,
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                            const SizedBox(height: 10),
+                            RoundedElevatedButton(
+                              buttonText: 'searchPlace'.tr,
+                              onPressed: () async =>
+                                  await makingRequestController
+                                      .googlePlacesSearch(context: context),
+                              enabled: true,
+                              color: Colors.black,
+                            ),
+                          ],
                         )
                       : const SizedBox.shrink(),
                 ),

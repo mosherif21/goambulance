@@ -8,11 +8,13 @@ class RegularElevatedButton extends StatelessWidget {
     required this.onPressed,
     required this.enabled,
     required this.color,
+    this.fontSize = 15,
   }) : super(key: key);
   final String buttonText;
   final Function onPressed;
   final bool enabled;
   final Color color;
+  final double? fontSize;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -28,8 +30,10 @@ class RegularElevatedButton extends StatelessWidget {
         onPressed: () => enabled ? onPressed() : null,
         child: AutoSizeText(
           buttonText,
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: fontSize,
+              fontWeight: FontWeight.w500),
           maxLines: 1,
         ),
       ),

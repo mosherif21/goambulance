@@ -213,7 +213,7 @@ class RegisterUserDataPage extends StatelessWidget {
                                           controller.profileImage.value!),
                                     ),
                                   )
-                                : const SizedBox(),
+                                : const SizedBox.shrink(),
                             const SizedBox(height: 10.0),
                             RegularElevatedButton(
                               buttonText: controller.isProfileImageAdded.value
@@ -252,7 +252,7 @@ class RegisterUserDataPage extends StatelessWidget {
                                           XFileImage(controller.iDImage.value!),
                                     ),
                                   )
-                                : const SizedBox(),
+                                : const SizedBox.shrink(),
                             const SizedBox(height: 10.0),
                             RegularElevatedButton(
                               buttonText:

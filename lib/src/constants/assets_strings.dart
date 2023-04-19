@@ -38,3 +38,6 @@ const String kNoInternetSwitchAnim =
     "assets/lottie_animations/no_internet.json";
 const String kLoadingMapAnim = "assets/lottie_animations/loading_map.json";
 const String kNoLocation = "assets/lottie_animations/no_location_service.json";
+
+//--Files assets
+const String kMapStyle = "assets/files/mapStyle.txt";

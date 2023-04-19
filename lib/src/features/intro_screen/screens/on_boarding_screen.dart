@@ -42,7 +42,7 @@ class OnBoardingScreen extends StatelessWidget {
                         ),
                       ),
                     )
-                  : const SizedBox(),
+                  : const SizedBox.shrink(),
             ),
             Positioned(
               bottom: 50,

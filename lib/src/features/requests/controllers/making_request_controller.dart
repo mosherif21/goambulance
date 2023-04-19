@@ -2,13 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 
+import '../../../constants/assets_strings.dart';
 import '../../../constants/colors.dart';
 
 class MakingRequestController extends GetxController {
@@ -24,30 +29,45 @@ class MakingRequestController extends GetxController {
   //maps vars
   final RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
   final RxSet<Marker> mapMarkers = <Marker>{}.obs;
-  late GoogleMapController mapController;
+  final Completer<GoogleMapController> mapControllerCompleter =
+      Completer<GoogleMapController>();
+  late final GoogleMapController googleMapController;
+  bool googleMapControllerInit = false;
 
   //location permissions and services vars
   final locationAvailable = false.obs;
   final mapLoading = false.obs;
-  late Position? currentLocation;
+  late Position currentLocation;
+  late LatLng searchedLocation;
   late StreamSubscription<ServiceStatus>? serviceStatusStream;
   late StreamSubscription<Position>? currentPositionStream;
   bool locationServiceDialog = false;
   bool positionStreamInitialized = false;
   RxBool locationPermissionGranted = false.obs;
   RxBool locationServiceEnabled = false.obs;
-
+  RxBool mapEnabled = false.obs;
+  late String mapStyle;
   @override
-  void onInit() async {
-    locationInit();
+  void onReady() async {
+    await locationInit();
     setupLocationServiceListener();
-    super.onInit();
+    await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
+    initMapController();
+    super.onReady();
   }
 
-  void locationInit() {
-    handleLocationService().then((locationService) {
+  Future<void> locationInit() async {
+    await handleLocationService().then((locationService) {
       locationServiceEnabled.value = locationService;
       setupLocationPermission();
+    });
+  }
+
+  void initMapController() {
+    mapControllerCompleter.future.then((controller) {
+      googleMapController = controller;
+      controller.setMapStyle(mapStyle);
+      googleMapControllerInit = true;
     });
   }
 
@@ -60,6 +80,31 @@ class MakingRequestController extends GetxController {
         }
       },
     );
+  }
+
+  Future<void> googlePlacesSearch({required BuildContext context}) async {
+    showLoadingScreen();
+    final predictions = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: googleMapsAPIKey,
+      hint: 'search'.tr,
+      onError: (response) {
+        if (kDebugMode) print(response.errorMessage ?? '');
+      },
+      region: 'EG',
+      cursorColor: Colors.black,
+      mode: Mode.overlay,
+      language: isLangEnglish() ? 'en' : 'ar',
+    );
+    if (predictions != null) {
+      if (kDebugMode) print(predictions.description);
+      List<Location> locations =
+          await locationFromAddress(predictions.description!);
+      searchedLocation = LatLng(locations[0].latitude, locations[0].longitude);
+      enableMap();
+      animateToLocation(locationLatLng: searchedLocation);
+    }
+    hideLoadingScreen();
   }
 
   void setupLocationServiceListener() async {
@@ -117,6 +162,33 @@ class MakingRequestController extends GetxController {
     }
   }
 
+  void enableMap() {
+    mapEnabled.value = true;
+  }
+
+  void animateToCurrentLocation() {
+    if (locationAvailable.value) {
+      if (googleMapControllerInit) {
+        googleMapController.animateCamera(
+            getCameraUpdate(locationLatLng: currentLocationGetter()));
+      }
+    }
+  }
+
+  void animateToLocation({required LatLng locationLatLng}) {
+    if (googleMapControllerInit) {
+      googleMapController
+          .animateCamera(getCameraUpdate(locationLatLng: locationLatLng));
+    }
+  }
+
+  CameraUpdate getCameraUpdate({required LatLng locationLatLng}) {
+    return CameraUpdate.newCameraPosition(CameraPosition(
+      target: locationLatLng,
+      zoom: 14.5,
+    ));
+  }
+
   void getCurrentLocation() async {
     try {
       mapLoading.value = true;
@@ -124,6 +196,7 @@ class MakingRequestController extends GetxController {
         (locationPosition) {
           currentLocation = locationPosition;
           locationAvailable.value = true;
+          enableMap();
           if (kDebugMode) {
             print(
                 'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');
@@ -138,6 +211,7 @@ class MakingRequestController extends GetxController {
           if (position != null) {
             currentLocation = position;
             locationAvailable.value = true;
+            enableMap();
           }
           if (kDebugMode) {
             print(position == null
@@ -152,14 +226,15 @@ class MakingRequestController extends GetxController {
   }
 
   LatLng currentLocationGetter() {
-    return LatLng(currentLocation!.latitude, currentLocation!.longitude);
+    return LatLng(currentLocation.latitude, currentLocation.longitude);
   }
 
   @override
   void onClose() async {
     await serviceStatusStream?.cancel();
     if (positionStreamInitialized) await currentPositionStream?.cancel();
-    if (locationAvailable.value) mapController.dispose();
+    if (googleMapControllerInit) googleMapController.dispose();
+
     super.onClose();
   }
 

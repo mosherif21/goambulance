@@ -40,9 +40,9 @@ class AlternateLoginButtons extends StatelessWidget {
                   SizedBox(height: buttonSpacing),
                 ],
               )
-            : const SizedBox(),
+            : const SizedBox.shrink(),
         AppInit.isIos
-            ? const SizedBox()
+            ? const SizedBox.shrink()
             : SignInButton(
                 padding: const EdgeInsets.only(left: 5.0),
                 Buttons.GoogleDark,

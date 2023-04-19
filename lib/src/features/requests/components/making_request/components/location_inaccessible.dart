@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../constants/assets_strings.dart';
+import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/common_widgets/rounded_elevated_button.dart';
+import '../../../../../general/general_functions.dart';
 import '../../../controllers/making_request_controller.dart';
 
 class MakingRequestLocationInaccessible extends StatelessWidget {
@@ -15,20 +18,67 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
   final double screenHeight;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15),
-      child: Obx(
-        () => Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Lottie.asset(
-              makingRequestController.mapLoading.value
-                  ? kLoadingMapAnim
-                  : kNoLocation,
-              height: screenHeight * 0.4,
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+        child: StretchingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const RegularBackButton(padding: 0),
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Obx(
+                      () => Lottie.asset(
+                        makingRequestController.mapLoading.value
+                            ? kLoadingMapAnim
+                            : kNoLocation,
+                        height: screenHeight * 0.4,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Obx(
+                  () => !makingRequestController.locationServiceEnabled.value
+                      ? RoundedElevatedButton(
+                          buttonText: 'enableLocationServiceButton'.tr,
+                          onPressed: () async => await handleLocationService(),
+                          enabled: true,
+                          color: Colors.black,
+                        )
+                      : const SizedBox.shrink(),
+                ),
+                const SizedBox(height: 10),
+                Obx(
+                  () => !makingRequestController.locationPermissionGranted.value
+                      ? RoundedElevatedButton(
+                          buttonText: 'enableLocationPermissionButton'.tr,
+                          onPressed: () async => await makingRequestController
+                              .setupLocationPermission(),
+                          enabled: true,
+                          color: Colors.black,
+                        )
+                      : const SizedBox.shrink(),
+                ),
+                const SizedBox(height: 10),
+                Obx(
+                  () => !makingRequestController.mapLoading.value
+                      ? RoundedElevatedButton(
+                          buttonText: 'searchPlace'.tr,
+                          onPressed: () async => await makingRequestController
+                              .googlePlacesSearch(context: context),
+                          enabled: true,
+                          color: Colors.black,
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

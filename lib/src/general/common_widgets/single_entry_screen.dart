@@ -146,7 +146,7 @@ class SingleEntryScreen extends StatelessWidget {
                           screenWidth: screenWidth,
                           showPhoneLogin: false,
                         )
-                      : const SizedBox(),
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),

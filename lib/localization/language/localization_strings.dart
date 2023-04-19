@@ -222,6 +222,7 @@ class Languages extends Translations {
           'enableLocationServiceButton': 'تمكين الموقع',
           'locationNotAccessed': 'لا يمكن الوصول إلى موقعك',
           'searchPlace': 'البحث عن مكان',
+          'loading': 'جاري تحميل...',
           'requestHere': 'اطلب هنا',
           'useMobileToThisFeature':
               'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الميزة',
@@ -443,6 +444,7 @@ class Languages extends Translations {
           'enableLocationServiceButton': 'Enable Location',
           'searchPlace': 'Search for a place',
           'requestHere': 'Request here',
+          'loading': 'Loading...',
           'locationNotAccessed': 'Your location can\'t be accessed',
           'useMobileToThisFeature':
               'Please use the mobile app to use this feature',

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
@@ -46,9 +46,10 @@ class MakingRequestController extends GetxController {
   final locationPermissionGranted = false.obs;
   final locationServiceEnabled = false.obs;
   final mapEnabled = false.obs;
-  final searchedText = 'search'.tr.obs;
+  final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
-
+  late CameraPosition currentCameraPosition;
+  final RxDouble mapPinMargin = 85.0.obs;
   @override
   void onReady() async {
     await locationInit();
@@ -91,7 +92,7 @@ class MakingRequestController extends GetxController {
       final predictions = await PlacesAutocomplete.show(
         context: context,
         apiKey: googleMapsAPIKey,
-        hint: 'search'.tr,
+        hint: 'searchPlace'.tr,
         onError: (response) {
           if (kDebugMode) print(response.errorMessage ?? '');
         },
@@ -103,17 +104,42 @@ class MakingRequestController extends GetxController {
       );
       if (predictions != null && predictions.description != null) {
         if (kDebugMode) print(predictions.description);
-        searchedText.value = predictions.description!;
-        List<Location> locations =
-            await locationFromAddress(predictions.description!);
         searchedLocation =
-            LatLng(locations[0].latitude, locations[0].longitude);
+            await getLocationFromAddress(address: predictions.description!);
         enableMap();
         animateToLocation(locationLatLng: searchedLocation);
       }
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
+  }
+
+  CameraPosition getInitialCameraPosition() {
+    currentCameraPosition = CameraPosition(
+      target:
+          locationAvailable.value ? currentLocationGetter() : searchedLocation,
+      zoom: 15.5,
+    );
+    return currentCameraPosition;
+  }
+
+  Future<String> getAddressFromLocation({required LatLng latLng}) async {
+    final addressResult = await Geocoder2.getDataFromCoordinates(
+      latitude: latLng.latitude,
+      longitude: latLng.longitude,
+      googleMapApiKey: googleMapsAPIKey,
+      language: isLangEnglish() ? 'en' : 'ar',
+    );
+    return addressResult.address;
+  }
+
+  Future<LatLng> getLocationFromAddress({required String address}) async {
+    GeoData locationResult = await Geocoder2.getDataFromAddress(
+      address: address,
+      googleMapApiKey: googleMapsAPIKey,
+      language: isLangEnglish() ? 'en' : 'ar',
+    );
+    return LatLng(locationResult.latitude, locationResult.longitude);
   }
 
   void setupLocationServiceListener() async {
@@ -175,29 +201,40 @@ class MakingRequestController extends GetxController {
 
   void animateToCurrentLocation() {
     if (locationAvailable.value) {
-      if (googleMapControllerInit) {
-        googleMapController.animateCamera(
-            getCameraUpdate(locationLatLng: currentLocationGetter()));
-      }
+      animateCamera(locationLatLng: currentLocationGetter());
     }
   }
 
   void animateToLocation({required LatLng locationLatLng}) {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
-        googleMapController
-            .animateCamera(getCameraUpdate(locationLatLng: locationLatLng));
+        animateCamera(locationLatLng: locationLatLng);
       }
     }
   }
 
-  CameraUpdate getCameraUpdate({required LatLng locationLatLng}) {
-    return CameraUpdate.newCameraPosition(
+  void onCameraIdle() async {
+    if (mapEnabled.value) {
+      if (googleMapControllerInit) {
+        try {
+          searchedText.value = 'loading'.tr;
+          searchedText.value = await getAddressFromLocation(
+              latLng: currentCameraPosition.target);
+        } catch (err) {
+          if (kDebugMode) print(err.toString());
+        }
+      }
+    }
+  }
+
+  void animateCamera({required LatLng locationLatLng}) {
+    mapPinMargin.value = 150;
+    googleMapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: locationLatLng,
         zoom: 15.5,
       ),
-    );
+    ));
   }
 
   void getCurrentLocation() async {

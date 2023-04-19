@@ -42,7 +42,6 @@ class MakingRequestMapSearch extends StatelessWidget {
                       ),
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
-                      maxLines: 1,
                     ),
                   ),
                 ),

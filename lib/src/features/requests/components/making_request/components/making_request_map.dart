@@ -57,18 +57,15 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           myLocationEnabled: true,
           zoomControlsEnabled: false,
           myLocationButtonEnabled: false,
-          initialCameraPosition: CameraPosition(
-            target: widget.makingRequestController.locationAvailable.value
-                ? widget.makingRequestController.currentLocationGetter()
-                : widget.makingRequestController.searchedLocation,
-            zoom: 15.5,
-          ),
+          initialCameraPosition:
+              widget.makingRequestController.getInitialCameraPosition(),
           polylines: widget.makingRequestController.mapPolyLines,
           markers: widget.makingRequestController.mapMarkers,
           onMapCreated: (GoogleMapController controller) => widget
               .makingRequestController.mapControllerCompleter
               .complete(controller),
-          onCameraMove: (cameraPosition) {},
+          onCameraMove: (cameraPosition) => widget
+              .makingRequestController.currentCameraPosition = cameraPosition,
           onCameraMoveStarted: () {
             setState(() {
               _pinAnimController.stop();
@@ -79,6 +76,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             setState(() {
               _pinAnimController.forward();
             });
+            widget.makingRequestController.onCameraIdle();
           },
         ),
         Positioned(
@@ -94,8 +92,8 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   const SizedBox(width: 10),
                   Expanded(
                     child: MakingRequestMapSearch(
-                        makingRequestController:
-                            widget.makingRequestController),
+                      makingRequestController: widget.makingRequestController,
+                    ),
                   ),
                 ],
               ),
@@ -150,18 +148,21 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 )
               : const SizedBox.shrink(),
         ),
-        Center(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 85),
-            child: Lottie.asset(
-              kMapPin,
-              repeat: false,
-              height: screenHeight * 0.15,
-              controller: _pinAnimController,
-              onLoaded: (composition) {
-                _pinAnimController.duration = composition.duration;
-              },
-              frameRate: FrameRate.max,
+        Obx(
+          () => Center(
+            child: Container(
+              margin: EdgeInsets.only(
+                  bottom: widget.makingRequestController.mapPinMargin.value),
+              child: Lottie.asset(
+                kMapPin,
+                repeat: false,
+                height: screenHeight * 0.15,
+                controller: _pinAnimController,
+                onLoaded: (composition) {
+                  _pinAnimController.duration = composition.duration;
+                },
+                frameRate: FrameRate.max,
+              ),
             ),
           ),
         ),

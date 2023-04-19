@@ -1,10 +1,10 @@
 /* --- Application Assets Strings --- */
 
 //--GIFS Assets
-const String kSAFlagImage = "assets/Gifs/saudi_arabia_flag_back.gif";
-const String kUkFlagImage = "assets/Gifs/uk_flag_back.gif";
+const String kSAFlagImage = "assets/gifs/saudi_arabia_flag_back.gif";
+const String kUkFlagImage = "assets/gifs/uk_flag_back.gif";
 const String kNotAvailableErrorAnim = "assets/images/error_beach.gif";
-const String kProfileAnimated = "assets/Gifs/profile_animated_male.gif";
+const String kProfileAnimated = "assets/gifs/profile_animated_male.gif";
 
 //--Images Assets
 const String kLogoImage = "assets/images/logo.png";
@@ -16,6 +16,8 @@ const String kAmbulanceImage = "assets/images/ambulance_above_medium.svg";
 const String kSosImage = "assets/images/sos.svg";
 const String kSosMessageImage = "assets/images/sosMessage.svg";
 const String kNoRequestsHistory = "assets/images/requests_history_large.png";
+const String kNoRequestsHistoryBlack =
+    "assets/images/recent_requests_black.png";
 const String kProfileImage = "assets/images/profile_male.png";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_marker.png";
 const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";

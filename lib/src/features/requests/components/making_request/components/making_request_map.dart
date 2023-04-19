@@ -48,7 +48,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
     return Stack(
       children: [
         GoogleMap(
-          padding: const EdgeInsets.only(bottom: 70, left: 5),
+          padding: const EdgeInsets.only(bottom: 70),
           compassEnabled: false,
           rotateGesturesEnabled: false,
           tiltGesturesEnabled: false,
@@ -60,7 +60,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             target: widget.makingRequestController.locationAvailable.value
                 ? widget.makingRequestController.currentLocationGetter()
                 : widget.makingRequestController.searchedLocation,
-            zoom: 14.5,
+            zoom: 15.5,
           ),
           polylines: widget.makingRequestController.mapPolyLines,
           markers: widget.makingRequestController.mapMarkers,
@@ -93,7 +93,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           ),
         ),
         Positioned(
-          bottom: 20,
+          bottom: 10,
           left: 0,
           right: 0,
           child: Padding(
@@ -106,36 +106,43 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   enabled: true,
                   color: Colors.black,
                   fontSize: 20,
+                  height: 55,
                 ),
               ],
             ),
           ),
         ),
-        Positioned(
-          bottom: 70,
-          left: isLangEnglish() ? null : 0,
-          right: isLangEnglish() ? 0 : null,
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Material(
-                elevation: 5,
-                shape: const CircleBorder(),
-                color: Colors.white,
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  splashFactory: InkSparkle.splashFactory,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SvgPicture.asset(
-                      kMyLocation,
+        Obx(
+          () => widget.makingRequestController.locationAvailable.value
+              ? Positioned(
+                  bottom: 70,
+                  left: isLangEnglish() ? null : 0,
+                  right: isLangEnglish() ? 0 : null,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Material(
+                        elevation: 5,
+                        shape: const CircleBorder(),
+                        color: Colors.white,
+                        child: InkWell(
+                          customBorder: const CircleBorder(),
+                          splashFactory: InkSparkle.splashFactory,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: SvgPicture.asset(
+                              kMyLocation,
+                              height: 30,
+                            ),
+                          ),
+                          onTap: () => widget.makingRequestController
+                              .animateToCurrentLocation(),
+                        ),
+                      ),
                     ),
                   ),
-                  onTap: () {},
-                ),
-              ),
-            ),
-          ),
+                )
+              : const SizedBox.shrink(),
         ),
         Center(
           child: Container(

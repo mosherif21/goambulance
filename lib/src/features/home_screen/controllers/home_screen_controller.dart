@@ -80,25 +80,25 @@ class HomeScreenController extends GetxController {
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),
         title: ('home'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.search(),
         title: ('search'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: LineIcon.history(),
         title: ('requests'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.account_circle_outlined),
         title: ('account'.tr),
-        activeColorPrimary: kDefaultColor,
+        activeColorPrimary:Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];

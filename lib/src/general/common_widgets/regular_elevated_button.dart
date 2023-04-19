@@ -9,17 +9,20 @@ class RegularElevatedButton extends StatelessWidget {
     required this.enabled,
     required this.color,
     this.fontSize = 15,
+    this.height = 45,
   }) : super(key: key);
   final String buttonText;
   final Function onPressed;
   final bool enabled;
   final Color color;
   final double? fontSize;
+  final double? height;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 45,
+      height: height,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           splashFactory: InkSparkle.splashFactory,

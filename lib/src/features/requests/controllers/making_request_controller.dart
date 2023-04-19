@@ -107,8 +107,6 @@ class MakingRequestController extends GetxController {
             LatLng(locations[0].latitude, locations[0].longitude);
         enableMap();
         animateToLocation(locationLatLng: searchedLocation);
-      } else {
-        // showSimpleSnackBar(text: text);
       }
       hideLoadingScreen();
     } catch (err) {
@@ -184,17 +182,21 @@ class MakingRequestController extends GetxController {
   }
 
   void animateToLocation({required LatLng locationLatLng}) {
-    if (googleMapControllerInit) {
-      googleMapController
-          .animateCamera(getCameraUpdate(locationLatLng: locationLatLng));
+    if (mapEnabled.value) {
+      if (googleMapControllerInit) {
+        googleMapController
+            .animateCamera(getCameraUpdate(locationLatLng: locationLatLng));
+      }
     }
   }
 
   CameraUpdate getCameraUpdate({required LatLng locationLatLng}) {
-    return CameraUpdate.newCameraPosition(CameraPosition(
-      target: locationLatLng,
-      zoom: 14.5,
-    ));
+    return CameraUpdate.newCameraPosition(
+      CameraPosition(
+        target: locationLatLng,
+        zoom: 15.5,
+      ),
+    );
   }
 
   void getCurrentLocation() async {
@@ -211,6 +213,7 @@ class MakingRequestController extends GetxController {
           }
         },
       );
+
       positionStreamInitialized = true;
       currentPositionStream =
           Geolocator.getPositionStream(locationSettings: locationSettings)
@@ -234,7 +237,7 @@ class MakingRequestController extends GetxController {
   }
 
   LatLng currentLocationGetter() {
-    return LatLng(currentLocation.latitude, currentLocation.longitude);
+    return LatLng(currentLocation.latitude!, currentLocation.longitude!);
   }
 
   @override
@@ -245,11 +248,6 @@ class MakingRequestController extends GetxController {
 
     super.onClose();
   }
-
-// final places = FlutterGooglePlacesSdk('my-key');
-// final predictions =
-//     await places.findAutocompletePredictions('Tel Aviv');
-// print('Result: $predictions');
 
 // Polyline(
 //   polylineId: const PolylineId('router_driver'),

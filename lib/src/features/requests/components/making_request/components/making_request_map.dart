@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -82,13 +83,22 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         ),
         Positioned(
           top: 0,
-          left: isLangEnglish() ? 0 : null,
-          right: isLangEnglish() ? null : 0,
+          left: 0,
+          right: 0,
           child: SafeArea(
-            child: Row(
-              children: const [
-                CircleBackButton(padding: 15),
-              ],
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Row(
+                children: [
+                  const CircleBackButton(padding: 0),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: MakingRequestMapSearch(
+                        makingRequestController:
+                            widget.makingRequestController),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -98,17 +108,13 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           right: 0,
           child: Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              children: [
-                RegularElevatedButton(
-                  buttonText: 'requestHere'.tr,
-                  onPressed: () {},
-                  enabled: true,
-                  color: Colors.black,
-                  fontSize: 20,
-                  height: 55,
-                ),
-              ],
+            child: RegularElevatedButton(
+              buttonText: 'requestHere'.tr,
+              onPressed: () {},
+              enabled: true,
+              color: Colors.black,
+              fontSize: 20,
+              height: 55,
             ),
           ),
         ),

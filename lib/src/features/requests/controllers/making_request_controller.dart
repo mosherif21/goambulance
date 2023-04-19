@@ -46,6 +46,7 @@ class MakingRequestController extends GetxController {
   final locationPermissionGranted = false.obs;
   final locationServiceEnabled = false.obs;
   final mapEnabled = false.obs;
+  final searchedText = 'search'.tr.obs;
   late String mapStyle;
 
   @override
@@ -58,18 +59,12 @@ class MakingRequestController extends GetxController {
   }
 
   Future<void> locationInit() async {
+    showLoadingScreen();
     await handleLocationService().then((locationService) {
       locationServiceEnabled.value = locationService;
       setupLocationPermission();
     });
-  }
-
-  void initMapController() {
-    mapControllerCompleter.future.then((controller) {
-      googleMapController = controller;
-      controller.setMapStyle(mapStyle);
-      googleMapControllerInit = true;
-    });
+    hideLoadingScreen();
   }
 
   Future<void> setupLocationPermission() async {
@@ -83,8 +78,15 @@ class MakingRequestController extends GetxController {
     );
   }
 
+  void initMapController() {
+    mapControllerCompleter.future.then((controller) {
+      googleMapController = controller;
+      controller.setMapStyle(mapStyle);
+      googleMapControllerInit = true;
+    });
+  }
+
   Future<void> googlePlacesSearch({required BuildContext context}) async {
-    showLoadingScreen();
     try {
       final predictions = await PlacesAutocomplete.show(
         context: context,
@@ -99,8 +101,9 @@ class MakingRequestController extends GetxController {
         language: isLangEnglish() ? 'en' : 'ar',
         backArrowIcon: const Icon(Icons.arrow_back_ios_sharp),
       );
-      if (predictions != null) {
+      if (predictions != null && predictions.description != null) {
         if (kDebugMode) print(predictions.description);
+        searchedText.value = predictions.description!;
         List<Location> locations =
             await locationFromAddress(predictions.description!);
         searchedLocation =
@@ -108,10 +111,8 @@ class MakingRequestController extends GetxController {
         enableMap();
         animateToLocation(locationLatLng: searchedLocation);
       }
-      hideLoadingScreen();
     } catch (err) {
       if (kDebugMode) print(err.toString());
-      hideLoadingScreen();
     }
   }
 
@@ -237,7 +238,7 @@ class MakingRequestController extends GetxController {
   }
 
   LatLng currentLocationGetter() {
-    return LatLng(currentLocation.latitude!, currentLocation.longitude!);
+    return LatLng(currentLocation.latitude, currentLocation.longitude);
   }
 
   @override

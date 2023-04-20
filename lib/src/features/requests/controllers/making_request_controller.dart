@@ -239,8 +239,9 @@ class MakingRequestController extends GetxController {
         try {
           searchedText.value = 'loading'.tr;
           if (kDebugMode) print(currentCameraPosition.target);
-          searchedText.value = await getAddressFromLocation(
+          final address = await getAddressFromLocation(
               latLng: currentCameraPosition.target);
+          searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
         } catch (err) {
           if (kDebugMode) print(err.toString());
         }

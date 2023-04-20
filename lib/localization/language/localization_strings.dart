@@ -218,6 +218,7 @@ class Languages extends Translations {
           'goToSettings': 'اذهب للاعدادات',
           'searchCountry': 'البحث عن البلد',
           'sosMessage': 'رسالة استغاثة',
+          'notAllowed': 'غير مسموح به',
           'enableLocationPermissionButton': 'اعطي الأذن',
           'enableLocationServiceButton': 'تمكين الموقع',
           'findingLocation': 'جارى البحث عن موقعك',
@@ -448,6 +449,7 @@ class Languages extends Translations {
           'searchPlace': 'Search for a place',
           'requestHere': 'Request here',
           'loading': 'Loading...',
+          'notAllowed': 'Not allowed',
           'locationNotAllowed':
               'Sorry, our app currently operates in Egypt only',
           'locationNotAccessed': 'Your location can\'t be accessed',

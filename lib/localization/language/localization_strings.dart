@@ -221,6 +221,7 @@ class Languages extends Translations {
           'enableLocationPermissionButton': 'اعطي الأذن',
           'enableLocationServiceButton': 'تمكين الموقع',
           'findingLocation': 'جارى البحث عن موقعك',
+          'locationNotAllowed': 'عذرا ، تطبيقنا يعمل حاليا في مصر فقط',
           'locationNotAccessed': 'لا يمكن الوصول إلى موقعك',
           'searchPlace': 'البحث عن مكان',
           'loading': 'جاري تحميل...',
@@ -447,6 +448,8 @@ class Languages extends Translations {
           'searchPlace': 'Search for a place',
           'requestHere': 'Request here',
           'loading': 'Loading...',
+          'locationNotAllowed':
+              'Sorry, our app currently operates in Egypt only',
           'locationNotAccessed': 'Your location can\'t be accessed',
           'useMobileToThisFeature':
               'Please use the mobile app to use this feature',

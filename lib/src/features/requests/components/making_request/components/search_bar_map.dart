@@ -33,21 +33,20 @@ class MakingRequestMapSearch extends StatelessWidget {
                   Icons.search,
                   color: Colors.black,
                 ),
-                const SizedBox(width: 10),
+                if (isLangEnglish()) const SizedBox(width: 10),
                 Obx(
                   () => Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(right: isLangEnglish() ? 0 : 8),
-                      child: AutoSizeText(
-                        makingRequestController.searchedText.value,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        locale: getLocale(),
-                        softWrap: false,
+                    child: AutoSizeText(
+                      isLangEnglish()
+                          ? makingRequestController.searchedText.value
+                          : '   ${makingRequestController.searchedText.value}',
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      locale: getLocale(),
+                      softWrap: false,
                     ),
                   ),
                 ),

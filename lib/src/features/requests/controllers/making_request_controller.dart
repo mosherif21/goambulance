@@ -46,6 +46,7 @@ class MakingRequestController extends GetxController {
   final locationPermissionGranted = false.obs;
   final locationServiceEnabled = false.obs;
   final mapEnabled = false.obs;
+  bool allowedLocation = false;
   final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
   late CameraPosition currentCameraPosition;
@@ -86,6 +87,14 @@ class MakingRequestController extends GetxController {
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
     });
+  }
+
+  Future<void> onRequestPress() async {
+    if (allowedLocation) {
+      showSimpleSnackBar(text: 'noice');
+    } else {
+      showSimpleSnackBar(text: 'locationNotAllowed'.tr);
+    }
   }
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
@@ -131,6 +140,7 @@ class MakingRequestController extends GetxController {
       googleMapApiKey: googleMapsAPIKey,
       language: isLangEnglish() ? 'en' : 'ar',
     );
+    checkAllowedLocation(countryCode: addresses.countryCode);
     return addresses.address;
   }
 
@@ -140,7 +150,16 @@ class MakingRequestController extends GetxController {
       googleMapApiKey: googleMapsAPIKey,
       language: isLangEnglish() ? 'en' : 'ar',
     );
+    checkAllowedLocation(countryCode: location.countryCode);
     return LatLng(location.latitude, location.longitude);
+  }
+
+  void checkAllowedLocation({required String countryCode}) {
+    if (countryCode.compareTo('EG') == 0) {
+      allowedLocation = true;
+    } else {
+      allowedLocation = false;
+    }
   }
 
   void setupLocationServiceListener() async {
@@ -219,6 +238,7 @@ class MakingRequestController extends GetxController {
       if (googleMapControllerInit) {
         try {
           searchedText.value = 'loading'.tr;
+          if (kDebugMode) print(currentCameraPosition.target);
           searchedText.value = await getAddressFromLocation(
               latLng: currentCameraPosition.target);
         } catch (err) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_controller.dart';
@@ -10,6 +9,7 @@ import 'package:lottie/lottie.dart';
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/general_functions.dart';
+import 'myLocation_button.dart';
 
 class MakingRequestMap extends StatefulWidget {
   const MakingRequestMap({
@@ -108,7 +108,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: RegularElevatedButton(
               buttonText: 'requestHere'.tr,
-              onPressed: () {},
+              onPressed: () => widget.makingRequestController.onRequestPress(),
               enabled: true,
               color: Colors.black,
               fontSize: 20,
@@ -116,37 +116,10 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             ),
           ),
         ),
-        Obx(
-          () => widget.makingRequestController.locationAvailable.value
-              ? Positioned(
-                  bottom: 70,
-                  left: isLangEnglish() ? null : 0,
-                  right: isLangEnglish() ? 0 : null,
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Material(
-                        elevation: 5,
-                        shape: const CircleBorder(),
-                        color: Colors.white,
-                        child: InkWell(
-                          customBorder: const CircleBorder(),
-                          splashFactory: InkSparkle.splashFactory,
-                          child: Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: SvgPicture.asset(
-                              kMyLocation,
-                              height: 30,
-                            ),
-                          ),
-                          onTap: () => widget.makingRequestController
-                              .animateToCurrentLocation(),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              : const SizedBox.shrink(),
+        MyLocationButton(
+          onClick: () =>
+              widget.makingRequestController.animateToCurrentLocation(),
+          makingRequestController: widget.makingRequestController,
         ),
         Obx(
           () => Center(

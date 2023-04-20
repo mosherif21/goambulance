@@ -12,6 +12,7 @@ import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:translator/translator.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/colors.dart';
@@ -134,14 +135,25 @@ class MakingRequestController extends GetxController {
   }
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
-    final addresses = await Geocoder2.getDataFromCoordinates(
+    final addressesInfo = await Geocoder2.getDataFromCoordinates(
       latitude: latLng.latitude,
       longitude: latLng.longitude,
       googleMapApiKey: googleMapsAPIKey,
       language: isLangEnglish() ? 'en' : 'ar',
     );
-    checkAllowedLocation(countryCode: addresses.countryCode);
-    return addresses.address;
+    String address = addressesInfo.address;
+    if (address.contains('+')) {
+      final translator = GoogleTranslator();
+      final translation = await translator.translate(address);
+      final lanCode = translation.sourceLanguage.code;
+      final isEnglish = lanCode.compareTo('en') == 0 ? true : false;
+      address
+          .split(isEnglish ? ',' : '،')
+          .where((s) => !s.contains('+'))
+          .join(isEnglish ? ',' : '،');
+    }
+    checkAllowedLocation(countryCode: addressesInfo.countryCode);
+    return address;
   }
 
   Future<LatLng> getLocationFromAddress({required String address}) async {

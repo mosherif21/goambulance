@@ -26,6 +26,7 @@ dependencies:
   eg_nid: ^0.0.1
   #image: ^4.0.15
   permission_handler: ^10.2.0
+  translator: ^0.1.7
 
   #firebase dependencies
   firebase_core: ^2.3.0
@@ -54,8 +55,8 @@ dependencies:
   flutter_facebook_auth: ^5.0.7
 
   #UI dependencies
-  cupertino_icons: ^1.0.5
   google_fonts: ^4.0.1
+  #cupertino_icons: ^1.0.5
   liquid_swipe: ^3.0.0
   smooth_page_indicator: ^1.0.0+2
   lottie: ^2.1.0
@@ -76,7 +77,6 @@ dependencies:
   carousel_slider: ^4.2.1
   auto_size_text: ^3.0.0
   flutter_phone_direct_caller: ^2.1.1
-  crea_radio_button: ^0.6.0
   syncfusion_flutter_datepicker: ^21.1.37
   image_picker: ^0.8.7+1
   cross_file_image: ^1.0.0

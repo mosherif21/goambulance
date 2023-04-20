@@ -116,10 +116,15 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             ),
           ),
         ),
-        MyLocationButton(
-          onClick: () =>
-              widget.makingRequestController.animateToCurrentLocation(),
-          makingRequestController: widget.makingRequestController,
+        Positioned(
+          bottom: 70,
+          left: isLangEnglish() ? null : 0,
+          right: isLangEnglish() ? 0 : null,
+          child: MyLocationButton(
+            onClick: () =>
+                widget.makingRequestController.animateToCurrentLocation(),
+            makingRequestController: widget.makingRequestController,
+          ),
         ),
         Obx(
           () => Center(

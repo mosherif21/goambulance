@@ -12,7 +12,6 @@ import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
-import 'package:translator/translator.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/colors.dart';
@@ -142,16 +141,6 @@ class MakingRequestController extends GetxController {
       language: isLangEnglish() ? 'en' : 'ar',
     );
     String address = addressesInfo.address;
-    if (address.contains('+')) {
-      final translator = GoogleTranslator();
-      final translation = await translator.translate(address);
-      final lanCode = translation.sourceLanguage.code;
-      final isEnglish = lanCode.compareTo('en') == 0 ? true : false;
-      address
-          .split(isEnglish ? ',' : '،')
-          .where((s) => !s.contains('+'))
-          .join(isEnglish ? ',' : '،');
-    }
     checkAllowedLocation(countryCode: addressesInfo.countryCode);
     return address;
   }
@@ -315,9 +304,8 @@ class MakingRequestController extends GetxController {
   @override
   void onClose() async {
     await serviceStatusStream?.cancel();
-    if (positionStreamInitialized) await currentPositionStream?.cancel();
+    if (positionStreamInitialized) await currentPositionStream!.cancel();
     if (googleMapControllerInit) googleMapController.dispose();
-
     super.onClose();
   }
 

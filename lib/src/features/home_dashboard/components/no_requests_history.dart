@@ -20,7 +20,7 @@ class NoRequestsHistory extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image(
-              image: const AssetImage(kNoRequestsHistoryBlack),
+              image: const AssetImage(kNoRequestsHistory),
               height: screenHeight * 0.14,
             ),
             SizedBox(height: screenHeight * 0.02),

@@ -232,6 +232,9 @@ class Languages extends Translations {
               'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الميزة',
           'useMobileToRegister':
               'الرجاء استخدام تطبيق الهاتف لتسجيل البيانات الخاصة بك',
+          'accounttitle1':'بيانات المستخدم',
+          'accounttitle2':'العناوين المسجلة',
+          'accounttitle3':'السجل الطبي',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -459,6 +462,9 @@ class Languages extends Translations {
               'Please use the mobile app to use this feature',
           'useMobileToRegister':
               'Please use the mobile application to register your data',
+          'accounttitle1':'Account Details',
+          'accounttitle2':'Saved Addresses',
+          'accounttitle3':'Medical Record',
         },
       };
 }

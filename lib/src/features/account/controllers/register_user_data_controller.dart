@@ -71,6 +71,10 @@ class RegisterUserDataController extends GetxController {
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
     phoneNumber = user!.phoneNumber!;
+
+  nationalIdTextController.text=AuthenticationRepository.instance.userInfo.nationalId;
+  birthDateController.displayDate=AuthenticationRepository.instance.userInfo.birthDate;
+
   }
 
   @override

@@ -231,7 +231,7 @@ class NormalRequestScreen extends StatelessWidget {
                           hintText: 'enterConditionInformation'.tr,
                           textController:
                               controller.additionalInformationTextController,
-                          textInputAction: TextInputAction.done,
+                          textInputAction: TextInputAction.next,
                           inputFormatter: LengthLimitingTextInputFormatter(150),
                         ),
                       ],

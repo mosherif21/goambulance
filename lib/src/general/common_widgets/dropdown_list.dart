@@ -1,7 +1,6 @@
 import 'package:cool_dropdown/cool_dropdown.dart';
 import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:flutter/material.dart';
-import 'package:goambulance/src/general/general_functions.dart';
 
 class DropdownList extends StatelessWidget {
   const DropdownList({
@@ -51,12 +50,10 @@ class DropdownList extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 10),
           align: DropdownAlign.left,
           animationType: DropdownAnimationType.size),
-      dropdownTriangleOptions: DropdownTriangleOptions(
+      dropdownTriangleOptions: const DropdownTriangleOptions(
         width: 20,
         height: 30,
-        align: isLangEnglish()
-            ? DropdownTriangleAlign.left
-            : DropdownTriangleAlign.right,
+        align: DropdownTriangleAlign.left,
         borderRadius: 0,
         left: 20,
       ),

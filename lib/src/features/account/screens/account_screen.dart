@@ -1,15 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/general/common_widgets/regular_clickable_card.dart';
-import 'package:goambulance/src/general/common_widgets/regular_clickable_card_nophoto.dart';
+import 'package:goambulance/src/general/common_widgets/regular_clickable_card_noPhoto.dart';
 
 import '../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../general/general_functions.dart';
 import '../components/addresses_page.dart';
 import '../components/edit_user_data_page.dart';
 import '../components/newAccount/medical_history_insert_page.dart';
-import '../components/newAccount/register_user_data_page.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -45,17 +43,18 @@ class AccountScreen extends StatelessWidget {
                         onPressed: () {
                           switch (count) {
                             case 0:
-                              Get.to(()=>const EditUserDataPage());
+                              Get.to(() => const EditUserDataPage());
                               break;
                             case 1:
-                              Get.to(()=>const AccountAddressesPage());
+                              Get.to(() => const AccountAddressesPage());
                               break;
                             case 2:
-                              Get.to(()=>const MedicalHistoryInsertPage());//error:RegisterUserDataController not found
+                              Get.to(() =>
+                                  const MedicalHistoryInsertPage()); //error:RegisterUserDataController not found
                               break;
                           }
                         },
-                        title: 'accounttitle${count + 1}'.tr,
+                        title: 'accountTitle${count + 1}'.tr,
                         subTitle: '',
                         icon: Icons.arrow_forward_ios,
                         iconColor: Colors.black45,

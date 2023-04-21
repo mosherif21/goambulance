@@ -2,12 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
 import '../../../../constants/colors.dart';
 import '../../../../general/common_widgets/custom_rolling_switch.dart';
-import '../../../../general/common_widgets/dropdown_list_custom.dart';
+import '../../../../general/common_widgets/dropdown_list.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
@@ -61,15 +60,16 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                           TextHeader(
                               headerText: 'chooseBloodType'.tr, fontSize: 18),
                           const SizedBox(height: 5.0),
-                          CustomDropDown(
-                            onValueChanged: (selectedBloodType) {
-                              controller.selectedBloodType.value =
-                                  selectedBloodType as String;
+                          DropdownList(
+                            dropdownController:
+                                controller.bloodTypeDropdownController,
+                            itemsList: controller.bloodTypeItems,
+                            onChanged: (bloodTypeValue) {
                               controller.highlightBloodType.value = false;
+                              controller.selectedBloodType = bloodTypeValue;
                             },
-                            items: bloodTypes,
-                            title: controller.selectedBloodType.value.isNotEmpty
-                                ? controller.selectedBloodType.value
+                            placeholder: controller.selectedBloodType.isNotEmpty
+                                ? controller.selectedBloodType
                                 : 'pickBloodType'.tr,
                           ),
                         ],
@@ -83,20 +83,17 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'askDiabetic'.tr, fontSize: 18),
+                              headerText: 'askDiabetic'.trParams({
+                                'ask': 'askYou'.tr,
+                              }),
+                              fontSize: 18),
                           const SizedBox(height: 5.0),
-                          CustomDropDown(
-                            onValueChanged: (selectedDiabetesType) => controller
-                                .diabeticType
-                                .value = selectedDiabetesType as String,
-                            items: [
-                              'no'.tr,
-                              'Type 1',
-                              'Type 2',
-                            ],
-                            title: controller.diabeticType.value.isNotEmpty
-                                ? controller.diabeticType.value
-                                : 'no'.tr,
+                          DropdownList(
+                            dropdownController:
+                                controller.diabetesDropdownController,
+                            itemsList: controller.diabetesItems,
+                            onChanged: (diabeticValue) =>
+                                controller.diabeticType = diabeticValue,
                           ),
                         ],
                       ),
@@ -108,7 +105,9 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'askBloodPressurePatient'.tr,
+                            headerText: 'askHypertensivePatient'.trParams({
+                              'ask': 'askYou'.tr,
+                            }),
                             fontSize: 18),
                         const SizedBox(height: 5.0),
                         Row(
@@ -120,7 +119,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                               onIcon: Icons.check,
                               offIcon: Icons.close,
                               onSwitched: (bool state) =>
-                                  controller.bloodPressurePatient = state,
+                                  controller.hypertensivePatient = state,
                             ),
                           ],
                         )
@@ -133,7 +132,10 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'askHeartPatient'.tr, fontSize: 18),
+                            headerText: 'askHeartPatient'.trParams({
+                              'ask': 'askYou'.tr,
+                            }),
+                            fontSize: 18),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [

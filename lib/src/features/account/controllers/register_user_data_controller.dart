@@ -1,3 +1,5 @@
+import 'package:cool_dropdown/controllers/dropdown_controller.dart';
+import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
 import 'package:flutter/foundation.dart';
@@ -24,11 +26,11 @@ class RegisterUserDataController extends GetxController {
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
-  final additionalInformationTextController = TextEditingController();
   final birthDateController = DateRangePickerController();
   final diseaseNameTextController = TextEditingController();
   final medicinesTextController = TextEditingController();
   final medicalHistoryScrollController = ScrollController();
+  final additionalInformationTextController = TextEditingController();
 
   //gender
   Gender? gender;
@@ -55,14 +57,27 @@ class RegisterUserDataController extends GetxController {
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
   RxBool highlightBloodType = false.obs;
-  RxString selectedBloodType = ''.obs;
-  RxString diabeticType = ''.obs;
-  bool bloodPressurePatient = false;
+  String selectedBloodType = '';
+  String diabeticType = '';
+  bool hypertensivePatient = false;
   bool heartPatient = false;
+  List<CoolDropdownItem<String>> hypertensiveItems = [];
+  final hypertensiveDropdownController = DropdownController();
+  List<CoolDropdownItem<String>> diabetesItems = [];
+  final diabetesDropdownController = DropdownController();
+  List<CoolDropdownItem<String>> heartPatientItems = [];
+  final heartPatientDropdownController = DropdownController();
+  List<CoolDropdownItem<String>> bloodTypeItems = [];
+  final bloodTypeDropdownController = DropdownController();
 
   @override
   void onInit() {
     super.onInit();
+    List<String> diabetesTypes = [
+      'no'.tr,
+      'Type 1',
+      'Type 2',
+    ];
     final user = AuthenticationRepository.instance.fireUser.value;
     if (user?.email != null) {
       emailTextController.text = user!.email!;
@@ -72,9 +87,15 @@ class RegisterUserDataController extends GetxController {
     nameTextController.text = userName;
     phoneNumber = user!.phoneNumber!;
 
-  nationalIdTextController.text=AuthenticationRepository.instance.userInfo.nationalId;
-  birthDateController.displayDate=AuthenticationRepository.instance.userInfo.birthDate;
-
+    //medical history
+    for (var i = 0; i < diabetesTypes.length; i++) {
+      diabetesItems.add(CoolDropdownItem<String>(
+          label: diabetesTypes[i], value: diabetesTypes[i]));
+    }
+    for (var i = 0; i < bloodTypes.length; i++) {
+      bloodTypeItems.add(
+          CoolDropdownItem<String>(label: bloodTypes[i], value: bloodTypes[i]));
+    }
   }
 
   @override
@@ -196,7 +217,7 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> savePersonalInformation() async {
-    highlightBloodType.value = selectedBloodType.value.isEmpty ? true : false;
+    highlightBloodType.value = selectedBloodType.isEmpty ? true : false;
     if (!highlightBloodType.value) {
       displayBinaryAlertDialog(
         title: 'confirm'.tr,
@@ -216,10 +237,9 @@ class RegisterUserDataController extends GetxController {
             nationalId: nationalId,
             birthDate: birthDate!,
             gender: gender == Gender.male ? 'male' : 'female',
-            bloodType: selectedBloodType.value,
-            diabetesPatient:
-                diabeticType.value.isEmpty ? 'No' : diabeticType.value,
-            bloodPressurePatient: bloodPressurePatient ? 'Yes' : 'No',
+            bloodType: selectedBloodType,
+            diabetesPatient: diabeticType.isEmpty ? 'No' : diabeticType,
+            hypertensive: hypertensivePatient ? 'Yes' : 'No',
             heartPatient: heartPatient ? 'Yes' : 'No',
             additionalInformation:
                 additionalInformationTextController.text.trim(),

@@ -36,13 +36,13 @@ class HomeNavigationBar extends StatelessWidget {
         popAllScreensOnTapOfSelectedTab: true,
         popActionScreens: PopActionScreensType.all,
         itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 100),
           curve: Curves.ease,
         ),
         screenTransitionAnimation: const ScreenTransitionAnimation(
           animateTabTransition: true,
           curve: Curves.easeIn,
-          duration: Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 100),
         ),
         onItemSelected: (navBarIndex) => navBarIndex == 1
             ? homeScreenController.hideNavBar.value = true

@@ -90,7 +90,7 @@ class AuthenticationRepository extends GetxController {
               gender: userDoc['gender'].toString(),
               bloodType: userDoc['bloodType'].toString(),
               diabetesPatient: userDoc['diabetesPatient'].toString(),
-              bloodPressurePatient: userDoc['bloodPressurePatient'].toString(),
+              hypertensive: userDoc['hypertensive'].toString(),
               heartPatient: userDoc['heartPatient'].toString(),
               additionalInformation:
                   userDoc['additionalInformation'].toString(),
@@ -325,5 +325,19 @@ class AuthenticationRepository extends GetxController {
     isUserPhoneRegistered = false;
     verificationId = '';
     userType = UserType.regularUser;
+    userInfo = UserInformation(
+      name: '',
+      email: '',
+      nationalId: '',
+      birthDate: DateTime.now(),
+      gender: '',
+      bloodType: '',
+      diabetesPatient: '',
+      hypertensive: '',
+      heartPatient: '',
+      additionalInformation: '',
+      phoneNumber: '',
+      diseasesList: [],
+    );
   }
 }

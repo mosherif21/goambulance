@@ -34,6 +34,7 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
         scrolledUnderElevation: 5,
         backgroundColor: Colors.white,
       ),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),

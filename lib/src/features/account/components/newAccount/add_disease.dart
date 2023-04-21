@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
-import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 
 import '../../../../constants/colors.dart';
 import '../../../../constants/enums.dart';
@@ -17,7 +16,7 @@ class AddDisease extends StatelessWidget {
     Key? key,
     required this.controller,
   }) : super(key: key);
-  final RegisterUserDataController controller;
+  final dynamic controller;
   @override
   Widget build(BuildContext context) {
     return Container(

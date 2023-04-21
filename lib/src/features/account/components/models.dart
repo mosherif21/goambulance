@@ -8,7 +8,7 @@ class UserInformation {
   final String diabetesPatient;
   final String additionalInformation;
   final String phoneNumber;
-  final String bloodPressurePatient;
+  final String hypertensive;
   final String heartPatient;
   final List<DiseaseItem> diseasesList;
   UserInformation({
@@ -19,7 +19,7 @@ class UserInformation {
     required this.gender,
     required this.bloodType,
     required this.diabetesPatient,
-    required this.bloodPressurePatient,
+    required this.hypertensive,
     required this.heartPatient,
     required this.additionalInformation,
     required this.phoneNumber,
@@ -34,7 +34,7 @@ class UserInformation {
         'gender': gender,
         'bloodType': bloodType,
         'diabetesPatient': diabetesPatient,
-        'bloodPressurePatient': bloodPressurePatient,
+        'hypertensive': hypertensive,
         'heartPatient': heartPatient,
         'additionalInformation': additionalInformation,
         'type': 'patient',

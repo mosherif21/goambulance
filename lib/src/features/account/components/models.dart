@@ -33,7 +33,7 @@ class UserInformation {
         'birthdate': birthDate,
         'gender': gender,
         'bloodType': bloodType,
-        'diabetesPatient': diabetesPatient,
+        'diabetic': diabetesPatient,
         'hypertensive': hypertensive,
         'heartPatient': heartPatient,
         'additionalInformation': additionalInformation,

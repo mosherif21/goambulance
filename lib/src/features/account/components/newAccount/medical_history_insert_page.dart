@@ -76,27 +76,25 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: false,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(
-                              headerText: 'askDiabetic'.trParams({
-                                'ask': 'askYou'.tr,
-                              }),
-                              fontSize: 18),
-                          const SizedBox(height: 5.0),
-                          DropdownList(
-                            dropdownController:
-                                controller.diabetesDropdownController,
-                            itemsList: controller.diabetesItems,
-                            onChanged: (diabeticValue) =>
-                                controller.diabeticType = diabeticValue,
-                          ),
-                        ],
-                      ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(
+                            headerText: 'askDiabetic'.trParams({
+                              'ask': 'askYou'.tr,
+                            }),
+                            fontSize: 18),
+                        const SizedBox(height: 5.0),
+                        DropdownList(
+                          dropdownController:
+                              controller.diabetesDropdownController,
+                          itemsList: controller.diabetesItems,
+                          onChanged: (diabeticValue) =>
+                              controller.diabeticType = diabeticValue,
+                        ),
+                      ],
                     ),
                   ),
                   RegularCard(

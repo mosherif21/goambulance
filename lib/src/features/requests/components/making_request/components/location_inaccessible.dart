@@ -1,13 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/general/common_widgets/or_divider.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
-import '../../../controllers/making_request_controller.dart';
+import '../../../controllers/making_request_location_controller.dart';
 
 class MakingRequestLocationInaccessible extends StatelessWidget {
   const MakingRequestLocationInaccessible({
@@ -15,91 +16,106 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
     required this.makingRequestController,
     required this.screenHeight,
   }) : super(key: key);
-  final MakingRequestController makingRequestController;
+  final MakingRequestLocationController makingRequestController;
   final double screenHeight;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-        child: StretchingOverscrollIndicator(
-          axisDirection: AxisDirection.down,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const RegularBackButton(padding: 0),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Obx(
-                      () => Lottie.asset(
-                        makingRequestController.mapLoading.value
-                            ? kLoadingMapAnim
-                            : kNoLocation,
-                        height: makingRequestController.mapLoading.value
-                            ? screenHeight * 0.8
-                            : screenHeight * 0.4,
-                      ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: const RegularBackButton(padding: 0),
+        title: AutoSizeText(
+          'requestLocation'.tr,
+          maxLines: 1,
+        ),
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
+        elevation: 0,
+        scrolledUnderElevation: 5,
+        backgroundColor: Colors.white,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+          child: StretchingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Obx(
+                    () => Lottie.asset(
+                      makingRequestController.mapLoading.value
+                          ? kLoadingMapAnim
+                          : kNoLocation,
+                      height: makingRequestController.mapLoading.value
+                          ? screenHeight * 0.8
+                          : screenHeight * 0.4,
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Obx(
-                  () => !makingRequestController.mapLoading.value
-                      ? Column(
-                          children: [
-                            AutoSizeText(
-                              'locationNotAccessed'.tr,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w800,
+                  const SizedBox(height: 10),
+                  Obx(
+                    () => !makingRequestController.mapLoading.value
+                        ? Column(
+                            children: [
+                              AutoSizeText(
+                                'locationNotAccessed'.tr,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                                maxLines: 2,
                               ),
-                              maxLines: 2,
-                            ),
-                            const SizedBox(height: 10),
-                            Obx(
-                              () => !makingRequestController
-                                      .locationServiceEnabled.value
-                                  ? RoundedElevatedButton(
-                                      buttonText:
-                                          'enableLocationServiceButton'.tr,
-                                      onPressed: () async =>
-                                          await handleLocationService(),
-                                      enabled: true,
-                                      color: Colors.black,
-                                    )
-                                  : const SizedBox.shrink(),
-                            ),
-                            const SizedBox(height: 10),
-                            Obx(
-                              () => !makingRequestController
-                                      .locationPermissionGranted.value
-                                  ? RoundedElevatedButton(
-                                      buttonText:
-                                          'enableLocationPermissionButton'.tr,
-                                      onPressed: () async =>
-                                          await makingRequestController
-                                              .setupLocationPermission(),
-                                      enabled: true,
-                                      color: Colors.black,
-                                    )
-                                  : const SizedBox.shrink(),
-                            ),
-                            const SizedBox(height: 10),
-                            RoundedElevatedButton(
-                              buttonText: 'searchPlace'.tr,
-                              onPressed: () async =>
-                                  await makingRequestController
-                                      .googlePlacesSearch(context: context),
-                              enabled: true,
-                              color: Colors.black,
-                            ),
-                          ],
-                        )
-                      : const SizedBox.shrink(),
-                ),
-              ],
+                              const SizedBox(height: 10),
+                              Obx(
+                                () => !makingRequestController
+                                        .locationServiceEnabled.value
+                                    ? Container(
+                                        margin: const EdgeInsets.only(top: 10),
+                                        child: RoundedElevatedButton(
+                                          buttonText:
+                                              'enableLocationServiceButton'.tr,
+                                          onPressed: () async =>
+                                              await handleLocationService(),
+                                          enabled: true,
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ),
+                              Obx(
+                                () => !makingRequestController
+                                        .locationPermissionGranted.value
+                                    ? Container(
+                                        margin: const EdgeInsets.only(top: 10),
+                                        child: RoundedElevatedButton(
+                                          buttonText:
+                                              'enableLocationPermissionButton'
+                                                  .tr,
+                                          onPressed: () async =>
+                                              await makingRequestController
+                                                  .setupLocationPermission(),
+                                          enabled: true,
+                                          color: Colors.black,
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              ),
+                              const OrDivider(),
+                              RoundedElevatedButton(
+                                buttonText: 'searchPlace'.tr,
+                                onPressed: () async =>
+                                    await makingRequestController
+                                        .googlePlacesSearch(context: context),
+                                enabled: true,
+                                color: Colors.black,
+                              ),
+                            ],
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

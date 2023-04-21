@@ -41,7 +41,7 @@ class Languages extends Translations {
           'passwordLabel': 'كلمة المرور',
           'passwordHintLabel': 'ادخل كلمة المرور',
           'forgotPassword': 'لا تتذكر كلمة المرور؟',
-          'alternateLoginLabel': 'او',
+          'or': 'او',
           'noEmailAccount':
               'ليس لديك حساب بريد الكترونى؟ انشئ حساب بريد الكترونى',
           'english': 'ENGLISH',
@@ -52,6 +52,7 @@ class Languages extends Translations {
           'numberReset': 'تغيير البريد الكترونى عن طريق كود برقم الهاتف',
           'phoneLabel': 'رقم الهاتف',
           'phoneFieldLabel': 'ادخل رقم هاتفك',
+          'requestLocation': 'موقع الطلب',
           'passwordResetLink':
               'ادخل بريدك الالكترونى للحصول على رابط تغيير كلمة المرور',
           'phoneVerification': 'ادخل رقم الهاتف للحصول على رمز التاكيد',
@@ -257,7 +258,7 @@ class Languages extends Translations {
           'passwordLabel': 'Password',
           'passwordHintLabel': 'Enter your Password',
           'forgotPassword': 'Forgot Password?',
-          'alternateLoginLabel': 'OR',
+          'or': 'OR',
           'noEmailAccount': 'Don\'t have an email account? Register with email',
           'english': 'ENGLISH',
           'arabic': 'العربية',
@@ -450,6 +451,7 @@ class Languages extends Translations {
           'requestHere': 'Request here',
           'loading': 'Loading...',
           'notAllowed': 'Not allowed',
+          'requestLocation': 'Request Location',
           'locationNotAllowed':
               'Sorry, our app currently operates in Egypt only',
           'locationNotAccessed': 'Your location can\'t be accessed',

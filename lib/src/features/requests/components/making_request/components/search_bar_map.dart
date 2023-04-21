@@ -4,14 +4,14 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:goambulance/localization/language/language_functions.dart';
 
 import '../../../../../general/general_functions.dart';
-import '../../../controllers/making_request_controller.dart';
+import '../../../controllers/making_request_location_controller.dart';
 
 class MakingRequestMapSearch extends StatelessWidget {
   const MakingRequestMapSearch({
     Key? key,
     required this.makingRequestController,
   }) : super(key: key);
-  final MakingRequestController makingRequestController;
+  final MakingRequestLocationController makingRequestController;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

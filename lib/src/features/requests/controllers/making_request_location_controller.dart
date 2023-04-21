@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +17,8 @@ import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/colors.dart';
 
-class MakingRequestController extends GetxController {
-  static MakingRequestController get instance => Get.find();
+class MakingRequestLocationController extends GetxController {
+  static MakingRequestLocationController get instance => Get.find();
 
   //Location settings
   final locationSettings = const LocationSettings(
@@ -89,12 +90,36 @@ class MakingRequestController extends GetxController {
     });
   }
 
-  Future<void> onRequestPress() async {
+  Future<void> onRequestPress({required BuildContext context}) async {
     if (allowedLocation) {
-      showSimpleSnackBar(text: 'noice');
+      showFlexibleBottomSheet(
+        minHeight: 0,
+        initHeight: 0.5,
+        maxHeight: 1,
+        context: context,
+        builder: _buildBottomSheet,
+        anchors: [0, 0.5, 1],
+        duration: const Duration(milliseconds: 500),
+        isSafeArea: false,
+        isModal: false,
+      );
     } else {
       showSimpleSnackBar(text: 'locationNotAllowed'.tr);
     }
+  }
+
+  Widget _buildBottomSheet(
+    BuildContext context,
+    ScrollController scrollController,
+    double bottomSheetOffset,
+  ) {
+    return Material(
+      child: Container(
+        child: ListView(
+          controller: scrollController,
+        ),
+      ),
+    );
   }
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
@@ -110,10 +135,9 @@ class MakingRequestController extends GetxController {
         cursorColor: Colors.black,
         mode: Mode.overlay,
         language: isLangEnglish() ? 'en' : 'ar',
-        backArrowIcon: const Icon(Icons.arrow_back_ios_sharp),
+        backArrowIcon: const Icon(Icons.close, color: Colors.black),
       );
       if (predictions != null && predictions.description != null) {
-        if (kDebugMode) print(predictions.description);
         searchedLocation =
             await getLocationFromAddress(address: predictions.description!);
         enableMap();
@@ -135,8 +159,9 @@ class MakingRequestController extends GetxController {
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
     final addressesInfo = await Geocoder2.getDataFromCoordinates(
-      latitude: latLng.latitude,
-      longitude: latLng.longitude,
+      latitude: approximateFloat(decimalPlace: 7, inputDouble: latLng.latitude),
+      longitude:
+          approximateFloat(decimalPlace: 7, inputDouble: latLng.longitude),
       googleMapApiKey: googleMapsAPIKey,
       language: isLangEnglish() ? 'en' : 'ar',
     );
@@ -161,6 +186,12 @@ class MakingRequestController extends GetxController {
     } else {
       allowedLocation = false;
     }
+  }
+
+  double approximateFloat(
+      {required int decimalPlace, required double inputDouble}) {
+    String doubleAsString = inputDouble.toStringAsFixed(decimalPlace);
+    return double.parse(doubleAsString);
   }
 
   void setupLocationServiceListener() async {

@@ -56,7 +56,6 @@ dependencies:
 
   #UI dependencies
   google_fonts: ^4.0.1
-  #cupertino_icons: ^1.0.5
   liquid_swipe: ^3.0.0
   smooth_page_indicator: ^1.0.0+2
   lottie: ^2.1.0
@@ -67,6 +66,7 @@ dependencies:
   toggle_switch: ^2.0.1
   intl_phone_field: ^3.1.0
   animations: ^2.0.7
+  #cupertino_icons: ^1.0.5
   shimmer: ^2.0.0
   flutter_web_frame: ^0.0.3
   persistent_bottom_nav_bar: ^5.0.2
@@ -85,7 +85,7 @@ dependencies:
   flutter_svg: ^2.0.4
   dropdown_button2: ^2.0.0
   rolling_switch: ^0.0.2
-
+  bottom_sheet: ^3.1.2
 
 
   #state management dependencies

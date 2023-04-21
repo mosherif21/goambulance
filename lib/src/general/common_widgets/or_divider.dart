@@ -22,7 +22,7 @@ class OrDivider extends StatelessWidget {
             width: 8.0,
           ),
           Text(
-            'alternateLoginLabel'.tr,
+            'or'.tr,
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 16.0,

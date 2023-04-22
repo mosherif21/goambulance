@@ -200,7 +200,7 @@ class Languages extends Translations {
           'enterMedicineName': 'ادخل الادوية',
           'missingDiseaseName': 'الرجاء إدخال اسم المرض/الحساسية',
           'chooseBloodType': 'الرجاء اختيار فصيلة دمك:',
-          'chooseHisBloodType': 'الرجاء اختيار فصيلة دمه:',
+          'chooseHisBloodType': 'الرجاء اختيار فصيلة الدم:',
           'pickBloodType': 'اختر فصيلة الدم',
           'askYou': 'هل انت',
           'askHim': 'هل هو/هى',
@@ -217,7 +217,7 @@ class Languages extends Translations {
           'additionalInformation': 'معلومات إضافية',
           'enterAdditionalInformation': 'أدخل أي معلومات إضافية',
           'conditionInformation': 'حالة المريض',
-          'enterConditionInformation': 'أدخل معلومات حالة المريض',
+          'enterConditionInformation': 'أدخل حالة المريض',
           'phoneNumberAlreadyLinked': 'رقم الهاتف هذا مرتبط بالفعل بحساب آخر',
           'phoneNumberAlreadyYourAccount': 'رقم الهاتف هذا مرتبط بالفعل بحسابك',
           'cancel': 'الغاء',
@@ -243,7 +243,7 @@ class Languages extends Translations {
           'accountTitle3': 'السجل الطبي',
           'forMe': 'لي',
           'someoneElse': ' لشخص اخر',
-          'requestFor': 'لمن طلب الإسعاف هذا؟',
+          'requestFor': 'لمن طلب سيارة الإسعاف هذا؟',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -452,8 +452,7 @@ class Languages extends Translations {
           'additionalInformation': 'Additional information',
           'enterAdditionalInformation': 'Enter any additional information',
           'conditionInformation': 'Patient condition',
-          'enterConditionInformation':
-              'Enter the patient condition information',
+          'enterConditionInformation': 'Enter the patient condition',
           'phoneNumberAlreadyLinked':
               'This Phone number is already linked with another account',
           'phoneNumberAlreadyYourAccount':

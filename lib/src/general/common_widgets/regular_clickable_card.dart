@@ -50,12 +50,13 @@ class RegularClickableCard extends StatelessWidget {
                       maxLines: 2,
                     ),
                     if (subTitle.isNotEmpty)
-                      Text(
+                      AutoSizeText(
                         subTitle,
                         style: const TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.w600,
                             fontSize: 15),
+                        maxLines: 1,
                       ),
                   ],
                 ),

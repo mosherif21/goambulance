@@ -217,24 +217,27 @@ class NormalRequestScreen extends StatelessWidget {
                           ],
                         )
                       : const SizedBox.shrink()),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(
-                            headerText: 'enterConditionInformation'.tr,
-                            fontSize: 18),
-                        const SizedBox(height: 5.0),
-                        TextFormFieldMultiline(
-                          labelText: 'conditionInformation'.tr,
-                          hintText: 'enterConditionInformation'.tr,
-                          textController:
-                              controller.additionalInformationTextController,
-                          textInputAction: TextInputAction.next,
-                          inputFormatter: LengthLimitingTextInputFormatter(150),
-                        ),
-                      ],
+                  Obx(
+                    () => RegularCard(
+                      highlightRed: controller.highlightPatientCondition.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(
+                              headerText: 'enterConditionInformation'.tr,
+                              fontSize: 18),
+                          const SizedBox(height: 5.0),
+                          TextFormFieldMultiline(
+                            labelText: 'conditionInformation'.tr,
+                            hintText: 'enterConditionInformation'.tr,
+                            textController:
+                                controller.patientConditionTextController,
+                            textInputAction: TextInputAction.next,
+                            inputFormatter:
+                                LengthLimitingTextInputFormatter(150),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   RegularCard(

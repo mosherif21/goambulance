@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,10 +31,11 @@ class ButtonLanguageSelect extends StatelessWidget {
                 color: color,
                 size: 24.0,
               ),
-              Text(
+              AutoSizeText(
                 'lang'.tr,
                 style: TextStyle(
                     fontFamily: 'Bruno Ace', fontSize: 17.0, color: color),
+                maxLines: 1,
               ),
             ],
           ),

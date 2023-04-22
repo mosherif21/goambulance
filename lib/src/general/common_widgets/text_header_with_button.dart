@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class TextHeaderWithButton extends StatelessWidget {
@@ -16,12 +17,13 @@ class TextHeaderWithButton extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.all(10),
-          child: Text(
+          child: AutoSizeText(
             headerText,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
+            maxLines: 2,
           ),
         ),
         const Spacer(),
@@ -33,12 +35,13 @@ class TextHeaderWithButton extends StatelessWidget {
             foregroundColor: Colors.grey.shade600,
           ),
           onPressed: () => onPressed(),
-          child: Text(
+          child: AutoSizeText(
             buttonText,
             style: const TextStyle(
               fontSize: 13,
               color: Colors.black,
             ),
+            maxLines: 1,
           ),
         ),
       ],

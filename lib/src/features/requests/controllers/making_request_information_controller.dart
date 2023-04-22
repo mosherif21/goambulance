@@ -21,11 +21,12 @@ class MakingRequestInformationController extends GetxController {
   String diabeticType = '';
   String hypertensivePatient = '';
   String heartPatient = '';
-
+  final highlightPatientCondition = false.obs;
   final diseaseNameTextController = TextEditingController();
   final medicinesTextController = TextEditingController();
   final medicalHistoryScrollController = ScrollController();
   final additionalInformationTextController = TextEditingController();
+  final patientConditionTextController = TextEditingController();
   List<CoolDropdownItem<String>> requestTypeItems = [];
   final requestTypeDropdownController = DropdownController();
   List<CoolDropdownItem<String>> hypertensiveItems = [];
@@ -87,17 +88,25 @@ class MakingRequestInformationController extends GetxController {
 
   @override
   void onReady() async {
-    //
+    patientConditionTextController.addListener(() {
+      if (patientConditionTextController.text.trim().isNotEmpty) {
+        highlightPatientCondition.value = false;
+      }
+    });
     super.onReady();
   }
 
   Future<void> confirmRequestInformation() async {
-    showLoadingScreen();
-    hideLoadingScreen();
-    Get.to(
-      () => const NormalRequestLocationPage(),
-      transition: getPageTransition(),
-    );
+    highlightPatientCondition.value =
+        patientConditionTextController.text.isEmpty;
+    if (highlightPatientCondition.value) {
+      showSimpleSnackBar(text: 'requiredFields'.tr);
+    } else {
+      Get.to(
+        () => const NormalRequestLocationPage(),
+        transition: getPageTransition(),
+      );
+    }
   }
 
   @override
@@ -111,6 +120,7 @@ class MakingRequestInformationController extends GetxController {
     diabetesDropdownController.dispose();
     bloodTypeDropdownController.dispose();
     heartPatientDropdownController.dispose();
+    patientConditionTextController.dispose();
     super.onClose();
   }
 }

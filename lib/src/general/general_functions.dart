@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -66,7 +67,7 @@ void showSimpleSnackBar({
   ScaffoldMessenger.of(Get.context!).clearSnackBars();
   ScaffoldMessenger.of(Get.context!).showSnackBar(
     SnackBar(
-      content: Text('$text.'),
+      content: AutoSizeText('$text.', maxLines: 2),
       backgroundColor: kDefaultColor,
       behavior: SnackBarBehavior.floating,
       showCloseIcon: true,

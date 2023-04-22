@@ -2,15 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class RegularClickableCardNoP extends StatelessWidget {
-  const RegularClickableCardNoP(
-      {Key? key,
-        required this.onPressed,
-        required this.title,
-        required this.subTitle,
-        required this.icon,
-        required this.iconColor,
-      })
-      : super(key: key);
+  const RegularClickableCardNoP({
+    Key? key,
+    required this.onPressed,
+    required this.title,
+    required this.subTitle,
+    required this.icon,
+    required this.iconColor,
+  }) : super(key: key);
   final Function onPressed;
 
   final String title;
@@ -30,7 +29,7 @@ class RegularClickableCardNoP extends StatelessWidget {
           onTap: () => onPressed(),
           child: Padding(
             padding:
-            const EdgeInsets.symmetric(vertical: 25.0, horizontal: 15.0),
+                const EdgeInsets.symmetric(vertical: 25.0, horizontal: 15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -45,12 +44,13 @@ class RegularClickableCardNoP extends StatelessWidget {
                       maxLines: 2,
                     ),
                     if (subTitle.isNotEmpty)
-                      Text(
+                      AutoSizeText(
                         subTitle,
                         style: const TextStyle(
                             color: Colors.black54,
                             fontWeight: FontWeight.w600,
                             fontSize: 15),
+                        maxLines: 1,
                       ),
                   ],
                 ),

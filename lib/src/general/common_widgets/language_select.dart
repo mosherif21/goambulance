@@ -40,9 +40,10 @@ class LanguageSelect extends StatelessWidget {
                 kUkFlagImage,
                 height: 60.0,
               ),
-              label: Text(
+              label: AutoSizeText(
                 'english'.tr,
                 style: textStyle,
+                maxLines: 1,
               ),
             ),
           ),
@@ -58,9 +59,10 @@ class LanguageSelect extends StatelessWidget {
                 kSAFlagImage,
                 height: 60.0,
               ),
-              label: Text(
+              label: AutoSizeText(
                 'arabic'.tr,
                 style: textStyle,
+                maxLines: 1,
               ),
             ),
           ),

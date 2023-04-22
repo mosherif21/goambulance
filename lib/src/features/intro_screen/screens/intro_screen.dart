@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/colors.dart';
@@ -50,21 +51,23 @@ class IntroScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.02),
-                  Text(
+                  AutoSizeText(
                     'welcome'.tr,
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w800,
                     ),
+                    maxLines: 1,
                   ),
                   const SizedBox(height: 5.0),
-                  Text(
+                  AutoSizeText(
                     'welcomeTitle'.tr,
                     style: const TextStyle(
                       fontSize: 24,
                       color: Colors.black54,
                       fontWeight: FontWeight.w600,
                     ),
+                    maxLines: 2,
                   ),
                   SizedBox(height: screenHeight * 0.02),
                   RegularElevatedButton(

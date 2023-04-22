@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CircleButtonIconAndText extends StatelessWidget {
@@ -33,13 +34,14 @@ class CircleButtonIconAndText extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 5.0),
-        Text(
+        AutoSizeText(
           buttonText,
           textAlign: TextAlign.center,
           style: const TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.w800,
           ),
+          maxLines: 2,
         ),
       ],
     );

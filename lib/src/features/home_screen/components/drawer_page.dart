@@ -120,9 +120,10 @@ class MenuItemWidget extends StatelessWidget {
             ),
             widthBox!,
             Expanded(
-              child: Text(
+              child: AutoSizeText(
                 item!.title,
                 style: style,
+                maxLines: 1,
               ),
             )
           ],

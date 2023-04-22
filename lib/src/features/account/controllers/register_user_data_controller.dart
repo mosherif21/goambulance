@@ -102,12 +102,10 @@ class RegisterUserDataController extends GetxController {
   void onReady() {
     super.onReady();
     nameTextController.addListener(() {
-      if (nameTextController.text.trim().isNotEmpty) {
-        highlightName.value = false;
-      }
+      highlightName.value = nameTextController.text.trim().isEmpty;
     });
     emailTextController.addListener(() {
-      if (emailTextController.text.trim().isEmail) highlightEmail.value = false;
+      highlightEmail.value = !emailTextController.text.trim().isEmail;
     });
     nationalIdTextController.addListener(() {
       final nationalId = nationalIdTextController.text;
@@ -179,9 +177,8 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> checkPersonalInformation() async {
-    highlightName.value = nameTextController.text.trim().isEmpty ? true : false;
-    highlightEmail.value =
-        emailTextController.text.trim().isEmail ? false : true;
+    highlightName.value = nameTextController.text.trim().isEmpty;
+    highlightEmail.value = !emailTextController.text.trim().isEmail;
     final nationalId = nationalIdTextController.text.trim();
 
     if (NIDInfo.NIDCheck(nid: nationalId)) {
@@ -195,11 +192,10 @@ class RegisterUserDataController extends GetxController {
     } else {
       highlightNationalId.value = true;
     }
-    highlightGender.value = gender == null ? true : false;
-    highlightBirthdate.value =
-        birthDateController.selectedDate == null ? true : false;
-    highlightProfilePic.value = isProfileImageAdded.value ? false : true;
-    highlightNationalIdPick.value = isNationalIDImageAdded.value ? false : true;
+    highlightGender.value = gender == null;
+    highlightBirthdate.value = birthDateController.selectedDate == null;
+    highlightProfilePic.value = !isProfileImageAdded.value;
+    highlightNationalIdPick.value = !isNationalIDImageAdded.value;
     if (!highlightName.value &&
         !highlightEmail.value &&
         !highlightNationalId.value &&
@@ -217,7 +213,7 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> savePersonalInformation() async {
-    highlightBloodType.value = selectedBloodType.isEmpty ? true : false;
+    highlightBloodType.value = selectedBloodType.isEmpty;
     if (!highlightBloodType.value) {
       displayBinaryAlertDialog(
         title: 'confirm'.tr,

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:goambulance/src/constants/sizes.dart';
 import 'package:lottie/lottie.dart';
@@ -36,15 +37,17 @@ class OnBoardingPageTemplate extends StatelessWidget {
               fit: BoxFit.contain, height: height * 0.5, width: width * 0.8),
           Column(
             children: [
-              Text(
+              AutoSizeText(
                 onBoardingTitle,
                 style: TextStyle(color: titleTextColor, fontSize: 25.0),
+                maxLines: 1,
               ),
               const SizedBox(height: 5.0),
-              Text(
+              AutoSizeText(
                 onBoardingSubTitle,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: titleSubTextColor),
+                maxLines: 2,
               ),
             ],
           ),

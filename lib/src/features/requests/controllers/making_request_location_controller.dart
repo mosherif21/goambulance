@@ -48,9 +48,10 @@ class MakingRequestLocationController extends GetxController {
   final locationServiceEnabled = false.obs;
   final mapEnabled = false.obs;
   bool allowedLocation = false;
+  late String currentChosenLocationAddress;
   final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
-  late CameraPosition currentCameraPosition;
+  late LatLng currentCameraLatLng;
   final RxDouble mapPinMargin = 85.0.obs;
 
   @override
@@ -103,6 +104,10 @@ class MakingRequestLocationController extends GetxController {
         isSafeArea: false,
         isModal: false,
       );
+      if (kDebugMode) {
+        print('chosen location LatLng: $currentCameraLatLng');
+        print('chosen location address: $currentChosenLocationAddress');
+      }
     } else {
       showSimpleSnackBar(text: 'locationNotAllowed'.tr);
     }
@@ -149,12 +154,13 @@ class MakingRequestLocationController extends GetxController {
   }
 
   CameraPosition getInitialCameraPosition() {
-    currentCameraPosition = CameraPosition(
+    final cameraPosition = CameraPosition(
       target:
           locationAvailable.value ? currentLocationGetter() : searchedLocation,
       zoom: 15.5,
     );
-    return currentCameraPosition;
+    currentCameraLatLng = cameraPosition.target;
+    return cameraPosition;
   }
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
@@ -165,12 +171,14 @@ class MakingRequestLocationController extends GetxController {
       googleMapApiKey: googleMapsAPIKey,
       language: isLangEnglish() ? 'en' : 'ar',
     );
-    String address = addressesInfo.address;
+    final address = addressesInfo.address;
+    currentChosenLocationAddress = address;
     checkAllowedLocation(countryCode: addressesInfo.countryCode);
     return address;
   }
 
   Future<LatLng> getLocationFromAddress({required String address}) async {
+    currentChosenLocationAddress = address;
     final location = await Geocoder2.getDataFromAddress(
       address: address,
       googleMapApiKey: googleMapsAPIKey,
@@ -180,19 +188,12 @@ class MakingRequestLocationController extends GetxController {
     return LatLng(location.latitude, location.longitude);
   }
 
-  void checkAllowedLocation({required String countryCode}) {
-    if (countryCode.compareTo('EG') == 0) {
-      allowedLocation = true;
-    } else {
-      allowedLocation = false;
-    }
-  }
+  void checkAllowedLocation({required String countryCode}) =>
+      allowedLocation = countryCode.compareTo('EG') == 0;
 
   double approximateFloat(
-      {required int decimalPlace, required double inputDouble}) {
-    String doubleAsString = inputDouble.toStringAsFixed(decimalPlace);
-    return double.parse(doubleAsString);
-  }
+          {required int decimalPlace, required double inputDouble}) =>
+      double.parse(inputDouble.toStringAsFixed(decimalPlace));
 
   void setupLocationServiceListener() async {
     try {
@@ -247,9 +248,7 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  void enableMap() {
-    mapEnabled.value = true;
-  }
+  void enableMap() => mapEnabled.value = true;
 
   void animateToCurrentLocation() {
     if (locationAvailable.value) {
@@ -270,9 +269,8 @@ class MakingRequestLocationController extends GetxController {
       if (googleMapControllerInit) {
         try {
           searchedText.value = 'loading'.tr;
-          if (kDebugMode) print(currentCameraPosition.target);
-          final address = await getAddressFromLocation(
-              latLng: currentCameraPosition.target);
+          final address =
+              await getAddressFromLocation(latLng: currentCameraLatLng);
           searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
         } catch (err) {
           if (kDebugMode) print(err.toString());
@@ -328,9 +326,8 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  LatLng currentLocationGetter() {
-    return LatLng(currentLocation.latitude, currentLocation.longitude);
-  }
+  LatLng currentLocationGetter() =>
+      LatLng(currentLocation.latitude, currentLocation.longitude);
 
   @override
   void onClose() async {

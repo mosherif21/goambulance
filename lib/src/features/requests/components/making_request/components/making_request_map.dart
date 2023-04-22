@@ -66,7 +66,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 .makingRequestController.mapControllerCompleter
                 .complete(controller),
             onCameraMove: (cameraPosition) => widget
-                .makingRequestController.currentCameraPosition = cameraPosition,
+                .makingRequestController.currentCameraLatLng = cameraPosition.target,
             onCameraMoveStarted: () {
               setState(() {
                 _pinAnimController.stop();
@@ -79,6 +79,27 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               });
               widget.makingRequestController.onCameraIdle();
             },
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    const CircleBackButton(padding: 0),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: MakingRequestMapSearch(
+                        makingRequestController: widget.makingRequestController,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
           Positioned(
             top: 0,

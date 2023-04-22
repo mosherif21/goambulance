@@ -49,78 +49,72 @@ class _MakingRequestMapState extends State<MakingRequestMap>
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            padding: const EdgeInsets.only(bottom: 70),
-            compassEnabled: false,
-            rotateGesturesEnabled: false,
-            tiltGesturesEnabled: false,
-            mapToolbarEnabled: false,
-            myLocationEnabled: true,
-            zoomControlsEnabled: false,
-            myLocationButtonEnabled: false,
-            initialCameraPosition:
-                widget.makingRequestController.getInitialCameraPosition(),
-            polylines: widget.makingRequestController.mapPolyLines,
-            markers: widget.makingRequestController.mapMarkers,
-            onMapCreated: (GoogleMapController controller) => widget
-                .makingRequestController.mapControllerCompleter
-                .complete(controller),
-            onCameraMove: (cameraPosition) => widget
-                .makingRequestController.currentCameraLatLng = cameraPosition.target,
-            onCameraMoveStarted: () {
-              setState(() {
-                _pinAnimController.stop();
-                _pinAnimController.reset();
-              });
-            },
-            onCameraIdle: () {
-              setState(() {
-                _pinAnimController.forward();
-              });
-              widget.makingRequestController.onCameraIdle();
-            },
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Row(
-                  children: [
-                    const CircleBackButton(padding: 0),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: MakingRequestMapSearch(
-                        makingRequestController: widget.makingRequestController,
-                      ),
-                    ),
-                  ],
-                ),
+          Obx(
+            () => SizedBox(
+              height: widget.makingRequestController.choosingHospital.value
+                  ? screenHeight * 0.5
+                  : screenHeight,
+              child: GoogleMap(
+                padding: EdgeInsets.only(
+                    bottom:
+                        widget.makingRequestController.choosingHospital.value
+                            ? 5
+                            : 70),
+                compassEnabled: false,
+                rotateGesturesEnabled: false,
+                tiltGesturesEnabled: false,
+                mapToolbarEnabled: false,
+                myLocationEnabled: true,
+                zoomControlsEnabled: false,
+                myLocationButtonEnabled: false,
+                initialCameraPosition:
+                    widget.makingRequestController.getInitialCameraPosition(),
+                polylines: widget.makingRequestController.mapPolyLines,
+                markers: widget.makingRequestController.mapMarkers,
+                onMapCreated: (GoogleMapController controller) => widget
+                    .makingRequestController.mapControllerCompleter
+                    .complete(controller),
+                onCameraMove: (cameraPosition) => widget.makingRequestController
+                    .currentCameraLatLng = cameraPosition.target,
+                onCameraMoveStarted: () {
+                  setState(() {
+                    _pinAnimController.stop();
+                    _pinAnimController.reset();
+                  });
+                },
+                onCameraIdle: () {
+                  setState(() {
+                    _pinAnimController.forward();
+                  });
+                  widget.makingRequestController.onCameraIdle();
+                },
               ),
             ),
           ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(15),
-                child: Row(
-                  children: [
-                    const CircleBackButton(padding: 0),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: MakingRequestMapSearch(
-                        makingRequestController: widget.makingRequestController,
+          Obx(
+            () => !widget.makingRequestController.choosingHospital.value
+                ? Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Row(
+                          children: [
+                            const CircleBackButton(padding: 0),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: MakingRequestMapSearch(
+                                  makingRequestController:
+                                      widget.makingRequestController),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
+                  )
+                : const SizedBox.shrink(),
           ),
           Positioned(
             bottom: 10,
@@ -157,7 +151,9 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 child: Lottie.asset(
                   kMapPin,
                   repeat: false,
-                  height: screenHeight * 0.15,
+                  height: widget.makingRequestController.choosingHospital.value
+                      ? 0
+                      : screenHeight * 0.15,
                   controller: _pinAnimController,
                   onLoaded: (composition) {
                     _pinAnimController.duration = composition.duration;

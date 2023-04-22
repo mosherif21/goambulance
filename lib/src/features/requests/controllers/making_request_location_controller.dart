@@ -200,10 +200,8 @@ class MakingRequestLocationController extends GetxController {
       serviceStatusStream = Geolocator.getServiceStatusStream().listen(
         (ServiceStatus status) {
           if (kDebugMode) print(status);
-
           if (status == ServiceStatus.enabled) {
             locationServiceEnabled.value = true;
-
             if (locationPermissionGranted.value) {
               if (positionStreamInitialized) {
                 currentPositionStream?.resume();
@@ -212,8 +210,10 @@ class MakingRequestLocationController extends GetxController {
                 getCurrentLocation();
               }
             }
-
-            if (locationServiceDialog) Get.back();
+            if (locationServiceDialog) {
+              Get.back();
+              locationServiceDialog = false;
+            }
           } else if (status == ServiceStatus.disabled) {
             if (positionStreamInitialized) {
               currentPositionStream?.pause();

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import 'package:goambulance/authentication/exception_errors/password_reset_excep
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../src/constants/enums.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
@@ -26,7 +28,9 @@ class AuthenticationRepository extends GetxController {
   String verificationId = '';
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.regularUser;
-  late UserInformation userInfo;
+  late UserInformation? userInfo;
+  XFile? initUserProfileImageUrl;
+  final userProfileLoaded = false.obs;
 
   @override
   void onInit() {
@@ -54,6 +58,7 @@ class AuthenticationRepository extends GetxController {
 
   Future<FunctionStatus> userInit() async {
     final fireStore = FirebaseFirestore.instance;
+    final fireStorage = FirebaseStorage.instance;
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = fireStore.collection('users');
     try {
@@ -103,6 +108,12 @@ class AuthenticationRepository extends GetxController {
               userType = UserType.regularUser;
             }
           }
+          final profileImageRef =
+              fireStorage.ref('/users/$userId').child('profilePic.jpeg');
+          await profileImageRef.getData().then((imageBytes) {
+            initUserProfileImageUrl = XFile.fromData(imageBytes!);
+            userProfileLoaded.value = true;
+          });
           if (kDebugMode) print('$userType');
         }
       });
@@ -325,19 +336,8 @@ class AuthenticationRepository extends GetxController {
     isUserPhoneRegistered = false;
     verificationId = '';
     userType = UserType.regularUser;
-    userInfo = UserInformation(
-      name: '',
-      email: '',
-      nationalId: '',
-      birthDate: DateTime.now(),
-      gender: '',
-      bloodType: '',
-      diabetesPatient: '',
-      hypertensive: '',
-      heartPatient: '',
-      additionalInformation: '',
-      phoneNumber: '',
-      diseasesList: [],
-    );
+    userInfo = null;
+    initUserProfileImageUrl = null;
+    userProfileLoaded.value = false;
   }
 }

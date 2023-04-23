@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
-import '../../../../constants/colors.dart';
 import '../../../../general/common_widgets/custom_rolling_switch.dart';
 import '../../../../general/common_widgets/dropdown_list.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
@@ -199,7 +198,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         AddDisease(controller: controller),
                       ),
                       enabled: true,
-                      color: kDefaultColor,
+                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 10.0),
@@ -230,7 +229,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       onPressed: () async =>
                           await controller.savePersonalInformation(),
                       enabled: true,
-                      color: kDefaultColor,
+                      color: Colors.black,
                     ),
                   ),
                 ],

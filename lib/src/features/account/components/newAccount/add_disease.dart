@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 
-import '../../../../constants/colors.dart';
 import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
@@ -69,7 +68,7 @@ class AddDisease extends StatelessWidget {
               }
             },
             enabled: true,
-            color: kDefaultColor,
+            color: Colors.black,
           ),
         ],
       ),

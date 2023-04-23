@@ -48,87 +48,85 @@ class HomeDashBoard extends StatelessWidget {
         backgroundColor: Colors.grey.shade100,
       ),
       backgroundColor: Colors.grey.shade100,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          child: Column(
-            children: [
-              //HomeAppBar(homeScreenController: homeScreenController),
-              Expanded(
-                child: StretchingOverscrollIndicator(
-                  axisDirection: AxisDirection.down,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeaderWithButton(
-                          headerText: 'firstAidTips'.tr,
-                          onPressed: () => Get.to(
-                            () => const FirstAidScreen(),
-                            transition: getPageTransition(),
-                          ),
-                          buttonText: 'viewAll'.tr,
+      body: Padding(
+        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+        child: Column(
+          children: [
+            //HomeAppBar(homeScreenController: homeScreenController),
+            Expanded(
+              child: StretchingOverscrollIndicator(
+                axisDirection: AxisDirection.down,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextHeaderWithButton(
+                        headerText: 'firstAidTips'.tr,
+                        onPressed: () => Get.to(
+                          () => const FirstAidScreen(),
+                          transition: getPageTransition(),
                         ),
-                        CarouselSlider(
-                          carouselController:
-                              homeScreenController.carouselController,
-                          items: [
-                            for (int firstAidNumber = 1;
-                                firstAidNumber <= 17;
-                                firstAidNumber++)
-                              Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: OpenContainer(
-                                  useRootNavigator: true,
-                                  closedElevation: 0,
-                                  openElevation: 0,
-                                  closedBuilder: (context, action) =>
-                                      clickableLabeledImage(
-                                    img: getFirstAidTipImage(firstAidNumber),
-                                    label: 'firstAidTips$firstAidNumber'.tr,
-                                  ),
-                                  openBuilder: (context, action) =>
-                                      FirstAidTipsDetailsPage(
-                                    imgPath:
-                                        getFirstAidDetailsPath(firstAidNumber),
-                                  ),
+                        buttonText: 'viewAll'.tr,
+                      ),
+                      CarouselSlider(
+                        carouselController:
+                            homeScreenController.carouselController,
+                        items: [
+                          for (int firstAidNumber = 1;
+                              firstAidNumber <= 17;
+                              firstAidNumber++)
+                            Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: OpenContainer(
+                                useRootNavigator: true,
+                                closedElevation: 0,
+                                openElevation: 0,
+                                closedBuilder: (context, action) =>
+                                    clickableLabeledImage(
+                                  img: getFirstAidTipImage(firstAidNumber),
+                                  label: 'firstAidTips$firstAidNumber'.tr,
+                                ),
+                                openBuilder: (context, action) =>
+                                    FirstAidTipsDetailsPage(
+                                  imgPath:
+                                      getFirstAidDetailsPath(firstAidNumber),
                                 ),
                               ),
-                          ],
-                          options: CarouselOptions(
-                            autoPlay: true,
-                            aspectRatio: 2.2,
-                            enlargeCenterPage: true,
-                            enlargeStrategy: CenterPageEnlargeStrategy.height,
-                          ),
+                            ),
+                        ],
+                        options: CarouselOptions(
+                          autoPlay: true,
+                          aspectRatio: 2.2,
+                          enlargeCenterPage: true,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
                         ),
-                        const SizedBox(height: 15),
-                        TextHeaderWithButton(
-                          headerText: 'services'.tr,
-                          onPressed: () async => await Get.to(
-                            () => const ServicesScreen(),
-                            transition: getPageTransition(),
-                          ),
-                          buttonText: 'viewAll'.tr,
+                      ),
+                      const SizedBox(height: 15),
+                      TextHeaderWithButton(
+                        headerText: 'services'.tr,
+                        onPressed: () async => await Get.to(
+                          () => const ServicesScreen(),
+                          transition: getPageTransition(),
                         ),
-                        const ServicesButtons(),
-                        const SizedBox(height: 15),
-                        TextHeaderWithButton(
-                          headerText: 'recentRequests'.tr,
-                          onPressed: () => homeScreenController
-                              .homeBottomTabController
-                              .jumpToTab(2),
-                          buttonText: 'viewAll'.tr,
-                        ),
-                        const NoRequestsHistory(),
-                        SizedBox(height: screenHeight * 0.1)
-                      ],
-                    ),
+                        buttonText: 'viewAll'.tr,
+                      ),
+                      const ServicesButtons(),
+                      const SizedBox(height: 15),
+                      TextHeaderWithButton(
+                        headerText: 'recentRequests'.tr,
+                        onPressed: () => homeScreenController
+                            .homeBottomTabController
+                            .jumpToTab(2),
+                        buttonText: 'viewAll'.tr,
+                      ),
+                      const NoRequestsHistory(),
+                      SizedBox(height: screenHeight * 0.1)
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

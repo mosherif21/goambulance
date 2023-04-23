@@ -219,7 +219,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               ),
               Obx(
                 () => Center(
-                  child: Container(
+                  child: AnimatedContainer(
                     margin: EdgeInsets.only(
                         bottom:
                             widget.makingRequestController.mapPinMargin.value),
@@ -227,6 +227,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                         widget.makingRequestController.choosingHospital.value
                             ? 0
                             : screenHeight * 0.15,
+                    duration: const Duration(milliseconds: 500),
                     child: Lottie.asset(
                       kMapPin,
                       repeat: false,

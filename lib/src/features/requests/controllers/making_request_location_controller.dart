@@ -40,7 +40,6 @@ class MakingRequestLocationController extends GetxController {
   late LatLng searchedLocation;
   late StreamSubscription<ServiceStatus>? serviceStatusStream;
   late StreamSubscription<Position>? currentPositionStream;
-  bool locationServiceDialog = false;
   bool positionStreamInitialized = false;
   final locationPermissionGranted = false.obs;
   final locationServiceEnabled = false.obs;
@@ -198,17 +197,12 @@ class MakingRequestLocationController extends GetxController {
                 getCurrentLocation();
               }
             }
-            if (locationServiceDialog) {
-              Get.back();
-              locationServiceDialog = false;
-            }
           } else if (status == ServiceStatus.disabled) {
             if (positionStreamInitialized) {
               currentPositionStream?.pause();
               if (kDebugMode) print('position listener paused');
             }
             locationServiceEnabled.value = false;
-            locationServiceDialog = true;
             displayAlertDialog(
               title: 'locationService'.tr,
               body: 'enableLocationService'.tr,
@@ -216,7 +210,6 @@ class MakingRequestLocationController extends GetxController {
               positiveButtonText: 'ok'.tr,
               positiveButtonOnPressed: () {
                 Get.back();
-                locationServiceDialog = false;
               },
             );
           }

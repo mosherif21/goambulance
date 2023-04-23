@@ -85,7 +85,7 @@ void logoutDialogue() async => displayAlertDialog(
       positiveButtonOnPressed: () async => await logout(),
       negativeButtonOnPressed: () => Get.back(),
       mainIcon: Icons.logout,
-      color: SweetSheetColor.DANGER,
+      color: SweetSheetColor.NICE,
     );
 
 Future<void> logout() async {
@@ -145,7 +145,7 @@ void displayAlertDialog({
 }) {
   final SweetSheet sweetSheet = SweetSheet();
   SweetSheetColor.NICE = CustomSheetColor(
-      main: kDefaultColor, accent: kDefaultColorLessShade, icon: Colors.white);
+      main: const Color(0xEE28AADC), accent: kDefaultColor, icon: Colors.white);
   final context = Get.context!;
   sweetSheet.show(
     context: context,

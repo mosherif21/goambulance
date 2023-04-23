@@ -80,11 +80,11 @@ dependencies:
   syncfusion_flutter_datepicker: ^21.1.37
   image_picker: ^0.8.7+1
   cross_file_image: ^1.0.0
-  material_dialogs: ^1.1.4
   custom_radio_grouped_button: ^2.2.0
   flutter_svg: ^2.0.4
   rolling_switch: ^0.0.2
   sliding_up_panel: ^2.0.0+1
+  sweetsheet: ^0.4.0
   cool_dropdown: ^2.0.1
 
 

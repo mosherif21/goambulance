@@ -7,10 +7,8 @@ import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:location/location.dart';
-import 'package:material_dialogs/dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
-import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
@@ -79,15 +77,15 @@ void showSimpleSnackBar({
   );
 }
 
-void logoutDialogue() async => displayBinaryAlertDialog(
+void logoutDialogue() async => displayAlertDialog(
       title: 'logout'.tr,
       body: 'logoutConfirm'.tr,
       positiveButtonText: 'yes'.tr,
       negativeButtonText: 'no'.tr,
       positiveButtonOnPressed: () async => await logout(),
       negativeButtonOnPressed: () => Get.back(),
-      positiveButtonIcon: Icons.logout,
-      negativeButtonIcon: Icons.cancel_outlined,
+      mainIcon: Icons.logout,
+      color: SweetSheetColor.DANGER,
     );
 
 Future<void> logout() async {
@@ -133,38 +131,42 @@ void getOfAllPhoneVerificationScreen() {
   );
 }
 
-void displayBinaryAlertDialog({
+void displayAlertDialog({
   required String title,
   required String body,
+  required CustomSheetColor color,
   required String positiveButtonText,
-  required String negativeButtonText,
+  String? negativeButtonText,
   required Function positiveButtonOnPressed,
-  required Function negativeButtonOnPressed,
-  required IconData positiveButtonIcon,
-  required IconData negativeButtonIcon,
-}) async =>
-    await Dialogs.materialDialog(
-        title: title,
-        msg: body,
-        color: Colors.white,
-        context: Get.context!,
-        actions: [
-          IconsButton(
-            onPressed: () => positiveButtonOnPressed(),
-            text: positiveButtonText,
-            iconData: positiveButtonIcon,
-            color: kDefaultColor,
-            textStyle: const TextStyle(color: Colors.white),
-            iconColor: Colors.white,
-          ),
-          IconsOutlineButton(
-            onPressed: () => negativeButtonOnPressed(),
-            text: negativeButtonText,
-            iconData: negativeButtonIcon,
-            textStyle: const TextStyle(color: Colors.grey),
-            iconColor: Colors.grey,
-          ),
-        ]);
+  Function? negativeButtonOnPressed,
+  IconData? mainIcon,
+  IconData? positiveButtonIcon,
+  IconData? negativeButtonIcon,
+}) {
+  final SweetSheet sweetSheet = SweetSheet();
+  SweetSheetColor.NICE = CustomSheetColor(
+      main: kDefaultColor, accent: kDefaultColorLessShade, icon: Colors.white);
+  final context = Get.context!;
+  sweetSheet.show(
+    context: context,
+    title: Text(title),
+    description: Text(body),
+    color: color,
+    icon: mainIcon,
+    positive: SweetSheetAction(
+      onPressed: () => positiveButtonOnPressed(),
+      title: positiveButtonText,
+      icon: positiveButtonIcon,
+    ),
+    negative: negativeButtonText != null
+        ? SweetSheetAction(
+            onPressed: () => negativeButtonOnPressed!(),
+            title: negativeButtonText,
+            icon: negativeButtonIcon,
+          )
+        : null,
+  );
+}
 
 Future<void> displayChangeLang() async =>
     await RegularBottomSheet.showRegularBottomSheet(
@@ -201,7 +203,7 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
     } else if (locationPermission == LocationPermission.deniedForever) {
       final deniedForeverText = 'locationPermissionDeniedForever'.tr;
       if (!AppInit.isWeb) {
-        displayBinaryAlertDialog(
+        displayAlertDialog(
           title: 'locationPermission'.tr,
           body: deniedForeverText,
           positiveButtonText: 'goToSettings'.tr,
@@ -220,8 +222,8 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
               showSimpleSnackBar(text: deniedForeverText);
             }
           },
-          positiveButtonIcon: Icons.settings,
-          negativeButtonIcon: Icons.cancel_outlined,
+          mainIcon: Icons.settings,
+          color: SweetSheetColor.WARNING,
         );
       } else {
         if (showSnackBar) {
@@ -327,7 +329,7 @@ Future<bool> handleGeneralPermission({
       } else if (permissionStatus.isDenied) {
         showSimpleSnackBar(text: deniedSnackBarText);
       } else if (permissionStatus.isPermanentlyDenied) {
-        displayBinaryAlertDialog(
+        displayAlertDialog(
           title: deniedForeverSnackBarTitle,
           body: deniedForeverSnackBarBody,
           positiveButtonText: 'goToSettings'.tr,
@@ -346,8 +348,8 @@ Future<bool> handleGeneralPermission({
               showSimpleSnackBar(text: deniedForeverSnackBarBody);
             }
           },
-          positiveButtonIcon: Icons.settings,
-          negativeButtonIcon: Icons.cancel_outlined,
+          mainIcon: Icons.settings,
+          color: SweetSheetColor.WARNING,
         );
       }
     } catch (err) {

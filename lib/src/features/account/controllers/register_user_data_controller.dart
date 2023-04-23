@@ -9,6 +9,7 @@ import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
@@ -215,7 +216,7 @@ class RegisterUserDataController extends GetxController {
   Future<void> savePersonalInformation() async {
     highlightBloodType.value = selectedBloodType.isEmpty;
     if (!highlightBloodType.value) {
-      displayBinaryAlertDialog(
+      displayAlertDialog(
         title: 'confirm'.tr,
         body: 'personalInfoShare'.tr,
         positiveButtonText: 'agree'.tr,
@@ -258,8 +259,8 @@ class RegisterUserDataController extends GetxController {
           }
         },
         negativeButtonOnPressed: () => Get.back(),
-        positiveButtonIcon: Icons.check_circle_outline,
-        negativeButtonIcon: Icons.cancel_outlined,
+        mainIcon: Icons.check_circle_outline,
+        color: SweetSheetColor.NICE,
       );
     } else {
       showSimpleSnackBar(text: 'requiredFields'.tr);

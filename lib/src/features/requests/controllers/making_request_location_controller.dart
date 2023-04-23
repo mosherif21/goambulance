@@ -10,12 +10,10 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:material_dialogs/dialogs.dart';
-import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/assets_strings.dart';
-import '../../../constants/colors.dart';
 
 class MakingRequestLocationController extends GetxController {
   static MakingRequestLocationController get instance => Get.find();
@@ -113,7 +111,6 @@ class MakingRequestLocationController extends GetxController {
     choosingHospital.value = true;
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentCameraLatLng)});
-
   }
 
   void choosingRequestLocationChanges() async {
@@ -121,7 +118,6 @@ class MakingRequestLocationController extends GetxController {
     choosingHospital.value = false;
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentCameraLatLng)});
-
   }
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
@@ -213,24 +209,15 @@ class MakingRequestLocationController extends GetxController {
             }
             locationServiceEnabled.value = false;
             locationServiceDialog = true;
-            Dialogs.materialDialog(
+            displayAlertDialog(
               title: 'locationService'.tr,
-              msg: 'enableLocationService'.tr,
-              color: Colors.white,
-              context: Get.context!,
-              actions: [
-                IconsButton(
-                  onPressed: () {
-                    Get.back();
-                    locationServiceDialog = false;
-                  },
-                  text: 'ok'.tr,
-                  iconData: Icons.check_circle_outline,
-                  color: kDefaultColor,
-                  textStyle: const TextStyle(color: Colors.white),
-                  iconColor: Colors.white,
-                ),
-              ],
+              body: 'enableLocationService'.tr,
+              color: SweetSheetColor.NICE,
+              positiveButtonText: 'ok'.tr,
+              positiveButtonOnPressed: () {
+                Get.back();
+                locationServiceDialog = false;
+              },
             );
           }
         },

@@ -1117,14 +1117,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
-  material_dialogs:
-    dependency: "direct main"
-    description:
-      name: material_dialogs
-      sha256: "7828b8e70e5227c1fc2bcdf5c3ac4f22049b9ead6bae96a44ca55a4c7b8da949"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.4"
   meta:
     dependency: transitive
     description:
@@ -1522,6 +1514,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  sweetsheet:
+    dependency: "direct main"
+    description:
+      name: sweetsheet
+      sha256: "6056091eecea4f76688149502fc2b1faf8d840cd6c0795148085df7e290278e4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   syncfusion_flutter_core:
     dependency: transitive
     description:

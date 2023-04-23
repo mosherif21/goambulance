@@ -10,7 +10,6 @@ import 'package:goambulance/authentication/exception_errors/password_reset_excep
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../src/constants/enums.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
@@ -29,8 +28,7 @@ class AuthenticationRepository extends GetxController {
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.regularUser;
   late UserInformation? userInfo;
-  XFile? initUserProfileImageUrl;
-  final userProfileLoaded = false.obs;
+  late String initUserProfileImageUrl;
 
   @override
   void onInit() {
@@ -58,7 +56,7 @@ class AuthenticationRepository extends GetxController {
 
   Future<FunctionStatus> userInit() async {
     final fireStore = FirebaseFirestore.instance;
-    final fireStorage = FirebaseStorage.instance;
+    //final fireStorage = FirebaseStorage.instance;
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = fireStore.collection('users');
     try {
@@ -108,12 +106,10 @@ class AuthenticationRepository extends GetxController {
               userType = UserType.regularUser;
             }
           }
-          final profileImageRef =
-              fireStorage.ref('/users/$userId').child('profilePic.jpeg');
-          await profileImageRef.getData().then((imageBytes) {
-            initUserProfileImageUrl = XFile.fromData(imageBytes!);
-            userProfileLoaded.value = true;
-          });
+          initUserProfileImageUrl =
+              'https://firebasestorage.googleapis.com/v0/b/ambulancebookingproject.appspot.com/o/users%2FxSYblmfhnVU2V63epqpgsT9wYCt1%2FnationalId?alt=media&token=2c6680cd-572b-4443-b71a-bf0aad5cd93f';
+          // final profileImageRef = fireStorage.ref().child('users/$userId/nationalId.jpeg');
+          // initUserProfileImageUrl = await profileImageRef.getDownloadURL();
           if (kDebugMode) print('$userType');
         }
       });
@@ -336,8 +332,19 @@ class AuthenticationRepository extends GetxController {
     isUserPhoneRegistered = false;
     verificationId = '';
     userType = UserType.regularUser;
-    userInfo = null;
-    initUserProfileImageUrl = null;
-    userProfileLoaded.value = false;
+    userInfo = UserInformation(
+        name: '',
+        email: '',
+        nationalId: '',
+        birthDate: DateTime.now(),
+        gender: '',
+        bloodType: '',
+        diabetesPatient: '',
+        hypertensive: '',
+        heartPatient: '',
+        additionalInformation: '',
+        phoneNumber: '',
+        diseasesList: []);
+    initUserProfileImageUrl = '';
   }
 }

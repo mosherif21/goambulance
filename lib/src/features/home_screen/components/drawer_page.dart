@@ -1,10 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cross_file_image/cross_file_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../general/general_functions.dart';
 
@@ -46,18 +43,10 @@ class DrawerPage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade200,
-                        enabled: true,
-                        child: Obx(
-                          () => CircleAvatar(
-                            radius: 65,
-                            backgroundImage: authRepo.userProfileLoaded.value
-                                ? XFileImage(authRepo.initUserProfileImageUrl!)
-                                : null,
-                          ),
-                        ),
+                      CircleAvatar(
+                        radius: 65,
+                        backgroundImage:
+                            NetworkImage(authRepo.initUserProfileImageUrl),
                       ),
                       const SizedBox(height: 20),
                       AutoSizeText(

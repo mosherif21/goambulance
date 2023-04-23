@@ -39,28 +39,20 @@ class FirebasePatientDataAccess extends GetxController {
     required XFile nationalID,
   }) async {
     try {
-      final profilePicMetadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': profilePic.path},
-      );
-      final nationalIdMetadata = SettableMetadata(
-        contentType: 'image/jpeg',
-        customMetadata: {'picked-file-path': nationalID.path},
-      );
       if (AppInit.isWeb) {
         await userStorageReference
             .child('profilePic')
-            .putData(await profilePic.readAsBytes(), profilePicMetadata);
+            .putData(await profilePic.readAsBytes());
         await userStorageReference
             .child('nationalId')
-            .putData(await nationalID.readAsBytes(), nationalIdMetadata);
+            .putData(await nationalID.readAsBytes());
       } else {
         await userStorageReference
             .child('profilePic')
-            .putFile(File(profilePic.path), profilePicMetadata);
+            .putFile(File(profilePic.path));
         await userStorageReference
             .child('nationalId')
-            .putFile(File(nationalID.path), nationalIdMetadata);
+            .putFile(File(nationalID.path));
       }
 
       firestoreUserRef.set(userRegisterInfo.toJson());

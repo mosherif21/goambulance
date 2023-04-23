@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,6 +12,7 @@ import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/colors.dart';
@@ -49,13 +49,15 @@ class MakingRequestLocationController extends GetxController {
   final mapEnabled = false.obs;
   bool allowedLocation = false;
   final choosingHospital = false.obs;
-  late String currentChosenLocationAddress;
   final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
-  late LatLng? currentCameraLatLng;
+  late String currentChosenLocationAddress;
+  late LatLng currentCameraLatLng;
+  late LatLng initialCameraLatLng;
+  bool cameraMoved = false;
   final RxDouble mapPinMargin = 85.0.obs;
-  final DraggableScrollableController hospitalsChooseController =
-      DraggableScrollableController();
+  final PanelController hospitalsPanelController = PanelController();
+  final FocusNode requestButtonFocusNode = FocusNode();
 
   @override
   void onReady() async {
@@ -94,23 +96,9 @@ class MakingRequestLocationController extends GetxController {
     });
   }
 
-  Future<void> onRequestPress({required BuildContext context}) async {
+  Future<void> onRequestPress() async {
     if (allowedLocation) {
-      choosingHospitalChanges();
-      showFlexibleBottomSheet(
-        draggableScrollableController: hospitalsChooseController,
-        minHeight: 0.5,
-        isCollapsible: false,
-        initHeight: 0.5,
-        maxHeight: 0.87,
-        context: context,
-        isDismissible: false,
-        builder: _buildBottomSheet,
-        anchors: [0.5, 0.87],
-        duration: const Duration(milliseconds: 500),
-        isSafeArea: false,
-        isModal: false,
-      );
+      await choosingHospitalChanges();
       if (kDebugMode) {
         print('chosen location LatLng: $currentCameraLatLng');
         print('chosen location address: $currentChosenLocationAddress');
@@ -120,31 +108,14 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  void choosingHospitalChanges() {
+  Future<void> choosingHospitalChanges() async {
+    await hospitalsPanelController.open();
     choosingHospital.value = true;
   }
 
-  void choosingRequestLocationChanges() {
+  void choosingRequestLocationChanges() async {
+    await hospitalsPanelController.close();
     choosingHospital.value = false;
-  }
-
-  Widget _buildBottomSheet(
-    BuildContext context,
-    ScrollController scrollController,
-    double bottomSheetOffset,
-  ) {
-    return WillPopScope(
-      onWillPop: () {
-        choosingRequestLocationChanges();
-        return Future.value(true);
-      },
-      child: Material(
-        child: ListView(
-          controller: scrollController,
-          children: const [],
-        ),
-      ),
-    );
   }
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
@@ -173,12 +144,15 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  CameraPosition getInitialCameraPosition() => CameraPosition(
-        target: locationAvailable.value
-            ? currentLocationGetter()
-            : searchedLocation,
-        zoom: 15.5,
-      );
+  CameraPosition getInitialCameraPosition() {
+    final cameraPosition = CameraPosition(
+      target:
+          locationAvailable.value ? currentLocationGetter() : searchedLocation,
+      zoom: 15.5,
+    );
+    initialCameraLatLng = cameraPosition.target;
+    return cameraPosition;
+  }
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
     final addressesInfo = await Geocoder2.getDataFromCoordinates(
@@ -281,12 +255,15 @@ class MakingRequestLocationController extends GetxController {
       if (mapEnabled.value) {
         if (googleMapControllerInit) {
           try {
-            if (currentCameraLatLng != null) {
-              searchedText.value = 'loading'.tr;
-              final address =
-                  await getAddressFromLocation(latLng: currentCameraLatLng!);
-              searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
+            searchedText.value = 'loading'.tr;
+            String address = '';
+            if (!cameraMoved) {
+              currentCameraLatLng = LatLng(
+                  initialCameraLatLng.latitude, initialCameraLatLng.longitude);
             }
+            address = await getAddressFromLocation(latLng: currentCameraLatLng);
+
+            searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
           } catch (err) {
             if (kDebugMode) print(err.toString());
           }

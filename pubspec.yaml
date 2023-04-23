@@ -84,7 +84,7 @@ dependencies:
   custom_radio_grouped_button: ^2.2.0
   flutter_svg: ^2.0.4
   rolling_switch: ^0.0.2
-  bottom_sheet: ^3.1.2
+  sliding_up_panel: ^2.0.0+1
   cool_dropdown: ^2.0.1
 
 

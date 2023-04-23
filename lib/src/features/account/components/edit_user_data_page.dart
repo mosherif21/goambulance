@@ -13,9 +13,9 @@ import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../../../../firebase_files/firebase_patient_access.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/enums.dart';
+import '../../../general/common_widgets/back_button.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/common_widgets/regular_card.dart';
 
@@ -25,10 +25,10 @@ class EditUserDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
-    Get.put(FirebasePatientDataAccess());
     final controller = Get.put(RegisterUserDataController());
     return Scaffold(
       appBar: AppBar(
+        leading: const RegularBackButton(padding: 0),
         elevation: 0,
         scrolledUnderElevation: 5,
         backgroundColor: Colors.grey.shade100,

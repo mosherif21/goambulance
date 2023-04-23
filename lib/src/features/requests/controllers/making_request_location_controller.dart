@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,8 @@ class MakingRequestLocationController extends GetxController {
   //maps vars
   final RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
   final RxSet<Marker> mapMarkers = <Marker>{}.obs;
+  late Marker? requestLocationMarker;
+  late BitmapDescriptor requestLocationMarkerIcon;
   final Completer<GoogleMapController> mapControllerCompleter =
       Completer<GoogleMapController>();
   late final GoogleMapController googleMapController;
@@ -50,7 +53,7 @@ class MakingRequestLocationController extends GetxController {
   final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
   late String currentChosenLocationAddress;
-  late LatLng currentCameraLatLng;
+  late LatLng currentChosenLatLng;
   late LatLng initialCameraLatLng;
   bool cameraMoved = false;
   final RxDouble mapPinMargin = 85.0.obs;
@@ -63,6 +66,7 @@ class MakingRequestLocationController extends GetxController {
     setupLocationServiceListener();
     await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
     initMapController();
+    await _loadMarkersIcon();
     super.onReady();
   }
 
@@ -98,7 +102,7 @@ class MakingRequestLocationController extends GetxController {
     if (allowedLocation) {
       await choosingHospitalChanges();
       if (kDebugMode) {
-        print('chosen location LatLng: $currentCameraLatLng');
+        print('chosen location LatLng: $currentChosenLatLng');
         print('chosen location address: $currentChosenLocationAddress');
       }
     } else {
@@ -113,14 +117,27 @@ class MakingRequestLocationController extends GetxController {
     await hospitalsPanelController.open();
     choosingHospital.value = true;
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => {animateToLocation(locationLatLng: currentCameraLatLng)});
+        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
+    requestLocationMarker = Marker(
+      markerId: MarkerId('requestLocation'.tr),
+      position: currentChosenLatLng,
+      icon: requestLocationMarkerIcon,
+      infoWindow: InfoWindow(
+        title: 'requestLocationPinDesc'.tr,
+      ),
+      onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
+    );
+    mapMarkers.add(requestLocationMarker!);
   }
 
   void choosingRequestLocationChanges() async {
     await hospitalsPanelController.close();
     choosingHospital.value = false;
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => {animateToLocation(locationLatLng: currentCameraLatLng)});
+        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
+    if (requestLocationMarker != null) {
+      mapMarkers.remove(requestLocationMarker!);
+    }
   }
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
@@ -241,23 +258,28 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onCameraIdle() async {
-    if (!choosingHospital.value) {
-      if (mapEnabled.value) {
-        if (googleMapControllerInit) {
-          try {
-            searchedText.value = 'loading'.tr;
-            String address = '';
-            if (!cameraMoved) {
-              currentCameraLatLng = LatLng(
-                  initialCameraLatLng.latitude, initialCameraLatLng.longitude);
-            }
-            address = await getAddressFromLocation(latLng: currentCameraLatLng);
-            searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
-          } catch (err) {
-            if (kDebugMode) print(err.toString());
+    if (mapEnabled.value) {
+      if (googleMapControllerInit) {
+        try {
+          searchedText.value = 'loading'.tr;
+          String address = '';
+          if (!cameraMoved) {
+            currentChosenLatLng = LatLng(
+                initialCameraLatLng.latitude, initialCameraLatLng.longitude);
           }
+          address = await getAddressFromLocation(latLng: currentChosenLatLng);
+          searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
+        } catch (err) {
+          if (kDebugMode) print(err.toString());
         }
       }
+    }
+  }
+
+  void onCameraMove(CameraPosition cameraPosition) {
+    if (!choosingHospital.value) {
+      currentChosenLatLng = cameraPosition.target;
+      cameraMoved = true;
     }
   }
 
@@ -314,11 +336,26 @@ class MakingRequestLocationController extends GetxController {
   @override
   void onClose() async {
     await serviceStatusStream?.cancel();
-    if (positionStreamInitialized) await currentPositionStream!.cancel();
     if (googleMapControllerInit) googleMapController.dispose();
+    if (positionStreamInitialized) await currentPositionStream!.cancel();
     super.onClose();
   }
 
+  Future<void> _loadMarkersIcon() async {
+    await _getBytesFromAsset(kRequestLocationMarkerImg, 120).then((iconBytes) {
+      requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+    });
+  }
+
+  Future<Uint8List> _getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
 // Polyline(
 //   polylineId: const PolylineId('router_driver'),
 //   color: const Color(0xFF28AADC),
@@ -373,22 +410,4 @@ class MakingRequestLocationController extends GetxController {
 //   }
 // }
 //
-// Future<void> _loadMarkersIcon() async {
-//   await _getBytesFromAsset(
-//       AppInit.isWeb ? kAmbulanceMarkerImg : kAmbulanceMarkerImgUnscaled,
-//       130)
-//       .then((iconBytes) {
-//     ambulanceDriverIcon = BitmapDescriptor.fromBytes(iconBytes);
-//   });
-// }
-//
-// Future<Uint8List> _getBytesFromAsset(String path, int width) async {
-//   ByteData data = await rootBundle.load(path);
-//   ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
-//       targetWidth: width);
-//   ui.FrameInfo fi = await codec.getNextFrame();
-//   return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
-//       .buffer
-//       .asUint8List();
-// }
 }

@@ -93,8 +93,9 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         ],
       ),
       margin: const EdgeInsets.all(20),
-      child: const Center(
-        child: Text("This is the SlidingUpPanel when open"),
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: const [],
       ),
     );
   }
@@ -146,22 +147,24 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   onMapCreated: (GoogleMapController controller) => widget
                       .makingRequestController.mapControllerCompleter
                       .complete(controller),
-                  onCameraMove: (cameraPosition) {
-                    widget.makingRequestController.currentCameraLatLng =
-                        cameraPosition.target;
-                    widget.makingRequestController.cameraMoved = true;
-                  },
+                  onCameraMove: widget.makingRequestController.onCameraMove,
                   onCameraMoveStarted: () {
-                    setState(() {
-                      _pinAnimController.stop();
-                      _pinAnimController.reset();
-                    });
+                    if (!widget
+                        .makingRequestController.choosingHospital.value) {
+                      setState(() {
+                        _pinAnimController.stop();
+                        _pinAnimController.reset();
+                      });
+                    }
                   },
                   onCameraIdle: () {
-                    setState(() {
-                      _pinAnimController.forward();
-                    });
-                    widget.makingRequestController.onCameraIdle();
+                    if (!widget
+                        .makingRequestController.choosingHospital.value) {
+                      setState(() {
+                        _pinAnimController.forward();
+                      });
+                      widget.makingRequestController.onCameraIdle();
+                    }
                   },
                 ),
               ),
@@ -220,7 +223,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               Obx(
                 () => Center(
                   child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 500),
+                    duration: const Duration(milliseconds: 100),
                     margin: EdgeInsets.only(
                         bottom:
                             widget.makingRequestController.mapPinMargin.value),

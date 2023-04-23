@@ -1,14 +1,13 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
-import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-import 'package:lottie/lottie.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
-import '../general/common_widgets/no_button_alert_dialog.dart';
+import '../general/general_functions.dart';
 
 class ConnectivityController extends GetxController {
   static ConnectivityController get instance => Get.find();
@@ -34,7 +33,7 @@ class ConnectivityController extends GetxController {
     if (internetConnectionStatus == InternetConnectionStatus.connected ||
         AppInit.isWeb) {
       if (kDebugMode) print('Connected to internet');
-      if (_isAlertDisplayed) _hideNetworkAlertDialog();
+      //if (_isAlertDisplayed) _hideNetworkAlertDialog();
       AppInit.internetInitialize();
     } else if (internetConnectionStatus ==
         InternetConnectionStatus.disconnected) {
@@ -46,21 +45,20 @@ class ConnectivityController extends GetxController {
 
   void _hideNetworkAlertDialog() {
     _isAlertDisplayed = false;
-    if (Get.isDialogOpen == true) Get.back();
+    Get.back();
   }
 
   void _showNetworkAlertDialog() {
-    final double? screenHeight = Get.context?.height;
     _isAlertDisplayed = true;
-    NoButtonAlertDialog(
+    displayAlertDialog(
       title: 'noConnectionAlertTitle'.tr,
-      content: Lottie.asset(
-        kNoInternetAnim,
-        fit: BoxFit.contain,
-        height: screenHeight! * 0.25,
-      ),
-      dismissible: false,
-    ).showNoButtonAlertDialog();
+      body: 'noConnectionAlertContent'.tr,
+      color: SweetSheetColor.DANGER,
+      positiveButtonText: 'ok'.tr,
+      positiveButtonOnPressed: () => _hideNetworkAlertDialog(),
+      mainIcon: Icons.signal_wifi_statusbar_connected_no_internet_4,
+      isDismissible: false,
+    );
   }
 
   void updateDisplayAlert({required bool displayAlert}) {

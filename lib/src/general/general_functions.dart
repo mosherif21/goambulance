@@ -140,10 +140,12 @@ void displayAlertDialog({
   IconData? mainIcon,
   IconData? positiveButtonIcon,
   IconData? negativeButtonIcon,
+  bool? isDismissible,
 }) {
   final SweetSheet sweetSheet = SweetSheet();
   final context = Get.context!;
   sweetSheet.show(
+    isDismissible: isDismissible ?? true,
     context: context,
     title: Text(title),
     description: Text(body),

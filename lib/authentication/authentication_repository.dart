@@ -56,7 +56,7 @@ class AuthenticationRepository extends GetxController {
 
   Future<FunctionStatus> userInit() async {
     final fireStore = FirebaseFirestore.instance;
-    //final fireStorage = FirebaseStorage.instance;
+    final fireStorage = FirebaseStorage.instance;
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = fireStore.collection('users');
     try {
@@ -106,10 +106,9 @@ class AuthenticationRepository extends GetxController {
               userType = UserType.regularUser;
             }
           }
-          initUserProfileImageUrl =
-              'https://firebasestorage.googleapis.com/v0/b/ambulancebookingproject.appspot.com/o/users%2FxSYblmfhnVU2V63epqpgsT9wYCt1%2FnationalId?alt=media&token=2c6680cd-572b-4443-b71a-bf0aad5cd93f';
-          // final profileImageRef = fireStorage.ref().child('users/$userId/nationalId.jpeg');
-          // initUserProfileImageUrl = await profileImageRef.getDownloadURL();
+          final profileImageRef =
+              fireStorage.ref().child('users/$userId/profilePic');
+          initUserProfileImageUrl = await profileImageRef.getDownloadURL();
           if (kDebugMode) print('$userType');
         }
       });

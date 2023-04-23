@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -8,6 +8,7 @@ import 'package:goambulance/src/features/intro_screen/screens/intro_screen.dart'
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
@@ -19,6 +20,7 @@ import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
 import '../general/common_widgets/empty_scaffold.dart';
 import '../general/error_widgets/no_internet_error_widget.dart';
+import 'colors.dart';
 import 'enums.dart';
 
 class AppInit {
@@ -48,7 +50,7 @@ class AppInit {
       isLocaleSet = await getIfLocaleIsSet();
       showOnBoard = await getShowOnBoarding();
       if (isLocaleSet) {
-        setLocale = await getLocale();
+        setLocale = getLocale();
       } else {
         setLocale = Get.deviceLocale ?? const Locale('en', 'US');
       }
@@ -68,6 +70,10 @@ class AppInit {
         isIos = true;
       }
       isConstantsInitialised = true;
+      SweetSheetColor.NICE = CustomSheetColor(
+          main: const Color(0xEE28AADC),
+          accent: kDefaultColor,
+          icon: Colors.white);
     }
   }
 
@@ -152,7 +158,9 @@ class AppInit {
             if (AppInit.isWeb) {
               await authRepo.logoutUser();
               Get.offAll(() => const AuthenticationScreen());
-              showSimpleSnackBar(text: 'useMobileToRegister'.tr);
+              showSimpleSnackBar(
+                  text: 'useMobileToRegister'.tr,
+                  snackBarType: SnackBarType.info);
             } else {
               Get.offAll(() => const RegisterUserDataPage(),
                   transition: Transition.circularReveal);
@@ -167,7 +175,8 @@ class AppInit {
         hideLoadingScreen();
         removeSplashScreen();
         await authRepo.logoutUser();
-        showSimpleSnackBar(text: 'loginFailed'.tr);
+        showSimpleSnackBar(
+            text: 'loginFailed'.tr, snackBarType: SnackBarType.error);
       }
     } else {
       removeSplashScreen();

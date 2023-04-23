@@ -16,3 +16,5 @@ enum AuthType { emailLogin, emailRegister, facebook, google, phone }
 enum UserType { driver, medic, regularUser, criticalUser }
 
 enum FunctionStatus { success, failure }
+
+enum SnackBarType { success, error, info, warning }

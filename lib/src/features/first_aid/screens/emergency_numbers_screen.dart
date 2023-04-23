@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 
+import '../../../constants/enums.dart';
 import '../../../general/common_widgets/back_button.dart';
 import '../../../general/common_widgets/regular_clickable_card.dart';
 import '../controllers/first_aid_assets.dart';
@@ -43,7 +44,9 @@ class EmergencyNumbersScreen extends StatelessWidget {
                             emergencyNumbers[emergencyNumber]);
                       }
                     } else {
-                      showSimpleSnackBar(text: 'useMobileToThisFeature'.tr);
+                      showSimpleSnackBar(
+                          text: 'useMobileToThisFeature'.tr,
+                          snackBarType: SnackBarType.info);
                     }
                   },
                   title: 'emergencyNumber${emergencyNumber + 1}'.tr,

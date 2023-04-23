@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
+import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 
 class ResetController extends GetxController {
@@ -22,10 +23,12 @@ class ResetController extends GetxController {
       Get.back();
       showSimpleSnackBar(
         text: 'emailResetSuccess'.tr,
+        snackBarType: SnackBarType.success,
       );
     } else {
       showSimpleSnackBar(
         text: returnMessage,
+        snackBarType: SnackBarType.error,
       );
     }
     hideLoadingScreen();

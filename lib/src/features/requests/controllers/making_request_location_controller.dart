@@ -14,6 +14,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/assets_strings.dart';
+import '../../../constants/enums.dart';
 
 class MakingRequestLocationController extends GetxController {
   static MakingRequestLocationController get instance => Get.find();
@@ -101,7 +102,10 @@ class MakingRequestLocationController extends GetxController {
         print('chosen location address: $currentChosenLocationAddress');
       }
     } else {
-      showSimpleSnackBar(text: 'locationNotAllowed'.tr);
+      showSimpleSnackBar(
+        text: 'locationNotAllowed'.tr,
+        snackBarType: SnackBarType.error,
+      );
     }
   }
 
@@ -206,7 +210,7 @@ class MakingRequestLocationController extends GetxController {
             displayAlertDialog(
               title: 'locationService'.tr,
               body: 'enableLocationService'.tr,
-              color: SweetSheetColor.NICE,
+              color: SweetSheetColor.DANGER,
               positiveButtonText: 'ok'.tr,
               positiveButtonOnPressed: () {
                 Get.back();

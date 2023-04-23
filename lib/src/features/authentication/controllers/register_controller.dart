@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
+import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 
 class EmailRegisterController extends GetxController {
@@ -31,6 +32,7 @@ class EmailRegisterController extends GetxController {
       hideLoadingScreen();
       showSimpleSnackBar(
         text: returnMessage,
+        snackBarType: SnackBarType.error,
       );
     }
   }

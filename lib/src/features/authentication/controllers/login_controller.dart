@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 import '../../../../authentication/authentication_repository.dart';
+import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 
 class LoginController extends GetxController {
@@ -28,6 +29,7 @@ class LoginController extends GetxController {
       hideLoadingScreen();
       showSimpleSnackBar(
         text: returnMessage,
+        snackBarType: SnackBarType.error,
       );
     }
   }

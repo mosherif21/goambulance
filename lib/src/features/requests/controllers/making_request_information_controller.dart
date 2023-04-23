@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 import '../../account/components/models.dart';
 import '../components/making_request/components/normal_request_location_page.dart';
@@ -100,7 +101,8 @@ class MakingRequestInformationController extends GetxController {
     highlightPatientCondition.value =
         patientConditionTextController.text.isEmpty;
     if (highlightPatientCondition.value) {
-      showSimpleSnackBar(text: 'requiredFields'.tr);
+      showSimpleSnackBar(
+          text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {
       Get.to(
         () => const NormalRequestLocationPage(),

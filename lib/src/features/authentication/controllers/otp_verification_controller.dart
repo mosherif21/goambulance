@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
 import '../../../constants/assets_strings.dart';
+import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 import '../components/otpVerification/otp_verification.dart';
 
@@ -28,6 +29,7 @@ class OtpVerificationController extends GetxController {
       hideLoadingScreen();
       showSimpleSnackBar(
         text: returnMessage,
+        snackBarType: SnackBarType.error,
       );
     }
   }
@@ -55,7 +57,10 @@ class OtpVerificationController extends GetxController {
         transition: getPageTransition(),
       );
     } else {
-      showSimpleSnackBar(text: returnMessage);
+      showSimpleSnackBar(
+        text: returnMessage,
+        snackBarType: SnackBarType.error,
+      );
     }
   }
 

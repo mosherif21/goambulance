@@ -1,10 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
-import 'package:goambulance/src/constants/colors.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -61,20 +60,19 @@ void hideLoadingScreen() {
 
 void showSimpleSnackBar({
   required String text,
+  required SnackBarType snackBarType,
 }) {
-  ScaffoldMessenger.of(Get.context!).clearSnackBars();
-  ScaffoldMessenger.of(Get.context!).showSnackBar(
-    SnackBar(
-      content: AutoSizeText('$text.', maxLines: 2),
-      backgroundColor: kDefaultColor,
-      behavior: SnackBarBehavior.floating,
-      showCloseIcon: true,
-      closeIconColor: Colors.white,
-      elevation: 20.0,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10))),
-    ),
-  );
+  final context = Get.context!;
+  AnimatedSnackBar.material(
+    text,
+    type: snackBarType == SnackBarType.success
+        ? AnimatedSnackBarType.success
+        : snackBarType == SnackBarType.error
+            ? AnimatedSnackBarType.error
+            : AnimatedSnackBarType.info,
+    snackBarStrategy: RemoveSnackBarStrategy(),
+    duration: const Duration(seconds: 5),
+  ).show(context);
 }
 
 void logoutDialogue() async => displayAlertDialog(
@@ -85,7 +83,7 @@ void logoutDialogue() async => displayAlertDialog(
       positiveButtonOnPressed: () async => await logout(),
       negativeButtonOnPressed: () => Get.back(),
       mainIcon: Icons.logout,
-      color: SweetSheetColor.NICE,
+      color: SweetSheetColor.DANGER,
     );
 
 Future<void> logout() async {
@@ -144,8 +142,6 @@ void displayAlertDialog({
   IconData? negativeButtonIcon,
 }) {
   final SweetSheet sweetSheet = SweetSheet();
-  SweetSheetColor.NICE = CustomSheetColor(
-      main: const Color(0xEE28AADC), accent: kDefaultColor, icon: Colors.white);
   final context = Get.context!;
   sweetSheet.show(
     context: context,
@@ -198,7 +194,9 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
       return true;
     } else if (locationPermission == LocationPermission.denied) {
       if (showSnackBar) {
-        showSimpleSnackBar(text: 'enableLocationPermission'.tr);
+        showSimpleSnackBar(
+            text: 'enableLocationPermission'.tr,
+            snackBarType: SnackBarType.error);
       }
     } else if (locationPermission == LocationPermission.deniedForever) {
       final deniedForeverText = 'locationPermissionDeniedForever'.tr;
@@ -212,14 +210,16 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
             Get.back();
             if (!await Geolocator.openAppSettings()) {
               if (showSnackBar) {
-                showSimpleSnackBar(text: deniedForeverText);
+                showSimpleSnackBar(
+                    text: deniedForeverText, snackBarType: SnackBarType.error);
               }
             }
           },
           negativeButtonOnPressed: () {
             Get.back();
             if (showSnackBar) {
-              showSimpleSnackBar(text: deniedForeverText);
+              showSimpleSnackBar(
+                  text: deniedForeverText, snackBarType: SnackBarType.error);
             }
           },
           mainIcon: Icons.settings,
@@ -227,7 +227,8 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
         );
       } else {
         if (showSnackBar) {
-          showSimpleSnackBar(text: deniedForeverText);
+          showSimpleSnackBar(
+              text: deniedForeverText, snackBarType: SnackBarType.error);
         }
       }
     }
@@ -327,7 +328,8 @@ Future<bool> handleGeneralPermission({
       if (permissionStatus.isGranted) {
         return true;
       } else if (permissionStatus.isDenied) {
-        showSimpleSnackBar(text: deniedSnackBarText);
+        showSimpleSnackBar(
+            text: deniedSnackBarText, snackBarType: SnackBarType.error);
       } else if (permissionStatus.isPermanentlyDenied) {
         displayAlertDialog(
           title: deniedForeverSnackBarTitle,
@@ -338,14 +340,18 @@ Future<bool> handleGeneralPermission({
             Get.back();
             if (!await openAppSettings()) {
               if (showSnackBar) {
-                showSimpleSnackBar(text: deniedForeverSnackBarBody);
+                showSimpleSnackBar(
+                    text: deniedForeverSnackBarBody,
+                    snackBarType: SnackBarType.error);
               }
             }
           },
           negativeButtonOnPressed: () {
             Get.back();
             if (showSnackBar) {
-              showSimpleSnackBar(text: deniedForeverSnackBarBody);
+              showSimpleSnackBar(
+                  text: deniedForeverSnackBarBody,
+                  snackBarType: SnackBarType.error);
             }
           },
           mainIcon: Icons.settings,

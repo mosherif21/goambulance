@@ -209,7 +209,8 @@ class RegisterUserDataController extends GetxController {
         transition: getPageTransition(),
       );
     } else {
-      showSimpleSnackBar(text: 'requiredFields'.tr);
+      showSimpleSnackBar(
+          text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
   }
 
@@ -255,7 +256,8 @@ class RegisterUserDataController extends GetxController {
             AppInit.goToInitPage();
           } else {
             hideLoadingScreen();
-            showSimpleSnackBar(text: 'saveUserInfoError'.tr);
+            showSimpleSnackBar(
+                text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
           }
         },
         negativeButtonOnPressed: () => Get.back(),
@@ -263,7 +265,8 @@ class RegisterUserDataController extends GetxController {
         color: SweetSheetColor.NICE,
       );
     } else {
-      showSimpleSnackBar(text: 'requiredFields'.tr);
+      showSimpleSnackBar(
+          text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
   }
 

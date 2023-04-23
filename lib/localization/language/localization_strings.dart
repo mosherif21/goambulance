@@ -444,7 +444,7 @@ class Languages extends Translations {
           'askYou': 'Are you',
           'askHim': 'Is he/she',
           'add': 'Add',
-          'agree': 'I agree',
+          'agree': 'I Agree',
           'disagree': 'Disagree',
           'diseaseInfo': 'Please enter the disease/allergy information',
           'personalInfoShare':

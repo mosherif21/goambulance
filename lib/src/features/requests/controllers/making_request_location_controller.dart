@@ -262,7 +262,6 @@ class MakingRequestLocationController extends GetxController {
                   initialCameraLatLng.latitude, initialCameraLatLng.longitude);
             }
             address = await getAddressFromLocation(latLng: currentCameraLatLng);
-
             searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
           } catch (err) {
             if (kDebugMode) print(err.toString());

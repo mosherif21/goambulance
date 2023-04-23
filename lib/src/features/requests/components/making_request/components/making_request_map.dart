@@ -51,18 +51,14 @@ class _MakingRequestMapState extends State<MakingRequestMap>
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.black,
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
         ),
-        margin: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
+        margin: const EdgeInsets.fromLTRB(20, 20, 20, 5),
         child: Material(
           color: Colors.black,
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(20)),
           child: InkWell(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(24.0),
-                topRight: Radius.circular(24.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(20)),
             splashFactory: InkSparkle.splashFactory,
             onTap: () => widget.makingRequestController.onRequestPress(),
             child: Center(
@@ -84,14 +80,15 @@ class _MakingRequestMapState extends State<MakingRequestMap>
   Widget floatingPanel() {
     return Container(
       decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(24.0)),
-          boxShadow: [
-            BoxShadow(
-              blurRadius: 20.0,
-              color: Colors.grey,
-            ),
-          ]),
+        color: Colors.transparent,
+        borderRadius: BorderRadius.all(Radius.circular(24.0)),
+        // boxShadow: [
+        //   BoxShadow(
+        //     blurRadius: 20.0,
+        //     color: Colors.grey,
+        //   ),
+        //],
+      ),
       margin: const EdgeInsets.all(24.0),
       child: const Center(
         child: Text("This is the SlidingUpPanel when open"),

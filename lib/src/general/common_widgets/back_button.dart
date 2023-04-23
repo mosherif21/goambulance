@@ -23,11 +23,9 @@ class RegularBackButton extends StatelessWidget {
 }
 
 class CircleBackButton extends StatelessWidget {
-  const CircleBackButton(
-      {Key? key, required this.padding, required this.onPress})
-      : super(key: key);
+  const CircleBackButton({Key? key, required this.padding}) : super(key: key);
   final double padding;
-  final Function onPress;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -46,7 +44,7 @@ class CircleBackButton extends StatelessWidget {
               size: 28,
             ),
           ),
-          onTap: () => onPress(),
+          onTap: () => Get.back(),
         ),
       ),
     );

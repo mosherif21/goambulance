@@ -177,18 +177,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                     padding: const EdgeInsets.all(15),
                     child: Row(
                       children: [
-                        CircleBackButton(
-                          padding: 0,
-                          onPress: () async {
-                            if (widget.makingRequestController.choosingHospital
-                                .value) {
-                              widget.makingRequestController
-                                  .choosingRequestLocationChanges();
-                            } else {
-                              Get.back();
-                            }
-                          },
-                        ),
+                        const CircleBackButton(padding: 0),
                         const SizedBox(width: 10),
                         Obx(
                           () => widget.makingRequestController.choosingHospital

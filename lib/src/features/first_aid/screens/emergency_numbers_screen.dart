@@ -39,7 +39,7 @@ class EmergencyNumbersScreen extends StatelessWidget {
                 return RegularClickableCard(
                   onPressed: () async {
                     if (AppInit.isWeb) {
-                      if (await handleCallPermission(showSnackBar: true)) {
+                      if (await handleCallPermission()) {
                         await FlutterPhoneDirectCaller.callNumber(
                             emergencyNumbers[emergencyNumber]);
                       }

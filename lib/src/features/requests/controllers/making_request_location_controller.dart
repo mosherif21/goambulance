@@ -76,7 +76,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<void> setupLocationPermission() async {
-    await handleLocationPermission(showSnackBar: true).then(
+    await handleLocationPermission().then(
       (permissionGranted) {
         locationPermissionGranted.value = permissionGranted;
         if (permissionGranted && locationServiceEnabled.value) {

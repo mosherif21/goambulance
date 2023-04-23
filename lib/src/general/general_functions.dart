@@ -178,7 +178,7 @@ Future<void> displayChangeLang() async =>
       ),
     );
 
-Future<bool> handleLocationPermission({required bool showSnackBar}) async {
+Future<bool> handleLocationPermission() async {
   try {
     LocationPermission locationPermission = await Geolocator.checkPermission();
 
@@ -193,11 +193,9 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
         locationPermission == LocationPermission.whileInUse) {
       return true;
     } else if (locationPermission == LocationPermission.denied) {
-      if (showSnackBar) {
-        showSimpleSnackBar(
-            text: 'enableLocationPermission'.tr,
-            snackBarType: SnackBarType.error);
-      }
+      showSimpleSnackBar(
+          text: 'enableLocationPermission'.tr,
+          snackBarType: SnackBarType.error);
     } else if (locationPermission == LocationPermission.deniedForever) {
       final deniedForeverText = 'locationPermissionDeniedForever'.tr;
       if (!AppInit.isWeb) {
@@ -209,27 +207,22 @@ Future<bool> handleLocationPermission({required bool showSnackBar}) async {
           positiveButtonOnPressed: () async {
             Get.back();
             if (!await Geolocator.openAppSettings()) {
-              if (showSnackBar) {
-                showSimpleSnackBar(
-                    text: deniedForeverText, snackBarType: SnackBarType.error);
-              }
+              showSimpleSnackBar(
+                  text: deniedForeverText, snackBarType: SnackBarType.error);
             }
           },
           negativeButtonOnPressed: () {
             Get.back();
-            if (showSnackBar) {
-              showSimpleSnackBar(
-                  text: deniedForeverText, snackBarType: SnackBarType.error);
-            }
+
+            showSimpleSnackBar(
+                text: deniedForeverText, snackBarType: SnackBarType.error);
           },
           mainIcon: Icons.settings,
           color: SweetSheetColor.WARNING,
         );
       } else {
-        if (showSnackBar) {
-          showSimpleSnackBar(
-              text: deniedForeverText, snackBarType: SnackBarType.error);
-        }
+        showSimpleSnackBar(
+            text: deniedForeverText, snackBarType: SnackBarType.error);
       }
     }
   } catch (err) {
@@ -260,53 +253,43 @@ Future<bool> handleLocationService() async {
   return false;
 }
 
-Future<void> handleLocation({required bool showSnackBar}) async =>
-    await handleLocationService().whenComplete(
-        () async => await handleLocationPermission(showSnackBar: showSnackBar));
+Future<void> handleLocation() async => await handleLocationService()
+    .whenComplete(() async => await handleLocationPermission());
 
-Future<bool> handleCameraPermission({required bool showSnackBar}) async =>
-    await handleGeneralPermission(
+Future<bool> handleCameraPermission() async => await handleGeneralPermission(
       permission: Permission.camera,
       deniedSnackBarText: 'enableCameraPermission'.tr,
       deniedForeverSnackBarTitle: 'cameraPermission'.tr,
       deniedForeverSnackBarBody: 'cameraPermissionDeniedForever'.tr,
-      showSnackBar: showSnackBar,
     );
 
-Future<bool> handleMicrophonePermission({required bool showSnackBar}) async =>
+Future<bool> handleMicrophonePermission() async =>
     await handleGeneralPermission(
       permission: Permission.microphone,
       deniedSnackBarText: 'enableMicPermission'.tr,
       deniedForeverSnackBarTitle: 'micPermission'.tr,
       deniedForeverSnackBarBody: 'micPermissionDeniedForever'.tr,
-      showSnackBar: showSnackBar,
     );
 
-Future<bool> handleContactsPermission({required bool showSnackBar}) async =>
-    await handleGeneralPermission(
+Future<bool> handleContactsPermission() async => await handleGeneralPermission(
       permission: Permission.contacts,
       deniedSnackBarText: 'enableContactsPermission'.tr,
       deniedForeverSnackBarTitle: 'contactsPermission'.tr,
       deniedForeverSnackBarBody: 'contactsPermissionDeniedForever'.tr,
-      showSnackBar: showSnackBar,
     );
 
-Future<bool> handleCallPermission({required bool showSnackBar}) async =>
-    await handleGeneralPermission(
+Future<bool> handleCallPermission() async => await handleGeneralPermission(
       permission: Permission.phone,
       deniedSnackBarText: 'enableCallPermission'.tr,
       deniedForeverSnackBarTitle: 'callPermission'.tr,
       deniedForeverSnackBarBody: 'callPermissionDeniedForever'.tr,
-      showSnackBar: showSnackBar,
     );
 
-Future<bool> handleStoragePermission({required bool showSnackBar}) async =>
-    await handleGeneralPermission(
+Future<bool> handleStoragePermission() async => await handleGeneralPermission(
       permission: Permission.storage,
       deniedSnackBarText: 'enableStoragePermission'.tr,
       deniedForeverSnackBarTitle: 'storagePermission'.tr,
       deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
-      showSnackBar: showSnackBar,
     );
 
 Future<bool> handleGeneralPermission({
@@ -314,7 +297,6 @@ Future<bool> handleGeneralPermission({
   required String deniedSnackBarText,
   required String deniedForeverSnackBarTitle,
   required String deniedForeverSnackBarBody,
-  required bool showSnackBar,
 }) async {
   if (!AppInit.isWeb) {
     try {
@@ -339,20 +321,17 @@ Future<bool> handleGeneralPermission({
           positiveButtonOnPressed: () async {
             Get.back();
             if (!await openAppSettings()) {
-              if (showSnackBar) {
-                showSimpleSnackBar(
-                    text: deniedForeverSnackBarBody,
-                    snackBarType: SnackBarType.error);
-              }
-            }
-          },
-          negativeButtonOnPressed: () {
-            Get.back();
-            if (showSnackBar) {
               showSimpleSnackBar(
                   text: deniedForeverSnackBarBody,
                   snackBarType: SnackBarType.error);
             }
+          },
+          negativeButtonOnPressed: () {
+            Get.back();
+
+            showSimpleSnackBar(
+                text: deniedForeverSnackBarBody,
+                snackBarType: SnackBarType.error);
           },
           mainIcon: Icons.settings,
           color: SweetSheetColor.WARNING,

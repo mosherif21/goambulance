@@ -27,7 +27,7 @@ class HomeScreenController extends GetxController {
 
   @override
   void onReady() {
-    handleLocation(showSnackBar: false);
+    handleLocation();
     super.onReady();
   }
 

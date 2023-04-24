@@ -135,7 +135,7 @@ class MakingRequestLocationController extends GetxController {
       markerId: const MarkerId('ambulance'),
       position: LatLng(currentChosenLatLng.latitude + 0.002,
           currentChosenLatLng.longitude + 0.002),
-      icon: ambulanceMarkerIcon,
+      icon: hospitalMarkerIcon,
       infoWindow: InfoWindow(
         title: 'ambulancePinDesc'.tr,
       ),
@@ -143,8 +143,8 @@ class MakingRequestLocationController extends GetxController {
           locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
               currentChosenLatLng.longitude + 0.002)),
     );
-    mapMarkers.add(requestLocationMarker!);
     mapMarkers.add(ambulanceMarker!);
+    mapMarkers.add(requestLocationMarker!);
   }
 
   void choosingRequestLocationChanges() async {
@@ -365,6 +365,9 @@ class MakingRequestLocationController extends GetxController {
     });
     await _getBytesFromAsset(kAmbulanceMarkerImg, 130).then((iconBytes) {
       ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+    });
+    await _getBytesFromAsset(kHospitalMarkerImg, 130).then((iconBytes) {
+      hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
   }
 

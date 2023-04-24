@@ -167,6 +167,16 @@ class AppInit {
             }
           } else if (authRepo.isUserPhoneRegistered &&
               authRepo.isUserRegistered) {
+            SystemChrome.setSystemUIOverlayStyle(
+              const SystemUiOverlayStyle(
+                systemNavigationBarColor: Colors.transparent,
+                statusBarColor: Colors.transparent,
+                systemNavigationBarDividerColor: Colors.transparent,
+                systemNavigationBarIconBrightness: Brightness.light,
+                statusBarIconBrightness: Brightness.light,
+                statusBarBrightness: Brightness.light,
+              ),
+            );
             Get.offAll(() => const HomeScreen(),
                 transition: Transition.circularReveal);
           }
@@ -187,7 +197,7 @@ class AppInit {
     }
   }
 
-  static Widget? getInitialPage() {
+  static Widget getInitialPage() {
     if (showOnBoard) removeSplashScreen();
     return showOnBoard ? const OnBoardingScreen() : const EmptyScaffold();
   }

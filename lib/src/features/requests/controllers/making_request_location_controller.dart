@@ -131,19 +131,20 @@ class MakingRequestLocationController extends GetxController {
       ),
       onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
     );
-    ambulanceMarker = Marker(
-      markerId: const MarkerId('ambulance'),
-      position: LatLng(currentChosenLatLng.latitude + 0.002,
-          currentChosenLatLng.longitude + 0.002),
-      icon: hospitalMarkerIcon,
-      infoWindow: InfoWindow(
-        title: 'ambulancePinDesc'.tr,
-      ),
-      onTap: () => animateToLocation(
-          locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
-              currentChosenLatLng.longitude + 0.002)),
-    );
-    mapMarkers.add(ambulanceMarker!);
+    // ambulanceMarker = Marker(
+    //   markerId: const MarkerId('ambulance'),
+    //   position: LatLng(currentChosenLatLng.latitude + 0.002,
+    //       currentChosenLatLng.longitude + 0.002),
+    //   icon: ambulanceMarkerIcon,
+    //   infoWindow: InfoWindow(
+    //     title: 'ambulancePinDesc'.tr,
+    //   ),
+    //   onTap: () => animateToLocation(
+    //       locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
+    //           currentChosenLatLng.longitude + 0.002)),
+    // );
+    // mapMarkers.add(ambulanceMarker!);
+    // mapMarkers.remove(ambulanceMarker!);
     mapMarkers.add(requestLocationMarker!);
   }
 
@@ -154,7 +155,6 @@ class MakingRequestLocationController extends GetxController {
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
     if (requestLocationMarker != null) {
       mapMarkers.remove(requestLocationMarker!);
-      mapMarkers.remove(ambulanceMarker!);
     }
   }
 
@@ -366,9 +366,9 @@ class MakingRequestLocationController extends GetxController {
     await _getBytesFromAsset(kAmbulanceMarkerImg, 130).then((iconBytes) {
       ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kHospitalMarkerImg, 130).then((iconBytes) {
-      hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
-    });
+    // await _getBytesFromAsset(kHospitalMarkerImg, 130).then((iconBytes) {
+    //   hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+    // });
   }
 
   Future<Uint8List> _getBytesFromAsset(String path, int width) async {

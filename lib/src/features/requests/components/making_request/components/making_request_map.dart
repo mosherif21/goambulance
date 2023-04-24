@@ -10,6 +10,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/general_functions.dart';
+import 'hospital_choose_card.dart';
 import 'myLocation_button.dart';
 
 class MakingRequestMap extends StatefulWidget {
@@ -60,6 +61,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
+          HospitalChooseCard(),
           Padding(
             padding: const EdgeInsets.all(20),
             child: RegularElevatedButton(

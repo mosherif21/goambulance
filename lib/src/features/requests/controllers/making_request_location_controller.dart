@@ -114,8 +114,8 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<void> choosingHospitalChanges() async {
-    await hospitalsPanelController.open();
     choosingHospital.value = true;
+    hospitalsPanelController.open();
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
     requestLocationMarker = Marker(
@@ -131,8 +131,8 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void choosingRequestLocationChanges() async {
-    await hospitalsPanelController.close();
     choosingHospital.value = false;
+    hospitalsPanelController.close();
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
     if (requestLocationMarker != null) {

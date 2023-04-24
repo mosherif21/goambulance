@@ -156,7 +156,7 @@ class RegisterUserDataPage extends StatelessWidget {
                               width: 110,
                               absoluteZeroSpacing: false,
                               padding: 15,
-                              selectedColor: Colors.black,
+                              selectedColor: kDefaultColor,
                               buttonValues: const [
                                 Gender.male,
                                 Gender.female,

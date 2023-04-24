@@ -31,7 +31,11 @@ class MakingRequestLocationController extends GetxController {
   final RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
   final RxSet<Marker> mapMarkers = <Marker>{}.obs;
   late Marker? requestLocationMarker;
+  late Marker? ambulanceMarker;
+  late Marker? hospitalMarker;
   late BitmapDescriptor requestLocationMarkerIcon;
+  late BitmapDescriptor ambulanceMarkerIcon;
+  late BitmapDescriptor hospitalMarkerIcon;
   final Completer<GoogleMapController> mapControllerCompleter =
       Completer<GoogleMapController>();
   late final GoogleMapController googleMapController;
@@ -127,7 +131,20 @@ class MakingRequestLocationController extends GetxController {
       ),
       onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
     );
+    ambulanceMarker = Marker(
+      markerId: const MarkerId('ambulance'),
+      position: LatLng(currentChosenLatLng.latitude + 0.002,
+          currentChosenLatLng.longitude + 0.002),
+      icon: ambulanceMarkerIcon,
+      infoWindow: InfoWindow(
+        title: 'ambulancePinDesc'.tr,
+      ),
+      onTap: () => animateToLocation(
+          locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
+              currentChosenLatLng.longitude + 0.002)),
+    );
     mapMarkers.add(requestLocationMarker!);
+    mapMarkers.add(ambulanceMarker!);
   }
 
   void choosingRequestLocationChanges() async {
@@ -137,6 +154,7 @@ class MakingRequestLocationController extends GetxController {
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
     if (requestLocationMarker != null) {
       mapMarkers.remove(requestLocationMarker!);
+      mapMarkers.remove(ambulanceMarker!);
     }
   }
 
@@ -342,8 +360,11 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<void> _loadMarkersIcon() async {
-    await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
+    await _getBytesFromAsset(kRequestLocationMarkerImg, 130).then((iconBytes) {
       requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+    });
+    await _getBytesFromAsset(kAmbulanceMarkerImg, 130).then((iconBytes) {
+      ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
   }
 

@@ -53,7 +53,8 @@ class Languages extends Translations {
           'phoneLabel': 'رقم الهاتف',
           'phoneFieldLabel': 'ادخل رقم هاتفك',
           'requestLocation': 'موقع الطلب',
-          'requestLocationPinDesc': 'هذا هو موقع طلبك',
+          'requestLocationPinDesc': 'موقع طلبك',
+          'ambulancePinDesc': 'سيارة الإسعاف الخاصة بك',
           'passwordResetLink':
               'ادخل بريدك الالكترونى للحصول على رابط تغيير كلمة المرور',
           'phoneVerification': 'ادخل رقم الهاتف للحصول على رمز التاكيد',
@@ -472,7 +473,8 @@ class Languages extends Translations {
           'loading': 'Loading...',
           'notAllowed': 'Not allowed',
           'requestLocation': 'Request Location',
-          'requestLocationPinDesc': 'This is your request location',
+          'requestLocationPinDesc': 'Your request location',
+          'ambulancePinDesc': 'Your ambulance',
           'locationNotAllowed':
               'Sorry, our app currently operates in Egypt only',
           'locationNotAccessed': 'Your location can\'t be accessed',

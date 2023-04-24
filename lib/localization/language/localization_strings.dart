@@ -234,6 +234,7 @@ class Languages extends Translations {
           'searchPlace': 'البحث عن مكان',
           'loading': 'جاري تحميل...',
           'requestHere': 'اطلب هنا',
+          'confirmRequest': 'تاكيد الطلب',
           'useMobileToThisFeature':
               'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الميزة',
           'useMobileToRegister':
@@ -467,6 +468,7 @@ class Languages extends Translations {
           'findingLocation': 'Finding your location',
           'searchPlace': 'Search for a place',
           'requestHere': 'Request here',
+          'confirmRequest': 'Confirm request',
           'loading': 'Loading...',
           'notAllowed': 'Not allowed',
           'requestLocation': 'Request Location',

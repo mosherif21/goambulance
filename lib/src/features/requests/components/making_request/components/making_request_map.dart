@@ -57,8 +57,21 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         ],
       ),
       margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(10),
       child: Column(
-        children: const [],
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: RegularElevatedButton(
+              buttonText: 'confirmRequest'.tr,
+              onPressed: () {},
+              enabled: true,
+              color: Colors.black,
+              fontSize: 22,
+              height: 55,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -169,30 +182,25 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 ),
               ),
               Obx(
-                () => Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 5,
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 200),
-                    opacity:
-                        widget.makingRequestController.choosingHospital.value
-                            ? 0
-                            : 1,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: RegularElevatedButton(
-                        buttonText: 'requestHere'.tr,
-                        onPressed: () =>
-                            widget.makingRequestController.onRequestPress(),
-                        enabled: true,
-                        color: Colors.black,
-                        fontSize: 22,
-                        height: 60,
-                      ),
-                    ),
-                  ),
-                ),
+                () => !widget.makingRequestController.choosingHospital.value
+                    ? Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 5,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: RegularElevatedButton(
+                            buttonText: 'requestHere'.tr,
+                            onPressed: () =>
+                                widget.makingRequestController.onRequestPress(),
+                            enabled: true,
+                            color: Colors.black,
+                            fontSize: 22,
+                            height: 60,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
               ),
               Obx(
                 () => Positioned(

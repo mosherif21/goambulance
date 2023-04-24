@@ -19,7 +19,7 @@ const String kNoRequestsHistory = "assets/images/requests_history_large.png";
 const String kNoRequestsHistoryBlack =
     "assets/images/recent_requests_black.png";
 const String kProfileImage = "assets/images/profile_male.png";
-const String kAmbulanceMarkerImg = "assets/images/ambulance_marker.png";
+const String kAmbulanceMarkerImg = "assets/images/ambulance_above_medium.png";
 const String kRequestLocationMarkerImg =
     "assets/images/pin_request_location.png";
 const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";

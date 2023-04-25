@@ -28,6 +28,7 @@ class LoadingHospitalChoose extends StatelessWidget {
           ),
           const Spacer(),
           Container(height: 15, width: 50, color: Colors.white),
+          const SizedBox(width: 10),
         ],
       ),
     );

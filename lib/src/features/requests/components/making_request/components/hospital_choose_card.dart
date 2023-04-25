@@ -33,57 +33,65 @@ class HospitalChooseCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 LineIcon.hospital(
                   size: screenHeight * 0.07,
                 ),
                 const SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeText(
-                      hospitalItem.name,
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        hospitalItem.name,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black,
+                        ),
+                        maxLines: 1,
                       ),
-                      maxLines: 1,
-                    ),
-                    const SizedBox(height: 5),
-                    AutoSizeText(
-                      hospitalItem.avgPrice,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400,
-                        color: Colors.grey,
-                      ),
-                      maxLines: 1,
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                Obx(
-                  () => controller.selectedHospital.value == hospitalItem &&
-                          controller.routeToHospitalTime.isNotEmpty
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.access_time_outlined),
-                            const SizedBox(width: 2),
-                            AutoSizeText(
-                              controller.routeToHospitalTime.value,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black,
-                              ),
-                              maxLines: 1,
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${hospitalItem.avgPrice} ${'egp'.tr}',
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey,
                             ),
-                          ],
-                        )
-                      : const SizedBox.shrink(),
+                            maxLines: 1,
+                          ),
+                          const Spacer(),
+                          Obx(
+                            () => controller.selectedHospital.value ==
+                                        hospitalItem &&
+                                    controller.routeToHospitalTime.isNotEmpty
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Icon(Icons.access_time_outlined),
+                                      const SizedBox(width: 5),
+                                      AutoSizeText(
+                                        controller.routeToHospitalTime.value,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                        ),
+                                        maxLines: 1,
+                                      ),
+                                      const SizedBox(width: 10),
+                                    ],
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

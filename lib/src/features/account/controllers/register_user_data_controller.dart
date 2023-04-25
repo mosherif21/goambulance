@@ -84,15 +84,21 @@ class RegisterUserDataController extends GetxController {
   void onReady() {
     super.onReady();
     nameTextController.addListener(() {
-      highlightName.value = nameTextController.text.trim().isEmpty;
+      if (nameTextController.text.trim().isNotEmpty) {
+        highlightName.value = false;
+      }
     });
     bloodTypeDropdownController.addListener(() {
       final bloodTypeValue = bloodTypeDropdownController.text.trim();
-      highlightBloodType.value = bloodTypeValue.isEmpty ||
-          bloodTypeValue.compareTo('pickBloodType'.tr) == 0;
+      if (bloodTypeValue.isNotEmpty ||
+          bloodTypeValue.compareTo('pickBloodType'.tr) != 0) {
+        highlightBloodType.value = false;
+      }
     });
     emailTextController.addListener(() {
-      highlightEmail.value = !emailTextController.text.trim().isEmail;
+      if (emailTextController.text.trim().isEmail) {
+        highlightEmail.value = false;
+      }
     });
     nationalIdTextController.addListener(() {
       final nationalId = nationalIdTextController.text;

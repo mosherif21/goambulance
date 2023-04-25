@@ -304,6 +304,8 @@ class MakingRequestLocationController extends GetxController {
         final latLngPoints = points
             .map((point) => LatLng(point.latitude, point.longitude))
             .toList();
+        latLngPoints.insert(0, fromLocation);
+        latLngPoints.insert(latLngPoints.length - 1, toLocation);
         return Polyline(
           polylineId: PolylineId(routeId),
           color: Colors.black,
@@ -467,7 +469,7 @@ class MakingRequestLocationController extends GetxController {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
         googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 30));
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 40));
       }
     }
   }

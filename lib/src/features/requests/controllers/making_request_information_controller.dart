@@ -38,10 +38,7 @@ class MakingRequestInformationController extends GetxController {
   void onReady() async {
     requestTypeDropdownController.addListener(() {
       final requestValue = requestTypeDropdownController.text.trim();
-      if (requestValue.compareTo(isLangEnglish() ? 'Select' : 'اختر') == 0 ||
-          requestValue.isEmpty) {
-        highlightRequest.value = true;
-      } else if (requestValue
+      if (requestValue
               .compareTo(isLangEnglish() ? 'Someone else' : 'لشخص اخر') ==
           0) {
         highlightRequest.value = false;

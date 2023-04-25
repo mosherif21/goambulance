@@ -297,14 +297,9 @@ class MakingRequestLocationController extends GetxController {
         final leg = route.legs[0];
         final duration = leg.duration;
         routeToHospitalTime.value = duration.text;
-        if (kDebugMode) {
-          print('route found successfully');
-        }
         final polyline = route.overviewPolyline.points;
-
         final polylinePoints = PolylinePoints();
         final points = polylinePoints.decodePolyline(polyline);
-
         final latLngPoints = points
             .map((point) => LatLng(point.latitude, point.longitude))
             .toList();

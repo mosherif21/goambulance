@@ -26,9 +26,9 @@ class HospitalChooseCard extends StatelessWidget {
             : Colors.white,
         child: InkWell(
           splashFactory: InkSparkle.splashFactory,
-          onTap: () => controller.selectedHospital.value == hospitalItem
+          onTap: controller.selectedHospital.value == hospitalItem
               ? null
-              : controller.onHospitalChosen(hospitalItem: hospitalItem),
+              : () => controller.onHospitalChosen(hospitalItem: hospitalItem),
           highlightColor: Colors.grey.shade200,
           child: Padding(
             padding: const EdgeInsets.all(10),

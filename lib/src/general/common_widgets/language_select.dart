@@ -33,17 +33,21 @@ class LanguageSelect extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
-                  splashFactory: InkSparkle.splashFactory,
-                  foregroundColor: Colors.black54),
+                splashFactory: InkSparkle.splashFactory,
+                foregroundColor: Colors.black54,
+              ),
               onPressed: () => onEnglishLanguagePress(),
               icon: Image.asset(
                 kUkFlagImage,
-                height: 60.0,
+                height: 60,
               ),
-              label: AutoSizeText(
-                'english'.tr,
-                style: textStyle,
-                maxLines: 1,
+              label: SizedBox(
+                width: 100,
+                child: AutoSizeText(
+                  'english'.tr,
+                  style: textStyle,
+                  maxLines: 1,
+                ),
               ),
             ),
           ),
@@ -52,17 +56,21 @@ class LanguageSelect extends StatelessWidget {
             width: double.infinity,
             child: OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
-                  splashFactory: InkSparkle.splashFactory,
-                  foregroundColor: Colors.black54),
+                splashFactory: InkSparkle.splashFactory,
+                foregroundColor: Colors.black54,
+              ),
               onPressed: () => onArabicLanguagePress(),
               icon: Image.asset(
                 kSAFlagImage,
-                height: 60.0,
+                height: 60,
               ),
-              label: AutoSizeText(
-                'arabic'.tr,
-                style: textStyle,
-                maxLines: 1,
+              label: SizedBox(
+                width: 100,
+                child: AutoSizeText(
+                  'arabic'.tr,
+                  style: textStyle,
+                  maxLines: 1,
+                ),
               ),
             ),
           ),

@@ -212,7 +212,7 @@ class MakingRequestLocationController extends GetxController {
         HospitalModel(
           hospitalId: '',
           name: 'hospital name 1',
-          avgPrice: 'EGP 33',
+          avgPrice: '33',
           location: const LatLng(31.237669953932324, 29.954293705523015),
         ),
       );
@@ -220,7 +220,7 @@ class MakingRequestLocationController extends GetxController {
         HospitalModel(
           hospitalId: '',
           name: 'hospital name 2',
-          avgPrice: 'EGP 44',
+          avgPrice: '44',
           location: const LatLng(31.232469953932325, 29.954293705523016),
         ),
       );
@@ -228,7 +228,7 @@ class MakingRequestLocationController extends GetxController {
         HospitalModel(
           hospitalId: '',
           name: 'hospital name 3',
-          avgPrice: 'EGP 22',
+          avgPrice: '22',
           location: const LatLng(31.235369953932326, 29.954293705523017),
         ),
       );
@@ -236,7 +236,7 @@ class MakingRequestLocationController extends GetxController {
         HospitalModel(
           hospitalId: '',
           name: 'hospital name 4',
-          avgPrice: 'EGP 77',
+          avgPrice: '77',
           location: const LatLng(31.239269953932327, 29.954393705523018),
         ),
       );

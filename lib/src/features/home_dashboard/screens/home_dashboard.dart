@@ -104,7 +104,7 @@ class HomeDashBoard extends StatelessWidget {
                       const SizedBox(height: 15),
                       TextHeaderWithButton(
                         headerText: 'services'.tr,
-                        onPressed: () async => await Get.to(
+                        onPressed: () => Get.to(
                           () => const ServicesScreen(),
                           transition: getPageTransition(),
                         ),

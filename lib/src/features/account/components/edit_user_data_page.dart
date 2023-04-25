@@ -267,8 +267,7 @@ class EditUserDataPage extends StatelessWidget {
                     padding: const EdgeInsets.all(15.0),
                     child: RegularElevatedButton(
                       buttonText: 'continue'.tr,
-                      onPressed: () async =>
-                          await controller.checkPersonalInformation(),
+                      onPressed: () => controller.checkPersonalInformation(),
                       enabled: true,
                       color: kDefaultColor,
                     ),

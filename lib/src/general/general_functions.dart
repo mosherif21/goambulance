@@ -76,12 +76,12 @@ void showSimpleSnackBar({
   ).show(context);
 }
 
-void logoutDialogue() async => displayAlertDialog(
+void logoutDialogue() => displayAlertDialog(
       title: 'logout'.tr,
       body: 'logoutConfirm'.tr,
       positiveButtonText: 'yes'.tr,
       negativeButtonText: 'no'.tr,
-      positiveButtonOnPressed: () async => await logout(),
+      positiveButtonOnPressed: () => logout(),
       negativeButtonOnPressed: () => Get.back(),
       mainIcon: Icons.logout,
       color: SweetSheetColor.DANGER,
@@ -167,8 +167,7 @@ void displayAlertDialog({
   );
 }
 
-Future<void> displayChangeLang() async =>
-    await RegularBottomSheet.showRegularBottomSheet(
+void displayChangeLang() => RegularBottomSheet.showRegularBottomSheet(
       LanguageSelect(
         onEnglishLanguagePress: () async {
           await setLocaleLanguage('en');

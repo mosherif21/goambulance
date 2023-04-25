@@ -232,8 +232,8 @@ class NormalRequestScreen extends StatelessWidget {
                                   left: 15.0, right: 15.0),
                               child: RegularElevatedButton(
                                 buttonText: 'addAllergiesOrDiseases'.tr,
-                                onPressed: () async => await RegularBottomSheet
-                                    .showRegularBottomSheet(
+                                onPressed: () =>
+                                    RegularBottomSheet.showRegularBottomSheet(
                                   AddDisease(controller: controller),
                                 ),
                                 enabled: true,
@@ -319,8 +319,7 @@ class NormalRequestScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                     child: RegularElevatedButton(
                       buttonText: 'continue'.tr,
-                      onPressed: () async =>
-                          await controller.confirmRequestInformation(),
+                      onPressed: () => controller.confirmRequestInformation(),
                       enabled: true,
                       color: Colors.black,
                     ),

@@ -47,13 +47,13 @@ class OnBoardingScreen extends StatelessWidget {
             Positioned(
               bottom: 50,
               child: OnBoardingPageNextButton(
-                onPress: () async {
+                onPress: () {
                   obController.liquidSwipeController.animateToPage(
                       page: obController.liquidSwipeController.currentPage + 1,
                       duration: 500);
                   if (obController.currentPageCounter.value ==
                       obController.numberOfPages) {
-                    await RegularBottomSheet.showRegularBottomSheet(
+                    RegularBottomSheet.showRegularBottomSheet(
                       LanguageSelect(
                         onEnglishLanguagePress: () async {
                           await setOnBoardingLocaleLanguage(

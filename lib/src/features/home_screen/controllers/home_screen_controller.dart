@@ -38,37 +38,37 @@ class HomeScreenController extends GetxController {
           ? true
           : false;
 
-  Future<void> onDrawerItemSelected(int index) async {
+  void onDrawerItemSelected(int index) {
     switch (index) {
       case 0:
-        await Get.to(
+        Get.to(
           () => const PaymentScreen(),
           transition: getPageTransition(),
         );
         break;
       case 1:
-        await Get.to(
+        Get.to(
           () => const NotificationsScreen(),
           transition: getPageTransition(),
         );
         break;
       case 2:
-        await Get.to(
+        Get.to(
           () => const SettingsScreen(),
           transition: getPageTransition(),
         );
         break;
       case 3:
-        await displayChangeLang();
+        displayChangeLang();
         break;
       case 4:
-        await Get.to(
+        Get.to(
           () => const HelpScreen(),
           transition: getPageTransition(),
         );
         break;
       case 5:
-        await Get.to(
+        Get.to(
           () => const AboutUsScreen(),
           transition: getPageTransition(),
         );

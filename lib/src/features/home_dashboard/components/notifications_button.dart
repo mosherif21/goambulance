@@ -17,7 +17,7 @@ class NotificationsButton extends StatelessWidget {
         right: isLangEnglish() ? 8 : 0,
       ),
       child: GestureDetector(
-        onTap: () async => await Get.to(() => const NotificationsScreen()),
+        onTap: () => Get.to(() => const NotificationsScreen()),
         child: const badges.Badge(
           badgeContent: Text('3'),
           child: Icon(

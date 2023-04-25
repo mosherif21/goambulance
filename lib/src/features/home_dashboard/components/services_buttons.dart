@@ -21,7 +21,7 @@ class ServicesButtons extends StatelessWidget {
             child: RoundedImageElevatedButton(
               buttonText: 'normalRequest'.tr,
               imagePath: kAmbulanceImage,
-              onPressed: () async => await Get.to(
+              onPressed: () => Get.to(
                 () => const NormalRequestScreen(),
                 transition: getPageTransition(),
               ),

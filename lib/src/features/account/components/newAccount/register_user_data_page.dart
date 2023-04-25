@@ -36,8 +36,8 @@ class RegisterUserDataPage extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: CustomBackButton(
-              onPressed: () async => logoutDialogue(), padding: 3),
+          leading:
+              CustomBackButton(onPressed: () => logoutDialogue(), padding: 3),
           elevation: 0,
           scrolledUnderElevation: 5,
           backgroundColor: Colors.grey.shade100,
@@ -280,8 +280,7 @@ class RegisterUserDataPage extends StatelessWidget {
                       padding: const EdgeInsets.all(15.0),
                       child: RegularElevatedButton(
                         buttonText: 'continue'.tr,
-                        onPressed: () async =>
-                            await controller.checkPersonalInformation(),
+                        onPressed: () => controller.checkPersonalInformation(),
                         enabled: true,
                         color: Colors.black,
                       ),

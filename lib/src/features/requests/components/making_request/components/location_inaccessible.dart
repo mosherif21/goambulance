@@ -76,8 +76,8 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                                         child: RoundedElevatedButton(
                                           buttonText:
                                               'enableLocationServiceButton'.tr,
-                                          onPressed: () async =>
-                                              await handleLocationService(),
+                                          onPressed: () =>
+                                              handleLocationService(),
                                           enabled: true,
                                           color: Colors.black,
                                         ),
@@ -93,8 +93,8 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                                           buttonText:
                                               'enableLocationPermissionButton'
                                                   .tr,
-                                          onPressed: () async =>
-                                              await makingRequestController
+                                          onPressed: () =>
+                                              makingRequestController
                                                   .setupLocationPermission(),
                                           enabled: true,
                                           color: Colors.black,
@@ -105,9 +105,8 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                               const OrDivider(),
                               RoundedElevatedButton(
                                 buttonText: 'searchPlace'.tr,
-                                onPressed: () async =>
-                                    await makingRequestController
-                                        .googlePlacesSearch(context: context),
+                                onPressed: () => makingRequestController
+                                    .googlePlacesSearch(context: context),
                                 enabled: true,
                                 color: Colors.black,
                               ),

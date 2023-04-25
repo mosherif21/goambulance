@@ -57,8 +57,7 @@ class SingleEntryScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: linkWithPhone
-              ? CustomBackButton(
-                  onPressed: () async => logoutDialogue(), padding: 3)
+              ? CustomBackButton(onPressed: () => logoutDialogue(), padding: 3)
               : const RegularBackButton(padding: 0),
           elevation: 0,
           scrolledUnderElevation: 5,
@@ -128,13 +127,13 @@ class SingleEntryScreen extends StatelessWidget {
                   RegularElevatedButton(
                     buttonText: buttonTitle,
                     enabled: true,
-                    onPressed: () async {
+                    onPressed: () {
                       if (inputType == InputType.phone) {
-                        await OtpVerificationController.instance
+                        OtpVerificationController.instance
                             .otpOnClick(linkWithPhone: linkWithPhone);
                       } else {
                         final controller = ResetController.instance;
-                        await controller.resetPassword(
+                        controller.resetPassword(
                             controller.emailController.value.text.trim());
                       }
                     },

@@ -65,7 +65,7 @@ class AccountScreen extends StatelessWidget {
                   ),
                   RegularElevatedButton(
                     buttonText: 'logout'.tr,
-                    onPressed: () async => logoutDialogue(),
+                    onPressed: () => logoutDialogue(),
                     enabled: true,
                     color: Colors.black,
                   ),

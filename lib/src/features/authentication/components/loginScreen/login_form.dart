@@ -36,7 +36,7 @@ class LoginForm extends StatelessWidget {
             labelText: 'passwordLabel'.tr,
             textController: controller.passwordTextController,
             textInputAction: TextInputAction.done,
-            onSubmitted: () async => await controller.loginUser(),
+            onSubmitted: () => controller.loginUser(),
           ),
           const SizedBox(height: 6),
           Align(
@@ -52,7 +52,7 @@ class LoginForm extends StatelessWidget {
           RegularElevatedButton(
             enabled: true,
             buttonText: 'loginTextTitle'.tr,
-            onPressed: () async => await controller.loginUser(),
+            onPressed: () => controller.loginUser(),
             color: Colors.black,
           ),
         ],

@@ -1,4 +1,3 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,6 +7,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sweetsheet/sweetsheet.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../authentication/authentication_repository.dart';
 import '../../localization/language/language_functions.dart';
@@ -62,18 +63,14 @@ void showSimpleSnackBar({
   required String text,
   required SnackBarType snackBarType,
 }) {
-  final context = Get.context!;
-  AnimatedSnackBar.material(
-    text,
-    type: snackBarType == SnackBarType.success
-        ? AnimatedSnackBarType.success
-        : snackBarType == SnackBarType.error
-            ? AnimatedSnackBarType.error
-            : AnimatedSnackBarType.info,
-    mobileSnackBarPosition: MobileSnackBarPosition.bottom,
-    snackBarStrategy: RemoveSnackBarStrategy(),
-    duration: const Duration(seconds: 6),
-  ).show(context);
+  final context = Get.overlayContext!;
+  showTopSnackBar(
+      Overlay.of(context),
+      snackBarType == SnackBarType.success
+          ? CustomSnackBar.success(message: text)
+          : snackBarType == SnackBarType.error
+              ? CustomSnackBar.error(message: text)
+              : CustomSnackBar.info(message: text));
 }
 
 void logoutDialogue() => displayAlertDialog(
@@ -213,12 +210,7 @@ Future<bool> handleLocationPermission() async {
                   text: deniedForeverText, snackBarType: SnackBarType.error);
             }
           },
-          negativeButtonOnPressed: () {
-            Get.back();
-
-            showSimpleSnackBar(
-                text: deniedForeverText, snackBarType: SnackBarType.error);
-          },
+          negativeButtonOnPressed: () => Get.back(),
           mainIcon: Icons.settings,
           color: SweetSheetColor.WARNING,
         );
@@ -328,13 +320,7 @@ Future<bool> handleGeneralPermission({
                   snackBarType: SnackBarType.error);
             }
           },
-          negativeButtonOnPressed: () {
-            Get.back();
-
-            showSimpleSnackBar(
-                text: deniedForeverSnackBarBody,
-                snackBarType: SnackBarType.error);
-          },
+          negativeButtonOnPressed: () => Get.back(),
           mainIcon: Icons.settings,
           color: SweetSheetColor.WARNING,
         );

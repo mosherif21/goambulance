@@ -85,9 +85,8 @@ dependencies:
   rolling_switch: ^0.0.2
   sliding_up_panel: ^2.0.0+1
   sweetsheet: ^0.4.0
-  animated_snack_bar: ^0.3.0
   animated_custom_dropdown: 1.5.0
-
+  top_snackbar_flutter: ^3.0.0+1
 
   #state management dependencies
   get: ^4.6.5

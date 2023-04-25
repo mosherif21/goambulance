@@ -226,7 +226,7 @@ class Languages extends Translations {
           'phoneNumberAlreadyYourAccount': 'رقم الهاتف هذا مرتبط بالفعل بحسابك',
           'cancel': 'الغاء',
           'selectValue': 'اختر',
-          'enterBackupPhoneNo': 'أدخل رقم هاتف احتياطيى',
+          'enterBackupPhoneNo': 'أدخل رقم هاتف احتياطي',
           'goToSettings': 'اذهب للاعدادات',
           'searchCountry': 'البحث عن البلد',
           'sosMessage': 'رسالة استغاثة',
@@ -249,7 +249,7 @@ class Languages extends Translations {
           'accountTitle2': 'العناوين المسجلة',
           'accountTitle3': 'السجل الطبي',
           'forMe': 'لي',
-          'someoneElse': ' لشخص اخر',
+          'someoneElse': 'لشخص اخر',
           'requestFor': 'لمن طلب سيارة الإسعاف هذا؟',
         },
         'en_US': {

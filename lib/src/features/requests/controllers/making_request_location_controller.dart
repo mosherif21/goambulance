@@ -13,10 +13,11 @@ import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// ignore: depend_on_referenced_packages
+import 'package:google_maps_webservice/directions.dart' as google_web_service;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
-import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
 
@@ -34,6 +35,7 @@ class MakingRequestLocationController extends GetxController {
   final RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
   final RxSet<Marker> mapMarkers = <Marker>{}.obs;
   late Polyline? routeToHospital;
+  late RxString routeToHospitalTime = ''.obs;
   late Marker? requestLocationMarker;
   late Marker? ambulanceMarker;
   late Marker? hospitalMarker;
@@ -194,6 +196,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void clearHospitalRoute() {
+    routeToHospitalTime.value = '';
     if (mapPolyLines.contains(routeToHospital)) {
       mapPolyLines.remove(routeToHospital);
     }
@@ -211,7 +214,6 @@ class MakingRequestLocationController extends GetxController {
           name: 'hospital name 1',
           avgPrice: 'EGP 33',
           location: const LatLng(31.237669953932324, 29.954293705523015),
-          timeFromLocation: 2,
         ),
       );
       hospitals.add(
@@ -220,7 +222,6 @@ class MakingRequestLocationController extends GetxController {
           name: 'hospital name 2',
           avgPrice: 'EGP 44',
           location: const LatLng(31.232469953932325, 29.954293705523016),
-          timeFromLocation: 3,
         ),
       );
       hospitals.add(
@@ -229,7 +230,6 @@ class MakingRequestLocationController extends GetxController {
           name: 'hospital name 3',
           avgPrice: 'EGP 22',
           location: const LatLng(31.235369953932326, 29.954293705523017),
-          timeFromLocation: 4,
         ),
       );
       hospitals.add(
@@ -238,7 +238,6 @@ class MakingRequestLocationController extends GetxController {
           name: 'hospital name 4',
           avgPrice: 'EGP 77',
           location: const LatLng(31.239269953932327, 29.954393705523018),
-          timeFromLocation: 5,
         ),
       );
       await Future.delayed(const Duration(seconds: 5));
@@ -278,44 +277,48 @@ class MakingRequestLocationController extends GetxController {
       required LatLng toLocation,
       required String routeId}) async {
     try {
-      List<LatLng> polylineCoordinates = [];
-      if (!AppInit.isWeb) {
-        PolylineResult polylineResult =
-            await PolylinePoints().getRouteBetweenCoordinates(
-          googleMapsAPIKey,
-          PointLatLng(fromLocation.latitude, fromLocation.longitude),
-          PointLatLng(toLocation.latitude, toLocation.longitude),
-          travelMode: TravelMode.driving,
-          optimizeWaypoints: true,
-        );
-        if (polylineResult.points.isNotEmpty) {
-          if (polylineResult.points.isNotEmpty) {
-            for (var point in polylineResult.points) {
-              polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-            }
-          }
-        }
-      } else {
-        polylineCoordinates
-            .add(LatLng(fromLocation.latitude, fromLocation.longitude));
-        polylineCoordinates
-            .add(LatLng(toLocation.latitude, toLocation.longitude));
-      }
-      if (kDebugMode) print('route found successfully');
-      return Polyline(
-        polylineId: PolylineId(routeId),
-        color: Colors.black,
-        points: polylineCoordinates,
-        width: 5,
-        startCap: Cap.roundCap,
-        endCap: Cap.roundCap,
-        jointType: JointType.round,
-        geodesic: true,
+      final directions =
+          google_web_service.GoogleMapsDirections(apiKey: googleMapsAPIKey);
+      final result = await directions.directionsWithLocation(
+        google_web_service.Location(
+            lat: fromLocation.latitude, lng: fromLocation.longitude),
+        google_web_service.Location(
+            lat: toLocation.latitude, lng: toLocation.longitude),
+        travelMode: google_web_service.TravelMode.driving,
+        language: isLangEnglish() ? 'en' : 'ar',
       );
+
+      if (result.isOkay) {
+        final route = result.routes[0];
+        final leg = route.legs[0];
+        final duration = leg.duration;
+        routeToHospitalTime.value = duration.text;
+        if (kDebugMode) {
+          print('route found successfully');
+        }
+        final polyline = route.overviewPolyline.points;
+
+        final polylinePoints = PolylinePoints();
+        final points = polylinePoints.decodePolyline(polyline);
+
+        final latLngPoints = points
+            .map((point) => LatLng(point.latitude, point.longitude))
+            .toList();
+        return Polyline(
+          polylineId: PolylineId(routeId),
+          color: Colors.black,
+          points: latLngPoints,
+          width: 5,
+          startCap: Cap.roundCap,
+          endCap: Cap.roundCap,
+          jointType: JointType.round,
+          geodesic: true,
+        );
+      }
     } catch (err) {
       if (kDebugMode) print(err.toString());
-      return null;
     }
+    return null;
   }
 
   LatLngBounds getLatLngBounds({required List<LatLng> latLngList}) {

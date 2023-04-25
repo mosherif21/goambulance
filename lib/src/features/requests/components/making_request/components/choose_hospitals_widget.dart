@@ -15,37 +15,31 @@ class ChooseHospitalsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StretchingOverscrollIndicator(
-        axisDirection: AxisDirection.down,
-        child: SingleChildScrollView(
-          child: Obx(
-            () => makingRequestLocationController.searchedHospitals.isNotEmpty
-                ? Column(
+      axisDirection: AxisDirection.down,
+      child: SingleChildScrollView(
+        child: Obx(
+          () => makingRequestLocationController.searchedHospitals.isNotEmpty
+              ? Column(
+                  children: [
+                    for (HospitalModel hospitalItem
+                        in makingRequestLocationController.searchedHospitals)
+                      HospitalChooseCard(
+                        hospitalItem: hospitalItem,
+                        controller: makingRequestLocationController,
+                      ),
+                  ],
+                )
+              : Shimmer.fromColors(
+                  baseColor: Colors.grey.shade300,
+                  highlightColor: Colors.grey.shade100,
+                  child: Column(
                     children: [
-                      for (HospitalModel hospitalItem
-                          in makingRequestLocationController.searchedHospitals)
-                        Obx(
-                          () => HospitalChooseCard(
-                            onPressed: () => makingRequestLocationController
-                                .onHospitalChosen(hospitalItem: hospitalItem),
-                            selected: makingRequestLocationController
-                                    .selectedHospital.value ==
-                                hospitalItem,
-                            hospitalItem: hospitalItem,
-                          ),
-                        ),
+                      for (int i = 0; i < 3; i++) const LoadingHospitalChoose()
                     ],
-                  )
-                : Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: Column(
-                      children: [
-                        for (int i = 0; i < 3; i++)
-                          const LoadingHospitalChoose()
-                      ],
-                    ),
                   ),
-          ),
-        ));
+                ),
+        ),
+      ),
+    );
   }
 }

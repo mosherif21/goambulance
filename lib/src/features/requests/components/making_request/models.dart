@@ -31,12 +31,10 @@ class HospitalModel {
   final String name;
   final String avgPrice;
   final LatLng location;
-  final int timeFromLocation;
   HospitalModel({
     required this.hospitalId,
     required this.name,
     required this.avgPrice,
     required this.location,
-    required this.timeFromLocation,
   });
 }

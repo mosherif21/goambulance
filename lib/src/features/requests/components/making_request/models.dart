@@ -1,13 +1,15 @@
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import '../../../account/components/models.dart';
 
-class MedicalInformation {
+class MedicalHistoryModel {
   final String bloodType;
   final String diabetesPatient;
   final String additionalInformation;
   final String bloodPressurePatient;
   final String heartPatient;
   final List<DiseaseItem> diseasesList;
-  MedicalInformation({
+  MedicalHistoryModel({
     required this.bloodType,
     required this.diabetesPatient,
     required this.bloodPressurePatient,
@@ -22,4 +24,19 @@ class MedicalInformation {
         'heartPatient': heartPatient,
         'additionalInformation': additionalInformation,
       };
+}
+
+class HospitalModel {
+  final String hospitalId;
+  final String name;
+  final String avgPrice;
+  final LatLng location;
+  final int timeFromLocation;
+  HospitalModel({
+    required this.hospitalId,
+    required this.name,
+    required this.avgPrice,
+    required this.location,
+    required this.timeFromLocation,
+  });
 }

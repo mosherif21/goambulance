@@ -160,43 +160,46 @@ class NormalRequestScreen extends StatelessWidget {
                             Obx(
                               () => RegularCard(
                                 highlightRed: false,
-                                child: SingleChildScrollView(
-                                  child: controller.diseasesList.isNotEmpty
-                                      ? Column(
-                                          children: [
-                                            for (var diseaseItem
-                                                in controller.diseasesList)
-                                              MedicalHistoryItem(
-                                                  diseaseItem: diseaseItem,
-                                                  onDeletePressed: () {
-                                                    controller.diseasesList
-                                                        .remove(diseaseItem);
-                                                    if (controller
-                                                        .diseasesList.isEmpty) {
-                                                      Future.delayed(
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      50))
-                                                          .whenComplete(
-                                                        () => controller
-                                                            .medicalHistoryScrollController
-                                                            .animateTo(
-                                                          controller
+                                child: StretchingOverscrollIndicator(
+                                  axisDirection: AxisDirection.down,
+                                  child: SingleChildScrollView(
+                                    child: controller.diseasesList.isNotEmpty
+                                        ? Column(
+                                            children: [
+                                              for (var diseaseItem
+                                                  in controller.diseasesList)
+                                                MedicalHistoryItem(
+                                                    diseaseItem: diseaseItem,
+                                                    onDeletePressed: () {
+                                                      controller.diseasesList
+                                                          .remove(diseaseItem);
+                                                      if (controller
+                                                          .diseasesList.isEmpty) {
+                                                        Future.delayed(
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        50))
+                                                            .whenComplete(
+                                                          () => controller
                                                               .medicalHistoryScrollController
-                                                              .position
-                                                              .maxScrollExtent,
-                                                          duration:
-                                                              const Duration(
-                                                                  milliseconds:
-                                                                      700),
-                                                          curve: Curves.easeIn,
-                                                        ),
-                                                      );
-                                                    }
-                                                  })
-                                          ],
-                                        )
-                                      : const NoMedicalHistory(),
+                                                              .animateTo(
+                                                            controller
+                                                                .medicalHistoryScrollController
+                                                                .position
+                                                                .maxScrollExtent,
+                                                            duration:
+                                                                const Duration(
+                                                                    milliseconds:
+                                                                        700),
+                                                            curve: Curves.easeIn,
+                                                          ),
+                                                        );
+                                                      }
+                                                    })
+                                            ],
+                                          )
+                                        : const NoMedicalHistory(),
+                                  ),
                                 ),
                               ),
                             ),

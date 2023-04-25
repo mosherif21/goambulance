@@ -5,15 +5,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
+import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
+import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
 
@@ -30,9 +33,11 @@ class MakingRequestLocationController extends GetxController {
   //maps vars
   final RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
   final RxSet<Marker> mapMarkers = <Marker>{}.obs;
+  late Polyline? routeToHospital;
   late Marker? requestLocationMarker;
   late Marker? ambulanceMarker;
   late Marker? hospitalMarker;
+
   late BitmapDescriptor requestLocationMarkerIcon;
   late BitmapDescriptor ambulanceMarkerIcon;
   late BitmapDescriptor hospitalMarkerIcon;
@@ -53,16 +58,20 @@ class MakingRequestLocationController extends GetxController {
   final locationServiceEnabled = false.obs;
   final mapEnabled = false.obs;
   bool allowedLocation = false;
-  final choosingHospital = false.obs;
   final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
-  late String currentChosenLocationAddress;
-  late LatLng currentChosenLatLng;
   late LatLng initialCameraLatLng;
   bool cameraMoved = false;
   final RxDouble mapPinMargin = 85.0.obs;
   final PanelController hospitalsPanelController = PanelController();
-  final FocusNode requestButtonFocusNode = FocusNode();
+
+  //making request
+  late String currentChosenLocationAddress;
+  late LatLng currentChosenLatLng;
+  final choosingHospital = false.obs;
+
+  late Rx<HospitalModel?> selectedHospital = Rx<HospitalModel?>(null);
+  final RxList<HospitalModel> searchedHospitals = <HospitalModel>[].obs;
 
   @override
   void onReady() async {
@@ -120,8 +129,7 @@ class MakingRequestLocationController extends GetxController {
   Future<void> choosingHospitalChanges() async {
     choosingHospital.value = true;
     hospitalsPanelController.open();
-    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
+
     requestLocationMarker = Marker(
       markerId: MarkerId('requestLocation'.tr),
       position: currentChosenLatLng,
@@ -131,6 +139,8 @@ class MakingRequestLocationController extends GetxController {
       ),
       onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
     );
+    mapMarkers.add(requestLocationMarker!);
+    getHospitals();
     // ambulanceMarker = Marker(
     //   markerId: const MarkerId('ambulance'),
     //   position: LatLng(currentChosenLatLng.latitude + 0.002,
@@ -145,7 +155,6 @@ class MakingRequestLocationController extends GetxController {
     // );
     // mapMarkers.add(ambulanceMarker!);
     // mapMarkers.remove(ambulanceMarker!);
-    mapMarkers.add(requestLocationMarker!);
   }
 
   void choosingRequestLocationChanges() async {
@@ -153,9 +162,172 @@ class MakingRequestLocationController extends GetxController {
     hospitalsPanelController.close();
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
-    if (requestLocationMarker != null) {
+    searchedHospitals.value = [];
+    selectedHospital.value = null;
+    if (mapMarkers.contains(requestLocationMarker)) {
       mapMarkers.remove(requestLocationMarker!);
     }
+    if (mapPolyLines.contains(routeToHospital)) {
+      mapPolyLines.remove(routeToHospital);
+    }
+    if (mapMarkers.contains(hospitalMarker)) {
+      mapMarkers.remove(hospitalMarker);
+    }
+  }
+
+  Future<void> getHospitals() async {
+    if (searchedHospitals.isEmpty) {
+      final hospitals = <HospitalModel>[];
+      hospitals.add(
+        HospitalModel(
+          hospitalId: '',
+          name: 'hospital name 1',
+          avgPrice: 'EGP 33',
+          location: const LatLng(31.237669953932324, 29.954293705523015),
+          timeFromLocation: 2,
+        ),
+      );
+      hospitals.add(
+        HospitalModel(
+          hospitalId: '',
+          name: 'hospital name 2',
+          avgPrice: 'EGP 44',
+          location: const LatLng(31.232469953932325, 29.954293705523016),
+          timeFromLocation: 3,
+        ),
+      );
+      hospitals.add(
+        HospitalModel(
+          hospitalId: '',
+          name: 'hospital name 3',
+          avgPrice: 'EGP 22',
+          location: const LatLng(31.235369953932326, 29.954293705523017),
+          timeFromLocation: 4,
+        ),
+      );
+      hospitals.add(
+        HospitalModel(
+          hospitalId: '',
+          name: 'hospital name 4',
+          avgPrice: 'EGP 77',
+          location: const LatLng(31.239269953932327, 29.954393705523018),
+          timeFromLocation: 5,
+        ),
+      );
+      searchedHospitals.value = hospitals;
+      selectedHospital.value = hospitals[0];
+
+      hospitalMarker = Marker(
+        markerId: const MarkerId('hospital'),
+        position: selectedHospital.value!.location,
+        icon: ambulanceMarkerIcon,
+        infoWindow: InfoWindow(
+          title: 'hospitalLocationPinDesc'.tr,
+        ),
+        onTap: () =>
+            animateToLocation(locationLatLng: selectedHospital.value!.location),
+      );
+      mapMarkers.add(hospitalMarker!);
+      animateToMapMarkers();
+      routeToHospital = await getRouteToLocation(
+          fromLocation: currentChosenLatLng,
+          toLocation: selectedHospital.value!.location,
+          routeId: 'routeToHospital');
+      if (routeToHospital != null) {
+        mapPolyLines.add(routeToHospital!);
+      }
+    }
+  }
+
+  void onHospitalChosen({required HospitalModel hospitalItem}) async {
+    if (mapPolyLines.contains(routeToHospital)) {
+      mapPolyLines.remove(routeToHospital);
+    }
+    if (mapMarkers.contains(hospitalMarker)) {
+      mapMarkers.remove(hospitalMarker);
+    }
+
+    hospitalMarker = Marker(
+      markerId: const MarkerId('hospital'),
+      position: hospitalItem.location,
+      icon: ambulanceMarkerIcon,
+      infoWindow: InfoWindow(
+        title: 'hospitalLocationPinDesc'.tr,
+      ),
+      onTap: () => animateToLocation(locationLatLng: hospitalItem.location),
+    );
+    mapMarkers.add(hospitalMarker!);
+    selectedHospital.value = hospitalItem;
+    animateToMapMarkers();
+    routeToHospital = await getRouteToLocation(
+        fromLocation: currentChosenLatLng,
+        toLocation: hospitalItem.location,
+        routeId: 'routeToHospital');
+    if (routeToHospital != null) {
+      mapPolyLines.add(routeToHospital!);
+    }
+  }
+
+  Future<Polyline?> getRouteToLocation(
+      {required LatLng fromLocation,
+      required LatLng toLocation,
+      required String routeId}) async {
+    try {
+      List<LatLng> polylineCoordinates = [];
+      if (!AppInit.isWeb) {
+        PolylineResult polylineResult =
+            await PolylinePoints().getRouteBetweenCoordinates(
+          googleMapsAPIKey,
+          PointLatLng(fromLocation.latitude, fromLocation.longitude),
+          PointLatLng(toLocation.latitude, toLocation.longitude),
+          travelMode: TravelMode.driving,
+          optimizeWaypoints: true,
+        );
+        if (polylineResult.points.isNotEmpty) {
+          if (polylineResult.points.isNotEmpty) {
+            for (var point in polylineResult.points) {
+              polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+            }
+          }
+        }
+      } else {
+        polylineCoordinates
+            .add(LatLng(fromLocation.latitude, fromLocation.longitude));
+        polylineCoordinates
+            .add(LatLng(toLocation.latitude, toLocation.longitude));
+      }
+      if (kDebugMode) print('route found successfully');
+      return Polyline(
+        polylineId: PolylineId(routeId),
+        color: Colors.black,
+        points: polylineCoordinates,
+        width: 4,
+        startCap: Cap.roundCap,
+        endCap: Cap.roundCap,
+        jointType: JointType.round,
+        geodesic: true,
+      );
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return null;
+    }
+  }
+
+  LatLngBounds getLatLngBounds({required List<LatLng> latLngList}) {
+    double? x0, x1, y0, y1;
+    for (LatLng latLng in latLngList) {
+      if (x0 == null) {
+        x0 = x1 = latLng.latitude;
+        y0 = y1 = latLng.longitude;
+      } else {
+        if (latLng.latitude > x1!) x1 = latLng.latitude;
+        if (latLng.latitude < x0) x0 = latLng.latitude;
+        if (latLng.longitude > y1!) y1 = latLng.longitude;
+        if (latLng.longitude < y0!) y0 = latLng.longitude;
+      }
+    }
+    return LatLngBounds(
+        northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
   }
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
@@ -275,6 +447,21 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
+  void animateToMapMarkers() {
+    LatLngBounds routeToLocationBounds = getLatLngBounds(
+        latLngList: mapMarkers.map((marker) => marker.position).toList());
+    animateToLatLngBounds(latLngBounds: routeToLocationBounds);
+  }
+
+  void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
+    if (mapEnabled.value) {
+      if (googleMapControllerInit) {
+        googleMapController
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 110));
+      }
+    }
+  }
+
   void onCameraIdle() async {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
@@ -380,58 +567,4 @@ class MakingRequestLocationController extends GetxController {
         .buffer
         .asUint8List();
   }
-// Polyline(
-//   polylineId: const PolylineId('router_driver'),
-//   color: const Color(0xFF28AADC),
-//   // ignore: invalid_use_of_protected_member
-//   points: mapsController.polylineCoordinates.value,
-//   width: 4,
-//   startCap: Cap.roundCap,
-//   endCap: Cap.roundCap,
-//   jointType: JointType.round,
-//   geodesic: true,
-// ),
-//       {
-//   mapsController.driverMarker.value,
-//   if (AppInit.isWeb)
-//   Marker(
-//   markerId: const MarkerId('current_location'),
-//   position: mapsController.currentLocationGetter()),
-// }
-
-// Future<void> getRoute(LatLng driverLocation) async {
-//   driverMarker.value = Marker(
-//     markerId: const MarkerId('driver_location'),
-//     icon: ambulanceDriverIcon,
-//     position: driverLocation,
-//     anchor: const Offset(0.5, 0.5),
-//   );
-//   List<LatLng> polylineCoordinatesLocal = [];
-//   if (!AppInit.isWeb) {
-//     PolylineResult polylineResult = await PolylinePoints()
-//         .getRouteBetweenCoordinates(
-//         AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
-//         PointLatLng(
-//             _currentLocation!.latitude, _currentLocation!.longitude),
-//         PointLatLng(driverLocation.latitude, driverLocation.longitude),
-//         travelMode: TravelMode.driving,
-//         optimizeWaypoints: true);
-//     if (polylineResult.points.isNotEmpty) {
-//       if (polylineResult.points.isNotEmpty) {
-//         for (var point in polylineResult.points) {
-//           polylineCoordinatesLocal
-//               .add(LatLng(point.latitude, point.longitude));
-//           polylineCoordinates.assignAll(polylineCoordinatesLocal);
-//         }
-//       }
-//     }
-//   } else {
-//     polylineCoordinatesLocal
-//         .add(LatLng(_currentLocation!.latitude, _currentLocation!.longitude));
-//     polylineCoordinatesLocal
-//         .add(LatLng(driverLocation.latitude, driverLocation.longitude));
-//     polylineCoordinates.assignAll(polylineCoordinatesLocal);
-//   }
-// }
-//
 }

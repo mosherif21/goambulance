@@ -54,6 +54,8 @@ class Languages extends Translations {
           'phoneFieldLabel': 'ادخل رقم هاتفك',
           'requestLocation': 'موقع الطلب',
           'requestLocationPinDesc': 'موقع طلبك',
+          'chooseRequestHospital': 'اختر مستشفى طلبك',
+          'hospitalLocationPinDesc': 'مستشفى طلبك',
           'ambulancePinDesc': 'سيارة الإسعاف الخاصة بك',
           'passwordResetLink':
               'ادخل بريدك الالكترونى للحصول على رابط تغيير كلمة المرور',
@@ -409,6 +411,7 @@ class Languages extends Translations {
           'enterBirthDate': 'Choose your Birth Date',
           'birthDate': 'Birth Date',
           'enterGender': 'Choose your Gender',
+          'hospitalLocationPinDesc': 'Your request\'s hospital',
           'enterPhoto': 'Please add your Photo',
           'enterNationalIDPhoto': 'Please add your National ID Photo',
           'addPhoto': 'Add Photo',
@@ -474,6 +477,7 @@ class Languages extends Translations {
           'notAllowed': 'Not allowed',
           'requestLocation': 'Request Location',
           'requestLocationPinDesc': 'Your request location',
+          'chooseRequestHospital': 'Choose your request\'s hospital',
           'ambulancePinDesc': 'Your ambulance',
           'locationNotAllowed':
               'Sorry, our app currently operates in Egypt only',

@@ -1,6 +1,10 @@
+// ignore_for_file: invalid_use_of_protected_member
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
+import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -58,19 +62,57 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         ],
       ),
       margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          HospitalChooseCard(),
+          AutoSizeText(
+            'chooseRequestHospital'.tr,
+            style: const TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w800,
+            ),
+            maxLines: 2,
+          ),
+          const SizedBox(height: 5),
+          const Divider(height: 5),
+          Expanded(
+            child: Obx(
+              () => widget.makingRequestController.searchedHospitals.isNotEmpty
+                  ? StretchingOverscrollIndicator(
+                      axisDirection: AxisDirection.down,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            for (HospitalModel hospitalItem in widget
+                                .makingRequestController.searchedHospitals)
+                              Obx(
+                                () => HospitalChooseCard(
+                                  controller: widget.makingRequestController,
+                                  selected: widget.makingRequestController
+                                          .selectedHospital.value ==
+                                      hospitalItem,
+                                  hospitalItem: hospitalItem,
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
+            ),
+          ),
+          const Divider(thickness: 1, height: 5),
+          const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: RegularElevatedButton(
               buttonText: 'confirmRequest'.tr,
               onPressed: () {},
               enabled: true,
               color: Colors.black,
               fontSize: 22,
-              height: 55,
+              height: 50,
             ),
           ),
         ],
@@ -106,7 +148,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                     bottom:
                         widget.makingRequestController.choosingHospital.value
                             ? screenHeight * 0.48
-                            : 65,
+                            : 70,
                     left: isLangEnglish() ? 8 : 0,
                     right: isLangEnglish() ? 0 : 8,
                   ),
@@ -119,8 +161,8 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   myLocationButtonEnabled: false,
                   initialCameraPosition:
                       widget.makingRequestController.getInitialCameraPosition(),
-                  polylines: widget.makingRequestController.mapPolyLines,
-                  markers: widget.makingRequestController.mapMarkers,
+                  polylines: widget.makingRequestController.mapPolyLines.value,
+                  markers: widget.makingRequestController.mapMarkers.value,
                   onMapCreated: (GoogleMapController controller) => widget
                       .makingRequestController.mapControllerCompleter
                       .complete(controller),
@@ -188,9 +230,9 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                     ? Positioned(
                         left: 0,
                         right: 0,
-                        bottom: 5,
+                        bottom: 10,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: RegularElevatedButton(
                             buttonText: 'requestHere'.tr,
                             onPressed: () =>
@@ -208,7 +250,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 () => Positioned(
                   bottom: widget.makingRequestController.choosingHospital.value
                       ? screenHeight * 0.48
-                      : 65,
+                      : 70,
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(

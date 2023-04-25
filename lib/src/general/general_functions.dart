@@ -70,8 +70,9 @@ void showSimpleSnackBar({
         : snackBarType == SnackBarType.error
             ? AnimatedSnackBarType.error
             : AnimatedSnackBarType.info,
+    mobileSnackBarPosition: MobileSnackBarPosition.bottom,
     snackBarStrategy: RemoveSnackBarStrategy(),
-    duration: const Duration(seconds: 5),
+    duration: const Duration(seconds: 6),
   ).show(context);
 }
 

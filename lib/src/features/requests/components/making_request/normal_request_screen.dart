@@ -273,6 +273,26 @@ class NormalRequestScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
+                            headerText: 'enterAdditionalInformation'.tr,
+                            fontSize: 18),
+                        const SizedBox(height: 5.0),
+                        TextFormFieldMultiline(
+                          labelText: 'additionalInformation'.tr,
+                          hintText: 'enterAdditionalInformation'.tr,
+                          textController:
+                              controller.additionalInformationTextController,
+                          textInputAction: TextInputAction.done,
+                          inputFormatter: LengthLimitingTextInputFormatter(150),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(
                             headerText: 'enterBackupPhoneNo'.tr, fontSize: 18),
                         const SizedBox(height: 5.0),
                         IntlPhoneField(
@@ -291,26 +311,6 @@ class NormalRequestScreen extends StatelessWidget {
                           ),
                           onChanged: (phone) =>
                               controller.backupPhoneNo = phone.completeNumber,
-                        ),
-                      ],
-                    ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(
-                            headerText: 'enterAdditionalInformation'.tr,
-                            fontSize: 18),
-                        const SizedBox(height: 5.0),
-                        TextFormFieldMultiline(
-                          labelText: 'additionalInformation'.tr,
-                          hintText: 'enterAdditionalInformation'.tr,
-                          textController:
-                              controller.additionalInformationTextController,
-                          textInputAction: TextInputAction.done,
-                          inputFormatter: LengthLimitingTextInputFormatter(150),
                         ),
                       ],
                     ),

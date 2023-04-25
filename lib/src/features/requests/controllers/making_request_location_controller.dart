@@ -559,13 +559,13 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<void> _loadMarkersIcon() async {
-    await _getBytesFromAsset(kRequestLocationMarkerImg, 130).then((iconBytes) {
+    await _getBytesFromAsset(kRequestLocationMarkerImg, 120).then((iconBytes) {
       requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kAmbulanceMarkerImg, 130).then((iconBytes) {
+    await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
       ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kHospitalMarkerImg, 150).then((iconBytes) {
+    await _getBytesFromAsset(kHospitalMarkerImg, 140).then((iconBytes) {
       hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
   }

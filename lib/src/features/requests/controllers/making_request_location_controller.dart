@@ -140,11 +140,13 @@ class MakingRequestLocationController extends GetxController {
       onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
     );
     mapMarkers.add(requestLocationMarker!);
+    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
+        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
     await getHospitals();
     hospitalMarker = Marker(
       markerId: const MarkerId('hospital'),
       position: selectedHospital.value!.location,
-      icon: ambulanceMarkerIcon,
+      icon: hospitalMarkerIcon,
       infoWindow: InfoWindow(
         title: 'hospitalLocationPinDesc'.tr,
       ),
@@ -188,6 +190,10 @@ class MakingRequestLocationController extends GetxController {
     if (mapMarkers.contains(requestLocationMarker)) {
       mapMarkers.remove(requestLocationMarker!);
     }
+    clearHospitalRoute();
+  }
+
+  void clearHospitalRoute() {
     if (mapPolyLines.contains(routeToHospital)) {
       mapPolyLines.remove(routeToHospital);
     }
@@ -235,27 +241,22 @@ class MakingRequestLocationController extends GetxController {
           timeFromLocation: 5,
         ),
       );
-      await Future.delayed(const Duration(milliseconds: 2000));
+      await Future.delayed(const Duration(seconds: 5));
       searchedHospitals.value = hospitals;
       selectedHospital.value = hospitals[0];
     }
   }
 
   void onHospitalChosen({required HospitalModel hospitalItem}) async {
-    if (mapPolyLines.contains(routeToHospital)) {
-      mapPolyLines.remove(routeToHospital);
-    }
-    if (mapMarkers.contains(hospitalMarker)) {
-      mapMarkers.remove(hospitalMarker);
-    }
-
+    clearHospitalRoute();
     hospitalMarker = Marker(
       markerId: const MarkerId('hospital'),
       position: hospitalItem.location,
-      icon: ambulanceMarkerIcon,
+      icon: hospitalMarkerIcon,
       infoWindow: InfoWindow(
         title: 'hospitalLocationPinDesc'.tr,
       ),
+      anchor: const Offset(0.5, 0.5),
       onTap: () => animateToLocation(locationLatLng: hospitalItem.location),
     );
     mapMarkers.add(hospitalMarker!);
@@ -305,7 +306,7 @@ class MakingRequestLocationController extends GetxController {
         polylineId: PolylineId(routeId),
         color: Colors.black,
         points: polylineCoordinates,
-        width: 4,
+        width: 5,
         startCap: Cap.roundCap,
         endCap: Cap.roundCap,
         jointType: JointType.round,
@@ -463,7 +464,7 @@ class MakingRequestLocationController extends GetxController {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
         googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 40));
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 30));
       }
     }
   }
@@ -495,7 +496,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void animateCamera({required LatLng locationLatLng}) {
-    mapPinMargin.value = 150;
+    mapPinMargin.value = 90;
     googleMapController.animateCamera(CameraUpdate.newCameraPosition(
       CameraPosition(
         target: locationLatLng,
@@ -559,9 +560,9 @@ class MakingRequestLocationController extends GetxController {
     await _getBytesFromAsset(kAmbulanceMarkerImg, 130).then((iconBytes) {
       ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    // await _getBytesFromAsset(kHospitalMarkerImg, 130).then((iconBytes) {
-    //   hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
-    // });
+    await _getBytesFromAsset(kHospitalMarkerImg, 150).then((iconBytes) {
+      hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+    });
   }
 
   Future<Uint8List> _getBytesFromAsset(String path, int width) async {

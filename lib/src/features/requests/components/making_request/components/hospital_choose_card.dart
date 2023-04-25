@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
-import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:line_icons/line_icon.dart';
 
 import '../../../../../general/general_functions.dart';
@@ -9,24 +8,22 @@ import '../../../../../general/general_functions.dart';
 class HospitalChooseCard extends StatelessWidget {
   const HospitalChooseCard({
     Key? key,
-    required this.controller,
     required this.selected,
     required this.hospitalItem,
+    required this.onPressed,
   }) : super(key: key);
-  final MakingRequestLocationController controller;
+  final Function onPressed;
   final bool selected;
   final HospitalModel hospitalItem;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     return Material(
-      shadowColor: Colors.grey.shade200,
-      color: selected ? Colors.grey.shade200 : Colors.white,
+      shadowColor: Colors.grey.shade300,
+      color: selected ? Colors.grey.shade300 : Colors.white,
       child: InkWell(
         splashFactory: InkSparkle.splashFactory,
-        onTap: () => selected
-            ? null
-            : controller.onHospitalChosen(hospitalItem: hospitalItem),
+        onTap: () => selected ? null : onPressed(),
         highlightColor: Colors.grey.shade200,
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -54,7 +51,7 @@ class HospitalChooseCard extends StatelessWidget {
                     hospitalItem.avgPrice,
                     style: const TextStyle(
                       fontSize: 17,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w400,
                       color: Colors.grey,
                     ),
                     maxLines: 1,
@@ -66,7 +63,7 @@ class HospitalChooseCard extends StatelessWidget {
                 hospitalItem.timeFromLocation.toString(),
                 style: const TextStyle(
                   fontSize: 18,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w700,
                   color: Colors.black,
                 ),
                 maxLines: 1,

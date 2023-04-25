@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
-import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -14,7 +13,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/general_functions.dart';
-import 'hospital_choose_card.dart';
+import 'choose_hospitals_widget.dart';
 import 'myLocation_button.dart';
 
 class MakingRequestMap extends StatefulWidget {
@@ -62,10 +61,11 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         ],
       ),
       margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      // padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 10),
           AutoSizeText(
             'chooseRequestHospital'.tr,
             style: const TextStyle(
@@ -74,38 +74,16 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             ),
             maxLines: 2,
           ),
-          const SizedBox(height: 5),
+          const SizedBox(height: 8),
           const Divider(height: 5),
           Expanded(
-            child: Obx(
-              () => widget.makingRequestController.searchedHospitals.isNotEmpty
-                  ? StretchingOverscrollIndicator(
-                      axisDirection: AxisDirection.down,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            for (HospitalModel hospitalItem in widget
-                                .makingRequestController.searchedHospitals)
-                              Obx(
-                                () => HospitalChooseCard(
-                                  controller: widget.makingRequestController,
-                                  selected: widget.makingRequestController
-                                          .selectedHospital.value ==
-                                      hospitalItem,
-                                  hospitalItem: hospitalItem,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : const SizedBox.shrink(),
+            child: ChooseHospitalsList(
+              makingRequestLocationController: widget.makingRequestController,
             ),
           ),
-          const Divider(thickness: 1, height: 5),
-          const SizedBox(height: 10),
+          const Divider(thickness: 1, height: 2),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.all(18),
             child: RegularElevatedButton(
               buttonText: 'confirmRequest'.tr,
               onPressed: () {},
@@ -151,6 +129,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                             : 70,
                     left: isLangEnglish() ? 8 : 0,
                     right: isLangEnglish() ? 0 : 8,
+                    top: 60,
                   ),
                   compassEnabled: false,
                   rotateGesturesEnabled: false,

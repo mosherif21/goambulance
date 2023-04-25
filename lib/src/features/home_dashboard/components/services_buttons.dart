@@ -13,8 +13,7 @@ class ServicesButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Flex(
-        direction: Axis.horizontal,
+      child: Row(
         children: [
           Expanded(
             flex: 8,
@@ -27,25 +26,24 @@ class ServicesButtons extends StatelessWidget {
               ),
             ),
           ),
-          if (isUserCritical()) const Spacer(),
-          if (isUserCritical())
-            Expanded(
-              flex: 8,
-              child: RoundedImageElevatedButton(
-                buttonText: 'sosRequest'.tr,
-                imagePath: kSosImage,
-                onPressed: () {},
-              ),
-            ),
           const Spacer(),
-          Expanded(
-            flex: 8,
-            child: RoundedImageElevatedButton(
-              buttonText: 'sosMessage'.tr,
-              imagePath: kSosMessageImage,
-              onPressed: () {},
-            ),
-          ),
+          isUserCritical()
+              ? Expanded(
+                  flex: 8,
+                  child: RoundedImageElevatedButton(
+                    buttonText: 'sosRequest'.tr,
+                    imagePath: kSosImage,
+                    onPressed: () {},
+                  ),
+                )
+              : Expanded(
+                  flex: 8,
+                  child: RoundedImageElevatedButton(
+                    buttonText: 'sosMessage'.tr,
+                    imagePath: kSosMessageImage,
+                    onPressed: () {},
+                  ),
+                ),
         ],
       ),
     );

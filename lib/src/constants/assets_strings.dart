@@ -1,7 +1,7 @@
 /* --- Application Assets Strings --- */
 
 //--GIFS Assets
-const String kSAFlagImage = "assets/gifs/saudi_arabia_flag.gif";
+const String kSAFlagImage = "assets/gifs/saudia_arabia_flag.gif";
 const String kUkFlagImage = "assets/gifs/uk_flag.gif";
 const String kNotAvailableErrorAnim = "assets/images/error_beach.gif";
 const String kProfileAnimated = "assets/gifs/profile_animated_male.gif";

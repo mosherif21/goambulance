@@ -56,9 +56,9 @@ class HospitalChooseCard extends StatelessWidget {
                       Row(
                         children: [
                           AutoSizeText(
-                            '${hospitalItem.avgPrice} ${'egp'.tr}',
+                            '${'avgPrice'.tr}: ${hospitalItem.avgPrice} ${'egp'.tr}',
                             style: const TextStyle(
-                              fontSize: 17,
+                              fontSize: 15,
                               fontWeight: FontWeight.w400,
                               color: Colors.grey,
                             ),

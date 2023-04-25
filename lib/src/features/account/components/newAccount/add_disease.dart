@@ -51,24 +51,24 @@ class AddDisease extends StatelessWidget {
             inputFormatter: LengthLimitingTextInputFormatter(100),
           ),
           const SizedBox(height: 10.0),
-          RegularElevatedButton(
-            buttonText: 'add'.tr,
-            onPressed: () {
-              if (controller.diseaseNameTextController.text.trim().isNotEmpty) {
-                final diseaseName =
-                    controller.diseaseNameTextController.text.trim();
-                final diseaseMedicines =
-                    controller.medicinesTextController.text.trim();
-                controller.diseasesList.add(DiseaseItem(
-                    diseaseName: diseaseName,
-                    diseaseMedicines: diseaseMedicines));
-                controller.diseaseNameTextController.clear();
-                controller.medicinesTextController.clear();
-                RegularBottomSheet.hideBottomSheet();
-              }
-            },
-            enabled: true,
-            color: Colors.black,
+          Obx(
+            () => RegularElevatedButton(
+              buttonText: 'add'.tr,
+              onPressed: () {
+                if (controller.diseaseName.value.isNotEmpty) {
+                  final diseaseMedicines =
+                      controller.medicinesTextController.text.trim();
+                  controller.diseasesList.add(DiseaseItem(
+                      diseaseName: controller.diseaseName.value,
+                      diseaseMedicines: diseaseMedicines));
+                  controller.diseaseNameTextController.clear();
+                  controller.medicinesTextController.clear();
+                  RegularBottomSheet.hideBottomSheet();
+                }
+              },
+              enabled: controller.diseaseName.value.isNotEmpty ? true : false,
+              color: Colors.black,
+            ),
           ),
         ],
       ),

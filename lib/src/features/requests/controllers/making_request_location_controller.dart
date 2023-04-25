@@ -32,19 +32,18 @@ class MakingRequestLocationController extends GetxController {
   final accuracy = LocationAccuracy.high;
 
   //maps vars
-  final RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
-  final RxSet<Marker> mapMarkers = <Marker>{}.obs;
-  late Polyline? routeToHospital;
-  late RxString routeToHospitalTime = ''.obs;
-  late Marker? requestLocationMarker;
-  late Marker? ambulanceMarker;
-  late Marker? hospitalMarker;
+  final mapPolyLines = <Polyline>{}.obs;
+  final mapMarkers = <Marker>{}.obs;
+  Polyline? routeToHospital;
+  final routeToHospitalTime = ''.obs;
+  Marker? requestLocationMarker;
+  Marker? ambulanceMarker;
+  Marker? hospitalMarker;
 
-  late BitmapDescriptor requestLocationMarkerIcon;
-  late BitmapDescriptor ambulanceMarkerIcon;
-  late BitmapDescriptor hospitalMarkerIcon;
-  final Completer<GoogleMapController> mapControllerCompleter =
-      Completer<GoogleMapController>();
+  late final BitmapDescriptor requestLocationMarkerIcon;
+  late final BitmapDescriptor ambulanceMarkerIcon;
+  late final BitmapDescriptor hospitalMarkerIcon;
+  final mapControllerCompleter = Completer<GoogleMapController>();
   late final GoogleMapController googleMapController;
   bool googleMapControllerInit = false;
 
@@ -53,8 +52,8 @@ class MakingRequestLocationController extends GetxController {
   final mapLoading = false.obs;
   late Position currentLocation;
   late LatLng searchedLocation;
-  late StreamSubscription<ServiceStatus>? serviceStatusStream;
-  late StreamSubscription<Position>? currentPositionStream;
+  StreamSubscription<ServiceStatus>? serviceStatusStream;
+  StreamSubscription<Position>? currentPositionStream;
   bool positionStreamInitialized = false;
   final locationPermissionGranted = false.obs;
   final locationServiceEnabled = false.obs;
@@ -64,16 +63,17 @@ class MakingRequestLocationController extends GetxController {
   late String mapStyle;
   late LatLng initialCameraLatLng;
   bool cameraMoved = false;
-  final RxDouble mapPinMargin = 85.0.obs;
-  final PanelController hospitalsPanelController = PanelController();
+  final mapPinMargin = 85.0.obs;
+  final hospitalsPanelController = PanelController();
 
   //making request
   late String currentChosenLocationAddress;
+  late LatLng currentCameraLatLng;
   late LatLng currentChosenLatLng;
   final choosingHospital = false.obs;
 
-  late Rx<HospitalModel?> selectedHospital = Rx<HospitalModel?>(null);
-  final RxList<HospitalModel> searchedHospitals = <HospitalModel>[].obs;
+  final selectedHospital = Rx<HospitalModel?>(null);
+  final searchedHospitals = <HospitalModel>[].obs;
 
   @override
   void onReady() async {
@@ -197,11 +197,15 @@ class MakingRequestLocationController extends GetxController {
 
   void clearHospitalRoute() {
     routeToHospitalTime.value = '';
-    if (mapPolyLines.contains(routeToHospital)) {
-      mapPolyLines.remove(routeToHospital);
+    if (routeToHospital != null) {
+      if (mapPolyLines.contains(routeToHospital)) {
+        mapPolyLines.remove(routeToHospital);
+      }
     }
-    if (mapMarkers.contains(hospitalMarker)) {
-      mapMarkers.remove(hospitalMarker);
+    if (hospitalMarker != null) {
+      if (mapMarkers.contains(hospitalMarker)) {
+        mapMarkers.remove(hospitalMarker);
+      }
     }
   }
 
@@ -385,6 +389,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
+    currentChosenLatLng = latLng;
     final addressesInfo = await Geocoder2.getDataFromCoordinates(
       latitude: latLng.latitude,
       longitude: latLng.longitude,
@@ -405,7 +410,7 @@ class MakingRequestLocationController extends GetxController {
       language: isLangEnglish() ? 'en' : 'ar',
     );
     checkAllowedLocation(countryCode: location.countryCode);
-    return LatLng(location.latitude, location.longitude);
+    return currentChosenLatLng = LatLng(location.latitude, location.longitude);
   }
 
   void checkAllowedLocation({required String countryCode}) =>
@@ -481,10 +486,10 @@ class MakingRequestLocationController extends GetxController {
           searchedText.value = 'loading'.tr;
           String address = '';
           if (!cameraMoved) {
-            currentChosenLatLng = LatLng(
+            currentCameraLatLng = LatLng(
                 initialCameraLatLng.latitude, initialCameraLatLng.longitude);
           }
-          address = await getAddressFromLocation(latLng: currentChosenLatLng);
+          address = await getAddressFromLocation(latLng: currentCameraLatLng);
           searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
         } catch (err) {
           if (kDebugMode) print(err.toString());
@@ -495,7 +500,7 @@ class MakingRequestLocationController extends GetxController {
 
   void onCameraMove(CameraPosition cameraPosition) {
     if (!choosingHospital.value) {
-      currentChosenLatLng = cameraPosition.target;
+      currentCameraLatLng = cameraPosition.target;
       cameraMoved = true;
     }
   }

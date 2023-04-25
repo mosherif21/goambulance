@@ -250,6 +250,7 @@ class Languages extends Translations {
           'accountTitle3': 'السجل الطبي',
           'egp': 'جنيها',
           'forMe': 'لي',
+          'avgPrice': 'متوسط السعر',
           'someoneElse': 'لشخص اخر',
           'requestFor': 'لمن طلب سيارة الإسعاف هذا؟',
         },
@@ -498,6 +499,7 @@ class Languages extends Translations {
           'forMe': 'For me',
           'egp': 'EGP',
           'someoneElse': 'Someone else',
+          'avgPrice': 'Average price',
           'requestFor': 'Who is this ambulance request for?',
         },
       };

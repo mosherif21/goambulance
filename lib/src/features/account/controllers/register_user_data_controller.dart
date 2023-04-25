@@ -58,7 +58,7 @@ class RegisterUserDataController extends GetxController {
   RxBool highlightBloodType = false.obs;
   bool hypertensivePatient = false;
   bool heartPatient = false;
-
+  final diseaseName = ''.obs;
   final hypertensiveDropdownController = TextEditingController();
 
   final diabetesDropdownController = TextEditingController();
@@ -99,6 +99,9 @@ class RegisterUserDataController extends GetxController {
       if (emailTextController.text.trim().isEmail) {
         highlightEmail.value = false;
       }
+    });
+    diseaseNameTextController.addListener(() {
+      diseaseName.value = diseaseNameTextController.text.trim();
     });
     nationalIdTextController.addListener(() {
       final nationalId = nationalIdTextController.text;

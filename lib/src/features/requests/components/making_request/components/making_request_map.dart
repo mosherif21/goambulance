@@ -84,13 +84,19 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           const Divider(thickness: 1, height: 2),
           Padding(
             padding: const EdgeInsets.all(18),
-            child: RegularElevatedButton(
-              buttonText: 'confirmRequest'.tr,
-              onPressed: () {},
-              enabled: true,
-              color: Colors.black,
-              fontSize: 22,
-              height: 50,
+            child: Obx(
+              () => RegularElevatedButton(
+                buttonText: 'confirmRequest'.tr,
+                onPressed: () {},
+                enabled:
+                    widget.makingRequestController.selectedHospital.value !=
+                            null
+                        ? true
+                        : false,
+                color: Colors.black,
+                fontSize: 22,
+                height: 50,
+              ),
             ),
           ),
         ],

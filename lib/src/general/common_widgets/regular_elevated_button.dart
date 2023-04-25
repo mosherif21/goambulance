@@ -30,13 +30,14 @@ class RegularElevatedButton extends StatelessWidget {
           backgroundColor: color,
           foregroundColor: Colors.white,
         ),
-        onPressed: () => enabled ? onPressed() : null,
+        onPressed: enabled ? () => onPressed() : null,
         child: AutoSizeText(
           buttonText,
           style: TextStyle(
-              color: Colors.white,
-              fontSize: fontSize,
-              fontWeight: FontWeight.w500),
+            color: Colors.white,
+            fontSize: fontSize,
+            fontWeight: FontWeight.w500,
+          ),
           maxLines: 1,
         ),
       ),

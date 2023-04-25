@@ -38,7 +38,6 @@ class NormalRequestScreen extends StatelessWidget {
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
-              controller: controller.medicalHistoryScrollController,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -191,35 +190,11 @@ class NormalRequestScreen extends StatelessWidget {
                                               for (var diseaseItem
                                                   in controller.diseasesList)
                                                 MedicalHistoryItem(
-                                                    diseaseItem: diseaseItem,
-                                                    onDeletePressed: () {
+                                                  diseaseItem: diseaseItem,
+                                                  onDeletePressed: () =>
                                                       controller.diseasesList
-                                                          .remove(diseaseItem);
-                                                      if (controller
-                                                          .diseasesList
-                                                          .isEmpty) {
-                                                        Future.delayed(
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        50))
-                                                            .whenComplete(
-                                                          () => controller
-                                                              .medicalHistoryScrollController
-                                                              .animateTo(
-                                                            controller
-                                                                .medicalHistoryScrollController
-                                                                .position
-                                                                .maxScrollExtent,
-                                                            duration:
-                                                                const Duration(
-                                                                    milliseconds:
-                                                                        700),
-                                                            curve:
-                                                                Curves.easeIn,
-                                                          ),
-                                                        );
-                                                      }
-                                                    })
+                                                          .remove(diseaseItem),
+                                                )
                                             ],
                                           )
                                         : const NoMedicalHistory(),

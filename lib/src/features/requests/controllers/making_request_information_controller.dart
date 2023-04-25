@@ -21,11 +21,11 @@ class MakingRequestInformationController extends GetxController {
   String diabeticType = '';
   String hypertensivePatient = '';
   String heartPatient = '';
+  final diseaseName = ''.obs;
   final highlightPatientCondition = false.obs;
   final highlightRequest = false.obs;
   final diseaseNameTextController = TextEditingController();
   final medicinesTextController = TextEditingController();
-  final medicalHistoryScrollController = ScrollController();
   final additionalInformationTextController = TextEditingController();
   final patientConditionTextController = TextEditingController();
   final requestTypeDropdownController = TextEditingController();
@@ -53,6 +53,9 @@ class MakingRequestInformationController extends GetxController {
         highlightPatientCondition.value = false;
       }
     });
+    diseaseNameTextController.addListener(() {
+      diseaseName.value = diseaseNameTextController.text.trim();
+    });
     super.onReady();
   }
 
@@ -78,7 +81,6 @@ class MakingRequestInformationController extends GetxController {
   void onClose() {
     diseaseNameTextController.dispose();
     medicinesTextController.dispose();
-    medicalHistoryScrollController.dispose();
     additionalInformationTextController.dispose();
     requestTypeDropdownController.dispose();
     hypertensiveDropdownController.dispose();

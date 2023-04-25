@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:cool_dropdown/controllers/dropdown_controller.dart';
-import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,77 +16,39 @@ class MakingRequestInformationController extends GetxController {
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
+  String backupPhoneNo = '';
   String selectedBloodType = '';
   String diabeticType = '';
   String hypertensivePatient = '';
   String heartPatient = '';
   final highlightPatientCondition = false.obs;
+  final highlightRequest = false.obs;
   final diseaseNameTextController = TextEditingController();
   final medicinesTextController = TextEditingController();
   final medicalHistoryScrollController = ScrollController();
   final additionalInformationTextController = TextEditingController();
   final patientConditionTextController = TextEditingController();
-  List<CoolDropdownItem<String>> requestTypeItems = [];
-  final requestTypeDropdownController = DropdownController();
-  List<CoolDropdownItem<String>> hypertensiveItems = [];
-  final hypertensiveDropdownController = DropdownController();
-  List<CoolDropdownItem<String>> diabetesItems = [];
-  final diabetesDropdownController = DropdownController();
-  List<CoolDropdownItem<String>> heartPatientItems = [];
-  final heartPatientDropdownController = DropdownController();
-  List<CoolDropdownItem<String>> bloodTypeItems = [];
-  final bloodTypeDropdownController = DropdownController();
-  @override
-  void onInit() {
-    List<String> requestPersons = [
-      'forMe'.tr,
-      'someoneElse'.tr,
-    ];
-    List<String> binaryChoose = [
-      'don\'tKnow'.tr,
-      'yes'.tr,
-      'no'.tr,
-    ];
-    final List<String> bloodTypes = [
-      'don\'tKnow'.tr,
-      'A+',
-      'O+',
-      'B+',
-      'AB+',
-      'A-',
-      'O-',
-      'B-',
-      'AB-',
-    ];
-    List<String> diabetesTypesHim = [
-      'don\'tKnow'.tr,
-      'no'.tr,
-      'Type 1',
-      'Type 2',
-    ];
-    for (var i = 0; i < requestPersons.length; i++) {
-      requestTypeItems.add(CoolDropdownItem<String>(
-          label: requestPersons[i], value: requestPersons[i]));
-    }
-    for (var i = 0; i < binaryChoose.length; i++) {
-      hypertensiveItems.add(CoolDropdownItem<String>(
-          label: binaryChoose[i], value: binaryChoose[i]));
-      heartPatientItems.add(CoolDropdownItem<String>(
-          label: binaryChoose[i], value: binaryChoose[i]));
-    }
-    for (var i = 0; i < diabetesTypesHim.length; i++) {
-      diabetesItems.add(CoolDropdownItem<String>(
-          label: diabetesTypesHim[i], value: diabetesTypesHim[i]));
-    }
-    for (var i = 0; i < bloodTypes.length; i++) {
-      bloodTypeItems.add(
-          CoolDropdownItem<String>(label: bloodTypes[i], value: bloodTypes[i]));
-    }
-    super.onInit();
-  }
+  final requestTypeDropdownController = TextEditingController();
+  final hypertensiveDropdownController = TextEditingController();
+  final diabetesDropdownController = TextEditingController();
+  final heartPatientDropdownController = TextEditingController();
+  final bloodTypeDropdownController = TextEditingController();
 
   @override
   void onReady() async {
+    requestTypeDropdownController.addListener(() {
+      final requestValue = requestTypeDropdownController.text.trim();
+      if (requestValue.compareTo('selectValue'.tr) == 0 ||
+          requestValue.isEmpty) {
+        highlightRequest.value = true;
+      } else if (requestValue.compareTo('someoneElse'.tr) == 0) {
+        highlightRequest.value = false;
+        notUserRequest.value = true;
+      } else {
+        highlightRequest.value = false;
+        notUserRequest.value = false;
+      }
+    });
     patientConditionTextController.addListener(() {
       if (patientConditionTextController.text.trim().isNotEmpty) {
         highlightPatientCondition.value = false;
@@ -100,7 +60,8 @@ class MakingRequestInformationController extends GetxController {
   Future<void> confirmRequestInformation() async {
     highlightPatientCondition.value =
         patientConditionTextController.text.isEmpty;
-    if (highlightPatientCondition.value) {
+    highlightRequest.value = patientConditionTextController.text.isEmpty;
+    if (highlightPatientCondition.value || highlightRequest.value) {
       showSimpleSnackBar(
           text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {

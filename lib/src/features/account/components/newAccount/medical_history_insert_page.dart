@@ -12,6 +12,7 @@ import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../../general/common_widgets/text_header.dart';
 import '../../controllers/register_user_data_controller.dart';
+import '../models.dart';
 import 'add_disease.dart';
 import 'medical_history_item.dart';
 import 'no_medical_history.dart';
@@ -60,16 +61,10 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                               headerText: 'chooseBloodType'.tr, fontSize: 18),
                           const SizedBox(height: 5.0),
                           DropdownList(
-                            dropdownController:
+                            dropDownController:
                                 controller.bloodTypeDropdownController,
-                            itemsList: controller.bloodTypeItems,
-                            onChanged: (bloodTypeValue) {
-                              controller.highlightBloodType.value = false;
-                              controller.selectedBloodType = bloodTypeValue;
-                            },
-                            placeholder: controller.selectedBloodType.isNotEmpty
-                                ? controller.selectedBloodType
-                                : 'pickBloodType'.tr,
+                            items: bloodTypes,
+                            hintText: 'pickBloodType'.tr,
                           ),
                         ],
                       ),
@@ -87,11 +82,14 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                             fontSize: 18),
                         const SizedBox(height: 5.0),
                         DropdownList(
-                          dropdownController:
+                          dropDownController:
                               controller.diabetesDropdownController,
-                          itemsList: controller.diabetesItems,
-                          onChanged: (diabeticValue) =>
-                              controller.diabeticType = diabeticValue,
+                          items: [
+                            'no'.tr,
+                            'Type 1',
+                            'Type 2',
+                          ],
+                          hintText: 'no'.tr,
                         ),
                       ],
                     ),

@@ -1,5 +1,3 @@
-import 'package:cool_dropdown/controllers/dropdown_controller.dart';
-import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
 import 'package:flutter/foundation.dart';
@@ -58,27 +56,20 @@ class RegisterUserDataController extends GetxController {
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
   RxBool highlightBloodType = false.obs;
-  String selectedBloodType = '';
-  String diabeticType = '';
   bool hypertensivePatient = false;
   bool heartPatient = false;
-  List<CoolDropdownItem<String>> hypertensiveItems = [];
-  final hypertensiveDropdownController = DropdownController();
-  List<CoolDropdownItem<String>> diabetesItems = [];
-  final diabetesDropdownController = DropdownController();
-  List<CoolDropdownItem<String>> heartPatientItems = [];
-  final heartPatientDropdownController = DropdownController();
-  List<CoolDropdownItem<String>> bloodTypeItems = [];
-  final bloodTypeDropdownController = DropdownController();
+
+  final hypertensiveDropdownController = TextEditingController();
+
+  final diabetesDropdownController = TextEditingController();
+
+  final heartPatientDropdownController = TextEditingController();
+
+  final bloodTypeDropdownController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
-    List<String> diabetesTypes = [
-      'no'.tr,
-      'Type 1',
-      'Type 2',
-    ];
     final user = AuthenticationRepository.instance.fireUser.value;
     if (user?.email != null) {
       emailTextController.text = user!.email!;
@@ -87,16 +78,6 @@ class RegisterUserDataController extends GetxController {
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
     phoneNumber = user!.phoneNumber!;
-
-    //medical history
-    for (var i = 0; i < diabetesTypes.length; i++) {
-      diabetesItems.add(CoolDropdownItem<String>(
-          label: diabetesTypes[i], value: diabetesTypes[i]));
-    }
-    for (var i = 0; i < bloodTypes.length; i++) {
-      bloodTypeItems.add(
-          CoolDropdownItem<String>(label: bloodTypes[i], value: bloodTypes[i]));
-    }
   }
 
   @override
@@ -104,6 +85,11 @@ class RegisterUserDataController extends GetxController {
     super.onReady();
     nameTextController.addListener(() {
       highlightName.value = nameTextController.text.trim().isEmpty;
+    });
+    bloodTypeDropdownController.addListener(() {
+      final bloodTypeValue = bloodTypeDropdownController.text.trim();
+      highlightBloodType.value = bloodTypeValue.isEmpty ||
+          bloodTypeValue.compareTo('pickBloodType'.tr) == 0;
     });
     emailTextController.addListener(() {
       highlightEmail.value = !emailTextController.text.trim().isEmail;
@@ -215,7 +201,12 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> savePersonalInformation() async {
-    highlightBloodType.value = selectedBloodType.isEmpty;
+    final bloodType = bloodTypeDropdownController.text;
+    final diabetic = diabetesDropdownController.text.isEmpty
+        ? 'no'.tr
+        : diabetesDropdownController.text;
+    highlightBloodType.value =
+        bloodType.compareTo('pickBloodType'.tr) == 0 || bloodType.isEmpty;
     if (!highlightBloodType.value) {
       displayAlertDialog(
         title: 'confirm'.tr,
@@ -235,8 +226,8 @@ class RegisterUserDataController extends GetxController {
             nationalId: nationalId,
             birthDate: birthDate!,
             gender: gender == Gender.male ? 'male' : 'female',
-            bloodType: selectedBloodType,
-            diabetesPatient: diabeticType.isEmpty ? 'No' : diabeticType,
+            bloodType: bloodType,
+            diabetesPatient: diabetic,
             hypertensive: hypertensivePatient ? 'Yes' : 'No',
             heartPatient: heartPatient ? 'Yes' : 'No',
             additionalInformation:

@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../../general/common_widgets/back_button.dart';
 import '../../../../general/common_widgets/dropdown_list.dart';
@@ -50,24 +52,25 @@ class NormalRequestScreen extends StatelessWidget {
                     maxLines: 2,
                   ),
                   const SizedBox(height: 20),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(headerText: 'requestFor'.tr, fontSize: 18),
-                        const SizedBox(height: 5.0),
-                        DropdownList(
-                          dropdownController:
-                              controller.requestTypeDropdownController,
-                          itemsList: controller.requestTypeItems,
-                          onChanged: (requestType) =>
-                              controller.notUserRequest.value =
-                                  requestType.compareTo('forMe'.tr) == 0
-                                      ? false
-                                      : true,
-                        ),
-                      ],
+                  Obx(
+                    () => RegularCard(
+                      highlightRed: controller.highlightRequest.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(headerText: 'requestFor'.tr, fontSize: 18),
+                          const SizedBox(height: 5.0),
+                          DropdownList(
+                            items: [
+                              'forMe'.tr,
+                              'someoneElse'.tr,
+                            ],
+                            dropDownController:
+                                controller.requestTypeDropdownController,
+                            hintText: 'selectValue'.tr,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Obx(() => controller.notUserRequest.value
@@ -83,11 +86,20 @@ class NormalRequestScreen extends StatelessWidget {
                                       fontSize: 18),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
-                                    dropdownController:
+                                    items: [
+                                      'don\'tKnow'.tr,
+                                      'A+',
+                                      'O+',
+                                      'B+',
+                                      'AB+',
+                                      'A-',
+                                      'O-',
+                                      'B-',
+                                      'AB-',
+                                    ],
+                                    dropDownController:
                                         controller.bloodTypeDropdownController,
-                                    itemsList: controller.bloodTypeItems,
-                                    onChanged: (bloodTypeChoose) => controller
-                                        .selectedBloodType = bloodTypeChoose,
+                                    hintText: 'don\'tKnow'.tr,
                                   ),
                                 ],
                               ),
@@ -104,11 +116,14 @@ class NormalRequestScreen extends StatelessWidget {
                                       fontSize: 18),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
-                                    dropdownController:
+                                    items: [
+                                      'don\'tKnow'.tr,
+                                      'yes'.tr,
+                                      'no'.tr,
+                                    ],
+                                    dropDownController:
                                         controller.diabetesDropdownController,
-                                    itemsList: controller.diabetesItems,
-                                    onChanged: (diabeticValue) =>
-                                        controller.diabeticType = diabeticValue,
+                                    hintText: 'don\'tKnow'.tr,
                                   ),
                                 ],
                               ),
@@ -126,11 +141,14 @@ class NormalRequestScreen extends StatelessWidget {
                                       fontSize: 18),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
-                                    dropdownController: controller
+                                    items: [
+                                      'don\'tKnow'.tr,
+                                      'yes'.tr,
+                                      'no'.tr,
+                                    ],
+                                    dropDownController: controller
                                         .hypertensiveDropdownController,
-                                    itemsList: controller.hypertensiveItems,
-                                    onChanged: (bloodValue) => controller
-                                        .hypertensivePatient = bloodValue,
+                                    hintText: 'don\'tKnow'.tr,
                                   ),
                                 ],
                               ),
@@ -147,11 +165,15 @@ class NormalRequestScreen extends StatelessWidget {
                                       fontSize: 18),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
-                                    dropdownController: controller
+                                    items: [
+                                      'don\'tKnow'.tr,
+                                      'no'.tr,
+                                      'Type 1',
+                                      'Type 2',
+                                    ],
+                                    dropDownController: controller
                                         .heartPatientDropdownController,
-                                    itemsList: controller.heartPatientItems,
-                                    onChanged: (heartPatientValue) => controller
-                                        .heartPatient = heartPatientValue,
+                                    hintText: 'don\'tKnow'.tr,
                                   ),
                                 ],
                               ),
@@ -174,7 +196,8 @@ class NormalRequestScreen extends StatelessWidget {
                                                       controller.diseasesList
                                                           .remove(diseaseItem);
                                                       if (controller
-                                                          .diseasesList.isEmpty) {
+                                                          .diseasesList
+                                                          .isEmpty) {
                                                         Future.delayed(
                                                                 const Duration(
                                                                     milliseconds:
@@ -191,7 +214,8 @@ class NormalRequestScreen extends StatelessWidget {
                                                                 const Duration(
                                                                     milliseconds:
                                                                         700),
-                                                            curve: Curves.easeIn,
+                                                            curve:
+                                                                Curves.easeIn,
                                                           ),
                                                         );
                                                       }
@@ -241,6 +265,34 @@ class NormalRequestScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(
+                            headerText: 'enterBackupPhoneNo'.tr, fontSize: 18),
+                        const SizedBox(height: 5.0),
+                        IntlPhoneField(
+                          decoration: InputDecoration(
+                            labelText: 'phoneLabel'.tr,
+                            hintText: 'phoneFieldLabel'.tr,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          initialCountryCode: 'EG',
+                          countries: const ['EG'],
+                          pickerDialogStyle: PickerDialogStyle(
+                            searchFieldInputDecoration:
+                                InputDecoration(hintText: 'searchCountry'.tr),
+                          ),
+                          onChanged: (phone) =>
+                              controller.backupPhoneNo = phone.completeNumber,
+                        ),
+                      ],
                     ),
                   ),
                   RegularCard(

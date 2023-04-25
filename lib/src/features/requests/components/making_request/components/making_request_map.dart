@@ -103,7 +103,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
     final screenHeight = getScreenHeight(context);
     return Scaffold(
       body: WillPopScope(
-        onWillPop: () async {
+        onWillPop: () {
           if (widget.makingRequestController.choosingHospital.value) {
             widget.makingRequestController.choosingRequestLocationChanges();
             return Future.value(false);

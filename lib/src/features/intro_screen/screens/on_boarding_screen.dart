@@ -55,13 +55,13 @@ class OnBoardingScreen extends StatelessWidget {
                       obController.numberOfPages) {
                     RegularBottomSheet.showRegularBottomSheet(
                       LanguageSelect(
-                        onEnglishLanguagePress: () async {
-                          await setOnBoardingLocaleLanguage(
+                        onEnglishLanguagePress: () {
+                          setOnBoardingLocaleLanguage(
                             'en',
                           );
                         },
-                        onArabicLanguagePress: () async {
-                          await setOnBoardingLocaleLanguage(
+                        onArabicLanguagePress: () {
+                          setOnBoardingLocaleLanguage(
                             'ar',
                           );
                         },

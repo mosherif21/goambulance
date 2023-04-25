@@ -219,44 +219,8 @@ class RegisterUserDataController extends GetxController {
         body: 'personalInfoShare'.tr,
         positiveButtonText: 'agree'.tr,
         negativeButtonText: 'disagree'.tr,
-        positiveButtonOnPressed: () async {
-          Get.back();
-          showLoadingScreen();
-          final name = nameTextController.text.trim();
-          final email = emailTextController.text.trim();
-          final nationalId = nationalIdTextController.text.trim();
-          final birthDate = birthDateController.selectedDate;
-          final userInfo = UserInformation(
-            name: name,
-            email: email,
-            nationalId: nationalId,
-            birthDate: birthDate!,
-            gender: gender == Gender.male ? 'male' : 'female',
-            bloodType: bloodType,
-            diabetesPatient: diabetic,
-            hypertensive: hypertensivePatient ? 'Yes' : 'No',
-            heartPatient: heartPatient ? 'Yes' : 'No',
-            additionalInformation:
-                additionalInformationTextController.text.trim(),
-            diseasesList: diseasesList,
-            phoneNumber: phoneNumber,
-          );
-
-          final functionStatus = await FirebasePatientDataAccess.instance
-              .saveUserPersonalInformation(
-            userRegisterInfo: userInfo,
-            profilePic: profileImage.value!,
-            nationalID: iDImage.value!,
-          );
-          if (functionStatus == FunctionStatus.success) {
-            hideLoadingScreen();
-            AppInit.goToInitPage();
-          } else {
-            hideLoadingScreen();
-            showSimpleSnackBar(
-                text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
-          }
-        },
+        positiveButtonOnPressed: () =>
+            registerUserData(bloodType: bloodType, diabetic: diabetic),
         negativeButtonOnPressed: () => Get.back(),
         mainIcon: Icons.check_circle_outline,
         color: SweetSheetColor.NICE,
@@ -264,6 +228,45 @@ class RegisterUserDataController extends GetxController {
     } else {
       showSimpleSnackBar(
           text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+    }
+  }
+
+  void registerUserData(
+      {required String bloodType, required String diabetic}) async {
+    Get.back();
+    showLoadingScreen();
+    final name = nameTextController.text.trim();
+    final email = emailTextController.text.trim();
+    final nationalId = nationalIdTextController.text.trim();
+    final birthDate = birthDateController.selectedDate;
+    final userInfo = UserInformation(
+      name: name,
+      email: email,
+      nationalId: nationalId,
+      birthDate: birthDate!,
+      gender: gender == Gender.male ? 'male' : 'female',
+      bloodType: bloodType,
+      diabetesPatient: diabetic,
+      hypertensive: hypertensivePatient ? 'Yes' : 'No',
+      heartPatient: heartPatient ? 'Yes' : 'No',
+      additionalInformation: additionalInformationTextController.text.trim(),
+      diseasesList: diseasesList,
+      phoneNumber: phoneNumber,
+    );
+
+    final functionStatus =
+        await FirebasePatientDataAccess.instance.saveUserPersonalInformation(
+      userRegisterInfo: userInfo,
+      profilePic: profileImage.value!,
+      nationalID: iDImage.value!,
+    );
+    if (functionStatus == FunctionStatus.success) {
+      hideLoadingScreen();
+      AppInit.goToInitPage();
+    } else {
+      hideLoadingScreen();
+      showSimpleSnackBar(
+          text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
     }
   }
 

@@ -18,9 +18,17 @@ class MakingRequestMapSearch extends StatelessWidget {
       onTap: () => makingRequestController.googlePlacesSearch(context: context),
       child: Container(
         padding: const EdgeInsets.all(5),
-        decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(15.0))),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 2,
+              color: Colors.grey.shade600,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.grey.shade300,

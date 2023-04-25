@@ -54,8 +54,11 @@ class FirebasePatientDataAccess extends GetxController {
             .child('nationalId')
             .putFile(File(nationalID.path));
       }
-
-      firestoreUserRef.set(userRegisterInfo.toJson());
+      final userDataBatch = fireStore.batch();
+      userDataBatch.set(
+        firestoreUserRef,
+        userRegisterInfo.toJson(),
+      );
       if (userRegisterInfo.diseasesList.isNotEmpty) {
         final fireStoreUserDiseasesRef =
             firestoreUserRef.collection('diseases');
@@ -63,10 +66,11 @@ class FirebasePatientDataAccess extends GetxController {
           {
             var diseaseRef = fireStoreUserDiseasesRef.doc(
                 '${userRegisterInfo.diseasesList.indexOf(diseaseItem) + 1}');
-            diseaseRef.set(diseaseItem.toJson());
+            userDataBatch.set(diseaseRef, diseaseItem.toJson());
           }
         }
       }
+      await userDataBatch.commit();
       AuthenticationRepository.instance.isUserRegistered = true;
       return FunctionStatus.success;
     } on FirebaseException catch (error) {

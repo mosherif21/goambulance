@@ -67,10 +67,22 @@ void showSimpleSnackBar({
   showTopSnackBar(
       Overlay.of(context),
       snackBarType == SnackBarType.success
-          ? CustomSnackBar.success(message: text)
+          ? CustomSnackBar.success(
+              message: text,
+              icon: const Icon(Icons.check_circle_outline_rounded,
+                  color: Color(0x15000000), size: 120),
+            )
           : snackBarType == SnackBarType.error
-              ? CustomSnackBar.error(message: text)
-              : CustomSnackBar.info(message: text));
+              ? CustomSnackBar.error(
+                  message: text,
+                  icon: const Icon(Icons.error_outline,
+                      color: Color(0x15000000), size: 120),
+                )
+              : CustomSnackBar.info(
+                  message: text,
+                  icon: const Icon(Icons.info_outline_rounded,
+                      color: Color(0x15000000), size: 120),
+                ));
 }
 
 void logoutDialogue() => displayAlertDialog(

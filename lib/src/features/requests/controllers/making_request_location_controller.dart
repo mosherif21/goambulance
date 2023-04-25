@@ -140,7 +140,28 @@ class MakingRequestLocationController extends GetxController {
       onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
     );
     mapMarkers.add(requestLocationMarker!);
-    getHospitals();
+    await getHospitals();
+    hospitalMarker = Marker(
+      markerId: const MarkerId('hospital'),
+      position: selectedHospital.value!.location,
+      icon: ambulanceMarkerIcon,
+      infoWindow: InfoWindow(
+        title: 'hospitalLocationPinDesc'.tr,
+      ),
+      onTap: () =>
+          animateToLocation(locationLatLng: selectedHospital.value!.location),
+    );
+    mapMarkers.add(hospitalMarker!);
+    routeToHospital = await getRouteToLocation(
+      fromLocation: currentChosenLatLng,
+      toLocation: selectedHospital.value!.location,
+      routeId: 'routeToHospital',
+    );
+    animateToLatLngBounds(
+        latLngBounds: getLatLngBounds(latLngList: routeToHospital!.points));
+    if (routeToHospital != null) {
+      mapPolyLines.add(routeToHospital!);
+    }
     // ambulanceMarker = Marker(
     //   markerId: const MarkerId('ambulance'),
     //   position: LatLng(currentChosenLatLng.latitude + 0.002,
@@ -214,28 +235,9 @@ class MakingRequestLocationController extends GetxController {
           timeFromLocation: 5,
         ),
       );
+      await Future.delayed(const Duration(milliseconds: 2000));
       searchedHospitals.value = hospitals;
       selectedHospital.value = hospitals[0];
-
-      hospitalMarker = Marker(
-        markerId: const MarkerId('hospital'),
-        position: selectedHospital.value!.location,
-        icon: ambulanceMarkerIcon,
-        infoWindow: InfoWindow(
-          title: 'hospitalLocationPinDesc'.tr,
-        ),
-        onTap: () =>
-            animateToLocation(locationLatLng: selectedHospital.value!.location),
-      );
-      mapMarkers.add(hospitalMarker!);
-      animateToMapMarkers();
-      routeToHospital = await getRouteToLocation(
-          fromLocation: currentChosenLatLng,
-          toLocation: selectedHospital.value!.location,
-          routeId: 'routeToHospital');
-      if (routeToHospital != null) {
-        mapPolyLines.add(routeToHospital!);
-      }
     }
   }
 
@@ -258,11 +260,13 @@ class MakingRequestLocationController extends GetxController {
     );
     mapMarkers.add(hospitalMarker!);
     selectedHospital.value = hospitalItem;
-    animateToMapMarkers();
     routeToHospital = await getRouteToLocation(
-        fromLocation: currentChosenLatLng,
-        toLocation: hospitalItem.location,
-        routeId: 'routeToHospital');
+      fromLocation: currentChosenLatLng,
+      toLocation: hospitalItem.location,
+      routeId: 'routeToHospital',
+    );
+    animateToLatLngBounds(
+        latLngBounds: getLatLngBounds(latLngList: routeToHospital!.points));
     if (routeToHospital != null) {
       mapPolyLines.add(routeToHospital!);
     }
@@ -314,20 +318,28 @@ class MakingRequestLocationController extends GetxController {
   }
 
   LatLngBounds getLatLngBounds({required List<LatLng> latLngList}) {
-    double? x0, x1, y0, y1;
-    for (LatLng latLng in latLngList) {
-      if (x0 == null) {
-        x0 = x1 = latLng.latitude;
-        y0 = y1 = latLng.longitude;
-      } else {
-        if (latLng.latitude > x1!) x1 = latLng.latitude;
-        if (latLng.latitude < x0) x0 = latLng.latitude;
-        if (latLng.longitude > y1!) y1 = latLng.longitude;
-        if (latLng.longitude < y0!) y0 = latLng.longitude;
+    double southWestLat = 90.0;
+    double southWestLng = 180.0;
+    double northEastLat = -90.0;
+    double northEastLng = -180.0;
+
+    for (LatLng point in latLngList) {
+      if (point.latitude < southWestLat) {
+        southWestLat = point.latitude;
+      }
+      if (point.longitude < southWestLng) {
+        southWestLng = point.longitude;
+      }
+      if (point.latitude > northEastLat) {
+        northEastLat = point.latitude;
+      }
+      if (point.longitude > northEastLng) {
+        northEastLng = point.longitude;
       }
     }
-    return LatLngBounds(
-        northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
+    LatLng southWest = LatLng(southWestLat, southWestLng);
+    LatLng northEast = LatLng(northEastLat, northEastLng);
+    return LatLngBounds(southwest: southWest, northeast: northEast);
   }
 
   Future<void> googlePlacesSearch({required BuildContext context}) async {
@@ -447,17 +459,11 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  void animateToMapMarkers() {
-    LatLngBounds routeToLocationBounds = getLatLngBounds(
-        latLngList: mapMarkers.map((marker) => marker.position).toList());
-    animateToLatLngBounds(latLngBounds: routeToLocationBounds);
-  }
-
   void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
         googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 110));
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 40));
       }
     }
   }

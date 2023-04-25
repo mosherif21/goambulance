@@ -68,6 +68,7 @@ class HospitalChooseCard extends StatelessWidget {
                   () => controller.selectedHospital.value == hospitalItem &&
                           controller.routeToHospitalTime.isNotEmpty
                       ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(Icons.access_time_outlined),
                             const SizedBox(width: 2),

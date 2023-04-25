@@ -304,7 +304,7 @@ class MakingRequestLocationController extends GetxController {
             .map((point) => LatLng(point.latitude, point.longitude))
             .toList();
         latLngPoints.insert(0, fromLocation);
-        latLngPoints.insert(latLngPoints.length - 1, toLocation);
+        latLngPoints.insert(latLngPoints.length, toLocation);
         return Polyline(
           polylineId: PolylineId(routeId),
           color: Colors.black,

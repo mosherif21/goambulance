@@ -1,19 +1,6 @@
 import 'package:get/get.dart';
 
 class Languages extends Translations {
-  // Map<String, Map<String, String>> get keys => {
-  //   'en_US': {
-  //     'logged_in': 'logged in as @name with email @email',
-  //   },
-  //   'es_ES': {
-  //     'logged_in': 'iniciado sesión como @name con e-mail @email',
-  //   }
-  // };
-  //
-  // Text('logged_in'.trParams({
-  // 'name': 'Jhon',
-  // 'email': 'jhon@example.com'
-  // }));
   @override
   Map<String, Map<String, String>> get keys => {
         'ar_SA': {
@@ -122,7 +109,7 @@ class Languages extends Translations {
           'storagePermission': 'اذن الذاكرة',
           'storagePermissionDeniedForever':
               'تم رفض إذن الذاكرة إلى الأبد، يرجى تمكينه من الإعدادات',
-          'callPermission': 'اذن الاتصال',
+          'callPermission': 'اذن المكالمات',
           'callPermissionDeniedForever':
               'تم رفض إذن المكالمات إلى الأبد، يرجى تمكينه من الإعدادات',
           'micPermission': 'اذن المايكروفون',

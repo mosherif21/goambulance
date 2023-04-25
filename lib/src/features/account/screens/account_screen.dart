@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/general/common_widgets/regular_clickable_card_noPhoto.dart';
+import 'package:goambulance/src/general/common_widgets/regular_clickable_card_no_photo.dart';
 
 import '../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../general/general_functions.dart';

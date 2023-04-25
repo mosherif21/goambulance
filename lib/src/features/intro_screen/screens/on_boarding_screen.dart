@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/intro_screen/controllers/onBoarding_controller.dart';
+import 'package:goambulance/src/features/intro_screen/controllers/on_boarding_controller.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../general/common_widgets/language_select.dart';

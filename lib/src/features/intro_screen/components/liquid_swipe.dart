@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 
-import '../controllers/onBoarding_controller.dart';
+import '../controllers/on_boarding_controller.dart';
 
 class LiquidSwipeWidget extends StatelessWidget {
   const LiquidSwipeWidget({Key? key, required this.obController})

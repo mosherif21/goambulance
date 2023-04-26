@@ -78,7 +78,7 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_phone_direct_caller: ^2.1.1
   syncfusion_flutter_datepicker: ^21.1.37
-  image_picker: ^0.8.7+1
+  image_picker: ^0.8.7+4
   cross_file_image: ^1.0.0
   custom_radio_grouped_button: ^2.2.0
   flutter_svg: ^2.0.4

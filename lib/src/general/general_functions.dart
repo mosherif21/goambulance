@@ -179,13 +179,13 @@ void displayAlertDialog({
 
 void displayChangeLang() => RegularBottomSheet.showRegularBottomSheet(
       LanguageSelect(
-        onEnglishLanguagePress: () async {
-          await setLocaleLanguage('en');
+        onEnglishLanguagePress: () {
           RegularBottomSheet.hideBottomSheet();
+          setLocaleLanguage('en');
         },
-        onArabicLanguagePress: () async {
-          await setLocaleLanguage('ar');
+        onArabicLanguagePress: () {
           RegularBottomSheet.hideBottomSheet();
+          setLocaleLanguage('ar');
         },
       ),
     );

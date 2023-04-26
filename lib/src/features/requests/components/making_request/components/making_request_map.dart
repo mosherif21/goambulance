@@ -239,8 +239,8 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(
-                    onClick: () => widget.makingRequestController
-                        .animateToCurrentLocation(),
+                    onClick: () =>
+                        widget.makingRequestController.onLocationButtonPress(),
                     makingRequestController: widget.makingRequestController,
                   ),
                 ),

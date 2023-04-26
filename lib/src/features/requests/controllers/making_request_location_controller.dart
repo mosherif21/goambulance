@@ -202,6 +202,7 @@ class MakingRequestLocationController extends GetxController {
       if (mapPolyLines.contains(routeToHospital)) {
         mapPolyLines.remove(routeToHospital);
       }
+      routeToHospital = null;
     }
     if (hospitalMarker != null) {
       if (mapMarkers.contains(hospitalMarker)) {
@@ -457,9 +458,14 @@ class MakingRequestLocationController extends GetxController {
 
   void enableMap() => mapEnabled.value = true;
 
-  void animateToCurrentLocation() {
-    if (locationAvailable.value) {
-      animateCamera(locationLatLng: currentLocationGetter());
+  void onLocationButtonPress() {
+    if (routeToHospital != null) {
+      animateToLatLngBounds(
+          latLngBounds: getLatLngBounds(latLngList: routeToHospital!.points));
+    } else {
+      if (locationAvailable.value) {
+        animateCamera(locationLatLng: currentLocationGetter());
+      }
     }
   }
 

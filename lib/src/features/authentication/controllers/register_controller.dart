@@ -28,7 +28,7 @@ class EmailRegisterController extends GetxController {
     } else {
       returnMessage = 'passwordNotMatch'.tr;
     }
-    if (returnMessage.compareTo('success') != 0) {
+    if (!returnMessage.contains('success')) {
       hideLoadingScreen();
       showSimpleSnackBar(
         text: returnMessage,

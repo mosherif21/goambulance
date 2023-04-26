@@ -64,13 +64,13 @@ class AuthenticationRepository extends GetxController {
         if (snapshot.exists) {
           final userDoc = snapshot.data()!;
           final user = userDoc['type'].toString();
-          if (user.compareTo('medic') == 0) {
+          if (user.contains('medic')) {
             isUserRegistered = true;
             userType = UserType.medic;
-          } else if (user.compareTo('driver') == 0) {
+          } else if (user.contains('driver')) {
             isUserRegistered = true;
             userType = UserType.driver;
-          } else if (user.compareTo('patient') == 0) {
+          } else if (user.contains('patient')) {
             isUserRegistered = true;
             final List<DiseaseItem> diseasesList = [];
             final diseasesReference = snapshot.reference.collection('diseases');
@@ -204,11 +204,11 @@ class AuthenticationRepository extends GetxController {
         AppInit.goToInitPage();
         return 'success';
       } on FirebaseAuthException catch (ex) {
-        if (ex.code.compareTo('credential-already-in-use') == 0) {
+        if (ex.code.contains('credential-already-in-use')) {
           return 'phoneNumberAlreadyLinked'.tr;
-        } else if (ex.code.compareTo('provider-already-linked') == 0) {
+        } else if (ex.code.contains('provider-already-linked')) {
           return 'phoneNumberAlreadyYourAccount'.tr;
-        } else if (ex.code.compareTo('invalid-verification-code') == 0) {
+        } else if (ex.code.contains('invalid-verification-code')) {
           return 'wrongOTP'.tr;
         }
       } catch (e) {
@@ -229,7 +229,7 @@ class AuthenticationRepository extends GetxController {
         return 'success';
       }
     } on FirebaseAuthException catch (ex) {
-      if (ex.code.compareTo('invalid-verification-code') == 0) {
+      if (ex.code.contains('invalid-verification-code')) {
         return 'wrongOTP'.tr;
       }
     } catch (_) {}

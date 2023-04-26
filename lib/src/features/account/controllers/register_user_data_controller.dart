@@ -91,7 +91,7 @@ class RegisterUserDataController extends GetxController {
     bloodTypeDropdownController.addListener(() {
       final bloodTypeValue = bloodTypeDropdownController.text.trim();
       if (bloodTypeValue.isNotEmpty ||
-          bloodTypeValue.compareTo('pickBloodType'.tr) != 0) {
+          !bloodTypeValue.contains('pickBloodType'.tr)) {
         highlightBloodType.value = false;
       }
     });
@@ -109,9 +109,8 @@ class RegisterUserDataController extends GetxController {
         try {
           final nationalIdData = NIDInfo(nid: nationalId);
           FocusManager.instance.primaryFocus?.unfocus();
-          gender = nationalIdData.sex.compareTo('Male') == 0
-              ? Gender.male
-              : Gender.female;
+          gender =
+              nationalIdData.sex.contains('Male') ? Gender.male : Gender.female;
           genderRadioKey.currentState?.selectButton(gender!);
           final birthDate = nationalIdData.birthDay;
           birthDateController.displayDate = birthDate;
@@ -215,7 +214,7 @@ class RegisterUserDataController extends GetxController {
         ? 'no'.tr
         : diabetesDropdownController.text;
     highlightBloodType.value =
-        bloodType.compareTo('pickBloodType'.tr) == 0 || bloodType.isEmpty;
+        bloodType.contains('pickBloodType'.tr) || bloodType.isEmpty;
     if (!highlightBloodType.value) {
       displayAlertDialog(
         title: 'confirm'.tr,

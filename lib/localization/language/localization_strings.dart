@@ -156,6 +156,7 @@ class Languages extends Translations {
           'male': 'ذكر',
           'female': 'انثى',
           'fullName': 'الاسم الكامل',
+          'addressNotFound': 'تعذر الحصول على العنوان',
           'enterFullName': 'أدخل اسمك بالكامل',
           'enterYourInfo': 'الرجاء إدخال بياناتك الشخصية لإكمال انشاء حسابك',
           'enterNationalId': 'أدخل رقمك القومي',
@@ -395,6 +396,7 @@ class Languages extends Translations {
           'female': 'Female',
           'fullName': 'Full Name',
           'enterFullName': 'Enter your Full Name',
+          'addressNotFound': 'Couldn\'t get address',
           'enterYourInfo':
               'Please enter your personal information to complete your account registration',
           'enterNationalId': 'Enter your National ID',

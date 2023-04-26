@@ -25,7 +25,7 @@ class OtpVerificationController extends GetxController {
       returnMessage =
           await authenticationRepository.signInVerifyOTP(otp: verificationCode);
     }
-    if (returnMessage.compareTo('success') != 0) {
+    if (!returnMessage.contains('success')) {
       hideLoadingScreen();
       showSimpleSnackBar(
         text: returnMessage,
@@ -46,7 +46,7 @@ class OtpVerificationController extends GetxController {
       returnMessage = 'invalidPhoneNumber'.tr;
     }
     hideLoadingScreen();
-    if (returnMessage.compareTo('codeSent') == 0) {
+    if (returnMessage.contains('codeSent')) {
       await Get.to(
         () => OTPVerificationScreen(
           verificationType: 'phoneLabel'.tr,

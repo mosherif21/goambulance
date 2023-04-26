@@ -14,7 +14,11 @@ import 'package:goambulance/src/features/requests/components/making_request/mode
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
-import 'package:google_maps_webservice/directions.dart' as google_web_service;
+import 'package:google_maps_webservice/directions.dart'
+    as google_web_directions_service;
+// ignore: depend_on_referenced_packages
+import 'package:google_maps_webservice/places.dart'
+    as google_web_places_service;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
@@ -246,7 +250,7 @@ class MakingRequestLocationController extends GetxController {
       );
       await Future.delayed(const Duration(seconds: 5));
       searchedHospitals.value = hospitals;
-      selectedHospital.value = hospitals[0];
+      selectedHospital.value = hospitals.first;
     }
   }
 
@@ -281,20 +285,20 @@ class MakingRequestLocationController extends GetxController {
       required LatLng toLocation,
       required String routeId}) async {
     try {
-      final directions =
-          google_web_service.GoogleMapsDirections(apiKey: googleMapsAPIKey);
+      final directions = google_web_directions_service.GoogleMapsDirections(
+          apiKey: googleMapsAPIKey);
       final result = await directions.directionsWithLocation(
-        google_web_service.Location(
+        google_web_directions_service.Location(
             lat: fromLocation.latitude, lng: fromLocation.longitude),
-        google_web_service.Location(
+        google_web_directions_service.Location(
             lat: toLocation.latitude, lng: toLocation.longitude),
-        travelMode: google_web_service.TravelMode.driving,
+        travelMode: google_web_directions_service.TravelMode.driving,
         language: isLangEnglish() ? 'en' : 'ar',
       );
 
       if (result.isOkay) {
-        final route = result.routes[0];
-        final leg = route.legs[0];
+        final route = result.routes.first;
+        final leg = route.legs.first;
         final duration = leg.duration;
         routeToHospitalTime.value = duration.text;
         final polyline = route.overviewPolyline.points;
@@ -384,17 +388,35 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
-    currentChosenLatLng = latLng;
-    final addressesInfo = await Geocoder2.getDataFromCoordinates(
-      latitude: latLng.latitude,
-      longitude: latLng.longitude,
-      googleMapApiKey: googleMapsAPIKey,
-      language: isLangEnglish() ? 'en' : 'ar',
-    );
-    final address = addressesInfo.address;
-    currentChosenLocationAddress = address;
-    checkAllowedLocation(countryCode: addressesInfo.countryCode);
-    return address;
+    try {
+      final places =
+          google_web_places_service.GoogleMapsPlaces(apiKey: googleMapsAPIKey);
+      final result = await places.searchNearbyWithRadius(
+        google_web_places_service.Location(
+            lat: latLng.latitude, lng: latLng.longitude),
+        1,
+        language: isLangEnglish() ? 'en' : 'ar',
+      );
+      currentChosenLatLng = latLng;
+      if (result.status == 'OK') {
+        final placeId = result.results.first.placeId;
+        final placeDetailsResult = await places.getDetailsByPlaceId(placeId);
+        final address = placeDetailsResult.result;
+        currentChosenLocationAddress = address.formattedAddress!;
+        String countryCode = '';
+        for (google_web_places_service.AddressComponent component
+            in address.addressComponents) {
+          if (component.types.contains('country')) {
+            countryCode = component.shortName;
+            break;
+          }
+        }
+        checkAllowedLocation(countryCode: countryCode);
+      }
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+    }
+    return '';
   }
 
   Future<LatLng> getLocationFromAddress({required String address}) async {
@@ -477,17 +499,17 @@ class MakingRequestLocationController extends GetxController {
   void onCameraIdle() async {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
-        try {
-          searchedText.value = 'loading'.tr;
-          String address = '';
-          if (!cameraMoved) {
-            currentCameraLatLng = LatLng(
-                initialCameraLatLng.latitude, initialCameraLatLng.longitude);
-          }
-          address = await getAddressFromLocation(latLng: currentCameraLatLng);
+        searchedText.value = 'loading'.tr;
+        String address = '';
+        if (!cameraMoved) {
+          currentCameraLatLng = LatLng(
+              initialCameraLatLng.latitude, initialCameraLatLng.longitude);
+        }
+        address = await getAddressFromLocation(latLng: currentCameraLatLng);
+        if (address.isNotEmpty) {
           searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
-        } catch (err) {
-          if (kDebugMode) print(err.toString());
+        } else {
+          searchedText.value = 'addressNotFound'.tr;
         }
       }
     }

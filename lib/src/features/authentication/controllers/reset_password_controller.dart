@@ -19,7 +19,7 @@ class ResetController extends GetxController {
             : await AuthenticationRepository.instance
                 .resetPassword(email: email);
 
-    if (returnMessage.compareTo('emailSent') == 0) {
+    if (returnMessage.contains('emailSent')) {
       Get.back();
       showSimpleSnackBar(
         text: 'emailResetSuccess'.tr,

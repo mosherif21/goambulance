@@ -16,9 +16,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
-// ignore: depend_on_referenced_packages
-import 'package:google_maps_webservice/places.dart'
-    as google_web_places_service;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
@@ -389,30 +386,17 @@ class MakingRequestLocationController extends GetxController {
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
     try {
-      final places =
-          google_web_places_service.GoogleMapsPlaces(apiKey: googleMapsAPIKey);
-      final result = await places.searchNearbyWithRadius(
-        google_web_places_service.Location(
-            lat: latLng.latitude, lng: latLng.longitude),
-        1,
+      currentChosenLatLng = latLng;
+      final addressesInfo = await Geocoder2.getDataFromCoordinates(
+        latitude: latLng.latitude,
+        longitude: latLng.longitude,
+        googleMapApiKey: googleMapsAPIKey,
         language: isLangEnglish() ? 'en' : 'ar',
       );
-      currentChosenLatLng = latLng;
-      if (result.status == 'OK') {
-        final placeId = result.results.first.placeId;
-        final placeDetailsResult = await places.getDetailsByPlaceId(placeId);
-        final address = placeDetailsResult.result;
-        currentChosenLocationAddress = address.formattedAddress!;
-        String countryCode = '';
-        for (google_web_places_service.AddressComponent component
-            in address.addressComponents) {
-          if (component.types.contains('country')) {
-            countryCode = component.shortName;
-            break;
-          }
-        }
-        checkAllowedLocation(countryCode: countryCode);
-      }
+      final address = addressesInfo.address;
+      currentChosenLocationAddress = address;
+      checkAllowedLocation(countryCode: addressesInfo.countryCode);
+      return address;
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }

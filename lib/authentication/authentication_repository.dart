@@ -24,6 +24,10 @@ class AuthenticationRepository extends GetxController {
   bool isUserLoggedIn = false;
   bool isUserRegistered = false;
   bool isUserPhoneRegistered = false;
+  final isGoogleLinked = false.obs;
+  final isEmailAndPasswordLinked = false.obs;
+  final isFacebookLinked = false.obs;
+
   String verificationId = '';
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.regularUser;
@@ -52,6 +56,22 @@ class AuthenticationRepository extends GetxController {
   Future<void> authenticatedSetup() async {
     AppInit.currentAuthType.value = AuthType.emailLogin;
     checkUserHasPhoneNumber();
+    checkAuthenticationProviders();
+  }
+
+  void checkAuthenticationProviders() {
+    final user = fireUser.value;
+    isGoogleLinked.value = user?.providerData.any((provider) =>
+            provider.providerId == GoogleAuthProvider.PROVIDER_ID) ??
+        false;
+
+    isFacebookLinked.value = user?.providerData.any((provider) =>
+            provider.providerId == FacebookAuthProvider.PROVIDER_ID) ??
+        false;
+
+    isEmailAndPasswordLinked.value = user?.providerData.any((provider) =>
+            provider.providerId == EmailAuthProvider.PROVIDER_ID) ??
+        false;
   }
 
   Future<FunctionStatus> userInit() async {
@@ -160,6 +180,20 @@ class AuthenticationRepository extends GetxController {
     return 'unknownError'.tr;
   }
 
+  Future<String> linkWithEmailAndPassword(String email, String password) async {
+    try {
+      final credential =
+          EmailAuthProvider.credential(email: email, password: password);
+      await fireUser.value!.linkWithCredential(credential);
+      return 'success';
+    } on FirebaseAuthException catch (e) {
+      final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
+      if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+      return ex.errorMessage;
+    } catch (_) {}
+    return 'unknownError'.tr;
+  }
+
   Future<String> signInWithPhoneNumber(
       {required String phoneNumber, required bool linkWithPhone}) async {
     String returnMessage = 'codeSent';
@@ -239,6 +273,37 @@ class AuthenticationRepository extends GetxController {
 
   Future<String> signInWithGoogle() async {
     try {
+      final googleCredential = await getGoogleAuthCredential();
+      if (googleCredential != null) {
+        await _auth.signInWithCredential(googleCredential);
+        if (fireUser.value != null) {
+          isUserLoggedIn = true;
+          await authenticatedSetup();
+          AppInit.goToInitPage();
+          return 'success';
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) e.printError();
+    }
+    return 'failedGoogleAuth'.tr;
+  }
+
+  Future<String> linkWithGoogle(String email, String password) async {
+    try {
+      final googleCredential = await getGoogleAuthCredential();
+      if (googleCredential != null) {
+        await fireUser.value!.linkWithCredential(googleCredential);
+        return 'success';
+      }
+    } catch (e) {
+      if (kDebugMode) e.printError();
+    }
+    return 'failedGoogleAuth'.tr;
+  }
+
+  Future<OAuthCredential?> getGoogleAuthCredential() async {
+    try {
       googleSignIn = AppInit.isWeb
           ? GoogleSignIn(
               clientId:
@@ -252,18 +317,12 @@ class AuthenticationRepository extends GetxController {
           idToken: signInAuthentication.idToken,
           accessToken: signInAuthentication.accessToken,
         );
-        await _auth.signInWithCredential(credential);
-        if (fireUser.value != null) {
-          isUserLoggedIn = true;
-          await authenticatedSetup();
-          AppInit.goToInitPage();
-          return 'success';
-        }
+        return credential;
       }
     } catch (e) {
       if (kDebugMode) e.printError();
     }
-    return 'failedGoogleAuth'.tr;
+    return null;
   }
 
   Future<String> resetPassword({required String email}) async {
@@ -281,46 +340,62 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<String> signInWithFacebook() async {
-    if (AppInit.isWeb) {
-      try {
-        final facebookProvider = FacebookAuthProvider();
-        facebookProvider.addScope('email');
-        facebookProvider.setCustomParameters({
-          'display': 'popup',
-        });
-        final userCredential =
-            await FirebaseAuth.instance.signInWithPopup(facebookProvider);
-        if (userCredential.user != null) {
+    try {
+      final facebookAuthCredential = await getFacebookAuthCredential();
+      if (facebookAuthCredential != null) {
+        await _auth.signInWithCredential(facebookAuthCredential);
+        if (fireUser.value != null) {
           isUserLoggedIn = true;
           await authenticatedSetup();
           AppInit.goToInitPage();
           return 'success';
         }
-      } catch (e) {
-        if (kDebugMode) e.printError();
       }
-    } else {
-      try {
-        final LoginResult loginResult = await FacebookAuth.instance.login();
-        if (loginResult.accessToken?.token != null) {
-          final facebookAuthCredential =
-              FacebookAuthProvider.credential(loginResult.accessToken!.token);
-          final userCredential = await FirebaseAuth.instance
-              .signInWithCredential(facebookAuthCredential);
-          if (userCredential.user != null) {
-            isUserLoggedIn = true;
-            await authenticatedSetup();
-            AppInit.goToInitPage();
-            return 'success';
-          }
-        } else {
-          return 'failedFacebookAuth'.tr;
-        }
-      } catch (e) {
-        if (kDebugMode) e.printError();
-      }
+    } catch (e) {
+      if (kDebugMode) e.printError();
     }
     return 'failedFacebookAuth'.tr;
+  }
+
+  Future<String> linkWithFacebook(String email, String password) async {
+    try {
+      final facebookCredential = await getFacebookAuthCredential();
+      if (facebookCredential != null) {
+        await fireUser.value!.linkWithCredential(facebookCredential);
+        return 'success';
+      }
+    } catch (e) {
+      if (kDebugMode) e.printError();
+    }
+    return 'failedFacebookAuth'.tr;
+  }
+
+  Future<OAuthCredential?> getFacebookAuthCredential() async {
+    try {
+      // if (AppInit.isWeb) {
+      //   final facebookProvider = FacebookAuthProvider();
+      //   facebookProvider.addScope('email');
+      //   facebookProvider.setCustomParameters({
+      //     'display': 'popup',
+      //   });
+      //   await _auth.signInWithPopup(facebookProvider);
+      //   if (fireUser.value != null) {
+      //     isUserLoggedIn = true;
+      //     await authenticatedSetup();
+      //     AppInit.goToInitPage();
+      //     return 'success';
+      //   }
+      // } else {}
+      final loginResult = await FacebookAuth.instance.login();
+      if (loginResult.accessToken?.token != null) {
+        final facebookAuthCredential =
+            FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        return facebookAuthCredential;
+      }
+    } catch (e) {
+      if (kDebugMode) e.printError();
+    }
+    return null;
   }
 
   Future<void> logoutUser() async {
@@ -329,6 +404,9 @@ class AuthenticationRepository extends GetxController {
     isUserRegistered = false;
     isUserLoggedIn = false;
     isUserPhoneRegistered = false;
+    isGoogleLinked.value = false;
+    isEmailAndPasswordLinked.value = false;
+    isFacebookLinked.value = false;
     verificationId = '';
     userType = UserType.regularUser;
     userInfo = UserInformation(

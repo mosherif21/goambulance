@@ -240,7 +240,7 @@ class MakingRequestLocationController extends GetxController {
           stream.listen((List<DocumentSnapshot> documentList) async {
         for (var document in documentList) {
           final String hospitalId = document.id;
-          hospitalsRef.doc(hospitalId).get().then((snapshot) {
+          await hospitalsRef.doc(hospitalId).get().then((snapshot) {
             if (snapshot.exists) {
               final hospitalDoc = snapshot.data()!;
               GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;

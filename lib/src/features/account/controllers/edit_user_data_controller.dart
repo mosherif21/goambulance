@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cross_file_image/cross_file_image.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -108,7 +105,7 @@ class EditUserDataController extends GetxController {
         bloodTypeDropdownController.text =
             documentSnapshot.get('bloodType').toString();
         diabetesDropdownController.text =
-            documentSnapshot.get('diabetesPatient').toString();
+            documentSnapshot.get('diabetic').toString();
         if (documentSnapshot.get('hypertensive').toString() == 'No') {
           hypertensivePatient = false;
         } else if (documentSnapshot.get('hypertensive').toString() == 'Yes') {

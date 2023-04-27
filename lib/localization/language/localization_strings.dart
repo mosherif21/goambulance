@@ -225,6 +225,7 @@ class Languages extends Translations {
           'contactNumber': 'رقم جهة الاتصال',
           'enterContactNumber': 'أدخل رقم جهة الاتصال',
           'contactInfo': 'الرجاء إدخال معلومات جهة الاتصال',
+          'searchingForHospitals': 'جارى البحث عن مستشفيات',
           'nearHospitalsNotFound':
               'عذرا ، لم نتمكن من العثور على أي مستشفيات قريبة من مكان الطلب',
           'notAllowed': 'غير مسموح به',
@@ -234,6 +235,8 @@ class Languages extends Translations {
           'locationNotAllowed': 'عذرا ، تطبيقنا يعمل حاليا في مصر فقط',
           'locationNotAccessed': 'لا يمكن الوصول إلى موقعك',
           'searchPlace': 'البحث عن مكان',
+          'sosMessageHeader': 'الرجاء إدخال رسالة الاستغاثة التي سيتم إرسالها',
+          'enterSosMessage': 'أدخل رسالة الاستغاثة',
           'loading': 'جاري تحميل...',
           'requestHere': 'اطلب هنا',
           'confirmRequest': 'تاكيد الطلب',
@@ -250,7 +253,7 @@ class Languages extends Translations {
           'avgPrice': 'متوسط السعر',
           'someoneElse': 'لشخص اخر',
           'requestFor': 'لمن طلب سيارة الإسعاف هذا؟',
-          'editUserInfo':'يمكنك تعديل بياناتك من هنا',
+          'editUserInfo': 'يمكنك تعديل بياناتك من هنا',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -406,6 +409,7 @@ class Languages extends Translations {
           'male': 'Male',
           'female': 'Female',
           'fullName': 'Full Name',
+          'enterSosMessage': 'Enter sos message',
           'nearHospitalsNotFound':
               'Sorry, we couldn\'t find any hospitals near the request location',
           'enterFullName': 'Enter your Full Name',
@@ -436,6 +440,7 @@ class Languages extends Translations {
           'enterContactName': 'Enter contact name',
           'contactNumber': 'Contact\'s number',
           'enterContactNumber': 'Enter contact\'s number',
+          'searchingForHospitals': 'searching for hospitals',
           'enterMedicalHistory':
               'Please enter your Medical History to complete your account registration',
           'save': 'Save',
@@ -446,6 +451,7 @@ class Languages extends Translations {
           'loginFailed': 'Login failed, please try again',
           'noMedicalHistory': 'No diseases or allergies added',
           'noEmergencyContacts': 'No emergency contacts added',
+          'sosMessageHeader': 'Please enter the sos message that will be sent',
           'noRequestsHistory': 'You don\'t have any previous requests',
           'addAllergiesOrDiseases': 'Add Disease/Allergy',
           'diseaseName': 'Disease/Allergy name',
@@ -509,7 +515,7 @@ class Languages extends Translations {
           'someoneElse': 'Someone else',
           'avgPrice': 'Average price',
           'requestFor': 'Who is this ambulance request for?',
-          'editUserInfo':'You Can Edit Your Data Here',
+          'editUserInfo': 'You Can Edit Your Data Here',
         },
       };
 }

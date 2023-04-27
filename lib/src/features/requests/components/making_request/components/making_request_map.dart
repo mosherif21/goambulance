@@ -66,13 +66,17 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 10),
-          AutoSizeText(
-            'chooseRequestHospital'.tr,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
+          Obx(
+            () => AutoSizeText(
+              widget.makingRequestController.searchedHospitals.value.isEmpty
+                  ? 'searchingForHospitals'.tr
+                  : 'chooseRequestHospital'.tr,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+              ),
+              maxLines: 2,
             ),
-            maxLines: 2,
           ),
           const SizedBox(height: 8),
           const Divider(height: 5),

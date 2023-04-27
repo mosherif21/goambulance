@@ -8,14 +8,14 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../general/common_widgets/text_form_field.dart';
-import '../controllers/emergency_contacts_controller.dart';
+import '../controllers/sos_message_controller.dart';
 
 class AddEmergencyContact extends StatelessWidget {
   const AddEmergencyContact({
     Key? key,
     required this.controller,
   }) : super(key: key);
-  final EmergencyContactsController controller;
+  final SosMessageController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +39,7 @@ class AddEmergencyContact extends StatelessWidget {
             textController: controller.contactNameTextController,
             inputType: InputType.text,
             editable: true,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             inputFormatter: LengthLimitingTextInputFormatter(50),
           ),
           const SizedBox(height: 10),
@@ -57,8 +57,14 @@ class AddEmergencyContact extends StatelessWidget {
               searchFieldInputDecoration:
                   InputDecoration(hintText: 'searchCountry'.tr),
             ),
-            onChanged: (phone) =>
-                controller.phoneNumber.value = phone.completeNumber,
+            onChanged: (phoneValue) {
+              final phoneNumber = phoneValue.completeNumber;
+              if (phoneNumber.isPhoneNumber && phoneNumber.length == 13) {
+                controller.phoneNumber.value = phoneNumber;
+              } else {
+                controller.phoneNumber.value = '';
+              }
+            },
           ),
           const SizedBox(height: 10.0),
           Obx(
@@ -66,7 +72,7 @@ class AddEmergencyContact extends StatelessWidget {
               buttonText: 'add'.tr,
               onPressed: () => controller.addContact(),
               enabled: controller.contactName.value.isNotEmpty &&
-                      controller.phoneNumber.value.isPhoneNumber
+                      controller.phoneNumber.value.isNotEmpty
                   ? true
                   : false,
               color: Colors.black,

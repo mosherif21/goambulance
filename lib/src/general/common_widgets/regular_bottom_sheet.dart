@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegularBottomSheet {
-  static Future<void> showRegularBottomSheet(Widget child) async {
+  static void showRegularBottomSheet(Widget child) async {
     await Get.bottomSheet(
       Wrap(
         children: [child],

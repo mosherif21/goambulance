@@ -59,7 +59,7 @@ void hideLoadingScreen() {
   Get.back();
 }
 
-void showSimpleSnackBar({
+void showSnackBar({
   required String text,
   required SnackBarType snackBarType,
 }) {
@@ -205,7 +205,7 @@ Future<bool> handleLocationPermission() async {
         locationPermission == LocationPermission.whileInUse) {
       return true;
     } else if (locationPermission == LocationPermission.denied) {
-      showSimpleSnackBar(
+      showSnackBar(
           text: 'enableLocationPermission'.tr,
           snackBarType: SnackBarType.error);
     } else if (locationPermission == LocationPermission.deniedForever) {
@@ -219,7 +219,7 @@ Future<bool> handleLocationPermission() async {
           positiveButtonOnPressed: () async {
             Get.back();
             if (!await Geolocator.openAppSettings()) {
-              showSimpleSnackBar(
+              showSnackBar(
                   text: deniedForeverText, snackBarType: SnackBarType.error);
             }
           },
@@ -228,8 +228,7 @@ Future<bool> handleLocationPermission() async {
           color: SweetSheetColor.WARNING,
         );
       } else {
-        showSimpleSnackBar(
-            text: deniedForeverText, snackBarType: SnackBarType.error);
+        showSnackBar(text: deniedForeverText, snackBarType: SnackBarType.error);
       }
     }
   } catch (err) {
@@ -317,7 +316,7 @@ Future<bool> handleGeneralPermission({
       if (permissionStatus.isGranted) {
         return true;
       } else if (permissionStatus.isDenied) {
-        showSimpleSnackBar(
+        showSnackBar(
             text: deniedSnackBarText, snackBarType: SnackBarType.error);
       } else if (permissionStatus.isPermanentlyDenied) {
         displayAlertDialog(
@@ -328,7 +327,7 @@ Future<bool> handleGeneralPermission({
           positiveButtonOnPressed: () async {
             Get.back();
             if (!await openAppSettings()) {
-              showSimpleSnackBar(
+              showSnackBar(
                   text: deniedForeverSnackBarBody,
                   snackBarType: SnackBarType.error);
             }

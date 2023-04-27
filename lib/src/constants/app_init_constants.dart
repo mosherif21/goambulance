@@ -158,7 +158,7 @@ class AppInit {
             if (AppInit.isWeb) {
               await authRepo.logoutUser();
               Get.offAll(() => const AuthenticationScreen());
-              showSimpleSnackBar(
+              showSnackBar(
                   text: 'useMobileToRegister'.tr,
                   snackBarType: SnackBarType.info);
             } else {
@@ -185,8 +185,7 @@ class AppInit {
         hideLoadingScreen();
         removeSplashScreen();
         await authRepo.logoutUser();
-        showSimpleSnackBar(
-            text: 'loginFailed'.tr, snackBarType: SnackBarType.error);
+        showSnackBar(text: 'loginFailed'.tr, snackBarType: SnackBarType.error);
       }
     } else {
       removeSplashScreen();

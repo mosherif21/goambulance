@@ -54,7 +54,7 @@ class AlternateLoginButtons extends StatelessWidget {
                       .signInWithGoogle();
                   if (!returnMessage.contains('success')) {
                     hideLoadingScreen();
-                    showSimpleSnackBar(
+                    showSnackBar(
                       text: returnMessage,
                       snackBarType: SnackBarType.error,
                     );
@@ -73,7 +73,7 @@ class AlternateLoginButtons extends StatelessWidget {
                 await AuthenticationRepository.instance.signInWithFacebook();
             if (!returnMessage.contains('success')) {
               hideLoadingScreen();
-              showSimpleSnackBar(
+              showSnackBar(
                 text: returnMessage,
                 snackBarType: SnackBarType.error,
               );

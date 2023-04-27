@@ -44,7 +44,7 @@ class EmergencyNumbersScreen extends StatelessWidget {
                             emergencyNumbers[emergencyNumber]);
                       }
                     } else {
-                      showSimpleSnackBar(
+                      showSnackBar(
                           text: 'useMobileToThisFeature'.tr,
                           snackBarType: SnackBarType.info);
                     }

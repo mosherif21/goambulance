@@ -27,7 +27,7 @@ class LoginController extends GetxController {
     }
     if (!returnMessage.contains('success')) {
       hideLoadingScreen();
-      showSimpleSnackBar(
+      showSnackBar(
         text: returnMessage,
         snackBarType: SnackBarType.error,
       );

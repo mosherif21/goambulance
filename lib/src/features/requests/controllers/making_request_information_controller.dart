@@ -67,8 +67,7 @@ class MakingRequestInformationController extends GetxController {
         requestType.compareTo(isLangEnglish() ? 'Select' : 'اختر') == 0 ||
             requestType.isEmpty;
     if (highlightPatientCondition.value || highlightRequest.value) {
-      showSimpleSnackBar(
-          text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {
       Get.to(
         () => const NormalRequestLocationPage(),

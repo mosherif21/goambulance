@@ -218,6 +218,8 @@ class Languages extends Translations {
           'goToSettings': 'اذهب للاعدادات',
           'searchCountry': 'البحث عن البلد',
           'sosMessage': 'رسالة استغاثة',
+          'nearHospitalsNotFound':
+              'عذرا ، لم نتمكن من العثور على أي مستشفيات قريبة من مكان الطلب',
           'notAllowed': 'غير مسموح به',
           'enableLocationPermissionButton': 'اعطي أذن الموقع',
           'enableLocationServiceButton': 'تمكين الموقع',
@@ -395,6 +397,8 @@ class Languages extends Translations {
           'male': 'Male',
           'female': 'Female',
           'fullName': 'Full Name',
+          'nearHospitalsNotFound':
+              'Sorry, we couldn\'t find any hospitals near the request location',
           'enterFullName': 'Enter your Full Name',
           'addressNotFound': 'Couldn\'t get address',
           'enterYourInfo':

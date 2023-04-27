@@ -83,14 +83,14 @@ class AuthenticationRepository extends GetxController {
       await firestoreUsersCollRef.doc(userId).get().then((snapshot) async {
         if (snapshot.exists) {
           final userDoc = snapshot.data()!;
-          final user = userDoc['type'].toString();
-          if (user.contains('medic')) {
+          final userTypeValue = userDoc['type'].toString();
+          if (userTypeValue.contains('medic')) {
             isUserRegistered = true;
             userType = UserType.medic;
-          } else if (user.contains('driver')) {
+          } else if (userTypeValue.contains('driver')) {
             isUserRegistered = true;
             userType = UserType.driver;
-          } else if (user.contains('patient')) {
+          } else if (userTypeValue.contains('patient')) {
             isUserRegistered = true;
             final List<DiseaseItem> diseasesList = [];
             final diseasesReference = snapshot.reference.collection('diseases');

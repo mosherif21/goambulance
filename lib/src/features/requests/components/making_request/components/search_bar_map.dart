@@ -23,7 +23,7 @@ class MakingRequestMapSearch extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(15.0)),
           boxShadow: [
             BoxShadow(
-              blurRadius: 2,
+              blurRadius: 1,
               color: Colors.grey.shade600,
               offset: const Offset(0, 2),
             ),

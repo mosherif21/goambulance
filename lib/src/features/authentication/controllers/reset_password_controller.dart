@@ -21,12 +21,12 @@ class ResetController extends GetxController {
 
     if (returnMessage.contains('emailSent')) {
       Get.back();
-      showSimpleSnackBar(
+      showSnackBar(
         text: 'emailResetSuccess'.tr,
         snackBarType: SnackBarType.success,
       );
     } else {
-      showSimpleSnackBar(
+      showSnackBar(
         text: returnMessage,
         snackBarType: SnackBarType.error,
       );

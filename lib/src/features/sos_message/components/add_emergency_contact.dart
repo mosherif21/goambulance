@@ -24,7 +24,7 @@ class AddEmergencyContact extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeText(
-            'diseaseInfo'.tr,
+            'contactInfo'.tr,
             style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.w700,
@@ -33,9 +33,9 @@ class AddEmergencyContact extends StatelessWidget {
           ),
           const SizedBox(height: 10.0),
           TextFormFieldRegular(
-            labelText: 'diseaseName'.tr,
-            hintText: 'enterDiseaseName'.tr,
-            prefixIconData: Icons.coronavirus_outlined,
+            labelText: 'contactName'.tr,
+            hintText: 'enterContactName'.tr,
+            prefixIconData: Icons.contacts,
             textController: controller.contactNameTextController,
             inputType: InputType.text,
             editable: true,
@@ -45,8 +45,8 @@ class AddEmergencyContact extends StatelessWidget {
           const SizedBox(height: 10),
           IntlPhoneField(
             decoration: InputDecoration(
-              labelText: 'phoneLabel'.tr,
-              hintText: 'phoneFieldLabel'.tr,
+              labelText: 'contactNumber'.tr,
+              hintText: 'enterContactNumber'.tr,
               border: const OutlineInputBorder(
                 borderSide: BorderSide(),
               ),
@@ -66,7 +66,7 @@ class AddEmergencyContact extends StatelessWidget {
               buttonText: 'add'.tr,
               onPressed: () => controller.addContact(),
               enabled: controller.contactName.value.isNotEmpty &&
-                      controller.phoneNumber.value.isNotEmpty
+                      controller.phoneNumber.value.isPhoneNumber
                   ? true
                   : false,
               color: Colors.black,

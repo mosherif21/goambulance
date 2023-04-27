@@ -220,6 +220,11 @@ class Languages extends Translations {
           'sosMessage': 'رسالة استغاثة',
           'noEmergencyContacts': 'لم تتم إضافة جهات اتصال للطوارئ',
           'addContact': 'اضف جهة اتصال',
+          'contactName': 'اسم جهة الاتصال',
+          'enterContactName': 'أدخل اسم جهة الاتصال',
+          'contactNumber': 'رقم جهة الاتصال',
+          'enterContactNumber': 'أدخل رقم جهة الاتصال',
+          'contactInfo': 'الرجاء إدخال معلومات جهة الاتصال',
           'nearHospitalsNotFound':
               'عذرا ، لم نتمكن من العثور على أي مستشفيات قريبة من مكان الطلب',
           'notAllowed': 'غير مسموح به',
@@ -426,6 +431,10 @@ class Languages extends Translations {
           'yes': 'Yes',
           'no': 'No',
           'don\'tKnow': 'Don\'t know',
+          'contactName': 'Contact name',
+          'enterContactName': 'Enter contact name',
+          'contactNumber': 'Contact\'s number',
+          'enterContactNumber': 'Enter contact\'s number',
           'enterMedicalHistory':
               'Please enter your Medical History to complete your account registration',
           'save': 'Save',
@@ -455,6 +464,7 @@ class Languages extends Translations {
           'agree': 'I Agree',
           'disagree': 'Disagree',
           'diseaseInfo': 'Please enter the disease/allergy information',
+          'contactInfo': 'Please enter the contact\'s information',
           'personalInfoShare':
               'Your information will be shared with the hospital in case you request an ambulance',
           'additionalInformation': 'Additional information',

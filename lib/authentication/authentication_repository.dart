@@ -36,13 +36,13 @@ class AuthenticationRepository extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
     fireUser = Rx<User?>(_auth.currentUser);
     if (fireUser.value != null) {
       isUserLoggedIn = true;
       checkUserHasPhoneNumber();
     }
     fireUser.bindStream(_auth.userChanges());
+    super.onInit();
   }
 
   void checkUserHasPhoneNumber() {

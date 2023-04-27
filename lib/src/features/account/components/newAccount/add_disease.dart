@@ -2,10 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/account/components/models.dart';
 
 import '../../../../constants/enums.dart';
-import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';
 import '../../../../general/common_widgets/text_form_field_multiline.dart';
@@ -54,18 +52,7 @@ class AddDisease extends StatelessWidget {
           Obx(
             () => RegularElevatedButton(
               buttonText: 'add'.tr,
-              onPressed: () {
-                if (controller.diseaseName.value.isNotEmpty) {
-                  final diseaseMedicines =
-                      controller.medicinesTextController.text.trim();
-                  controller.diseasesList.add(DiseaseItem(
-                      diseaseName: controller.diseaseName.value,
-                      diseaseMedicines: diseaseMedicines));
-                  controller.diseaseNameTextController.clear();
-                  controller.medicinesTextController.clear();
-                  RegularBottomSheet.hideBottomSheet();
-                }
-              },
+              onPressed: () => controller.addDiseaseItem(),
               enabled: controller.diseaseName.value.isNotEmpty ? true : false,
               color: Colors.black,
             ),

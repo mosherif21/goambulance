@@ -9,8 +9,8 @@ class SpeechController extends GetxController {
   RxBool isListening = false.obs;
   @override
   void onInit() {
-    super.onInit();
     _speechToText = SpeechToText();
+    super.onInit();
   }
 
   void onListen() async {

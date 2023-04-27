@@ -31,7 +31,7 @@ class NoEmergencyContacts extends StatelessWidget {
                 color: Colors.grey,
                 fontSize: 20,
               ),
-            )
+            ),
           ],
         ),
       ),

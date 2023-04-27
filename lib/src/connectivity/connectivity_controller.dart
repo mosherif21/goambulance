@@ -18,7 +18,6 @@ class ConnectivityController extends GetxController {
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   @override
   void onInit() {
-    super.onInit();
     //_initConnectivity();
     // _connectivitySubscription = _connectivity.onConnectivityChanged.listen(
     //   (result) => _updateConnectivityStatus(result),
@@ -27,6 +26,7 @@ class ConnectivityController extends GetxController {
         InternetConnectionCheckerPlus().onStatusChange.listen(
               (status) => _checkInternet(status),
             );
+    super.onInit();
   }
 
   void _checkInternet(InternetConnectionStatus internetConnectionStatus) {

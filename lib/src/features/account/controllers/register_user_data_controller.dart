@@ -59,17 +59,13 @@ class RegisterUserDataController extends GetxController {
   bool hypertensivePatient = false;
   bool heartPatient = false;
   final diseaseName = ''.obs;
-  final hypertensiveDropdownController = TextEditingController();
 
   final diabetesDropdownController = TextEditingController();
-
-  final heartPatientDropdownController = TextEditingController();
 
   final bloodTypeDropdownController = TextEditingController();
 
   @override
   void onInit() {
-    super.onInit();
     final user = AuthenticationRepository.instance.fireUser.value;
     if (user?.email != null) {
       emailTextController.text = user!.email!;
@@ -78,11 +74,11 @@ class RegisterUserDataController extends GetxController {
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
     phoneNumber = user!.phoneNumber!;
+    super.onInit();
   }
 
   @override
   void onReady() {
-    super.onReady();
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {
         highlightName.value = false;
@@ -125,6 +121,7 @@ class RegisterUserDataController extends GetxController {
         }
       }
     });
+    super.onReady();
   }
 
   Future<void> pickProfilePic() async {
@@ -267,6 +264,17 @@ class RegisterUserDataController extends GetxController {
       hideLoadingScreen();
       showSnackBar(
           text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
+    }
+  }
+
+  void addDiseaseItem() {
+    if (diseaseName.value.isNotEmpty) {
+      final diseaseMedicines = medicinesTextController.text.trim();
+      diseasesList.add(DiseaseItem(
+          diseaseName: diseaseName.value, diseaseMedicines: diseaseMedicines));
+      diseaseNameTextController.clear();
+      medicinesTextController.clear();
+      RegularBottomSheet.hideBottomSheet();
     }
   }
 

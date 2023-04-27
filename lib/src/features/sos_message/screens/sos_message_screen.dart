@@ -3,14 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../general/common_widgets/back_button.dart';
+import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/common_widgets/regular_card.dart';
+import '../../../general/common_widgets/regular_elevated_button.dart';
+import '../components/add_emergency_contact.dart';
 import '../components/no_emergency_contacts.dart';
+import '../controllers/emergency_contacts_controller.dart';
 
 class SosMessageScreen extends StatelessWidget {
   const SosMessageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(EmergencyContactsController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -44,6 +49,18 @@ class SosMessageScreen extends StatelessWidget {
                               children: [],
                             )
                           : const NoEmergencyContacts(),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+                    child: RegularElevatedButton(
+                      buttonText: 'addContact'.tr,
+                      onPressed: () =>
+                          RegularBottomSheet.showRegularBottomSheet(
+                        AddEmergencyContact(controller: controller),
+                      ),
+                      enabled: true,
+                      color: Colors.black,
                     ),
                   ),
                 ],

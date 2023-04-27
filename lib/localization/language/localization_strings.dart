@@ -219,6 +219,7 @@ class Languages extends Translations {
           'searchCountry': 'البحث عن البلد',
           'sosMessage': 'رسالة استغاثة',
           'noEmergencyContacts': 'لم تتم إضافة جهات اتصال للطوارئ',
+          'addContact': 'اضف جهة اتصال',
           'nearHospitalsNotFound':
               'عذرا ، لم نتمكن من العثور على أي مستشفيات قريبة من مكان الطلب',
           'notAllowed': 'غير مسموح به',
@@ -262,6 +263,7 @@ class Languages extends Translations {
           'noConnectionAlertTitle': 'No Connection',
           'noConnectionAlertContent': 'Please check your internet connectivity',
           'ok': 'OK',
+          'addContact': 'Add contact',
           'loginWithGoogle': 'CONTINUE WITH GOOGLE',
           'loginWithFacebook': 'CONTINUE WITH FACEBOOK',
           'loginWithMobile': 'CONTINUE WITH PHONE NUMBER',

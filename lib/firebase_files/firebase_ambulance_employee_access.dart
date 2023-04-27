@@ -15,7 +15,6 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
   late final Reference userStorageReference;
   @override
   void onInit() {
-    super.onInit();
     userId = AuthenticationRepository.instance.fireUser.value?.uid;
     fireStore = FirebaseFirestore.instance;
     fireDatabase = FirebaseDatabase.instance;
@@ -23,5 +22,6 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
 
     firestoreUserRef = fireStore.collection('users').doc(userId!);
     userStorageReference = fireStorage.ref().child('users').child(userId!);
+    super.onInit();
   }
 }

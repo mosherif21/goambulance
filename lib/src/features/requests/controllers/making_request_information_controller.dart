@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../constants/enums.dart';
+import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/general_functions.dart';
 import '../../account/components/models.dart';
 import '../components/making_request/components/normal_request_location_page.dart';
@@ -73,6 +74,17 @@ class MakingRequestInformationController extends GetxController {
         () => const NormalRequestLocationPage(),
         transition: getPageTransition(),
       );
+    }
+  }
+
+  void addDiseaseItem() {
+    if (diseaseName.value.isNotEmpty) {
+      final diseaseMedicines = medicinesTextController.text.trim();
+      diseasesList.add(DiseaseItem(
+          diseaseName: diseaseName.value, diseaseMedicines: diseaseMedicines));
+      diseaseNameTextController.clear();
+      medicinesTextController.clear();
+      RegularBottomSheet.hideBottomSheet();
     }
   }
 

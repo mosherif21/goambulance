@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoder2/geocoder2.dart';
+import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
@@ -25,12 +26,21 @@ import '../../../constants/enums.dart';
 class MakingRequestLocationController extends GetxController {
   static MakingRequestLocationController get instance => Get.find();
 
-  //Location settings
+  //location permissions and services vars
   final locationSettings = const LocationSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 40,
   );
   final accuracy = LocationAccuracy.high;
+  final locationAvailable = false.obs;
+  final mapLoading = false.obs;
+  late Position currentLocation;
+  late LatLng searchedLocation;
+  StreamSubscription<ServiceStatus>? serviceStatusStream;
+  StreamSubscription<Position>? currentPositionStream;
+  bool positionStreamInitialized = false;
+  final locationPermissionGranted = false.obs;
+  final locationServiceEnabled = false.obs;
 
   //maps vars
   final mapPolyLines = <Polyline>{}.obs;
@@ -47,17 +57,6 @@ class MakingRequestLocationController extends GetxController {
   final mapControllerCompleter = Completer<GoogleMapController>();
   late final GoogleMapController googleMapController;
   bool googleMapControllerInit = false;
-
-  //location permissions and services vars
-  final locationAvailable = false.obs;
-  final mapLoading = false.obs;
-  late Position currentLocation;
-  late LatLng searchedLocation;
-  StreamSubscription<ServiceStatus>? serviceStatusStream;
-  StreamSubscription<Position>? currentPositionStream;
-  bool positionStreamInitialized = false;
-  final locationPermissionGranted = false.obs;
-  final locationServiceEnabled = false.obs;
   final mapEnabled = false.obs;
   bool allowedLocation = false;
   final searchedText = 'searchPlace'.tr.obs;
@@ -76,6 +75,9 @@ class MakingRequestLocationController extends GetxController {
   final selectedHospital = Rx<HospitalModel?>(null);
   final searchedHospitals = <HospitalModel>[].obs;
 
+  //geoQuery vars
+  final geoFire = GeoFlutterFire();
+  // final _firestore = FirebaseFirestore.instance;
   @override
   void onReady() async {
     await locationInit();
@@ -116,6 +118,14 @@ class MakingRequestLocationController extends GetxController {
 
   Future<void> onRequestPress() async {
     if (allowedLocation) {
+      // GeoFirePoint hospital1Location = geoFire.point(
+      //     latitude: 31.21573006389394, longitude: 29.934194294709147);
+      // _firestore.collection('hospitalsLocation').add(
+      //     {'id': '7mpvFxKb6wZJI3o1zz4P', 'position': hospital1Location.data});
+      // GeoFirePoint hospital2Location = geoFire.point(
+      //     latitude: 31.231056254827408, longitude: 29.95132607711647);
+      // _firestore.collection('hospitalsLocation').add(
+      //    {'id': 'lWSQhM1ngXfq1kkybOBK', 'position': hospital2Location.data});
       await choosingHospitalChanges();
       if (kDebugMode) {
         print('chosen location LatLng: $currentChosenLatLng');
@@ -506,10 +516,8 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onCameraMove(CameraPosition cameraPosition) {
-    if (!choosingHospital.value) {
-      currentCameraLatLng = cameraPosition.target;
-      cameraMoved = true;
-    }
+    currentCameraLatLng = cameraPosition.target;
+    cameraMoved = true;
   }
 
   void animateCamera({required LatLng locationLatLng}) {

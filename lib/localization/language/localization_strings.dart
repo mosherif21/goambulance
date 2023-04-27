@@ -250,6 +250,7 @@ class Languages extends Translations {
           'avgPrice': 'متوسط السعر',
           'someoneElse': 'لشخص اخر',
           'requestFor': 'لمن طلب سيارة الإسعاف هذا؟',
+          'editUserInfo':'يمكنك تعديل بياناتك من هنا',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -508,6 +509,7 @@ class Languages extends Translations {
           'someoneElse': 'Someone else',
           'avgPrice': 'Average price',
           'requestFor': 'Who is this ambulance request for?',
+          'editUserInfo':'You Can Edit Your Data Here',
         },
       };
 }

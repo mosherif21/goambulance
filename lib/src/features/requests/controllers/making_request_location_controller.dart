@@ -150,7 +150,6 @@ class MakingRequestLocationController extends GetxController {
   Future<void> choosingHospitalChanges() async {
     choosingHospital.value = true;
     hospitalsPanelController.open();
-
     requestLocationMarker = Marker(
       markerId: MarkerId('requestLocation'.tr),
       position: currentChosenLatLng,
@@ -170,7 +169,6 @@ class MakingRequestLocationController extends GetxController {
             text: 'nearHospitalsNotFound'.tr, snackBarType: SnackBarType.info);
       }
     });
-
     getHospitals();
 
     // ambulanceMarker = Marker(
@@ -219,7 +217,7 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  Future<void> getHospitals() async {
+  void getHospitals() {
     try {
       GeoFirePoint center = geoFire.point(
           latitude: currentChosenLatLng.latitude,

@@ -36,7 +36,8 @@ class RegularClickableCard extends StatelessWidget {
               children: [
                 Image(
                   image: AssetImage(imgPath),
-                  height: 35.0,
+                  height: 35,
+                  width: 45,
                 ),
                 const SizedBox(width: 10.0),
                 Column(

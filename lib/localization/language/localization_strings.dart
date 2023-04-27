@@ -218,6 +218,7 @@ class Languages extends Translations {
           'goToSettings': 'اذهب للاعدادات',
           'searchCountry': 'البحث عن البلد',
           'sosMessage': 'رسالة استغاثة',
+          'noEmergencyContacts': 'لم تتم إضافة جهات اتصال للطوارئ',
           'nearHospitalsNotFound':
               'عذرا ، لم نتمكن من العثور على أي مستشفيات قريبة من مكان الطلب',
           'notAllowed': 'غير مسموح به',
@@ -432,6 +433,7 @@ class Languages extends Translations {
               'Failed to save your information, please try again',
           'loginFailed': 'Login failed, please try again',
           'noMedicalHistory': 'No diseases or allergies added',
+          'noEmergencyContacts': 'No emergency contacts added',
           'noRequestsHistory': 'You don\'t have any previous requests',
           'addAllergiesOrDiseases': 'Add Disease/Allergy',
           'diseaseName': 'Disease/Allergy name',

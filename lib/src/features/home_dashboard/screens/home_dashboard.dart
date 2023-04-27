@@ -8,6 +8,7 @@ import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 
 import '../../../general/common_widgets/labeled_image.dart';
+import '../../../general/common_widgets/text_header.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
 import '../../../general/general_functions.dart';
 import '../../first_aid/components/first_aid_tips_details_page.dart';
@@ -112,13 +113,17 @@ class HomeDashBoard extends StatelessWidget {
                       ),
                       const ServicesButtons(),
                       const SizedBox(height: 15),
-                      TextHeaderWithButton(
+                      TextHeader(
                         headerText: 'recentRequests'.tr,
-                        onPressed: () => homeScreenController
-                            .homeBottomTabController
-                            .jumpToTab(2),
-                        buttonText: 'viewAll'.tr,
+                        fontSize: 24,
                       ),
+                      // TextHeaderWithButton(
+                      //   headerText: 'recentRequests'.tr,
+                      //   onPressed: () => homeScreenController
+                      //       .homeBottomTabController
+                      //       .jumpToTab(2),
+                      //   buttonText: 'viewAll'.tr,
+                      // ),
                       const NoRequestsHistory(),
                       SizedBox(height: screenHeight * 0.1)
                     ],

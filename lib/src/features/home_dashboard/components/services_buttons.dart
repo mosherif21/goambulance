@@ -5,6 +5,7 @@ import '../../../constants/assets_strings.dart';
 import '../../../general/common_widgets/rounded_image_button.dart';
 import '../../../general/general_functions.dart';
 import '../../requests/components/making_request/normal_request_screen.dart';
+import '../../sos_message/screens/sos_message_screen.dart';
 
 class ServicesButtons extends StatelessWidget {
   const ServicesButtons({Key? key}) : super(key: key);
@@ -18,13 +19,12 @@ class ServicesButtons extends StatelessWidget {
           Expanded(
             flex: 8,
             child: RoundedImageElevatedButton(
-              buttonText: 'normalRequest'.tr,
-              imagePath: kAmbulanceImage,
-              onPressed: () => Get.to(
-                () => const NormalRequestScreen(),
-                transition: getPageTransition(),
-              ),
-            ),
+                buttonText: 'normalRequest'.tr,
+                imagePath: kAmbulanceImage,
+                onPressed: () => Get.to(
+                      () => const NormalRequestScreen(),
+                      transition: getPageTransition(),
+                    )),
           ),
           const Spacer(),
           isUserCritical()
@@ -41,7 +41,10 @@ class ServicesButtons extends StatelessWidget {
                   child: RoundedImageElevatedButton(
                     buttonText: 'sosMessage'.tr,
                     imagePath: kSosMessageImage,
-                    onPressed: () {},
+                    onPressed: () => Get.to(
+                      () => const SosMessageScreen(),
+                      transition: getPageTransition(),
+                    ),
                   ),
                 ),
         ],

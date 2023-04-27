@@ -27,6 +27,7 @@ dependencies:
   #image: ^4.0.15
   permission_handler: ^10.2.0
   translator: ^0.1.7
+  sms_advanced: ^1.0.2
 
   #firebase dependencies
   firebase_core: ^2.3.0
@@ -40,7 +41,6 @@ dependencies:
   firebase_analytics: ^10.0.8
   firebase_messaging: ^14.1.4
   firebase_performance: ^0.9.0+15
-  rxdart: ^0.27.7
 
   #google maps dependencies
   google_maps_flutter: ^2.2.2

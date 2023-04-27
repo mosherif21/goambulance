@@ -149,10 +149,10 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: false,
-                      child: SingleChildScrollView(
+                  RegularCard(
+                    highlightRed: false,
+                    child: Obx(
+                      () => SingleChildScrollView(
                         child: controller.diseasesList.isNotEmpty
                             ? Column(
                                 children: [

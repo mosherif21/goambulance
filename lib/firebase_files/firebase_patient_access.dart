@@ -79,6 +79,8 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
+  Future<void> logoutFirebase() async {}
+
   // await fireDatabase.ref('users/drivers/$userId').get().then((snapshot) {
   //   if (snapshot.exists) {
   //     userType = UserType.driver;
@@ -118,12 +120,4 @@ class FirebasePatientDataAccess extends GetxController {
   //     }
   //   });
   // }
-
-  Future<void> logoutFirebase() async {
-    // if (userType == UserType.user) {
-    //   await fireDatabase.ref('locations/users/$userId').set(null);
-    // } else {
-    //   await fireDatabase.ref('locations/drivers/$userId').set(null);
-    // }
-  }
 }

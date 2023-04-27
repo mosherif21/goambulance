@@ -25,6 +25,7 @@ const String kHospitalMarkerImg = "assets/images/hospital.png";
 const String kRequestLocationMarkerImg =
     "assets/images/pin_request_location.png";
 const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";
+const String kNoEmergencyContact = "assets/images/no_contacts.png";
 const String kMedicalHistoryItemImg = "assets/images/medical_history_item.svg";
 const String kMyLocation = "assets/images/myLocation.svg";
 

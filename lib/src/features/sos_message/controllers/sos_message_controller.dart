@@ -125,7 +125,8 @@ class SosMessageController extends GetxController {
         if (kDebugMode) {
           print(err.toString());
           showSnackBar(
-              text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+              text: 'sendingSosMessageFailed'.tr,
+              snackBarType: SnackBarType.error);
         }
       }
     } else if (contactsList.isEmpty) {

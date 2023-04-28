@@ -259,6 +259,8 @@ class Languages extends Translations {
           'accountTitle2': 'العناوين المسجلة',
           'accountTitle3': 'السجل الطبي',
           'sendSosMessageSuccess': 'تم إرسال رسالة الاستغاثة بنجاح',
+          'sendingSosMessageFailed':
+              'فشل إرسال رسالة الاستغاثة ، يرجى المحاولة مرة أخرى',
           'egp': 'جنيها',
           'forMe': 'لي',
           'avgPrice': 'متوسط السعر',
@@ -309,7 +311,9 @@ class Languages extends Translations {
           'phoneLabel': 'Phone number',
           'addingEmergencyContactFailed':
               'Adding emergency contact failed, please try again',
-          'savingSosMessageFailed': 'Sos message save failed, please try again',
+          'savingSosMessageFailed': 'SOS message save failed, please try again',
+          'sendingSosMessageFailed':
+              'Sending SOS message failed, please try again',
           'deletingEmergencyContactFailed':
               'Contact deletion failed, please try again',
           'phoneFieldLabel': 'Enter your Phone Number',

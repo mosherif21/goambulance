@@ -11,6 +11,7 @@ import '../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../general/common_widgets/text_form_field_multiline.dart';
 import '../components/add_emergency_contact.dart';
 import '../components/contact_item.dart';
+import '../components/loading_contacts_info.dart';
 import '../components/no_emergency_contacts.dart';
 
 class SosMessageScreen extends StatelessWidget {
@@ -40,74 +41,81 @@ class SosMessageScreen extends StatelessWidget {
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightSosMessage.value,
-                      child: Column(
+              child: Obx(
+                () => controller.sosMessageDataLoaded.value
+                    ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: AutoSizeText(
-                              'sosMessageHeader'.tr,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
-                              ),
-                              maxLines: 2,
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          TextFormFieldMultiline(
-                            labelText: 'sosMessage'.tr,
-                            hintText: 'enterSosMessage'.tr,
-                            textController: controller.sosMessageController,
-                            textInputAction: TextInputAction.done,
-                            inputFormatter:
-                                LengthLimitingTextInputFormatter(160),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Obx(
-                      () => controller.contactsList.isNotEmpty
-                          ? SingleChildScrollView(
+                          const SizedBox(height: 10),
+                          Obx(
+                            () => RegularCard(
+                              highlightRed:
+                                  controller.highlightSosMessage.value,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  for (var contactItem
-                                      in controller.contactsList)
-                                    ContactItemWidget(
-                                      contactItem: contactItem,
-                                      onDeletePressed: () => controller
-                                          .contactsList
-                                          .remove(contactItem),
-                                    )
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: AutoSizeText(
+                                      'sosMessageHeader'.tr,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  TextFormFieldMultiline(
+                                    labelText: 'sosMessage'.tr,
+                                    hintText: 'enterSosMessage'.tr,
+                                    textController:
+                                        controller.sosMessageController,
+                                    textInputAction: TextInputAction.done,
+                                    inputFormatter:
+                                        LengthLimitingTextInputFormatter(160),
+                                  ),
                                 ],
                               ),
-                            )
-                          : const NoEmergencyContacts(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: RegularElevatedButton(
-                      buttonText: 'addContact'.tr,
-                      onPressed: () =>
-                          RegularBottomSheet.showRegularBottomSheet(
-                        AddEmergencyContact(controller: controller),
-                      ),
-                      enabled: true,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+                            ),
+                          ),
+                          RegularCard(
+                            highlightRed: false,
+                            child: Obx(
+                              () => controller.contactsList.isNotEmpty
+                                  ? SingleChildScrollView(
+                                      child: Column(
+                                        children: [
+                                          for (var contactItem
+                                              in controller.contactsList)
+                                            ContactItemWidget(
+                                              contactItem: contactItem,
+                                              onDeletePressed: () => controller
+                                                  .contactsList
+                                                  .remove(contactItem),
+                                            )
+                                        ],
+                                      ),
+                                    )
+                                  : const NoEmergencyContacts(),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15.0, right: 15.0),
+                            child: RegularElevatedButton(
+                              buttonText: 'addContact'.tr,
+                              onPressed: () =>
+                                  RegularBottomSheet.showRegularBottomSheet(
+                                AddEmergencyContact(controller: controller),
+                              ),
+                              enabled: true,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      )
+                    : const LoadingContacts(),
               ),
             ),
           ),

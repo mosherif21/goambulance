@@ -9,7 +9,6 @@ import 'package:goambulance/src/general/common_widgets/regular_elevated_button.d
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
-import '../../../../../firebase_files/firebase_patient_access.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
@@ -22,7 +21,6 @@ class EditUserDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
-    Get.put(FirebasePatientDataAccess());
     final controller = Get.put(EditUserDataController());
     return Scaffold(
       appBar: AppBar(

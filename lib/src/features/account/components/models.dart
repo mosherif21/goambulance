@@ -10,7 +10,8 @@ class UserInformation {
   final String phoneNumber;
   final String hypertensive;
   final String heartPatient;
-  final List<DiseaseItem> diseasesList;
+  final String sosMessage;
+  final bool criticalUser;
   UserInformation({
     required this.name,
     required this.email,
@@ -23,7 +24,8 @@ class UserInformation {
     required this.heartPatient,
     required this.additionalInformation,
     required this.phoneNumber,
-    required this.diseasesList,
+    required this.sosMessage,
+    required this.criticalUser,
   });
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -38,7 +40,8 @@ class UserInformation {
         'heartPatient': heartPatient,
         'additionalInformation': additionalInformation,
         'type': 'patient',
-        'criticalUser': false,
+        'criticalUser': criticalUser,
+        'sosMessage': sosMessage,
       };
 }
 

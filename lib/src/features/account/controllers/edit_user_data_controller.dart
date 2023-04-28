@@ -89,7 +89,7 @@ class EditUserDataController extends GetxController {
   /*hatst5dm variable el userinfo ely fe el authentication repository  yet3rad beh el info el adema we b3d ma ye update kol el data aw myupdat4 we ydos
    save ht update el data fe firestore we te update variable userInfo be el data el gdeda */
   @override
-  Future<void> onReady() async {
+  void onReady() async {
     super.onReady();
     final userId = AuthenticationRepository.instance.fireUser.value!.uid;
     final storageRef =
@@ -270,8 +270,9 @@ class EditUserDataController extends GetxController {
       hypertensive: hypertensivePatient ? 'Yes' : 'No',
       heartPatient: heartPatient ? 'Yes' : 'No',
       additionalInformation: additionalInformationTextController.text.trim(),
-      diseasesList: diseasesList,
       phoneNumber: phoneNumber,
+      sosMessage: '',
+      criticalUser: false,
     );
 
     final functionStatus =
@@ -279,6 +280,7 @@ class EditUserDataController extends GetxController {
       userRegisterInfo: userInfo,
       profilePic: profileImage.value!,
       nationalID: iDImage.value!,
+      diseasesList: diseasesList,
     );
     if (functionStatus == FunctionStatus.success) {
       hideLoadingScreen();

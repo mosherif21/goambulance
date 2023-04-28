@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
@@ -10,21 +12,23 @@ class SosMessageController extends GetxController {
   final contactName = ''.obs;
   final phoneNumber = ''.obs;
   final highlightSosMessage = false.obs;
-  final sosMessageDataLoaded = true.obs;
+  final sosMessageDataLoaded = false.obs;
   String sosMessage = '';
   final contactsList = <ContactItem>[].obs;
+  late final FirebasePatientDataAccess firebasePatientDataAccess;
   //controllers
   final contactNameTextController = TextEditingController();
   final sosMessageController = TextEditingController();
 
   @override
   void onInit() {
-    //
     super.onInit();
+    firebasePatientDataAccess = FirebasePatientDataAccess.instance;
   }
 
   @override
-  void onReady() {
+  void onReady() async {
+    super.onReady();
     sosMessageController.addListener(() {
       if (sosMessageController.text.trim().isNotEmpty) {
         highlightSosMessage.value = true;
@@ -33,7 +37,9 @@ class SosMessageController extends GetxController {
     contactNameTextController.addListener(() {
       contactName.value = contactNameTextController.text.trim();
     });
-    super.onReady();
+    contactsList.value = await firebasePatientDataAccess.getEmergencyContacts();
+    sosMessage = AuthenticationRepository.instance.userInfo!.sosMessage;
+    sosMessageDataLoaded.value = true;
   }
 
   addContact() {

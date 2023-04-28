@@ -13,7 +13,7 @@ enum ScreenSize { small, medium, large }
 
 enum AuthType { emailLogin, emailRegister, facebook, google, phone }
 
-enum UserType { driver, medic, regularUser, criticalUser }
+enum UserType { driver, medic, patient }
 
 enum FunctionStatus { success, failure }
 

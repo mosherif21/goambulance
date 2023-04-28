@@ -30,7 +30,7 @@ class AuthenticationRepository extends GetxController {
 
   String verificationId = '';
   GoogleSignIn? googleSignIn;
-  UserType userType = UserType.regularUser;
+  UserType userType = UserType.patient;
   late UserInformation? userInfo;
   final drawerProfileImageUrl = ''.obs;
 
@@ -92,19 +92,6 @@ class AuthenticationRepository extends GetxController {
             userType = UserType.driver;
           } else if (userTypeValue.contains('patient')) {
             isUserRegistered = true;
-            final List<DiseaseItem> diseasesList = [];
-            final diseasesReference = snapshot.reference.collection('diseases');
-            await diseasesReference.get().then((diseasesSnapshot) {
-              for (var disease in diseasesSnapshot.docs) {
-                final diseaseDoc = disease.data();
-                diseasesList.add(
-                  DiseaseItem(
-                    diseaseName: diseaseDoc['diseaseName'].toString(),
-                    diseaseMedicines: diseaseDoc['diseaseMedicines'].toString(),
-                  ),
-                );
-              }
-            });
             userInfo = UserInformation(
               name: userDoc['name'].toString(),
               email: userDoc['email'].toString(),
@@ -118,13 +105,10 @@ class AuthenticationRepository extends GetxController {
               additionalInformation:
                   userDoc['additionalInformation'].toString(),
               phoneNumber: userDoc['phoneNo'].toString(),
-              diseasesList: diseasesList,
+              sosMessage: userDoc['sosMessage'].toString(),
+              criticalUser: userDoc['criticalUser'] as bool,
             );
-            if (userDoc['criticalUser'] as bool) {
-              userType = UserType.criticalUser;
-            } else {
-              userType = UserType.regularUser;
-            }
+            userType = UserType.patient;
           }
           final profileImageRef =
               fireStorage.ref().child('users/$userId/profilePic');
@@ -408,20 +392,22 @@ class AuthenticationRepository extends GetxController {
     isEmailAndPasswordLinked.value = false;
     isFacebookLinked.value = false;
     verificationId = '';
-    userType = UserType.regularUser;
+    userType = UserType.patient;
     userInfo = UserInformation(
-        name: '',
-        email: '',
-        nationalId: '',
-        birthDate: DateTime.now(),
-        gender: '',
-        bloodType: '',
-        diabetesPatient: '',
-        hypertensive: '',
-        heartPatient: '',
-        additionalInformation: '',
-        phoneNumber: '',
-        diseasesList: []);
+      name: '',
+      email: '',
+      nationalId: '',
+      birthDate: DateTime.now(),
+      gender: '',
+      bloodType: '',
+      diabetesPatient: '',
+      hypertensive: '',
+      heartPatient: '',
+      additionalInformation: '',
+      phoneNumber: '',
+      sosMessage: '',
+      criticalUser: false,
+    );
     drawerProfileImageUrl.value = '';
   }
 }

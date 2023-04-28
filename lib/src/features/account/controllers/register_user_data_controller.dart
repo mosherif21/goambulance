@@ -247,8 +247,9 @@ class RegisterUserDataController extends GetxController {
       hypertensive: hypertensivePatient ? 'Yes' : 'No',
       heartPatient: heartPatient ? 'Yes' : 'No',
       additionalInformation: additionalInformationTextController.text.trim(),
-      diseasesList: diseasesList,
       phoneNumber: phoneNumber,
+      sosMessage: '',
+      criticalUser: false,
     );
 
     final functionStatus =
@@ -256,6 +257,7 @@ class RegisterUserDataController extends GetxController {
       userRegisterInfo: userInfo,
       profilePic: profileImage.value!,
       nationalID: iDImage.value!,
+      diseasesList: diseasesList,
     );
     if (functionStatus == FunctionStatus.success) {
       hideLoadingScreen();

@@ -149,8 +149,7 @@ class AppInit {
             () => const HomeScreen(),
             transition: Transition.circularReveal,
           );
-        } else if (authRepo.userType == UserType.regularUser ||
-            authRepo.userType == UserType.criticalUser) {
+        } else if (authRepo.userType == UserType.patient) {
           if (!authRepo.isUserPhoneRegistered && !authRepo.isUserRegistered) {
             getOfAllPhoneVerificationScreen();
           } else if (authRepo.isUserPhoneRegistered &&

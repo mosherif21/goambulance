@@ -46,13 +46,22 @@ class AccountScreen extends StatelessWidget {
                         onPressed: () {
                           switch (count) {
                             case 0:
-                              Get.to(() => const EditUserDataPage());
+                              Get.to(
+                                () => const EditUserDataPage(),
+                                transition: getPageTransition(),
+                              );
                               break;
                             case 1:
-                              Get.to(() => const AccountAddressesPage());
+                              Get.to(
+                                () => const AccountAddressesPage(),
+                                transition: getPageTransition(),
+                              );
                               break;
                             case 2:
-                              Get.to(() => const EditMedicalHistoryPage());
+                              Get.to(
+                                () => const EditMedicalHistoryPage(),
+                                transition: getPageTransition(),
+                              );
                               break;
                           }
                         },

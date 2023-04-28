@@ -9,9 +9,11 @@ class CustomRollingSwitch extends StatelessWidget {
       required this.offText,
       required this.onIcon,
       required this.offIcon,
-      required this.onSwitched})
+      required this.onSwitched,
+      this.keyInternal})
       : super(key: key);
   final String onText;
+  final Key? keyInternal;
   final String offText;
   final IconData onIcon;
   final IconData offIcon;
@@ -19,6 +21,7 @@ class CustomRollingSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RollingSwitch.icon(
+      key: keyInternal,
       onChanged: (bool state) => onSwitched(state),
       rollingInfoRight: RollingIconInfo(
         icon: onIcon,

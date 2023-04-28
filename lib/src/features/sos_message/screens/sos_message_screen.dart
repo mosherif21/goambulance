@@ -39,63 +39,70 @@ class SosMessageScreen extends StatelessWidget {
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightSosMessage.value,
-                      child: Column(
+              child: Obx(
+                () => controller.sosMessageDataLoaded.value
+                    ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: AutoSizeText(
-                              'sosMessageHeader'.tr,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w800,
+                          const SizedBox(height: 10),
+                          Obx(
+                            () => RegularCard(
+                              highlightRed:
+                                  controller.highlightSosMessage.value,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: AutoSizeText(
+                                      'sosMessageHeader'.tr,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  TextFormFieldMultiline(
+                                    labelText: 'sosMessage'.tr,
+                                    hintText: 'enterSosMessage'.tr,
+                                    textController:
+                                        controller.sosMessageController,
+                                    textInputAction: TextInputAction.done,
+                                    inputFormatter:
+                                        LengthLimitingTextInputFormatter(160),
+                                  ),
+                                ],
                               ),
-                              maxLines: 2,
                             ),
                           ),
-                          const SizedBox(height: 5),
-                          TextFormFieldMultiline(
-                            labelText: 'sosMessage'.tr,
-                            hintText: 'enterSosMessage'.tr,
-                            textController: controller.sosMessageController,
-                            textInputAction: TextInputAction.done,
-                            inputFormatter:
-                                LengthLimitingTextInputFormatter(160),
+                          RegularCard(
+                            highlightRed: false,
+                            child: SingleChildScrollView(
+                              child: false
+                                  ? Column(
+                                      children: [],
+                                    )
+                                  : const NoEmergencyContacts(),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15.0, right: 15.0),
+                            child: RegularElevatedButton(
+                              buttonText: 'addContact'.tr,
+                              onPressed: () =>
+                                  RegularBottomSheet.showRegularBottomSheet(
+                                AddEmergencyContact(controller: controller),
+                              ),
+                              enabled: true,
+                              color: Colors.black,
+                            ),
                           ),
                         ],
-                      ),
-                    ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: SingleChildScrollView(
-                      child: false
-                          ? Column(
-                              children: [],
-                            )
-                          : const NoEmergencyContacts(),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: RegularElevatedButton(
-                      buttonText: 'addContact'.tr,
-                      onPressed: () =>
-                          RegularBottomSheet.showRegularBottomSheet(
-                        AddEmergencyContact(controller: controller),
-                      ),
-                      enabled: true,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
+                      )
+                    : const NoEmergencyContacts(),
               ),
             ),
           ),

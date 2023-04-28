@@ -32,7 +32,7 @@ class AuthenticationRepository extends GetxController {
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.regularUser;
   late UserInformation? userInfo;
-  late String initUserProfileImageUrl;
+  final drawerProfileImageUrl = ''.obs;
 
   @override
   void onInit() {
@@ -128,7 +128,7 @@ class AuthenticationRepository extends GetxController {
           }
           final profileImageRef =
               fireStorage.ref().child('users/$userId/profilePic');
-          initUserProfileImageUrl = await profileImageRef.getDownloadURL();
+          drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
           if (kDebugMode) print('$userType');
         }
       });
@@ -422,6 +422,6 @@ class AuthenticationRepository extends GetxController {
         additionalInformation: '',
         phoneNumber: '',
         diseasesList: []);
-    initUserProfileImageUrl = '';
+    drawerProfileImageUrl.value = '';
   }
 }

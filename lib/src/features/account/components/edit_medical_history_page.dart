@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/controllers/edit_user_data_controller.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
-
 import '../../../general/common_widgets/custom_rolling_switch.dart';
 import '../../../general/common_widgets/dropdown_list.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
@@ -13,19 +12,17 @@ import '../../../general/common_widgets/regular_card.dart';
 import '../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../general/common_widgets/text_header.dart';
-
 import 'models.dart';
 import 'newAccount/add_disease.dart';
 import 'newAccount/medical_history_item.dart';
 import 'newAccount/no_medical_history.dart';
-
 
 class EditMedicalHistoryPage extends StatelessWidget {
   const EditMedicalHistoryPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = EditUserDataController.instance;
+    final controller = Get.put(EditUserDataController());
     return Scaffold(
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),
@@ -55,7 +52,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20.0),
                   Obx(
-                        () => RegularCard(
+                    () => RegularCard(
                       highlightRed: controller.highlightBloodType.value,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +62,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                           const SizedBox(height: 5.0),
                           DropdownList(
                             dropDownController:
-                            controller.bloodTypeDropdownController,
+                                controller.bloodTypeDropdownController,
                             items: bloodTypes,
                             hintText: 'pickBloodType'.tr,
                           ),
@@ -86,7 +83,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                         const SizedBox(height: 5.0),
                         DropdownList(
                           dropDownController:
-                          controller.diabetesDropdownController,
+                              controller.diabetesDropdownController,
                           items: [
                             'no'.tr,
                             'Type 1',
@@ -117,7 +114,8 @@ class EditMedicalHistoryPage extends StatelessWidget {
                               onIcon: Icons.check,
                               offIcon: Icons.close,
                               onSwitched: (bool state) =>
-                              controller.hypertensivePatient = state,
+                                  controller.hypertensivePatient = state,
+                              keyInternal: controller.hypertensiveKey,
                             ),
                           ],
                         )
@@ -144,7 +142,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                               onIcon: Icons.check,
                               offIcon: Icons.close,
                               onSwitched: (bool state) =>
-                              controller.heartPatient = state,
+                                  controller.heartPatient = state,
                             ),
                           ],
                         )
@@ -153,39 +151,39 @@ class EditMedicalHistoryPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Obx(
-                        () => RegularCard(
+                    () => RegularCard(
                       highlightRed: false,
                       child: SingleChildScrollView(
                         child: controller.diseasesList.isNotEmpty
                             ? Column(
-                          children: [
-                            for (var diseaseItem
-                            in controller.diseasesList)
-                              MedicalHistoryItem(
-                                  diseaseItem: diseaseItem,
-                                  onDeletePressed: () {
-                                    controller.diseasesList
-                                        .remove(diseaseItem);
-                                    if (controller.diseasesList.isEmpty) {
-                                      Future.delayed(const Duration(
-                                          milliseconds: 50))
-                                          .whenComplete(
-                                            () => controller
-                                            .medicalHistoryScrollController
-                                            .animateTo(
-                                          controller
-                                              .medicalHistoryScrollController
-                                              .position
-                                              .maxScrollExtent,
-                                          duration: const Duration(
-                                              milliseconds: 700),
-                                          curve: Curves.easeIn,
-                                        ),
-                                      );
-                                    }
-                                  })
-                          ],
-                        )
+                                children: [
+                                  for (var diseaseItem
+                                      in controller.diseasesList)
+                                    MedicalHistoryItem(
+                                        diseaseItem: diseaseItem,
+                                        onDeletePressed: () {
+                                          controller.diseasesList
+                                              .remove(diseaseItem);
+                                          if (controller.diseasesList.isEmpty) {
+                                            Future.delayed(const Duration(
+                                                    milliseconds: 50))
+                                                .whenComplete(
+                                              () => controller
+                                                  .medicalHistoryScrollController
+                                                  .animateTo(
+                                                controller
+                                                    .medicalHistoryScrollController
+                                                    .position
+                                                    .maxScrollExtent,
+                                                duration: const Duration(
+                                                    milliseconds: 700),
+                                                curve: Curves.easeIn,
+                                              ),
+                                            );
+                                          }
+                                        })
+                                ],
+                              )
                             : const NoMedicalHistory(),
                       ),
                     ),
@@ -196,8 +194,8 @@ class EditMedicalHistoryPage extends StatelessWidget {
                       buttonText: 'addAllergiesOrDiseases'.tr,
                       onPressed: () =>
                           RegularBottomSheet.showRegularBottomSheet(
-                            AddDisease(controller: controller),
-                          ),
+                        AddDisease(controller: controller),
+                      ),
                       enabled: true,
                       color: Colors.black,
                     ),
@@ -216,7 +214,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                           labelText: 'additionalInformation'.tr,
                           hintText: 'enterAdditionalInformation'.tr,
                           textController:
-                          controller.additionalInformationTextController,
+                              controller.additionalInformationTextController,
                           textInputAction: TextInputAction.done,
                           inputFormatter: LengthLimitingTextInputFormatter(150),
                         ),

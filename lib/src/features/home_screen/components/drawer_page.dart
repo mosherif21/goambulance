@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 
@@ -43,10 +44,12 @@ class DrawerPage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 65,
-                        backgroundImage:
-                            NetworkImage(authRepo.initUserProfileImageUrl),
+                      Obx(
+                        () => CircleAvatar(
+                          radius: 65,
+                          backgroundImage: NetworkImage(
+                              authRepo.drawerProfileImageUrl.value),
+                        ),
                       ),
                       const SizedBox(height: 20),
                       AutoSizeText(

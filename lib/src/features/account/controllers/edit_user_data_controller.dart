@@ -8,8 +8,8 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
 import 'package:goambulance/src/general/general_functions.dart';
-import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rolling_switch/rolling_switch.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -45,22 +45,22 @@ class EditUserDataController extends GetxController {
   late Rx<XFile?> profileImage = XFile('').obs;
   late Rx<XFile?> iDImage = XFile('').obs;
 
-  RxBool isProfileImageAdded = false.obs;
-  RxBool isNationalIDImageAdded = false.obs;
+  final isProfileImageAdded = false.obs;
+  final isNationalIDImageAdded = false.obs;
 
-  RxBool highlightName = false.obs;
-  RxBool highlightEmail = false.obs;
-  RxBool highlightNationalId = false.obs;
-  RxBool highlightGender = false.obs;
-  RxBool highlightBirthdate = false.obs;
-  RxBool highlightProfilePic = false.obs;
-  RxBool highlightNationalIdPick = false.obs;
+  final highlightName = false.obs;
+  final highlightEmail = false.obs;
+  final highlightNationalId = false.obs;
+  final highlightGender = false.obs;
+  final highlightBirthdate = false.obs;
+  final highlightProfilePic = false.obs;
+  final highlightNationalIdPick = false.obs;
 
   bool makeEmailEditable = true;
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
-  RxBool highlightBloodType = false.obs;
+  final highlightBloodType = false.obs;
   bool hypertensivePatient = false;
   bool heartPatient = false;
   final diseaseName = ''.obs;
@@ -72,7 +72,7 @@ class EditUserDataController extends GetxController {
 
   final bloodTypeDropdownController = TextEditingController();
   final user = AuthenticationRepository.instance.fireUser.value;
-
+  final hypertensiveKey = GlobalKey<RollingSwitchState>();
   @override
   void onInit() {
     super.onInit();
@@ -86,19 +86,21 @@ class EditUserDataController extends GetxController {
     phoneNumber = user!.phoneNumber!;
   }
 
+  /*hatst5dm variable el userinfo ely fe el authentication repository  yet3rad beh el info el adema we b3d ma ye update kol el data aw myupdat4 we ydos
+   save ht update el data
+   fe firestore we te update variable userInfo be el data el gdeda */
   @override
   Future<void> onReady() async {
     super.onReady();
-    print('a7yyyyyyyyyyyyyyyyyyyh');
-    final Uid = AuthenticationRepository.instance.fireUser.value!.uid;
-    final Sref = FirebaseStorage.instance.ref().child('users/$Uid/profilePic');
-    var url = await Sref.getDownloadURL();
-    var response = await get(Uri.parse(url));
-    var imageData = response.bodyBytes;
-    XFile imageFile = XFile.fromData(imageData);
-
+    final userId = AuthenticationRepository.instance.fireUser.value!.uid;
+    final storageRef =
+        FirebaseStorage.instance.ref().child('users/$userId/profilePic');
+    var imageData = await storageRef.getData();
+    XFile imageFile = XFile.fromData(imageData!);
+    profileImage.value = imageFile;
+    isProfileImageAdded.value = true;
     final firestoreInstance = FirebaseFirestore.instance;
-    final documentReference = firestoreInstance.collection("users").doc('$Uid');
+    final documentReference = firestoreInstance.collection("users").doc(userId);
 
     documentReference.get().then((documentSnapshot) {
       if (documentSnapshot.exists) {
@@ -110,20 +112,19 @@ class EditUserDataController extends GetxController {
           hypertensivePatient = false;
         } else if (documentSnapshot.get('hypertensive').toString() == 'Yes') {
           hypertensivePatient = true;
+          hypertensiveKey.currentState!.action();
         }
         if (documentSnapshot.get('heartPatient').toString() == 'No') {
           heartPatient = false;
         } else {
           heartPatient = true;
         }
-
-        heartPatient = false;
       } else {
-        print('Document does not exist on the database');
+        if (kDebugMode) {
+          print('Document does not exist on the database');
+        }
       }
     });
-
-    profileImage.value = imageFile;
 
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {

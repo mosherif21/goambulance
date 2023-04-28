@@ -11,10 +11,6 @@ import '../../../general/general_functions.dart';
 import '../components/addresses_page.dart';
 import '../components/edit_medical_history_page.dart';
 import '../components/edit_user_data_page.dart';
-import '../controllers/edit_user_data_controller.dart';
-
-
-
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -22,7 +18,6 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    Get.put(EditUserDataController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -57,8 +52,7 @@ class AccountScreen extends StatelessWidget {
                               Get.to(() => const AccountAddressesPage());
                               break;
                             case 2:
-                              Get.to(() =>
-                                  const EditMedicalHistoryPage());
+                              Get.to(() => const EditMedicalHistoryPage());
                               break;
                           }
                         },
@@ -86,10 +80,9 @@ class AccountScreen extends StatelessWidget {
                                 .signInWithGoogle();
                             if (returnMessage.compareTo('success') != 0) {
                               hideLoadingScreen();
-
                             }
                           },
-                          width: getScreenWidth(context)-100,
+                          width: getScreenWidth(context) - 100,
                           height: 50.0,
                         )
                       ],

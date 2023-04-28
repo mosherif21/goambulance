@@ -8,6 +8,7 @@ class SosMessageController extends GetxController {
   final contactName = ''.obs;
   final phoneNumber = ''.obs;
   final highlightSosMessage = false.obs;
+  final sosMessageDataLoaded = true.obs;
   String sosMessage = '';
 
   //controllers

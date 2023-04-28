@@ -19,6 +19,7 @@ class SosMessageController extends GetxController {
   final contactsList = <ContactItem>[].obs;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   late final AuthenticationRepository authRepo;
+
   //controllers
   final contactNameTextController = TextEditingController();
   final sosMessageController = TextEditingController();
@@ -33,18 +34,19 @@ class SosMessageController extends GetxController {
   @override
   void onReady() async {
     super.onReady();
-    sosMessageController.addListener(() {
-      if (sosMessageController.text.trim().isNotEmpty) {
-        highlightSosMessage.value = false;
-      }
-    });
-    contactNameTextController.addListener(() {
-      contactName.value = contactNameTextController.text.trim();
-    });
     contactsList.value = await firebasePatientDataAccess.getEmergencyContacts();
     sosMessage = authRepo.userInfo!.sosMessage;
     sosMessageController.text = sosMessage;
     sosMessageDataLoaded.value = true;
+    sosMessageController.addListener(() {
+      if (sosMessageController.text.trim().isNotEmpty) {
+        highlightSosMessage.value = false;
+      }
+      sosMessage = sosMessageController.text.trim();
+    });
+    contactNameTextController.addListener(() {
+      contactName.value = contactNameTextController.text.trim();
+    });
   }
 
   addContact() async {
@@ -83,7 +85,6 @@ class SosMessageController extends GetxController {
   }
 
   void saveSosMessage() async {
-    sosMessage = sosMessageController.text.trim();
     if (sosMessage.isNotEmpty) {
       showLoadingScreen();
       final functionStatus = await firebasePatientDataAccess.saveSosMessage(
@@ -100,6 +101,20 @@ class SosMessageController extends GetxController {
       }
     } else {
       highlightSosMessage.value = true;
+      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+    }
+  }
+
+  void sendSosMessage() async {
+    highlightSosMessage.value = sosMessage.isEmpty;
+    if (!highlightSosMessage.value && contactsList.isNotEmpty) {
+      showLoadingScreen();
+
+      hideLoadingScreen();
+    } else if (contactsList.isEmpty) {
+      showSnackBar(
+          text: 'missingEmergencyContact'.tr, snackBarType: SnackBarType.error);
+    } else {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
   }

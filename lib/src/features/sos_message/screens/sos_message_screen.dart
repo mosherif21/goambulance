@@ -8,6 +8,7 @@ import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/common_widgets/regular_card.dart';
 import '../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_form_field_multiline.dart';
 import '../components/add_emergency_contact.dart';
 import '../components/contact_item.dart';
@@ -126,6 +127,13 @@ class SosMessageScreen extends StatelessWidget {
                               enabled: true,
                               color: Colors.black,
                             ),
+                          ),
+                          const SizedBox(height: 40),
+                          RoundedElevatedButton(
+                            buttonText: 'sendSosMessage'.tr,
+                            onPressed: () => controller.sendSosMessage(),
+                            enabled: true,
+                            color: Colors.red,
                           ),
                         ],
                       )

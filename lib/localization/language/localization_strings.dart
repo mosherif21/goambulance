@@ -179,6 +179,7 @@ class Languages extends Translations {
           'yes': 'نعم',
           'no': 'لا',
           'enterMedicalHistory': 'يرجى إدخال سجلك الطبي لإكمال انشاء حسابك',
+          'sendSosMessage': 'أرسل رسالة الاستغاثة',
           'save': 'حفظ',
           'requiredFields':
               'يرجى إكمال جميع المعلومات المميزة باللون الأحمر بشكل صحيح',
@@ -229,6 +230,8 @@ class Languages extends Translations {
           'addContact': 'اضف جهة اتصال',
           'contactName': 'اسم جهة الاتصال',
           'enterContactName': 'أدخل اسم جهة الاتصال',
+          'missingEmergencyContact':
+              'الرجاء إضافة جهة اتصال طوارئ لاستخدام هذه الميزة',
           'contactNumber': 'رقم جهة الاتصال',
           'enterContactNumber': 'أدخل رقم جهة الاتصال',
           'contactInfo': 'الرجاء إدخال معلومات جهة الاتصال',
@@ -288,6 +291,9 @@ class Languages extends Translations {
           'emailHintLabel': 'Enter your E-Mail',
           'passwordLabel': 'Password',
           'passwordHintLabel': 'Enter your Password',
+          'missingEmergencyContact':
+              'Please add an emergency contact to use this feature',
+          'sendSosMessage': 'Send sos message',
           'forgotPassword': 'Forgot Password?',
           'or': 'OR',
           'noEmailAccount': 'Don\'t have an email account? Register with email',

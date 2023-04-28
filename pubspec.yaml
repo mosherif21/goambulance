@@ -27,7 +27,7 @@ dependencies:
   #image: ^4.0.15
   permission_handler: ^10.2.0
   translator: ^0.1.7
-  sms_advanced: ^1.0.2
+  flutter_sms: ^2.3.3
 
   #firebase dependencies
   firebase_core: ^2.3.0

@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
@@ -109,8 +111,23 @@ class SosMessageController extends GetxController {
     highlightSosMessage.value = sosMessage.isEmpty;
     if (!highlightSosMessage.value && contactsList.isNotEmpty) {
       showLoadingScreen();
-
-      hideLoadingScreen();
+      final contactNumbersList = <String>[];
+      for (var contact in contactsList) {
+        contactNumbersList.add(contact.contactNumber);
+      }
+      try {
+        await sendSMS(message: sosMessage, recipients: contactNumbersList);
+        hideLoadingScreen();
+        showSnackBar(
+            text: 'sendSosMessageSuccess'.tr,
+            snackBarType: SnackBarType.success);
+      } catch (err) {
+        if (kDebugMode) {
+          print(err.toString());
+          showSnackBar(
+              text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+        }
+      }
     } else if (contactsList.isEmpty) {
       showSnackBar(
           text: 'missingEmergencyContact'.tr, snackBarType: SnackBarType.error);

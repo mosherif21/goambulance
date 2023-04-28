@@ -258,6 +258,7 @@ class Languages extends Translations {
           'accountTitle1': 'بيانات المستخدم',
           'accountTitle2': 'العناوين المسجلة',
           'accountTitle3': 'السجل الطبي',
+          'sendSosMessageSuccess': 'تم إرسال رسالة الاستغاثة بنجاح',
           'egp': 'جنيها',
           'forMe': 'لي',
           'avgPrice': 'متوسط السعر',
@@ -293,7 +294,8 @@ class Languages extends Translations {
           'passwordHintLabel': 'Enter your Password',
           'missingEmergencyContact':
               'Please add an emergency contact to use this feature',
-          'sendSosMessage': 'Send sos message',
+          'sendSosMessage': 'Send SOS message',
+          'sendSosMessageSuccess': 'SOS message sent successfully',
           'forgotPassword': 'Forgot Password?',
           'or': 'OR',
           'noEmailAccount': 'Don\'t have an email account? Register with email',

@@ -66,14 +66,17 @@ class RegisterUserDataController extends GetxController {
 
   @override
   void onInit() {
-    final user = AuthenticationRepository.instance.fireUser.value;
-    if (user?.email != null) {
-      emailTextController.text = user!.email!;
-      makeEmailEditable = false;
+    final authRep = AuthenticationRepository.instance;
+    final user = authRep.fireUser.value!;
+    if (user.email != null) {
+      emailTextController.text = user.email!;
     }
-    final userName = user?.displayName ?? '';
+
+    makeEmailEditable = !authRep.isEmailAndPasswordLinked.value;
+
+    final userName = user.displayName ?? '';
     nameTextController.text = userName;
-    phoneNumber = user!.phoneNumber!;
+    phoneNumber = user.phoneNumber!;
     super.onInit();
   }
 

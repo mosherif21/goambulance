@@ -1,20 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/colors.dart';
+import 'package:goambulance/src/features/sos_message/controllers/sos_message_controller.dart';
 import 'package:line_icons/line_icon.dart';
 
-import '../../../../constants/colors.dart';
-import '../../../../general/general_functions.dart';
-import '../models.dart';
+import '../../../general/general_functions.dart';
 
-class MedicalHistoryItem extends StatelessWidget {
-  const MedicalHistoryItem({
+class ContactItemWidget extends StatelessWidget {
+  const ContactItemWidget({
     Key? key,
-    required this.diseaseItem,
+    required this.contactItem,
     required this.onDeletePressed,
   }) : super(key: key);
 
-  final DiseaseItem diseaseItem;
+  final ContactItem contactItem;
   final Function onDeletePressed;
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class MedicalHistoryItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AutoSizeText(
-                diseaseItem.diseaseName,
+                contactItem.contactName,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 15,
@@ -48,35 +48,33 @@ class MedicalHistoryItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  LineIcon.medicalNotes(
+                  LineIcon.user(
                     size: screenHeight * 0.06,
                     color: kDefaultColor,
                   ),
                   const SizedBox(height: 10),
-                  if (diseaseItem.diseaseMedicines.isNotEmpty)
-                    AutoSizeText(
-                      '${'medicineName'.tr}: ',
+                  AutoSizeText(
+                    '${'phoneLabel'.tr}: ',
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                  ),
+                  SizedBox(
+                    width: 70,
+                    child: AutoSizeText(
+                      contactItem.contactNumber,
                       style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
                       ),
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
                       maxLines: 1,
                     ),
-                  if (diseaseItem.diseaseMedicines.isNotEmpty)
-                    SizedBox(
-                      width: 60,
-                      child: AutoSizeText(
-                        diseaseItem.diseaseMedicines,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 12,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        softWrap: false,
-                        maxLines: 1,
-                      ),
-                    ),
+                  ),
                 ],
               )
             ],

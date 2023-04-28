@@ -290,7 +290,7 @@ class Languages extends Translations {
               'Choose a method to reset your password',
           'emailReset': 'Reset password via E-Mail Link',
           'numberReset': 'Reset password via Phone OTP Verification',
-          'phoneLabel': 'Phone Number',
+          'phoneLabel': 'Phone number',
           'phoneFieldLabel': 'Enter your Phone Number',
           'passwordResetLink':
               'Enter your E-Mail to get the password reset link',

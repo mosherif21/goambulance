@@ -21,7 +21,7 @@ class NoEmergencyContacts extends StatelessWidget {
           children: [
             Image.asset(
               kNoEmergencyContact,
-              height: screenHeight * 0.25,
+              height: screenHeight * 0.2,
             ),
             SizedBox(height: screenHeight * 0.02),
             AutoSizeText(

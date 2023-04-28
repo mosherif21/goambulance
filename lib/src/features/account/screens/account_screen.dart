@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../authentication/authentication_repository.dart';
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
-import '../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
 import '../components/addresses_page.dart';
 import '../components/edit_medical_history_page.dart';
@@ -88,9 +88,9 @@ class AccountScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  RegularElevatedButton(
+                  RoundedElevatedButton(
                     buttonText: 'logout'.tr,
-                    onPressed: () async => logoutDialogue(),
+                    onPressed: () => logoutDialogue(),
                     enabled: true,
                     color: Colors.black,
                   ),

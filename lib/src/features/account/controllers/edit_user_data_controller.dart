@@ -87,8 +87,7 @@ class EditUserDataController extends GetxController {
   }
 
   /*hatst5dm variable el userinfo ely fe el authentication repository  yet3rad beh el info el adema we b3d ma ye update kol el data aw myupdat4 we ydos
-   save ht update el data
-   fe firestore we te update variable userInfo be el data el gdeda */
+   save ht update el data fe firestore we te update variable userInfo be el data el gdeda */
   @override
   Future<void> onReady() async {
     super.onReady();

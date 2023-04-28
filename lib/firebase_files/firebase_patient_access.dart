@@ -64,8 +64,7 @@ class FirebasePatientDataAccess extends GetxController {
             firestoreUserRef.collection('diseases');
         for (var diseaseItem in userRegisterInfo.diseasesList) {
           {
-            var diseaseRef = fireStoreUserDiseasesRef.doc(
-                '${userRegisterInfo.diseasesList.indexOf(diseaseItem) + 1}');
+            var diseaseRef = fireStoreUserDiseasesRef.doc();
             userDataBatch.set(diseaseRef, diseaseItem.toJson());
           }
         }

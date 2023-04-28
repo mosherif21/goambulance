@@ -10,7 +10,7 @@ class UserInformation {
   final String phoneNumber;
   final String hypertensive;
   final String heartPatient;
-  final String sosMessage;
+  String sosMessage;
   final bool criticalUser;
   UserInformation({
     required this.name,

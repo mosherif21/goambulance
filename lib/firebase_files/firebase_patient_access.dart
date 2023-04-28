@@ -96,6 +96,7 @@ class FirebasePatientDataAccess extends GetxController {
             ContactItem(
               contactName: contactDoc['contactName'].toString(),
               contactNumber: contactDoc['contactNumber'].toString(),
+              contactDocumentId: contact.id,
             ),
           );
         }
@@ -106,6 +107,57 @@ class FirebasePatientDataAccess extends GetxController {
       if (kDebugMode) print(err.toString());
     }
     return contactsList;
+  }
+
+  Future<ContactItem?> addEmergencyContact({
+    required String contactName,
+    required String contactNumber,
+  }) async {
+    try {
+      final docRef =
+          await firestoreUserRef.collection('emergencyContacts').add({
+        'contactName': contactName,
+        'contactNumber': contactNumber,
+      });
+      return ContactItem(
+        contactName: contactName,
+        contactNumber: contactNumber,
+        contactDocumentId: docRef.id,
+      );
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+    }
+    return null;
+  }
+
+  Future<FunctionStatus> deleteDocument({
+    required DocumentReference documentRef,
+  }) async {
+    try {
+      await documentRef.delete();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> saveSosMessage({required String sosMessage}) async {
+    try {
+      await firestoreUserRef.update({'sosMessage': sosMessage});
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return FunctionStatus.failure;
+    }
   }
 
   Future<void> logoutFirebase() async {}

@@ -74,6 +74,20 @@ class SosMessageScreen extends StatelessWidget {
                                     textInputAction: TextInputAction.done,
                                     inputFormatter:
                                         LengthLimitingTextInputFormatter(160),
+                                    onSubmitted: () =>
+                                        controller.saveSosMessage(),
+                                  ),
+                                  const SizedBox(height: 15),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15.0),
+                                    child: RegularElevatedButton(
+                                      buttonText: 'save'.tr,
+                                      onPressed: () =>
+                                          controller.saveSosMessage(),
+                                      enabled: true,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -90,9 +104,9 @@ class SosMessageScreen extends StatelessWidget {
                                               in controller.contactsList)
                                             ContactItemWidget(
                                               contactItem: contactItem,
-                                              onDeletePressed: () => controller
-                                                  .contactsList
-                                                  .remove(contactItem),
+                                              onDeletePressed: () =>
+                                                  controller.deleteContact(
+                                                      contactItem: contactItem),
                                             )
                                         ],
                                       ),

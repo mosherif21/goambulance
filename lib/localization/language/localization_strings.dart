@@ -88,6 +88,8 @@ class Languages extends Translations {
           'normalRequest': 'طلب عادى',
           'sosRequest': 'طلب استغاثة',
           'services': 'الخدمات',
+          'deletingEmergencyContactFailed':
+              'فشل حذف جهة الاتصال ، يرجى المحاولة مرة أخرى',
           'recentRequests': 'الطلبات السابقة',
           'firstAidTips': 'نصائح الإسعافات الأولية',
           'firstAid': 'الإسعافات الأولية',
@@ -213,6 +215,11 @@ class Languages extends Translations {
           'phoneNumberAlreadyLinked': 'رقم الهاتف هذا مرتبط بالفعل بحساب آخر',
           'phoneNumberAlreadyYourAccount': 'رقم الهاتف هذا مرتبط بالفعل بحسابك',
           'cancel': 'الغاء',
+          'addingEmergencyContactFailed':
+              'فشلت إضافة جهة اتصال الطوارئ ، يرجى المحاولة مرة أخرى',
+          'savingSosMessageFailed':
+              'فشل حفظ رسالة الاستغاثة ، يرجى المحاولة مرة أخرى',
+          'sosMessageSaved': 'تم حفظ رسالة الاستغاثة بنجاح',
           'selectValue': 'اختر',
           'enterBackupPhoneNo': 'أدخل رقم هاتف احتياطي',
           'goToSettings': 'اذهب للاعدادات',
@@ -277,6 +284,7 @@ class Languages extends Translations {
           'loginWithFacebook': 'CONTINUE WITH FACEBOOK',
           'loginWithMobile': 'CONTINUE WITH PHONE NUMBER',
           'emailLabel': 'E-Mail',
+          'sosMessageSaved': 'SOS message saved successfully',
           'emailHintLabel': 'Enter your E-Mail',
           'passwordLabel': 'Password',
           'passwordHintLabel': 'Enter your Password',
@@ -291,6 +299,11 @@ class Languages extends Translations {
           'emailReset': 'Reset password via E-Mail Link',
           'numberReset': 'Reset password via Phone OTP Verification',
           'phoneLabel': 'Phone number',
+          'addingEmergencyContactFailed':
+              'Adding emergency contact failed, please try again',
+          'savingSosMessageFailed': 'Sos message save failed, please try again',
+          'deletingEmergencyContactFailed':
+              'Contact deletion failed, please try again',
           'phoneFieldLabel': 'Enter your Phone Number',
           'passwordResetLink':
               'Enter your E-Mail to get the password reset link',

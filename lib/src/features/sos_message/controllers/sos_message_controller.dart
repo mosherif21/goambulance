@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
+import 'package:goambulance/src/constants/enums.dart';
 
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../general/general_functions.dart';
 
 class SosMessageController extends GetxController {
   static SosMessageController get instance => Get.find();
@@ -16,6 +18,7 @@ class SosMessageController extends GetxController {
   String sosMessage = '';
   final contactsList = <ContactItem>[].obs;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
+  late final AuthenticationRepository authRepo;
   //controllers
   final contactNameTextController = TextEditingController();
   final sosMessageController = TextEditingController();
@@ -24,6 +27,7 @@ class SosMessageController extends GetxController {
   void onInit() {
     super.onInit();
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
+    authRepo = AuthenticationRepository.instance;
   }
 
   @override
@@ -31,22 +35,73 @@ class SosMessageController extends GetxController {
     super.onReady();
     sosMessageController.addListener(() {
       if (sosMessageController.text.trim().isNotEmpty) {
-        highlightSosMessage.value = true;
+        highlightSosMessage.value = false;
       }
     });
     contactNameTextController.addListener(() {
       contactName.value = contactNameTextController.text.trim();
     });
     contactsList.value = await firebasePatientDataAccess.getEmergencyContacts();
-    sosMessage = AuthenticationRepository.instance.userInfo!.sosMessage;
+    sosMessage = authRepo.userInfo!.sosMessage;
+    sosMessageController.text = sosMessage;
     sosMessageDataLoaded.value = true;
   }
 
-  addContact() {
-    RegularBottomSheet.hideBottomSheet();
-    contactsList.add(ContactItem(
-        contactName: contactName.value, contactNumber: phoneNumber.value));
-    contactNameTextController.clear();
+  addContact() async {
+    showLoadingScreen();
+    final contactItem = await firebasePatientDataAccess.addEmergencyContact(
+      contactName: contactName.value,
+      contactNumber: phoneNumber.value,
+    );
+    hideLoadingScreen();
+    if (contactItem != null) {
+      RegularBottomSheet.hideBottomSheet();
+      contactsList.add(contactItem);
+      contactNameTextController.clear();
+    } else {
+      showSnackBar(
+          text: 'addingEmergencyContactFailed'.tr,
+          snackBarType: SnackBarType.error);
+    }
+  }
+
+  deleteContact({required ContactItem contactItem}) async {
+    showLoadingScreen();
+    final contactDocumentId = firebasePatientDataAccess.firestoreUserRef
+        .collection('emergencyContacts')
+        .doc(contactItem.contactDocumentId);
+    final functionStatus = await firebasePatientDataAccess.deleteDocument(
+        documentRef: contactDocumentId);
+    hideLoadingScreen();
+    if (functionStatus == FunctionStatus.success) {
+      contactsList.remove(contactItem);
+    } else if (functionStatus == FunctionStatus.failure) {
+      showSnackBar(
+          text: 'deletingEmergencyContactFailed'.tr,
+          snackBarType: SnackBarType.error);
+    }
+  }
+
+  void saveSosMessage() async {
+    sosMessage = sosMessageController.text.trim();
+    if (sosMessage.isNotEmpty) {
+      showLoadingScreen();
+      final functionStatus = await firebasePatientDataAccess.saveSosMessage(
+          sosMessage: sosMessage);
+      authRepo.userInfo!.sosMessage = sosMessage;
+      hideLoadingScreen();
+      if (functionStatus == FunctionStatus.success) {
+        showSnackBar(
+            text: 'sosMessageSaved'.tr, snackBarType: SnackBarType.success);
+      } else if (functionStatus == FunctionStatus.failure) {
+        showSnackBar(
+            text: 'savingSosMessageFailed'.tr,
+            snackBarType: SnackBarType.error);
+      }
+    } else {
+      highlightSosMessage.value = true;
+      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+    }
   }
 
   @override
@@ -60,9 +115,11 @@ class SosMessageController extends GetxController {
 class ContactItem {
   final String contactName;
   final String contactNumber;
+  final String contactDocumentId;
   ContactItem({
     required this.contactName,
     required this.contactNumber,
+    required this.contactDocumentId,
   });
   Map<String, dynamic> toJson() {
     return {

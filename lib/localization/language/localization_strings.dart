@@ -119,12 +119,16 @@ class Languages extends Translations {
           'contactsPermission': 'اذن جهات الاتصال',
           'contactsPermissionDeniedForever':
               'تم رفض إذن جهات الاتصال إلى الأبد، يرجى تمكينه من الإعدادات',
+          'smsPermission': 'اذن الرسائل القصيرة',
+          'smsPermissionDeniedForever':
+              'تم رفض إذن الرسائل القصيرة إلى الأبد، يرجى تمكينه من الإعدادات',
           'enableLocationPermission': 'الرجاء تمكين اذن الموقع',
           'enableCameraPermission': 'الرجاء تمكين اذن الكاميرا',
           'enableStoragePermission': 'الرجاء تمكين اذن الذاكرة',
           'enableCallPermission': 'الرجاء تمكين اذن المكالمات',
           'enableMicPermission': 'الرجاء تمكين اذن المايكروفون',
           'enableContactsPermission': 'الرجاء تمكين اذن جهات الاتصال',
+          'enableSmsPermission': 'الرجاء قبول إذن الرسائل القصيرة',
           'firstAidTips1': 'غياب الوعى',
           'firstAidTips2': 'الانعاش القلبى الرئوى',
           'firstAidTips3': 'انسداد مجرى الهواء',
@@ -449,6 +453,10 @@ class Languages extends Translations {
           'selectValue': 'Select',
           'pickGallery': 'Pick from gallery',
           'capturePhoto': 'Capture a photo',
+          'smsPermission': 'SMS permission',
+          'smsPermissionDeniedForever':
+              'SMS permission denied forever please enable it from the settings',
+          'enableSmsPermission': 'Please accept SMS permission',
           'yes': 'Yes',
           'no': 'No',
           'don\'tKnow': 'Don\'t know',

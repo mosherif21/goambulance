@@ -297,9 +297,9 @@ Future<bool> handleStoragePermission() async => await handleGeneralPermission(
     );
 Future<bool> handleSmsPermission() async => await handleGeneralPermission(
       permission: Permission.sms,
-      deniedSnackBarText: 'enableStoragePermission'.tr,
-      deniedForeverSnackBarTitle: 'storagePermission'.tr,
-      deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
+      deniedSnackBarText: 'enableSmsPermission'.tr,
+      deniedForeverSnackBarTitle: 'smsPermission'.tr,
+      deniedForeverSnackBarBody: 'smsPermissionDeniedForever'.tr,
     );
 
 Future<bool> handleGeneralPermission({

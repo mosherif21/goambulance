@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 import '../../../../constants/assets_strings.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../general/general_functions.dart';
 import 'add_disease.dart';
 
@@ -41,7 +41,7 @@ class NoMedicalHistory extends StatelessWidget {
             const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: RegularElevatedButton(
+              child: RoundedElevatedButton(
                 buttonText: 'addAllergiesOrDiseases'.tr,
                 onPressed: () => RegularBottomSheet.showRegularBottomSheet(
                   AddDisease(controller: controller),

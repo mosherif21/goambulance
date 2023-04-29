@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
 import 'add_emergency_contact.dart';
 
@@ -36,7 +36,7 @@ class NoEmergencyContacts extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            RegularElevatedButton(
+            RoundedElevatedButton(
               buttonText: 'addContact'.tr,
               onPressed: () => RegularBottomSheet.showRegularBottomSheet(
                 const AddEmergencyContact(),

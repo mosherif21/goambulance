@@ -122,7 +122,7 @@ class SosMessageScreen extends StatelessWidget {
                                                     contactItem: contactItem),
                                           ),
                                         const SizedBox(height: 10),
-                                        RegularElevatedButton(
+                                        RoundedElevatedButton(
                                           buttonText: 'addContact'.tr,
                                           onPressed: () => RegularBottomSheet
                                               .showRegularBottomSheet(

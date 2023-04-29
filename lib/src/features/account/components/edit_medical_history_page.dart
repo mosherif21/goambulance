@@ -10,6 +10,7 @@ import '../../../general/common_widgets/dropdown_list.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/common_widgets/regular_card.dart';
 import '../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../general/common_widgets/text_header.dart';
 import 'models.dart';
@@ -197,7 +198,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15.0, right: 15.0),
-                                    child: RegularElevatedButton(
+                                    child: RoundedElevatedButton(
                                       buttonText: 'addAllergiesOrDiseases'.tr,
                                       onPressed: () => RegularBottomSheet
                                           .showRegularBottomSheet(

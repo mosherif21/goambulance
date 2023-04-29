@@ -27,8 +27,7 @@ class HomeScreenController extends GetxController {
 
   @override
   void onReady() {
-    handleLocation();
-    handleSmsPermission();
+    handleLocation().whenComplete(() => handleSmsPermission());
     super.onReady();
   }
 

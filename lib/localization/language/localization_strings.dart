@@ -100,8 +100,7 @@ class Languages extends Translations {
           'notifications': 'الاشعارات',
           'aboutUs': 'معلومات عنا',
           'locationService': 'خدمة الموقع',
-          'enableLocationService':
-              'الرجاء تمكين خدمة الموقع لاستخدام هذه الميزة',
+          'enableLocationService': 'الرجاء تمكين خدمة الموقع',
           'locationPermission': 'إذن الموقع',
           'locationPermissionDeniedForever':
               'تم رفض إذن المواقع إلى الأبد، يرجى تمكينه من الإعدادات',
@@ -120,18 +119,12 @@ class Languages extends Translations {
           'contactsPermission': 'اذن جهات الاتصال',
           'contactsPermissionDeniedForever':
               'تم رفض إذن جهات الاتصال إلى الأبد، يرجى تمكينه من الإعدادات',
-          'enableLocationPermission':
-              'الرجاء تمكين اذن الموقع لاستخدام هذه الميزة',
-          'enableCameraPermission':
-              'الرجاء تمكين اذن الكاميرا لاستخدام هذه الميزة',
-          'enableStoragePermission':
-              'الرجاء تمكين اذن الذاكرة لاستخدام هذه الميزة',
-          'enableCallPermission':
-              'الرجاء تمكين اذن المكالمات لاستخدام هذه الميزة',
-          'enableMicPermission':
-              'الرجاء تمكين اذن المايكروفون لاستخدام هذه الميزة',
-          'enableContactsPermission':
-              'الرجاء تمكين اذن جهات الاتصال لاستخدام هذه الميزة',
+          'enableLocationPermission': 'الرجاء تمكين اذن الموقع',
+          'enableCameraPermission': 'الرجاء تمكين اذن الكاميرا',
+          'enableStoragePermission': 'الرجاء تمكين اذن الذاكرة',
+          'enableCallPermission': 'الرجاء تمكين اذن المكالمات',
+          'enableMicPermission': 'الرجاء تمكين اذن المايكروفون',
+          'enableContactsPermission': 'الرجاء تمكين اذن جهات الاتصال',
           'firstAidTips1': 'غياب الوعى',
           'firstAidTips2': 'الانعاش القلبى الرئوى',
           'firstAidTips3': 'انسداد مجرى الهواء',
@@ -400,18 +393,12 @@ class Languages extends Translations {
           'contactsPermission': 'Contacts permission',
           'contactsPermissionDeniedForever':
               'Contacts permission denied forever please enable it from the settings',
-          'enableLocationPermission':
-              'Please accept location permission to use this feature',
-          'enableCameraPermission':
-              'Please accept camera permission to use this feature',
-          'enableStoragePermission':
-              'Please accept storage permission to use this feature',
-          'enableCallPermission':
-              'Please accept call permission to use this feature',
-          'enableMicPermission':
-              'Please accept microphone permission to use this feature',
-          'enableContactsPermission':
-              'Please accept contacts permission to use this feature ',
+          'enableLocationPermission': 'Please accept location permission',
+          'enableCameraPermission': 'Please accept camera permission',
+          'enableStoragePermission': 'Please accept storage permission',
+          'enableCallPermission': 'Please accept call permission',
+          'enableMicPermission': 'Please accept microphone permission',
+          'enableContactsPermission': 'Please accept contacts permission',
           'firstAidTips1': 'Rapid assessment for patient',
           'firstAidTips2': 'Cardiopulmonary Resuscitation',
           'firstAidTips3': 'Choking',

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/account/controllers/edit_medical_history_controller.dart';
 import 'package:goambulance/src/features/account/controllers/edit_user_data_controller.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
@@ -22,7 +23,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(EditUserDataController());
+    final controller = Get.put(EditMedicalHistoryController());
     return Scaffold(
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),
@@ -143,6 +144,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                               offIcon: Icons.close,
                               onSwitched: (bool state) =>
                                   controller.heartPatient = state,
+                              keyInternal: controller.heartPatientKey,
                             ),
                           ],
                         )
@@ -225,7 +227,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                     child: RegularElevatedButton(
                       buttonText: 'save'.tr,
-                      onPressed: () => controller.savePersonalInformation(),
+                      onPressed: () => controller.updateMedicalInfo(),
                       enabled: true,
                       color: Colors.black,
                     ),

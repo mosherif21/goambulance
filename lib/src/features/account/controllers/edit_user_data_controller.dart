@@ -31,10 +31,6 @@ class EditUserDataController extends GetxController {
   final phoneTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
   final birthDateController = DateRangePickerController();
-  final diseaseNameTextController = TextEditingController();
-  final medicinesTextController = TextEditingController();
-  final medicalHistoryScrollController = ScrollController();
-  final additionalInformationTextController = TextEditingController();
 
   //gender
   Gender? gender;
@@ -58,21 +54,9 @@ class EditUserDataController extends GetxController {
 
   bool makeEmailEditable = true;
 
-  //medical history
-  var diseasesList = <DiseaseItem>[].obs;
-  final highlightBloodType = false.obs;
-  bool hypertensivePatient = false;
-  bool heartPatient = false;
-  final diseaseName = ''.obs;
-  final hypertensiveDropdownController = TextEditingController();
-
-  final diabetesDropdownController = TextEditingController();
-
-  final heartPatientDropdownController = TextEditingController();
-
-  final bloodTypeDropdownController = TextEditingController();
   final user = AuthenticationRepository.instance.fireUser.value;
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
+
   @override
   void onInit() {
     super.onInit();
@@ -101,49 +85,16 @@ class EditUserDataController extends GetxController {
     final firestoreInstance = FirebaseFirestore.instance;
     final documentReference = firestoreInstance.collection("users").doc(userId);
 
-    documentReference.get().then((documentSnapshot) {
-      if (documentSnapshot.exists) {
-        bloodTypeDropdownController.text =
-            documentSnapshot.get('bloodType').toString();
-        diabetesDropdownController.text =
-            documentSnapshot.get('diabetic').toString();
-        if (documentSnapshot.get('hypertensive').toString() == 'No') {
-          hypertensivePatient = false;
-        } else if (documentSnapshot.get('hypertensive').toString() == 'Yes') {
-          hypertensivePatient = true;
-          hypertensiveKey.currentState!.action();
-        }
-        if (documentSnapshot.get('heartPatient').toString() == 'No') {
-          heartPatient = false;
-        } else {
-          heartPatient = true;
-        }
-      } else {
-        if (kDebugMode) {
-          print('Document does not exist on the database');
-        }
-      }
-    });
-
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {
         highlightName.value = false;
       }
     });
-    bloodTypeDropdownController.addListener(() {
-      final bloodTypeValue = bloodTypeDropdownController.text.trim();
-      if (bloodTypeValue.isNotEmpty ||
-          bloodTypeValue.compareTo('pickBloodType'.tr) != 0) {
-        highlightBloodType.value = false;
-      }
-    });
+
     emailTextController.addListener(() {
       if (emailTextController.text.trim().isEmail) {
         highlightEmail.value = false;
       }
-    });
-    diseaseNameTextController.addListener(() {
-      diseaseName.value = diseaseNameTextController.text.trim();
     });
   }
 
@@ -218,69 +169,47 @@ class EditUserDataController extends GetxController {
         !highlightBirthdate.value &&
         !highlightProfilePic.value &&
         !highlightNationalIdPick.value) {
-      Get.to(
-        () => const MedicalHistoryInsertPage(),
-        transition: getPageTransition(),
-      );
+      savePersonalInformation();
+
     } else {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
   }
 
   Future<void> savePersonalInformation() async {
-    final bloodType = bloodTypeDropdownController.text;
-    final diabetic = diabetesDropdownController.text.isEmpty
-        ? 'no'.tr
-        : diabetesDropdownController.text;
-    highlightBloodType.value =
-        bloodType.compareTo('pickBloodType'.tr) == 0 || bloodType.isEmpty;
-    if (!highlightBloodType.value) {
       displayAlertDialog(
         title: 'confirm'.tr,
         body: 'personalInfoShare'.tr,
         positiveButtonText: 'agree'.tr,
         negativeButtonText: 'disagree'.tr,
         positiveButtonOnPressed: () =>
-            registerUserData(bloodType: bloodType, diabetic: diabetic),
+            updateUserInfoData(),
         negativeButtonOnPressed: () => Get.back(),
         mainIcon: Icons.check_circle_outline,
         color: SweetSheetColor.NICE,
       );
-    } else {
-      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
-    }
+
   }
 
-  void registerUserData(
-      {required String bloodType, required String diabetic}) async {
+  void updateUserInfoData() async {
     Get.back();
     showLoadingScreen();
     final name = nameTextController.text.trim();
     final email = emailTextController.text.trim();
     final nationalId = nationalIdTextController.text.trim();
     final birthDate = birthDateController.selectedDate;
-    final userInfo = UserInformation(
+
+
+
+    final functionStatus =
+        await FirebasePatientDataAccess.instance.updateUserDataInfo(
+      profilePic: profileImage.value!,
+      nationalID: iDImage.value!,
       name: name,
       email: email,
       nationalId: nationalId,
-      birthDate: birthDate!,
-      gender: gender == Gender.male ? 'male' : 'female',
-      bloodType: bloodType,
-      diabetesPatient: diabetic,
-      hypertensive: hypertensivePatient ? 'Yes' : 'No',
-      heartPatient: heartPatient ? 'Yes' : 'No',
-      additionalInformation: additionalInformationTextController.text.trim(),
-      phoneNumber: phoneNumber,
-      sosMessage: '',
-      criticalUser: false,
-    );
-
-    final functionStatus =
-        await FirebasePatientDataAccess.instance.saveUserPersonalInformation(
-      userRegisterInfo: userInfo,
-      profilePic: profileImage.value!,
-      nationalID: iDImage.value!,
-      diseasesList: diseasesList,
+      gender: '',
+      birthdate: birthDate,
     );
     if (functionStatus == FunctionStatus.success) {
       hideLoadingScreen();
@@ -299,10 +228,6 @@ class EditUserDataController extends GetxController {
     phoneTextController.dispose();
     nationalIdTextController.dispose();
     birthDateController.dispose();
-    diseaseNameTextController.dispose();
-    medicinesTextController.dispose();
-    medicalHistoryScrollController.dispose();
-    additionalInformationTextController.dispose();
     super.onClose();
   }
 }

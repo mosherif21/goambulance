@@ -23,6 +23,7 @@ class FirebasePatientDataAccess extends GetxController {
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserRef;
   late final Reference userStorageReference;
+
   @override
   void onInit() {
     userId = AuthenticationRepository.instance.fireUser.value?.uid;
@@ -150,6 +151,87 @@ class FirebasePatientDataAccess extends GetxController {
   Future<FunctionStatus> saveSosMessage({required String sosMessage}) async {
     try {
       await firestoreUserRef.update({'sosMessage': sosMessage});
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> updateUserDataInfo({
+    required String name,
+    required String email,
+    required String nationalId,
+    required String gender,
+    required DateTime? birthdate,
+     XFile? profilePic,
+     XFile? nationalID,
+  }) async {
+    try {
+      if (AppInit.isWeb) {
+        await userStorageReference
+            .child('profilePic')
+            .putData(await profilePic!.readAsBytes());
+        await userStorageReference
+            .child('nationalId')
+            .putData(await nationalID!.readAsBytes());
+      } else {
+        await userStorageReference
+            .child('profilePic')
+            .putFile(File(profilePic!.path));
+        await userStorageReference
+            .child('nationalId')
+            .putFile(File(nationalID!.path));
+      }
+      await firestoreUserRef.update({
+        'name': name,
+        'email': email,
+        'nationalId': nationalId,
+        'gender': gender,
+        'birthdate': birthdate
+      });
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> updateMedicalHistory({
+    required String bloodType,
+    required String diabetesPatient,
+    required String additionalInformation,
+    required String hypertensive,
+    required String heartPatient,
+    required List<DiseaseItem> diseasesList,
+  }) async {
+    try {
+      await firestoreUserRef.update({
+        'bloodType': bloodType,
+        'diabetic': diabetesPatient,
+        'additionalInformation': additionalInformation,
+        'hypertensive': hypertensive,
+        'heartPatient': heartPatient
+      });
+      final userDataBatch = fireStore.batch();
+      if (diseasesList.isNotEmpty) {
+        final fireStoreUserDiseasesRef =
+            firestoreUserRef.collection('diseases');
+        for (var diseaseItem in diseasesList) {
+          {
+            var diseaseRef = fireStoreUserDiseasesRef.doc();
+            userDataBatch.update(diseaseRef, diseaseItem.toJson());
+          }
+        }
+      }
+      await userDataBatch.commit();
+      AuthenticationRepository.instance.isUserRegistered = true;
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

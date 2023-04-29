@@ -1,12 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/account/components/models.dart';
-import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rolling_switch/rolling_switch.dart';
@@ -15,7 +12,6 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
 import '../../../../firebase_files/firebase_patient_access.dart';
-import '../../../constants/app_init_constants.dart';
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
@@ -24,6 +20,10 @@ class EditUserDataController extends GetxController {
 
   //vars
   late final String phoneNumber;
+  late final String oldName;
+  late final String oldEmail;
+  late final String oldNationalId;
+  late final DateTime oldBirthDate;
 
   //controllers
   final nameTextController = TextEditingController();
@@ -68,6 +68,10 @@ class EditUserDataController extends GetxController {
     final userName = user?.displayName ?? '';
     nameTextController.text = userName;
     phoneNumber = user!.phoneNumber!;
+    nationalIdTextController.text =
+        AuthenticationRepository.instance.userInfo!.nationalId;
+
+    //checkPersonalInformation();
   }
 
   /*hatst5dm variable el userinfo ely fe el authentication repository  yet3rad beh el info el adema we b3d ma ye update kol el data aw myupdat4 we ydos
@@ -76,14 +80,19 @@ class EditUserDataController extends GetxController {
   void onReady() async {
     super.onReady();
     final userId = AuthenticationRepository.instance.fireUser.value!.uid;
-    final storageRef =
+    final storageProfileRef =
         FirebaseStorage.instance.ref().child('users/$userId/profilePic');
-    var imageData = await storageRef.getData();
+    var imageData = await storageProfileRef.getData();
     XFile imageFile = XFile.fromData(imageData!);
     profileImage.value = imageFile;
     isProfileImageAdded.value = true;
-    final firestoreInstance = FirebaseFirestore.instance;
-    final documentReference = firestoreInstance.collection("users").doc(userId);
+
+    final storageIdRef =
+        FirebaseStorage.instance.ref().child('users/$userId/nationalId');
+    var idData = await storageIdRef.getData();
+    XFile idFile = XFile.fromData(idData!);
+    iDImage.value = idFile;
+    isNationalIDImageAdded.value = true;
 
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {
@@ -96,6 +105,26 @@ class EditUserDataController extends GetxController {
         highlightEmail.value = false;
       }
     });
+    final nationalId = nationalIdTextController.text;
+    if (NIDInfo.NIDCheck(nid: nationalId)) {
+      try {
+        final nationalIdData = NIDInfo(nid: nationalId);
+        FocusManager.instance.primaryFocus?.unfocus();
+        gender =
+            nationalIdData.sex.contains('Male') ? Gender.male : Gender.female;
+        genderRadioKey.currentState?.selectButton(gender!);
+        final birthDate = nationalIdData.birthDay;
+        birthDateController.displayDate = birthDate;
+        birthDateController.selectedDate =
+            DateTime(birthDate.year, birthDate.month, birthDate.day);
+        highlightNationalId.value = false;
+        highlightGender.value = false;
+        highlightBirthdate.value = false;
+        FocusManager.instance.primaryFocus?.unfocus();
+      } catch (e) {
+        if (kDebugMode) print(e.toString());
+      }
+    }
   }
 
   Future<void> pickProfilePic() async {
@@ -170,25 +199,22 @@ class EditUserDataController extends GetxController {
         !highlightProfilePic.value &&
         !highlightNationalIdPick.value) {
       savePersonalInformation();
-
     } else {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
   }
 
   Future<void> savePersonalInformation() async {
-      displayAlertDialog(
-        title: 'confirm'.tr,
-        body: 'personalInfoShare'.tr,
-        positiveButtonText: 'agree'.tr,
-        negativeButtonText: 'disagree'.tr,
-        positiveButtonOnPressed: () =>
-            updateUserInfoData(),
-        negativeButtonOnPressed: () => Get.back(),
-        mainIcon: Icons.check_circle_outline,
-        color: SweetSheetColor.NICE,
-      );
-
+    displayAlertDialog(
+      title: 'confirm'.tr,
+      body: 'personalInfoShare'.tr,
+      positiveButtonText: 'agree'.tr,
+      negativeButtonText: 'disagree'.tr,
+      positiveButtonOnPressed: () => updateUserInfoData(),
+      negativeButtonOnPressed: () => Get.back(),
+      mainIcon: Icons.check_circle_outline,
+      color: SweetSheetColor.NICE,
+    );
   }
 
   void updateUserInfoData() async {
@@ -199,21 +225,18 @@ class EditUserDataController extends GetxController {
     final nationalId = nationalIdTextController.text.trim();
     final birthDate = birthDateController.selectedDate;
 
-
-
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateUserDataInfo(
-      profilePic: profileImage.value!,
-      nationalID: iDImage.value!,
+      profilePic: profileImage.value,
+      nationalID: iDImage.value,
       name: name,
       email: email,
       nationalId: nationalId,
-      gender: '',
+      gender: gender == Gender.male ? 'male' : 'female',
       birthdate: birthDate,
     );
     if (functionStatus == FunctionStatus.success) {
       hideLoadingScreen();
-      AppInit.goToInitPage();
     } else {
       hideLoadingScreen();
       showSnackBar(

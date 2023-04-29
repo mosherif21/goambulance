@@ -13,11 +13,10 @@ import '../controllers/sos_message_controller.dart';
 class AddEmergencyContact extends StatelessWidget {
   const AddEmergencyContact({
     Key? key,
-    required this.controller,
   }) : super(key: key);
-  final SosMessageController controller;
   @override
   Widget build(BuildContext context) {
+    final controller = SosMessageController.instance;
     return Container(
       padding: const EdgeInsets.all(30.0),
       child: Column(

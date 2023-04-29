@@ -180,26 +180,27 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                                               ),
                                             );
                                           }
-                                        })
+                                        }),
+                                  const SizedBox(height: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15.0),
+                                    child: RegularElevatedButton(
+                                      buttonText: 'addAllergiesOrDiseases'.tr,
+                                      onPressed: () => RegularBottomSheet
+                                          .showRegularBottomSheet(
+                                        AddDisease(controller: controller),
+                                      ),
+                                      enabled: true,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ],
                               )
-                            : const NoMedicalHistory(),
+                            : NoMedicalHistory(controller: controller),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: RegularElevatedButton(
-                      buttonText: 'addAllergiesOrDiseases'.tr,
-                      onPressed: () =>
-                          RegularBottomSheet.showRegularBottomSheet(
-                        AddDisease(controller: controller),
-                      ),
-                      enabled: true,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
                   RegularCard(
                     highlightRed: false,
                     child: Column(

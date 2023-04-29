@@ -42,6 +42,7 @@ class SosMessageController extends GetxController {
     contactsList.value = await firebasePatientDataAccess.getEmergencyContacts();
     savedSosMessage = authRepo.userInfo!.sosMessage;
     sosMessageController.text = savedSosMessage;
+    sosMessage = savedSosMessage;
     sosMessageDataLoaded.value = true;
     sosMessageController.addListener(() {
       if (sosMessageController.text.trim().isNotEmpty) {
@@ -147,7 +148,7 @@ class SosMessageController extends GetxController {
               snackBarType: SnackBarType.error);
         }
       }
-    } else if (highlightSosMessage.value && contactsList.isEmpty) {
+    } else if (highlightSosMessage.value) {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else if (contactsList.isEmpty) {
       showSnackBar(

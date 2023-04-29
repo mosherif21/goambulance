@@ -52,12 +52,12 @@ class SosMessageScreen extends StatelessWidget {
                             () => RegularCard(
                               highlightRed:
                                   controller.highlightSosMessage.value,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: AutoSizeText(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AutoSizeText(
                                       'sosMessageHeader'.tr,
                                       style: const TextStyle(
                                         fontSize: 18,
@@ -65,24 +65,20 @@ class SosMessageScreen extends StatelessWidget {
                                       ),
                                       maxLines: 2,
                                     ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  TextFormFieldMultiline(
-                                    labelText: 'sosMessage'.tr,
-                                    hintText: 'enterSosMessage'.tr,
-                                    textController:
-                                        controller.sosMessageController,
-                                    textInputAction: TextInputAction.done,
-                                    inputFormatter:
-                                        LengthLimitingTextInputFormatter(160),
-                                    onSubmitted: () =>
-                                        controller.onSaveSosMessageClick(),
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0),
-                                    child: Obx(
+                                    const SizedBox(height: 10),
+                                    TextFormFieldMultiline(
+                                      labelText: 'sosMessage'.tr,
+                                      hintText: 'enterSosMessage'.tr,
+                                      textController:
+                                          controller.sosMessageController,
+                                      textInputAction: TextInputAction.done,
+                                      inputFormatter:
+                                          LengthLimitingTextInputFormatter(160),
+                                      onSubmitted: () =>
+                                          controller.onSaveSosMessageClick(),
+                                    ),
+                                    const SizedBox(height: 15),
+                                    Obx(
                                       () => RegularElevatedButton(
                                         buttonText: 'save'.tr,
                                         onPressed: () =>
@@ -92,8 +88,8 @@ class SosMessageScreen extends StatelessWidget {
                                         color: Colors.black,
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -101,51 +97,46 @@ class SosMessageScreen extends StatelessWidget {
                             highlightRed: false,
                             child: Obx(
                               () => controller.contactsList.isNotEmpty
-                                  ? StretchingOverscrollIndicator(
-                                      axisDirection: AxisDirection.down,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(10),
-                                            child: AutoSizeText(
-                                              'savedEmergencyContacts'.tr,
-                                              style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w800,
-                                              ),
-                                              maxLines: 2,
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: AutoSizeText(
+                                            'savedEmergencyContacts'.tr,
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w800,
                                             ),
+                                            maxLines: 2,
                                           ),
-                                          for (var contactItem
-                                              in controller.contactsList)
-                                            ContactItemWidget(
-                                              contactItem: contactItem,
-                                              onDeletePressed: () =>
-                                                  controller.deleteContact(
-                                                      contactItem: contactItem),
-                                            )
-                                        ],
-                                      ),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        for (var contactItem
+                                            in controller.contactsList)
+                                          ContactItemWidget(
+                                            contactItem: contactItem,
+                                            onDeletePressed: () =>
+                                                controller.deleteContact(
+                                                    contactItem: contactItem),
+                                          ),
+                                        const SizedBox(height: 10),
+                                        RegularElevatedButton(
+                                          buttonText: 'addContact'.tr,
+                                          onPressed: () => RegularBottomSheet
+                                              .showRegularBottomSheet(
+                                            const AddEmergencyContact(),
+                                          ),
+                                          enabled: true,
+                                          color: Colors.black,
+                                        ),
+                                      ],
                                     )
                                   : const NoEmergencyContacts(),
                             ),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: RegularElevatedButton(
-                              buttonText: 'addContact'.tr,
-                              onPressed: () =>
-                                  RegularBottomSheet.showRegularBottomSheet(
-                                AddEmergencyContact(controller: controller),
-                              ),
-                              enabled: true,
-                              color: Colors.black,
-                            ),
-                          ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 20),
                           RoundedElevatedButton(
                             buttonText: 'sendSosMessage'.tr,
                             onPressed: () => controller.sendSosMessage(),

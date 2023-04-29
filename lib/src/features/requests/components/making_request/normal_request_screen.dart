@@ -194,28 +194,32 @@ class NormalRequestScreen extends StatelessWidget {
                                                   onDeletePressed: () =>
                                                       controller.diseasesList
                                                           .remove(diseaseItem),
-                                                )
+                                                ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 15.0, right: 15.0),
+                                                child: RegularElevatedButton(
+                                                  buttonText:
+                                                      'addAllergiesOrDiseases'
+                                                          .tr,
+                                                  onPressed: () =>
+                                                      RegularBottomSheet
+                                                          .showRegularBottomSheet(
+                                                    AddDisease(
+                                                        controller: controller),
+                                                  ),
+                                                  enabled: true,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
                                             ],
                                           )
-                                        : const NoMedicalHistory(),
+                                        : NoMedicalHistory(
+                                            controller: controller),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 15.0, right: 15.0),
-                              child: RegularElevatedButton(
-                                buttonText: 'addAllergiesOrDiseases'.tr,
-                                onPressed: () =>
-                                    RegularBottomSheet.showRegularBottomSheet(
-                                  AddDisease(controller: controller),
-                                ),
-                                enabled: true,
-                                color: Colors.black,
-                              ),
-                            ),
-                            const SizedBox(height: 10.0),
                           ],
                         )
                       : const SizedBox.shrink()),

@@ -184,7 +184,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                                         })
                                 ],
                               )
-                            : const NoMedicalHistory(),
+                            : NoMedicalHistory(controller: null),
                       ),
                     ),
                   ),
@@ -194,7 +194,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                       buttonText: 'addAllergiesOrDiseases'.tr,
                       onPressed: () =>
                           RegularBottomSheet.showRegularBottomSheet(
-                        AddDisease(controller: controller),
+                        AddDisease(controller: null),
                       ),
                       enabled: true,
                       color: Colors.black,

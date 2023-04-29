@@ -82,7 +82,7 @@ class ContactItemWidget extends StatelessWidget {
           IconButton(
             icon: const Icon(
               Icons.delete,
-              size: 30,
+              size: 35,
               color: Colors.red,
             ),
             onPressed: () => onDeletePressed(),

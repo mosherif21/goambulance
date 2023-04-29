@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:goambulance/localization/language/language_functions.dart';
+import 'package:get/get.dart';
 
 import '../../../../../general/general_functions.dart';
 import '../../../controllers/making_request_location_controller.dart';
@@ -53,7 +52,6 @@ class MakingRequestMapSearch extends StatelessWidget {
                         fontWeight: FontWeight.w700,
                       ),
                       overflow: TextOverflow.ellipsis,
-                      locale: getLocale(),
                       softWrap: false,
                     ),
                   ),

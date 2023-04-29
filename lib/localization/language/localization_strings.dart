@@ -464,7 +464,7 @@ class Languages extends Translations {
           'enterContactName': 'Enter contact name',
           'contactNumber': 'Contact\'s number',
           'enterContactNumber': 'Enter contact\'s number',
-          'searchingForHospitals': 'searching for hospitals',
+          'searchingForHospitals': 'Searching for hospitals',
           'enterMedicalHistory':
               'Please enter your Medical History to complete your account registration',
           'save': 'Save',

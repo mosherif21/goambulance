@@ -53,7 +53,7 @@ dependencies:
   geoflutterfire2: ^2.3.15
 
   #authentication dependencies
-  google_sign_in: ^6.0.2
+  google_sign_in: ^6.1.0
   flutter_facebook_auth: ^5.0.7
 
   #UI dependencies

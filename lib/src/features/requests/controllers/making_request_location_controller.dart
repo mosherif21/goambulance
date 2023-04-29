@@ -11,6 +11,7 @@ import 'package:geocoder2/geocoder2.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -85,7 +86,9 @@ class MakingRequestLocationController extends GetxController {
   @override
   void onReady() async {
     await locationInit();
-    setupLocationServiceListener();
+    if (!AppInit.isWeb) {
+      setupLocationServiceListener();
+    }
     await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
     initMapController();
     await _loadMarkersIcon();
@@ -117,23 +120,14 @@ class MakingRequestLocationController extends GetxController {
       googleMapController = controller;
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
+      if (AppInit.isWeb) {
+        animateCamera(locationLatLng: initialCameraLatLng);
+      }
     });
   }
 
   Future<void> onRequestPress() async {
     if (allowedLocation) {
-      // GeoFirePoint hospital1Location = geoFire.point(
-      //     latitude: 31.21573006389394, longitude: 29.934194294709147);
-      // _firestore
-      //     .collection('hospitalsLocations')
-      //     .doc('7mpvFxKb6wZJI3o1zz4P')
-      //     .set({'position': hospital1Location.data});
-      // GeoFirePoint hospital2Location = geoFire.point(
-      //     latitude: 31.231056254827408, longitude: 29.95132607711647);
-      // _firestore
-      //     .collection('hospitalsLocations')
-      //     .doc('lWSQhM1ngXfq1kkybOBK')
-      //     .set({'position': hospital2Location.data});
       await choosingHospitalChanges();
       if (kDebugMode) {
         print('chosen location LatLng: $currentChosenLatLng');
@@ -269,10 +263,10 @@ class MakingRequestLocationController extends GetxController {
                   routeToHospital = route;
                   if (routeToHospital != null) {
                     mapPolyLines.add(routeToHospital!);
+                    animateToLatLngBounds(
+                        latLngBounds: getLatLngBounds(
+                            latLngList: routeToHospital!.points));
                   }
-                  animateToLatLngBounds(
-                      latLngBounds:
-                          getLatLngBounds(latLngList: routeToHospital!.points));
                 });
               }
               searchedHospitals.add(foundHospital);
@@ -306,9 +300,9 @@ class MakingRequestLocationController extends GetxController {
       toLocation: hospitalItem.location,
       routeId: 'routeToHospital',
     );
-    animateToLatLngBounds(
-        latLngBounds: getLatLngBounds(latLngList: routeToHospital!.points));
     if (routeToHospital != null) {
+      animateToLatLngBounds(
+          latLngBounds: getLatLngBounds(latLngList: routeToHospital!.points));
       mapPolyLines.add(routeToHospital!);
     }
   }
@@ -319,7 +313,7 @@ class MakingRequestLocationController extends GetxController {
       required String routeId}) async {
     try {
       final directions = google_web_directions_service.GoogleMapsDirections(
-          apiKey: googleMapsAPIKey);
+          apiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey);
       final result = await directions.directionsWithLocation(
         google_web_directions_service.Location(
             lat: fromLocation.latitude, lng: fromLocation.longitude),
@@ -388,11 +382,14 @@ class MakingRequestLocationController extends GetxController {
     try {
       final predictions = await PlacesAutocomplete.show(
         context: context,
-        apiKey: googleMapsAPIKey,
+        apiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
         hint: 'searchPlace'.tr,
         onError: (response) {
           if (kDebugMode) print(response.errorMessage ?? '');
         },
+        proxyBaseUrl: AppInit.isWeb
+            ? 'https://app.cors.bridged.cc/https://maps.googleapis.com/maps/api'
+            : null,
         region: 'EG',
         cursorColor: Colors.black,
         mode: Mode.overlay,
@@ -426,7 +423,7 @@ class MakingRequestLocationController extends GetxController {
       final addressesInfo = await Geocoder2.getDataFromCoordinates(
         latitude: latLng.latitude,
         longitude: latLng.longitude,
-        googleMapApiKey: googleMapsAPIKey,
+        googleMapApiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
         language: isLangEnglish() ? 'en' : 'ar',
       );
       final address = addressesInfo.address;
@@ -443,7 +440,7 @@ class MakingRequestLocationController extends GetxController {
     currentChosenLocationAddress = address;
     final location = await Geocoder2.getDataFromAddress(
       address: address,
-      googleMapApiKey: googleMapsAPIKey,
+      googleMapApiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
       language: isLangEnglish() ? 'en' : 'ar',
     );
     checkAllowedLocation(countryCode: location.countryCode);
@@ -599,20 +596,28 @@ class MakingRequestLocationController extends GetxController {
 
   @override
   void onClose() async {
-    await serviceStatusStream?.cancel();
-    if (googleMapControllerInit) googleMapController.dispose();
+    if (!AppInit.isWeb) {
+      await serviceStatusStream?.cancel();
+    }
+    if (googleMapControllerInit && !AppInit.isWeb) {
+      googleMapController.dispose();
+    }
     if (positionStreamInitialized) await currentPositionStream!.cancel();
     super.onClose();
   }
 
   Future<void> _loadMarkersIcon() async {
-    await _getBytesFromAsset(kRequestLocationMarkerImg, 120).then((iconBytes) {
+    await _getBytesFromAsset(
+            kRequestLocationMarkerImg, AppInit.isWeb ? 40 : 120)
+        .then((iconBytes) {
       requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
+    await _getBytesFromAsset(kAmbulanceMarkerImg, AppInit.isWeb ? 40 : 120)
+        .then((iconBytes) {
       ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kHospitalMarkerImg, 140).then((iconBytes) {
+    await _getBytesFromAsset(kHospitalMarkerImg, AppInit.isWeb ? 40 : 140)
+        .then((iconBytes) {
       hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
   }

@@ -3,6 +3,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
@@ -132,15 +133,6 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             children: [
               Obx(
                 () => GoogleMap(
-                  padding: EdgeInsets.only(
-                    bottom:
-                        widget.makingRequestController.choosingHospital.value
-                            ? screenHeight * 0.48
-                            : 70,
-                    left: isLangEnglish() ? 8 : 0,
-                    right: isLangEnglish() ? 0 : 8,
-                    top: 60,
-                  ),
                   compassEnabled: false,
                   rotateGesturesEnabled: false,
                   tiltGesturesEnabled: false,
@@ -148,6 +140,17 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   myLocationEnabled: true,
                   zoomControlsEnabled: false,
                   myLocationButtonEnabled: false,
+                  padding: AppInit.isWeb
+                      ? EdgeInsets.zero
+                      : EdgeInsets.only(
+                          bottom: widget.makingRequestController
+                                  .choosingHospital.value
+                              ? screenHeight * 0.48
+                              : 70,
+                          left: isLangEnglish() ? 8 : 0,
+                          right: isLangEnglish() ? 0 : 8,
+                          top: 60,
+                        ),
                   initialCameraPosition:
                       widget.makingRequestController.getInitialCameraPosition(),
                   polylines: widget.makingRequestController.mapPolyLines.value,

@@ -313,7 +313,9 @@ class MakingRequestLocationController extends GetxController {
       required String routeId}) async {
     try {
       final directions = google_web_directions_service.GoogleMapsDirections(
-          apiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey);
+        baseUrl: AppInit.isWeb ? "https://cors-anywhere.herokuapp.com/" : null,
+        apiKey: googleMapsAPIKeyWeb,
+      );
       final result = await directions.directionsWithLocation(
         google_web_directions_service.Location(
             lat: fromLocation.latitude, lng: fromLocation.longitude),
@@ -382,14 +384,13 @@ class MakingRequestLocationController extends GetxController {
     try {
       final predictions = await PlacesAutocomplete.show(
         context: context,
-        apiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
+        apiKey: googleMapsAPIKeyWeb,
         hint: 'searchPlace'.tr,
         onError: (response) {
           if (kDebugMode) print(response.errorMessage ?? '');
         },
-        proxyBaseUrl: AppInit.isWeb
-            ? 'https://app.cors.bridged.cc/https://maps.googleapis.com/maps/api'
-            : null,
+        proxyBaseUrl:
+            AppInit.isWeb ? 'https://cors-anywhere.herokuapp.com/' : null,
         region: 'EG',
         cursorColor: Colors.black,
         mode: Mode.overlay,
@@ -423,7 +424,7 @@ class MakingRequestLocationController extends GetxController {
       final addressesInfo = await Geocoder2.getDataFromCoordinates(
         latitude: latLng.latitude,
         longitude: latLng.longitude,
-        googleMapApiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
+        googleMapApiKey: googleMapsAPIKeyWeb,
         language: isLangEnglish() ? 'en' : 'ar',
       );
       final address = addressesInfo.address;
@@ -440,7 +441,7 @@ class MakingRequestLocationController extends GetxController {
     currentChosenLocationAddress = address;
     final location = await Geocoder2.getDataFromAddress(
       address: address,
-      googleMapApiKey: AppInit.isWeb ? googleMapsAPIKeyWeb : googleMapsAPIKey,
+      googleMapApiKey: googleMapsAPIKeyWeb,
       language: isLangEnglish() ? 'en' : 'ar',
     );
     checkAllowedLocation(countryCode: location.countryCode);
@@ -607,17 +608,13 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<void> _loadMarkersIcon() async {
-    await _getBytesFromAsset(
-            kRequestLocationMarkerImg, AppInit.isWeb ? 40 : 120)
-        .then((iconBytes) {
+    await _getBytesFromAsset(kRequestLocationMarkerImg, 120).then((iconBytes) {
       requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kAmbulanceMarkerImg, AppInit.isWeb ? 40 : 120)
-        .then((iconBytes) {
+    await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
       ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kHospitalMarkerImg, AppInit.isWeb ? 40 : 140)
-        .then((iconBytes) {
+    await _getBytesFromAsset(kHospitalMarkerImg, 140).then((iconBytes) {
       hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
   }

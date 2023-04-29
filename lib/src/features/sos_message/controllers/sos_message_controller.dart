@@ -38,13 +38,9 @@ class SosMessageController extends GetxController {
   }
 
   @override
-  void onReady() async {
+  void onReady() {
     super.onReady();
-    contactsList.value = await firebasePatientDataAccess.getEmergencyContacts();
-    savedSosMessage = authRepo.userInfo!.sosMessage;
-    sosMessageController.text = savedSosMessage;
-    sosMessage = savedSosMessage;
-    sosMessageDataLoaded.value = true;
+    loadContactsData();
     sosMessageController.addListener(() {
       if (sosMessageController.text.trim().isNotEmpty) {
         highlightSosMessage.value = false;
@@ -61,7 +57,15 @@ class SosMessageController extends GetxController {
     });
   }
 
-  addContact() async {
+  void loadContactsData() async {
+    contactsList.value = await firebasePatientDataAccess.getEmergencyContacts();
+    savedSosMessage = authRepo.userInfo!.sosMessage;
+    sosMessageController.text = savedSosMessage;
+    sosMessage = savedSosMessage;
+    sosMessageDataLoaded.value = true;
+  }
+
+  void addContact() async {
     showLoadingScreen();
     final contactItem = await firebasePatientDataAccess.addEmergencyContact(
       contactName: contactName.value,

@@ -27,7 +27,7 @@ class RoundedElevatedButton extends StatelessWidget {
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(25))),
         ),
-        onPressed: () => enabled ? onPressed() : null,
+        onPressed: enabled ? () => onPressed() : null,
         child: AutoSizeText(
           buttonText,
           style:

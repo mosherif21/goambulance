@@ -40,7 +40,7 @@ class NoMedicalHistory extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: RegularElevatedButton(
                 buttonText: 'addAllergiesOrDiseases'.tr,
                 onPressed: () => RegularBottomSheet.showRegularBottomSheet(

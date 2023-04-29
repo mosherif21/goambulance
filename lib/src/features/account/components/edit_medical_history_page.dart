@@ -157,6 +157,18 @@ class EditMedicalHistoryPage extends StatelessWidget {
                         child: controller.diseasesList.isNotEmpty
                             ? Column(
                                 children: [
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: AutoSizeText(
+                                      'addedDiseases'.tr,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ),
                                   for (var diseaseItem
                                       in controller.diseasesList)
                                     MedicalHistoryItem(
@@ -181,23 +193,24 @@ class EditMedicalHistoryPage extends StatelessWidget {
                                               ),
                                             );
                                           }
-                                        })
+                                        }),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15.0),
+                                    child: RegularElevatedButton(
+                                      buttonText: 'addAllergiesOrDiseases'.tr,
+                                      onPressed: () => RegularBottomSheet
+                                          .showRegularBottomSheet(
+                                        AddDisease(controller: null),
+                                      ),
+                                      enabled: true,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ],
                               )
                             : NoMedicalHistory(controller: null),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: RegularElevatedButton(
-                      buttonText: 'addAllergiesOrDiseases'.tr,
-                      onPressed: () =>
-                          RegularBottomSheet.showRegularBottomSheet(
-                        AddDisease(controller: null),
-                      ),
-                      enabled: true,
-                      color: Colors.black,
                     ),
                   ),
                   const SizedBox(height: 10.0),

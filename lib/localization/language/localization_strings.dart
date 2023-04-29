@@ -262,6 +262,7 @@ class Languages extends Translations {
           'savedEmergencyContacts': 'جهات اتصال الطوارئ المحفوظة',
           'sendingSosMessageFailed':
               'فشل إرسال رسالة الاستغاثة ، يرجى المحاولة مرة أخرى',
+          'addedDiseases': 'إضافة الأمراض / الأدوية',
           'egp': 'جنيها',
           'forMe': 'لي',
           'avgPrice': 'متوسط السعر',
@@ -300,6 +301,7 @@ class Languages extends Translations {
           'sendSosMessage': 'Send SOS message',
           'sendSosMessageSuccess': 'SOS message sent successfully',
           'forgotPassword': 'Forgot Password?',
+          'addedDiseases': 'Added disease/medicines',
           'savedEmergencyContacts': 'Saved emergency contacts',
           'or': 'OR',
           'noEmailAccount': 'Don\'t have an email account? Register with email',

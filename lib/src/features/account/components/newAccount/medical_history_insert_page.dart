@@ -9,6 +9,7 @@ import '../../../../general/common_widgets/dropdown_list.dart';
 import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../../general/common_widgets/text_header.dart';
 import '../../controllers/register_user_data_controller.dart';
@@ -156,6 +157,18 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         child: controller.diseasesList.isNotEmpty
                             ? Column(
                                 children: [
+                                  const SizedBox(height: 10),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: AutoSizeText(
+                                      'addedDiseases'.tr,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                      maxLines: 2,
+                                    ),
+                                  ),
                                   for (var diseaseItem
                                       in controller.diseasesList)
                                     MedicalHistoryItem(
@@ -180,26 +193,27 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                                               ),
                                             );
                                           }
-                                        })
+                                        }),
+                                  const SizedBox(height: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15.0, right: 15.0),
+                                    child: RoundedElevatedButton(
+                                      buttonText: 'addAllergiesOrDiseases'.tr,
+                                      onPressed: () => RegularBottomSheet
+                                          .showRegularBottomSheet(
+                                        AddDisease(controller: controller),
+                                      ),
+                                      enabled: true,
+                                      color: Colors.black,
+                                    ),
+                                  ),
                                 ],
                               )
-                            : const NoMedicalHistory(),
+                            : NoMedicalHistory(controller: controller),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: RegularElevatedButton(
-                      buttonText: 'addAllergiesOrDiseases'.tr,
-                      onPressed: () =>
-                          RegularBottomSheet.showRegularBottomSheet(
-                        AddDisease(controller: controller),
-                      ),
-                      enabled: true,
-                      color: Colors.black,
-                    ),
-                  ),
-                  const SizedBox(height: 10.0),
                   RegularCard(
                     highlightRed: false,
                     child: Column(

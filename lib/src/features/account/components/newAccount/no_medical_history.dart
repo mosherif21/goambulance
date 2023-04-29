@@ -4,12 +4,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/assets_strings.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../general/general_functions.dart';
+import 'add_disease.dart';
 
 class NoMedicalHistory extends StatelessWidget {
   const NoMedicalHistory({
     Key? key,
+    required this.controller,
   }) : super(key: key);
+  final dynamic controller;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
@@ -24,7 +29,7 @@ class NoMedicalHistory extends StatelessWidget {
               kMedicalHistoryImg,
               height: screenHeight * 0.25,
             ),
-            SizedBox(height: screenHeight * 0.02),
+            const SizedBox(height: 10),
             AutoSizeText(
               'noMedicalHistory'.tr,
               maxLines: 1,
@@ -32,7 +37,19 @@ class NoMedicalHistory extends StatelessWidget {
                 color: Colors.grey,
                 fontSize: 20,
               ),
-            )
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: RoundedElevatedButton(
+                buttonText: 'addAllergiesOrDiseases'.tr,
+                onPressed: () => RegularBottomSheet.showRegularBottomSheet(
+                  AddDisease(controller: controller),
+                ),
+                enabled: true,
+                color: Colors.black,
+              ),
+            ),
           ],
         ),
       ),

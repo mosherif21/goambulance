@@ -13,11 +13,10 @@ import '../controllers/sos_message_controller.dart';
 class AddEmergencyContact extends StatelessWidget {
   const AddEmergencyContact({
     Key? key,
-    required this.controller,
   }) : super(key: key);
-  final SosMessageController controller;
   @override
   Widget build(BuildContext context) {
+    final controller = SosMessageController.instance;
     return Container(
       padding: const EdgeInsets.all(30.0),
       child: Column(
@@ -57,14 +56,7 @@ class AddEmergencyContact extends StatelessWidget {
               searchFieldInputDecoration:
                   InputDecoration(hintText: 'searchCountry'.tr),
             ),
-            onChanged: (phoneValue) {
-              final phoneNumber = phoneValue.completeNumber;
-              if (phoneNumber.isPhoneNumber && phoneNumber.length == 13) {
-                controller.phoneNumber.value = phoneNumber;
-              } else {
-                controller.phoneNumber.value = '';
-              }
-            },
+            onChanged: controller.onPhoneNumberChanged,
           ),
           const SizedBox(height: 10.0),
           Obx(

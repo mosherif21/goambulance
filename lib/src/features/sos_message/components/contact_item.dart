@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/sos_message/controllers/sos_message_controller.dart';
 import 'package:line_icons/line_icon.dart';
 
@@ -50,7 +49,7 @@ class ContactItemWidget extends StatelessWidget {
                 children: [
                   LineIcon.user(
                     size: screenHeight * 0.06,
-                    color: kDefaultColor,
+                    color: Colors.black,
                   ),
                   const SizedBox(height: 10),
                   AutoSizeText(
@@ -83,7 +82,7 @@ class ContactItemWidget extends StatelessWidget {
           IconButton(
             icon: const Icon(
               Icons.delete,
-              size: 40,
+              size: 35,
               color: Colors.red,
             ),
             onPressed: () => onDeletePressed(),

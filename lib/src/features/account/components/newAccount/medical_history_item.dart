@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 
-import '../../../../constants/colors.dart';
 import '../../../../general/general_functions.dart';
 import '../models.dart';
 
@@ -50,7 +49,7 @@ class MedicalHistoryItem extends StatelessWidget {
                 children: [
                   LineIcon.medicalNotes(
                     size: screenHeight * 0.06,
-                    color: kDefaultColor,
+                    color: Colors.black,
                   ),
                   const SizedBox(height: 10),
                   if (diseaseItem.diseaseMedicines.isNotEmpty)

@@ -101,9 +101,23 @@ class SosMessageScreen extends StatelessWidget {
                             highlightRed: false,
                             child: Obx(
                               () => controller.contactsList.isNotEmpty
-                                  ? SingleChildScrollView(
+                                  ? StretchingOverscrollIndicator(
+                                      axisDirection: AxisDirection.down,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: AutoSizeText(
+                                              'savedEmergencyContacts'.tr,
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w800,
+                                              ),
+                                              maxLines: 2,
+                                            ),
+                                          ),
                                           for (var contactItem
                                               in controller.contactsList)
                                             ContactItemWidget(

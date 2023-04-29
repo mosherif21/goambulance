@@ -83,6 +83,7 @@ class MakingRequestLocationController extends GetxController {
   late StreamSubscription<List<DocumentSnapshot<Object?>>>?
       hospitalStreamSubscription;
   late Timer? searchingHospitalsTimer;
+  double searchRadius = 20;
   @override
   void onReady() async {
     await locationInit();
@@ -156,15 +157,14 @@ class MakingRequestLocationController extends GetxController {
     mapMarkers.add(requestLocationMarker!);
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
-    searchingHospitalsTimer = Timer(const Duration(seconds: 10), () {
-      if (choosingHospital.value && searchedHospitals.isEmpty) {
+    searchingHospitalsTimer = Timer(const Duration(seconds: 30), () {
+      if (choosingHospital.value) {
         choosingRequestLocationChanges();
         showSnackBar(
             text: 'nearHospitalsNotFound'.tr, snackBarType: SnackBarType.info);
       }
     });
     getHospitals();
-
     // ambulanceMarker = Marker(
     //   markerId: const MarkerId('ambulance'),
     //   position: LatLng(currentChosenLatLng.latitude + 0.002,
@@ -179,21 +179,6 @@ class MakingRequestLocationController extends GetxController {
     // );
     // mapMarkers.add(ambulanceMarker!);
     // mapMarkers.remove(ambulanceMarker!);
-  }
-
-  void choosingRequestLocationChanges() async {
-    choosingHospital.value = false;
-    hospitalsPanelController.close();
-    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
-    searchedHospitals.value = [];
-    selectedHospital.value = null;
-    if (mapMarkers.contains(requestLocationMarker)) {
-      mapMarkers.remove(requestLocationMarker!);
-    }
-    searchingHospitalsTimer?.cancel();
-    hospitalStreamSubscription?.cancel();
-    clearHospitalRoute();
   }
 
   void clearHospitalRoute() {
@@ -211,6 +196,28 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
+  void choosingRequestLocationChanges() async {
+    choosingHospital.value = false;
+    hospitalsPanelController.close();
+    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
+        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
+    searchedHospitals.value = [];
+    selectedHospital.value = null;
+    //searchRadius = 25;
+    if (mapMarkers.contains(requestLocationMarker)) {
+      mapMarkers.remove(requestLocationMarker!);
+    }
+    searchingHospitalsTimer?.cancel();
+    hospitalStreamSubscription?.cancel();
+    clearHospitalRoute();
+  }
+
+  // void researchLargerRadius() async {
+  //   hospitalStreamSubscription?.cancel();
+  //   searchRadius++;
+  //   getHospitals();
+  // }
+
   void getHospitals() {
     try {
       GeoFirePoint center = geoFire.point(
@@ -220,13 +227,14 @@ class MakingRequestLocationController extends GetxController {
       final collectionReference = _firestore.collection('hospitalsLocations');
       final hospitalsRef = _firestore.collection('hospitals');
 
-      double radius = 10;
-      String field = 'position';
-
       Stream<List<DocumentSnapshot>> stream = geoFire
           .collection(collectionRef: collectionReference)
           .withinAsSingleStreamSubscription(
-              center: center, radius: radius, field: field, strictMode: true);
+            center: center,
+            radius: searchRadius,
+            field: 'position',
+            strictMode: true,
+          );
 
       hospitalStreamSubscription =
           stream.listen((List<DocumentSnapshot> documentList) async {
@@ -270,6 +278,10 @@ class MakingRequestLocationController extends GetxController {
                 });
               }
               searchedHospitals.add(foundHospital);
+              // if (!searchedHospitals.any((hospital) =>
+              //     hospital.hospitalId == foundHospital.hospitalId)) {
+              // searchedHospitals.add(foundHospital);
+              //  }
             }
           });
         }

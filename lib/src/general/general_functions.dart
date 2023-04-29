@@ -295,6 +295,12 @@ Future<bool> handleStoragePermission() async => await handleGeneralPermission(
       deniedForeverSnackBarTitle: 'storagePermission'.tr,
       deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
     );
+Future<bool> handleSmsPermission() async => await handleGeneralPermission(
+      permission: Permission.sms,
+      deniedSnackBarText: 'enableStoragePermission'.tr,
+      deniedForeverSnackBarTitle: 'storagePermission'.tr,
+      deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
+    );
 
 Future<bool> handleGeneralPermission({
   required Permission permission,

@@ -4,6 +4,7 @@ import 'package:flutter_sms/flutter_sms.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
+import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/enums.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
@@ -104,7 +105,7 @@ class SosMessageController extends GetxController {
     }
   }
 
-  Future<void> saveSosMessage() async {
+  Future<void> saveSosMessage({required bool displaySnackBar}) async {
     if (savedSosMessage.compareTo(sosMessage) != 0) {
       final functionStatus = await firebasePatientDataAccess.saveSosMessage(
           sosMessage: sosMessage);
@@ -112,47 +113,67 @@ class SosMessageController extends GetxController {
       savedSosMessage = sosMessage;
       enableSaveButton.value = false;
       if (functionStatus == FunctionStatus.success) {
-        showSnackBar(
-            text: 'sosMessageSaved'.tr, snackBarType: SnackBarType.success);
+        if (displaySnackBar) {
+          showSnackBar(
+              text: 'sosMessageSaved'.tr, snackBarType: SnackBarType.success);
+        }
       } else if (functionStatus == FunctionStatus.failure) {
-        showSnackBar(
-            text: 'savingSosMessageFailed'.tr,
-            snackBarType: SnackBarType.error);
+        if (displaySnackBar) {
+          showSnackBar(
+              text: 'savingSosMessageFailed'.tr,
+              snackBarType: SnackBarType.error);
+        }
       }
     }
   }
 
   void onSaveSosMessageClick() async {
     showLoadingScreen();
-    await saveSosMessage();
+    await saveSosMessage(displaySnackBar: true);
     hideLoadingScreen();
   }
 
   void sendSosMessage() async {
-    highlightSosMessage.value = sosMessage.isEmpty;
-    if (!highlightSosMessage.value && contactsList.isNotEmpty) {
-      showLoadingScreen();
-      final contactNumbersList = <String>[];
-      for (var contact in contactsList) {
-        contactNumbersList.add(contact.contactNumber);
-      }
-      await saveSosMessage();
-      try {
-        await sendSMS(message: sosMessage, recipients: contactNumbersList);
-        hideLoadingScreen();
-      } catch (err) {
-        if (kDebugMode) {
-          print(err.toString());
+    if (!AppInit.isWeb) {
+      if (await handleSmsPermission()) {
+        highlightSosMessage.value = sosMessage.isEmpty;
+        if (!highlightSosMessage.value && contactsList.isNotEmpty) {
+          showLoadingScreen();
+          final contactNumbersList = <String>[];
+          for (var contact in contactsList) {
+            contactNumbersList.add(contact.contactNumber);
+          }
+          await saveSosMessage(displaySnackBar: false);
+          try {
+            await sendSMS(
+              message: sosMessage,
+              recipients: contactNumbersList,
+              sendDirect: true,
+            );
+            showSnackBar(
+                text: 'sendSosMessageSuccess'.tr,
+                snackBarType: SnackBarType.success);
+          } catch (err) {
+            if (kDebugMode) {
+              print(err.toString());
+              showSnackBar(
+                  text: 'sendingSosMessageFailed'.tr,
+                  snackBarType: SnackBarType.error);
+            }
+          }
+          hideLoadingScreen();
+        } else if (highlightSosMessage.value) {
           showSnackBar(
-              text: 'sendingSosMessageFailed'.tr,
+              text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+        } else if (contactsList.isEmpty) {
+          showSnackBar(
+              text: 'missingEmergencyContact'.tr,
               snackBarType: SnackBarType.error);
         }
       }
-    } else if (highlightSosMessage.value) {
-      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
-    } else if (contactsList.isEmpty) {
+    } else {
       showSnackBar(
-          text: 'missingEmergencyContact'.tr, snackBarType: SnackBarType.error);
+          text: 'useMobileToThisFeature'.tr, snackBarType: SnackBarType.info);
     }
   }
 

@@ -162,7 +162,7 @@ class MakingRequestLocationController extends GetxController {
     mapMarkers.add(requestLocationMarker!);
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
-    searchingHospitalsTimer = Timer(const Duration(seconds: 30), () {
+    searchingHospitalsTimer = Timer(const Duration(seconds: 10), () {
       if (choosingHospital.value && searchedHospitals.isEmpty) {
         choosingRequestLocationChanges();
         showSnackBar(

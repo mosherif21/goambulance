@@ -76,18 +76,21 @@ class SosMessageScreen extends StatelessWidget {
                                     inputFormatter:
                                         LengthLimitingTextInputFormatter(160),
                                     onSubmitted: () =>
-                                        controller.saveSosMessage(),
+                                        controller.onSaveSosMessageClick(),
                                   ),
                                   const SizedBox(height: 15),
                                   Padding(
                                     padding: const EdgeInsets.only(
                                         left: 15.0, right: 15.0),
-                                    child: RegularElevatedButton(
-                                      buttonText: 'save'.tr,
-                                      onPressed: () =>
-                                          controller.saveSosMessage(),
-                                      enabled: true,
-                                      color: Colors.black,
+                                    child: Obx(
+                                      () => RegularElevatedButton(
+                                        buttonText: 'save'.tr,
+                                        onPressed: () =>
+                                            controller.onSaveSosMessageClick(),
+                                        enabled:
+                                            controller.enableSaveButton.value,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ),
                                 ],

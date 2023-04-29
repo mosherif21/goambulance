@@ -118,9 +118,6 @@ class SosMessageController extends GetxController {
       try {
         await sendSMS(message: sosMessage, recipients: contactNumbersList);
         hideLoadingScreen();
-        showSnackBar(
-            text: 'sendSosMessageSuccess'.tr,
-            snackBarType: SnackBarType.success);
       } catch (err) {
         if (kDebugMode) {
           print(err.toString());

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/enums.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/general_functions.dart';
@@ -66,6 +67,15 @@ class SosMessageController extends GetxController {
       showSnackBar(
           text: 'addingEmergencyContactFailed'.tr,
           snackBarType: SnackBarType.error);
+    }
+  }
+
+  onPhoneNumberChanged(PhoneNumber phoneValue) {
+    final enteredPhone = phoneValue.completeNumber;
+    if (enteredPhone.isPhoneNumber && enteredPhone.length == 13) {
+      phoneNumber.value = enteredPhone;
+    } else {
+      phoneNumber.value = '';
     }
   }
 

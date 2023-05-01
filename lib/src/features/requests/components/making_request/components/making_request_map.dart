@@ -62,14 +62,13 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         ],
       ),
       margin: const EdgeInsets.all(20),
-      // padding: const EdgeInsets.symmetric(vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 10),
           Obx(
             () => AutoSizeText(
-              widget.makingRequestController.searchedHospitals.value.isEmpty
+              widget.makingRequestController.searchedHospitals.isEmpty
                   ? 'searchingForHospitals'.tr
                   : 'chooseRequestHospital'.tr,
               style: const TextStyle(
@@ -83,7 +82,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           const Divider(height: 5),
           Expanded(
             child: ChooseHospitalsList(
-              makingRequestLocationController: widget.makingRequestController,
+              controller: widget.makingRequestController,
             ),
           ),
           const Divider(thickness: 1, height: 2),

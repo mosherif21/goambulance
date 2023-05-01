@@ -175,6 +175,12 @@ void displayAlertDialog({
   );
 }
 
+Transition getPageTransition() {
+  return AppInit.currentLanguage == Language.english
+      ? Transition.rightToLeft
+      : Transition.leftToRight;
+}
+
 void displayChangeLang() => RegularBottomSheet.showRegularBottomSheet(
       LanguageSelect(
         onEnglishLanguagePress: () {
@@ -233,12 +239,6 @@ Future<bool> handleLocationPermission() async {
     if (kDebugMode) print(err.toString());
   }
   return false;
-}
-
-Transition getPageTransition() {
-  return AppInit.currentLanguage == Language.english
-      ? Transition.rightToLeft
-      : Transition.leftToRight;
 }
 
 Future<bool> handleLocationService() async {

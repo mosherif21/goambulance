@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import '../../../controllers/making_request_location_controller.dart';
 import '../models.dart';
@@ -7,28 +7,32 @@ import 'hospital_choose_card.dart';
 import 'loading_hospitals_choose.dart';
 
 class ChooseHospitalsList extends StatelessWidget {
-  const ChooseHospitalsList(
-      {Key? key, required this.makingRequestLocationController})
+  const ChooseHospitalsList({Key? key, required this.controller})
       : super(key: key);
-  final MakingRequestLocationController makingRequestLocationController;
+  final MakingRequestLocationController controller;
   @override
   Widget build(BuildContext context) {
-    return StretchingOverscrollIndicator(
-      axisDirection: AxisDirection.down,
-      child: SingleChildScrollView(
-        child: Obx(
-            () => makingRequestLocationController.searchedHospitals.isNotEmpty
-                ? Column(
-                    children: [
-                      for (HospitalModel hospitalItem
-                          in makingRequestLocationController.searchedHospitals)
-                        HospitalChooseCard(
-                          hospitalItem: hospitalItem,
-                          controller: makingRequestLocationController,
-                        ),
-                    ],
-                  )
-                : const LoadingHospitalChoose()),
+    return RefreshIndicator(
+      color: Colors.black,
+      onRefresh: () => Future.sync(
+        () {
+          controller.clearSearchedHospitals();
+          controller.pagingController.refresh();
+        },
+      ),
+      child: PagedListView<int, HospitalModel>(
+        pagingController: controller.pagingController,
+        builderDelegate: PagedChildBuilderDelegate<HospitalModel>(
+          itemBuilder: (context, hospitalItem, index) => HospitalChooseCard(
+            hospitalItem: hospitalItem,
+            controller: controller,
+          ),
+          transitionDuration: const Duration(milliseconds: 500),
+          firstPageProgressIndicatorBuilder: (context) {
+            return const LoadingHospitalChoose();
+          },
+        ),
+        padding: EdgeInsets.zero,
       ),
     );
   }

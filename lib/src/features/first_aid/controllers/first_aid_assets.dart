@@ -1,7 +1,7 @@
 import '../../../general/general_functions.dart';
 
 String getFirstAidTipImage(int firstAidNumber) =>
-    'assets/images/firstAidTipImage$firstAidNumber.jpg';
+    'assets/images/firstAidTipImage$firstAidNumber.png';
 
 String getEmergencyNumberImage(int firstAidNumber) =>
     'assets/images/emergencyNumberImage$firstAidNumber.png';

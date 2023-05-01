@@ -22,6 +22,7 @@ const String kRequestLocationMarkerImg =
     "assets/images/pin_request_location.png";
 const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";
 const String kNoEmergencyContact = "assets/images/no_contacts.png";
+const String kHospitalFrontImg = "assets/images/hospital_front.png";
 const String kMyLocation = "assets/images/myLocation.svg";
 
 //--Lottie assets

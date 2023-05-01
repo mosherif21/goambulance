@@ -48,7 +48,7 @@ class MakingRequestLocationController extends GetxController {
   //maps vars
   final mapPolyLines = <Polyline>{}.obs;
   final mapMarkers = <Marker>{}.obs;
-  Polyline? routeToHospital;
+  final routeToHospital = Rx<Polyline?>(null);
   final routeToHospitalTime = ''.obs;
   Marker? requestLocationMarker;
   Marker? ambulanceMarker;
@@ -195,11 +195,11 @@ class MakingRequestLocationController extends GetxController {
 
   void clearHospitalRoute() {
     routeToHospitalTime.value = '';
-    if (routeToHospital != null) {
-      if (mapPolyLines.contains(routeToHospital)) {
+    if (routeToHospital.value != null) {
+      if (mapPolyLines.contains(routeToHospital.value)) {
         mapPolyLines.remove(routeToHospital);
       }
-      routeToHospital = null;
+      routeToHospital.value = null;
     }
     if (hospitalMarker != null) {
       if (mapMarkers.contains(hospitalMarker)) {
@@ -269,60 +269,69 @@ class MakingRequestLocationController extends GetxController {
 
   Future<void> getHospitals({required int skipCount}) async {
     try {
-      double searchRadius = 5;
-      double maxRadius = 20;
-      List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
-      while (hospitalsDocuments.length < pageSize && searchRadius < maxRadius) {
-        searchRadius += 2.5;
-        hospitalsDocuments =
-            await getRequests(skipCount: skipCount, radius: searchRadius);
-      }
-      if (kDebugMode) {
-        print('hospitals got count ${hospitalsDocuments.length}');
-      }
-      final hospitalsRef = _firestore.collection('hospitals');
-      for (var hospitalsDocument in hospitalsDocuments) {
-        final String hospitalId = hospitalsDocument.id;
-        await hospitalsRef.doc(hospitalId).get().then((snapshot) {
-          if (snapshot.exists) {
-            final hospitalDoc = snapshot.data()!;
-            GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;
-            final foundHospital = HospitalModel(
-              hospitalId: hospitalId,
-              name: hospitalDoc['name'].toString(),
-              avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
-              location: LatLng(geoPoint.latitude, geoPoint.longitude),
-            );
-            if (searchedHospitals.isEmpty) {
-              selectedHospital.value = foundHospital;
-              hospitalMarker = Marker(
-                markerId: const MarkerId('hospital'),
-                position: selectedHospital.value!.location,
-                icon: hospitalMarkerIcon,
-                infoWindow: InfoWindow(
-                  title: 'hospitalLocationPinDesc'.tr,
-                ),
-                onTap: () => animateToLocation(
-                    locationLatLng: selectedHospital.value!.location),
-              );
-              mapMarkers.add(hospitalMarker!);
-              getRouteToLocation(
-                fromLocation: currentChosenLatLng,
-                toLocation: selectedHospital.value!.location,
-                routeId: 'routeToHospital',
-              ).then((route) {
-                routeToHospital = route;
-                if (routeToHospital != null) {
-                  mapPolyLines.add(routeToHospital!);
-                  animateToLatLngBounds(
-                      latLngBounds:
-                          getLatLngBounds(latLngList: routeToHospital!.points));
+      if (choosingHospital.value) {
+        double searchRadius = 5;
+        double maxRadius = 20;
+        List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
+        while (
+            hospitalsDocuments.length < pageSize && searchRadius < maxRadius) {
+          searchRadius += 2.5;
+          hospitalsDocuments =
+              await getRequests(skipCount: skipCount, radius: searchRadius);
+        }
+        if (kDebugMode) {
+          print('hospitals got count ${hospitalsDocuments.length}');
+        }
+        if (hospitalsDocuments.isEmpty && skipCount == 0) {
+          showSnackBar(
+              text: 'nearHospitalsNotFound'.tr,
+              snackBarType: SnackBarType.info);
+        } else if (hospitalsDocuments.isNotEmpty) {
+          final hospitalsRef = _firestore.collection('hospitals');
+          for (var hospitalsDocument in hospitalsDocuments) {
+            final String hospitalId = hospitalsDocument.id;
+            await hospitalsRef.doc(hospitalId).get().then((snapshot) {
+              if (snapshot.exists) {
+                final hospitalDoc = snapshot.data()!;
+                GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;
+                final foundHospital = HospitalModel(
+                  hospitalId: hospitalId,
+                  name: hospitalDoc['name'].toString(),
+                  avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
+                  location: LatLng(geoPoint.latitude, geoPoint.longitude),
+                );
+                if (searchedHospitals.isEmpty) {
+                  selectedHospital.value = foundHospital;
+                  hospitalMarker = Marker(
+                    markerId: const MarkerId('hospital'),
+                    position: selectedHospital.value!.location,
+                    icon: hospitalMarkerIcon,
+                    infoWindow: InfoWindow(
+                      title: 'hospitalLocationPinDesc'.tr,
+                    ),
+                    onTap: () => animateToLocation(
+                        locationLatLng: selectedHospital.value!.location),
+                  );
+                  mapMarkers.add(hospitalMarker!);
+                  getRouteToLocation(
+                    fromLocation: currentChosenLatLng,
+                    toLocation: selectedHospital.value!.location,
+                    routeId: 'routeToHospital',
+                  ).then((route) {
+                    routeToHospital.value = route;
+                    if (routeToHospital.value != null) {
+                      mapPolyLines.add(routeToHospital.value!);
+                      animateToLatLngBounds(
+                          latLngBounds: getLatLngBounds(
+                              latLngList: routeToHospital.value!.points));
+                    }
+                  });
                 }
-              });
-            }
-            searchedHospitals.add(foundHospital);
+                searchedHospitals.add(foundHospital);
+              }
+            });
           }
-        });
+        }
       }
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
@@ -345,15 +354,16 @@ class MakingRequestLocationController extends GetxController {
     );
     mapMarkers.add(hospitalMarker!);
     selectedHospital.value = hospitalItem;
-    routeToHospital = await getRouteToLocation(
+    routeToHospital.value = await getRouteToLocation(
       fromLocation: currentChosenLatLng,
       toLocation: hospitalItem.location,
       routeId: 'routeToHospital',
     );
-    if (routeToHospital != null) {
+    if (routeToHospital.value != null) {
       animateToLatLngBounds(
-          latLngBounds: getLatLngBounds(latLngList: routeToHospital!.points));
-      mapPolyLines.add(routeToHospital!);
+          latLngBounds:
+              getLatLngBounds(latLngList: routeToHospital.value!.points));
+      mapPolyLines.add(routeToHospital.value!);
     }
   }
 
@@ -542,9 +552,10 @@ class MakingRequestLocationController extends GetxController {
   void enableMap() => mapEnabled.value = true;
 
   void onLocationButtonPress() {
-    if (routeToHospital != null) {
+    if (routeToHospital.value != null) {
       animateToLatLngBounds(
-          latLngBounds: getLatLngBounds(latLngList: routeToHospital!.points));
+          latLngBounds:
+              getLatLngBounds(latLngList: routeToHospital.value!.points));
     } else {
       if (locationAvailable.value) {
         animateCamera(locationLatLng: currentLocationGetter());
@@ -628,7 +639,6 @@ class MakingRequestLocationController extends GetxController {
           if (position != null) {
             currentLocation = position;
             locationAvailable.value = true;
-            enableMap();
           }
           if (kDebugMode) {
             print(position == null

@@ -5,6 +5,7 @@ import '../../../controllers/making_request_location_controller.dart';
 import '../models.dart';
 import 'hospital_choose_card.dart';
 import 'loading_hospitals_choose.dart';
+import 'no_hospitals_found.dart';
 
 class ChooseHospitalsList extends StatelessWidget {
   const ChooseHospitalsList({Key? key, required this.controller})
@@ -27,8 +28,14 @@ class ChooseHospitalsList extends StatelessWidget {
             hospitalItem: hospitalItem,
             controller: controller,
           ),
-          firstPageProgressIndicatorBuilder: (context) {
+          firstPageProgressIndicatorBuilder: (_) {
             return const LoadingHospitalChoose();
+          },
+          newPageProgressIndicatorBuilder: (_) {
+            return const LoadingHospitalChoose();
+          },
+          noItemsFoundIndicatorBuilder: (_) {
+            return const NoHospitalsFound();
           },
         ),
         padding: EdgeInsets.zero,

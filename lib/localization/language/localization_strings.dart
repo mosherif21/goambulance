@@ -234,6 +234,7 @@ class Languages extends Translations {
           'enterContactNumber': 'أدخل رقم جهة الاتصال',
           'contactInfo': 'الرجاء إدخال معلومات جهة الاتصال',
           'searchingForHospitals': 'جارى البحث عن مستشفيات',
+          'noHospitalsFound': 'لم يتم العثور على مستشفيات',
           'nearHospitalsNotFound':
               'عذرا ، لم نتمكن من العثور على أي مستشفيات قريبة من مكان الطلب',
           'notAllowed': 'غير مسموح به',
@@ -496,6 +497,7 @@ class Languages extends Translations {
           'add': 'Add',
           'agree': 'I Agree',
           'disagree': 'Disagree',
+          'noHospitalsFound': 'No hospitals found',
           'diseaseInfo': 'Please enter the disease/allergy information',
           'contactInfo': 'Please enter the contact\'s information',
           'personalInfoShare':

@@ -6,16 +6,18 @@ import 'package:goambulance/src/features/requests/controllers/making_request_loc
 import '../../../../../constants/assets_strings.dart';
 
 class MyLocationButton extends StatelessWidget {
-  const MyLocationButton(
-      {Key? key, required this.onClick, required this.makingRequestController})
+  const MyLocationButton({Key? key, required this.controller})
       : super(key: key);
-  final Function onClick;
-  final MakingRequestLocationController makingRequestController;
+
+  final MakingRequestLocationController controller;
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => AnimatedOpacity(
-        opacity: makingRequestController.locationAvailable.value ? 1 : 0,
+        opacity: controller.locationAvailable.value ||
+                controller.routeToHospital.value != null
+            ? 1
+            : 0,
         duration: const Duration(milliseconds: 400),
         child: Padding(
           padding: const EdgeInsets.all(15),
@@ -33,7 +35,7 @@ class MyLocationButton extends StatelessWidget {
                   height: 30,
                 ),
               ),
-              onTap: () => onClick(),
+              onTap: () => controller.onLocationButtonPress(),
             ),
           ),
         ),

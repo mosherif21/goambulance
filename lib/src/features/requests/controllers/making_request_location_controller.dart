@@ -666,7 +666,7 @@ class MakingRequestLocationController extends GetxController {
     await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
       ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kHospitalMarkerImg, 140).then((iconBytes) {
+    await _getBytesFromAsset(kHospitalMarkerImg, 160).then((iconBytes) {
       hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
   }

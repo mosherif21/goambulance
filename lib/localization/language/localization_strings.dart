@@ -229,7 +229,7 @@ class Languages extends Translations {
           'contactName': 'اسم جهة الاتصال',
           'enterContactName': 'أدخل اسم جهة الاتصال',
           'missingEmergencyContact':
-              'الرجاء إضافة جهة اتصال طوارئ لاستخدام هذه الميزة',
+              'الرجاء إضافة جهة اتصال طوارئ لاستخدام هذه الخاصية',
           'contactNumber': 'رقم جهة الاتصال',
           'enterContactNumber': 'أدخل رقم جهة الاتصال',
           'contactInfo': 'الرجاء إدخال معلومات جهة الاتصال',
@@ -250,7 +250,7 @@ class Languages extends Translations {
           'requestHere': 'اطلب هنا',
           'confirmRequest': 'تاكيد الطلب',
           'useMobileToThisFeature':
-              'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الميزة',
+              'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الخاصية',
           'useMobileToRegister':
               'الرجاء استخدام تطبيق الهاتف لتسجيل البيانات الخاصة بك',
           'enterRequestInfo': 'يرجى تعبئة بيانات طلب الإسعاف',

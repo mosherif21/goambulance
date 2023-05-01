@@ -4,7 +4,6 @@
 const String kSAFlagImage = "assets/gifs/saudia_arabia_flag.gif";
 const String kUkFlagImage = "assets/gifs/uk_flag.gif";
 const String kNotAvailableErrorAnim = "assets/images/error_beach.gif";
-const String kProfileAnimated = "assets/gifs/profile_animated_male.gif";
 
 //--Images Assets
 const String kLogoImage = "assets/images/logo.png";
@@ -17,16 +16,12 @@ const String kSosImage = "assets/images/sos.svg";
 const String kEmergencyNumber = "assets/images/emergency_numbers.svg";
 const String kSosMessageImage = "assets/images/sosMessage.svg";
 const String kNoRequestsHistory = "assets/images/requests_history_large.png";
-const String kNoRequestsHistoryBlack =
-    "assets/images/recent_requests_black.png";
-const String kProfileImage = "assets/images/profile_male.png";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_above_medium.png";
 const String kHospitalMarkerImg = "assets/images/hospital.png";
 const String kRequestLocationMarkerImg =
     "assets/images/pin_request_location.png";
 const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";
 const String kNoEmergencyContact = "assets/images/no_contacts.png";
-const String kMedicalHistoryItemImg = "assets/images/medical_history_item.svg";
 const String kMyLocation = "assets/images/myLocation.svg";
 
 //--Lottie assets
@@ -38,8 +33,6 @@ const String kEmailVerificationAnim =
     "assets/lottie_animations/email_verification.json";
 const String kPhoneVerificationAnim = "assets/lottie_animations/otp_code2.json";
 const String kPhoneOTPAnim = "assets/lottie_animations/otp_code3.json";
-const String kEmailOTPAnim = "assets/lottie_animations/mail_verification.json";
-const String kNoInternetAnim = "assets/lottie_animations/network_error.json";
 const String kNoInternetSwitchAnim =
     "assets/lottie_animations/no_internet.json";
 const String kLoadingMapAnim = "assets/lottie_animations/loading_map4.json";

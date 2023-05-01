@@ -19,19 +19,19 @@ class MakingRequestMapSearch extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           boxShadow: [
             BoxShadow(
               blurRadius: 1,
               color: Colors.grey.shade600,
-              offset: const Offset(0, 2),
+              offset: const Offset(0, 1),
             ),
           ],
         ),
         child: Container(
           decoration: BoxDecoration(
               color: Colors.grey.shade300,
-              borderRadius: const BorderRadius.all(Radius.circular(15.0))),
+              borderRadius: const BorderRadius.all(Radius.circular(10.0))),
           child: Padding(
             padding: const EdgeInsets.all(15),
             child: Row(

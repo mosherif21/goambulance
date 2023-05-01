@@ -83,7 +83,6 @@ class MakingRequestLocationController extends GetxController {
   //geoQuery vars
   final geoFire = GeoFlutterFire();
   late final FirebaseFirestore _firestore;
-  double searchRadius = 10;
   // late Timer? searchingHospitalsTimer;
 
   @override
@@ -211,7 +210,6 @@ class MakingRequestLocationController extends GetxController {
 
   void clearSearchedHospitals() {
     clearHospitalRoute();
-    searchRadius = 10;
     searchedHospitals.value = [];
   }
 
@@ -247,9 +245,9 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<List<DocumentSnapshot<Object?>>> getRequests(
-      {required int skipCount}) async {
+      {required int skipCount, required double radius}) async {
     if (kDebugMode) print('skip count $skipCount');
-    if (kDebugMode) print('search radius $searchRadius');
+    if (kDebugMode) print('search radius $radius');
     GeoFirePoint center = geoFire.point(
         latitude: currentChosenLatLng.latitude,
         longitude: currentChosenLatLng.longitude);
@@ -260,7 +258,7 @@ class MakingRequestLocationController extends GetxController {
         .collection(collectionRef: collectionReference)
         .withinAsSingleStreamSubscription(
           center: center,
-          radius: searchRadius,
+          radius: radius,
           field: 'position',
           strictMode: true,
         )
@@ -271,10 +269,13 @@ class MakingRequestLocationController extends GetxController {
 
   Future<void> getHospitals({required int skipCount}) async {
     try {
+      double searchRadius = 5;
+      double maxRadius = 20;
       List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
-      while (hospitalsDocuments.length < pageSize && searchRadius < 40) {
+      while (hospitalsDocuments.length < pageSize && searchRadius < maxRadius) {
         searchRadius += 2.5;
-        hospitalsDocuments = await getRequests(skipCount: skipCount);
+        hospitalsDocuments =
+            await getRequests(skipCount: skipCount, radius: searchRadius);
       }
       if (kDebugMode) {
         print('hospitals got count ${hospitalsDocuments.length}');
@@ -593,7 +594,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void animateCamera({required LatLng locationLatLng}) {
-    mapPinMargin.value = 90;
+    mapPinMargin.value = 50;
     googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(
@@ -647,14 +648,14 @@ class MakingRequestLocationController extends GetxController {
 
   @override
   void onClose() async {
-    if (!AppInit.isWeb) {
-      await serviceStatusStream?.cancel();
-    }
     if (googleMapControllerInit && !AppInit.isWeb) {
       googleMapController.dispose();
     }
+    if (!AppInit.isWeb) {
+      await serviceStatusStream?.cancel();
+    }
     pagingController.dispose();
-    if (positionStreamInitialized) await currentPositionStream!.cancel();
+    if (positionStreamInitialized) await currentPositionStream?.cancel();
     super.onClose();
   }
 

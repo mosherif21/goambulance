@@ -148,7 +148,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                               : 70,
                           left: isLangEnglish() ? 8 : 0,
                           right: isLangEnglish() ? 0 : 8,
-                          top: 60,
+                          top: 100,
                         ),
                   initialCameraPosition:
                       widget.makingRequestController.getInitialCameraPosition(),
@@ -200,6 +200,52 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                           },
                         ),
                         const SizedBox(width: 10),
+                        Obx(
+                          () => widget.makingRequestController
+                                  .routeToHospitalTime.isNotEmpty
+                              ? Container(
+                                  padding: const EdgeInsets.all(5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(10.0)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        blurRadius: 1,
+                                        color: Colors.grey.shade600,
+                                        offset: const Offset(0, 1),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        kRouteAnim,
+                                        height: 35,
+                                        frameRate: FrameRate.max,
+                                      ),
+                                      const SizedBox(width: 5),
+                                      AutoSizeText(
+                                        'routeTime'.trParams({
+                                          'routeTime': widget
+                                              .makingRequestController
+                                              .routeToHospitalTime
+                                              .value,
+                                        }),
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.black,
+                                        ),
+                                        maxLines: 1,
+                                      ),
+                                      const SizedBox(width: 10),
+                                    ],
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
                         Obx(
                           () => widget.makingRequestController.choosingHospital
                                   .value
@@ -253,8 +299,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               ),
               Obx(
                 () => Center(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 100),
+                  child: Container(
                     margin: EdgeInsets.only(
                         bottom:
                             widget.makingRequestController.mapPinMargin.value),

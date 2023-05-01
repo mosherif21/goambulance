@@ -53,42 +53,14 @@ class HospitalChooseCard extends StatelessWidget {
                         maxLines: 1,
                       ),
                       const SizedBox(height: 5),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'avgPrice'.tr}: ${hospitalItem.avgPrice} ${'egp'.tr}',
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.grey,
-                            ),
-                            maxLines: 1,
-                          ),
-                          const Spacer(),
-                          Obx(
-                            () => controller.selectedHospital.value ==
-                                        hospitalItem &&
-                                    controller.routeToHospitalTime.isNotEmpty
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Icon(Icons.access_time_outlined),
-                                      const SizedBox(width: 5),
-                                      AutoSizeText(
-                                        controller.routeToHospitalTime.value,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                      const SizedBox(width: 10),
-                                    ],
-                                  )
-                                : const SizedBox.shrink(),
-                          ),
-                        ],
+                      AutoSizeText(
+                        '${'avgPrice'.tr}: ${hospitalItem.avgPrice} ${'egp'.tr}',
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey,
+                        ),
+                        maxLines: 1,
                       ),
                     ],
                   ),

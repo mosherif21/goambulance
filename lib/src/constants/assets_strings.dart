@@ -45,6 +45,7 @@ const String kNoInternetSwitchAnim =
 const String kLoadingMapAnim = "assets/lottie_animations/loading_map4.json";
 const String kNoLocation = "assets/lottie_animations/no_location_service.json";
 const String kMapPin = "assets/lottie_animations/map_pin.json";
+const String kRouteAnim = "assets/lottie_animations/route.json";
 
 //--Files assets
 const String kMapStyle = "assets/files/mapStyle.txt";

@@ -27,7 +27,6 @@ class ChooseHospitalsList extends StatelessWidget {
             hospitalItem: hospitalItem,
             controller: controller,
           ),
-          transitionDuration: const Duration(milliseconds: 500),
           firstPageProgressIndicatorBuilder: (context) {
             return const LoadingHospitalChoose();
           },

@@ -15,7 +15,7 @@ import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/general_functions.dart';
 import 'choose_hospitals_widget.dart';
-import 'myLocation_button.dart';
+import 'my_location_button.dart';
 
 class MakingRequestMap extends StatefulWidget {
   const MakingRequestMap({

@@ -269,7 +269,7 @@ class Languages extends Translations {
               'فشل حفظ السجل الطبي ، يرجى المحاولة مرة أخرى',
           'sendingSosMessageFailed':
               'فشل إرسال رسالة الاستغاثة ، يرجى المحاولة مرة أخرى',
-          'addedDiseases': 'الأمراض / الأدوية المضافة',
+          'addedDiseases': 'الأمراض / الحساسيات المضافة',
           'egp': 'جنيها',
           'forMe': 'لي',
           'avgPrice': 'متوسط السعر',
@@ -314,7 +314,7 @@ class Languages extends Translations {
           'sendSosMessage': 'Send SOS message',
           'sendSosMessageSuccess': 'SOS message sent successfully',
           'forgotPassword': 'Forgot Password?',
-          'addedDiseases': 'Added diseases/medicines',
+          'addedDiseases': 'Added diseases/allergies',
           'savedEmergencyContacts': 'Saved emergency contacts',
           'or': 'OR',
           'noEmailAccount': 'Don\'t have an email account? Register with email',

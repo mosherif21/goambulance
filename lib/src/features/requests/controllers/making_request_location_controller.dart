@@ -70,6 +70,7 @@ class MakingRequestLocationController extends GetxController {
   final hospitalsPanelController = PanelController();
 
   //making request
+  bool enableGoBack = true;
   late String currentChosenLocationAddress;
   late LatLng currentCameraLatLng;
   late LatLng currentChosenLatLng;
@@ -313,11 +314,13 @@ class MakingRequestLocationController extends GetxController {
                         locationLatLng: selectedHospital.value!.location),
                   );
                   mapMarkers.add(hospitalMarker!);
+                  enableGoBack = false;
                   getRouteToLocation(
                     fromLocation: currentChosenLatLng,
                     toLocation: selectedHospital.value!.location,
                     routeId: 'routeToHospital',
                   ).then((route) {
+                    enableGoBack = true;
                     routeToHospital.value = route;
                     if (routeToHospital.value != null) {
                       mapPolyLines.add(routeToHospital.value!);
@@ -354,11 +357,13 @@ class MakingRequestLocationController extends GetxController {
     );
     mapMarkers.add(hospitalMarker!);
     selectedHospital.value = hospitalItem;
+    enableGoBack = false;
     routeToHospital.value = await getRouteToLocation(
       fromLocation: currentChosenLatLng,
       toLocation: hospitalItem.location,
       routeId: 'routeToHospital',
     );
+    enableGoBack = true;
     if (routeToHospital.value != null) {
       animateToLatLngBounds(
           latLngBounds:

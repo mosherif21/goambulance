@@ -16,7 +16,7 @@ class NormalRequestLocationPage extends StatelessWidget {
     return Obx(
       () => makingRequestController.mapEnabled.value
           ? MakingRequestMap(
-              makingRequestController: makingRequestController,
+              controller: makingRequestController,
             )
           : MakingRequestLocationInaccessible(
               makingRequestController: makingRequestController,

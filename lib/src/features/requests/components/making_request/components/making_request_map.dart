@@ -20,9 +20,9 @@ import 'my_location_button.dart';
 class MakingRequestMap extends StatefulWidget {
   const MakingRequestMap({
     Key? key,
-    required this.makingRequestController,
+    required this.controller,
   }) : super(key: key);
-  final MakingRequestLocationController makingRequestController;
+  final MakingRequestLocationController controller;
 
   @override
   State<MakingRequestMap> createState() => _MakingRequestMapState();
@@ -68,7 +68,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           const SizedBox(height: 10),
           Obx(
             () => AutoSizeText(
-              widget.makingRequestController.searchedHospitals.isEmpty
+              widget.controller.searchedHospitals.isEmpty
                   ? 'searchingForHospitals'.tr
                   : 'chooseRequestHospital'.tr,
               style: const TextStyle(
@@ -82,7 +82,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           const Divider(height: 5),
           Expanded(
             child: ChooseHospitalsList(
-              controller: widget.makingRequestController,
+              controller: widget.controller,
             ),
           ),
           const Divider(thickness: 1, height: 2),
@@ -92,11 +92,9 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               () => RegularElevatedButton(
                 buttonText: 'confirmRequest'.tr,
                 onPressed: () {},
-                enabled:
-                    widget.makingRequestController.selectedHospital.value !=
-                            null
-                        ? true
-                        : false,
+                enabled: widget.controller.selectedHospital.value != null
+                    ? true
+                    : false,
                 color: Colors.black,
                 fontSize: 22,
                 height: 50,
@@ -114,16 +112,20 @@ class _MakingRequestMapState extends State<MakingRequestMap>
     return Scaffold(
       body: WillPopScope(
         onWillPop: () {
-          if (widget.makingRequestController.choosingHospital.value) {
-            widget.makingRequestController.choosingRequestLocationChanges();
+          if (widget.controller.choosingHospital.value &&
+              widget.controller.enableGoBack) {
+            widget.controller.choosingRequestLocationChanges();
             return Future.value(false);
-          } else {
+          } else if (!widget.controller.choosingHospital.value &&
+              widget.controller.enableGoBack) {
             return Future.value(true);
+          } else {
+            return Future.value(false);
           }
         },
         child: SlidingUpPanel(
           renderPanelSheet: false,
-          controller: widget.makingRequestController.hospitalsPanelController,
+          controller: widget.controller.hospitalsPanelController,
           panel: floatingPanel(),
           minHeight: 0,
           maxHeight: screenHeight * 0.5,
@@ -142,8 +144,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   padding: AppInit.isWeb
                       ? EdgeInsets.zero
                       : EdgeInsets.only(
-                          bottom: widget.makingRequestController
-                                  .choosingHospital.value
+                          bottom: widget.controller.choosingHospital.value
                               ? screenHeight * 0.48
                               : 70,
                           left: isLangEnglish() ? 8 : 0,
@@ -151,16 +152,15 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                           top: 100,
                         ),
                   initialCameraPosition:
-                      widget.makingRequestController.getInitialCameraPosition(),
-                  polylines: widget.makingRequestController.mapPolyLines.value,
-                  markers: widget.makingRequestController.mapMarkers.value,
+                      widget.controller.getInitialCameraPosition(),
+                  polylines: widget.controller.mapPolyLines.value,
+                  markers: widget.controller.mapMarkers.value,
                   onMapCreated: (GoogleMapController controller) => widget
-                      .makingRequestController.mapControllerCompleter
+                      .controller.mapControllerCompleter
                       .complete(controller),
-                  onCameraMove: widget.makingRequestController.onCameraMove,
+                  onCameraMove: widget.controller.onCameraMove,
                   onCameraMoveStarted: () {
-                    if (!widget
-                        .makingRequestController.choosingHospital.value) {
+                    if (!widget.controller.choosingHospital.value) {
                       setState(() {
                         _pinAnimController.stop();
                         _pinAnimController.reset();
@@ -168,12 +168,11 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                     }
                   },
                   onCameraIdle: () {
-                    if (!widget
-                        .makingRequestController.choosingHospital.value) {
+                    if (!widget.controller.choosingHospital.value) {
                       setState(() {
                         _pinAnimController.forward();
                       });
-                      widget.makingRequestController.onCameraIdle();
+                      widget.controller.onCameraIdle();
                     }
                   },
                 ),
@@ -190,19 +189,20 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                         CircleBackButton(
                           padding: 0,
                           onPress: () {
-                            if (widget.makingRequestController.choosingHospital
-                                .value) {
-                              widget.makingRequestController
+                            if (widget.controller.choosingHospital.value &&
+                                widget.controller.enableGoBack) {
+                              widget.controller
                                   .choosingRequestLocationChanges();
-                            } else {
+                            } else if (!widget
+                                    .controller.choosingHospital.value &&
+                                widget.controller.enableGoBack) {
                               Get.back();
                             }
                           },
                         ),
                         const SizedBox(width: 10),
                         Obx(
-                          () => widget.makingRequestController
-                                  .routeToHospitalTime.isNotEmpty
+                          () => widget.controller.routeToHospitalTime.isNotEmpty
                               ? Container(
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
@@ -228,10 +228,8 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                                       const SizedBox(width: 5),
                                       AutoSizeText(
                                         'routeTime'.trParams({
-                                          'routeTime': widget
-                                              .makingRequestController
-                                              .routeToHospitalTime
-                                              .value,
+                                          'routeTime': widget.controller
+                                              .routeToHospitalTime.value,
                                         }),
                                         style: const TextStyle(
                                           fontSize: 16,
@@ -247,13 +245,11 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                               : const SizedBox.shrink(),
                         ),
                         Obx(
-                          () => widget.makingRequestController.choosingHospital
-                                  .value
+                          () => widget.controller.choosingHospital.value
                               ? const SizedBox.shrink()
                               : Expanded(
                                   child: MakingRequestMapSearch(
-                                    makingRequestController:
-                                        widget.makingRequestController,
+                                    makingRequestController: widget.controller,
                                   ),
                                 ),
                         ),
@@ -263,7 +259,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 ),
               ),
               Obx(
-                () => !widget.makingRequestController.choosingHospital.value
+                () => !widget.controller.choosingHospital.value
                     ? Positioned(
                         left: 0,
                         right: 0,
@@ -272,8 +268,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                           padding: const EdgeInsets.symmetric(horizontal: 15.0),
                           child: RegularElevatedButton(
                             buttonText: 'requestHere'.tr,
-                            onPressed: () =>
-                                widget.makingRequestController.onRequestPress(),
+                            onPressed: () => widget.controller.onRequestPress(),
                             enabled: true,
                             color: Colors.black,
                             fontSize: 22,
@@ -285,13 +280,13 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               ),
               Obx(
                 () => Positioned(
-                  bottom: widget.makingRequestController.choosingHospital.value
+                  bottom: widget.controller.choosingHospital.value
                       ? screenHeight * 0.48
                       : 70,
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(
-                    controller: widget.makingRequestController,
+                    controller: widget.controller,
                   ),
                 ),
               ),
@@ -299,12 +294,10 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 () => Center(
                   child: Container(
                     margin: EdgeInsets.only(
-                        bottom:
-                            widget.makingRequestController.mapPinMargin.value),
-                    height:
-                        widget.makingRequestController.choosingHospital.value
-                            ? 0
-                            : screenHeight * 0.15,
+                        bottom: widget.controller.mapPinMargin.value),
+                    height: widget.controller.choosingHospital.value
+                        ? 0
+                        : screenHeight * 0.15,
                     child: Lottie.asset(
                       kMapPin,
                       repeat: false,

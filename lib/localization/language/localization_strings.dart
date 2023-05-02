@@ -268,6 +268,9 @@ class Languages extends Translations {
           'someoneElse': 'لشخص اخر',
           'requestFor': 'لمن طلب سيارة الإسعاف هذا؟',
           'editUserInfo': 'يمكنك تعديل بياناتك من هنا',
+          'linkGoogleAccount': 'ربط حساب جوجل',
+          'linkFacebookAccount': 'ربط حساب فيسبوك',
+          'linkEmailAccount': 'ربط حساب بريد الكتروني و كلمة مرور',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -544,6 +547,9 @@ class Languages extends Translations {
           'avgPrice': 'Average price',
           'requestFor': 'Who is this ambulance request for?',
           'editUserInfo': 'You Can Edit Your Data Here',
+          'linkGoogleAccount': 'Link Google Account',
+          'linkFacebookAccount': 'Link Facebook Account',
+          'linkEmailAccount': 'Link Email and Password Account',
         },
       };
 }

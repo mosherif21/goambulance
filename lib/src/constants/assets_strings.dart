@@ -24,6 +24,9 @@ const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";
 const String kNoEmergencyContact = "assets/images/no_contacts.png";
 const String kHospitalFrontImg = "assets/images/hospital_front.png";
 const String kMyLocation = "assets/images/myLocation.svg";
+const String kGoogleImg = "assets/images/google.png";
+const String kFacebookImg = "assets/images/facebook.png";
+const String kEmailImg = "assets/images/email.png";
 
 //--Lottie assets
 const String kOnBoardingAnim1 = "assets/lottie_animations/ambulance.json";

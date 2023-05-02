@@ -20,41 +20,44 @@ class LinkAccountButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          splashFactory: InkSparkle.splashFactory,
-          elevation: 0,
-          backgroundColor: backgroundColor,
-          foregroundColor: Colors.white,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-        ),
-        onPressed: enabled ? () => onPressed() : null,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage(imagePath),
-                height: 35.0,
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: AutoSizeText(
-                    buttonText,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: textColor,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ))
-            ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
+      child: SizedBox(
+        width: double.infinity,
+        height: 45,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            splashFactory: InkSparkle.splashFactory,
+            elevation: 0,
+            backgroundColor: backgroundColor,
+            foregroundColor: Colors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+          ),
+          onPressed: enabled ? () => onPressed() : null,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage(imagePath),
+                  height: 35.0,
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: AutoSizeText(
+                      buttonText,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: textColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ))
+              ],
+            ),
           ),
         ),
       ),

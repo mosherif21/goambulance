@@ -35,6 +35,7 @@ class EmergencyNumbersScreen extends StatelessWidget {
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: ListView.builder(
+              shrinkWrap: true,
               itemBuilder: (BuildContext context, int emergencyNumber) {
                 return RegularClickableCard(
                   onPressed: () async {

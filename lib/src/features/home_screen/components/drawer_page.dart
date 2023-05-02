@@ -94,6 +94,7 @@ class DrawerPage extends StatelessWidget {
                       );
                     },
                     itemCount: mainMenu.length,
+                    shrinkWrap: true,
                   ),
                 ),
               ],

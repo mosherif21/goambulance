@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:goambulance/src/general/common_widgets/link_account_button.dart';
 
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
@@ -17,8 +18,6 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    bool isEmail =
-        AuthenticationRepository.instance.isEmailAndPasswordLinked.value;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -75,38 +74,44 @@ class AccountScreen extends StatelessWidget {
                     itemCount: 3,
                     shrinkWrap: true,
                   ),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
-                      child: LinkAccountButton(
-                        buttonText: 'linkGoogleAccount'.tr,
-                        imagePath: 'assets/images/google.png',
-                        onPressed: () {},
-                        backgroundColor: Colors.cyan,
-                        textColor: Colors.white,
-                        enabled: true,
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
-                      child: LinkAccountButton(
-                        buttonText: 'linkFacebookAccount'.tr,
-                        imagePath: 'assets/images/facebook.png',
-                        onPressed: () {},
-                        backgroundColor: Colors.blueAccent,
-                        textColor: Colors.white,
-                        enabled: true,
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
-                      child: LinkAccountButton(
-                        buttonText: 'linkEmailAccount'.tr,
-                        imagePath: 'assets/images/email.png',
-                        onPressed: () {
-                          print('a7yyyyyyyyyyyh');
-                        },
-                        backgroundColor: Colors.white,
-                        textColor: Colors.black,
-                        enabled: !isEmail,
-                      )),
+                  Obx(
+                    () => AuthenticationRepository.instance.isGoogleLinked.value
+                        ? const SizedBox.shrink()
+                        : LinkAccountButton(
+                            buttonText: 'linkGoogleAccount'.tr,
+                            imagePath: kGoogleImg,
+                            onPressed: () {},
+                            backgroundColor: Colors.cyan,
+                            textColor: Colors.white,
+                            enabled: true,
+                          ),
+                  ),
+                  Obx(
+                    () =>
+                        AuthenticationRepository.instance.isFacebookLinked.value
+                            ? const SizedBox.shrink()
+                            : LinkAccountButton(
+                                buttonText: 'linkFacebookAccount'.tr,
+                                imagePath: kFacebookImg,
+                                onPressed: () {},
+                                backgroundColor: Colors.blueAccent,
+                                textColor: Colors.white,
+                                enabled: true,
+                              ),
+                  ),
+                  Obx(
+                    () => AuthenticationRepository
+                            .instance.isEmailAndPasswordLinked.value
+                        ? const SizedBox.shrink()
+                        : LinkAccountButton(
+                            buttonText: 'linkEmailAccount'.tr,
+                            imagePath: kEmailImg,
+                            onPressed: () {},
+                            backgroundColor: Colors.white,
+                            textColor: Colors.black,
+                            enabled: true,
+                          ),
+                  ),
                   RoundedElevatedButton(
                     buttonText: 'logout'.tr,
                     onPressed: () => logoutDialogue(),

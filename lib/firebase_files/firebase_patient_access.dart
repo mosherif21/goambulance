@@ -172,19 +172,27 @@ class FirebasePatientDataAccess extends GetxController {
   }) async {
     try {
       if (AppInit.isWeb) {
-        await userStorageReference
-            .child('profilePic')
-            .putData(await profilePic!.readAsBytes());
-        await userStorageReference
-            .child('nationalId')
-            .putData(await nationalID!.readAsBytes());
+        if (profilePic != null) {
+          await userStorageReference
+              .child('profilePic')
+              .putData(await profilePic.readAsBytes());
+        }
+        if (nationalID != null) {
+          await userStorageReference
+              .child('nationalId')
+              .putData(await nationalID.readAsBytes());
+        }
       } else {
-        await userStorageReference
-            .child('profilePic')
-            .putFile(File(profilePic!.path));
-        await userStorageReference
-            .child('nationalId')
-            .putFile(File(nationalID!.path));
+        if (profilePic != null) {
+          await userStorageReference
+              .child('profilePic')
+              .putFile(File(profilePic.path));
+        }
+        if (nationalID != null) {
+          await userStorageReference
+              .child('nationalId')
+              .putFile(File(nationalID.path));
+        }
       }
       await firestoreUserRef.update({
         'name': name,

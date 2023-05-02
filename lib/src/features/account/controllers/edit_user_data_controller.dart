@@ -221,8 +221,8 @@ class EditUserDataController extends GetxController {
     final birthDate = birthDateController.selectedDate;
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateUserDataInfo(
-      profilePic: profileImage.value,
-      nationalID: iDImage.value,
+      profilePic: isProfileImageChanged.value ? profileImage.value : null,
+      nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
       name: name,
       email: email,
       nationalId: nationalId,

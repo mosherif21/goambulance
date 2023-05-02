@@ -47,6 +47,7 @@ class EditMedicalHistoryController extends GetxController {
     authRep = AuthenticationRepository.instance;
     userInfo = authRep.userInfo!;
     userId = authRep.fireUser.value!.uid;
+    loadDiseases();
     super.onInit();
   }
 

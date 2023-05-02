@@ -188,7 +188,6 @@ class NormalRequestScreen extends StatelessWidget {
                                     child: controller.diseasesList.isNotEmpty
                                         ? Column(
                                             children: [
-                                              const SizedBox(height: 10),
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(8),
@@ -201,6 +200,7 @@ class NormalRequestScreen extends StatelessWidget {
                                                   maxLines: 2,
                                                 ),
                                               ),
+                                              const SizedBox(height: 10),
                                               for (var diseaseItem
                                                   in controller.diseasesList)
                                                 MedicalHistoryItem(

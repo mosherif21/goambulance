@@ -162,7 +162,6 @@ class EditMedicalHistoryPage extends StatelessWidget {
                             : controller.diseasesList.isNotEmpty
                                 ? Column(
                                     children: [
-                                      const SizedBox(height: 10),
                                       Padding(
                                         padding: const EdgeInsets.all(8),
                                         child: AutoSizeText(
@@ -174,6 +173,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                                           maxLines: 2,
                                         ),
                                       ),
+                                      const SizedBox(height: 10),
                                       for (var diseaseItem
                                           in controller.diseasesList)
                                         MedicalHistoryItem(

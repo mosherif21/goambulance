@@ -37,8 +37,8 @@ class RegisterUserDataController extends GetxController {
 
   //images
   final picker = ImagePicker();
-  late Rx<XFile?> profileImage = XFile('').obs;
-  late Rx<XFile?> iDImage = XFile('').obs;
+  late Rx<XFile?> profileImage = Rx<XFile?>(null);
+  late Rx<XFile?> iDImage = Rx<XFile?>(null);
 
   RxBool isProfileImageAdded = false.obs;
   RxBool isNationalIDImageAdded = false.obs;

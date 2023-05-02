@@ -38,29 +38,30 @@ class EditUserDataController extends GetxController {
 
   //images
   final picker = ImagePicker();
-  late Rx<XFile?> profileImage = XFile('').obs;
-  late Rx<XFile?> iDImage = XFile('').obs;
+  late Rx<XFile?> profileImage = Rx<XFile?>(null);
+  late Rx<XFile?> iDImage = Rx<XFile?>(null);
+  late Rx<ImageProvider?> idMemoryImage = Rx<ImageProvider?>(null);
+  late Rx<ImageProvider?> profileMemoryImage = Rx<ImageProvider?>(null);
 
-  final isProfileImageAdded = false.obs;
-  final isNationalIDImageAdded = false.obs;
+  final isProfileImageChanged = false.obs;
+  final isNationalIDImageChanged = false.obs;
+
+  final isNationalIDImageLoaded = false.obs;
+  final isProfileImageLoaded = false.obs;
 
   final highlightName = false.obs;
   final highlightEmail = false.obs;
   final highlightNationalId = false.obs;
-  final highlightGender = false.obs;
-  final highlightBirthdate = false.obs;
-  final highlightProfilePic = false.obs;
-  final highlightNationalIdPick = false.obs;
-
   bool makeEmailEditable = true;
 
   final user = AuthenticationRepository.instance.fireUser.value;
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
 
+  late final String userId;
+  final fireStorage = FirebaseStorage.instance;
   @override
   void onInit() {
-    super.onInit();
-
+    userId = user!.uid;
     if (user?.email != null) {
       emailTextController.text = user!.email!;
       makeEmailEditable = false;
@@ -70,30 +71,35 @@ class EditUserDataController extends GetxController {
     phoneNumber = user!.phoneNumber!;
     nationalIdTextController.text =
         AuthenticationRepository.instance.userInfo!.nationalId;
+    loadImages();
 
-    //checkPersonalInformation();
+    super.onInit();
+  }
+
+  void loadImages() {
+    final userStorageRef = fireStorage.ref().child('users/$userId');
+    final storageIdRef = userStorageRef.child('nationalId');
+    final storageProfileRef = userStorageRef.child('profilePic');
+    try {
+      storageProfileRef.getData().then((imageData) {
+        profileMemoryImage.value = MemoryImage(imageData!);
+        isProfileImageLoaded.value = true;
+      });
+      storageIdRef.getData().then((idData) {
+        idMemoryImage.value = MemoryImage(idData!);
+        isNationalIDImageLoaded.value = true;
+      });
+    } catch (err) {
+      if (kDebugMode) {
+        print(err.toString());
+      }
+    }
   }
 
   /*hatst5dm variable el userinfo ely fe el authentication repository  yet3rad beh el info el adema we b3d ma ye update kol el data aw myupdat4 we ydos
    save ht update el data fe firestore we te update variable userInfo be el data el gdeda */
   @override
-  void onReady() async {
-    super.onReady();
-    final userId = AuthenticationRepository.instance.fireUser.value!.uid;
-    final storageProfileRef =
-        FirebaseStorage.instance.ref().child('users/$userId/profilePic');
-    var imageData = await storageProfileRef.getData();
-    XFile imageFile = XFile.fromData(imageData!);
-    profileImage.value = imageFile;
-    isProfileImageAdded.value = true;
-
-    final storageIdRef =
-        FirebaseStorage.instance.ref().child('users/$userId/nationalId');
-    var idData = await storageIdRef.getData();
-    XFile idFile = XFile.fromData(idData!);
-    iDImage.value = idFile;
-    isNationalIDImageAdded.value = true;
-
+  void onReady() {
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {
         highlightName.value = false;
@@ -118,22 +124,20 @@ class EditUserDataController extends GetxController {
         birthDateController.selectedDate =
             DateTime(birthDate.year, birthDate.month, birthDate.day);
         highlightNationalId.value = false;
-        highlightGender.value = false;
-        highlightBirthdate.value = false;
         FocusManager.instance.primaryFocus?.unfocus();
       } catch (e) {
         if (kDebugMode) print(e.toString());
       }
     }
+    super.onReady();
   }
 
   Future<void> pickProfilePic() async {
     RegularBottomSheet.hideBottomSheet();
     final addedImage = await picker.pickImage(source: ImageSource.gallery);
     if (addedImage != null) {
-      isProfileImageAdded.value = true;
       profileImage.value = addedImage;
-      highlightProfilePic.value = false;
+      isProfileImageChanged.value = true;
     }
   }
 
@@ -141,9 +145,8 @@ class EditUserDataController extends GetxController {
     RegularBottomSheet.hideBottomSheet();
     final addedIdImage = await picker.pickImage(source: ImageSource.gallery);
     if (addedIdImage != null) {
-      isNationalIDImageAdded.value = true;
       iDImage.value = addedIdImage;
-      highlightNationalIdPick.value = false;
+      isNationalIDImageChanged.value = true;
     }
   }
 
@@ -152,9 +155,8 @@ class EditUserDataController extends GetxController {
     if (await handleCameraPermission()) {
       final addedImage = await picker.pickImage(source: ImageSource.camera);
       if (addedImage != null) {
-        isProfileImageAdded.value = true;
         profileImage.value = addedImage;
-        highlightProfilePic.value = false;
+        isProfileImageChanged.value = true;
       }
     }
   }
@@ -164,9 +166,8 @@ class EditUserDataController extends GetxController {
     if (await handleCameraPermission()) {
       final addedIdImage = await picker.pickImage(source: ImageSource.camera);
       if (addedIdImage != null) {
-        isNationalIDImageAdded.value = true;
         iDImage.value = addedIdImage;
-        highlightNationalIdPick.value = false;
+        isNationalIDImageChanged.value = true;
       }
     }
   }
@@ -187,17 +188,9 @@ class EditUserDataController extends GetxController {
     } else {
       highlightNationalId.value = true;
     }
-    highlightGender.value = gender == null;
-    highlightBirthdate.value = birthDateController.selectedDate == null;
-    highlightProfilePic.value = !isProfileImageAdded.value;
-    highlightNationalIdPick.value = !isNationalIDImageAdded.value;
     if (!highlightName.value &&
         !highlightEmail.value &&
-        !highlightNationalId.value &&
-        !highlightGender.value &&
-        !highlightBirthdate.value &&
-        !highlightProfilePic.value &&
-        !highlightNationalIdPick.value) {
+        !highlightNationalId.value) {
       savePersonalInformation();
     } else {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
@@ -210,7 +203,10 @@ class EditUserDataController extends GetxController {
       body: 'personalInfoShare'.tr,
       positiveButtonText: 'agree'.tr,
       negativeButtonText: 'disagree'.tr,
-      positiveButtonOnPressed: () => updateUserInfoData(),
+      positiveButtonOnPressed: () {
+        Get.back();
+        updateUserInfoData();
+      },
       negativeButtonOnPressed: () => Get.back(),
       mainIcon: Icons.check_circle_outline,
       color: SweetSheetColor.NICE,
@@ -218,13 +214,11 @@ class EditUserDataController extends GetxController {
   }
 
   void updateUserInfoData() async {
-    Get.back();
     showLoadingScreen();
     final name = nameTextController.text.trim();
     final email = emailTextController.text.trim();
     final nationalId = nationalIdTextController.text.trim();
     final birthDate = birthDateController.selectedDate;
-
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateUserDataInfo(
       profilePic: profileImage.value,

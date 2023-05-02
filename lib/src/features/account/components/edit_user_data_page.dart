@@ -11,6 +11,7 @@ import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../connectivity/connectivity.dart';
@@ -118,95 +119,98 @@ class EditUserDataPage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightGender.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(
-                              headerText: 'enterGender'.tr, fontSize: 18),
-                          CustomRadioButton(
-                            key: controller.genderRadioKey,
-                            buttonTextStyle: const ButtonTextStyle(
-                              selectedColor: Colors.white,
-                              unSelectedColor: Colors.black87,
-                              textStyle: TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
-                            unSelectedColor: Theme.of(context).canvasColor,
-                            buttonLables: ['male'.tr, 'female'.tr],
-                            spacing: 10,
-                            elevation: 0,
-                            enableShape: true,
-                            horizontal: false,
-                            enableButtonWrap: false,
-                            width: 110,
-                            absoluteZeroSpacing: false,
-                            padding: 15,
-                            selectedColor: kDefaultColor,
-                            buttonValues: const [
-                              Gender.male,
-                              Gender.female,
-                            ],
-                            radioButtonValue: (gender) {
-                              controller.gender = gender;
-                              controller.highlightGender.value = false;
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightBirthdate.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(
-                              headerText: 'enterBirthDate'.tr, fontSize: 18),
-                          Container(
-                            decoration: const BoxDecoration(
-                              color: kDefaultColorLessShade,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(20.0)),
-                            ),
-                            padding: const EdgeInsets.all(10.0),
-                            child: SfDateRangePicker(
-                              controller: controller.birthDateController,
-                              onSelectionChanged: (args) =>
-                                  controller.highlightBirthdate.value = false,
-                              selectionMode:
-                                  DateRangePickerSelectionMode.single,
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(headerText: 'enterGender'.tr, fontSize: 18),
+                        CustomRadioButton(
+                          key: controller.genderRadioKey,
+                          buttonTextStyle: const ButtonTextStyle(
+                            selectedColor: Colors.white,
+                            unSelectedColor: Colors.black87,
+                            textStyle: TextStyle(
+                              fontSize: 16,
                             ),
                           ),
-                        ],
-                      ),
+                          unSelectedColor: Theme.of(context).canvasColor,
+                          buttonLables: ['male'.tr, 'female'.tr],
+                          spacing: 10,
+                          elevation: 0,
+                          enableShape: true,
+                          horizontal: false,
+                          enableButtonWrap: false,
+                          width: 110,
+                          absoluteZeroSpacing: false,
+                          padding: 15,
+                          selectedColor: kDefaultColor,
+                          buttonValues: const [
+                            Gender.male,
+                            Gender.female,
+                          ],
+                          radioButtonValue: (gender) {
+                            controller.gender = gender;
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightProfilePic.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(headerText: 'enterPhoto'.tr, fontSize: 18),
-                          controller.isProfileImageAdded.value
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(
+                            headerText: 'enterBirthDate'.tr, fontSize: 18),
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: kDefaultColorLessShade,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(20.0)),
+                          ),
+                          padding: const EdgeInsets.all(10.0),
+                          child: SfDateRangePicker(
+                            controller: controller.birthDateController,
+                            selectionMode: DateRangePickerSelectionMode.single,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(headerText: 'enterPhoto'.tr, fontSize: 18),
+                        Obx(
+                          () => controller.isProfileImageLoaded.value
                               ? Center(
                                   child: CircleAvatar(
                                     radius: 80,
-                                    backgroundImage: XFileImage(
-                                        controller.profileImage.value!),
+                                    backgroundImage: controller
+                                            .isProfileImageChanged.value
+                                        ? XFileImage(
+                                            controller.profileImage.value!)
+                                        : controller.profileMemoryImage.value!,
                                   ),
                                 )
-                              : const SizedBox.shrink(),
-                          const SizedBox(height: 10.0),
-                          RegularElevatedButton(
-                            buttonText: controller.isProfileImageAdded.value
-                                ? 'changePhoto'.tr
-                                : 'addPhoto'.tr,
+                              : Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: const Center(
+                                    child: CircleAvatar(
+                                      radius: 80,
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                        ),
+                        const SizedBox(height: 10.0),
+                        Obx(
+                          () => RegularElevatedButton(
+                            buttonText: 'changePhoto'.tr,
                             onPressed: () =>
                                 RegularBottomSheet.showRegularBottomSheet(
                               PhotoSelect(
@@ -217,47 +221,59 @@ class EditUserDataPage extends StatelessWidget {
                                     controller.pickProfilePic(),
                               ),
                             ),
-                            enabled: true,
+                            enabled: controller.isProfileImageLoaded.value,
                             color: kDefaultColor,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Obx(
                     () => RegularCard(
-                      highlightRed: controller.highlightNationalIdPick.value,
+                      highlightRed: false,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
                               headerText: 'enterNationalIDPhoto'.tr,
                               fontSize: 18),
-                          controller.isNationalIDImageAdded.value
+                          controller.isNationalIDImageLoaded.value
                               ? Center(
                                   child: Image(
-                                    image:
-                                        XFileImage(controller.iDImage.value!),
+                                    image: controller
+                                            .isNationalIDImageChanged.value
+                                        ? XFileImage(controller.iDImage.value!)
+                                        : controller.idMemoryImage.value!,
                                   ),
                                 )
-                              : const SizedBox.shrink(),
+                              : Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Center(
+                                    child: Container(
+                                      width: 150,
+                                      height: 150,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                           const SizedBox(height: 10.0),
-                          RegularElevatedButton(
-                            buttonText: controller.isNationalIDImageAdded.value
-                                ? 'changeNationalID'.tr
-                                : 'addNationalID'.tr,
-                            onPressed: () =>
-                                RegularBottomSheet.showRegularBottomSheet(
-                              PhotoSelect(
-                                headerText: 'chooseIDMethod'.tr,
-                                onCapturePhotoPress: () =>
-                                    controller.captureIDPic(),
-                                onChoosePhotoPress: () =>
-                                    controller.pickIdPic(),
+                          Obx(
+                            () => RegularElevatedButton(
+                              buttonText: 'changeNationalID'.tr,
+                              onPressed: () =>
+                                  RegularBottomSheet.showRegularBottomSheet(
+                                PhotoSelect(
+                                  headerText: 'chooseIDMethod'.tr,
+                                  onCapturePhotoPress: () =>
+                                      controller.captureIDPic(),
+                                  onChoosePhotoPress: () =>
+                                      controller.pickIdPic(),
+                                ),
                               ),
+                              enabled: controller.isNationalIDImageLoaded.value,
+                              color: kDefaultColor,
                             ),
-                            enabled: true,
-                            color: kDefaultColor,
                           ),
                         ],
                       ),

@@ -270,6 +270,7 @@ class Languages extends Translations {
           'sendingSosMessageFailed':
               'فشل إرسال رسالة الاستغاثة ، يرجى المحاولة مرة أخرى',
           'addedDiseases': 'الأمراض / الحساسيات المضافة',
+          'editMedicalHistory': 'يمكنك تعديل سجلك الطبي هنا',
           'egp': 'جنيها',
           'forMe': 'لي',
           'avgPrice': 'متوسط السعر',
@@ -487,7 +488,8 @@ class Languages extends Translations {
           'enterContactNumber': 'Enter contact\'s number',
           'searchingForHospitals': 'Searching for hospitals',
           'enterMedicalHistory':
-              'Please enter your Medical History to complete your account registration',
+              'Please enter your medical history to complete your account registration',
+          'editMedicalHistory': 'You can edit your medical history here',
           'save': 'Save',
           'requiredFields':
               'Please provide all of the information highlighted in red correctly',
@@ -562,7 +564,7 @@ class Languages extends Translations {
           'someoneElse': 'Someone else',
           'avgPrice': 'Average price',
           'requestFor': 'Who is this ambulance request for?',
-          'editUserInfo': 'You Can Edit Your Data Here',
+          'editUserInfo': 'You can edit your account details here',
           'linkGoogleAccount': 'Link Google Account',
           'linkFacebookAccount': 'Link Facebook Account',
           'linkEmailAccount': 'Link Email and Password Account',

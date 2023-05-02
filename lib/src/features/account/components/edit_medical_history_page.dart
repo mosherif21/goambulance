@@ -45,7 +45,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                 children: [
                   const SizedBox(height: 5.0),
                   AutoSizeText(
-                    'enterMedicalHistory'.tr,
+                    'editMedicalHistory'.tr,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,

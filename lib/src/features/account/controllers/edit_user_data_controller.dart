@@ -238,6 +238,7 @@ class EditUserDataController extends GetxController {
       authRep.userInfo!.nationalId = accountDetails.nationalId;
       authRep.userInfo!.birthDate = accountDetails.birthDate;
       authRep.userInfo!.gender = accountDetails.gender;
+      Get.back();
       hideLoadingScreen();
       showSnackBar(
           text: 'accountDetailSavedSuccess'.tr,

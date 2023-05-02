@@ -155,8 +155,8 @@ class EditMedicalHistoryController extends GetxController {
       authRep.userInfo!.heartPatient = medicalHistoryData.heartPatient;
       authRep.userInfo!.additionalInformation =
           medicalHistoryData.additionalInformation;
-      hideLoadingScreen();
       Get.back();
+      hideLoadingScreen();
       showSnackBar(
           text: 'medicalHistorySavedSuccess'.tr,
           snackBarType: SnackBarType.success);

@@ -139,10 +139,10 @@ class EditUserDataController extends GetxController {
 
   Future<void> pickIdPic() async {
     RegularBottomSheet.hideBottomSheet();
-    final addedImage = await picker.pickImage(source: ImageSource.gallery);
-    if (addedImage != null) {
+    final addedIdImage = await picker.pickImage(source: ImageSource.gallery);
+    if (addedIdImage != null) {
       isNationalIDImageAdded.value = true;
-      iDImage.value = addedImage;
+      iDImage.value = addedIdImage;
       highlightNationalIdPick.value = false;
     }
   }
@@ -162,10 +162,10 @@ class EditUserDataController extends GetxController {
   Future<void> captureIDPic() async {
     RegularBottomSheet.hideBottomSheet();
     if (await handleCameraPermission()) {
-      final addedImage = await picker.pickImage(source: ImageSource.camera);
-      if (addedImage != null) {
+      final addedIdImage = await picker.pickImage(source: ImageSource.camera);
+      if (addedIdImage != null) {
         isNationalIDImageAdded.value = true;
-        iDImage.value = addedImage;
+        iDImage.value = addedIdImage;
         highlightNationalIdPick.value = false;
       }
     }

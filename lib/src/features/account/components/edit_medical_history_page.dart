@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/controllers/edit_medical_history_controller.dart';
-import 'package:goambulance/src/features/account/controllers/edit_user_data_controller.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
 import '../../../general/common_widgets/custom_rolling_switch.dart';
@@ -204,7 +203,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                                       buttonText: 'addAllergiesOrDiseases'.tr,
                                       onPressed: () => RegularBottomSheet
                                           .showRegularBottomSheet(
-                                        AddDisease(controller: null),
+                                        AddDisease(controller: controller),
                                       ),
                                       enabled: true,
                                       color: Colors.black,
@@ -212,7 +211,7 @@ class EditMedicalHistoryPage extends StatelessWidget {
                                   ),
                                 ],
                               )
-                            : NoMedicalHistory(controller: null),
+                            : NoMedicalHistory(controller: controller),
                       ),
                     ),
                   ),

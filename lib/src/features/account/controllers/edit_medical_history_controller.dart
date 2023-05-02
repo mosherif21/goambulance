@@ -1,21 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
-import 'package:eg_nid/eg_nid.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
-import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
 import 'package:goambulance/src/general/general_functions.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:rolling_switch/rolling_switch.dart';
 import 'package:sweetsheet/sweetsheet.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
 import '../../../../firebase_files/firebase_patient_access.dart';
-import '../../../constants/app_init_constants.dart';
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
@@ -30,7 +21,6 @@ class EditMedicalHistoryController extends GetxController {
   final medicinesTextController = TextEditingController();
   final medicalHistoryScrollController = ScrollController();
   final additionalInformationTextController = TextEditingController();
-
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
@@ -55,13 +45,15 @@ class EditMedicalHistoryController extends GetxController {
   void onReady() async {
     super.onReady();
 
+    bloodTypeDropdownController.text =
+        AuthenticationRepository.instance.userInfo!.bloodType;
+    diabetesDropdownController.text =
+        AuthenticationRepository.instance.userInfo!.diabetesPatient;
 
-    bloodTypeDropdownController.text =AuthenticationRepository.instance.userInfo!.bloodType;
-    diabetesDropdownController.text =AuthenticationRepository.instance.userInfo!.diabetesPatient;
-
-    if (AuthenticationRepository.instance.userInfo!.hypertensive== 'No') {
+    if (AuthenticationRepository.instance.userInfo!.hypertensive == 'No') {
       hypertensivePatient = false;
-    } else if (AuthenticationRepository.instance.userInfo!.hypertensive == 'Yes') {
+    } else if (AuthenticationRepository.instance.userInfo!.hypertensive ==
+        'Yes') {
       hypertensivePatient = true;
       hypertensiveKey.currentState!.action();
     }
@@ -71,7 +63,7 @@ class EditMedicalHistoryController extends GetxController {
       heartPatient = true;
       heartPatientKey.currentState!.action();
     }
-   /* documentReference.get().then((documentSnapshot) {
+    /* documentReference.get().then((documentSnapshot) {
       if (documentSnapshot.exists) {
         bloodTypeDropdownController.text =
             documentSnapshot.get('bloodType').toString();
@@ -95,7 +87,6 @@ class EditMedicalHistoryController extends GetxController {
       }
     }*/
 
-
     bloodTypeDropdownController.addListener(() {
       final bloodTypeValue = bloodTypeDropdownController.text.trim();
       if (bloodTypeValue.isNotEmpty ||
@@ -108,7 +99,6 @@ class EditMedicalHistoryController extends GetxController {
       diseaseName.value = diseaseNameTextController.text.trim();
     });
   }
-
 
   Future<void> updateMedicalInfo() async {
     final bloodType = bloodTypeDropdownController.text;
@@ -139,7 +129,7 @@ class EditMedicalHistoryController extends GetxController {
     Get.back();
     showLoadingScreen();
     final functionStatus =
-    await FirebasePatientDataAccess.instance.updateMedicalHistory(
+        await FirebasePatientDataAccess.instance.updateMedicalHistory(
       diabetesPatient: diabetic,
       bloodType: bloodType,
       hypertensive: hypertensivePatient ? 'Yes' : 'No',
@@ -153,6 +143,17 @@ class EditMedicalHistoryController extends GetxController {
       hideLoadingScreen();
       showSnackBar(
           text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
+    }
+  }
+
+  void addDiseaseItem() {
+    if (diseaseName.value.isNotEmpty) {
+      final diseaseMedicines = medicinesTextController.text.trim();
+      diseasesList.add(DiseaseItem(
+          diseaseName: diseaseName.value, diseaseMedicines: diseaseMedicines));
+      diseaseNameTextController.clear();
+      medicinesTextController.clear();
+      RegularBottomSheet.hideBottomSheet();
     }
   }
 

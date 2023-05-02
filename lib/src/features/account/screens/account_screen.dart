@@ -1,10 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 
-import '../../../../authentication/authentication_repository.dart';
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
@@ -78,7 +75,7 @@ class AccountScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: Row(
                       children: [
-                        SignInButton(
+                        /* SignInButton(
                           padding: const EdgeInsets.only(left: 5.0),
                           Buttons.GoogleDark,
                           text: 'linkGoogle'.tr,
@@ -93,7 +90,7 @@ class AccountScreen extends StatelessWidget {
                           },
                           width: getScreenWidth(context) - 100,
                           height: 50.0,
-                        )
+                        )*/
                       ],
                     ),
                   ),

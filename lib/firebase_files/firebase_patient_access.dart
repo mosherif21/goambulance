@@ -167,8 +167,8 @@ class FirebasePatientDataAccess extends GetxController {
     required String nationalId,
     required String gender,
     required DateTime? birthdate,
-     XFile? profilePic,
-     XFile? nationalID,
+    XFile? profilePic,
+    XFile? nationalID,
   }) async {
     try {
       if (AppInit.isWeb) {

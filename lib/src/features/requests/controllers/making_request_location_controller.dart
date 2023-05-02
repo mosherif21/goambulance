@@ -291,6 +291,7 @@ class MakingRequestLocationController extends GetxController {
           final hospitalsRef = _firestore.collection('hospitals');
           for (var hospitalsDocument in hospitalsDocuments) {
             final String hospitalId = hospitalsDocument.id;
+            enableGoBack = false;
             await hospitalsRef.doc(hospitalId).get().then((snapshot) {
               if (snapshot.exists) {
                 final hospitalDoc = snapshot.data()!;
@@ -314,13 +315,11 @@ class MakingRequestLocationController extends GetxController {
                         locationLatLng: selectedHospital.value!.location),
                   );
                   mapMarkers.add(hospitalMarker!);
-                  enableGoBack = false;
                   getRouteToLocation(
                     fromLocation: currentChosenLatLng,
                     toLocation: selectedHospital.value!.location,
                     routeId: 'routeToHospital',
                   ).then((route) {
-                    enableGoBack = true;
                     routeToHospital.value = route;
                     if (routeToHospital.value != null) {
                       mapPolyLines.add(routeToHospital.value!);
@@ -329,6 +328,7 @@ class MakingRequestLocationController extends GetxController {
                               latLngList: routeToHospital.value!.points));
                     }
                   });
+                  enableGoBack = true;
                 }
                 searchedHospitals.add(foundHospital);
               }

@@ -46,16 +46,17 @@ class LinkAccountButton extends StatelessWidget {
                   height: 35.0,
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: AutoSizeText(
-                      buttonText,
-                      maxLines: 1,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: textColor,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ))
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: AutoSizeText(
+                    buttonText,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: textColor,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

@@ -271,6 +271,7 @@ class MakingRequestLocationController extends GetxController {
   Future<void> getHospitals({required int skipCount}) async {
     try {
       if (choosingHospital.value) {
+        enableGoBack = false;
         double searchRadius = 5;
         double maxRadius = 20;
         List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
@@ -291,8 +292,7 @@ class MakingRequestLocationController extends GetxController {
           final hospitalsRef = _firestore.collection('hospitals');
           for (var hospitalsDocument in hospitalsDocuments) {
             final String hospitalId = hospitalsDocument.id;
-            enableGoBack = false;
-            await hospitalsRef.doc(hospitalId).get().then((snapshot) {
+            await hospitalsRef.doc(hospitalId).get().then((snapshot) async {
               if (snapshot.exists) {
                 final hospitalDoc = snapshot.data()!;
                 GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;
@@ -315,26 +315,24 @@ class MakingRequestLocationController extends GetxController {
                         locationLatLng: selectedHospital.value!.location),
                   );
                   mapMarkers.add(hospitalMarker!);
-                  getRouteToLocation(
+                  routeToHospital.value = await getRouteToLocation(
                     fromLocation: currentChosenLatLng,
                     toLocation: selectedHospital.value!.location,
                     routeId: 'routeToHospital',
-                  ).then((route) {
-                    routeToHospital.value = route;
-                    if (routeToHospital.value != null) {
-                      mapPolyLines.add(routeToHospital.value!);
-                      animateToLatLngBounds(
-                          latLngBounds: getLatLngBounds(
-                              latLngList: routeToHospital.value!.points));
-                    }
-                  });
-                  enableGoBack = true;
+                  );
+                  if (routeToHospital.value != null) {
+                    animateToLatLngBounds(
+                        latLngBounds: getLatLngBounds(
+                            latLngList: routeToHospital.value!.points));
+                    mapPolyLines.add(routeToHospital.value!);
+                  }
                 }
                 searchedHospitals.add(foundHospital);
               }
             });
           }
         }
+        enableGoBack = true;
       }
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
@@ -580,7 +578,7 @@ class MakingRequestLocationController extends GetxController {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
         googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 40));
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 10));
       }
     }
   }

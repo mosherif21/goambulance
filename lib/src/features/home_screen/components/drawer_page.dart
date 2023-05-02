@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../general/general_functions.dart';
 
@@ -22,7 +23,6 @@ class DrawerPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final authRepo = AuthenticationRepository.instance;
-    final userName = authRepo.userInfo!.name;
     return Scaffold(
       backgroundColor: Colors.grey.shade200,
       body: SafeArea(
@@ -43,6 +43,7 @@ class DrawerPage extends StatelessWidget {
                     right: 24.0,
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Obx(
                         () => authRepo.drawerProfileImageUrl.value.isURL
@@ -51,16 +52,32 @@ class DrawerPage extends StatelessWidget {
                                 backgroundImage: NetworkImage(
                                     authRepo.drawerProfileImageUrl.value),
                               )
-                            : const SizedBox.shrink(),
+                            : Shimmer.fromColors(
+                                baseColor: Colors.grey.shade300,
+                                highlightColor: Colors.grey.shade100,
+                                child: const Center(
+                                  child: CircleAvatar(
+                                    radius: 65,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                ),
+                              ),
                       ),
                       const SizedBox(height: 20),
-                      AutoSizeText(
-                        userName,
-                        maxLines: 1,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w900,
+                      SizedBox(
+                        width: 200,
+                        child: Obx(
+                          () => AutoSizeText(
+                            authRepo.drawerAccountName.value,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            minFontSize: 22,
+                            style: const TextStyle(
+                              fontSize: 22,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w900,
+                            ),
+                          ),
                         ),
                       ),
                     ],

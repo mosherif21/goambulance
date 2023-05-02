@@ -253,6 +253,7 @@ class Languages extends Translations {
           'loading': 'جاري تحميل...',
           'requestHere': 'اطلب هنا',
           'confirmRequest': 'تاكيد الطلب',
+          'accountDetailSavedSuccess': 'تم حفظ معلومات الحساب بنجاح',
           'useMobileToThisFeature':
               'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الخاصية',
           'useMobileToRegister':
@@ -437,6 +438,7 @@ class Languages extends Translations {
           'emergencyNumber6': 'Traffic police',
           'male': 'Male',
           'female': 'Female',
+          'accountDetailSavedSuccess': 'Account information saved successfully',
           'pullToRefresh': 'Pull down to refresh',
           'releaseToRefresh': 'Release to refresh',
           'refreshing': 'Refreshing',

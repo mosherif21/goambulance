@@ -1,5 +1,6 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,12 @@ import '../../../../authentication/authentication_repository.dart';
 import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../components/models.dart';
 
 class EditUserDataController extends GetxController {
   static EditUserDataController get instance => Get.find();
 
   //vars
-  late final String phoneNumber;
   late final String oldName;
   late final String oldEmail;
   late final String oldNationalId;
@@ -54,24 +55,29 @@ class EditUserDataController extends GetxController {
   final highlightNationalId = false.obs;
   bool makeEmailEditable = true;
 
-  final user = AuthenticationRepository.instance.fireUser.value;
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
 
   late final String userId;
-  final fireStorage = FirebaseStorage.instance;
+  late final User currentUser;
+  late final UserInformation userInfo;
 
+  late final AuthenticationRepository authRep;
+  late final FirebaseStorage fireStorage;
   @override
   void onInit() {
-    userId = user!.uid;
-    if (user?.email != null) {
-      emailTextController.text = user!.email!;
+    authRep = AuthenticationRepository.instance;
+    fireStorage = FirebaseStorage.instance;
+    currentUser = authRep.fireUser.value!;
+    userInfo = authRep.userInfo!;
+    userId = currentUser.uid;
+    if (currentUser.email != null) {
+      emailTextController.text = currentUser.email!;
       makeEmailEditable = false;
+    } else {
+      emailTextController.text = userInfo.email;
     }
-    final userName = user?.displayName ?? '';
-    nameTextController.text = userName;
-    phoneNumber = user!.phoneNumber!;
-    nationalIdTextController.text =
-        AuthenticationRepository.instance.userInfo!.nationalId;
+    nameTextController.text = userInfo.name;
+    nationalIdTextController.text = userInfo.nationalId;
     loadImages();
 
     super.onInit();
@@ -79,14 +85,12 @@ class EditUserDataController extends GetxController {
 
   void loadImages() {
     final userStorageRef = fireStorage.ref().child('users/$userId');
-    final storageIdRef = userStorageRef.child('nationalId');
-    final storageProfileRef = userStorageRef.child('profilePic');
     try {
-      storageProfileRef.getData().then((imageData) {
+      userStorageRef.child('profilePic').getData().then((imageData) {
         profileMemoryImage.value = MemoryImage(imageData!);
         isProfileImageLoaded.value = true;
       });
-      storageIdRef.getData().then((idData) {
+      userStorageRef.child('nationalId').getData().then((idData) {
         idMemoryImage.value = MemoryImage(idData!);
         isNationalIDImageLoaded.value = true;
       });
@@ -97,8 +101,6 @@ class EditUserDataController extends GetxController {
     }
   }
 
-  /*hatst5dm variable el userinfo ely fe el authentication repository  yet3rad beh el info el adema we b3d ma ye update kol el data aw myupdat4 we ydos
-   save ht update el data fe firestore we te update variable userInfo be el data el gdeda */
   @override
   void onReady() {
     nameTextController.addListener(() {
@@ -220,24 +222,31 @@ class EditUserDataController extends GetxController {
     final email = emailTextController.text.trim();
     final nationalId = nationalIdTextController.text.trim();
     final birthDate = birthDateController.selectedDate;
+    final genderText = gender == Gender.male ? 'male' : 'female';
+    final accountDetails = AccountDetailsModel(
+      name: name,
+      email: email,
+      nationalId: nationalId,
+      birthDate: birthDate!,
+      gender: genderText,
+    );
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateUserDataInfo(
       profilePic: isProfileImageChanged.value ? profileImage.value : null,
       nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
-      name: name,
-      email: email,
-      nationalId: nationalId,
-      gender: gender == Gender.male ? 'male' : 'female',
-      birthdate: birthDate,
+      accountDetails: accountDetails,
     );
-    AuthenticationRepository.instance.drawerProfileImageUrl.value =
-        await fireStorage
-            .ref()
-            .child('users/$userId')
-            .child('profilePic')
-            .getDownloadURL();
     if (functionStatus == FunctionStatus.success) {
+      authRep.userInfo!.name = accountDetails.name;
+      authRep.drawerAccountName.value = accountDetails.name;
+      authRep.userInfo!.email = accountDetails.email;
+      authRep.userInfo!.nationalId = accountDetails.nationalId;
+      authRep.userInfo!.birthDate = accountDetails.birthDate;
+      authRep.userInfo!.gender = accountDetails.gender;
       hideLoadingScreen();
+      showSnackBar(
+          text: 'accountDetailSavedSuccess'.tr,
+          snackBarType: SnackBarType.success);
     } else {
       hideLoadingScreen();
       showSnackBar(

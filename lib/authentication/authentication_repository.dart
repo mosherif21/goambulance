@@ -33,6 +33,7 @@ class AuthenticationRepository extends GetxController {
   UserType userType = UserType.patient;
   late UserInformation? userInfo;
   final drawerProfileImageUrl = ''.obs;
+  final drawerAccountName = ''.obs;
 
   @override
   void onInit() {
@@ -108,15 +109,16 @@ class AuthenticationRepository extends GetxController {
               sosMessage: userDoc['sosMessage'].toString(),
               criticalUser: userDoc['criticalUser'] as bool,
             );
+            drawerAccountName.value = userDoc['name'].toString();
             userType = UserType.patient;
           }
           final profileImageRef =
               fireStorage.ref().child('users/$userId/profilePic');
           drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
+
           if (kDebugMode) print('$userType');
         }
       });
-
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

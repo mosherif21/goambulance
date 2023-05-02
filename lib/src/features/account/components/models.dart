@@ -1,17 +1,17 @@
 class UserInformation {
-  final String name;
-  final String email;
-  final String nationalId;
-  final DateTime birthDate;
-  final String gender;
-  final String bloodType;
-  final String diabetesPatient;
-  final String additionalInformation;
-  final String phoneNumber;
-  final String hypertensive;
-  final String heartPatient;
+  String name;
+  String email;
+  String nationalId;
+  DateTime birthDate;
+  String gender;
+  String bloodType;
+  String diabetesPatient;
+  String additionalInformation;
+  String phoneNumber;
+  String hypertensive;
+  String heartPatient;
   String sosMessage;
-  final bool criticalUser;
+  bool criticalUser;
   UserInformation({
     required this.name,
     required this.email,
@@ -42,6 +42,52 @@ class UserInformation {
         'type': 'patient',
         'criticalUser': criticalUser,
         'sosMessage': sosMessage,
+      };
+}
+
+class AccountDetailsModel {
+  String name;
+  String email;
+  String nationalId;
+  DateTime birthDate;
+  String gender;
+  AccountDetailsModel({
+    required this.name,
+    required this.email,
+    required this.nationalId,
+    required this.birthDate,
+    required this.gender,
+  });
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'email': email,
+        'nationalId': nationalId,
+        'birthdate': birthDate,
+        'gender': gender,
+      };
+}
+
+class MedicalHistoryModel {
+  final String bloodType;
+  final String diabetesPatient;
+  final String additionalInformation;
+  final String bloodPressurePatient;
+  final String heartPatient;
+  final List<DiseaseItem> diseasesList;
+  MedicalHistoryModel({
+    required this.bloodType,
+    required this.diabetesPatient,
+    required this.bloodPressurePatient,
+    required this.heartPatient,
+    required this.additionalInformation,
+    required this.diseasesList,
+  });
+  Map<String, dynamic> toJson() => {
+        'bloodType': bloodType,
+        'diabetesPatient': diabetesPatient,
+        'bloodPressurePatient': bloodPressurePatient,
+        'heartPatient': heartPatient,
+        'additionalInformation': additionalInformation,
       };
 }
 

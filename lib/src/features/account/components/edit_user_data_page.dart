@@ -88,8 +88,7 @@ class EditUserDataPage extends StatelessWidget {
                             prefixIconData: Icons.email,
                             textController: controller.emailTextController,
                             inputType: InputType.text,
-                            editable:
-                                controller.makeEmailEditable ? true : false,
+                            editable: controller.makeEmailEditable,
                             textInputAction: TextInputAction.next,
                           ),
                         ],
@@ -251,7 +250,7 @@ class EditUserDataPage extends StatelessWidget {
                                   highlightColor: Colors.grey.shade100,
                                   child: Center(
                                     child: Container(
-                                      width: 150,
+                                      width: double.infinity,
                                       height: 150,
                                       color: Colors.white,
                                     ),

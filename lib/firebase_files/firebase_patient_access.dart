@@ -23,15 +23,17 @@ class FirebasePatientDataAccess extends GetxController {
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserRef;
   late final Reference userStorageReference;
+  late final AuthenticationRepository authRep;
 
   @override
   void onInit() {
-    userId = AuthenticationRepository.instance.fireUser.value?.uid;
+    userId = AuthenticationRepository.instance.fireUser.value!.uid;
     fireStore = FirebaseFirestore.instance;
     fireDatabase = FirebaseDatabase.instance;
     fireStorage = FirebaseStorage.instance;
-    firestoreUserRef = fireStore.collection('users').doc(userId!);
+    firestoreUserRef = fireStore.collection('users').doc(userId);
     userStorageReference = fireStorage.ref().child('users').child(userId!);
+    authRep = AuthenticationRepository.instance;
     super.onInit();
   }
 
@@ -162,20 +164,21 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> updateUserDataInfo({
-    required String name,
-    required String email,
-    required String nationalId,
-    required String gender,
-    required DateTime? birthdate,
+    required AccountDetailsModel accountDetails,
     XFile? profilePic,
     XFile? nationalID,
   }) async {
     try {
+      final storageProfileRef =
+          fireStorage.ref().child('users/$userId/profilePic');
+
       if (AppInit.isWeb) {
         if (profilePic != null) {
           await userStorageReference
               .child('profilePic')
               .putData(await profilePic.readAsBytes());
+          authRep.drawerProfileImageUrl.value =
+              await storageProfileRef.getDownloadURL();
         }
         if (nationalID != null) {
           await userStorageReference
@@ -187,6 +190,8 @@ class FirebasePatientDataAccess extends GetxController {
           await userStorageReference
               .child('profilePic')
               .putFile(File(profilePic.path));
+          authRep.drawerProfileImageUrl.value =
+              await storageProfileRef.getDownloadURL();
         }
         if (nationalID != null) {
           await userStorageReference
@@ -194,13 +199,7 @@ class FirebasePatientDataAccess extends GetxController {
               .putFile(File(nationalID.path));
         }
       }
-      await firestoreUserRef.update({
-        'name': name,
-        'email': email,
-        'nationalId': nationalId,
-        'gender': gender,
-        'birthdate': birthdate
-      });
+      await firestoreUserRef.update(accountDetails.toJson());
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

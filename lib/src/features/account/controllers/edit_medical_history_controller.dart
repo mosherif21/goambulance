@@ -20,6 +20,10 @@ class EditMedicalHistoryController extends GetxController {
   final medicinesTextController = TextEditingController();
   final medicalHistoryScrollController = ScrollController();
   final additionalInformationTextController = TextEditingController();
+  final hypertensiveDropdownController = TextEditingController();
+  final diabetesDropdownController = TextEditingController();
+  final heartPatientDropdownController = TextEditingController();
+  final bloodTypeDropdownController = TextEditingController();
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
@@ -28,13 +32,6 @@ class EditMedicalHistoryController extends GetxController {
   bool hypertensivePatient = false;
   bool heartPatient = false;
   final diseaseName = ''.obs;
-  final hypertensiveDropdownController = TextEditingController();
-
-  final diabetesDropdownController = TextEditingController();
-
-  final heartPatientDropdownController = TextEditingController();
-
-  final bloodTypeDropdownController = TextEditingController();
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
   final heartPatientKey = GlobalKey<RollingSwitchState>();
 
@@ -53,6 +50,7 @@ class EditMedicalHistoryController extends GetxController {
 
   @override
   void onReady() async {
+    additionalInformationTextController.text = userInfo.additionalInformation;
     bloodTypeDropdownController.text = userInfo.bloodType;
     diabetesDropdownController.text =
         userInfo.diabetic == 'No' ? 'no'.tr : userInfo.diabetic;
@@ -158,6 +156,7 @@ class EditMedicalHistoryController extends GetxController {
       authRep.userInfo!.additionalInformation =
           medicalHistoryData.additionalInformation;
       hideLoadingScreen();
+      Get.back();
       showSnackBar(
           text: 'medicalHistorySavedSuccess'.tr,
           snackBarType: SnackBarType.success);
@@ -186,6 +185,10 @@ class EditMedicalHistoryController extends GetxController {
     medicinesTextController.dispose();
     medicalHistoryScrollController.dispose();
     additionalInformationTextController.dispose();
+    hypertensiveDropdownController.dispose();
+    diabetesDropdownController.dispose();
+    heartPatientDropdownController.dispose();
+    bloodTypeDropdownController.dispose();
     super.onClose();
   }
 }

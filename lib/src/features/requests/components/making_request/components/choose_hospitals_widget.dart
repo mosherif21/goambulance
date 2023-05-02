@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../../general/general_functions.dart';
 import '../../../controllers/making_request_location_controller.dart';
 import '../models.dart';
 import 'hospital_choose_card.dart';
@@ -16,7 +18,14 @@ class ChooseHospitalsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SmartRefresher(
       enablePullDown: true,
-      header: const ClassicHeader(),
+      header: ClassicHeader(
+        completeDuration: const Duration(milliseconds: 0),
+        releaseText: 'releaseToRefresh'.tr,
+        refreshingText: 'refreshing'.tr,
+        idleText: 'pullToRefresh'.tr,
+        completeText: 'refreshCompleted'.tr,
+        iconPos: isLangEnglish() ? IconPosition.left : IconPosition.right,
+      ),
       controller: controller.hospitalsRefreshController,
       onRefresh: () {
         controller.clearSearchedHospitals();

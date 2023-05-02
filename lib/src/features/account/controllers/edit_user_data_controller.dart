@@ -59,6 +59,7 @@ class EditUserDataController extends GetxController {
 
   late final String userId;
   final fireStorage = FirebaseStorage.instance;
+
   @override
   void onInit() {
     userId = user!.uid;
@@ -229,6 +230,12 @@ class EditUserDataController extends GetxController {
       gender: gender == Gender.male ? 'male' : 'female',
       birthdate: birthDate,
     );
+    AuthenticationRepository.instance.drawerProfileImageUrl.value =
+        await fireStorage
+            .ref()
+            .child('users/$userId')
+            .child('profilePic')
+            .getDownloadURL();
     if (functionStatus == FunctionStatus.success) {
       hideLoadingScreen();
     } else {

@@ -230,6 +230,8 @@ class EditUserDataController extends GetxController {
       accountDetails: accountDetails,
     );
     if (functionStatus == FunctionStatus.success) {
+      isProfileImageChanged.value = false;
+      isNationalIDImageChanged.value = false;
       authRep.userInfo!.name = accountDetails.name;
       authRep.drawerAccountName.value = accountDetails.name;
       authRep.userInfo!.email = accountDetails.email;

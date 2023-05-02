@@ -1,6 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/src/general/common_widgets/link_account_button.dart';
 
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
@@ -15,6 +17,8 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
+    bool isEmail =
+        AuthenticationRepository.instance.isEmailAndPasswordLinked.value;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -72,33 +76,42 @@ class AccountScreen extends StatelessWidget {
                     shrinkWrap: true,
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Row(
-                      children: [
-                        /* SignInButton(
-                          padding: const EdgeInsets.only(left: 5.0),
-                          Buttons.GoogleDark,
-                          text: 'linkGoogle'.tr,
-                          onPressed: () async {
-                            showLoadingScreen();
-                            final returnMessage = await AuthenticationRepository
-                                .instance
-                                .signInWithGoogle();
-                            if (returnMessage.compareTo('success') != 0) {
-                              hideLoadingScreen();
-                            }
-                          },
-                          width: getScreenWidth(context) - 100,
-                          height: 50.0,
-                        )*/
-                      ],
-                    ),
-                  ),
+                      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
+                      child: LinkAccountButton(
+                        buttonText: 'linkGoogleAccount'.tr,
+                        imagePath: 'assets/images/google.png',
+                        onPressed: () {},
+                        backgroundColor: Colors.cyan,
+                        textColor: Colors.white,
+                        enabled: true,
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
+                      child: LinkAccountButton(
+                        buttonText: 'linkFacebookAccount'.tr,
+                        imagePath: 'assets/images/facebook.png',
+                        onPressed: () {},
+                        backgroundColor: Colors.blueAccent,
+                        textColor: Colors.white,
+                        enabled: true,
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
+                      child: LinkAccountButton(
+                        buttonText: 'linkEmailAccount'.tr,
+                        imagePath: 'assets/images/email.png',
+                        onPressed: () {
+                          print('a7yyyyyyyyyyyh');
+                        },
+                        backgroundColor: Colors.white,
+                        textColor: Colors.black,
+                        enabled: !isEmail,
+                      )),
                   RoundedElevatedButton(
                     buttonText: 'logout'.tr,
                     onPressed: () => logoutDialogue(),
                     enabled: true,
-                    color: Colors.black,
+                    color: Colors.red,
                   ),
                   SizedBox(height: screenHeight * 0.1)
                 ],

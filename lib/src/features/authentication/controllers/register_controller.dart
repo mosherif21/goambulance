@@ -18,7 +18,7 @@ class EmailRegisterController extends GetxController {
     String returnMessage = '';
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();
-    if (password.compareTo(passwordConfirm) == 0 && password.length >= 8) {
+    if (password == passwordConfirm && password.length >= 8) {
       returnMessage = await AuthenticationRepository.instance
           .createUserWithEmailAndPassword(email, password);
     } else if (email.isEmpty || password.isEmpty || passwordConfirm.isEmpty) {
@@ -28,7 +28,7 @@ class EmailRegisterController extends GetxController {
     } else {
       returnMessage = 'passwordNotMatch'.tr;
     }
-    if (!returnMessage.contains('success')) {
+    if (returnMessage != 'success') {
       hideLoadingScreen();
       showSnackBar(
         text: returnMessage,

@@ -54,7 +54,8 @@ class EditMedicalHistoryController extends GetxController {
   @override
   void onReady() async {
     bloodTypeDropdownController.text = userInfo.bloodType;
-    diabetesDropdownController.text = userInfo.diabetic;
+    diabetesDropdownController.text =
+        userInfo.diabetic == 'No' ? 'no'.tr : userInfo.diabetic;
     if (userInfo.hypertensive == 'No') {
       hypertensivePatient = false;
     } else if (userInfo.hypertensive == 'Yes') {

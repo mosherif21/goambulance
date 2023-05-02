@@ -85,13 +85,13 @@ class AuthenticationRepository extends GetxController {
         if (snapshot.exists) {
           final userDoc = snapshot.data()!;
           final userTypeValue = userDoc['type'].toString();
-          if (userTypeValue.contains('medic')) {
+          if (userTypeValue == 'medic') {
             isUserRegistered = true;
             userType = UserType.medic;
-          } else if (userTypeValue.contains('driver')) {
+          } else if (userTypeValue == 'driver') {
             isUserRegistered = true;
             userType = UserType.driver;
-          } else if (userTypeValue.contains('patient')) {
+          } else if (userTypeValue == 'patient') {
             isUserRegistered = true;
             userInfo = UserInformation(
               name: userDoc['name'].toString(),
@@ -224,11 +224,11 @@ class AuthenticationRepository extends GetxController {
         AppInit.goToInitPage();
         return 'success';
       } on FirebaseAuthException catch (ex) {
-        if (ex.code.contains('credential-already-in-use')) {
+        if (ex.code == 'credential-already-in-use') {
           return 'phoneNumberAlreadyLinked'.tr;
-        } else if (ex.code.contains('provider-already-linked')) {
+        } else if (ex.code == 'provider-already-linked') {
           return 'phoneNumberAlreadyYourAccount'.tr;
-        } else if (ex.code.contains('invalid-verification-code')) {
+        } else if (ex.code == 'invalid-verification-code') {
           return 'wrongOTP'.tr;
         }
       } catch (e) {
@@ -249,7 +249,7 @@ class AuthenticationRepository extends GetxController {
         return 'success';
       }
     } on FirebaseAuthException catch (ex) {
-      if (ex.code.contains('invalid-verification-code')) {
+      if (ex.code == 'invalid-verification-code') {
         return 'wrongOTP'.tr;
       }
     } catch (_) {}

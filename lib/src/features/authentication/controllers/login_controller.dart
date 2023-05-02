@@ -25,7 +25,7 @@ class LoginController extends GetxController {
     } else {
       returnMessage = 'invalidEmailEntered'.tr;
     }
-    if (!returnMessage.contains('success')) {
+    if (returnMessage != 'success') {
       hideLoadingScreen();
       showSnackBar(
         text: returnMessage,

@@ -12,7 +12,7 @@ Future<void> setShowOnBoarding() async {
 
 Future<bool> getShowOnBoarding() async {
   _prefs = await SharedPreferences.getInstance();
-  if (_prefs.getString("onboarding")?.compareTo("true") == 0) {
+  if (_prefs.getString("onboarding") == "true") {
     return false;
   } else {
     return true;

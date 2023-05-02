@@ -206,8 +206,10 @@ class RegisterUserDataController extends GetxController {
   Future<void> savePersonalInformation() async {
     final bloodType = bloodTypeDropdownController.text;
     final diabetic = diabetesDropdownController.text.isEmpty
-        ? 'no'.tr
-        : diabetesDropdownController.text;
+        ? 'No'
+        : diabetesDropdownController.text == 'no'.tr
+            ? 'No'
+            : diabetesDropdownController.text;
     highlightBloodType.value =
         bloodType == 'pickBloodType'.tr || bloodType.isEmpty;
     if (!highlightBloodType.value) {

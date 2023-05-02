@@ -57,7 +57,6 @@ class AuthenticationRepository extends GetxController {
   Future<void> authenticatedSetup() async {
     AppInit.currentAuthType.value = AuthType.emailLogin;
     checkUserHasPhoneNumber();
-    checkAuthenticationProviders();
   }
 
   void checkAuthenticationProviders() {
@@ -119,6 +118,7 @@ class AuthenticationRepository extends GetxController {
           if (kDebugMode) print('$userType');
         }
       });
+      checkAuthenticationProviders();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

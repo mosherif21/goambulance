@@ -110,8 +110,8 @@ class EditMedicalHistoryController extends GetxController {
 
   Future<void> updateMedicalInfo() async {
     final bloodType = bloodTypeDropdownController.text;
-    final diabetic = diabetesDropdownController.text.isEmpty
-        ? 'no'.tr
+    final diabetic = diabetesDropdownController.text == 'no'.tr
+        ? 'No'
         : diabetesDropdownController.text;
     highlightBloodType.value =
         bloodType.compareTo('pickBloodType'.tr) == 0 || bloodType.isEmpty;

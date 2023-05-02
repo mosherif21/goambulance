@@ -238,6 +238,10 @@ class Languages extends Translations {
           'nearHospitalsNotFound':
               'عذرا ، لم نتمكن من العثور على أي مستشفيات قريبة من مكان الطلب',
           'notAllowed': 'غير مسموح به',
+          'refreshing': 'جارى التحديث',
+          'refreshCompleted': 'اكتمل التحديث',
+          'pullToRefresh': 'للتحديث اسحب للأسفل',
+          'releaseToRefresh': 'حرر للتحديث',
           'enableLocationPermissionButton': 'اعطي أذن الموقع',
           'enableLocationServiceButton': 'تمكين الموقع',
           'findingLocation': 'جارى البحث عن موقعك',
@@ -433,6 +437,10 @@ class Languages extends Translations {
           'emergencyNumber6': 'Traffic police',
           'male': 'Male',
           'female': 'Female',
+          'pullToRefresh': 'Pull down to refresh',
+          'releaseToRefresh': 'Release to refresh',
+          'refreshing': 'Refreshing',
+          'refreshCompleted': 'Refresh completed',
           'fullName': 'Full Name',
           'enterSosMessage': 'Enter sos message',
           'nearHospitalsNotFound':

@@ -97,8 +97,7 @@ class RegisterUserDataPage extends StatelessWidget {
                               prefixIconData: Icons.email,
                               textController: controller.emailTextController,
                               inputType: InputType.text,
-                              editable:
-                                  controller.makeEmailEditable ? true : false,
+                              editable: controller.makeEmailEditable,
                               textInputAction: TextInputAction.next,
                             ),
                           ],

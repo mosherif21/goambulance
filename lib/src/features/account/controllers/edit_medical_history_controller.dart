@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -12,9 +13,6 @@ import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
 class EditMedicalHistoryController extends GetxController {
   static EditMedicalHistoryController get instance => Get.find();
-
-  //vars
-  late final String phoneNumber;
 
   //controllers
   final diseaseNameTextController = TextEditingController();
@@ -35,58 +33,39 @@ class EditMedicalHistoryController extends GetxController {
   final heartPatientDropdownController = TextEditingController();
 
   final bloodTypeDropdownController = TextEditingController();
-  final user = AuthenticationRepository.instance.fireUser.value;
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
   final heartPatientKey = GlobalKey<RollingSwitchState>();
 
-  /*hatst5dm variable el userinfo ely fe el authentication repository  yet3rad beh el info el adema we b3d ma ye update kol el data aw myupdat4 we ydos
-   save ht update el data fe firestore we te update variable userInfo be el data el gdeda */
+  late final String userId;
+  late final User currentUser;
+  late final UserInformation userInfo;
+  late final AuthenticationRepository authRep;
+
+  @override
+  void onInit() async {
+    authRep = AuthenticationRepository.instance;
+    currentUser = authRep.fireUser.value!;
+    userInfo = authRep.userInfo!;
+    userId = currentUser.uid;
+    super.onInit();
+  }
+
   @override
   void onReady() async {
-    super.onReady();
-
-    bloodTypeDropdownController.text =
-        AuthenticationRepository.instance.userInfo!.bloodType;
-    diabetesDropdownController.text =
-        AuthenticationRepository.instance.userInfo!.diabetesPatient;
-
-    if (AuthenticationRepository.instance.userInfo!.hypertensive == 'No') {
+    bloodTypeDropdownController.text = userInfo.bloodType;
+    diabetesDropdownController.text = userInfo.diabetesPatient;
+    if (userInfo.hypertensive == 'No') {
       hypertensivePatient = false;
-    } else if (AuthenticationRepository.instance.userInfo!.hypertensive ==
-        'Yes') {
+    } else if (userInfo.hypertensive == 'Yes') {
       hypertensivePatient = true;
       hypertensiveKey.currentState!.action();
     }
-    if (AuthenticationRepository.instance.userInfo!.heartPatient == 'No') {
+    if (userInfo.heartPatient == 'No') {
       heartPatient = false;
     } else {
       heartPatient = true;
       heartPatientKey.currentState!.action();
     }
-    /* documentReference.get().then((documentSnapshot) {
-      if (documentSnapshot.exists) {
-        bloodTypeDropdownController.text =
-            documentSnapshot.get('bloodType').toString();
-        diabetesDropdownController.text =
-            documentSnapshot.get('diabetic').toString();
-        if (documentSnapshot.get('hypertensive').toString() == 'No') {
-          hypertensivePatient = false;
-        } else if (documentSnapshot.get('hypertensive').toString() == 'Yes') {
-          hypertensivePatient = true;
-          hypertensiveKey.currentState!.action();
-        }
-        if (documentSnapshot.get('heartPatient').toString() == 'No') {
-          heartPatient = false;
-        } else {
-          heartPatient = true;
-        }
-      } else {
-        if (kDebugMode) {
-          print('Document does not exist on the database');
-        }
-      }
-    }*/
-
     bloodTypeDropdownController.addListener(() {
       final bloodTypeValue = bloodTypeDropdownController.text.trim();
       if (bloodTypeValue.isNotEmpty ||
@@ -98,6 +77,7 @@ class EditMedicalHistoryController extends GetxController {
     diseaseNameTextController.addListener(() {
       diseaseName.value = diseaseNameTextController.text.trim();
     });
+    super.onReady();
   }
 
   Future<void> updateMedicalInfo() async {
@@ -113,8 +93,10 @@ class EditMedicalHistoryController extends GetxController {
         body: 'personalInfoShare'.tr,
         positiveButtonText: 'agree'.tr,
         negativeButtonText: 'disagree'.tr,
-        positiveButtonOnPressed: () =>
-            updateUserData(bloodType: bloodType, diabetic: diabetic),
+        positiveButtonOnPressed: () {
+          Get.back();
+          updateUserData(bloodType: bloodType, diabetic: diabetic);
+        },
         negativeButtonOnPressed: () => Get.back(),
         mainIcon: Icons.check_circle_outline,
         color: SweetSheetColor.NICE,
@@ -126,7 +108,6 @@ class EditMedicalHistoryController extends GetxController {
 
   void updateUserData(
       {required String bloodType, required String diabetic}) async {
-    Get.back();
     showLoadingScreen();
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateMedicalHistory(

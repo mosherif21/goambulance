@@ -665,6 +665,7 @@ class MakingRequestLocationController extends GetxController {
       await serviceStatusStream?.cancel();
     }
     pagingController.dispose();
+    hospitalsRefreshController.dispose();
     if (positionStreamInitialized) await currentPositionStream?.cancel();
     super.onClose();
   }

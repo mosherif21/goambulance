@@ -70,13 +70,11 @@ class RegisterUserDataController extends GetxController {
     final user = authRep.fireUser.value!;
     if (user.email != null) {
       emailTextController.text = user.email!;
+      makeEmailEditable = false;
     }
-
-    makeEmailEditable = !authRep.isEmailAndPasswordLinked.value;
-
     final userName = user.displayName ?? '';
     nameTextController.text = userName;
-    phoneNumber = user.phoneNumber!;
+    phoneNumber = user.phoneNumber ?? '';
     super.onInit();
   }
 

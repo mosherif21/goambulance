@@ -70,6 +70,12 @@ class EditUserDataController extends GetxController {
     currentUser = authRep.fireUser.value!;
     userInfo = authRep.userInfo!;
     userId = currentUser.uid;
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    loadImages();
     if (currentUser.email != null) {
       emailTextController.text = currentUser.email!;
       makeEmailEditable = false;
@@ -78,42 +84,6 @@ class EditUserDataController extends GetxController {
     }
     nameTextController.text = userInfo.name;
     nationalIdTextController.text = userInfo.nationalId;
-    loadImages();
-
-    super.onInit();
-  }
-
-  void loadImages() {
-    final userStorageRef = fireStorage.ref().child('users/$userId');
-    try {
-      userStorageRef.child('profilePic').getData().then((imageData) {
-        profileMemoryImage.value = MemoryImage(imageData!);
-        isProfileImageLoaded.value = true;
-      });
-      userStorageRef.child('nationalId').getData().then((idData) {
-        idMemoryImage.value = MemoryImage(idData!);
-        isNationalIDImageLoaded.value = true;
-      });
-    } catch (err) {
-      if (kDebugMode) {
-        print(err.toString());
-      }
-    }
-  }
-
-  @override
-  void onReady() {
-    nameTextController.addListener(() {
-      if (nameTextController.text.trim().isNotEmpty) {
-        highlightName.value = false;
-      }
-    });
-
-    emailTextController.addListener(() {
-      if (emailTextController.text.trim().isEmail) {
-        highlightEmail.value = false;
-      }
-    });
     final nationalId = nationalIdTextController.text;
     if (NIDInfo.NIDCheck(nid: nationalId)) {
       try {
@@ -132,7 +102,35 @@ class EditUserDataController extends GetxController {
         if (kDebugMode) print(e.toString());
       }
     }
+    nameTextController.addListener(() {
+      if (nameTextController.text.trim().isNotEmpty) {
+        highlightName.value = false;
+      }
+    });
+    emailTextController.addListener(() {
+      if (emailTextController.text.trim().isEmail) {
+        highlightEmail.value = false;
+      }
+    });
     super.onReady();
+  }
+
+  void loadImages() {
+    final userStorageRef = fireStorage.ref().child('users/$userId');
+    try {
+      userStorageRef.child('profilePic').getData().then((imageData) {
+        profileMemoryImage.value = MemoryImage(imageData!);
+        isProfileImageLoaded.value = true;
+      });
+      userStorageRef.child('nationalId').getData().then((idData) {
+        idMemoryImage.value = MemoryImage(idData!);
+        isNationalIDImageLoaded.value = true;
+      });
+    } catch (err) {
+      if (kDebugMode) {
+        print(err.toString());
+      }
+    }
   }
 
   Future<void> pickProfilePic() async {

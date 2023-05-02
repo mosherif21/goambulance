@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../controllers/making_request_location_controller.dart';
 import '../models.dart';
@@ -13,14 +14,15 @@ class ChooseHospitalsList extends StatelessWidget {
   final MakingRequestLocationController controller;
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      color: Colors.black,
-      onRefresh: () => Future.sync(
-        () {
-          controller.clearSearchedHospitals();
-          controller.pagingController.refresh();
-        },
-      ),
+    return SmartRefresher(
+      enablePullDown: true,
+      header: const ClassicHeader(),
+      controller: controller.hospitalsRefreshController,
+      onRefresh: () {
+        controller.clearSearchedHospitals();
+        controller.pagingController.refresh();
+        controller.hospitalsRefreshController.refreshCompleted();
+      },
       child: PagedListView<int, HospitalModel>(
         pagingController: controller.pagingController,
         builderDelegate: PagedChildBuilderDelegate<HospitalModel>(

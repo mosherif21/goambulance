@@ -20,6 +20,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
@@ -55,7 +56,6 @@ class MakingRequestLocationController extends GetxController {
   Marker? hospitalMarker;
 
   late final BitmapDescriptor requestLocationMarkerIcon;
-  late final BitmapDescriptor ambulanceMarkerIcon;
   late final BitmapDescriptor hospitalMarkerIcon;
   final mapControllerCompleter = Completer<GoogleMapController>();
   late final GoogleMapController googleMapController;
@@ -84,8 +84,10 @@ class MakingRequestLocationController extends GetxController {
   //geoQuery vars
   final geoFire = GeoFlutterFire();
   late final FirebaseFirestore _firestore;
-  // late Timer? searchingHospitalsTimer;
+  // late Timer? requestAcceptedTimer;
 
+  RefreshController hospitalsRefreshController =
+      RefreshController(initialRefresh: false);
   @override
   void onInit() async {
     _firestore = FirebaseFirestore.instance;
@@ -169,15 +171,11 @@ class MakingRequestLocationController extends GetxController {
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
     pagingController.refresh();
-    // searchingHospitalsTimer = Timer(const Duration(seconds: 30), () {
-    //   if (choosingHospital.value) {
-    //     choosingRequestLocationChanges();
-    //     showSnackBar(
-    //         text: 'nearHospitalsNotFound'.tr, snackBarType: SnackBarType.info);
-    //   }
-    // });
-    //getHospitals();
 
+    // late final BitmapDescriptor ambulanceMarkerIcon;
+    // await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
+    //   ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+    // });
     // ambulanceMarker = Marker(
     //   markerId: const MarkerId('ambulance'),
     //   position: LatLng(currentChosenLatLng.latitude + 0.002,
@@ -226,7 +224,6 @@ class MakingRequestLocationController extends GetxController {
       mapMarkers.remove(requestLocationMarker!);
     }
     clearSearchedHospitals();
-    // searchingHospitalsTimer?.cancel();
   }
 
   void fetchPage(int pageKey) async {
@@ -676,9 +673,7 @@ class MakingRequestLocationController extends GetxController {
     await _getBytesFromAsset(kRequestLocationMarkerImg, 120).then((iconBytes) {
       requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-    await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
-      ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
-    });
+
     await _getBytesFromAsset(kHospitalMarkerImg, 160).then((iconBytes) {
       hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });

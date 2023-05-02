@@ -254,6 +254,7 @@ class Languages extends Translations {
           'requestHere': 'اطلب هنا',
           'confirmRequest': 'تاكيد الطلب',
           'accountDetailSavedSuccess': 'تم حفظ معلومات الحساب بنجاح',
+          'medicalHistorySavedSuccess': 'تم حفظ السجل الطبي بنجاح',
           'useMobileToThisFeature':
               'يرجى استخدام تطبيق الهاتف المحمول لاستخدام هذه الخاصية',
           'useMobileToRegister':
@@ -264,6 +265,8 @@ class Languages extends Translations {
           'accountTitle3': 'السجل الطبي',
           'sendSosMessageSuccess': 'تم إرسال رسالة الاستغاثة بنجاح',
           'savedEmergencyContacts': 'جهات اتصال الطوارئ المحفوظة',
+          'medicalHistorySavedError':
+              'فشل حفظ السجل الطبي ، يرجى المحاولة مرة أخرى',
           'sendingSosMessageFailed':
               'فشل إرسال رسالة الاستغاثة ، يرجى المحاولة مرة أخرى',
           'addedDiseases': 'الأمراض / الأدوية المضافة',
@@ -300,6 +303,9 @@ class Languages extends Translations {
           'loginWithMobile': 'CONTINUE WITH PHONE NUMBER',
           'emailLabel': 'E-Mail',
           'sosMessageSaved': 'SOS message saved successfully',
+          'medicalHistorySavedSuccess': 'Medical history saved successfully',
+          'medicalHistorySavedError':
+              'Medical history save failed, please try again',
           'emailHintLabel': 'Enter your E-Mail',
           'passwordLabel': 'Password',
           'passwordHintLabel': 'Enter your Password',

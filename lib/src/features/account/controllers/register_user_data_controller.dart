@@ -244,7 +244,7 @@ class RegisterUserDataController extends GetxController {
       birthDate: birthDate!,
       gender: gender == Gender.male ? 'male' : 'female',
       bloodType: bloodType,
-      diabetesPatient: diabetic,
+      diabetic: diabetic,
       hypertensive: hypertensivePatient ? 'Yes' : 'No',
       heartPatient: heartPatient ? 'Yes' : 'No',
       additionalInformation: additionalInformationTextController.text.trim(),

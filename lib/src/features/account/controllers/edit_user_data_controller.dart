@@ -70,12 +70,12 @@ class EditUserDataController extends GetxController {
     currentUser = authRep.fireUser.value!;
     userInfo = authRep.userInfo!;
     userId = currentUser.uid;
+    loadImages();
     super.onInit();
   }
 
   @override
   void onReady() {
-    loadImages();
     if (currentUser.email != null) {
       emailTextController.text = currentUser.email!;
       makeEmailEditable = false;
@@ -126,10 +126,10 @@ class EditUserDataController extends GetxController {
         idMemoryImage.value = MemoryImage(idData!);
         isNationalIDImageLoaded.value = true;
       });
-    } catch (err) {
-      if (kDebugMode) {
-        print(err.toString());
-      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
     }
   }
 
@@ -216,17 +216,12 @@ class EditUserDataController extends GetxController {
 
   void updateUserInfoData() async {
     showLoadingScreen();
-    final name = nameTextController.text.trim();
-    final email = emailTextController.text.trim();
-    final nationalId = nationalIdTextController.text.trim();
-    final birthDate = birthDateController.selectedDate;
-    final genderText = gender == Gender.male ? 'male' : 'female';
     final accountDetails = AccountDetailsModel(
-      name: name,
-      email: email,
-      nationalId: nationalId,
-      birthDate: birthDate!,
-      gender: genderText,
+      name: nameTextController.text.trim(),
+      email: emailTextController.text.trim(),
+      nationalId: nationalIdTextController.text.trim(),
+      birthDate: birthDateController.selectedDate!,
+      gender: gender == Gender.male ? 'male' : 'female',
     );
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateUserDataInfo(

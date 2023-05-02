@@ -5,7 +5,7 @@ class UserInformation {
   DateTime birthDate;
   String gender;
   String bloodType;
-  String diabetesPatient;
+  String diabetic;
   String additionalInformation;
   String phoneNumber;
   String hypertensive;
@@ -19,7 +19,7 @@ class UserInformation {
     required this.birthDate,
     required this.gender,
     required this.bloodType,
-    required this.diabetesPatient,
+    required this.diabetic,
     required this.hypertensive,
     required this.heartPatient,
     required this.additionalInformation,
@@ -35,7 +35,7 @@ class UserInformation {
         'birthdate': birthDate,
         'gender': gender,
         'bloodType': bloodType,
-        'diabetic': diabetesPatient,
+        'diabetic': diabetic,
         'hypertensive': hypertensive,
         'heartPatient': heartPatient,
         'additionalInformation': additionalInformation,
@@ -69,23 +69,23 @@ class AccountDetailsModel {
 
 class MedicalHistoryModel {
   final String bloodType;
-  final String diabetesPatient;
+  final String diabetic;
   final String additionalInformation;
-  final String bloodPressurePatient;
+  final String hypertensive;
   final String heartPatient;
   final List<DiseaseItem> diseasesList;
   MedicalHistoryModel({
     required this.bloodType,
-    required this.diabetesPatient,
-    required this.bloodPressurePatient,
+    required this.diabetic,
+    required this.hypertensive,
     required this.heartPatient,
     required this.additionalInformation,
     required this.diseasesList,
   });
   Map<String, dynamic> toJson() => {
         'bloodType': bloodType,
-        'diabetesPatient': diabetesPatient,
-        'bloodPressurePatient': bloodPressurePatient,
+        'diabetic': diabetic,
+        'hypertensive': hypertensive,
         'heartPatient': heartPatient,
         'additionalInformation': additionalInformation,
       };

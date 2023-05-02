@@ -67,9 +67,9 @@ class FirebasePatientDataAccess extends GetxController {
       if (diseasesList.isNotEmpty) {
         final fireStoreUserDiseasesRef =
             firestoreUserRef.collection('diseases');
-        for (var diseaseItem in diseasesList) {
+        for (DiseaseItem diseaseItem in diseasesList) {
           {
-            var diseaseRef = fireStoreUserDiseasesRef.doc();
+            final diseaseRef = fireStoreUserDiseasesRef.doc();
             userDataBatch.set(diseaseRef, diseaseItem.toJson());
           }
         }
@@ -211,34 +211,25 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> updateMedicalHistory({
-    required String bloodType,
-    required String diabetesPatient,
-    required String additionalInformation,
-    required String hypertensive,
-    required String heartPatient,
-    required List<DiseaseItem> diseasesList,
+    required MedicalHistoryModel medicalHistoryData,
+    required List<String> currentDiseasesDocIds,
   }) async {
     try {
-      await firestoreUserRef.update({
-        'bloodType': bloodType,
-        'diabetic': diabetesPatient,
-        'additionalInformation': additionalInformation,
-        'hypertensive': hypertensive,
-        'heartPatient': heartPatient
-      });
       final userDataBatch = fireStore.batch();
-      if (diseasesList.isNotEmpty) {
-        final fireStoreUserDiseasesRef =
-            firestoreUserRef.collection('diseases');
-        for (var diseaseItem in diseasesList) {
+      userDataBatch.update(firestoreUserRef, medicalHistoryData.toJson());
+      final fireStoreUserDiseasesRef = firestoreUserRef.collection('diseases');
+      for (String diseaseDocId in currentDiseasesDocIds) {
+        userDataBatch.delete(fireStoreUserDiseasesRef.doc(diseaseDocId));
+      }
+      if (medicalHistoryData.diseasesList.isNotEmpty) {
+        for (DiseaseItem diseaseItem in medicalHistoryData.diseasesList) {
           {
-            var diseaseRef = fireStoreUserDiseasesRef.doc();
-            userDataBatch.update(diseaseRef, diseaseItem.toJson());
+            final diseaseRef = fireStoreUserDiseasesRef.doc();
+            userDataBatch.set(diseaseRef, diseaseItem.toJson());
           }
         }
       }
       await userDataBatch.commit();
-      AuthenticationRepository.instance.isUserRegistered = true;
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

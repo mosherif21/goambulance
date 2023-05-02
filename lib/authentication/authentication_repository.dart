@@ -100,7 +100,7 @@ class AuthenticationRepository extends GetxController {
               birthDate: userDoc['birthdate'].toDate(),
               gender: userDoc['gender'].toString(),
               bloodType: userDoc['bloodType'].toString(),
-              diabetesPatient: userDoc['diabetic'].toString(),
+              diabetic: userDoc['diabetic'].toString(),
               hypertensive: userDoc['hypertensive'].toString(),
               heartPatient: userDoc['heartPatient'].toString(),
               additionalInformation:
@@ -402,7 +402,7 @@ class AuthenticationRepository extends GetxController {
       birthDate: DateTime.now(),
       gender: '',
       bloodType: '',
-      diabetesPatient: '',
+      diabetic: '',
       hypertensive: '',
       heartPatient: '',
       additionalInformation: '',

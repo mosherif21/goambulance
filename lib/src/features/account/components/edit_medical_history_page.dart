@@ -13,6 +13,7 @@ import '../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../general/common_widgets/text_header.dart';
+import 'loading_medical_diseases.dart';
 import 'models.dart';
 import 'newAccount/add_disease.dart';
 import 'newAccount/medical_history_item.dart';
@@ -156,62 +157,48 @@ class EditMedicalHistoryPage extends StatelessWidget {
                     () => RegularCard(
                       highlightRed: false,
                       child: SingleChildScrollView(
-                        child: controller.diseasesList.isNotEmpty
-                            ? Column(
-                                children: [
-                                  const SizedBox(height: 10),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: AutoSizeText(
-                                      'addedDiseases'.tr,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w800,
+                        child: !controller.diseasesLoaded.value
+                            ? const LoadingMedicalDiseases()
+                            : controller.diseasesList.isNotEmpty
+                                ? Column(
+                                    children: [
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: AutoSizeText(
+                                          'addedDiseases'.tr,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                          maxLines: 2,
+                                        ),
                                       ),
-                                      maxLines: 2,
-                                    ),
-                                  ),
-                                  for (var diseaseItem
-                                      in controller.diseasesList)
-                                    MedicalHistoryItem(
-                                        diseaseItem: diseaseItem,
-                                        onDeletePressed: () {
-                                          controller.diseasesList
-                                              .remove(diseaseItem);
-                                          if (controller.diseasesList.isEmpty) {
-                                            Future.delayed(const Duration(
-                                                    milliseconds: 50))
-                                                .whenComplete(
-                                              () => controller
-                                                  .medicalHistoryScrollController
-                                                  .animateTo(
-                                                controller
-                                                    .medicalHistoryScrollController
-                                                    .position
-                                                    .maxScrollExtent,
-                                                duration: const Duration(
-                                                    milliseconds: 700),
-                                                curve: Curves.easeIn,
-                                              ),
-                                            );
-                                          }
-                                        }),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0, right: 15.0),
-                                    child: RoundedElevatedButton(
-                                      buttonText: 'addAllergiesOrDiseases'.tr,
-                                      onPressed: () => RegularBottomSheet
-                                          .showRegularBottomSheet(
-                                        AddDisease(controller: controller),
+                                      for (var diseaseItem
+                                          in controller.diseasesList)
+                                        MedicalHistoryItem(
+                                          diseaseItem: diseaseItem,
+                                          onDeletePressed: () => controller
+                                              .diseasesList
+                                              .remove(diseaseItem),
+                                        ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 15.0, right: 15.0),
+                                        child: RoundedElevatedButton(
+                                          buttonText:
+                                              'addAllergiesOrDiseases'.tr,
+                                          onPressed: () => RegularBottomSheet
+                                              .showRegularBottomSheet(
+                                            AddDisease(controller: controller),
+                                          ),
+                                          enabled: true,
+                                          color: Colors.black,
+                                        ),
                                       ),
-                                      enabled: true,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : NoMedicalHistory(controller: controller),
+                                    ],
+                                  )
+                                : NoMedicalHistory(controller: controller),
                       ),
                     ),
                   ),

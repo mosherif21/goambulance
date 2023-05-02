@@ -1,4 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -22,6 +23,7 @@ class EditMedicalHistoryController extends GetxController {
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
+  var currentDiseasesDocIds = <String>[];
   final highlightBloodType = false.obs;
   bool hypertensivePatient = false;
   bool heartPatient = false;
@@ -37,23 +39,21 @@ class EditMedicalHistoryController extends GetxController {
   final heartPatientKey = GlobalKey<RollingSwitchState>();
 
   late final String userId;
-  late final User currentUser;
   late final UserInformation userInfo;
   late final AuthenticationRepository authRep;
-
+  final diseasesLoaded = false.obs;
   @override
   void onInit() async {
     authRep = AuthenticationRepository.instance;
-    currentUser = authRep.fireUser.value!;
     userInfo = authRep.userInfo!;
-    userId = currentUser.uid;
+    userId = authRep.fireUser.value!.uid;
     super.onInit();
   }
 
   @override
   void onReady() async {
     bloodTypeDropdownController.text = userInfo.bloodType;
-    diabetesDropdownController.text = userInfo.diabetesPatient;
+    diabetesDropdownController.text = userInfo.diabetic;
     if (userInfo.hypertensive == 'No') {
       hypertensivePatient = false;
     } else if (userInfo.hypertensive == 'Yes') {
@@ -78,6 +78,32 @@ class EditMedicalHistoryController extends GetxController {
       diseaseName.value = diseaseNameTextController.text.trim();
     });
     super.onReady();
+  }
+
+  void loadDiseases() {
+    try {
+      final userDiseasesRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('diseases');
+      userDiseasesRef.get().then((diseasesSnapshot) {
+        for (var diseaseDoc in diseasesSnapshot.docs) {
+          currentDiseasesDocIds.add(diseaseDoc.id);
+          final diseaseData = diseaseDoc.data();
+          diseasesList.add(
+            DiseaseItem(
+              diseaseName: diseaseData['diseaseName'].toString(),
+              diseaseMedicines: diseaseData['diseaseMedicines'].toString(),
+            ),
+          );
+        }
+        diseasesLoaded.value = true;
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
   }
 
   Future<void> updateMedicalInfo() async {
@@ -109,21 +135,35 @@ class EditMedicalHistoryController extends GetxController {
   void updateUserData(
       {required String bloodType, required String diabetic}) async {
     showLoadingScreen();
-    final functionStatus =
-        await FirebasePatientDataAccess.instance.updateMedicalHistory(
-      diabetesPatient: diabetic,
+    final medicalHistoryData = MedicalHistoryModel(
       bloodType: bloodType,
+      diabetic: diabetic,
       hypertensive: hypertensivePatient ? 'Yes' : 'No',
       heartPatient: heartPatient ? 'Yes' : 'No',
-      diseasesList: diseasesList,
       additionalInformation: additionalInformationTextController.text.trim(),
+      diseasesList: diseasesList,
+    );
+    final functionStatus =
+        await FirebasePatientDataAccess.instance.updateMedicalHistory(
+      medicalHistoryData: medicalHistoryData,
+      currentDiseasesDocIds: currentDiseasesDocIds,
     );
     if (functionStatus == FunctionStatus.success) {
+      authRep.userInfo!.bloodType = medicalHistoryData.bloodType;
+      authRep.userInfo!.diabetic = medicalHistoryData.diabetic;
+      authRep.userInfo!.hypertensive = medicalHistoryData.hypertensive;
+      authRep.userInfo!.heartPatient = medicalHistoryData.heartPatient;
+      authRep.userInfo!.additionalInformation =
+          medicalHistoryData.additionalInformation;
       hideLoadingScreen();
+      showSnackBar(
+          text: 'medicalHistorySavedSuccess'.tr,
+          snackBarType: SnackBarType.success);
     } else {
       hideLoadingScreen();
       showSnackBar(
-          text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
+          text: 'medicalHistorySavedError'.tr,
+          snackBarType: SnackBarType.error);
     }
   }
 

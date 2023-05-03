@@ -148,9 +148,9 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                           bottom: widget.controller.choosingHospital.value
                               ? screenHeight * 0.48
                               : 70,
-                          left: 10,
-                          right: 10,
-                          top: screenHeight * 0.12,
+                          left: isLangEnglish() ? 10 : 40,
+                          right: isLangEnglish() ? 40 : 10,
+                          top: screenHeight * 0.16,
                         ),
                   initialCameraPosition:
                       widget.controller.getInitialCameraPosition(),

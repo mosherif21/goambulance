@@ -186,21 +186,23 @@ class AuthenticationRepository extends GetxController {
     return 'unknownError'.tr;
   }
 
-  Future<String> signInWithPhoneNumber(
-      {required String phoneNumber, required bool linkWithPhone}) async {
+  Future<String> signInWithPhoneNumber({
+    required String phoneNumber,
+    required bool linkWithPhone,
+  }) async {
     String returnMessage = 'codeSent';
     try {
       await _auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,
           verificationCompleted: (credential) async {
-            // await _auth.signInWithCredential(credential);
-            // if (fireUser.value != null) {
-            //   isUserLoggedIn = true;
-            //   await authenticatedSetup();
-            //   if (!linkWithPhone) {
-            //     AppInit.goToInitPage();
-            //   }
-            // }
+            if (!linkWithPhone) {
+              await _auth.signInWithCredential(credential);
+              if (fireUser.value != null) {
+                isUserLoggedIn = true;
+                authenticatedSetup();
+                AppInit.goToInitPage();
+              }
+            }
           },
           verificationFailed: (e) {
             returnMessage = e.code;

@@ -65,8 +65,7 @@ class MakingRequestLocationController extends GetxController {
   final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
   late LatLng initialCameraLatLng;
-  bool cameraMoved = false;
-  final mapPinMargin = 85.0.obs;
+  final cameraMoved = false.obs;
   final hospitalsPanelController = PanelController();
 
   //making request
@@ -585,7 +584,7 @@ class MakingRequestLocationController extends GetxController {
       if (googleMapControllerInit) {
         searchedText.value = 'loading'.tr;
         String address = '';
-        if (!cameraMoved) {
+        if (!cameraMoved.value) {
           currentCameraLatLng = LatLng(
               initialCameraLatLng.latitude, initialCameraLatLng.longitude);
         }
@@ -601,11 +600,10 @@ class MakingRequestLocationController extends GetxController {
 
   void onCameraMove(CameraPosition cameraPosition) {
     currentCameraLatLng = cameraPosition.target;
-    cameraMoved = true;
+    cameraMoved.value = true;
   }
 
   void animateCamera({required LatLng locationLatLng}) {
-    mapPinMargin.value = 10;
     googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(

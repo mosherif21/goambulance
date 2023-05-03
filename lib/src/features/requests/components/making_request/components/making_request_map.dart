@@ -260,9 +260,17 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 () => Center(
                   child: Container(
                     margin: EdgeInsets.only(
-                        left: isLangEnglish() ? 10 : 40,
-                        right: isLangEnglish() ? 40 : 10,
-                        bottom: widget.controller.mapPinMargin.value),
+                        left: widget.controller.cameraMoved.value
+                            ? isLangEnglish()
+                                ? 10
+                                : 40
+                            : 0,
+                        right: widget.controller.cameraMoved.value
+                            ? isLangEnglish()
+                                ? 40
+                                : 10
+                            : 0,
+                        bottom: widget.controller.cameraMoved.value ? 18 : 80),
                     height: widget.controller.choosingHospital.value
                         ? 0
                         : screenHeight * 0.15,

@@ -316,13 +316,11 @@ class MakingRequestLocationController extends GetxController {
                         locationLatLng: selectedHospital.value!.location),
                   );
                   mapMarkers.add(hospitalMarker!);
-                  enableGoBack = false;
                   getRouteToLocation(
                     fromLocation: currentChosenLatLng,
                     toLocation: selectedHospital.value!.location,
                     routeId: 'routeToHospital',
                   ).then((route) {
-                    enableGoBack = true;
                     if (route != null) {
                       routeToHospital.value = route;
                       animateToLatLngBounds(
@@ -359,13 +357,11 @@ class MakingRequestLocationController extends GetxController {
     );
     mapMarkers.add(hospitalMarker!);
     selectedHospital.value = hospitalItem;
-    enableGoBack = false;
     routeToHospital.value = await getRouteToLocation(
       fromLocation: currentChosenLatLng,
       toLocation: hospitalItem.location,
       routeId: 'routeToHospital',
     );
-    enableGoBack = true;
     if (routeToHospital.value != null) {
       animateToLatLngBounds(
           latLngBounds:
@@ -379,6 +375,7 @@ class MakingRequestLocationController extends GetxController {
       required LatLng toLocation,
       required String routeId}) async {
     try {
+      enableGoBack = false;
       final directions = google_web_directions_service.GoogleMapsDirections(
         baseUrl: AppInit.isWeb ? "https://cors-anywhere.herokuapp.com/" : null,
         apiKey: googleMapsAPIKeyWeb,
@@ -391,7 +388,7 @@ class MakingRequestLocationController extends GetxController {
         travelMode: google_web_directions_service.TravelMode.driving,
         language: isLangEnglish() ? 'en' : 'ar',
       );
-
+      enableGoBack = true;
       if (result.isOkay) {
         final route = result.routes.first;
         final leg = route.legs.first;

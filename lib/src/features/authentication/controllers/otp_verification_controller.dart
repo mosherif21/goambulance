@@ -70,7 +70,7 @@ class OtpVerificationController extends GetxController {
       returnMessage = 'invalidPhoneNumber'.tr;
     }
     hideLoadingScreen();
-    if (returnMessage == 'codeSent') {
+    if (returnMessage == 'sent') {
       await Get.to(
         () => OTPVerificationScreen(
           verificationType: 'phoneLabel'.tr,

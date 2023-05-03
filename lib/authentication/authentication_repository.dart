@@ -191,7 +191,7 @@ class AuthenticationRepository extends GetxController {
     required String phoneNumber,
     required bool linkWithPhone,
   }) async {
-    String returnMessage = 'codeSent';
+    String returnMessage = 'sent';
     try {
       await _auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,

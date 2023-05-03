@@ -42,7 +42,7 @@ class EditMedicalHistoryController extends GetxController {
   @override
   void onInit() async {
     authRep = AuthenticationRepository.instance;
-    userInfo = authRep.userInfo!;
+    userInfo = authRep.userInfo;
     userId = authRep.fireUser.value!.uid;
     loadDiseases();
     super.onInit();
@@ -149,11 +149,11 @@ class EditMedicalHistoryController extends GetxController {
       currentDiseasesDocIds: currentDiseasesDocIds,
     );
     if (functionStatus == FunctionStatus.success) {
-      authRep.userInfo!.bloodType = medicalHistoryData.bloodType;
-      authRep.userInfo!.diabetic = medicalHistoryData.diabetic;
-      authRep.userInfo!.hypertensive = medicalHistoryData.hypertensive;
-      authRep.userInfo!.heartPatient = medicalHistoryData.heartPatient;
-      authRep.userInfo!.additionalInformation =
+      authRep.userInfo.bloodType = medicalHistoryData.bloodType;
+      authRep.userInfo.diabetic = medicalHistoryData.diabetic;
+      authRep.userInfo.hypertensive = medicalHistoryData.hypertensive;
+      authRep.userInfo.heartPatient = medicalHistoryData.heartPatient;
+      authRep.userInfo.additionalInformation =
           medicalHistoryData.additionalInformation;
       Get.back();
       hideLoadingScreen();

@@ -68,7 +68,7 @@ class EditUserDataController extends GetxController {
     authRep = AuthenticationRepository.instance;
     fireStorage = FirebaseStorage.instance;
     currentUser = authRep.fireUser.value!;
-    userInfo = authRep.userInfo!;
+    userInfo = authRep.userInfo;
     userId = currentUser.uid;
     loadImages();
     super.onInit();
@@ -232,12 +232,12 @@ class EditUserDataController extends GetxController {
     if (functionStatus == FunctionStatus.success) {
       isProfileImageChanged.value = false;
       isNationalIDImageChanged.value = false;
-      authRep.userInfo!.name = accountDetails.name;
+      authRep.userInfo.name = accountDetails.name;
       authRep.drawerAccountName.value = accountDetails.name;
-      authRep.userInfo!.email = accountDetails.email;
-      authRep.userInfo!.nationalId = accountDetails.nationalId;
-      authRep.userInfo!.birthDate = accountDetails.birthDate;
-      authRep.userInfo!.gender = accountDetails.gender;
+      authRep.userInfo.email = accountDetails.email;
+      authRep.userInfo.nationalId = accountDetails.nationalId;
+      authRep.userInfo.birthDate = accountDetails.birthDate;
+      authRep.userInfo.gender = accountDetails.gender;
       Get.back();
       hideLoadingScreen();
       showSnackBar(

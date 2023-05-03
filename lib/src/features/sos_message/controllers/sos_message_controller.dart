@@ -59,7 +59,7 @@ class SosMessageController extends GetxController {
 
   void loadContactsData() async {
     contactsList.value = await firebasePatientDataAccess.getEmergencyContacts();
-    savedSosMessage = authRepo.userInfo!.sosMessage;
+    savedSosMessage = authRepo.userInfo.sosMessage;
     sosMessageController.text = savedSosMessage;
     sosMessage = savedSosMessage;
     sosMessageDataLoaded.value = true;
@@ -113,7 +113,7 @@ class SosMessageController extends GetxController {
     if (savedSosMessage.compareTo(sosMessage) != 0) {
       final functionStatus = await firebasePatientDataAccess.saveSosMessage(
           sosMessage: sosMessage);
-      authRepo.userInfo!.sosMessage = sosMessage;
+      authRepo.userInfo.sosMessage = sosMessage;
       savedSosMessage = sosMessage;
       enableSaveButton.value = false;
       if (functionStatus == FunctionStatus.success) {

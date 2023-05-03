@@ -50,7 +50,7 @@ void showLoadingScreen() {
 }
 
 bool isUserCritical() {
-  return AuthenticationRepository.instance.userInfo!.criticalUser;
+  return AuthenticationRepository.instance.userInfo.criticalUser;
 }
 
 void hideLoadingScreen() {

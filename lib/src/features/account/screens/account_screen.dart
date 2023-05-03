@@ -8,6 +8,7 @@ import 'package:goambulance/src/general/common_widgets/link_account_button.dart'
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
+import '../../authentication/components/resetPassword/email_reset_screen.dart';
 import '../components/addresses_page.dart';
 import '../components/edit_medical_history_page.dart';
 import '../components/edit_user_data_page.dart';
@@ -115,6 +116,16 @@ class AccountScreen extends StatelessWidget {
                             textColor: Colors.black,
                             enabled: true,
                           ),
+                  ),
+                  LinkAccountButton(
+                    buttonText: 'resetPassword'.tr,
+                    imagePath: kResetPasswordImg,
+                    onPressed: () {
+                      getToResetPasswordScreen();
+                    },
+                    backgroundColor: Colors.cyan,
+                    textColor: Colors.white,
+                    enabled: true,
                   ),
                   RoundedElevatedButton(
                     buttonText: 'logout'.tr,

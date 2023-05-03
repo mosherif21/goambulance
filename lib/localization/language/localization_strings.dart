@@ -287,6 +287,12 @@ class Languages extends Translations {
           'linkGoogleAccount': 'ربط حساب جوجل',
           'linkFacebookAccount': 'ربط حساب فيسبوك',
           'linkEmailAccount': 'ربط حساب بريد الكتروني و كلمة مرور',
+          'resetPassword': 'ارسال رابط تغيير كلمة المرور',
+          'verify': 'توثيق البريد الالكتروني ',
+          'aboutusTitle1': 'شروط الاستخدام',
+          'aboutusTitle2': 'سياسة الخصوصية',
+          'aboutusTitle3': 'الاسئلة المتكررة',
+          'aboutusTitle4': 'موقعنا',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -581,6 +587,12 @@ class Languages extends Translations {
           'linkGoogleAccount': 'Link Google Account',
           'linkFacebookAccount': 'Link Facebook Account',
           'linkEmailAccount': 'Link Email and Password Account',
+          'resetPassword': 'Send Reset Password Link',
+          'verify': 'Verify Email',
+          'aboutusTitle1': 'Terms of use',
+          'aboutusTitle2': 'Privacy Policy',
+          'aboutusTitle3': 'FAQ',
+          'aboutusTitle4': 'Our Website',
         },
       };
 }

@@ -28,6 +28,7 @@ dependencies:
   permission_handler: ^10.2.0
   translator: ^0.1.7
   flutter_sms: ^2.3.3
+  url_launcher: ^6.1.10
 
   #firebase dependencies
   firebase_core: ^2.3.0

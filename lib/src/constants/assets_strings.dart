@@ -27,6 +27,7 @@ const String kMyLocation = "assets/images/myLocation.svg";
 const String kGoogleImg = "assets/images/google.png";
 const String kFacebookImg = "assets/images/facebook.png";
 const String kEmailImg = "assets/images/email.png";
+const String kResetPasswordImg = "assets/images/reset-password.png";
 
 //--Lottie assets
 const String kOnBoardingAnim1 = "assets/lottie_animations/ambulance.json";

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/components/newAccount/photo_select.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
@@ -27,6 +28,7 @@ class EditUserDataPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
     final controller = Get.put(EditUserDataController());
+
     return Scaffold(
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),
@@ -91,6 +93,21 @@ class EditUserDataPage extends StatelessWidget {
                             editable: controller.makeEmailEditable,
                             textInputAction: TextInputAction.next,
                           ),
+                          Obx(() => AuthenticationRepository
+                                  .instance.isEmailVerified.value
+                              ? Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: RegularElevatedButton(
+                                    buttonText: 'verify'.tr,
+                                    onPressed: () {
+                                      // controller.currentUser
+                                      //     .sendEmailVerification();
+                                    },
+                                    enabled: true,
+                                    color: kDefaultColor,
+                                  ),
+                                )
+                              : const SizedBox.shrink())
                         ],
                       ),
                     ),

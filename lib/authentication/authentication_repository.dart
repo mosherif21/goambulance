@@ -47,7 +47,9 @@ class AuthenticationRepository extends GetxController {
     fireUser.listen((user) {
       if (user != null) {
         isEmailVerified.value = user.emailVerified;
-        userInfo.phoneNumber = user.phoneNumber ?? '';
+        if (isUserLoggedIn) {
+          userInfo.phoneNumber = user.phoneNumber ?? '';
+        }
       }
     });
 

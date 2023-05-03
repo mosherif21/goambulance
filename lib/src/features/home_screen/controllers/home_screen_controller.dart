@@ -6,13 +6,13 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
-import 'package:goambulance/src/features/settings/components/about_us_page.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
+import '../../information/screens/about_us_page.dart';
 import '../../requests/screens/previous_requests_page.dart';
 
 class HomeScreenController extends GetxController {

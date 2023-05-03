@@ -7,7 +7,6 @@ import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:goambulance/src/features/settings/components/about_us_page.dart';
-import 'package:goambulance/src/features/settings/screens/settings_screen.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -51,21 +50,15 @@ class HomeScreenController extends GetxController {
         );
         break;
       case 2:
-        Get.to(
-          () => const SettingsScreen(),
-          transition: getPageTransition(),
-        );
-        break;
-      case 3:
         displayChangeLang();
         break;
-      case 4:
+      case 3:
         Get.to(
           () => const HelpScreen(),
           transition: getPageTransition(),
         );
         break;
-      case 5:
+      case 4:
         Get.to(
           () => const AboutUsScreen(),
           transition: getPageTransition(),

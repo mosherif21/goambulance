@@ -35,10 +35,9 @@ class HomeScreen extends StatelessWidget {
           [
             MenuClass('payment'.tr, Icons.payment, 0),
             MenuClass('notifications'.tr, Icons.notifications, 1),
-            MenuClass('settings'.tr, Icons.settings, 2),
-            MenuClass('lang'.tr, Icons.language, 3),
-            MenuClass('help'.tr, Icons.help, 4),
-            MenuClass('aboutUs'.tr, Icons.info_outline, 5),
+            MenuClass('lang'.tr, Icons.language, 2),
+            MenuClass('help'.tr, Icons.help, 3),
+            MenuClass('aboutUs'.tr, Icons.info_outline, 4),
           ],
           callback: (index) => homeScreenController.onDrawerItemSelected(index),
           current: 0,

@@ -133,8 +133,9 @@ class MakingRequestLocationController extends GetxController {
 
   onRefresh() async {
     clearSearchedHospitals();
-    await loadHospitals();
-    hospitalsRefreshController.refreshCompleted();
+    loadHospitals();
+    hospitalsRefreshController.refreshToIdle();
+    hospitalsRefreshController.resetNoData();
   }
 
   Future<void> loadHospitals() async {
@@ -270,7 +271,6 @@ class MakingRequestLocationController extends GetxController {
   Future<void> getHospitals() async {
     try {
       if (choosingHospital.value) {
-        enableGoBack = false;
         double searchRadius = 5;
         double maxRadius = 20;
         List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
@@ -316,6 +316,7 @@ class MakingRequestLocationController extends GetxController {
                         locationLatLng: selectedHospital.value!.location),
                   );
                   mapMarkers.add(hospitalMarker!);
+                  enableGoBack = false;
                   getRouteToLocation(
                     fromLocation: currentChosenLatLng,
                     toLocation: selectedHospital.value!.location,

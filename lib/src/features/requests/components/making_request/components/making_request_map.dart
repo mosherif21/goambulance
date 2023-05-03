@@ -113,15 +113,11 @@ class _MakingRequestMapState extends State<MakingRequestMap>
     return Scaffold(
       body: WillPopScope(
         onWillPop: () {
-          if (widget.controller.choosingHospital.value &&
-              widget.controller.enableGoBack) {
+          if (widget.controller.choosingHospital.value) {
             widget.controller.choosingRequestLocationChanges();
             return Future.value(false);
-          } else if (!widget.controller.choosingHospital.value &&
-              widget.controller.enableGoBack) {
-            return Future.value(true);
           } else {
-            return Future.value(false);
+            return Future.value(true);
           }
         },
         child: SlidingUpPanel(
@@ -190,13 +186,10 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                         CircleBackButton(
                           padding: 0,
                           onPress: () {
-                            if (widget.controller.choosingHospital.value &&
-                                widget.controller.enableGoBack) {
+                            if (widget.controller.choosingHospital.value) {
                               widget.controller
                                   .choosingRequestLocationChanges();
-                            } else if (!widget
-                                    .controller.choosingHospital.value &&
-                                widget.controller.enableGoBack) {
+                            } else {
                               Get.back();
                             }
                           },

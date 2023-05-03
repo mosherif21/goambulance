@@ -70,7 +70,6 @@ class MakingRequestLocationController extends GetxController {
       RefreshController(initialRefresh: false);
 
   //making request
-  bool enableGoBack = true;
   late String currentChosenLocationAddress;
   late LatLng currentCameraLatLng;
   late LatLng currentChosenLatLng;
@@ -270,70 +269,67 @@ class MakingRequestLocationController extends GetxController {
 
   Future<void> getHospitals() async {
     try {
-      if (choosingHospital.value) {
-        double searchRadius = 5;
-        double maxRadius = 20;
-        List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
-        while (
-            hospitalsDocuments.length < pageSize && searchRadius <= maxRadius) {
-          hospitalsDocuments =
-              await getRequests(skipCount: skipCount, radius: searchRadius);
-          searchRadius += 2.5;
-        }
-        if (kDebugMode) {
-          print('hospitals got count ${hospitalsDocuments.length}');
-        }
-        if (hospitalsDocuments.isEmpty && skipCount == 0) {
-          showSnackBar(
-              text: 'nearHospitalsNotFound'.tr,
-              snackBarType: SnackBarType.info);
-        } else if (hospitalsDocuments.isNotEmpty) {
-          skipCount += hospitalsDocuments.length;
-          if (kDebugMode) print('skip count $skipCount');
-          final hospitalsRef = _firestore.collection('hospitals');
-          for (var hospitalsDocument in hospitalsDocuments) {
-            final String hospitalId = hospitalsDocument.id;
-            await hospitalsRef.doc(hospitalId).get().then((snapshot) {
-              if (snapshot.exists) {
-                final hospitalDoc = snapshot.data()!;
-                GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;
-                final foundHospital = HospitalModel(
-                  hospitalId: hospitalId,
-                  name: hospitalDoc['name'].toString(),
-                  avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
-                  location: LatLng(geoPoint.latitude, geoPoint.longitude),
+      double searchRadius = 5;
+      double maxRadius = 20;
+      List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
+      while (
+          hospitalsDocuments.length < pageSize && searchRadius <= maxRadius) {
+        hospitalsDocuments =
+            await getRequests(skipCount: skipCount, radius: searchRadius);
+        searchRadius += 2.5;
+      }
+      if (kDebugMode) {
+        print('hospitals got count ${hospitalsDocuments.length}');
+      }
+      if (hospitalsDocuments.isEmpty && skipCount == 0) {
+        showSnackBar(
+            text: 'nearHospitalsNotFound'.tr, snackBarType: SnackBarType.info);
+      } else if (hospitalsDocuments.isNotEmpty) {
+        skipCount += hospitalsDocuments.length;
+        if (kDebugMode) print('skip count $skipCount');
+        final hospitalsRef = _firestore.collection('hospitals');
+        for (var hospitalsDocument in hospitalsDocuments) {
+          final String hospitalId = hospitalsDocument.id;
+          await hospitalsRef.doc(hospitalId).get().then((snapshot) {
+            if (snapshot.exists) {
+              final hospitalDoc = snapshot.data()!;
+              GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;
+              final foundHospital = HospitalModel(
+                hospitalId: hospitalId,
+                name: hospitalDoc['name'].toString(),
+                avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
+                location: LatLng(geoPoint.latitude, geoPoint.longitude),
+              );
+              if (searchedHospitals.isEmpty) {
+                selectedHospital.value = foundHospital;
+                hospitalMarker = Marker(
+                  markerId: const MarkerId('hospital'),
+                  position: selectedHospital.value!.location,
+                  icon: hospitalMarkerIcon,
+                  infoWindow: InfoWindow(
+                    title: 'hospitalLocationPinDesc'.tr,
+                  ),
+                  onTap: () => animateToLocation(
+                      locationLatLng: selectedHospital.value!.location),
                 );
-                if (searchedHospitals.isEmpty) {
-                  selectedHospital.value = foundHospital;
-                  hospitalMarker = Marker(
-                    markerId: const MarkerId('hospital'),
-                    position: selectedHospital.value!.location,
-                    icon: hospitalMarkerIcon,
-                    infoWindow: InfoWindow(
-                      title: 'hospitalLocationPinDesc'.tr,
-                    ),
-                    onTap: () => animateToLocation(
-                        locationLatLng: selectedHospital.value!.location),
-                  );
-                  mapMarkers.add(hospitalMarker!);
-                  getRouteToLocation(
-                    fromLocation: currentChosenLatLng,
-                    toLocation: selectedHospital.value!.location,
-                    routeId: 'routeToHospital',
-                  ).then((route) {
-                    if (route != null) {
-                      routeToHospital.value = route;
-                      animateToLatLngBounds(
-                          latLngBounds: getLatLngBounds(
-                              latLngList: routeToHospital.value!.points));
-                      mapPolyLines.add(routeToHospital.value!);
-                    }
-                  });
-                }
-                searchedHospitals.add(foundHospital);
+                mapMarkers.add(hospitalMarker!);
+                getRouteToLocation(
+                  fromLocation: currentChosenLatLng,
+                  toLocation: selectedHospital.value!.location,
+                  routeId: 'routeToHospital',
+                ).then((route) {
+                  if (route != null) {
+                    routeToHospital.value = route;
+                    animateToLatLngBounds(
+                        latLngBounds: getLatLngBounds(
+                            latLngList: routeToHospital.value!.points));
+                    mapPolyLines.add(routeToHospital.value!);
+                  }
+                });
               }
-            });
-          }
+              searchedHospitals.add(foundHospital);
+            }
+          });
         }
       }
     } on FirebaseException catch (error) {
@@ -375,7 +371,6 @@ class MakingRequestLocationController extends GetxController {
       required LatLng toLocation,
       required String routeId}) async {
     try {
-      enableGoBack = false;
       final directions = google_web_directions_service.GoogleMapsDirections(
         baseUrl: AppInit.isWeb ? "https://cors-anywhere.herokuapp.com/" : null,
         apiKey: googleMapsAPIKeyWeb,
@@ -388,7 +383,6 @@ class MakingRequestLocationController extends GetxController {
         travelMode: google_web_directions_service.TravelMode.driving,
         language: isLangEnglish() ? 'en' : 'ar',
       );
-      enableGoBack = true;
       if (result.isOkay) {
         final route = result.routes.first;
         final leg = route.legs.first;

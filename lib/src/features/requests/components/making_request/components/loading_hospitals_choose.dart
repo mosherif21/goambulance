@@ -20,7 +20,7 @@ class LoadingHospitalChoose extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     LineIcon.hospital(
                       size: screenHeight * 0.07,

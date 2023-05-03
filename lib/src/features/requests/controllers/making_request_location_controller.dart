@@ -260,7 +260,7 @@ class MakingRequestLocationController extends GetxController {
         .skip(skipCount)
         .take(pageSize);
     try {
-      hospitals = await stream.first.timeout(const Duration(seconds: 5));
+      hospitals = await stream.first.timeout(const Duration(seconds: 2));
     } on TimeoutException {
       return <DocumentSnapshot<Object?>>[];
     }

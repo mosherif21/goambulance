@@ -22,7 +22,6 @@ class ChooseHospitalsList extends StatelessWidget {
               // enableScrollWhenRefreshCompleted: true,
               enableLoadingWhenFailed: true,
               hideFooterWhenNotFull: false,
-              enableBallisticLoad: false,
               enableRefreshVibrate: true,
               enableLoadMoreVibrate: true,
               child: SmartRefresher(

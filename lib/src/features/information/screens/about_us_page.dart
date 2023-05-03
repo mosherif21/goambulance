@@ -64,7 +64,7 @@ class AboutUsScreen extends StatelessWidget {
                               break;
                           }
                         },
-                        title: 'aboutusTitle${count + 1}'.tr,
+                        title: 'aboutUsTitle${count + 1}'.tr,
                         subTitle: '',
                         icon: Icons.arrow_forward_ios,
                         iconColor: Colors.black45,

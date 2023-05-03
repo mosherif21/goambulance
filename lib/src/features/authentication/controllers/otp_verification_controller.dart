@@ -51,8 +51,11 @@ class OtpVerificationController extends GetxController {
   Future<void> otpOnClick(
       {required bool linkWithPhone, required bool goToInitPage}) async {
     String phoneNumber = phoneTextController.value.text.trim();
-    if (linkWithPhone && goToInitPage) {
-      if (phoneNumber == authenticationRepository.userInfo.phoneNumber) {
+
+    if (linkWithPhone && !goToInitPage) {
+      print(phoneNumber);
+      print(authenticationRepository.fireUser.value!.phoneNumber);
+      if (phoneNumber == authenticationRepository.fireUser.value!.phoneNumber) {
         showSnackBar(
           text: 'phoneNumberAlreadyYourAccount'.tr,
           snackBarType: SnackBarType.error,

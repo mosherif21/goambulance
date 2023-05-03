@@ -47,9 +47,6 @@ class AuthenticationRepository extends GetxController {
     fireUser.listen((user) {
       if (user != null) {
         isEmailVerified.value = user.emailVerified;
-        if (isUserLoggedIn) {
-          userInfo.phoneNumber = user.phoneNumber ?? '';
-        }
       }
     });
 
@@ -114,7 +111,6 @@ class AuthenticationRepository extends GetxController {
               heartPatient: userDoc['heartPatient'].toString(),
               additionalInformation:
                   userDoc['additionalInformation'].toString(),
-              phoneNumber: userDoc['phoneNo'].toString(),
               sosMessage: userDoc['sosMessage'].toString(),
               criticalUser: userDoc['criticalUser'] as bool,
             );
@@ -415,7 +411,6 @@ class AuthenticationRepository extends GetxController {
       hypertensive: '',
       heartPatient: '',
       additionalInformation: '',
-      phoneNumber: '',
       sosMessage: '',
       criticalUser: false,
     );

@@ -7,7 +7,6 @@ class UserInformation {
   String bloodType;
   String diabetic;
   String additionalInformation;
-  String phoneNumber;
   String hypertensive;
   String heartPatient;
   String sosMessage;
@@ -23,7 +22,6 @@ class UserInformation {
     required this.hypertensive,
     required this.heartPatient,
     required this.additionalInformation,
-    required this.phoneNumber,
     required this.sosMessage,
     required this.criticalUser,
   });
@@ -31,7 +29,6 @@ class UserInformation {
         'name': name,
         'email': email,
         'nationalId': nationalId,
-        'phoneNo': phoneNumber,
         'birthdate': birthDate,
         'gender': gender,
         'bloodType': bloodType,

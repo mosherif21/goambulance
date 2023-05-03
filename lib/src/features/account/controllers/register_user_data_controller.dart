@@ -18,8 +18,6 @@ import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
 class RegisterUserDataController extends GetxController {
   static RegisterUserDataController get instance => Get.find();
-  //vars
-  late final String phoneNumber;
   //controllers
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
@@ -74,7 +72,6 @@ class RegisterUserDataController extends GetxController {
     }
     final userName = user.displayName ?? '';
     nameTextController.text = userName;
-    phoneNumber = user.phoneNumber ?? '';
     super.onInit();
   }
 
@@ -248,7 +245,6 @@ class RegisterUserDataController extends GetxController {
       hypertensive: hypertensivePatient ? 'Yes' : 'No',
       heartPatient: heartPatient ? 'Yes' : 'No',
       additionalInformation: additionalInformationTextController.text.trim(),
-      phoneNumber: phoneNumber,
       sosMessage: '',
       criticalUser: false,
     );

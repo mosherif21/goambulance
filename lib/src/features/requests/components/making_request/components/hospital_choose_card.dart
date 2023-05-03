@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
-import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:line_icons/line_icon.dart';
 
 import '../../../../../general/general_functions.dart';
@@ -11,24 +10,21 @@ class HospitalChooseCard extends StatelessWidget {
   const HospitalChooseCard({
     Key? key,
     required this.hospitalItem,
-    required this.controller,
+    required this.selected,
+    required this.onPress,
   }) : super(key: key);
   final HospitalModel hospitalItem;
-  final MakingRequestLocationController controller;
+  final bool selected;
+  final Function onPress;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    return Obx(
-      () => Material(
+    return  Material(
         shadowColor: Colors.grey.shade300,
-        color: controller.selectedHospital.value == hospitalItem
-            ? Colors.grey.shade300
-            : Colors.white,
+        color: selected ? Colors.grey.shade300 : Colors.white,
         child: InkWell(
           splashFactory: InkSparkle.splashFactory,
-          onTap: controller.selectedHospital.value == hospitalItem
-              ? null
-              : () => controller.onHospitalChosen(hospitalItem: hospitalItem),
+          onTap: selected ? null : () => onPress(),
           highlightColor: Colors.grey.shade200,
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -69,7 +65,6 @@ class HospitalChooseCard extends StatelessWidget {
             ),
           ),
         ),
-      ),
     );
   }
 }

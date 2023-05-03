@@ -19,7 +19,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
@@ -67,6 +66,8 @@ class MakingRequestLocationController extends GetxController {
   late LatLng initialCameraLatLng;
   final cameraMoved = false.obs;
   final hospitalsPanelController = PanelController();
+  RefreshController hospitalsRefreshController =
+      RefreshController(initialRefresh: false);
 
   //making request
   bool enableGoBack = true;
@@ -74,10 +75,11 @@ class MakingRequestLocationController extends GetxController {
   late LatLng currentCameraLatLng;
   late LatLng currentChosenLatLng;
   final choosingHospital = false.obs;
+  final hospitalsLoaded = false.obs;
   final selectedHospital = Rx<HospitalModel?>(null);
+  int skipCount = 0;
   static const pageSize = 6;
-  final PagingController<int, HospitalModel> pagingController =
-      PagingController(firstPageKey: 0);
+
   final searchedHospitals = <HospitalModel>[].obs;
 
   //geoQuery vars
@@ -85,19 +87,9 @@ class MakingRequestLocationController extends GetxController {
   late final FirebaseFirestore _firestore;
   // late Timer? requestAcceptedTimer;
 
-  RefreshController hospitalsRefreshController =
-      RefreshController(initialRefresh: false);
-  @override
-  void onInit() async {
-    _firestore = FirebaseFirestore.instance;
-    pagingController.addPageRequestListener((pageKey) {
-      fetchPage(pageKey);
-    });
-    super.onInit();
-  }
-
   @override
   void onReady() async {
+    _firestore = FirebaseFirestore.instance;
     await locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
@@ -139,6 +131,28 @@ class MakingRequestLocationController extends GetxController {
     });
   }
 
+  onRefresh() async {
+    clearSearchedHospitals();
+    await loadHospitals();
+    hospitalsRefreshController.refreshCompleted();
+  }
+
+  Future<void> loadHospitals() async {
+    hospitalsLoaded.value = false;
+    await getHospitals();
+    hospitalsLoaded.value = true;
+  }
+
+  onLoadMore() async {
+    final oldSkipCount = skipCount;
+    await getHospitals();
+    if (oldSkipCount < skipCount) {
+      hospitalsRefreshController.loadComplete();
+    } else {
+      hospitalsRefreshController.loadNoData();
+    }
+  }
+
   Future<void> onRequestPress() async {
     if (allowedLocation) {
       await choosingHospitalChanges();
@@ -169,8 +183,7 @@ class MakingRequestLocationController extends GetxController {
     mapMarkers.add(requestLocationMarker!);
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
-    pagingController.refresh();
-
+    loadHospitals();
     // late final BitmapDescriptor ambulanceMarkerIcon;
     // await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
     //   ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
@@ -208,11 +221,13 @@ class MakingRequestLocationController extends GetxController {
 
   void clearSearchedHospitals() {
     clearHospitalRoute();
+    skipCount = 0;
     searchedHospitals.value = [];
   }
 
   void choosingRequestLocationChanges() async {
     choosingHospital.value = false;
+    hospitalsLoaded.value = false;
     hospitalsPanelController.close();
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
@@ -225,32 +240,15 @@ class MakingRequestLocationController extends GetxController {
     clearSearchedHospitals();
   }
 
-  void fetchPage(int pageKey) async {
-    try {
-      await getHospitals(skipCount: pageKey);
-      final newItems = searchedHospitals.skip(pageKey).toList();
-      final isLastPage = newItems.length < pageSize;
-      if (isLastPage) {
-        pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        pagingController.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      pagingController.error = error;
-    }
-  }
-
   Future<List<DocumentSnapshot<Object?>>> getRequests(
       {required int skipCount, required double radius}) async {
-    if (kDebugMode) print('skip count $skipCount');
     if (kDebugMode) print('search radius $radius');
     GeoFirePoint center = geoFire.point(
         latitude: currentChosenLatLng.latitude,
         longitude: currentChosenLatLng.longitude);
 
     final collectionReference = _firestore.collection('hospitalsLocations');
-
+    List<DocumentSnapshot<Object?>> hospitals = <DocumentSnapshot<Object?>>[];
     Stream<List<DocumentSnapshot>> stream = geoFire
         .collection(collectionRef: collectionReference)
         .withinAsSingleStreamSubscription(
@@ -261,10 +259,15 @@ class MakingRequestLocationController extends GetxController {
         )
         .skip(skipCount)
         .take(pageSize);
-    return await stream.first;
+    try {
+      hospitals = await stream.first.timeout(const Duration(seconds: 5));
+    } on TimeoutException {
+      return <DocumentSnapshot<Object?>>[];
+    }
+    return hospitals;
   }
 
-  Future<void> getHospitals({required int skipCount}) async {
+  Future<void> getHospitals() async {
     try {
       if (choosingHospital.value) {
         enableGoBack = false;
@@ -272,10 +275,10 @@ class MakingRequestLocationController extends GetxController {
         double maxRadius = 20;
         List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
         while (
-            hospitalsDocuments.length < pageSize && searchRadius < maxRadius) {
-          searchRadius += 2.5;
+            hospitalsDocuments.length < pageSize && searchRadius <= maxRadius) {
           hospitalsDocuments =
               await getRequests(skipCount: skipCount, radius: searchRadius);
+          searchRadius += 2.5;
         }
         if (kDebugMode) {
           print('hospitals got count ${hospitalsDocuments.length}');
@@ -285,10 +288,12 @@ class MakingRequestLocationController extends GetxController {
               text: 'nearHospitalsNotFound'.tr,
               snackBarType: SnackBarType.info);
         } else if (hospitalsDocuments.isNotEmpty) {
+          skipCount += hospitalsDocuments.length;
+          if (kDebugMode) print('skip count $skipCount');
           final hospitalsRef = _firestore.collection('hospitals');
           for (var hospitalsDocument in hospitalsDocuments) {
             final String hospitalId = hospitalsDocument.id;
-            await hospitalsRef.doc(hospitalId).get().then((snapshot) async {
+            await hospitalsRef.doc(hospitalId).get().then((snapshot) {
               if (snapshot.exists) {
                 final hospitalDoc = snapshot.data()!;
                 GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;
@@ -311,24 +316,26 @@ class MakingRequestLocationController extends GetxController {
                         locationLatLng: selectedHospital.value!.location),
                   );
                   mapMarkers.add(hospitalMarker!);
-                  routeToHospital.value = await getRouteToLocation(
+                  getRouteToLocation(
                     fromLocation: currentChosenLatLng,
                     toLocation: selectedHospital.value!.location,
                     routeId: 'routeToHospital',
-                  );
-                  if (routeToHospital.value != null) {
-                    animateToLatLngBounds(
-                        latLngBounds: getLatLngBounds(
-                            latLngList: routeToHospital.value!.points));
-                    mapPolyLines.add(routeToHospital.value!);
-                  }
+                  ).then((route) {
+                    enableGoBack = true;
+                    if (route != null) {
+                      routeToHospital.value = route;
+                      animateToLatLngBounds(
+                          latLngBounds: getLatLngBounds(
+                              latLngList: routeToHospital.value!.points));
+                      mapPolyLines.add(routeToHospital.value!);
+                    }
+                  });
                 }
                 searchedHospitals.add(foundHospital);
               }
             });
           }
         }
-        enableGoBack = true;
       }
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
@@ -662,7 +669,6 @@ class MakingRequestLocationController extends GetxController {
     if (!AppInit.isWeb) {
       await serviceStatusStream?.cancel();
     }
-    pagingController.dispose();
     hospitalsRefreshController.dispose();
     if (positionStreamInitialized) await currentPositionStream?.cancel();
     super.onClose();

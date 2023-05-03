@@ -30,7 +30,9 @@ class LinkAccountButton extends StatelessWidget {
             splashFactory: InkSparkle.splashFactory,
             elevation: 0,
             backgroundColor: backgroundColor,
-            foregroundColor: Colors.white,
+            foregroundColor: backgroundColor == Colors.white
+                ? Colors.grey.shade500
+                : Colors.white,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(25))),
           ),

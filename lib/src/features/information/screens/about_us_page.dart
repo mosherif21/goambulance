@@ -8,7 +8,7 @@ import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
-  final String url = 'https://youtu.be/dQw4w9WgXcQ';
+  final String url = 'https://goambulance.help';
 
   @override
   Widget build(BuildContext context) {

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
-import 'package:goambulance/src/features/search/screens/search_page.dart';
 import 'package:goambulance/src/features/settings/components/about_us_page.dart';
 import 'package:goambulance/src/features/settings/screens/settings_screen.dart';
 import 'package:line_icons/line_icon.dart';
@@ -23,7 +22,6 @@ class HomeScreenController extends GetxController {
   final homeBottomTabController = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
-  RxBool hideNavBar = false.obs;
 
   @override
   void onReady() {
@@ -83,7 +81,6 @@ class HomeScreenController extends GetxController {
   List<Widget> buildScreens() {
     return [
       const HomeDashBoard(),
-      const SearchScreen(),
       const PreviousRequestsPage(),
       const AccountScreen(),
     ];
@@ -94,12 +91,6 @@ class HomeScreenController extends GetxController {
       PersistentBottomNavBarItem(
         icon: LineIcon.home(),
         title: ('home'.tr),
-        activeColorPrimary: Colors.black,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: LineIcon.search(),
-        title: ('search'.tr),
         activeColorPrimary: Colors.black,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),

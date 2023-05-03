@@ -51,6 +51,15 @@ class OtpVerificationController extends GetxController {
   Future<void> otpOnClick(
       {required bool linkWithPhone, required bool goToInitPage}) async {
     String phoneNumber = phoneTextController.value.text.trim();
+    if (linkWithPhone && goToInitPage) {
+      if (phoneNumber == authenticationRepository.userInfo.phoneNumber) {
+        showSnackBar(
+          text: 'phoneNumberAlreadyYourAccount'.tr,
+          snackBarType: SnackBarType.error,
+        );
+        return;
+      }
+    }
     String returnMessage = '';
     FocusManager.instance.primaryFocus?.unfocus();
     showLoadingScreen();

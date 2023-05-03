@@ -32,7 +32,7 @@ class AuthenticationRepository extends GetxController {
   String verificationId = '';
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.patient;
-  late UserInformation? userInfo;
+  late UserInformation userInfo;
   final drawerProfileImageUrl = ''.obs;
   final drawerAccountName = ''.obs;
 
@@ -47,6 +47,7 @@ class AuthenticationRepository extends GetxController {
     fireUser.listen((user) {
       if (user != null) {
         isEmailVerified.value = user.emailVerified;
+        userInfo.phoneNumber = user.phoneNumber ?? '';
       }
     });
 
@@ -234,8 +235,6 @@ class AuthenticationRepository extends GetxController {
       } on FirebaseAuthException catch (ex) {
         if (ex.code == 'credential-already-in-use') {
           return 'phoneNumberAlreadyLinked'.tr;
-        } else if (ex.code == 'provider-already-linked') {
-          return 'phoneNumberAlreadyYourAccount'.tr;
         } else if (ex.code == 'invalid-verification-code') {
           return 'wrongOTP'.tr;
         }

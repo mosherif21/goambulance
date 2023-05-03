@@ -61,7 +61,7 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<void> authenticatedSetup() async {
+  void authenticatedSetup() {
     AppInit.currentAuthType.value = AuthType.emailLogin;
     checkUserHasPhoneNumber();
   }
@@ -142,7 +142,7 @@ class AuthenticationRepository extends GetxController {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       if (fireUser.value != null) {
-        await authenticatedSetup();
+        authenticatedSetup();
         isUserLoggedIn = true;
         AppInit.goToInitPage();
         return 'success';
@@ -160,7 +160,7 @@ class AuthenticationRepository extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       if (fireUser.value != null) {
-        await authenticatedSetup();
+        authenticatedSetup();
         isUserLoggedIn = true;
         AppInit.goToInitPage();
         return 'success';
@@ -252,8 +252,7 @@ class AuthenticationRepository extends GetxController {
           verificationId: verificationId, smsCode: otp));
       if (fireUser.value != null) {
         isUserLoggedIn = true;
-        await authenticatedSetup();
-        AppInit.goToInitPage();
+        authenticatedSetup();
         return 'success';
       }
     } on FirebaseAuthException catch (ex) {
@@ -272,7 +271,7 @@ class AuthenticationRepository extends GetxController {
         await _auth.signInWithCredential(googleCredential);
         if (fireUser.value != null) {
           isUserLoggedIn = true;
-          await authenticatedSetup();
+          authenticatedSetup();
           AppInit.goToInitPage();
           return 'success';
         }
@@ -340,7 +339,7 @@ class AuthenticationRepository extends GetxController {
         await _auth.signInWithCredential(facebookAuthCredential);
         if (fireUser.value != null) {
           isUserLoggedIn = true;
-          await authenticatedSetup();
+          authenticatedSetup();
           AppInit.goToInitPage();
           return 'success';
         }

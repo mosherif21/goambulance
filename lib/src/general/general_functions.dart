@@ -104,6 +104,7 @@ Future<void> logout() async {
     await FirebasePatientDataAccess.instance.logoutFirebase();
   }
   if (kDebugMode) print('signing out');
+  hideLoadingScreen();
   Get.offAll(() => const AuthenticationScreen());
   hideLoadingScreen();
 }

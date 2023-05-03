@@ -34,6 +34,10 @@ class OtpVerificationController extends GetxController {
         AppInit.goToInitPage();
       } else {
         Get.close(2);
+        showSnackBar(
+          text: 'phoneChangeSuccess'.tr,
+          snackBarType: SnackBarType.success,
+        );
       }
     } else {
       hideLoadingScreen();

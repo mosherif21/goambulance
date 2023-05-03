@@ -83,25 +83,17 @@ class EditUserDataController extends GetxController {
       emailTextController.text = userInfo.email;
     }
     nameTextController.text = userInfo.name;
+    /* ana 5leto ya5od el value bs 3shan lw hwa 8yar el value bta3t el birthdate
+     we el gender we etsayevo fe el database lama yeft7 el account details
+     ma y7otelo4 el 7aga men el national id we hwa mo5tlef fe el database
+    */
     nationalIdTextController.text = userInfo.nationalId;
-    final nationalId = nationalIdTextController.text;
-    if (NIDInfo.NIDCheck(nid: nationalId)) {
-      try {
-        final nationalIdData = NIDInfo(nid: nationalId);
-        FocusManager.instance.primaryFocus?.unfocus();
-        gender =
-            nationalIdData.sex.contains('Male') ? Gender.male : Gender.female;
-        genderRadioKey.currentState?.selectButton(gender!);
-        final birthDate = nationalIdData.birthDay;
-        birthDateController.displayDate = birthDate;
-        birthDateController.selectedDate =
-            DateTime(birthDate.year, birthDate.month, birthDate.day);
-        highlightNationalId.value = false;
-        FocusManager.instance.primaryFocus?.unfocus();
-      } catch (e) {
-        if (kDebugMode) print(e.toString());
-      }
-    }
+    gender = userInfo.gender == 'male' ? Gender.male : Gender.female;
+    genderRadioKey.currentState?.selectButton(gender!);
+    final birthDate = userInfo.birthDate;
+    birthDateController.displayDate = birthDate;
+    birthDateController.selectedDate =
+        DateTime(birthDate.year, birthDate.month, birthDate.day);
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {
         highlightName.value = false;

@@ -12,6 +12,7 @@ import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../src/constants/enums.dart';
+import '../src/general/general_functions.dart';
 import 'exception_errors/signin_email_password_exceptions.dart';
 import 'exception_errors/signup_email_password_exceptions.dart';
 
@@ -196,11 +197,15 @@ class AuthenticationRepository extends GetxController {
           phoneNumber: phoneNumber,
           verificationCompleted: (credential) async {
             if (!linkWithPhone) {
+              showLoadingScreen();
               await _auth.signInWithCredential(credential);
               if (fireUser.value != null) {
+                hideLoadingScreen();
                 isUserLoggedIn = true;
                 authenticatedSetup();
                 AppInit.goToInitPage();
+              } else {
+                hideLoadingScreen();
               }
             }
           },

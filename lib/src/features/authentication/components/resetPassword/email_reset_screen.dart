@@ -17,6 +17,7 @@ void getToResetPasswordScreen() {
       buttonTitle: 'confirm'.tr,
       inputType: InputType.email,
       linkWithPhone: false,
+      goToInitPage: false,
     ),
     transition: getPageTransition(),
   );

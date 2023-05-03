@@ -17,11 +17,13 @@ class OTPVerificationScreen extends StatelessWidget {
     required this.lottieAssetAnim,
     required this.enteredString,
     required this.linkWithPhone,
+    required this.goToInitPage,
   }) : super(key: key);
   final String verificationType;
   final String lottieAssetAnim;
   final String enteredString;
   final bool linkWithPhone;
+  final bool goToInitPage;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +104,7 @@ class OTPVerificationScreen extends StatelessWidget {
                       await OtpVerificationController.instance.verifyOTP(
                         verificationCode: enteredVerificationCode,
                         linkWithPhone: linkWithPhone,
+                        goToInitPage: goToInitPage,
                       );
                     },
                   ),

@@ -34,7 +34,8 @@ class AlternateLoginButtons extends StatelessWidget {
                   SignInButton(
                     Buttons.Phone,
                     text: 'loginWithMobile'.tr,
-                    onPressed: () => getToPhoneVerificationScreen(),
+                    onPressed: () => getToPhoneVerificationScreen(
+                        linkWithPhone: false, goToInitPage: true),
                     width: buttonsWidth,
                     height: 50.0,
                   ),

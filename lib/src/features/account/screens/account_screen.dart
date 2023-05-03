@@ -63,6 +63,10 @@ class AccountScreen extends StatelessWidget {
                                 transition: getPageTransition(),
                               );
                               break;
+                            case 3:
+                              getToPhoneVerificationScreen(
+                                  linkWithPhone: true, goToInitPage: false);
+                              break;
                           }
                         },
                         title: 'accountTitle${count + 1}'.tr,
@@ -71,7 +75,7 @@ class AccountScreen extends StatelessWidget {
                         iconColor: Colors.black45,
                       );
                     },
-                    itemCount: 3,
+                    itemCount: 4,
                     shrinkWrap: true,
                   ),
                   Obx(

@@ -27,6 +27,7 @@ class AuthenticationRepository extends GetxController {
   final isGoogleLinked = false.obs;
   final isEmailAndPasswordLinked = false.obs;
   final isFacebookLinked = false.obs;
+  final isEmailVerified = false.obs;
 
   String verificationId = '';
   GoogleSignIn? googleSignIn;
@@ -43,6 +44,12 @@ class AuthenticationRepository extends GetxController {
       checkUserHasPhoneNumber();
     }
     fireUser.bindStream(_auth.userChanges());
+    fireUser.listen((user) {
+      if (user != null) {
+        isEmailVerified.value = user.emailVerified;
+      }
+    });
+
     super.onInit();
   }
 
@@ -187,14 +194,14 @@ class AuthenticationRepository extends GetxController {
       await _auth.verifyPhoneNumber(
           phoneNumber: phoneNumber,
           verificationCompleted: (credential) async {
-            await _auth.signInWithCredential(credential);
-            if (fireUser.value != null) {
-              isUserLoggedIn = true;
-              await authenticatedSetup();
-              if (!linkWithPhone) {
-                AppInit.goToInitPage();
-              }
-            }
+            // await _auth.signInWithCredential(credential);
+            // if (fireUser.value != null) {
+            //   isUserLoggedIn = true;
+            //   await authenticatedSetup();
+            //   if (!linkWithPhone) {
+            //     AppInit.goToInitPage();
+            //   }
+            // }
           },
           verificationFailed: (e) {
             returnMessage = e.code;
@@ -214,14 +221,15 @@ class AuthenticationRepository extends GetxController {
     return returnMessage;
   }
 
-  Future<String> linkPhoneCredentialWithAccount({required String otp}) async {
+  Future<String> linkPhoneCredentialWithAccount(
+      {required String otp, required bool goToInitPage}) async {
     if (fireUser.value != null) {
       try {
         final credential = PhoneAuthProvider.credential(
             verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
+        fireUser.value!.emailVerified;
         checkUserHasPhoneNumber();
-        AppInit.goToInitPage();
         return 'success';
       } on FirebaseAuthException catch (ex) {
         if (ex.code == 'credential-already-in-use') {
@@ -393,6 +401,7 @@ class AuthenticationRepository extends GetxController {
     isGoogleLinked.value = false;
     isEmailAndPasswordLinked.value = false;
     isFacebookLinked.value = false;
+    isEmailVerified.value = false;
     verificationId = '';
     userType = UserType.patient;
     userInfo = UserInformation(

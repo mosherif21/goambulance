@@ -151,7 +151,8 @@ class AppInit {
           );
         } else if (authRepo.userType == UserType.patient) {
           if (!authRepo.isUserPhoneRegistered && !authRepo.isUserRegistered) {
-            getOfAllPhoneVerificationScreen();
+            getOfAllPhoneVerificationScreen(
+                linkWithPhone: true, goToInitPage: true);
           } else if (authRepo.isUserPhoneRegistered &&
               !authRepo.isUserRegistered) {
             if (AppInit.isWeb) {

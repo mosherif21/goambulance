@@ -28,6 +28,7 @@ class SingleEntryScreen extends StatelessWidget {
     required this.prefixIconData,
     required this.inputType,
     required this.linkWithPhone,
+    required this.goToInitPage,
   }) : super(key: key);
   final String title;
   final String lottieAssetAnim;
@@ -37,6 +38,7 @@ class SingleEntryScreen extends StatelessWidget {
   final IconData prefixIconData;
   final InputType inputType;
   final bool linkWithPhone;
+  final bool goToInitPage;
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +51,14 @@ class SingleEntryScreen extends StatelessWidget {
     }
     return WillPopScope(
       onWillPop: () async {
-        if (linkWithPhone) {
+        if (linkWithPhone && goToInitPage) {
           logoutDialogue();
         }
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
-          leading: linkWithPhone
+          leading: linkWithPhone && goToInitPage
               ? CustomBackButton(onPressed: () => logoutDialogue(), padding: 3)
               : const RegularBackButton(padding: 0),
           elevation: 0,
@@ -129,8 +131,9 @@ class SingleEntryScreen extends StatelessWidget {
                     enabled: true,
                     onPressed: () {
                       if (inputType == InputType.phone) {
-                        OtpVerificationController.instance
-                            .otpOnClick(linkWithPhone: linkWithPhone);
+                        OtpVerificationController.instance.otpOnClick(
+                            linkWithPhone: linkWithPhone,
+                            goToInitPage: goToInitPage);
                       } else {
                         final controller = ResetController.instance;
                         controller.resetPassword(

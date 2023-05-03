@@ -108,7 +108,9 @@ Future<void> logout() async {
   hideLoadingScreen();
 }
 
-void getToPhoneVerificationScreen() => Get.to(
+void getToPhoneVerificationScreen(
+        {required bool linkWithPhone, required bool goToInitPage}) =>
+    Get.to(
       () => SingleEntryScreen(
         title: 'phoneVerification'.tr,
         prefixIconData: Icons.phone,
@@ -117,14 +119,16 @@ void getToPhoneVerificationScreen() => Get.to(
         textFormHint: 'phoneFieldLabel'.tr,
         buttonTitle: 'continue'.tr,
         inputType: InputType.phone,
-        linkWithPhone: false,
+        linkWithPhone: linkWithPhone,
+        goToInitPage: goToInitPage,
       ),
       transition: getPageTransition(),
     );
 
 bool isLangEnglish() => AppInit.currentLanguage == Language.english;
 
-void getOfAllPhoneVerificationScreen() {
+void getOfAllPhoneVerificationScreen(
+    {required bool linkWithPhone, required bool goToInitPage}) {
   ConnectivityChecker.checkConnection(displayAlert: true);
   Get.offAll(
     () => SingleEntryScreen(
@@ -135,7 +139,8 @@ void getOfAllPhoneVerificationScreen() {
       textFormHint: 'phoneFieldLabel'.tr,
       buttonTitle: 'continue'.tr,
       inputType: InputType.phone,
-      linkWithPhone: true,
+      linkWithPhone: linkWithPhone,
+      goToInitPage: goToInitPage,
     ),
     transition: Transition.circularReveal,
   );

@@ -605,7 +605,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void animateCamera({required LatLng locationLatLng}) {
-    mapPinMargin.value = 50;
+    mapPinMargin.value = 10;
     googleMapController.animateCamera(
       CameraUpdate.newCameraPosition(
         CameraPosition(

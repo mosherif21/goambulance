@@ -260,6 +260,8 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 () => Center(
                   child: Container(
                     margin: EdgeInsets.only(
+                        left: isLangEnglish() ? 10 : 40,
+                        right: isLangEnglish() ? 40 : 10,
                         bottom: widget.controller.mapPinMargin.value),
                     height: widget.controller.choosingHospital.value
                         ? 0

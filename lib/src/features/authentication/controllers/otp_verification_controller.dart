@@ -53,8 +53,6 @@ class OtpVerificationController extends GetxController {
     String phoneNumber = phoneTextController.value.text.trim();
 
     if (linkWithPhone && !goToInitPage) {
-      print(phoneNumber);
-      print(authenticationRepository.fireUser.value!.phoneNumber);
       if (phoneNumber == authenticationRepository.fireUser.value!.phoneNumber) {
         showSnackBar(
           text: 'phoneNumberAlreadyYourAccount'.tr,

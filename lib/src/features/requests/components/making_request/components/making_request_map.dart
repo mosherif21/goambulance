@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/features/requests/components/making_request/components/route_time.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
@@ -203,44 +204,9 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                         const SizedBox(width: 10),
                         Obx(
                           () => widget.controller.routeToHospitalTime.isNotEmpty
-                              ? Container(
-                                  padding: const EdgeInsets.all(5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(10.0)),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 1,
-                                        color: Colors.grey.shade600,
-                                        offset: const Offset(0, 1),
-                                      ),
-                                    ],
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Lottie.asset(
-                                        kRouteAnim,
-                                        height: 35,
-                                        frameRate: FrameRate.max,
-                                      ),
-                                      const SizedBox(width: 5),
-                                      AutoSizeText(
-                                        'routeTime'.trParams({
-                                          'routeTime': widget.controller
-                                              .routeToHospitalTime.value,
-                                        }),
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w800,
-                                          color: Colors.black,
-                                        ),
-                                        maxLines: 1,
-                                      ),
-                                      const SizedBox(width: 10),
-                                    ],
-                                  ),
+                              ? RouteTime(
+                                  routeTime: widget
+                                      .controller.routeToHospitalTime.value,
                                 )
                               : const SizedBox.shrink(),
                         ),

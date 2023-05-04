@@ -83,7 +83,8 @@ class MakingRequestLocationController extends GetxController {
   final searchedHospitals = <HospitalModel>[].obs;
   CancelableOperation<List<DocumentSnapshot<Object?>>>? getHospitalsOperation;
   CancelableOperation<List<HospitalModel>>? getHospitalsDataOperation;
-  CancelableOperation<Polyline?>? getRouteOperation;
+  CancelableOperation<google_web_directions_service.DirectionsResponse?>?
+      getRouteOperation;
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
@@ -341,25 +342,11 @@ class MakingRequestLocationController extends GetxController {
                   locationLatLng: selectedHospital.value!.location),
             );
             mapMarkers.add(hospitalMarker!);
-            getRouteOperation?.cancel();
-            getRouteOperation =
-                CancelableOperation.fromFuture(getRouteToLocation(
+            getRouteToLocation(
               fromLocation: currentChosenLatLng,
               toLocation: selectedHospital.value!.location,
               routeId: 'routeToHospital',
-            ));
-            final route = await getRouteOperation!.valueOrCancellation();
-            if (route != null) {
-              routeToHospital.value = route;
-              animateToLatLngBounds(
-                  latLngBounds: getLatLngBounds(
-                      latLngList: routeToHospital.value!.points));
-              mapPolyLines.add(routeToHospital.value!);
-            } else {
-              if (kDebugMode) {
-                print('route get canceled');
-              }
-            }
+            );
           }
         }
         skipCount += hospitalsDocuments.length;
@@ -416,28 +403,16 @@ class MakingRequestLocationController extends GetxController {
       anchor: const Offset(0.5, 0.5),
       onTap: () => animateToLocation(locationLatLng: hospitalItem.location),
     );
-    mapMarkers.add(hospitalMarker!);
     selectedHospital.value = hospitalItem;
-    getRouteOperation?.cancel();
-    getRouteOperation = CancelableOperation.fromFuture(
-      getRouteToLocation(
-        fromLocation: currentChosenLatLng,
-        toLocation: hospitalItem.location,
-        routeId: 'routeToHospital',
-      ),
+    mapMarkers.add(hospitalMarker!);
+    getRouteToLocation(
+      fromLocation: currentChosenLatLng,
+      toLocation: hospitalItem.location,
+      routeId: 'routeToHospital',
     );
-    final route = await getRouteOperation!.valueOrCancellation();
-    if (route != null) {
-      routeToHospital.value = route;
-      animateToLatLngBounds(
-          latLngBounds: getLatLngBounds(latLngList: route.points));
-      mapPolyLines.add(routeToHospital.value!);
-    } else {
-      if (kDebugMode) print('route get canceled');
-    }
   }
 
-  Future<Polyline?> getRouteToLocation(
+  Future<void> getRouteToLocation(
       {required LatLng fromLocation,
       required LatLng toLocation,
       required String routeId}) async {
@@ -446,45 +421,55 @@ class MakingRequestLocationController extends GetxController {
         baseUrl: AppInit.isWeb ? "https://cors-anywhere.herokuapp.com/" : null,
         apiKey: googleMapsAPIKeyWeb,
       );
-      final result = await directions.directionsWithLocation(
-        google_web_directions_service.Location(
-            lat: fromLocation.latitude, lng: fromLocation.longitude),
-        google_web_directions_service.Location(
-            lat: toLocation.latitude, lng: toLocation.longitude),
-        travelMode: google_web_directions_service.TravelMode.driving,
-        language: isLangEnglish() ? 'en' : 'ar',
+      getRouteOperation?.cancel();
+      getRouteOperation = CancelableOperation.fromFuture(
+        directions.directionsWithLocation(
+          google_web_directions_service.Location(
+              lat: fromLocation.latitude, lng: fromLocation.longitude),
+          google_web_directions_service.Location(
+              lat: toLocation.latitude, lng: toLocation.longitude),
+          travelMode: google_web_directions_service.TravelMode.driving,
+          language: isLangEnglish() ? 'en' : 'ar',
+        ),
       );
-      if (result.isOkay) {
-        final route = result.routes.first;
-        final leg = route.legs.first;
-        final duration = leg.duration;
-        if (choosingHospital.value) {
+      final result = await getRouteOperation!.valueOrCancellation();
+      if (result != null) {
+        if (result.isOkay) {
+          final route = result.routes.first;
+          final leg = route.legs.first;
+          final duration = leg.duration;
           routeToHospitalTime.value = duration.text;
+          final polyline = route.overviewPolyline.points;
+          final polylinePoints = PolylinePoints();
+          final points = polylinePoints.decodePolyline(polyline);
+          final latLngPoints = points
+              .map((point) => LatLng(point.latitude, point.longitude))
+              .toList();
+          latLngPoints.insert(0, fromLocation);
+          latLngPoints.insert(latLngPoints.length, toLocation);
+          routeToHospital.value = Polyline(
+            polylineId: PolylineId(routeId),
+            color: Colors.black,
+            points: latLngPoints,
+            width: 5,
+            startCap: Cap.roundCap,
+            endCap: Cap.roundCap,
+            jointType: JointType.round,
+            geodesic: true,
+          );
+          animateToLatLngBounds(
+              latLngBounds:
+                  getLatLngBounds(latLngList: routeToHospital.value!.points));
+          mapPolyLines.add(routeToHospital.value!);
+        } else {
+          if (kDebugMode) {
+            print('route get canceled');
+          }
         }
-
-        final polyline = route.overviewPolyline.points;
-        final polylinePoints = PolylinePoints();
-        final points = polylinePoints.decodePolyline(polyline);
-        final latLngPoints = points
-            .map((point) => LatLng(point.latitude, point.longitude))
-            .toList();
-        latLngPoints.insert(0, fromLocation);
-        latLngPoints.insert(latLngPoints.length, toLocation);
-        return Polyline(
-          polylineId: PolylineId(routeId),
-          color: Colors.black,
-          points: latLngPoints,
-          width: 5,
-          startCap: Cap.roundCap,
-          endCap: Cap.roundCap,
-          jointType: JointType.round,
-          geodesic: true,
-        );
       }
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
-    return null;
   }
 
   LatLngBounds getLatLngBounds({required List<LatLng> latLngList}) {

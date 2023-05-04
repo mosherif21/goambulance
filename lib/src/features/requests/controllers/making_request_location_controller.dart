@@ -461,10 +461,10 @@ class MakingRequestLocationController extends GetxController {
               latLngBounds:
                   getLatLngBounds(latLngList: routeToHospital.value!.points));
           mapPolyLines.add(routeToHospital.value!);
-        } else {
-          if (kDebugMode) {
-            print('route get canceled');
-          }
+        }
+      } else {
+        if (kDebugMode) {
+          print('route get canceled');
         }
       }
     } catch (err) {

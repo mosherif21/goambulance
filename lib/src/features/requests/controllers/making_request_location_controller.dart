@@ -253,13 +253,14 @@ class MakingRequestLocationController extends GetxController {
     getHospitalsOperation?.cancel();
     getHospitalsDataOperation?.cancel();
     getRouteOperation?.cancel();
-    clearSearchedHospitals();
+
     selectedHospital.value = null;
     if (mapMarkers.contains(requestLocationMarker)) {
       mapMarkers.remove(requestLocationMarker!);
     }
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
+    clearSearchedHospitals();
   }
 
   Future<List<DocumentSnapshot<Object?>>> getRequests() async {
@@ -364,11 +365,13 @@ class MakingRequestLocationController extends GetxController {
         if (kDebugMode) print('skip count $skipCount');
       } else {
         if (kDebugMode) {
+          skipCount = 0;
           print('hospitals data get canceled');
         }
       }
     } else {
       if (kDebugMode) {
+        skipCount = 0;
         print('hospitals get canceled');
       }
     }

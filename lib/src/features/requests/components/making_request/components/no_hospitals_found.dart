@@ -36,8 +36,9 @@ class NoHospitalsFound extends StatelessWidget {
                 fontSize: 20,
               ),
             ),
+            const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: RoundedElevatedButton(
                 buttonText: 'tryAgain'.tr,
                 onPressed: () => onPressed(),

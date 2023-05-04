@@ -289,6 +289,7 @@ class Languages extends Translations {
           'linkEmailAccount': 'ربط حساب بريد الكتروني و كلمة مرور',
           'resetPassword': 'ارسال رابط تغيير كلمة المرور',
           'verify': 'توثيق البريد الالكتروني ',
+          'tryAgain': 'حاول مرة أخرى',
           'aboutUsTitle1': 'شروط الاستخدام',
           'aboutUsTitle2': 'سياسة الخصوصية',
           'aboutUsTitle3': 'الاسئلة المتكررة',
@@ -323,6 +324,7 @@ class Languages extends Translations {
           'medicalHistorySavedError':
               'Medical history save failed, please try again',
           'emailHintLabel': 'Enter your E-Mail',
+          'tryAgain': 'Try again',
           'passwordLabel': 'Password',
           'passwordHintLabel': 'Enter your Password',
           'missingEmergencyContact':

@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../constants/assets_strings.dart';
+import '../../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
 
 class NoHospitalsFound extends StatelessWidget {
-  const NoHospitalsFound({Key? key}) : super(key: key);
-
+  const NoHospitalsFound({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+  final Function onPressed;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
@@ -30,6 +34,15 @@ class NoHospitalsFound extends StatelessWidget {
               style: const TextStyle(
                 color: Colors.grey,
                 fontSize: 20,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: RoundedElevatedButton(
+                buttonText: 'tryAgain'.tr,
+                onPressed: () => onPressed(),
+                enabled: true,
+                color: Colors.black,
               ),
             ),
           ],

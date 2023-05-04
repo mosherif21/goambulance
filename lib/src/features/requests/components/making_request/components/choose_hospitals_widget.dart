@@ -69,7 +69,9 @@ class ChooseHospitalsList extends StatelessWidget {
                     ),
                   ),
                 )
-              : const NoHospitalsFound()
+              : NoHospitalsFound(
+                  onPressed: () => controller.onRefresh(),
+                )
           : ListView.builder(
               itemBuilder: (context, _) => const LoadingHospitalCard(),
               padding: EdgeInsets.zero,

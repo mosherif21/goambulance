@@ -8,7 +8,6 @@ import 'package:goambulance/src/general/common_widgets/link_account_button.dart'
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
-import '../../authentication/components/resetPassword/email_reset_screen.dart';
 import '../components/addresses_page.dart';
 import '../components/edit_medical_history_page.dart';
 import '../components/edit_user_data_page.dart';
@@ -34,11 +33,12 @@ class AccountScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-          child: StretchingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
+        child: StretchingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding:
+                  const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
               child: Column(
                 children: [
                   ListView.builder(
@@ -76,20 +76,21 @@ class AccountScreen extends StatelessWidget {
                         iconColor: Colors.black45,
                       );
                     },
-                    itemCount: 4,
+                    itemCount: 6,
                     shrinkWrap: true,
                   ),
                   Obx(
-                    () => AuthenticationRepository.instance.isGoogleLinked.value
-                        ? const SizedBox.shrink()
-                        : LinkAccountButton(
-                            buttonText: 'linkGoogleAccount'.tr,
-                            imagePath: kGoogleImg,
-                            onPressed: () {},
-                            backgroundColor: Colors.cyan,
-                            textColor: Colors.white,
-                            enabled: true,
-                          ),
+                    () => LinkAccountButton(
+                      buttonText:
+                          AuthenticationRepository.instance.isGoogleLinked.value
+                              ? 'changeGoogleAccount'.tr
+                              : 'linkGoogleAccount'.tr,
+                      imagePath: kGoogleImg,
+                      onPressed: () {},
+                      backgroundColor: Colors.cyan,
+                      textColor: Colors.white,
+                      enabled: true,
+                    ),
                   ),
                   Obx(
                     () =>
@@ -103,29 +104,6 @@ class AccountScreen extends StatelessWidget {
                                 textColor: Colors.white,
                                 enabled: true,
                               ),
-                  ),
-                  Obx(
-                    () => AuthenticationRepository
-                            .instance.isEmailAndPasswordLinked.value
-                        ? const SizedBox.shrink()
-                        : LinkAccountButton(
-                            buttonText: 'linkEmailAccount'.tr,
-                            imagePath: kEmailImg,
-                            onPressed: () {},
-                            backgroundColor: Colors.white,
-                            textColor: Colors.black,
-                            enabled: true,
-                          ),
-                  ),
-                  LinkAccountButton(
-                    buttonText: 'resetPassword'.tr,
-                    imagePath: kResetPasswordImg,
-                    onPressed: () {
-                      getToResetPasswordScreen();
-                    },
-                    backgroundColor: Colors.cyan,
-                    textColor: Colors.white,
-                    enabled: true,
                   ),
                   RoundedElevatedButton(
                     buttonText: 'logout'.tr,

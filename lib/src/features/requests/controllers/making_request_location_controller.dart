@@ -173,6 +173,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<void> choosingHospitalChanges() async {
+    clearSearchedHospitals();
     choosingHospital.value = true;
     hospitalsPanelController.open();
     requestLocationMarker = Marker(
@@ -188,25 +189,25 @@ class MakingRequestLocationController extends GetxController {
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => {animateToLocation(locationLatLng: currentChosenLatLng)});
     loadHospitals();
-    // late final BitmapDescriptor ambulanceMarkerIcon;
-    // await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
-    //   ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
-    // });
-    // ambulanceMarker = Marker(
-    //   markerId: const MarkerId('ambulance'),
-    //   position: LatLng(currentChosenLatLng.latitude + 0.002,
-    //       currentChosenLatLng.longitude + 0.002),
-    //   icon: ambulanceMarkerIcon,
-    //   infoWindow: InfoWindow(
-    //     title: 'ambulancePinDesc'.tr,
-    //   ),
-    //   onTap: () => animateToLocation(
-    //       locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
-    //           currentChosenLatLng.longitude + 0.002)),
-    // );
-    // mapMarkers.add(ambulanceMarker!);
-    // mapMarkers.remove(ambulanceMarker!);
   }
+  // late final BitmapDescriptor ambulanceMarkerIcon;
+  // await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
+  //   ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+  // });
+  // ambulanceMarker = Marker(
+  //   markerId: const MarkerId('ambulance'),
+  //   position: LatLng(currentChosenLatLng.latitude + 0.002,
+  //       currentChosenLatLng.longitude + 0.002),
+  //   icon: ambulanceMarkerIcon,
+  //   infoWindow: InfoWindow(
+  //     title: 'ambulancePinDesc'.tr,
+  //   ),
+  //   onTap: () => animateToLocation(
+  //       locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
+  //           currentChosenLatLng.longitude + 0.002)),
+  // );
+  // mapMarkers.add(ambulanceMarker!);
+  // mapMarkers.remove(ambulanceMarker!);
 
   void clearHospitalRoute() {
     routeToHospitalTime.value = '';
@@ -365,13 +366,11 @@ class MakingRequestLocationController extends GetxController {
         if (kDebugMode) print('skip count $skipCount');
       } else {
         if (kDebugMode) {
-          skipCount = 0;
           print('hospitals data get canceled');
         }
       }
     } else {
       if (kDebugMode) {
-        skipCount = 0;
         print('hospitals get canceled');
       }
     }

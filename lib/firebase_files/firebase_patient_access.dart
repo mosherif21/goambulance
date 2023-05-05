@@ -89,21 +89,20 @@ class FirebasePatientDataAccess extends GetxController {
   Future<List<ContactItem>> getEmergencyContacts() async {
     final contactsList = <ContactItem>[];
     try {
-      await firestoreUserRef
-          .collection('emergencyContacts')
-          .get()
-          .then((contactsSnapshot) {
-        for (var contact in contactsSnapshot.docs) {
-          final contactDoc = contact.data();
-          contactsList.add(
-            ContactItem(
-              contactName: contactDoc['contactName'].toString(),
-              contactNumber: contactDoc['contactNumber'].toString(),
-              contactDocumentId: contact.id,
-            ),
-          );
-        }
-      });
+      await firestoreUserRef.collection('emergencyContacts').get().then(
+        (contactsSnapshot) {
+          for (var contact in contactsSnapshot.docs) {
+            final contactDoc = contact.data();
+            contactsList.add(
+              ContactItem(
+                contactName: contactDoc['contactName'].toString(),
+                contactNumber: contactDoc['contactNumber'].toString(),
+                contactDocumentId: contact.id,
+              ),
+            );
+          }
+        },
+      );
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (err) {

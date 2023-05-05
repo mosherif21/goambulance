@@ -60,7 +60,7 @@ class HomeScreenController extends GetxController {
         break;
       case 4:
         Get.to(
-          () => AboutUsScreen(),
+          () => const AboutUsScreen(),
           transition: getPageTransition(),
         );
         break;

@@ -294,6 +294,7 @@ class Languages extends Translations {
           'aboutUsTitle2': 'سياسة الخصوصية',
           'aboutUsTitle3': 'الاسئلة المتكررة',
           'aboutUsTitle4': 'موقعنا',
+          'changeGoogleAccount': 'تغيير حساب جوجل',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -303,8 +304,7 @@ class Languages extends Translations {
           'onBoardingSubTitle2': '24/7 available customer service',
           'onBoardingSubTitle3': 'Wherever you are, we are here for you',
           'welcome': 'Welcome',
-          'changeGoogleAccount': 'تغيير حساب جوجل',
-          'changeGoogleAccount': 'Change google account',
+          'changeGoogleAccount': 'Change Google Account',
           'noMoreHospitals': 'No more hospitals',
           'loadingFailed': 'Loading Failed, Click retry',
           'welcomeTitle': 'Login or create an account',

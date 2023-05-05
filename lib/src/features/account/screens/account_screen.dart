@@ -8,6 +8,7 @@ import 'package:goambulance/src/general/common_widgets/link_account_button.dart'
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
+import '../../authentication/components/resetPassword/email_reset_screen.dart';
 import '../components/addresses_page.dart';
 import '../components/edit_medical_history_page.dart';
 import '../components/edit_user_data_page.dart';
@@ -76,8 +77,34 @@ class AccountScreen extends StatelessWidget {
                         iconColor: Colors.black45,
                       );
                     },
-                    itemCount: 6,
+                    itemCount: 4,
                     shrinkWrap: true,
+                  ),
+                  Obx(
+                    () => AuthenticationRepository
+                            .instance.isEmailAndPasswordLinked.value
+                        ? const SizedBox.shrink()
+                        : RegularClickableCardNoP(
+                            onPressed: () {},
+                            title: 'accountTitle5'.tr,
+                            subTitle: '',
+                            icon: Icons.arrow_forward_ios,
+                            iconColor: Colors.black45,
+                          ),
+                  ),
+                  Obx(
+                    () => !AuthenticationRepository
+                            .instance.isEmailAndPasswordLinked.value
+                        ? const SizedBox.shrink()
+                        : RegularClickableCardNoP(
+                            onPressed: () {
+                              getToResetPasswordScreen();
+                            },
+                            title: 'accountTitle6'.tr,
+                            subTitle: '',
+                            icon: Icons.arrow_forward_ios,
+                            iconColor: Colors.black45,
+                          ),
                   ),
                   Obx(
                     () => LinkAccountButton(
@@ -87,8 +114,8 @@ class AccountScreen extends StatelessWidget {
                               : 'linkGoogleAccount'.tr,
                       imagePath: kGoogleImg,
                       onPressed: () {},
-                      backgroundColor: Colors.cyan,
-                      textColor: Colors.white,
+                      backgroundColor: Colors.white,
+                      textColor: Colors.black,
                       enabled: true,
                     ),
                   ),

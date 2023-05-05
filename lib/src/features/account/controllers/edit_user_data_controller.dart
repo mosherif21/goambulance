@@ -54,6 +54,7 @@ class EditUserDataController extends GetxController {
   final highlightEmail = false.obs;
   final highlightNationalId = false.obs;
   bool makeEmailEditable = true;
+  bool makeButtonEditable = true;
 
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
 
@@ -85,16 +86,12 @@ class EditUserDataController extends GetxController {
     }
     nameTextController.text = userInfo.name;
     nameTextController.addListener(() {
-      if (nameTextController.text
-          .trim()
-          .isNotEmpty) {
+      if (nameTextController.text.trim().isNotEmpty) {
         highlightName.value = false;
       }
     });
     emailTextController.addListener(() {
-      if (emailTextController.text
-          .trim()
-          .isEmail) {
+      if (emailTextController.text.trim().isEmail) {
         highlightEmail.value = false;
       }
     });
@@ -172,12 +169,8 @@ class EditUserDataController extends GetxController {
   }
 
   Future<void> checkPersonalInformation() async {
-    highlightName.value = nameTextController.text
-        .trim()
-        .isEmpty;
-    highlightEmail.value = !emailTextController.text
-        .trim()
-        .isEmail;
+    highlightName.value = nameTextController.text.trim().isEmpty;
+    highlightEmail.value = !emailTextController.text.trim().isEmail;
     final nationalId = nationalIdTextController.text.trim();
 
     if (NIDInfo.NIDCheck(nid: nationalId)) {
@@ -226,7 +219,7 @@ class EditUserDataController extends GetxController {
       gender: gender == Gender.male ? 'male' : 'female',
     );
     final functionStatus =
-    await FirebasePatientDataAccess.instance.updateUserDataInfo(
+        await FirebasePatientDataAccess.instance.updateUserDataInfo(
       profilePic: isProfileImageChanged.value ? profileImage.value : null,
       nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
       accountDetails: accountDetails,

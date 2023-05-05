@@ -245,7 +245,7 @@ class Languages extends Translations {
           'enableLocationPermissionButton': 'اعطي أذن الموقع',
           'enableLocationServiceButton': 'تمكين الموقع',
           'findingLocation': 'جارى البحث عن موقعك',
-          'locationNotAllowed': 'عذرا ، تطبيقنا يعمل حاليا في مصر فقط',
+          'locationNotAllowed': 'عذرا ، هذا الموقع غير مسموح به حاليا',
           'locationNotAccessed': 'لا يمكن الوصول إلى موقعك',
           'searchPlace': 'البحث عن مكان',
           'sosMessageHeader': 'الرجاء إدخال رسالة الاستغاثة التي سيتم إرسالها',
@@ -571,8 +571,7 @@ class Languages extends Translations {
           'requestLocationPinDesc': 'Your request location',
           'chooseRequestHospital': 'Choose your request\'s hospital',
           'ambulancePinDesc': 'Your ambulance',
-          'locationNotAllowed':
-              'Sorry, our app currently operates in Egypt only',
+          'locationNotAllowed': 'Sorry, this location is currently not allowed',
           'locationNotAccessed': 'Your location can\'t be accessed',
           'useMobileToThisFeature':
               'Please use the mobile app to use this feature',

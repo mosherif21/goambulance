@@ -31,7 +31,6 @@ class EditUserDataPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
     final controller = Get.put(EditUserDataController());
-    //leh ht3mlo controller m5sos mat3ml el timer fe EditUserDataController 3ady
     final CountdownController timerController = Get.put(CountdownController());
 
     return Scaffold(

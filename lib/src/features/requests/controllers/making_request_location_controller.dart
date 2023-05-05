@@ -266,8 +266,8 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<List<DocumentSnapshot<Object?>>> getRequests() async {
-    double searchRadius = 5;
-    double maxRadius = 20;
+    double searchRadius = 3;
+    double maxRadius = 15;
     List<DocumentSnapshot<Object?>> hospitalsDocuments =
         <DocumentSnapshot<Object?>>[];
     try {
@@ -297,7 +297,7 @@ class MakingRequestLocationController extends GetxController {
         } on TimeoutException {
           if (kDebugMode) print('search timed out');
         }
-        searchRadius += 2.5;
+        searchRadius += 2;
       }
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

@@ -194,30 +194,31 @@ class AuthenticationRepository extends GetxController {
     String returnMessage = 'sent';
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: phoneNumber,
-          verificationCompleted: (credential) async {
-            if (!linkWithPhone) {
-              showLoadingScreen();
-              await _auth.signInWithCredential(credential);
-              if (fireUser.value != null) {
-                hideLoadingScreen();
-                isUserLoggedIn = true;
-                authenticatedSetup();
-                AppInit.goToInitPage();
-              } else {
-                hideLoadingScreen();
-              }
+        phoneNumber: phoneNumber,
+        verificationCompleted: (credential) async {
+          if (!linkWithPhone) {
+            showLoadingScreen();
+            await _auth.signInWithCredential(credential);
+            if (fireUser.value != null) {
+              hideLoadingScreen();
+              isUserLoggedIn = true;
+              authenticatedSetup();
+              AppInit.goToInitPage();
+            } else {
+              hideLoadingScreen();
             }
-          },
-          verificationFailed: (e) {
-            returnMessage = e.code;
-          },
-          codeSent: (verificationId, resendToken) {
-            this.verificationId = verificationId;
-          },
-          codeAutoRetrievalTimeout: (verificationId) {
-            this.verificationId = verificationId;
-          });
+          }
+        },
+        verificationFailed: (e) {
+          returnMessage = e.code;
+        },
+        codeSent: (verificationId, resendToken) {
+          this.verificationId = verificationId;
+        },
+        codeAutoRetrievalTimeout: (verificationId) {
+          this.verificationId = verificationId;
+        },
+      );
     } on FirebaseAuthException catch (e) {
       returnMessage = e.code;
     } catch (_) {

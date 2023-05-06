@@ -76,19 +76,12 @@ class MakingRequestInformationController extends GetxController {
   Future<RequestInfoModel> getRequestInfo() async {
     final patientCondition = patientConditionTextController.text.trim();
     final relationToPatient = requestTypeDropdownController.text.trim();
-    final bloodType = requestTypeDropdownController.text.trim();
-    final diabetic = requestTypeDropdownController.text.trim();
-    final hypertensive = requestTypeDropdownController.text.trim();
+    final bloodType = bloodTypeDropdownController.text.trim();
+    final diabetic = diabetesDropdownController.text.trim();
+    final hypertensive = hypertensiveDropdownController.text.trim();
     final heartPatient = requestTypeDropdownController.text.trim();
     final additionalInformation =
         additionalInformationTextController.text.trim();
-    // final additionalInformationTextController = TextEditingController();
-    // final patientConditionTextController = TextEditingController();
-    // final requestTypeDropdownController = TextEditingController();
-    // final hypertensiveDropdownController = TextEditingController();
-    // final diabetesDropdownController = TextEditingController();
-    // final heartPatientDropdownController = TextEditingController();
-    // final bloodTypeDropdownController = TextEditingController();
     return RequestInfoModel(
       relationToPatient: relationToPatient,
       patientCondition: patientCondition,

@@ -240,6 +240,9 @@ class Languages extends Translations {
           'notAllowed': 'غير مسموح به',
           'refreshing': 'جارى التحديث',
           'refreshCompleted': 'اكتمل التحديث',
+          'failedGoogleLink': 'فشل ربط حساب جوجل ، يرجى المحاولة مرة أخرى',
+          'googleAccountInUse':
+              'حساب جوجل هذا قيد الاستخدام بالفعل من قبل مستخدم آخر',
           'pullToRefresh': 'للتحديث اسحب للأسفل',
           'releaseToRefresh': 'حرر للتحديث',
           'enableLocationPermissionButton': 'اعطي أذن الموقع',
@@ -378,6 +381,9 @@ class Languages extends Translations {
           'invalidPhoneNumber': 'Entered phone number is invalid',
           'wrongOTP': 'Entered OTP is wrong',
           'failedGoogleAuth': 'Google authentication failed, Please try again',
+          'failedGoogleLink': 'Google account Link failed, Please try again',
+          'googleAccountInUse':
+              'This google account is already in use by another user',
           'failedFacebookAuth':
               'Facebook authentication failed, Please try again',
           'failedAuth': 'Authentication failed',

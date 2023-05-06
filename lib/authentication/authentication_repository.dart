@@ -287,17 +287,22 @@ class AuthenticationRepository extends GetxController {
     return 'failedGoogleAuth'.tr;
   }
 
-  Future<String> linkWithGoogle(String email, String password) async {
+  Future<String> linkWithGoogle() async {
     try {
       final googleCredential = await getGoogleAuthCredential();
       if (googleCredential != null) {
+        await fireUser.value!.unlink(GoogleAuthProvider.PROVIDER_ID);
         await fireUser.value!.linkWithCredential(googleCredential);
         return 'success';
+      }
+    } on FirebaseAuthException catch (ex) {
+      if (ex.code == 'credential-already-in-use') {
+        return 'googleAccountInUse'.tr;
       }
     } catch (e) {
       if (kDebugMode) e.printError();
     }
-    return 'failedGoogleAuth'.tr;
+    return 'failedGoogleLink'.tr;
   }
 
   Future<OAuthCredential?> getGoogleAuthCredential() async {

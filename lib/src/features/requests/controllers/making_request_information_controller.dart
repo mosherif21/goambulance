@@ -62,7 +62,9 @@ class MakingRequestInformationController extends GetxController {
         patientConditionTextController.text.trim().isEmpty;
     final requestType = requestTypeDropdownController.text.trim();
     highlightRequest.value =
-        requestType == 'selectValue'.tr || requestType.isEmpty;
+        requestType.compareTo(isLangEnglish() ? 'Someone else' : 'لشخص اخر') ==
+                0 ||
+            requestType.isEmpty;
     if (highlightPatientCondition.value || highlightRequest.value) {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {
@@ -73,9 +75,10 @@ class MakingRequestInformationController extends GetxController {
     }
   }
 
-  Future<RequestInfoModel> getRequestInfo() async {
+  RequestInfoModel getRequestInfo() {
     final patientCondition = patientConditionTextController.text.trim();
-    final relationToPatient = requestTypeDropdownController.text.trim();
+    final relationToPatient =
+        notUserRequest.value ? 'Someone else' : 'Registered user';
     final bloodType = bloodTypeDropdownController.text.trim();
     final diabetic = diabetesDropdownController.text.trim();
     final hypertensive = hypertensiveDropdownController.text.trim();
@@ -86,7 +89,7 @@ class MakingRequestInformationController extends GetxController {
       relationToPatient: relationToPatient,
       patientCondition: patientCondition,
       backupNumber: backupPhoneNo,
-      medicalHistory: relationToPatient == 'someoneElse'.tr
+      medicalHistory: notUserRequest.value
           ? MedicalHistoryModel(
               bloodType: bloodType,
               diabetic: diabetic,

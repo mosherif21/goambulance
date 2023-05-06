@@ -112,6 +112,7 @@ class AuthenticationRepository extends GetxController {
                   userDoc['additionalInformation'].toString(),
               sosMessage: userDoc['sosMessage'].toString(),
               criticalUser: userDoc['criticalUser'] as bool,
+              phone: userDoc['phone'].toString(),
             );
             drawerAccountName.value = userDoc['name'].toString();
             userType = UserType.patient;
@@ -123,6 +124,35 @@ class AuthenticationRepository extends GetxController {
           if (kDebugMode) print('$userType');
         }
       });
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<void> updateUserEmail({required String email}) async {
+    final fireStore = FirebaseFirestore.instance;
+    final String userId = fireUser.value!.uid;
+    final firestoreUsersCollRef = fireStore.collection('users');
+    try {
+      await firestoreUsersCollRef.doc(userId).update({'email': email});
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+  }
+
+  Future<FunctionStatus> updateUserPhone({required String phone}) async {
+    final fireStore = FirebaseFirestore.instance;
+    final String userId = fireUser.value!.uid;
+    final firestoreUsersCollRef = fireStore.collection('users');
+    try {
+      await firestoreUsersCollRef.doc(userId).update({'phone': phone});
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
@@ -238,6 +268,7 @@ class AuthenticationRepository extends GetxController {
         final credential = PhoneAuthProvider.credential(
             verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
+        await updateUserPhone(phone: fireUser.value!.phoneNumber!);
         checkUserHasPhoneNumber();
         return 'success';
       } on FirebaseAuthException catch (ex) {
@@ -320,6 +351,8 @@ class AuthenticationRepository extends GetxController {
           await fireUser.value!.linkWithCredential(googleUser.credential);
           if (!isEmailAndPasswordLinked.value) {
             await fireUser.value!.updateEmail(googleUser.email);
+            await updateUserEmail(email: googleUser.email);
+            userInfo.email = googleUser.email;
           }
         }
         return 'successGoogleLink'.tr;
@@ -353,8 +386,10 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> signOutGoogle() async {
-    await googleSignIn?.disconnect();
-    await googleSignIn?.signOut();
+    if (await googleSignIn?.isSignedIn() ?? false) {
+      await googleSignIn?.disconnect();
+      await googleSignIn?.signOut();
+    }
   }
 
   Future<GoogleUserModel?> getGoogleAuthCredentials() async {
@@ -478,6 +513,7 @@ class AuthenticationRepository extends GetxController {
         additionalInformation: '',
         sosMessage: '',
         criticalUser: false,
+        phone: '',
       );
       drawerProfileImageUrl.value = '';
       return FunctionStatus.success;

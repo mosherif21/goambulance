@@ -1,5 +1,6 @@
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -61,11 +62,11 @@ class RegisterUserDataController extends GetxController {
   final diabetesDropdownController = TextEditingController();
 
   final bloodTypeDropdownController = TextEditingController();
-
+  late final User user;
   @override
   void onInit() {
     final authRep = AuthenticationRepository.instance;
-    final user = authRep.fireUser.value!;
+    user = authRep.fireUser.value!;
     if (user.email != null) {
       emailTextController.text = user.email!;
       makeEmailEditable = false;
@@ -234,6 +235,7 @@ class RegisterUserDataController extends GetxController {
     final email = emailTextController.text.trim();
     final nationalId = nationalIdTextController.text.trim();
     final birthDate = birthDateController.selectedDate;
+    final phone = user.phoneNumber!;
     final userInfo = UserInformation(
       name: name,
       email: email,
@@ -247,6 +249,7 @@ class RegisterUserDataController extends GetxController {
       additionalInformation: additionalInformationTextController.text.trim(),
       sosMessage: '',
       criticalUser: false,
+      phone: phone,
     );
 
     final functionStatus =

@@ -6,6 +6,7 @@ class UserInformation {
   String gender;
   String bloodType;
   String diabetic;
+  String phone;
   String additionalInformation;
   String hypertensive;
   String heartPatient;
@@ -24,6 +25,7 @@ class UserInformation {
     required this.additionalInformation,
     required this.sosMessage,
     required this.criticalUser,
+    required this.phone,
   });
   Map<String, dynamic> toJson() => {
         'name': name,
@@ -39,6 +41,7 @@ class UserInformation {
         'type': 'patient',
         'criticalUser': criticalUser,
         'sosMessage': sosMessage,
+        'phone': phone,
       };
 }
 

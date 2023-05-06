@@ -99,7 +99,9 @@ class EditUserDataPage extends StatelessWidget {
                           //   textInputAction: TextInputAction.next,
                           // )
                           ,
-                          Obx(() => AuthenticationRepository
+                          // ana kont 3aml account email we password bs ama d5lt l2et el zorar
+                          // 7atet ! abl dh 3shan el mfrod en verify email dh hyb2a zaher lama isEmailVerified false
+                          Obx(() => !AuthenticationRepository
                                   .instance.isEmailVerified.value
                               ? Padding(
                                   padding: const EdgeInsets.all(15.0),

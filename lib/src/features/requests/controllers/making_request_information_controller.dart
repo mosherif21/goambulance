@@ -36,9 +36,7 @@ class MakingRequestInformationController extends GetxController {
   void onReady() async {
     requestTypeDropdownController.addListener(() {
       final requestValue = requestTypeDropdownController.text.trim();
-      if (requestValue
-              .compareTo(isLangEnglish() ? 'Someone else' : 'لشخص اخر') ==
-          0) {
+      if (requestValue.compareTo('someoneElse'.tr) == 0) {
         highlightRequest.value = false;
         notUserRequest.value = true;
       } else {
@@ -62,9 +60,7 @@ class MakingRequestInformationController extends GetxController {
         patientConditionTextController.text.trim().isEmpty;
     final requestType = requestTypeDropdownController.text.trim();
     highlightRequest.value =
-        requestType.compareTo(isLangEnglish() ? 'Someone else' : 'لشخص اخر') ==
-                0 ||
-            requestType.isEmpty;
+        requestType.compareTo('selectValue'.tr) == 0 || requestType.isEmpty;
     if (highlightPatientCondition.value || highlightRequest.value) {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {

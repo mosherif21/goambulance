@@ -714,14 +714,19 @@ class MakingRequestLocationController extends GetxController {
 
   @override
   void onClose() async {
-    if (googleMapControllerInit && !AppInit.isWeb) {
-      googleMapController.dispose();
+    try {
+      if (googleMapControllerInit && !AppInit.isWeb) {
+        googleMapController.dispose();
+      }
+      if (!AppInit.isWeb) {
+        await serviceStatusStream?.cancel();
+      }
+      hospitalsRefreshController.dispose();
+      if (positionStreamInitialized) await currentPositionStream?.cancel();
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
     }
-    if (!AppInit.isWeb) {
-      await serviceStatusStream?.cancel();
-    }
-    hospitalsRefreshController.dispose();
-    if (positionStreamInitialized) await currentPositionStream?.cancel();
+
     super.onClose();
   }
 

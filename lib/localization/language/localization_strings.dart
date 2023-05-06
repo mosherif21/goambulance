@@ -283,7 +283,7 @@ class Languages extends Translations {
           'pullToLoad': 'لتحميل المزيد اسحب للأسفل',
           'releaseToLoad': 'حرر لتحميل المزيد',
           'loadingCompleted': 'اكتمل التحميل',
-          'noMoreHospitals': 'لا مزيد من المستشفيات',
+          'noMoreHospitals': 'لا يوجد مزيد من المستشفيات',
           'loadingFailed': 'فشل التحميل، انقر على إعادة المحاولة',
           'avgPrice': 'متوسط السعر',
           'someoneElse': 'لشخص اخر',

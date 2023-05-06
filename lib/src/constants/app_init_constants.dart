@@ -156,7 +156,7 @@ class AppInit {
           } else if (authRepo.isUserPhoneRegistered &&
               !authRepo.isUserRegistered) {
             if (AppInit.isWeb) {
-              await authRepo.logoutUser();
+              await authRepo.logoutAuthUser();
               Get.offAll(() => const AuthenticationScreen());
               showSnackBar(
                   text: 'useMobileToRegister'.tr,
@@ -184,7 +184,7 @@ class AppInit {
       } else {
         hideLoadingScreen();
         removeSplashScreen();
-        await authRepo.logoutUser();
+        await authRepo.logoutAuthUser();
         showSnackBar(text: 'loginFailed'.tr, snackBarType: SnackBarType.error);
       }
     } else {

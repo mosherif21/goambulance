@@ -240,6 +240,7 @@ class Languages extends Translations {
           'notAllowed': 'غير مسموح به',
           'refreshing': 'جارى التحديث',
           'refreshCompleted': 'اكتمل التحديث',
+          'signOutFailed': 'فشل تسجيل الخروج ، يرجى المحاولة مرة أخرى',
           'failedGoogleLink': 'فشل ربط حساب جوجل ، يرجى المحاولة مرة أخرى',
           'successGoogleLink': 'تم ربط حساب جوجل بنجاح',
           'googleAccountInUse':
@@ -483,6 +484,7 @@ class Languages extends Translations {
           'loadingCompleted': 'Loading completed',
           'fullName': 'Full Name',
           'enterSosMessage': 'Enter sos message',
+          'signOutFailed': 'Sign out failed, please try again',
           'nearHospitalsNotFound':
               'Sorry, we couldn\'t find any hospitals near the request location',
           'enterFullName': 'Enter your Full Name',

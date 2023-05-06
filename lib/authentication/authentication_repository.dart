@@ -148,7 +148,9 @@ class AuthenticationRepository extends GetxController {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
       if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
       return ex.errorMessage;
-    } catch (_) {}
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
     return 'unknownError'.tr;
   }
 
@@ -166,7 +168,9 @@ class AuthenticationRepository extends GetxController {
       final ex = SignInWithEmailAndPasswordFailure.code(e.code);
       if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
       return ex.errorMessage;
-    } catch (_) {}
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
     return 'unknownError'.tr;
   }
 
@@ -180,7 +184,9 @@ class AuthenticationRepository extends GetxController {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
       if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
       return ex.errorMessage;
-    } catch (_) {}
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
     return 'unknownError'.tr;
   }
 
@@ -218,21 +224,20 @@ class AuthenticationRepository extends GetxController {
       );
     } on FirebaseAuthException catch (e) {
       returnMessage = e.code;
-    } catch (_) {
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
       returnMessage = 'unknownError'.tr;
     }
 
     return returnMessage;
   }
 
-  Future<String> linkPhoneCredentialWithAccount(
-      {required String otp, required bool goToInitPage}) async {
+  Future<String> linkPhoneCredentialWithAccount({required String otp}) async {
     if (fireUser.value != null) {
       try {
         final credential = PhoneAuthProvider.credential(
             verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
-        fireUser.value!.emailVerified;
         checkUserHasPhoneNumber();
         return 'success';
       } on FirebaseAuthException catch (ex) {
@@ -261,7 +266,9 @@ class AuthenticationRepository extends GetxController {
       if (ex.code == 'invalid-verification-code') {
         return 'wrongOTP'.tr;
       }
-    } catch (_) {}
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
 
     return 'unknownError'.tr;
   }
@@ -278,6 +285,8 @@ class AuthenticationRepository extends GetxController {
           return 'success';
         }
       }
+    } on FirebaseAuthException catch (ex) {
+      if (kDebugMode) print(ex.code);
     } catch (e) {
       if (kDebugMode) e.printError();
     }
@@ -344,6 +353,7 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> signOutGoogle() async {
+    await googleSignIn?.disconnect();
     await googleSignIn?.signOut();
   }
 
@@ -361,7 +371,6 @@ class AuthenticationRepository extends GetxController {
           idToken: signInAuthentication.idToken,
           accessToken: signInAuthentication.accessToken,
         );
-
         return GoogleUserModel(
             credential: credential, email: googleSignInAccount.email);
       }
@@ -444,32 +453,41 @@ class AuthenticationRepository extends GetxController {
     return null;
   }
 
-  Future<void> logoutUser() async {
-    await signOutGoogle();
-    isUserRegistered = false;
-    isUserLoggedIn = false;
-    isUserPhoneRegistered = false;
-    isGoogleLinked.value = false;
-    isEmailAndPasswordLinked.value = false;
-    isFacebookLinked.value = false;
-    isEmailVerified.value = false;
-    verificationId = '';
-    userType = UserType.patient;
-    userInfo = UserInformation(
-      name: '',
-      email: '',
-      nationalId: '',
-      birthDate: DateTime.now(),
-      gender: '',
-      bloodType: '',
-      diabetic: '',
-      hypertensive: '',
-      heartPatient: '',
-      additionalInformation: '',
-      sosMessage: '',
-      criticalUser: false,
-    );
-    drawerProfileImageUrl.value = '';
+  Future<FunctionStatus> logoutAuthUser() async {
+    try {
+      await signOutGoogle();
+      isUserRegistered = false;
+      isUserLoggedIn = false;
+      isUserPhoneRegistered = false;
+      isGoogleLinked.value = false;
+      isEmailAndPasswordLinked.value = false;
+      isFacebookLinked.value = false;
+      isEmailVerified.value = false;
+      verificationId = '';
+      userType = UserType.patient;
+      userInfo = UserInformation(
+        name: '',
+        email: '',
+        nationalId: '',
+        birthDate: DateTime.now(),
+        gender: '',
+        bloodType: '',
+        diabetic: '',
+        hypertensive: '',
+        heartPatient: '',
+        additionalInformation: '',
+        sosMessage: '',
+        criticalUser: false,
+      );
+      drawerProfileImageUrl.value = '';
+      return FunctionStatus.success;
+    } on FirebaseAuthException catch (ex) {
+      if (kDebugMode) print(ex.code);
+      return FunctionStatus.failure;
+    } catch (e) {
+      if (kDebugMode) e.printError();
+      return FunctionStatus.failure;
+    }
   }
 }
 

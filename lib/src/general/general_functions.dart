@@ -99,14 +99,18 @@ void logoutDialogue() => displayAlertDialog(
 
 Future<void> logout() async {
   showLoadingScreen();
-  await AuthenticationRepository.instance.logoutUser();
-  if (Get.isRegistered<FirebasePatientDataAccess>()) {
-    await FirebasePatientDataAccess.instance.logoutFirebase();
+  final functionStatus =
+      await AuthenticationRepository.instance.logoutAuthUser();
+  if (functionStatus == FunctionStatus.success) {
+    if (Get.isRegistered<FirebasePatientDataAccess>()) {
+      await FirebasePatientDataAccess.instance.logoutFirebase();
+    }
+    Get.offAll(() => const AuthenticationScreen());
+    hideLoadingScreen();
+  } else {
+    hideLoadingScreen();
+    showSnackBar(text: 'signOutFailed'.tr, snackBarType: SnackBarType.error);
   }
-  if (kDebugMode) print('signing out');
-  hideLoadingScreen();
-  Get.offAll(() => const AuthenticationScreen());
-  hideLoadingScreen();
 }
 
 void getToPhoneVerificationScreen(

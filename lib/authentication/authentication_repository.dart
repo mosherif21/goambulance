@@ -48,6 +48,7 @@ class AuthenticationRepository extends GetxController {
     fireUser.listen((user) {
       if (user != null) {
         isEmailVerified.value = user.emailVerified;
+        checkAuthenticationProviders();
       }
     });
 
@@ -68,18 +69,15 @@ class AuthenticationRepository extends GetxController {
   }
 
   void checkAuthenticationProviders() {
-    final user = fireUser.value;
-    isGoogleLinked.value = user?.providerData.any((provider) =>
-            provider.providerId == GoogleAuthProvider.PROVIDER_ID) ??
-        false;
+    final user = fireUser.value!;
+    isGoogleLinked.value = user.providerData.any(
+        (provider) => provider.providerId == GoogleAuthProvider.PROVIDER_ID);
 
-    isFacebookLinked.value = user?.providerData.any((provider) =>
-            provider.providerId == FacebookAuthProvider.PROVIDER_ID) ??
-        false;
+    isFacebookLinked.value = user.providerData.any(
+        (provider) => provider.providerId == FacebookAuthProvider.PROVIDER_ID);
 
-    isEmailAndPasswordLinked.value = user?.providerData.any((provider) =>
-            provider.providerId == EmailAuthProvider.PROVIDER_ID) ??
-        false;
+    isEmailAndPasswordLinked.value = user.providerData.any(
+        (provider) => provider.providerId == EmailAuthProvider.PROVIDER_ID);
   }
 
   Future<FunctionStatus> userInit() async {
@@ -125,7 +123,6 @@ class AuthenticationRepository extends GetxController {
           if (kDebugMode) print('$userType');
         }
       });
-      checkAuthenticationProviders();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
@@ -271,9 +268,9 @@ class AuthenticationRepository extends GetxController {
 
   Future<String> signInWithGoogle() async {
     try {
-      final googleCredential = await getGoogleAuthCredential();
-      if (googleCredential != null) {
-        await _auth.signInWithCredential(googleCredential);
+      final googleUser = await getGoogleAuthCredentials();
+      if (googleUser != null) {
+        await _auth.signInWithCredential(googleUser.credential);
         if (fireUser.value != null) {
           isUserLoggedIn = true;
           authenticatedSetup();
@@ -287,17 +284,44 @@ class AuthenticationRepository extends GetxController {
     return 'failedGoogleAuth'.tr;
   }
 
-  Future<String> linkWithGoogle() async {
+  void linkWithGoogle() async {
+    showLoadingScreen();
+    final returnCode = await linkWithGoogleCode();
+    hideLoadingScreen();
+    if (returnCode == 'successGoogleLink'.tr) {
+      showSnackBar(text: returnCode, snackBarType: SnackBarType.success);
+    } else {
+      showSnackBar(text: returnCode, snackBarType: SnackBarType.error);
+    }
+  }
+
+  Future<String> linkWithGoogleCode() async {
     try {
-      final googleCredential = await getGoogleAuthCredential();
-      if (googleCredential != null) {
-        await fireUser.value!.unlink(GoogleAuthProvider.PROVIDER_ID);
-        await fireUser.value!.linkWithCredential(googleCredential);
-        return 'success';
+      await signOutGoogle();
+      final googleUser = await getGoogleAuthCredentials();
+      if (googleUser != null) {
+        final googleAccountLinked =
+            await isGoogleAccountConnectedToFirebaseUser(googleUser.email);
+        if (googleAccountLinked) {
+          return 'googleAccountInUse'.tr;
+        } else {
+          if (isGoogleLinked.value) {
+            await fireUser.value!.unlink(GoogleAuthProvider.PROVIDER_ID);
+          }
+          await fireUser.value!.linkWithCredential(googleUser.credential);
+          if (!isEmailAndPasswordLinked.value) {
+            await fireUser.value!.updateEmail(googleUser.email);
+          }
+        }
+        return 'successGoogleLink'.tr;
+      } else {
+        return 'failedGoogleLink'.tr;
       }
     } on FirebaseAuthException catch (ex) {
       if (ex.code == 'credential-already-in-use') {
         return 'googleAccountInUse'.tr;
+      } else if (ex.code == 'no-such-provider') {
+        return 'failedGoogleLink'.tr;
       }
     } catch (e) {
       if (kDebugMode) e.printError();
@@ -305,7 +329,25 @@ class AuthenticationRepository extends GetxController {
     return 'failedGoogleLink'.tr;
   }
 
-  Future<OAuthCredential?> getGoogleAuthCredential() async {
+  Future<bool> isGoogleAccountConnectedToFirebaseUser(String email) async {
+    try {
+      final List<String> signInMethods =
+          await _auth.fetchSignInMethodsForEmail(email);
+      return signInMethods.contains('google.com');
+    } catch (e) {
+      if (kDebugMode) {
+        print(
+            'Error checking if Google account is connected to a Firebase user: $e');
+      }
+      return false;
+    }
+  }
+
+  Future<void> signOutGoogle() async {
+    await googleSignIn?.signOut();
+  }
+
+  Future<GoogleUserModel?> getGoogleAuthCredentials() async {
     try {
       googleSignIn = AppInit.isWeb
           ? GoogleSignIn(
@@ -315,12 +357,13 @@ class AuthenticationRepository extends GetxController {
       final googleSignInAccount = await googleSignIn?.signIn();
       if (googleSignInAccount != null) {
         final signInAuthentication = await googleSignInAccount.authentication;
-
         final credential = GoogleAuthProvider.credential(
           idToken: signInAuthentication.idToken,
           accessToken: signInAuthentication.accessToken,
         );
-        return credential;
+
+        return GoogleUserModel(
+            credential: credential, email: googleSignInAccount.email);
       }
     } catch (e) {
       if (kDebugMode) e.printError();
@@ -402,8 +445,7 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> logoutUser() async {
-    await googleSignIn?.signOut();
-    await _auth.signOut();
+    await signOutGoogle();
     isUserRegistered = false;
     isUserLoggedIn = false;
     isUserPhoneRegistered = false;
@@ -429,4 +471,13 @@ class AuthenticationRepository extends GetxController {
     );
     drawerProfileImageUrl.value = '';
   }
+}
+
+class GoogleUserModel {
+  final OAuthCredential credential;
+  final String email;
+  GoogleUserModel({
+    required this.credential,
+    required this.email,
+  });
 }

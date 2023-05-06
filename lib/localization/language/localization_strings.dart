@@ -241,8 +241,9 @@ class Languages extends Translations {
           'refreshing': 'جارى التحديث',
           'refreshCompleted': 'اكتمل التحديث',
           'failedGoogleLink': 'فشل ربط حساب جوجل ، يرجى المحاولة مرة أخرى',
+          'successGoogleLink': 'تم ربط حساب جوجل بنجاح',
           'googleAccountInUse':
-              'حساب جوجل هذا قيد الاستخدام بالفعل من قبل مستخدم آخر',
+              'حساب جوجل هذا قيد الاستخدام من قبلك أو من قبل مستخدم آخر',
           'pullToRefresh': 'للتحديث اسحب للأسفل',
           'releaseToRefresh': 'حرر للتحديث',
           'enableLocationPermissionButton': 'اعطي أذن الموقع',
@@ -314,6 +315,7 @@ class Languages extends Translations {
           'loginTextTitle': 'LOGIN',
           'registerTextTitle': 'REGISTER',
           'skipLabel': 'Skip',
+          'successGoogleLink': 'Google account was linked successfully',
           'notAvailableErrorTitle': 'Not Currently Available',
           'notAvailableErrorSubTitle': 'We are working on it....',
           'noConnectionAlertTitle': 'No Connection',
@@ -383,7 +385,7 @@ class Languages extends Translations {
           'failedGoogleAuth': 'Google authentication failed, Please try again',
           'failedGoogleLink': 'Google account Link failed, Please try again',
           'googleAccountInUse':
-              'This google account is already in use by another user',
+              'This google account is already in use by you or another user',
           'failedFacebookAuth':
               'Facebook authentication failed, Please try again',
           'failedAuth': 'Authentication failed',

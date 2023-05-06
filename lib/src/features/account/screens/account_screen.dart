@@ -19,6 +19,7 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
+    final authRepo = AuthenticationRepository.instance;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -81,8 +82,7 @@ class AccountScreen extends StatelessWidget {
                     shrinkWrap: true,
                   ),
                   Obx(
-                    () => AuthenticationRepository
-                            .instance.isEmailAndPasswordLinked.value
+                    () => authRepo.isEmailAndPasswordLinked.value
                         ? const SizedBox.shrink()
                         : RegularClickableCardNoP(
                             onPressed: () {},
@@ -93,8 +93,7 @@ class AccountScreen extends StatelessWidget {
                           ),
                   ),
                   Obx(
-                    () => !AuthenticationRepository
-                            .instance.isEmailAndPasswordLinked.value
+                    () => !authRepo.isEmailAndPasswordLinked.value
                         ? const SizedBox.shrink()
                         : RegularClickableCardNoP(
                             onPressed: () {
@@ -108,29 +107,27 @@ class AccountScreen extends StatelessWidget {
                   ),
                   Obx(
                     () => LinkAccountButton(
-                      buttonText:
-                          AuthenticationRepository.instance.isGoogleLinked.value
-                              ? 'changeGoogleAccount'.tr
-                              : 'linkGoogleAccount'.tr,
+                      buttonText: authRepo.isGoogleLinked.value
+                          ? 'changeGoogleAccount'.tr
+                          : 'linkGoogleAccount'.tr,
                       imagePath: kGoogleImg,
-                      onPressed: () {},
+                      onPressed: () => authRepo.linkWithGoogle(),
                       backgroundColor: Colors.white,
                       textColor: Colors.black,
                       enabled: true,
                     ),
                   ),
                   Obx(
-                    () =>
-                        AuthenticationRepository.instance.isFacebookLinked.value
-                            ? const SizedBox.shrink()
-                            : LinkAccountButton(
-                                buttonText: 'linkFacebookAccount'.tr,
-                                imagePath: kFacebookImg,
-                                onPressed: () {},
-                                backgroundColor: Colors.blueAccent,
-                                textColor: Colors.white,
-                                enabled: true,
-                              ),
+                    () => authRepo.isFacebookLinked.value
+                        ? const SizedBox.shrink()
+                        : LinkAccountButton(
+                            buttonText: 'linkFacebookAccount'.tr,
+                            imagePath: kFacebookImg,
+                            onPressed: () {},
+                            backgroundColor: Colors.blueAccent,
+                            textColor: Colors.white,
+                            enabled: true,
+                          ),
                   ),
                   RoundedElevatedButton(
                     buttonText: 'logout'.tr,

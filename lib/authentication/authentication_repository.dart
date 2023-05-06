@@ -147,6 +147,22 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
+  Future<String> updateUserEmailAuthentication({required String email}) async {
+    try {
+      await fireUser.value!.updateEmail(email);
+      return 'success';
+    } on FirebaseAuthException catch (ex) {
+      if (ex.code == 'invalid-email') {
+        return 'invalidEmailEntered'.tr;
+      } else if (ex.code == 'email-already-in-use') {
+        return 'emailAlreadyExists'.tr;
+      }
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+    return 'unknownError'.tr;
+  }
+
   Future<FunctionStatus> updateUserPhoneFirestore(
       {required String phone}) async {
     final fireStore = FirebaseFirestore.instance;
@@ -352,7 +368,7 @@ class AuthenticationRepository extends GetxController {
           }
           await fireUser.value!.linkWithCredential(googleUser.credential);
           if (!isEmailAndPasswordLinked.value) {
-            await fireUser.value!.updateEmail(googleUser.email);
+            await updateUserEmailAuthentication(email: googleUser.email);
             await updateUserEmailFirestore(email: googleUser.email);
             userInfo.email = googleUser.email;
           }

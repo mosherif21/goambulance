@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -17,7 +18,8 @@ import '../src/features/account/components/models.dart';
 class FirebasePatientDataAccess extends GetxController {
   static FirebasePatientDataAccess get instance => Get.find();
 
-  late final String? userId;
+  late final String userId;
+  late final User user;
   late final FirebaseFirestore fireStore;
   late final FirebaseDatabase fireDatabase;
   late final FirebaseStorage fireStorage;
@@ -27,13 +29,15 @@ class FirebasePatientDataAccess extends GetxController {
 
   @override
   void onInit() {
-    userId = AuthenticationRepository.instance.fireUser.value!.uid;
+    authRep = AuthenticationRepository.instance;
+    user = authRep.fireUser.value!;
+    userId = user.uid;
     fireStore = FirebaseFirestore.instance;
     fireDatabase = FirebaseDatabase.instance;
     fireStorage = FirebaseStorage.instance;
     firestoreUserRef = fireStore.collection('users').doc(userId);
-    userStorageReference = fireStorage.ref().child('users').child(userId!);
-    authRep = AuthenticationRepository.instance;
+    userStorageReference = fireStorage.ref().child('users').child(userId);
+
     super.onInit();
   }
 
@@ -75,7 +79,7 @@ class FirebasePatientDataAccess extends GetxController {
         }
       }
       await userDataBatch.commit();
-      AuthenticationRepository.instance.isUserRegistered = true;
+      authRep.isUserRegistered = true;
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

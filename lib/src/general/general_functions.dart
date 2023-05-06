@@ -105,8 +105,8 @@ Future<void> logout() async {
     if (Get.isRegistered<FirebasePatientDataAccess>()) {
       await FirebasePatientDataAccess.instance.logoutFirebase();
     }
-    Get.offAll(() => const AuthenticationScreen());
     hideLoadingScreen();
+    Get.offAll(() => const AuthenticationScreen());
   } else {
     hideLoadingScreen();
     showSnackBar(text: 'signOutFailed'.tr, snackBarType: SnackBarType.error);

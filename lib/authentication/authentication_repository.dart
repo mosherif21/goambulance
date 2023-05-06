@@ -269,6 +269,7 @@ class AuthenticationRepository extends GetxController {
             verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
         await updateUserPhone(phone: fireUser.value!.phoneNumber!);
+        userInfo.phone = fireUser.value!.phoneNumber!;
         checkUserHasPhoneNumber();
         return 'success';
       } on FirebaseAuthException catch (ex) {

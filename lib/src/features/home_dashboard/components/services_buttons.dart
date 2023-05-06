@@ -19,12 +19,13 @@ class ServicesButtons extends StatelessWidget {
           Expanded(
             flex: 8,
             child: RoundedImageElevatedButton(
-                buttonText: 'normalRequest'.tr,
-                imagePath: kAmbulanceImage,
-                onPressed: () => Get.to(
-                      () => const NormalRequestScreen(),
-                      transition: getPageTransition(),
-                    )),
+              buttonText: 'normalRequest'.tr,
+              imagePath: kAmbulanceImage,
+              onPressed: () => Get.to(
+                () => const NormalRequestScreen(),
+                transition: getPageTransition(),
+              ),
+            ),
           ),
           const Spacer(),
           isUserCritical()

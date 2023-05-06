@@ -84,7 +84,10 @@ class ServicesScreen extends StatelessWidget {
                           child: RoundedImageElevatedButton(
                             buttonText: 'sosMessage'.tr,
                             imagePath: kSosMessageImage,
-                            onPressed: () {},
+                            onPressed: () => Get.to(
+                              () => const SosMessageScreen(),
+                              transition: getPageTransition(),
+                            ),
                           ),
                         ),
                       if (isUserCritical()) const Spacer(),

@@ -16,31 +16,43 @@ class HospitalModel {
   });
 }
 
-class HospitalRequest {
-  final String hospitalId;
-  final String patientId;
+class RequestInfoModel {
   final String relationToPatient;
   final String patientCondition;
   final String backupNumber;
-  final Timestamp timestamp;
-  final LatLng location;
-  final MedicalHistoryModel medicalHistory;
-  HospitalRequest({
-    required this.hospitalId,
-    required this.patientId,
+  final MedicalHistoryModel? medicalHistory;
+  RequestInfoModel({
     required this.relationToPatient,
     required this.patientCondition,
     required this.backupNumber,
+    this.medicalHistory,
+  });
+  Map<String, dynamic> toJson() => {
+        'relationToPatient': relationToPatient,
+        'patientCondition': patientCondition,
+        'backupNumber': backupNumber,
+      };
+}
+
+class RequestModel {
+  final String patientId;
+  final RequestInfoModel hospitalRequestInfo;
+  final Timestamp timestamp;
+  final LatLng location;
+  final String hospitalId;
+  RequestModel({
+    required this.patientId,
+    required this.hospitalId,
+    required this.hospitalRequestInfo,
     required this.timestamp,
     required this.location,
-    required this.medicalHistory,
   });
   Map<String, dynamic> toJson() => {
         'hospitalId': hospitalId,
         'patientId': patientId,
-        'relationToPatient': relationToPatient,
-        'patientCondition': patientCondition,
-        'backupNumber': backupNumber,
+        'relationToPatient': hospitalRequestInfo.relationToPatient,
+        'patientCondition': hospitalRequestInfo.patientCondition,
+        'backupNumber': hospitalRequestInfo.backupNumber,
         'timestamp': timestamp,
         'location': location,
       };

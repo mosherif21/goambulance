@@ -9,6 +9,7 @@ import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/general_functions.dart';
 import '../../account/components/models.dart';
 import '../components/making_request/components/normal_request_location_page.dart';
+import '../components/making_request/models.dart';
 
 class MakingRequestInformationController extends GetxController {
   static MakingRequestInformationController get instance => Get.find();
@@ -18,10 +19,6 @@ class MakingRequestInformationController extends GetxController {
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
   String backupPhoneNo = '';
-  String selectedBloodType = '';
-  String diabeticType = '';
-  String hypertensivePatient = '';
-  String heartPatient = '';
   final diseaseName = ''.obs;
   final highlightPatientCondition = false.obs;
   final highlightRequest = false.obs;
@@ -62,11 +59,10 @@ class MakingRequestInformationController extends GetxController {
 
   Future<void> confirmRequestInformation() async {
     highlightPatientCondition.value =
-        patientConditionTextController.text.isEmpty;
+        patientConditionTextController.text.trim().isEmpty;
     final requestType = requestTypeDropdownController.text.trim();
     highlightRequest.value =
-        requestType.compareTo(isLangEnglish() ? 'Select' : 'اختر') == 0 ||
-            requestType.isEmpty;
+        requestType == 'selectValue'.tr || requestType.isEmpty;
     if (highlightPatientCondition.value || highlightRequest.value) {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {
@@ -75,6 +71,39 @@ class MakingRequestInformationController extends GetxController {
         transition: getPageTransition(),
       );
     }
+  }
+
+  Future<RequestInfoModel> getRequestInfo() async {
+    final patientCondition = patientConditionTextController.text.trim();
+    final relationToPatient = requestTypeDropdownController.text.trim();
+    final bloodType = requestTypeDropdownController.text.trim();
+    final diabetic = requestTypeDropdownController.text.trim();
+    final hypertensive = requestTypeDropdownController.text.trim();
+    final heartPatient = requestTypeDropdownController.text.trim();
+    final additionalInformation =
+        additionalInformationTextController.text.trim();
+    // final additionalInformationTextController = TextEditingController();
+    // final patientConditionTextController = TextEditingController();
+    // final requestTypeDropdownController = TextEditingController();
+    // final hypertensiveDropdownController = TextEditingController();
+    // final diabetesDropdownController = TextEditingController();
+    // final heartPatientDropdownController = TextEditingController();
+    // final bloodTypeDropdownController = TextEditingController();
+    return RequestInfoModel(
+      relationToPatient: relationToPatient,
+      patientCondition: patientCondition,
+      backupNumber: backupPhoneNo,
+      medicalHistory: relationToPatient == 'someoneElse'.tr
+          ? MedicalHistoryModel(
+              bloodType: bloodType,
+              diabetic: diabetic,
+              hypertensive: hypertensive,
+              heartPatient: heartPatient,
+              additionalInformation: additionalInformation,
+              diseasesList: diseasesList,
+            )
+          : null,
+    );
   }
 
   void addDiseaseItem() {

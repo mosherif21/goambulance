@@ -134,7 +134,7 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<void> updateUserEmail({required String email}) async {
+  Future<void> updateUserEmailFirestore({required String email}) async {
     final fireStore = FirebaseFirestore.instance;
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = fireStore.collection('users');
@@ -147,7 +147,8 @@ class AuthenticationRepository extends GetxController {
     }
   }
 
-  Future<FunctionStatus> updateUserPhone({required String phone}) async {
+  Future<FunctionStatus> updateUserPhoneFirestore(
+      {required String phone}) async {
     final fireStore = FirebaseFirestore.instance;
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = fireStore.collection('users');
@@ -268,7 +269,7 @@ class AuthenticationRepository extends GetxController {
         final credential = PhoneAuthProvider.credential(
             verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
-        await updateUserPhone(phone: fireUser.value!.phoneNumber!);
+        await updateUserPhoneFirestore(phone: fireUser.value!.phoneNumber!);
         userInfo.phone = fireUser.value!.phoneNumber!;
         checkUserHasPhoneNumber();
         return 'success';
@@ -352,7 +353,7 @@ class AuthenticationRepository extends GetxController {
           await fireUser.value!.linkWithCredential(googleUser.credential);
           if (!isEmailAndPasswordLinked.value) {
             await fireUser.value!.updateEmail(googleUser.email);
-            await updateUserEmail(email: googleUser.email);
+            await updateUserEmailFirestore(email: googleUser.email);
             userInfo.email = googleUser.email;
           }
         }

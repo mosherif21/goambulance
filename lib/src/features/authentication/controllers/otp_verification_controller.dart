@@ -28,7 +28,6 @@ class OtpVerificationController extends GetxController {
           await authenticationRepository.signInVerifyOTP(otp: verificationCode);
     }
     if (returnMessage == 'success') {
-      hideLoadingScreen();
       if (goToInitPage) {
         AppInit.goToInitPage();
       } else {

@@ -20,7 +20,7 @@ class LoadingMedicalDiseases extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     LineIcon.medicalNotes(
                       size: screenHeight * 0.06,

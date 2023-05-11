@@ -9,12 +9,14 @@ class CircleButtonIconAndText extends StatelessWidget {
     required this.iconColor,
     required this.buttonColor,
     required this.icon,
+    required this.splashColor,
   });
   final Function onPressed;
   final String buttonText;
   final Widget icon;
   final Color iconColor;
   final Color buttonColor;
+  final Color splashColor;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,6 +28,8 @@ class CircleButtonIconAndText extends StatelessWidget {
           child: InkWell(
             customBorder: const CircleBorder(),
             splashFactory: InkSparkle.splashFactory,
+            splashColor: splashColor,
+            highlightColor: splashColor,
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: icon,

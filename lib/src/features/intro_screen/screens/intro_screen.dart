@@ -85,6 +85,7 @@ class IntroScreen extends StatelessWidget {
                     child: Row(
                       children: [
                         CircleButtonIconAndText(
+                          splashColor: kDefaultColorLessShade,
                           onPressed: () => Get.to(
                             () => const FirstAidScreen(),
                             transition: getPageTransition(),
@@ -99,6 +100,7 @@ class IntroScreen extends StatelessWidget {
                         ),
                         const Spacer(),
                         CircleButtonIconAndText(
+                          splashColor: kDefaultColorLessShade,
                           onPressed: () => Get.to(
                             () => const EmergencyNumbersScreen(),
                             transition: getPageTransition(),

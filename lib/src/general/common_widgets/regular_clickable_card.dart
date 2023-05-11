@@ -25,6 +25,7 @@ class RegularClickableCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: InkWell(
+          hoverColor: Colors.grey.shade50,
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           splashFactory: InkSparkle.splashFactory,
           onTap: () => onPressed(),

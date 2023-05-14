@@ -188,7 +188,7 @@ class MakingRequestLocationController extends GetxController {
     );
     mapMarkers.add(requestLocationMarker!);
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
+        () => animateToLocation(locationLatLng: currentChosenLatLng));
     loadHospitals();
   }
   // late final BitmapDescriptor ambulanceMarkerIcon;
@@ -261,7 +261,7 @@ class MakingRequestLocationController extends GetxController {
       mapMarkers.remove(requestLocationMarker!);
     }
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => {animateToLocation(locationLatLng: currentChosenLatLng)});
+        () => animateToLocation(locationLatLng: currentChosenLatLng));
     clearSearchedHospitals();
   }
 

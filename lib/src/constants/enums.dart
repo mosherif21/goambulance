@@ -18,3 +18,10 @@ enum UserType { driver, medic, patient }
 enum FunctionStatus { success, failure }
 
 enum SnackBarType { success, error, info, warning }
+
+enum RequestStatus {
+  notRequested,
+  requestPending,
+  requestAccepted,
+  ambulanceAssigned,
+}

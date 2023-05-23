@@ -12,6 +12,8 @@ import 'package:geocoder2/geocoder2.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
@@ -77,6 +79,7 @@ class MakingRequestLocationController extends GetxController {
   late LatLng currentChosenLatLng;
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
+  final requestStatus = RequestStatus.notRequested.obs;
   final selectedHospital = Rx<HospitalModel?>(null);
   int skipCount = 0;
   static const pageSize = 6;
@@ -86,15 +89,18 @@ class MakingRequestLocationController extends GetxController {
   CancelableOperation<List<HospitalModel>>? getHospitalsDataOperation;
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
-
+  late final String userId;
   //geoQuery vars
   final geoFire = GeoFlutterFire();
+  late RequestModel currentRequestInfo;
   late final FirebaseFirestore _firestore;
-  // late Timer? requestAcceptedTimer;
+  late final FirebasePatientDataAccess firebasePatientDataAccess;
 
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
+    userId = AuthenticationRepository.instance.fireUser.value!.uid;
+    firebasePatientDataAccess = FirebasePatientDataAccess.instance;
     await locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
@@ -105,9 +111,39 @@ class MakingRequestLocationController extends GetxController {
     super.onReady();
   }
 
-  void confirmRequest() {
-    final requestInfo =
-        MakingRequestInformationController.instance.getRequestInfo();
+  void confirmRequest() async {
+    if (selectedHospital.value != null) {
+      showLoadingScreen();
+      final requestInfo =
+          MakingRequestInformationController.instance.getRequestInfo();
+      final pendingRequestRef = _firestore.collection('pendingRequests').doc();
+      final requestData = RequestModel(
+        patientId: userId,
+        hospitalId: selectedHospital.value!.hospitalId,
+        hospitalRequestInfo: requestInfo,
+        timestamp: Timestamp.now(),
+        location: GeoPoint(
+            currentChosenLatLng.latitude, currentChosenLatLng.longitude),
+        requestRef: pendingRequestRef,
+      );
+      final functionStatus = await firebasePatientDataAccess.requestHospital(
+          requestInfo: requestData);
+      hideLoadingScreen();
+      if (functionStatus == FunctionStatus.success) {
+        currentRequestInfo = requestData;
+        requestStatus.value = RequestStatus.requestPending;
+      }
+    }
+  }
+
+  void cancelRequest() async {
+    showLoadingScreen();
+    final functionStatus = await firebasePatientDataAccess
+        .cancelHospitalRequest(requestInfo: currentRequestInfo);
+    hideLoadingScreen();
+    if (functionStatus == FunctionStatus.success) {
+      requestStatus.value = RequestStatus.notRequested;
+    }
   }
 
   Future<void> locationInit() async {

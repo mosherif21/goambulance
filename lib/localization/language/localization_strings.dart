@@ -258,6 +258,7 @@ class Languages extends Translations {
           'loading': 'جاري تحميل...',
           'requestHere': 'اطلب هنا',
           'confirmRequest': 'تاكيد الطلب',
+          'cancelRequest': 'الغاء الطلب',
           'accountDetailSavedSuccess': 'تم حفظ معلومات الحساب بنجاح',
           'medicalHistorySavedSuccess': 'تم حفظ السجل الطبي بنجاح',
           'useMobileToThisFeature':
@@ -575,6 +576,7 @@ class Languages extends Translations {
           'searchPlace': 'Search for a place',
           'requestHere': 'Request here',
           'confirmRequest': 'Confirm request',
+          'cancelRequest': 'Cancel request',
           'loading': 'Loading...',
           'notAllowed': 'Not allowed',
           'requestLocation': 'Request Location',

@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
+import '../src/features/requests/components/making_request/models.dart';
 
 class FirebasePatientDataAccess extends GetxController {
   static FirebasePatientDataAccess get instance => Get.find();
@@ -233,6 +234,94 @@ class FirebasePatientDataAccess extends GetxController {
         }
       }
       await userDataBatch.commit();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> requestHospital({
+    required RequestModel requestInfo,
+  }) async {
+    try {
+      final requestDataBatch = fireStore.batch();
+
+      requestDataBatch.set(requestInfo.requestRef, requestInfo.toJson());
+      final medicalHistory = requestInfo.hospitalRequestInfo.medicalHistory;
+      if (medicalHistory != null) {
+        requestDataBatch.update(
+            requestInfo.requestRef, medicalHistory.toJson());
+        if (medicalHistory.diseasesList.isNotEmpty) {
+          for (DiseaseItem diseaseItem in medicalHistory.diseasesList) {
+            {
+              final diseaseRef =
+                  requestInfo.requestRef.collection('diseases').doc();
+              requestDataBatch.set(diseaseRef, diseaseItem.toJson());
+            }
+          }
+        }
+      }
+      requestDataBatch.set(
+          firestoreUserRef
+              .collection('pendingRequests')
+              .doc(requestInfo.requestRef.id),
+          <String, dynamic>{});
+      final hospitalPendingRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('pendingRequests')
+          .doc(requestInfo.requestRef.id);
+      requestDataBatch.set(hospitalPendingRef, <String, dynamic>{});
+
+      await requestDataBatch.commit();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> cancelHospitalRequest({
+    required RequestModel requestInfo,
+  }) async {
+    try {
+      final cancelRequestBatch = fireStore.batch();
+      cancelRequestBatch.delete(requestInfo.requestRef);
+      final medicalHistory = requestInfo.hospitalRequestInfo.medicalHistory;
+      if (medicalHistory != null) {
+        if (medicalHistory.diseasesList.isNotEmpty) {
+          final diseasesRef = fireStore
+              .collection('pendingRequests')
+              .doc(requestInfo.requestRef.id)
+              .collection('diseases');
+          await diseasesRef.get().then((diseasesSnapshot) {
+            for (var diseaseDoc in diseasesSnapshot.docs) {
+              final diseaseDocId = diseaseDoc.id;
+              cancelRequestBatch.delete(diseasesRef.doc(diseaseDocId));
+            }
+          });
+        }
+      }
+      cancelRequestBatch.delete(firestoreUserRef
+          .collection('pendingRequests')
+          .doc(requestInfo.requestRef.id));
+
+      final hospitalPendingRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('pendingRequests')
+          .doc(requestInfo.requestRef.id);
+
+      cancelRequestBatch.delete(hospitalPendingRef);
+
+      await cancelRequestBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());

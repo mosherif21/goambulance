@@ -13,6 +13,7 @@ import 'package:lottie/lottie.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../../constants/assets_strings.dart';
+import '../../../../../constants/enums.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/general_functions.dart';
 import 'choose_hospitals_widget.dart';
@@ -63,46 +64,66 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         ],
       ),
       margin: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 10),
-          Obx(
-            () => AutoSizeText(
-              widget.controller.searchedHospitals.isEmpty
-                  ? 'searchingForHospitals'.tr
-                  : 'chooseRequestHospital'.tr,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-              ),
-              maxLines: 2,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Divider(height: 5),
-          Expanded(
-            child: ChooseHospitalsList(
-              controller: widget.controller,
-            ),
-          ),
-          const Divider(thickness: 1, height: 2),
-          Padding(
-            padding: const EdgeInsets.all(18),
-            child: Obx(
-              () => RegularElevatedButton(
-                buttonText: 'confirmRequest'.tr,
-                onPressed: widget.controller.confirmRequest,
-                enabled: widget.controller.selectedHospital.value != null
-                    ? true
-                    : false,
-                color: Colors.black,
-                fontSize: 22,
-                height: 50,
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 10),
+            Obx(
+              () => AutoSizeText(
+                widget.controller.searchedHospitals.isEmpty
+                    ? 'searchingForHospitals'.tr
+                    : 'chooseRequestHospital'.tr,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
+                ),
+                maxLines: 2,
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            const Divider(height: 5),
+            Expanded(
+              child: widget.controller.requestStatus.value ==
+                      RequestStatus.notRequested
+                  ? ChooseHospitalsList(
+                      controller: widget.controller,
+                    )
+                  : widget.controller.requestStatus.value ==
+                          RequestStatus.requestPending
+                      ? const SizedBox.shrink()
+                      : widget.controller.requestStatus.value ==
+                              RequestStatus.requestAccepted
+                          ? const SizedBox.shrink()
+                          : widget.controller.requestStatus.value ==
+                                  RequestStatus.ambulanceAssigned
+                              ? const SizedBox.shrink()
+                              : const SizedBox.shrink(),
+            ),
+            const Divider(thickness: 1, height: 2),
+            Padding(
+              padding: const EdgeInsets.all(18),
+              child: Obx(
+                () => RegularElevatedButton(
+                  buttonText: widget.controller.requestStatus.value ==
+                          RequestStatus.notRequested
+                      ? 'confirmRequest'.tr
+                      : 'cancelRequest'.tr,
+                  onPressed: widget.controller.requestStatus.value ==
+                          RequestStatus.notRequested
+                      ? widget.controller.confirmRequest
+                      : widget.controller.cancelRequest,
+                  enabled: widget.controller.selectedHospital.value != null
+                      ? true
+                      : false,
+                  color: Colors.black,
+                  fontSize: 22,
+                  height: 50,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -38,9 +38,11 @@ class RequestModel {
   final String patientId;
   final RequestInfoModel hospitalRequestInfo;
   final Timestamp timestamp;
-  final LatLng location;
+  final GeoPoint location;
   final String hospitalId;
+  final DocumentReference requestRef;
   RequestModel({
+    required this.requestRef,
     required this.patientId,
     required this.hospitalId,
     required this.hospitalRequestInfo,

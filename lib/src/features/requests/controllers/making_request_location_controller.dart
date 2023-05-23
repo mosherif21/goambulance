@@ -26,6 +26,7 @@ import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
+import 'making_request_information_controller.dart';
 
 class MakingRequestLocationController extends GetxController {
   static MakingRequestLocationController get instance => Get.find();
@@ -105,8 +106,8 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void confirmRequest() {
-    // final requestInfo =
-    //     MakingRequestInformationController.instance.getRequestInfo();
+    final requestInfo =
+        MakingRequestInformationController.instance.getRequestInfo();
   }
 
   Future<void> locationInit() async {

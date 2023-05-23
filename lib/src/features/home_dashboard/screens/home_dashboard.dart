@@ -53,7 +53,6 @@ class HomeDashBoard extends StatelessWidget {
         padding: const EdgeInsets.only(left: 10.0, right: 10.0),
         child: Column(
           children: [
-            //HomeAppBar(homeScreenController: homeScreenController),
             Expanded(
               child: StretchingOverscrollIndicator(
                 axisDirection: AxisDirection.down,

@@ -24,7 +24,7 @@ class DrawerPage extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
     final authRepo = AuthenticationRepository.instance;
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: SizedBox(
           height: screenHeight,

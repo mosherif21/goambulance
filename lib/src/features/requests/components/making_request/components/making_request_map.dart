@@ -92,7 +92,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             child: Obx(
               () => RegularElevatedButton(
                 buttonText: 'confirmRequest'.tr,
-                onPressed: () {},
+                onPressed: widget.controller.confirmRequest,
                 enabled: widget.controller.selectedHospital.value != null
                     ? true
                     : false,

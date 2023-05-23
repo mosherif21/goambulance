@@ -119,8 +119,9 @@ class NormalRequestScreen extends StatelessWidget {
                                   DropdownList(
                                     items: [
                                       'don\'tKnow'.tr,
-                                      'yes'.tr,
                                       'no'.tr,
+                                      'Type 1',
+                                      'Type 2',
                                     ],
                                     dropDownController:
                                         controller.diabetesDropdownController,
@@ -168,9 +169,8 @@ class NormalRequestScreen extends StatelessWidget {
                                   DropdownList(
                                     items: [
                                       'don\'tKnow'.tr,
+                                      'yes'.tr,
                                       'no'.tr,
-                                      'Type 1',
-                                      'Type 2',
                                     ],
                                     dropDownController: controller
                                         .heartPatientDropdownController,

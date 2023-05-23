@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -76,11 +75,8 @@ class MakingRequestInformationController extends GetxController {
     final patientCondition = patientConditionTextController.text.trim();
     final bloodType = bloodTypeDropdownController.text.trim();
     final diabetic = diabetesDropdownController.text.trim();
-    if (kDebugMode) {
-      print(diabetic);
-    }
     final hypertensive = hypertensiveDropdownController.text.trim();
-    final heartPatient = requestTypeDropdownController.text.trim();
+    final heartPatient = heartPatientDropdownController.text.trim();
     final additionalInformation =
         additionalInformationTextController.text.trim();
     return RequestInfoModel(
@@ -90,10 +86,12 @@ class MakingRequestInformationController extends GetxController {
       medicalHistory: userRequest.value
           ? null
           : MedicalHistoryModel(
-              bloodType: bloodType,
-              diabetic: diabetic,
-              hypertensive: hypertensive,
-              heartPatient: heartPatient,
+              bloodType: bloodType.isEmpty ? 'don\'tKnow'.tr : bloodType,
+              diabetic: diabetic.isEmpty ? 'don\'tKnow'.tr : diabetic,
+              hypertensive:
+                  hypertensive.isEmpty ? 'don\'tKnow'.tr : hypertensive,
+              heartPatient:
+                  heartPatient.isEmpty ? 'don\'tKnow'.tr : heartPatient,
               additionalInformation: additionalInformation,
               diseasesList: diseasesList,
             ),

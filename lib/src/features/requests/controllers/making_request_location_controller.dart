@@ -14,7 +14,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
-import 'package:goambulance/src/features/requests/components/making_request/models.dart';
+import 'package:goambulance/src/features/requests/components/making_request/modelsmation_controller.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
@@ -102,6 +102,11 @@ class MakingRequestLocationController extends GetxController {
     initMapController();
     await _loadMarkersIcon();
     super.onReady();
+  }
+
+  void confirmRequest() {
+    // final requestInfo =
+    //     MakingRequestInformationController.instance.getRequestInfo();
   }
 
   Future<void> locationInit() async {

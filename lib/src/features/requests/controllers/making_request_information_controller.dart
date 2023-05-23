@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,7 @@ import '../components/making_request/models.dart';
 class MakingRequestInformationController extends GetxController {
   static MakingRequestInformationController get instance => Get.find();
 
-  final notUserRequest = false.obs;
+  final userRequest = true.obs;
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
@@ -38,10 +39,10 @@ class MakingRequestInformationController extends GetxController {
       final requestValue = requestTypeDropdownController.text.trim();
       if (requestValue.compareTo('someoneElse'.tr) == 0) {
         highlightRequest.value = false;
-        notUserRequest.value = true;
+        userRequest.value = false;
       } else {
         highlightRequest.value = false;
-        notUserRequest.value = false;
+        userRequest.value = true;
       }
     });
     patientConditionTextController.addListener(() {
@@ -73,28 +74,29 @@ class MakingRequestInformationController extends GetxController {
 
   RequestInfoModel getRequestInfo() {
     final patientCondition = patientConditionTextController.text.trim();
-    final relationToPatient =
-        notUserRequest.value ? 'Someone else' : 'Registered user';
     final bloodType = bloodTypeDropdownController.text.trim();
     final diabetic = diabetesDropdownController.text.trim();
+    if (kDebugMode) {
+      print(diabetic);
+    }
     final hypertensive = hypertensiveDropdownController.text.trim();
     final heartPatient = requestTypeDropdownController.text.trim();
     final additionalInformation =
         additionalInformationTextController.text.trim();
     return RequestInfoModel(
-      relationToPatient: relationToPatient,
+      isUser: userRequest.value,
       patientCondition: patientCondition,
       backupNumber: backupPhoneNo,
-      medicalHistory: notUserRequest.value
-          ? MedicalHistoryModel(
+      medicalHistory: userRequest.value
+          ? null
+          : MedicalHistoryModel(
               bloodType: bloodType,
               diabetic: diabetic,
               hypertensive: hypertensive,
               heartPatient: heartPatient,
               additionalInformation: additionalInformation,
               diseasesList: diseasesList,
-            )
-          : null,
+            ),
     );
   }
 

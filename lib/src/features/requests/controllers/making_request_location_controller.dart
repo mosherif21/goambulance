@@ -191,24 +191,6 @@ class MakingRequestLocationController extends GetxController {
         () => animateToLocation(locationLatLng: currentChosenLatLng));
     loadHospitals();
   }
-  // late final BitmapDescriptor ambulanceMarkerIcon;
-  // await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
-  //   ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
-  // });
-  // ambulanceMarker = Marker(
-  //   markerId: const MarkerId('ambulance'),
-  //   position: LatLng(currentChosenLatLng.latitude + 0.002,
-  //       currentChosenLatLng.longitude + 0.002),
-  //   icon: ambulanceMarkerIcon,
-  //   infoWindow: InfoWindow(
-  //     title: 'ambulancePinDesc'.tr,
-  //   ),
-  //   onTap: () => animateToLocation(
-  //       locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
-  //           currentChosenLatLng.longitude + 0.002)),
-  // );
-  // mapMarkers.add(ambulanceMarker!);
-  // mapMarkers.remove(ambulanceMarker!);
 
   void clearHospitalRoute() {
     routeToHospitalTime.value = '';
@@ -265,7 +247,7 @@ class MakingRequestLocationController extends GetxController {
     clearSearchedHospitals();
   }
 
-  Future<List<DocumentSnapshot<Object?>>> getRequests() async {
+  Future<List<DocumentSnapshot<Object?>>> getHospitalsList() async {
     double searchRadius = 3;
     double maxRadius = 15;
     List<DocumentSnapshot<Object?>> hospitalsDocuments =
@@ -310,7 +292,7 @@ class MakingRequestLocationController extends GetxController {
   Future<void> getHospitals() async {
     List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
     getHospitalsOperation?.cancel();
-    getHospitalsOperation = CancelableOperation.fromFuture(getRequests());
+    getHospitalsOperation = CancelableOperation.fromFuture(getHospitalsList());
     final returnedHospitals =
         await getHospitalsOperation!.valueOrCancellation();
     if (returnedHospitals != null) {
@@ -750,3 +732,22 @@ class MakingRequestLocationController extends GetxController {
         .asUint8List();
   }
 }
+
+// late final BitmapDescriptor ambulanceMarkerIcon;
+// await _getBytesFromAsset(kAmbulanceMarkerImg, 120).then((iconBytes) {
+//   ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+// });
+// ambulanceMarker = Marker(
+//   markerId: const MarkerId('ambulance'),
+//   position: LatLng(currentChosenLatLng.latitude + 0.002,
+//       currentChosenLatLng.longitude + 0.002),
+//   icon: ambulanceMarkerIcon,
+//   infoWindow: InfoWindow(
+//     title: 'ambulancePinDesc'.tr,
+//   ),
+//   onTap: () => animateToLocation(
+//       locationLatLng: LatLng(currentChosenLatLng.latitude + 0.002,
+//           currentChosenLatLng.longitude + 0.002)),
+// );
+// mapMarkers.add(ambulanceMarker!);
+// mapMarkers.remove(ambulanceMarker!);

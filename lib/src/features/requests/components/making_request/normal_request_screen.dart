@@ -73,8 +73,9 @@ class NormalRequestScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Obx(() => controller.notUserRequest.value
-                      ? Column(
+                  Obx(() => controller.userRequest.value
+                      ? const SizedBox.shrink()
+                      : Column(
                           children: [
                             RegularCard(
                               highlightRed: false,
@@ -235,8 +236,7 @@ class NormalRequestScreen extends StatelessWidget {
                               ),
                             ),
                           ],
-                        )
-                      : const SizedBox.shrink()),
+                        )),
                   Obx(
                     () => RegularCard(
                       highlightRed: controller.highlightPatientCondition.value,

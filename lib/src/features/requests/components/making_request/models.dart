@@ -17,18 +17,18 @@ class HospitalModel {
 }
 
 class RequestInfoModel {
-  final String relationToPatient;
+  final bool isUser;
   final String patientCondition;
   final String backupNumber;
   final MedicalHistoryModel? medicalHistory;
   RequestInfoModel({
-    required this.relationToPatient,
+    required this.isUser,
     required this.patientCondition,
     required this.backupNumber,
     this.medicalHistory,
   });
   Map<String, dynamic> toJson() => {
-        'relationToPatient': relationToPatient,
+        'isUser': isUser,
         'patientCondition': patientCondition,
         'backupNumber': backupNumber,
       };
@@ -50,7 +50,7 @@ class RequestModel {
   Map<String, dynamic> toJson() => {
         'hospitalId': hospitalId,
         'patientId': patientId,
-        'relationToPatient': hospitalRequestInfo.relationToPatient,
+        'isUser': hospitalRequestInfo.isUser,
         'patientCondition': hospitalRequestInfo.patientCondition,
         'backupNumber': hospitalRequestInfo.backupNumber,
         'timestamp': timestamp,

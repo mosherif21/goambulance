@@ -112,7 +112,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
     final screenHeight = getScreenHeight(context);
     return Scaffold(
       body: WillPopScope(
-        onWillPop: () => widget.controller.onWillPop(),
+        onWillPop: widget.controller.onWillPop,
         child: SlidingUpPanel(
           renderPanelSheet: false,
           controller: widget.controller.hospitalsPanelController,
@@ -178,7 +178,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                       children: [
                         CircleBackButton(
                           padding: 0,
-                          onPress: () => widget.controller.onBackPressed(),
+                          onPress: widget.controller.onBackPressed,
                         ),
                         const SizedBox(width: 10),
                         Obx(

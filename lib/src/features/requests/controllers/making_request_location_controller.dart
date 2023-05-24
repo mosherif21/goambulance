@@ -269,19 +269,32 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onBackPressed() {
-    if (choosingHospital.value) {
+    if (choosingHospital.value &&
+        requestStatus.value == RequestStatus.notRequested) {
       choosingRequestLocationChanges();
-    } else {
+    } else if (choosingHospital.value &&
+        requestStatus.value != RequestStatus.notRequested) {
+      cancelRequest();
+    } else if (!choosingHospital.value &&
+        requestStatus.value == RequestStatus.notRequested) {
       Get.back();
     }
   }
 
   Future<bool> onWillPop() {
-    if (choosingHospital.value) {
+    if (choosingHospital.value &&
+        requestStatus.value == RequestStatus.notRequested) {
       choosingRequestLocationChanges();
       return Future.value(false);
-    } else {
+    } else if (choosingHospital.value &&
+        requestStatus.value != RequestStatus.notRequested) {
+      cancelRequest();
+      return Future.value(false);
+    } else if (!choosingHospital.value &&
+        requestStatus.value == RequestStatus.notRequested) {
       return Future.value(true);
+    } else {
+      return Future.value(false);
     }
   }
 

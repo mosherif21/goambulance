@@ -301,7 +301,8 @@ class Languages extends Translations {
           'aboutUsTitle3': 'الاسئلة المتكررة',
           'aboutUsTitle4': 'موقعنا',
           'changeGoogleAccount': 'تغيير حساب جوجل',
-          'cancelRequestConfirm': 'هل أنت متأكد أنك تريد إلغاء الطلب؟',
+          'cancelRequestConfirm':
+              'هل أنت متأكد أنك تريد إلغاء طلب سيارة الإسعاف الخاص بك؟',
           'pendingRequest': 'تم إرسال طلب الإسعاف الخاص بك',
           'assignedRequest': 'تم تعيين طلب الإسعاف الخاص بك',
           'acceptedRequest': 'تم قبول طلب سيارة الإسعاف الخاص بك',
@@ -565,7 +566,7 @@ class Languages extends Translations {
           'personalInfoShare':
               'Your information will be shared with the hospital in case you request an ambulance',
           'cancelRequestConfirm':
-              'Are you sure you want to cancel the request?',
+              'Are you sure you want to cancel your ambulance request?',
           'additionalInformation': 'Additional information',
           'enterAdditionalInformation': 'Enter any additional information',
           'enterBackupPhoneNo': 'Enter a backup phone number',

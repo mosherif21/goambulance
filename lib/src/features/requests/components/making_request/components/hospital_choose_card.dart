@@ -25,7 +25,7 @@ class HospitalChooseCard extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: Colors.white,
         elevation: selected ? 5 : 0,
-        //shadowColor: Colors.grey.shade400,
+        shadowColor: Colors.grey.shade200,
         child: InkWell(
           splashFactory: InkSparkle.splashFactory,
           onTap: selected ? null : () => onPress(),

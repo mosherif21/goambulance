@@ -107,10 +107,7 @@ class EditMedicalHistoryController extends GetxController {
   }
 
   Future<void> updateMedicalInfo() async {
-    final bloodType = bloodTypeDropdownController.text;
-    final diabetic = diabetesDropdownController.text == 'no'.tr
-        ? 'No'
-        : diabetesDropdownController.text;
+    final bloodType = bloodTypeDropdownController.text.trim();
     highlightBloodType.value =
         bloodType.compareTo('pickBloodType'.tr) == 0 || bloodType.isEmpty;
     if (!highlightBloodType.value) {
@@ -121,7 +118,7 @@ class EditMedicalHistoryController extends GetxController {
         negativeButtonText: 'disagree'.tr,
         positiveButtonOnPressed: () {
           Get.back();
-          updateUserData(bloodType: bloodType, diabetic: diabetic);
+          updateUserData(bloodType: bloodType);
         },
         negativeButtonOnPressed: () => Get.back(),
         mainIcon: Icons.check_circle_outline,
@@ -132,9 +129,13 @@ class EditMedicalHistoryController extends GetxController {
     }
   }
 
-  void updateUserData(
-      {required String bloodType, required String diabetic}) async {
+  void updateUserData({required String bloodType}) async {
+    Get.back();
     showLoadingScreen();
+    String diabetic = diabetesDropdownController.text.trim();
+    diabetic = diabetic.isEmpty || diabetic == 'no'.tr
+        ? Get.translations['en_US']!['no']!
+        : diabetic;
     final medicalHistoryData = MedicalHistoryModel(
       bloodType: bloodType,
       diabetic: diabetic,
@@ -155,7 +156,6 @@ class EditMedicalHistoryController extends GetxController {
       authRep.userInfo.heartPatient = medicalHistoryData.heartPatient;
       authRep.userInfo.additionalInformation =
           medicalHistoryData.additionalInformation;
-      Get.back();
       hideLoadingScreen();
       showSnackBar(
           text: 'medicalHistorySavedSuccess'.tr,

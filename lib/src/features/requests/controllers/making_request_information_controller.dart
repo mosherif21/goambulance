@@ -73,25 +73,44 @@ class MakingRequestInformationController extends GetxController {
 
   RequestInfoModel getRequestInfo() {
     final patientCondition = patientConditionTextController.text.trim();
-    final bloodType = bloodTypeDropdownController.text.trim();
-    final diabetic = diabetesDropdownController.text.trim();
-    final hypertensive = hypertensiveDropdownController.text.trim();
-    final heartPatient = heartPatientDropdownController.text.trim();
-    final additionalInformation =
+    String bloodType = bloodTypeDropdownController.text.trim();
+    bloodType = bloodType.isEmpty || bloodType == 'don\'tKnow'.tr
+        ? 'unknown'
+        : bloodType;
+    String diabetic = diabetesDropdownController.text.trim();
+    diabetic = diabetic.isEmpty || diabetic == 'don\'tKnow'.tr
+        ? 'unknown'
+        : diabetic == 'no'.tr
+            ? Get.translations['en_US']!['no']!
+            : diabetic;
+    String hypertensive = hypertensiveDropdownController.text.trim();
+    hypertensive = hypertensive.isEmpty || hypertensive == 'don\'tKnow'.tr
+        ? 'unknown'
+        : hypertensive == 'no'.tr
+            ? Get.translations['en_US']!['no']!
+            : Get.translations['en_US']!['yes']!;
+    String heartPatient = heartPatientDropdownController.text.trim();
+    heartPatient = heartPatient.isEmpty || heartPatient == 'don\'tKnow'.tr
+        ? 'unknown'
+        : heartPatient == 'no'.tr
+            ? Get.translations['en_US']!['no']!
+            : Get.translations['en_US']!['yes']!;
+    String additionalInformation =
         additionalInformationTextController.text.trim();
+    additionalInformation = additionalInformation.isEmpty
+        ? 'No additional Information'
+        : additionalInformation;
     return RequestInfoModel(
       isUser: userRequest.value,
       patientCondition: patientCondition,
-      backupNumber: backupPhoneNo,
+      backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : 'unknown',
       medicalHistory: userRequest.value
           ? null
           : MedicalHistoryModel(
-              bloodType: bloodType.isEmpty ? 'don\'tKnow'.tr : bloodType,
-              diabetic: diabetic.isEmpty ? 'don\'tKnow'.tr : diabetic,
-              hypertensive:
-                  hypertensive.isEmpty ? 'don\'tKnow'.tr : hypertensive,
-              heartPatient:
-                  heartPatient.isEmpty ? 'don\'tKnow'.tr : heartPatient,
+              bloodType: bloodType,
+              diabetic: diabetic,
+              hypertensive: hypertensive,
+              heartPatient: heartPatient,
               additionalInformation: additionalInformation,
               diseasesList: diseasesList,
             ),

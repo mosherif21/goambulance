@@ -73,13 +73,13 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               () => AutoSizeText(
                 widget.controller.requestStatus.value ==
                         RequestStatus.requestPending
-                    ? 'searchingForHospitals'.tr
+                    ? 'pendingRequest'.tr
                     : widget.controller.requestStatus.value ==
                             RequestStatus.requestAccepted
-                        ? 'searchingForHospitals'.tr
+                        ? 'acceptedRequest'.tr
                         : widget.controller.requestStatus.value ==
                                 RequestStatus.ambulanceAssigned
-                            ? 'searchingForHospitals'.tr
+                            ? 'assignedRequest'.tr
                             : widget.controller.searchedHospitals.isEmpty
                                 ? 'searchingForHospitals'.tr
                                 : 'chooseRequestHospital'.tr,

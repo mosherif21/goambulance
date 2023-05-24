@@ -203,12 +203,7 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> savePersonalInformation() async {
-    final bloodType = bloodTypeDropdownController.text;
-    final diabetic = diabetesDropdownController.text.isEmpty
-        ? 'No'
-        : diabetesDropdownController.text == 'no'.tr
-            ? 'No'
-            : diabetesDropdownController.text;
+    final bloodType = bloodTypeDropdownController.text.trim();
     highlightBloodType.value =
         bloodType == 'pickBloodType'.tr || bloodType.isEmpty;
     if (!highlightBloodType.value) {
@@ -217,8 +212,7 @@ class RegisterUserDataController extends GetxController {
         body: 'personalInfoShare'.tr,
         positiveButtonText: 'agree'.tr,
         negativeButtonText: 'disagree'.tr,
-        positiveButtonOnPressed: () =>
-            registerUserData(bloodType: bloodType, diabetic: diabetic),
+        positiveButtonOnPressed: () => registerUserData(bloodType: bloodType),
         negativeButtonOnPressed: () => Get.back(),
         mainIcon: Icons.check_circle_outline,
         color: SweetSheetColor.NICE,
@@ -228,10 +222,13 @@ class RegisterUserDataController extends GetxController {
     }
   }
 
-  void registerUserData(
-      {required String bloodType, required String diabetic}) async {
+  void registerUserData({required String bloodType}) async {
     Get.back();
     showLoadingScreen();
+    String diabetic = diabetesDropdownController.text.trim();
+    diabetic = diabetic.isEmpty || diabetic == 'no'.tr
+        ? Get.translations['en_US']!['no']!
+        : diabetic;
     final name = nameTextController.text.trim();
     final email = emailTextController.text.trim();
     final nationalId = nationalIdTextController.text.trim();

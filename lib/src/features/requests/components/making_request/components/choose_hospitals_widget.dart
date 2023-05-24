@@ -19,8 +19,9 @@ class ChooseHospitalsList extends StatelessWidget {
           ? controller.searchedHospitals.isNotEmpty
               ? RefreshConfiguration(
                   headerTriggerDistance: 60,
+                  footerTriggerDistance: 200,
                   maxOverScrollExtent: 60,
-                  maxUnderScrollExtent: 0,
+                  maxUnderScrollExtent: 100,
                   // enableScrollWhenRefreshCompleted: true,
                   enableLoadingWhenFailed: true,
                   hideFooterWhenNotFull: false,

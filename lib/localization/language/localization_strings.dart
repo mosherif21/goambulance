@@ -310,6 +310,7 @@ class Languages extends Translations {
               'تم رفض طلب سيارة الإسعاف الخاص بك من قبل المستشفى أو انقضت مهلته',
           'addresses': 'العناوين',
           'noAddressesSaved': 'لا يوجد عناوين مسجلة',
+          'waitingForAssign': 'في انتظار قبول طلب الإسعاف الخاص بك...',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -567,6 +568,8 @@ class Languages extends Translations {
           'agree': 'I Agree',
           'disagree': 'Disagree',
           'noHospitalsFound': 'No hospitals found',
+          'waitingForAssign':
+              'Waiting for your ambulance request to be accepted...',
           'diseaseInfo': 'Please enter the disease/allergy information',
           'contactInfo': 'Please enter the contact\'s information',
           'personalInfoShare':

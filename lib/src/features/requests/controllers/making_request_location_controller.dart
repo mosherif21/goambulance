@@ -137,7 +137,7 @@ class MakingRequestLocationController extends GetxController {
             if (snapshot.exists) {
               assignedRequestChanges();
             } else {
-              requestStatus.value = RequestStatus.notRequested;
+              onRequestCanceledChanges();
               showSnackBar(
                   text: 'requestCanceled'.tr, snackBarType: SnackBarType.info);
             }
@@ -194,13 +194,18 @@ class MakingRequestLocationController extends GetxController {
             .cancelHospitalRequest(requestInfo: currentRequestData);
         hideLoadingScreen();
         if (functionStatus == FunctionStatus.success) {
-          requestStatus.value = RequestStatus.notRequested;
+          onRequestCanceledChanges();
         }
       },
       negativeButtonOnPressed: () => Get.back(),
       mainIcon: Icons.cancel_outlined,
       color: SweetSheetColor.DANGER,
     );
+  }
+
+  void onRequestCanceledChanges() {
+    requestStatus.value = RequestStatus.notRequested;
+    onRefresh();
   }
 
   Future<void> locationInit() async {
@@ -243,6 +248,7 @@ class MakingRequestLocationController extends GetxController {
 
   Future<void> loadHospitals() async {
     hospitalsLoaded.value = false;
+    selectedHospital.value = null;
     await getHospitals();
     hospitalsLoaded.value = true;
   }

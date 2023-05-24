@@ -306,6 +306,8 @@ class Languages extends Translations {
           'pendingRequest': 'تم إرسال طلب الإسعاف الخاص بك',
           'assignedRequest': 'تم تعيين طلب الإسعاف الخاص بك',
           'acceptedRequest': 'تم قبول طلب سيارة الإسعاف الخاص بك',
+          'addresses': 'العناوين',
+          'noAddressesSaved': 'لا يوجد عناوين مسجلة',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -618,6 +620,8 @@ class Languages extends Translations {
           'aboutUsTitle2': 'Privacy Policy',
           'aboutUsTitle3': 'FAQ',
           'aboutUsTitle4': 'Our Website',
+          'addresses': 'Addresses',
+          'noAddressesSaved': 'No Addresses Saved',
         },
       };
 }

@@ -138,6 +138,8 @@ class MakingRequestLocationController extends GetxController {
               assignedRequestChanges();
             } else {
               requestStatus.value = RequestStatus.notRequested;
+              showSnackBar(
+                  text: 'requestCanceled'.tr, snackBarType: SnackBarType.info);
             }
           });
         }
@@ -197,7 +199,7 @@ class MakingRequestLocationController extends GetxController {
       },
       negativeButtonOnPressed: () => Get.back(),
       mainIcon: Icons.cancel_outlined,
-      color: SweetSheetColor.DANGER,
+      color: SweetSheetColor.NICE,
     );
   }
 

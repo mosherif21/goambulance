@@ -14,7 +14,7 @@ class OnBoardingController extends GetxController {
   static List<OnBoardingPageTemplate> pages = [
     OnBoardingPageTemplate(
       onBoardingBackGroundColor: Colors.white,
-      onBoardingAnim: kOnBoardingAnim1,
+      onBoardingAnim: kAmbulanceCarAnim,
       onBoardingTitle: 'onBoardingTitle1'.tr,
       onBoardingSubTitle: 'onBoardingSubTitle1'.tr,
       titleTextColor: Colors.black,
@@ -22,7 +22,7 @@ class OnBoardingController extends GetxController {
     ),
     OnBoardingPageTemplate(
       onBoardingBackGroundColor: Colors.blue,
-      onBoardingAnim: kOnBoardingAnim2,
+      onBoardingAnim: kCustomerServiceAnim,
       onBoardingTitle: 'onBoardingTitle2'.tr,
       onBoardingSubTitle: 'onBoardingSubTitle2'.tr,
       titleTextColor: Colors.white,
@@ -30,7 +30,7 @@ class OnBoardingController extends GetxController {
     ),
     OnBoardingPageTemplate(
       onBoardingBackGroundColor: Colors.yellow,
-      onBoardingAnim: kOnBoardingAnim3,
+      onBoardingAnim: kLocationPinOnMapAnim,
       onBoardingTitle: 'onBoardingTitle3'.tr,
       onBoardingSubTitle: 'onBoardingSubTitle3'.tr,
       titleTextColor: Colors.black,

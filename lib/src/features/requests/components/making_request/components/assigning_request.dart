@@ -6,8 +6,8 @@ import 'package:lottie/lottie.dart';
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/general_functions.dart';
 
-class PendingRequest extends StatelessWidget {
-  const PendingRequest({Key? key}) : super(key: key);
+class AcceptingRequest extends StatelessWidget {
+  const AcceptingRequest({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +20,13 @@ class PendingRequest extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Lottie.asset(
-              kPendingRequestAnim,
+              kAmbulanceCarAnim,
               height: screenHeight * 0.2,
             ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: AutoSizeText(
-                'waitingForAcceptance'.tr,
+                'waitingForAssign'.tr,
                 maxLines: 2,
                 style: const TextStyle(
                   color: Colors.grey,

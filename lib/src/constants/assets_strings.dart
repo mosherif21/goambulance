@@ -31,15 +31,16 @@ const String kResetPasswordImg = "assets/images/reset-password.png";
 const String kAddressesImg = "assets/images/address.png";
 
 //--Lottie assets
-const String kOnBoardingAnim1 = "assets/lottie_animations/ambulance.json";
-const String kOnBoardingAnim2 =
+const String kAmbulanceCarAnim = "assets/lottie_animations/ambulance.json";
+const String kCustomerServiceAnim =
     "assets/lottie_animations/customer_service_test_blue.json";
-const String kOnBoardingAnim3 = "assets/lottie_animations/location_on_map.json";
+const String kLocationPinOnMapAnim =
+    "assets/lottie_animations/location_on_map.json";
 const String kEmailVerificationAnim =
     "assets/lottie_animations/email_verification.json";
 const String kPhoneVerificationAnim = "assets/lottie_animations/otp_code2.json";
 const String kPhoneOTPAnim = "assets/lottie_animations/otp_code3.json";
-const String kAcceptedRequestAnim =
+const String kPendingRequestAnim =
     "assets/lottie_animations/loading_hospital.json";
 const String kNoInternetSwitchAnim =
     "assets/lottie_animations/no_internet.json";

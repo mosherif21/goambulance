@@ -17,6 +17,7 @@ import '../../../../../constants/assets_strings.dart';
 import '../../../../../constants/enums.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/general_functions.dart';
+import 'assigning_request.dart';
 import 'choose_hospitals_widget.dart';
 import 'my_location_button.dart';
 
@@ -71,24 +72,27 @@ class _MakingRequestMapState extends State<MakingRequestMap>
           children: [
             const SizedBox(height: 10),
             Obx(
-              () => AutoSizeText(
-                widget.controller.requestStatus.value ==
-                        RequestStatus.requestPending
-                    ? 'pendingRequest'.tr
-                    : widget.controller.requestStatus.value ==
-                            RequestStatus.requestAccepted
-                        ? 'acceptedRequest'.tr
-                        : widget.controller.requestStatus.value ==
-                                RequestStatus.ambulanceAssigned
-                            ? 'assignedRequest'.tr
-                            : widget.controller.searchedHospitals.isEmpty
-                                ? 'searchingForHospitals'.tr
-                                : 'chooseRequestHospital'.tr,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
+              () => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: AutoSizeText(
+                  widget.controller.requestStatus.value ==
+                          RequestStatus.requestPending
+                      ? 'pendingRequest'.tr
+                      : widget.controller.requestStatus.value ==
+                              RequestStatus.requestAccepted
+                          ? 'acceptedRequest'.tr
+                          : widget.controller.requestStatus.value ==
+                                  RequestStatus.ambulanceAssigned
+                              ? 'assignedRequest'.tr
+                              : widget.controller.searchedHospitals.isEmpty
+                                  ? 'searchingForHospitals'.tr
+                                  : 'chooseRequestHospital'.tr,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  maxLines: 1,
                 ),
-                maxLines: 2,
               ),
             ),
             const SizedBox(height: 8),
@@ -105,7 +109,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                       ? const PendingRequest()
                       : widget.controller.requestStatus.value ==
                               RequestStatus.requestAccepted
-                          ? const SizedBox.shrink()
+                          ? const AcceptingRequest()
                           : widget.controller.requestStatus.value ==
                                   RequestStatus.ambulanceAssigned
                               ? const SizedBox.shrink()

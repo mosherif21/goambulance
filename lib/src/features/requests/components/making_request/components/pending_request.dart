@@ -19,9 +19,12 @@ class PendingRequest extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Lottie.asset(
-              kPendingRequestAnim,
-              height: screenHeight * 0.2,
+            Transform.scale(
+              scale: 1.5,
+              child: Lottie.asset(
+                kPendingRequestAnim,
+                height: screenHeight * 0.2,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(20),

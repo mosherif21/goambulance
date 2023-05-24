@@ -41,7 +41,7 @@ const String kEmailVerificationAnim =
 const String kPhoneVerificationAnim = "assets/lottie_animations/otp_code2.json";
 const String kPhoneOTPAnim = "assets/lottie_animations/otp_code3.json";
 const String kPendingRequestAnim =
-    "assets/lottie_animations/loading_hospital.json";
+    "assets/lottie_animations/loading_hospital_black.json";
 const String kNoInternetSwitchAnim =
     "assets/lottie_animations/no_internet.json";
 const String kLoadingMapAnim = "assets/lottie_animations/loading_map4.json";

@@ -12,6 +12,7 @@ class UserInformation {
   String heartPatient;
   String sosMessage;
   bool criticalUser;
+
   UserInformation({
     required this.name,
     required this.email,
@@ -27,6 +28,7 @@ class UserInformation {
     required this.criticalUser,
     required this.phone,
   });
+
   Map<String, dynamic> toJson() => {
         'name': name,
         'email': email,
@@ -51,6 +53,7 @@ class AccountDetailsModel {
   String nationalId;
   DateTime birthDate;
   String gender;
+
   AccountDetailsModel({
     required this.name,
     required this.email,
@@ -58,6 +61,7 @@ class AccountDetailsModel {
     required this.birthDate,
     required this.gender,
   });
+
   Map<String, dynamic> toJson() => {
         'name': name,
         'email': email,
@@ -74,6 +78,7 @@ class MedicalHistoryModel {
   final String hypertensive;
   final String heartPatient;
   final List<DiseaseItem> diseasesList;
+
   MedicalHistoryModel({
     required this.bloodType,
     required this.diabetic,
@@ -82,6 +87,7 @@ class MedicalHistoryModel {
     required this.additionalInformation,
     required this.diseasesList,
   });
+
   Map<String, dynamic> toJson() => {
         'bloodType': bloodType,
         'diabetic': diabetic,
@@ -94,14 +100,33 @@ class MedicalHistoryModel {
 class DiseaseItem {
   final String diseaseName;
   final String diseaseMedicines;
+
   DiseaseItem({
     required this.diseaseName,
     required this.diseaseMedicines,
   });
+
   Map<String, dynamic> toJson() {
     return {
       'diseaseName': diseaseName,
       'diseaseMedicines': diseaseMedicines,
+    };
+  }
+}
+
+class AddressItem {
+  final String addressName;
+  final String address;
+
+  AddressItem({
+    required this.addressName,
+    required this.address,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'addressName': addressName,
+      'address': address,
     };
   }
 }

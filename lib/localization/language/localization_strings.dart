@@ -307,7 +307,9 @@ class Languages extends Translations {
           'assignedRequest': 'تم تعيين طلب الإسعاف الخاص بك',
           'acceptedRequest': 'تم قبول طلب سيارة الإسعاف الخاص بك',
           'requestCanceled':
-              'تم رفض طلب سيارة الإسعاف الخاص بك من قبل المستشفى أو انقضت مهلته',
+          'تم رفض طلب سيارة الإسعاف الخاص بك من قبل المستشفى أو انقضت مهلته',
+          'addresses': 'العناوين',
+          'noAddressesSaved': 'لا يوجد عناوين مسجلة',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -500,8 +502,6 @@ class Languages extends Translations {
           'enterYourInfo':
               'Please enter your personal information to complete your account registration',
           'enterNationalId': 'Enter your National ID',
-          'requestCanceled':
-              'Your ambulance request was rejected by the hospital or it has timed out',
           'nationalId': 'National ID',
           'enterBirthDate': 'Choose your Birth Date',
           'birthDate': 'Birth Date',

@@ -80,6 +80,8 @@ class MakingRequestLocationController extends GetxController {
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.notRequested.obs;
+  late RequestModel currentRequestInfo;
+  late final FirebasePatientDataAccess firebasePatientDataAccess;
   final selectedHospital = Rx<HospitalModel?>(null);
   int skipCount = 0;
   static const pageSize = 6;
@@ -89,12 +91,11 @@ class MakingRequestLocationController extends GetxController {
   CancelableOperation<List<HospitalModel>>? getHospitalsDataOperation;
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
+  late final FirebaseFirestore _firestore;
   late final String userId;
+
   //geoQuery vars
   final geoFire = GeoFlutterFire();
-  late RequestModel currentRequestInfo;
-  late final FirebaseFirestore _firestore;
-  late final FirebasePatientDataAccess firebasePatientDataAccess;
 
   @override
   void onReady() async {
@@ -136,14 +137,26 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  void cancelRequest() async {
-    showLoadingScreen();
-    final functionStatus = await firebasePatientDataAccess
-        .cancelHospitalRequest(requestInfo: currentRequestInfo);
-    hideLoadingScreen();
-    if (functionStatus == FunctionStatus.success) {
-      requestStatus.value = RequestStatus.notRequested;
-    }
+  void cancelRequest() {
+    displayAlertDialog(
+      title: 'confirm'.tr,
+      body: 'cancelRequestConfirm'.tr,
+      positiveButtonText: 'yes'.tr,
+      negativeButtonText: 'no'.tr,
+      positiveButtonOnPressed: () async {
+        Get.back();
+        showLoadingScreen();
+        final functionStatus = await firebasePatientDataAccess
+            .cancelHospitalRequest(requestInfo: currentRequestInfo);
+        hideLoadingScreen();
+        if (functionStatus == FunctionStatus.success) {
+          requestStatus.value = RequestStatus.notRequested;
+        }
+      },
+      negativeButtonOnPressed: () => Get.back(),
+      mainIcon: Icons.cancel_outlined,
+      color: SweetSheetColor.DANGER,
+    );
   }
 
   Future<void> locationInit() async {

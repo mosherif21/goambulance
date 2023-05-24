@@ -19,13 +19,18 @@ class HospitalChooseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    return  Material(
-        shadowColor: Colors.grey.shade300,
-        color: selected ? Colors.grey.shade300 : Colors.white,
+    return Container(
+      margin: EdgeInsets.only(bottom: selected ? 8 : 0),
+      child: Material(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+        elevation: selected ? 5 : 0,
+        //shadowColor: Colors.grey.shade400,
         child: InkWell(
           splashFactory: InkSparkle.splashFactory,
           onTap: selected ? null : () => onPress(),
-          highlightColor: Colors.grey.shade200,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          highlightColor: Colors.grey.shade300,
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -65,6 +70,7 @@ class HospitalChooseCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
     );
   }
 }

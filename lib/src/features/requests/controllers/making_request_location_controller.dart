@@ -428,8 +428,9 @@ class MakingRequestLocationController extends GetxController {
     return hospitalsDataDocuments;
   }
 
-  void onHospitalChosen({required HospitalModel hospitalItem}) async {
+  void onHospitalChosen({required int hospitalIndex}) async {
     clearHospitalRoute();
+    final hospitalItem = searchedHospitals[hospitalIndex];
     hospitalMarker = Marker(
       markerId: const MarkerId('hospital'),
       position: hospitalItem.location,

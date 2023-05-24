@@ -302,6 +302,9 @@ class Languages extends Translations {
           'aboutUsTitle4': 'موقعنا',
           'changeGoogleAccount': 'تغيير حساب جوجل',
           'cancelRequestConfirm': 'هل أنت متأكد أنك تريد إلغاء الطلب؟',
+          'pendingRequest': 'تم إرسال طلب الإسعاف الخاص بك',
+          'assignedRequest': 'تم تعيين طلب الإسعاف الخاص بك',
+          'acceptedRequest': 'تم قبول طلب سيارة الإسعاف الخاص بك',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -522,6 +525,9 @@ class Languages extends Translations {
           'contactNumber': 'Contact\'s number',
           'enterContactNumber': 'Enter contact\'s number',
           'searchingForHospitals': 'Searching for hospitals',
+          'pendingRequest': 'Your ambulance request was sent',
+          'assignedRequest': 'Your ambulance request was assigned',
+          'acceptedRequest': 'Your ambulance request was accepted',
           'enterMedicalHistory':
               'Please enter your medical history to complete your account registration',
           'editMedicalHistory': 'You can edit your medical history here',

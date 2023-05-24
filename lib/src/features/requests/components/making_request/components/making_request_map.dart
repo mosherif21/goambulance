@@ -71,9 +71,18 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             const SizedBox(height: 10),
             Obx(
               () => AutoSizeText(
-                widget.controller.searchedHospitals.isEmpty
+                widget.controller.requestStatus.value ==
+                        RequestStatus.requestPending
                     ? 'searchingForHospitals'.tr
-                    : 'chooseRequestHospital'.tr,
+                    : widget.controller.requestStatus.value ==
+                            RequestStatus.requestAccepted
+                        ? 'searchingForHospitals'.tr
+                        : widget.controller.requestStatus.value ==
+                                RequestStatus.ambulanceAssigned
+                            ? 'searchingForHospitals'.tr
+                            : widget.controller.searchedHospitals.isEmpty
+                                ? 'searchingForHospitals'.tr
+                                : 'chooseRequestHospital'.tr,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
@@ -81,8 +90,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 maxLines: 2,
               ),
             ),
-            const SizedBox(height: 8),
-            const Divider(height: 5),
+            const SizedBox(height: 10),
             Expanded(
               child: widget.controller.requestStatus.value ==
                       RequestStatus.notRequested

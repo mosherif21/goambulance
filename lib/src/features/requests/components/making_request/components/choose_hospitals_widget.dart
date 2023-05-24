@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/no_hospitals_found.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -58,12 +58,12 @@ class ChooseHospitalsList extends StatelessWidget {
                           hospitalItem: controller.searchedHospitals[index],
                           selected: controller.searchedHospitals[index] ==
                               controller.selectedHospital.value,
-                          onPress: () => controller.onHospitalChosen(
-                              hospitalItem:
-                                  controller.searchedHospitals[index]),
+                          onPress: () =>
+                              controller.onHospitalChosen(hospitalIndex: index),
                         ),
                       ),
-                      padding: EdgeInsets.zero,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 2),
                       shrinkWrap: true,
                       itemCount: controller.searchedHospitals.length,
                     ),

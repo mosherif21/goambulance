@@ -307,7 +307,7 @@ class Languages extends Translations {
           'assignedRequest': 'تم تعيين طلب الإسعاف الخاص بك',
           'acceptedRequest': 'تم قبول طلب سيارة الإسعاف الخاص بك',
           'requestCanceled':
-          'تم رفض طلب سيارة الإسعاف الخاص بك من قبل المستشفى أو انقضت مهلته',
+              'تم رفض طلب سيارة الإسعاف الخاص بك من قبل المستشفى أو انقضت مهلته',
           'addresses': 'العناوين',
           'noAddressesSaved': 'لا يوجد عناوين مسجلة',
         },
@@ -331,6 +331,8 @@ class Languages extends Translations {
           'notAvailableErrorSubTitle': 'We are working on it....',
           'noConnectionAlertTitle': 'No Connection',
           'noConnectionAlertContent': 'Please check your internet connectivity',
+          'requestCanceled':
+              'Your ambulance request was rejected by the hospital or it has timed out',
           'ok': 'OK',
           'addContact': 'Add contact',
           'loginWithGoogle': 'CONTINUE WITH GOOGLE',

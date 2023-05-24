@@ -57,5 +57,6 @@ class RequestModel {
         'backupNumber': hospitalRequestInfo.backupNumber,
         'timestamp': timestamp,
         'location': location,
+        'status': 'pending',
       };
 }

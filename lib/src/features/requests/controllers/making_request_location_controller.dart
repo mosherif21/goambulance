@@ -80,7 +80,7 @@ class MakingRequestLocationController extends GetxController {
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.notRequested.obs;
-  late RequestModel currentRequestInfo;
+  late RequestModel currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final selectedHospital = Rx<HospitalModel?>(null);
   int skipCount = 0;
@@ -93,6 +93,8 @@ class MakingRequestLocationController extends GetxController {
       getRouteOperation;
   late final FirebaseFirestore _firestore;
   late final String userId;
+  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      pendingRequestListener;
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
@@ -112,6 +114,43 @@ class MakingRequestLocationController extends GetxController {
     super.onReady();
   }
 
+  Future<void> initRequestListener({
+    required DocumentReference pendingRequestRef,
+  }) async {
+    try {
+      pendingRequestListener = _firestore
+          .collection('pendingRequests')
+          .doc(pendingRequestRef.id)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final status = snapshot.data()!['status'].toString();
+          if (status == 'accepted') {
+            requestStatus.value = RequestStatus.requestAccepted;
+          }
+        } else {
+          _firestore
+              .collection('assignedRequests')
+              .doc(pendingRequestRef.id)
+              .get()
+              .then((snapshot) {
+            if (snapshot.exists) {
+              assignedRequestChanges();
+            } else {
+              requestStatus.value = RequestStatus.notRequested;
+            }
+          });
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+    }
+  }
+
+  void assignedRequestChanges() {}
+
   void confirmRequest() async {
     if (selectedHospital.value != null) {
       showLoadingScreen();
@@ -129,11 +168,13 @@ class MakingRequestLocationController extends GetxController {
       );
       final functionStatus = await firebasePatientDataAccess.requestHospital(
           requestInfo: requestData);
-      hideLoadingScreen();
+
       if (functionStatus == FunctionStatus.success) {
-        currentRequestInfo = requestData;
+        currentRequestData = requestData;
         requestStatus.value = RequestStatus.requestPending;
+        initRequestListener(pendingRequestRef: pendingRequestRef);
       }
+      hideLoadingScreen();
     }
   }
 
@@ -146,8 +187,9 @@ class MakingRequestLocationController extends GetxController {
       positiveButtonOnPressed: () async {
         Get.back();
         showLoadingScreen();
+        pendingRequestListener?.cancel();
         final functionStatus = await firebasePatientDataAccess
-            .cancelHospitalRequest(requestInfo: currentRequestInfo);
+            .cancelHospitalRequest(requestInfo: currentRequestData);
         hideLoadingScreen();
         if (functionStatus == FunctionStatus.success) {
           requestStatus.value = RequestStatus.notRequested;
@@ -777,7 +819,7 @@ class MakingRequestLocationController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
-
+    pendingRequestListener?.cancel();
     super.onClose();
   }
 

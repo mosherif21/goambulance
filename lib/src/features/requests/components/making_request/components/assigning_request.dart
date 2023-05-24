@@ -21,7 +21,7 @@ class AcceptingRequest extends StatelessWidget {
           children: [
             Lottie.asset(
               kAmbulanceCarAnim,
-              height: screenHeight * 0.15,
+              height: screenHeight * 0.17,
             ),
             Padding(
               padding: const EdgeInsets.all(20),

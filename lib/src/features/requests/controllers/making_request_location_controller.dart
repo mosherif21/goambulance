@@ -199,7 +199,7 @@ class MakingRequestLocationController extends GetxController {
       },
       negativeButtonOnPressed: () => Get.back(),
       mainIcon: Icons.cancel_outlined,
-      color: SweetSheetColor.NICE,
+      color: SweetSheetColor.DANGER,
     );
   }
 

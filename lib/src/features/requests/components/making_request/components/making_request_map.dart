@@ -90,7 +90,9 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 maxLines: 2,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
+            const Divider(thickness: 0.5, height: 1),
+            const SizedBox(height: 8),
             Expanded(
               child: widget.controller.requestStatus.value ==
                       RequestStatus.notRequested

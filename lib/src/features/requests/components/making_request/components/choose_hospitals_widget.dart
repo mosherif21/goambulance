@@ -63,8 +63,7 @@ class ChooseHospitalsList extends StatelessWidget {
                               controller.onHospitalChosen(hospitalIndex: index),
                         ),
                       ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 2),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       shrinkWrap: true,
                       itemCount: controller.searchedHospitals.length,
                     ),

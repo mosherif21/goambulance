@@ -31,6 +31,7 @@ class PendingRequest extends StatelessWidget {
                 style: const TextStyle(
                   color: Colors.grey,
                   fontSize: 17,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ),

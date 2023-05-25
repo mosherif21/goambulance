@@ -62,11 +62,11 @@ Future<void> _initializeMessaging() async {
     badge: true,
     sound: true,
   );
-  // await AwesomeNotifications().isNotificationAllowed().then((isAllowed)async {
-  //   if (!isAllowed) {
-  //     await AwesomeNotifications().requestPermissionToSendNotifications();
-  //   }
-  // });
+  await AwesomeNotifications().isNotificationAllowed().then((isAllowed) async {
+    if (!isAllowed) {
+      await AwesomeNotifications().requestPermissionToSendNotifications();
+    }
+  });
   if (kDebugMode) {
     print('User granted permission: ${settings.authorizationStatus}');
   }

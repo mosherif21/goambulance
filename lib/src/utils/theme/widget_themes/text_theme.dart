@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ATextTheme {

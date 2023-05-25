@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../general/general_functions.dart';

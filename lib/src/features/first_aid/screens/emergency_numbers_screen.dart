@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 
 import '../../../constants/enums.dart';

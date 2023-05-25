@@ -7,8 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../src/constants/enums.dart';

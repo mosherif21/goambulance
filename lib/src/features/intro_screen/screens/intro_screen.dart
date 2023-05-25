@@ -9,9 +9,9 @@ import 'package:goambulance/src/general/common_widgets/or_divider.dart';
 import 'package:line_icons/line_icon.dart';
 
 import '../../../connectivity/connectivity.dart';
-import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/sizes.dart';
+import '../../../general/app_init.dart';
 import '../../../general/common_widgets/circle_button_text_icon.dart';
 import '../../../general/common_widgets/language_change_button.dart';
 import '../../../general/common_widgets/regular_elevated_button.dart';

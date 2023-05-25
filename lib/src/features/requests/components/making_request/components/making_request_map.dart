@@ -3,7 +3,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/pending_request.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/route_time.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
@@ -15,6 +14,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../constants/enums.dart';
+import '../../../../../general/app_init.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/general_functions.dart';
 import 'assigning_request.dart';

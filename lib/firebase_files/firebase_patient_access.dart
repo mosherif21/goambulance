@@ -8,8 +8,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/features/sos_message/controllers/sos_message_controller.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../src/constants/enums.dart';

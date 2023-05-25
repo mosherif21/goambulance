@@ -3,7 +3,7 @@ import 'package:flutter_web_frame/flutter_web_frame.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/localization/language/localization_strings.dart';
 import 'package:goambulance/src/connectivity/connectivity_controller.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 
 void main() async {

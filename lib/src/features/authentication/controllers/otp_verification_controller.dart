@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 
-import '../../../constants/app_init_constants.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
+import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
 import '../components/otpVerification/otp_verification.dart';
 

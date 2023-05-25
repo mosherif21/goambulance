@@ -3,7 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../constants/app_init_constants.dart';
+import 'app_init.dart';
 
 final messaging = FirebaseMessaging.instance;
 Future<void> initializeNotification() async {

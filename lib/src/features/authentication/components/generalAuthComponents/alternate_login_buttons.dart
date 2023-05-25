@@ -3,7 +3,7 @@ import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/general/app_init.dart';
 
 import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/or_divider.dart';

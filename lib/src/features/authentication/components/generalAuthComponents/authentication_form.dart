@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
+import 'package:goambulance/src/general/app_init.dart';
 
 import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/regular_text_button.dart';

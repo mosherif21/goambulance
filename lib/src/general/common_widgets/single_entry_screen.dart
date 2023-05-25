@@ -12,10 +12,10 @@ import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../constants/app_init_constants.dart';
 import '../../constants/enums.dart';
 import '../../constants/sizes.dart';
 import '../../features/authentication/components/generalAuthComponents/alternate_login_buttons.dart';
+import '../app_init.dart';
 
 class SingleEntryScreen extends StatelessWidget {
   const SingleEntryScreen({

@@ -13,15 +13,15 @@ import 'package:sweetsheet/sweetsheet.dart';
 import '../../authentication/authentication_repository.dart';
 import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
+import '../constants/colors.dart';
+import '../constants/enums.dart';
 import '../features/account/components/newAccount/register_user_data_page.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
-import '../general/common_widgets/empty_scaffold.dart';
-import '../general/error_widgets/no_internet_error_widget.dart';
-import 'colors.dart';
-import 'enums.dart';
+import 'common_widgets/empty_scaffold.dart';
+import 'error_widgets/no_internet_error_widget.dart';
 
 class AppInit {
   static bool showOnBoard = false;

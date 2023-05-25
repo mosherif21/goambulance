@@ -7,7 +7,7 @@ import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../constants/app_init_constants.dart';
+import '../../../../general/app_init.dart';
 import '../../../../general/common_widgets/back_button.dart';
 
 class OTPVerificationScreen extends StatelessWidget {

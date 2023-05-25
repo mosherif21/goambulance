@@ -4,8 +4,8 @@ import 'package:flutter_sms/flutter_sms.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/enums.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
 import '../../../general/common_widgets/regular_bottom_sheet.dart';

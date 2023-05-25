@@ -14,9 +14,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
-import 'package:goambulance/src/constants/app_init_constants.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages

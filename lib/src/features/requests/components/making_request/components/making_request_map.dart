@@ -110,10 +110,6 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                               RequestStatus.requestAccepted
                           ? const AcceptingRequest()
                           : const SizedBox.shrink(),
-              // widget.controller.requestStatus.value ==
-              //                     RequestStatus.ambulanceAssigned
-              //                 ? const SizedBox.shrink()
-              //                 : const SizedBox.shrink(),
             ),
             const Divider(thickness: 1, height: 2),
             Padding(

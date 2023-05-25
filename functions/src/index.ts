@@ -58,10 +58,11 @@ exports.deletePendingRequests = functions.pubsub
               // Check if the document exists
               if (snapshot.exists) {
                 const fcmTokenData = snapshot.data();
-                if (fcmTokenData && fcmTokenData.fcmToken) {
+                if (fcmTokenData && fcmTokenData.fcmToken &&
+                    fcmTokenData.notificationsLang) {
                   let notificationTitle ="";
                   let notificationBody ="";
-                  if (fcmTokenData && fcmTokenData.currentLanguage=="ar") {
+                  if (fcmTokenData.notificationsLang === "ar") {
                     notificationTitle ="تنبيه طلب سيارة إسعاف";
                     notificationBody =
                           "تم رفض طلب سيارة الإسعاف الخاص بك " +

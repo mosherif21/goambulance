@@ -325,7 +325,7 @@ class MakingRequestLocationController extends GetxController {
       choosingRequestLocationChanges();
     } else if (choosingHospital.value &&
         requestStatus.value != RequestStatus.notRequested) {
-      cancelRequest();
+      Get.close(2);
     } else if (!choosingHospital.value &&
         requestStatus.value == RequestStatus.notRequested) {
       Get.back();
@@ -339,8 +339,8 @@ class MakingRequestLocationController extends GetxController {
       return Future.value(false);
     } else if (choosingHospital.value &&
         requestStatus.value != RequestStatus.notRequested) {
-      cancelRequest();
-      return Future.value(false);
+      Get.close(2);
+      return Future.value(true);
     } else if (!choosingHospital.value &&
         requestStatus.value == RequestStatus.notRequested) {
       return Future.value(true);
@@ -829,7 +829,10 @@ class MakingRequestLocationController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
-    pendingRequestListener?.cancel();
+    if (requestStatus.value != RequestStatus.notRequested) {
+      pendingRequestListener?.cancel();
+    }
+
     super.onClose();
   }
 

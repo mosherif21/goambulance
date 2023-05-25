@@ -64,13 +64,13 @@ exports.deletePendingRequests = functions.pubsub
                   if (fcmTokenData && fcmTokenData.currentLanguage=="ar") {
                     notificationTitle ="تنبيه طلب سيارة إسعاف";
                     notificationBody =
-                          "تم رفض طلب سيارة الإسعاف الخاص بك" +
+                          "تم رفض طلب سيارة الإسعاف الخاص بك " +
                           "من قبل المستشفى أو انقضت مهلته";
                   } else {
                     notificationTitle =
                           "Ambulance request alert";
                     notificationBody =
-                          "Your ambulance request was" +
+                          "Your ambulance request was " +
                           "rejected by the hospital or it has timed out";
                   }
                   const pay = {

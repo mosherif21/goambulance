@@ -97,7 +97,7 @@ class AppInit {
       try {
         if (!isWeb) {
           notificationToken = await FirebaseMessaging.instance.getToken();
-          await initializeNotification();
+          initializeNotification();
         }
       } catch (err) {
         if (kDebugMode) print(err.toString());

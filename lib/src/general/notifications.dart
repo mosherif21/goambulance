@@ -5,15 +5,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-Future<void> initializeNotification() async {
+void initializeNotification() {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     if (kDebugMode) {
       print("Handling a foreground message: ${message.notification?.title}");
     }
-    await _initializeMessaging();
-    await _createNotification(message.notification!, Random().nextInt(10000));
+    _initializeMessaging().whenComplete(() =>
+        _createNotification(message.notification!, Random().nextInt(10000)));
   });
   // await messaging.getInitialMessage();
 }

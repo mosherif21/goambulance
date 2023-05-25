@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 
 import '../../src/constants/enums.dart';
 import '../../src/features/intro_screen/components/onboarding_shared_preferences.dart';
@@ -55,6 +56,9 @@ Future<void> setLocaleLanguage(String languageCode) async {
     showLoadingScreen();
     await Get.updateLocale(_locale(languageCode));
     await setLocale(languageCode);
+    if (Get.isRegistered<FirebasePatientDataAccess>()) {
+      FirebasePatientDataAccess.instance.updateCurrentLanguage();
+    }
     hideLoadingScreen();
   }
 }

@@ -118,10 +118,10 @@ class AuthenticationRepository extends GetxController {
             userType = UserType.patient;
           }
           if (AppInit.notificationToken != null) {
-            await fireStore
-                .collection('users')
-                .doc(userId)
-                .update({'notificationToken': AppInit.notificationToken!});
+            await fireStore.collection('fcmTokens').doc(userId).set({
+              'fcmToken': AppInit.notificationToken!,
+              'notificationsLang': isLangEnglish() ? 'en' : 'ar',
+            });
           }
           final profileImageRef =
               fireStorage.ref().child('users/$userId/profilePic');

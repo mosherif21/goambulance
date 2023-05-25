@@ -15,6 +15,7 @@ import 'package:image_picker/image_picker.dart';
 import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
 import '../src/features/requests/components/making_request/models.dart';
+import '../src/general/general_functions.dart';
 
 class FirebasePatientDataAccess extends GetxController {
   static FirebasePatientDataAccess get instance => Get.find();
@@ -164,6 +165,18 @@ class FirebasePatientDataAccess extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
       return FunctionStatus.failure;
+    }
+  }
+
+  Future<void> updateCurrentLanguage() async {
+    try {
+      await fireStore.collection('fcmTokens').doc(userId).update({
+        'notificationsLang': isLangEnglish() ? 'en' : 'ar',
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
     }
   }
 
@@ -332,7 +345,22 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<void> logoutFirebase() async {}
+  Future<void> deleteFcmToken() async {
+    try {
+      await fireStore
+          .collection('fcmTokens')
+          .doc(userId)
+          .update({'fcmToken': FieldValue.delete()});
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+    }
+  }
+
+  Future<void> logoutFirebase() async {
+    await deleteFcmToken();
+  }
 }
 //StreamSubscription? driverLocationStreamSubscription;
 // bool listenForDriverLocation = false;

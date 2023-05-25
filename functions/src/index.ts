@@ -7,7 +7,7 @@ exports.deletePendingRequests = functions.pubsub
     .onRun(async (context) => {
       const currentTime = admin.firestore.Timestamp.now();
       const thresholdTime = currentTime.toMillis() -
-        (5 * 60 * 1000); // 3 minutes in milliseconds
+        (1 * 60 * 1000);
 
       const pendingRequestsRef = admin.firestore()
           .collection("pendingRequests");
@@ -20,7 +20,7 @@ exports.deletePendingRequests = functions.pubsub
           )
           .get();
 
-      const deletionPromises = [];
+      const deletionPromises: Promise<void>[] = [];
       const batch = admin.firestore().batch();
 
       querySnapshot.forEach((doc) => {
@@ -52,8 +52,8 @@ exports.deletePendingRequests = functions.pubsub
         batch.delete(userPendingRef);
       });
 
-      deletionPromises.push(batch.commit());
-      return Promise.all(deletionPromises);
+      await Promise.all(deletionPromises);
+      await batch.commit();
     });
 
 /**
@@ -63,16 +63,18 @@ exports.deletePendingRequests = functions.pubsub
  * @param {FirebaseFirestore.WriteBatch} batch - batch object for deletion.
  * @return {Promise<void>} - promise that resolves when all deleted.
  */
-function deleteCollection(collectionRef: FirebaseFirestore.CollectionReference,
-    batch: FirebaseFirestore.WriteBatch) {
-  return collectionRef
-      .listDocuments()
-      .then((documents) => {
-        documents.forEach((document) => {
-          batch.delete(document);
-        });
-      })
-      .catch((error) => {
-        console.error("Error deleting subCollection: ", error);
-      });
+async function deleteCollection(
+    collectionRef: FirebaseFirestore.CollectionReference,
+    batch: FirebaseFirestore.WriteBatch
+) {
+  try {
+    const documents = await collectionRef.listDocuments();
+
+    documents.forEach((document) => {
+      batch.delete(document);
+    });
+  } catch (error) {
+    console.error("Error deleting subCollection: ", error);
+    throw error;
+  }
 }

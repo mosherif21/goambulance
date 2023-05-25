@@ -9,6 +9,7 @@ import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
@@ -26,7 +27,12 @@ class HomeScreenController extends GetxController {
   void onReady() {
     handleLocation()
         .whenComplete(() => handleSmsPermission())
-        .whenComplete(() => handleNotificationsPermission());
+        .whenComplete(() => handleNotificationsPermission())
+        .whenComplete(() {
+      if (AppInit.isAndroid) {
+        handleAndroidBatteryPermission();
+      }
+    });
     super.onReady();
   }
 

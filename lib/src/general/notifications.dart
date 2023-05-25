@@ -15,7 +15,7 @@ Future<void> initializeNotification() async {
     await _initializeMessaging();
     await _createNotification(message.notification!, Random().nextInt(10000));
   });
-  //await messaging.getInitialMessage();
+  // await messaging.getInitialMessage();
 }
 
 @pragma('vm:entry-point')

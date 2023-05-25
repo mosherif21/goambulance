@@ -97,7 +97,6 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             ),
             const SizedBox(height: 8),
             const Divider(thickness: 0.5, height: 1),
-            const SizedBox(height: 8),
             Expanded(
               child: widget.controller.requestStatus.value ==
                       RequestStatus.notRequested
@@ -110,10 +109,11 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                       : widget.controller.requestStatus.value ==
                               RequestStatus.requestAccepted
                           ? const AcceptingRequest()
-                          : widget.controller.requestStatus.value ==
-                                  RequestStatus.ambulanceAssigned
-                              ? const SizedBox.shrink()
-                              : const SizedBox.shrink(),
+                          : const SizedBox.shrink(),
+              // widget.controller.requestStatus.value ==
+              //                     RequestStatus.ambulanceAssigned
+              //                 ? const SizedBox.shrink()
+              //                 : const SizedBox.shrink(),
             ),
             const Divider(thickness: 1, height: 2),
             Padding(

@@ -307,6 +307,7 @@ class MakingRequestLocationController extends GetxController {
     }
     if (hospitalMarker != null) {
       if (mapMarkers.contains(hospitalMarker)) {
+        googleMapController.hideMarkerInfoWindow(hospitalMarker!.markerId);
         mapMarkers.remove(hospitalMarker);
       }
     }
@@ -436,7 +437,8 @@ class MakingRequestLocationController extends GetxController {
               position: selectedHospital.value!.location,
               icon: hospitalMarkerIcon,
               infoWindow: InfoWindow(
-                title: 'hospitalLocationPinDesc'.tr,
+                title:
+                    '${selectedHospital.value!.name} (${'hospitalLocationPinDesc'.tr})',
               ),
               onTap: () => animateToLocation(
                   locationLatLng: selectedHospital.value!.location),
@@ -499,7 +501,7 @@ class MakingRequestLocationController extends GetxController {
       position: hospitalItem.location,
       icon: hospitalMarkerIcon,
       infoWindow: InfoWindow(
-        title: 'hospitalLocationPinDesc'.tr,
+        title: '${hospitalItem.name} (${'hospitalLocationPinDesc'.tr})',
       ),
       anchor: const Offset(0.5, 0.5),
       onTap: () => animateToLocation(locationLatLng: hospitalItem.location),

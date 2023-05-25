@@ -19,6 +19,7 @@ class PendingRequest extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            const SizedBox(height: 10),
             Transform.scale(
               scale: 1.5,
               child: Lottie.asset(

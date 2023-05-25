@@ -19,9 +19,9 @@ class ChooseHospitalsList extends StatelessWidget {
           ? controller.searchedHospitals.isNotEmpty
               ? RefreshConfiguration(
                   headerTriggerDistance: 60,
-                  footerTriggerDistance: 200,
-                  maxOverScrollExtent: 60,
-                  maxUnderScrollExtent: 100,
+                  maxOverScrollExtent: 20,
+                  maxUnderScrollExtent: 20,
+                  // footerTriggerDistance: 500,
                   // enableScrollWhenRefreshCompleted: true,
                   enableLoadingWhenFailed: true,
                   hideFooterWhenNotFull: false,
@@ -55,12 +55,15 @@ class ChooseHospitalsList extends StatelessWidget {
                     ),
                     child: ListView.builder(
                       itemBuilder: (context, index) => Obx(
-                        () => HospitalChooseCard(
-                          hospitalItem: controller.searchedHospitals[index],
-                          selected: controller.searchedHospitals[index] ==
-                              controller.selectedHospital.value,
-                          onPress: () =>
-                              controller.onHospitalChosen(hospitalIndex: index),
+                        () => Container(
+                          margin: EdgeInsets.only(top: index == 0 ? 8 : 0),
+                          child: HospitalChooseCard(
+                            hospitalItem: controller.searchedHospitals[index],
+                            selected: controller.searchedHospitals[index] ==
+                                controller.selectedHospital.value,
+                            onPress: () => controller.onHospitalChosen(
+                                hospitalIndex: index),
+                          ),
                         ),
                       ),
                       padding: const EdgeInsets.symmetric(horizontal: 10),

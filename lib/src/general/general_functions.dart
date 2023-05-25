@@ -314,6 +314,13 @@ Future<bool> handleSmsPermission() async => await handleGeneralPermission(
       deniedForeverSnackBarTitle: 'smsPermission'.tr,
       deniedForeverSnackBarBody: 'smsPermissionDeniedForever'.tr,
     );
+Future<bool> handleNotificationsPermission() async =>
+    await handleGeneralPermission(
+      permission: Permission.notification,
+      deniedSnackBarText: 'enableNotificationPermission'.tr,
+      deniedForeverSnackBarTitle: 'notificationsPermission'.tr,
+      deniedForeverSnackBarBody: 'notificationsPermissionDeniedForever'.tr,
+    );
 
 Future<bool> handleGeneralPermission({
   required Permission permission,

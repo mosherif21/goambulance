@@ -114,6 +114,7 @@ class Languages extends Translations {
           'callPermissionDeniedForever':
               'تم رفض إذن المكالمات إلى الأبد، يرجى تمكينه من الإعدادات',
           'micPermission': 'اذن المايكروفون',
+          'NotificationsPermission': 'اذن الاشعارات',
           'micPermissionDeniedForever':
               'تم رفض إذن المايكروفون إلى الأبد، يرجى تمكينه من الإعدادات',
           'contactsPermission': 'اذن جهات الاتصال',
@@ -122,6 +123,8 @@ class Languages extends Translations {
           'smsPermission': 'اذن الرسائل القصيرة',
           'smsPermissionDeniedForever':
               'تم رفض إذن الرسائل القصيرة إلى الأبد، يرجى تمكينه من الإعدادات',
+          'notificationsPermissionDeniedForever':
+              'تم رفض إذن الاشعارات إلى الأبد، يرجى تمكينه من الإعدادات',
           'enableLocationPermission': 'الرجاء تمكين اذن الموقع',
           'enableCameraPermission': 'الرجاء تمكين اذن الكاميرا',
           'enableStoragePermission': 'الرجاء تمكين اذن الذاكرة',
@@ -129,6 +132,7 @@ class Languages extends Translations {
           'enableMicPermission': 'الرجاء تمكين اذن المايكروفون',
           'enableContactsPermission': 'الرجاء تمكين اذن جهات الاتصال',
           'enableSmsPermission': 'الرجاء قبول إذن الرسائل القصيرة',
+          'enableNotificationsPermission': 'الرجاء قبول إذن الاشعارات',
           'firstAidTips1': 'غياب الوعى',
           'firstAidTips2': 'الانعاش القلبى الرئوى',
           'firstAidTips3': 'انسداد مجرى الهواء',
@@ -523,9 +527,14 @@ class Languages extends Translations {
           'pickGallery': 'Pick from gallery',
           'capturePhoto': 'Capture a photo',
           'smsPermission': 'SMS permission',
+          'notificationsPermission': 'Notifications permission',
           'smsPermissionDeniedForever':
               'SMS permission denied forever please enable it from the settings',
+          'notificationsPermissionDeniedForever':
+              'Notifications permission denied forever please enable it from the settings',
           'enableSmsPermission': 'Please accept SMS permission',
+          'enableNotificationPermission':
+              'Please accept Notifications permission',
           'yes': 'Yes',
           'no': 'No',
           'don\'tKnow': 'Don\'t know',

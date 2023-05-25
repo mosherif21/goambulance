@@ -1,24 +1,21 @@
+import 'dart:math';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'app_init.dart';
-
 final messaging = FirebaseMessaging.instance;
 Future<void> initializeNotification() async {
-  if (!AppInit.isWeb) {
-    // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    // FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-    //   if (kDebugMode) {
-    //     print("Handling a foreground message: ${message.notification?.title}");
-    //   }/
-    //   await _initializeMessaging();
-    //   await _createNotification(
-    //       message.notification!, Random().nextInt(10000));
-    // });
-    // await messaging.getInitialMessage();
-  }
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+    if (kDebugMode) {
+      print("Handling a foreground message: ${message.notification?.title}");
+    }
+    await _initializeMessaging();
+    await _createNotification(message.notification!, Random().nextInt(10000));
+  });
+  await messaging.getInitialMessage();
 }
 
 @pragma('vm:entry-point')

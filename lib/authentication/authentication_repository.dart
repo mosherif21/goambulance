@@ -117,10 +117,15 @@ class AuthenticationRepository extends GetxController {
             drawerAccountName.value = userDoc['name'].toString();
             userType = UserType.patient;
           }
+          if (AppInit.notificationToken != null) {
+            await fireStore
+                .collection('users')
+                .doc(userId)
+                .update({'notificationToken': AppInit.notificationToken!});
+          }
           final profileImageRef =
               fireStorage.ref().child('users/$userId/profilePic');
           drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
-
           if (kDebugMode) print('$userType');
         }
       });

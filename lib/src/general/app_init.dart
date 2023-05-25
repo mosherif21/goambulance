@@ -22,6 +22,7 @@ import '../features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../features/intro_screen/screens/on_boarding_screen.dart';
 import 'common_widgets/empty_scaffold.dart';
 import 'error_widgets/no_internet_error_widget.dart';
+import 'notifications.dart';
 
 class AppInit {
   static bool showOnBoard = false;
@@ -93,10 +94,14 @@ class AppInit {
         if (kDebugMode) print('ios app check initialized');
       }
       if (kDebugMode) print('Firebase initialized');
-      if (!isWeb) {
-        notificationToken = await FirebaseMessaging.instance.getToken();
+      try {
+        if (!isWeb) {
+          notificationToken = await FirebaseMessaging.instance.getToken();
+          await initializeNotification();
+        }
+      } catch (err) {
+        if (kDebugMode) print(err.toString());
       }
-      //await initializeNotification();
       Get.put(AuthenticationRepository(), permanent: true);
     }
   }

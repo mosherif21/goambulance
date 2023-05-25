@@ -51,8 +51,53 @@ exports.deletePendingRequests = functions.pubsub
             .collection("pendingRequests")
             .doc(doc.id);
         batch.delete(userPendingRef);
-      });
 
+        // Get the document from Firestore
+        admin.firestore()
+            .collection("fcmTokens").doc(patientId).get().then((snapshot) => {
+              // Check if the document exists
+              if (snapshot.exists) {
+                const fcmTokenData = snapshot.data();
+                if (fcmTokenData && fcmTokenData.fcmToken) {
+                  let notificationTitle ="";
+                  let notificationBody ="";
+                  if (fcmTokenData && fcmTokenData.currentLanguage=="ar") {
+                    notificationTitle ="تنبيه طلب سيارة إسعاف";
+                    notificationBody =
+                          "تم رفض طلب سيارة الإسعاف الخاص بك" +
+                          "من قبل المستشفى أو انقضت مهلته";
+                  } else {
+                    notificationTitle =
+                          "Ambulance request alert";
+                    notificationBody =
+                          "Your ambulance request was" +
+                          "rejected by the hospital or it has timed out";
+                  }
+                  const pay = {
+                    notification: {
+                      title: notificationTitle,
+                      body: notificationBody,
+                      badge: "1",
+                    },
+                    data: {
+                      body: notificationBody,
+                    },
+                  };
+                  const options = {
+                    priority: "high",
+                  };
+                  admin.messaging()
+                      .sendToDevice(fcmTokenData.fcmToken, pay, options)
+                      .then((response)=> {
+                        console
+                            .info("Successfully sent");
+                      }).catch(function(error) {
+                        console.warn("Error", error);
+                      });
+                }
+              }
+            });
+      });
       await Promise.all(deletionPromises);
       await batch.commit();
     });

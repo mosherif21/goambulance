@@ -58,43 +58,54 @@ exports.deletePendingRequests = functions.pubsub
               // Check if the document exists
               if (snapshot.exists) {
                 const fcmTokenData = snapshot.data();
-                if (fcmTokenData && fcmTokenData.fcmToken &&
-                    fcmTokenData.notificationsLang) {
-                  let notificationTitle ="";
-                  let notificationBody ="";
-                  if (fcmTokenData.notificationsLang === "ar") {
-                    notificationTitle ="تنبيه طلب سيارة إسعاف";
-                    notificationBody =
-                          "تم رفض طلب سيارة الإسعاف الخاص بك " +
-                          "من قبل المستشفى أو انقضت مهلته";
-                  } else {
-                    notificationTitle =
-                          "Ambulance request alert";
-                    notificationBody =
-                          "Your ambulance request was " +
-                          "rejected by the hospital or it has timed out";
+                if (fcmTokenData) {
+                  const tokens: Array<string> = [];
+                  if (fcmTokenData.fcmTokenAndroid) {
+                    tokens.push(fcmTokenData.fcmTokenAndroid);
                   }
-                  const pay = {
-                    notification: {
-                      title: notificationTitle,
-                      body: notificationBody,
-                      badge: "1",
-                    },
-                    data: {
-                      body: notificationBody,
-                    },
-                  };
-                  const options = {
-                    priority: "high",
-                  };
-                  admin.messaging()
-                      .sendToDevice(fcmTokenData.fcmToken, pay, options)
-                      .then((response)=> {
-                        console
-                            .info("Successfully sent");
-                      }).catch(function(error) {
-                        console.warn("Error", error);
-                      });
+                  if (fcmTokenData.fcmTokenIos) {
+                    tokens.push(fcmTokenData.fcmTokenIos);
+                  }
+                  if (fcmTokenData.fcmTokenWeb) {
+                    tokens.push(fcmTokenData.fcmTokenWeb);
+                  }
+                  if (tokens.length !== 0 && fcmTokenData.notificationsLang) {
+                    let notificationTitle ="";
+                    let notificationBody ="";
+                    if (fcmTokenData.notificationsLang === "ar") {
+                      notificationTitle ="تنبيه طلب سيارة إسعاف";
+                      notificationBody =
+                            "تم رفض طلب سيارة الإسعاف الخاص بك " +
+                            "من قبل المستشفى أو انقضت مهلته";
+                    } else {
+                      notificationTitle =
+                            "Ambulance request alert";
+                      notificationBody =
+                            "Your ambulance request was " +
+                            "rejected by the hospital or it has timed out";
+                    }
+                    const pay = {
+                      notification: {
+                        title: notificationTitle,
+                        body: notificationBody,
+                        badge: "1",
+                      },
+                      data: {
+                        body: notificationBody,
+                      },
+                    };
+                    const options = {
+                      priority: "high",
+                    };
+                    admin.messaging()
+                        .sendToDevice(tokens, pay, options)
+                        .then((response)=> {
+                          console
+                              .info("Successfully sent");
+                        }).catch(function(error) {
+                          console.warn("Error", error);
+                        });
+                  }
                 }
               }
             });

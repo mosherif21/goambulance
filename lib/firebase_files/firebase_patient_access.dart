@@ -347,10 +347,10 @@ class FirebasePatientDataAccess extends GetxController {
 
   Future<void> deleteFcmToken() async {
     try {
-      await fireStore
-          .collection('fcmTokens')
-          .doc(userId)
-          .update({'fcmToken': FieldValue.delete()});
+      await fireStore.collection('fcmTokens').doc(userId).update({
+        'fcmToken${AppInit.isAndroid ? 'Android' : AppInit.isIos ? 'Ios' : 'Web'}':
+            FieldValue.delete()
+      });
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (err) {

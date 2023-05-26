@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 
-class RequestHistoryItem extends StatelessWidget {
-  const RequestHistoryItem({
+import '../../../../../constants/enums.dart';
+
+class RequestItem extends StatelessWidget {
+  const RequestItem({
     Key? key,
     required this.onPressed,
     required this.hospitalName,
@@ -14,11 +16,11 @@ class RequestHistoryItem extends StatelessWidget {
   final Function onPressed;
   final String hospitalName;
   final String dateTime;
-  final String status;
+  final RequestStatus status;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(top: 10),
       child: Material(
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -34,9 +36,9 @@ class RequestHistoryItem extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10))),
+                    color: Colors.grey.shade100,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
                   padding: const EdgeInsets.all(10),
                   child: LineIcon.hospital(size: 40),
                 ),
@@ -64,14 +66,31 @@ class RequestHistoryItem extends StatelessWidget {
                       maxLines: 2,
                     ),
                     const SizedBox(height: 5),
-                    AutoSizeText(
-                      '${'status'.tr}: $status',
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black54,
-                      ),
-                      maxLines: 2,
+                    Row(
+                      children: [
+                        AutoSizeText(
+                          '${'status'.tr}: ',
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54,
+                          ),
+                          maxLines: 2,
+                        ),
+                        AutoSizeText(
+                          status == RequestStatus.requestCanceled
+                              ? 'canceled'.tr
+                              : 'completed'.tr,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: status == RequestStatus.requestCanceled
+                                ? Colors.red
+                                : Colors.green,
+                          ),
+                          maxLines: 2,
+                        ),
+                      ],
                     ),
                   ],
                 ),

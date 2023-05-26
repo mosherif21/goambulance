@@ -82,7 +82,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                               RequestStatus.requestAccepted
                           ? 'acceptedRequest'.tr
                           : widget.controller.requestStatus.value ==
-                                  RequestStatus.ambulanceAssigned
+                                  RequestStatus.requestAssigned
                               ? 'assignedRequest'.tr
                               : widget.controller.searchedHospitals.isEmpty
                                   ? 'searchingForHospitals'.tr

@@ -37,7 +37,7 @@ class HomeNavigationBar extends StatelessWidget {
         curve: Curves.ease,
       ),
       screenTransitionAnimation: const ScreenTransitionAnimation(
-        animateTabTransition: true,
+        animateTabTransition: false,
         curve: Curves.easeIn,
         duration: Duration(milliseconds: 100),
       ),

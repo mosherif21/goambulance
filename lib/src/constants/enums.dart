@@ -23,5 +23,7 @@ enum RequestStatus {
   notRequested,
   requestPending,
   requestAccepted,
-  ambulanceAssigned,
+  requestAssigned,
+  requestCompleted,
+  requestCanceled,
 }

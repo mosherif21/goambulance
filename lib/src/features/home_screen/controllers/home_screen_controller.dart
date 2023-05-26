@@ -27,11 +27,6 @@ class HomeScreenController extends GetxController {
     handleLocation()
         .whenComplete(() => handleSmsPermission())
         .whenComplete(() => handleNotificationsPermission());
-    //     .whenComplete(() {
-    //   if (AppInit.isAndroid) {
-    //     handleAndroidBatteryPermission();
-    //   }
-    // });
     super.onReady();
   }
 

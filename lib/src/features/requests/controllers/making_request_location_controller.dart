@@ -640,6 +640,7 @@ class MakingRequestLocationController extends GetxController {
 
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
     try {
+      currentChosenLatLng = latLng;
       final addressesInfo = await Geocoder2.getDataFromCoordinates(
         latitude: latLng.latitude,
         longitude: latLng.longitude,
@@ -647,7 +648,6 @@ class MakingRequestLocationController extends GetxController {
         language: isLangEnglish() ? 'en' : 'ar',
       );
       final address = addressesInfo.address;
-      currentChosenLatLng = latLng;
       currentChosenLocationAddress = address;
       checkAllowedLocation(countryCode: addressesInfo.countryCode);
       return address;
@@ -735,7 +735,7 @@ class MakingRequestLocationController extends GetxController {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
         googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 10));
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 40));
       }
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
@@ -252,6 +253,11 @@ Future<bool> handleLocationPermission() async {
     if (kDebugMode) print(err.toString());
   }
   return false;
+}
+
+Future<void> unFocusAll() async {
+  await SystemChannels.textInput.invokeMethod('TextInput.hide');
+  FocusScope.of(Get.context!).unfocus();
 }
 
 Future<bool> handleLocationService() async {

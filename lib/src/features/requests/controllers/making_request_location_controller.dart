@@ -52,7 +52,6 @@ class MakingRequestLocationController extends GetxController {
   //maps vars
   final mapPolyLines = <Polyline>{}.obs;
   final mapMarkers = <Marker>{}.obs;
-  final routeToHospital = Rx<Polyline?>(null);
   final routeToHospitalTime = ''.obs;
   Marker? requestLocationMarker;
   Marker? ambulanceMarker;
@@ -299,12 +298,7 @@ class MakingRequestLocationController extends GetxController {
 
   void clearHospitalRoute() {
     routeToHospitalTime.value = '';
-    if (routeToHospital.value != null) {
-      if (mapPolyLines.contains(routeToHospital.value)) {
-        mapPolyLines.remove(routeToHospital);
-      }
-      routeToHospital.value = null;
-    }
+    mapPolyLines.clear();
     if (hospitalMarker != null) {
       if (mapMarkers.contains(hospitalMarker)) {
         googleMapController.hideMarkerInfoWindow(hospitalMarker!.markerId);
@@ -550,7 +544,7 @@ class MakingRequestLocationController extends GetxController {
               .toList();
           latLngPoints.insert(0, fromLocation);
           latLngPoints.insert(latLngPoints.length, toLocation);
-          routeToHospital.value = Polyline(
+          final routePolyLine = Polyline(
             polylineId: PolylineId(routeId),
             color: Colors.black,
             points: latLngPoints,
@@ -561,9 +555,8 @@ class MakingRequestLocationController extends GetxController {
             geodesic: true,
           );
           animateToLatLngBounds(
-              latLngBounds:
-                  getLatLngBounds(latLngList: routeToHospital.value!.points));
-          mapPolyLines.add(routeToHospital.value!);
+              latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
+          mapPolyLines.add(routePolyLine);
         }
       } else {
         if (kDebugMode) {
@@ -712,10 +705,9 @@ class MakingRequestLocationController extends GetxController {
   void enableMap() => mapEnabled.value = true;
 
   void onLocationButtonPress() {
-    if (routeToHospital.value != null) {
+    if (mapPolyLines.isNotEmpty) {
       animateToLatLngBounds(
-          latLngBounds:
-              getLatLngBounds(latLngList: routeToHospital.value!.points));
+          latLngBounds: getLatLngBounds(latLngList: mapPolyLines.first.points));
     } else {
       if (locationAvailable.value) {
         animateCamera(locationLatLng: currentLocationGetter());

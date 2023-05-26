@@ -15,7 +15,7 @@ class MyLocationButton extends StatelessWidget {
     return Obx(
       () => AnimatedOpacity(
         opacity: controller.locationAvailable.value ||
-                controller.routeToHospital.value != null
+                controller.mapPolyLines.isNotEmpty
             ? 1
             : 0,
         duration: const Duration(milliseconds: 400),

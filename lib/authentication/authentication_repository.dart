@@ -117,10 +117,10 @@ class AuthenticationRepository extends GetxController {
             drawerAccountName.value = userDoc['name'].toString();
             userType = UserType.patient;
           }
-          if (AppInit.notificationToken != null) {
+          if (AppInit.notificationToken.isNotEmpty) {
             await fireStore.collection('fcmTokens').doc(userId).set({
               'fcmToken${AppInit.isAndroid ? 'Android' : AppInit.isIos ? 'Ios' : 'Web'}':
-                  AppInit.notificationToken!,
+                  AppInit.notificationToken,
               'notificationsLang': isLangEnglish() ? 'en' : 'ar',
             });
           }

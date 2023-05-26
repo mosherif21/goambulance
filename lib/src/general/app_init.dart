@@ -41,7 +41,7 @@ class AppInit {
   static InternetConnectionStatus initialInternetConnectionStatus =
       InternetConnectionStatus.disconnected;
   static Transition transition = Transition.leftToRightWithFade;
-  static late final String? notificationToken;
+  static String notificationToken = '';
 
   static final currentAuthType = AuthType.emailLogin.obs;
 
@@ -94,11 +94,13 @@ class AppInit {
         if (kDebugMode) print('ios app check initialized');
       }
       if (kDebugMode) print('Firebase initialized');
-      try {
-        notificationToken = await FirebaseMessaging.instance.getToken();
-        initializeNotification();
-      } catch (err) {
-        if (kDebugMode) print(err.toString());
+      if (!AppInit.isWeb) {
+        try {
+          notificationToken = await FirebaseMessaging.instance.getToken() ?? '';
+          initializeNotification();
+        } catch (err) {
+          if (kDebugMode) print(err.toString());
+        }
       }
       Get.put(AuthenticationRepository(), permanent: true);
     }

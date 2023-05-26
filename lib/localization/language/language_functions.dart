@@ -56,7 +56,8 @@ Future<void> setLocaleLanguage(String languageCode) async {
     showLoadingScreen();
     await Get.updateLocale(_locale(languageCode));
     await setLocale(languageCode);
-    if (Get.isRegistered<FirebasePatientDataAccess>()) {
+    if (Get.isRegistered<FirebasePatientDataAccess>() &&
+        AppInit.notificationToken.isNotEmpty) {
       FirebasePatientDataAccess.instance.updateCurrentLanguage();
     }
     hideLoadingScreen();

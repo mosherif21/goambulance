@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../general/general_functions.dart';
+import '../components/requests_history/components/request_history_item.dart';
 
 class PreviousRequestsPage extends StatelessWidget {
   const PreviousRequestsPage({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class PreviousRequestsPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: AutoSizeText(
-          'requests'.tr,
+          'recentRequests'.tr,
           maxLines: 1,
         ),
         titleTextStyle: const TextStyle(
@@ -26,14 +27,22 @@ class PreviousRequestsPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+          padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [SizedBox(height: screenHeight * 0.1)],
-              ),
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return index != 16
+                    ? RequestHistoryItem(
+                        onPressed: () {},
+                        hospitalName: 'Royal Hospital',
+                        dateTime: 'Apr 17 2023 1:54 PM',
+                        status: 'Pending',
+                      )
+                    : SizedBox(height: screenHeight * 0.07);
+              },
+              itemCount: 17,
+              shrinkWrap: true,
             ),
           ),
         ),

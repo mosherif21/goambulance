@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../general/common_widgets/rounded_image_button.dart';
 import '../../../general/general_functions.dart';
-import '../../requests/components/making_request/normal_request_screen.dart';
+import '../../requests/components/making_request/components/normal_request_screen.dart';
 import '../../sos_message/screens/sos_message_screen.dart';
 
 class ServicesButtons extends StatelessWidget {

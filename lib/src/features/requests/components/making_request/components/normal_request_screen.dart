@@ -5,18 +5,18 @@ import 'package:get/get.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
-import '../../../../general/common_widgets/back_button.dart';
-import '../../../../general/common_widgets/dropdown_list.dart';
-import '../../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../../../../general/common_widgets/regular_card.dart';
-import '../../../../general/common_widgets/regular_elevated_button.dart';
-import '../../../../general/common_widgets/rounded_elevated_button.dart';
-import '../../../../general/common_widgets/text_form_field_multiline.dart';
-import '../../../../general/common_widgets/text_header.dart';
-import '../../../account/components/newAccount/add_disease.dart';
-import '../../../account/components/newAccount/medical_history_item.dart';
-import '../../../account/components/newAccount/no_medical_history.dart';
-import '../../controllers/making_request_information_controller.dart';
+import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/common_widgets/dropdown_list.dart';
+import '../../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../../../general/common_widgets/regular_card.dart';
+import '../../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../../general/common_widgets/rounded_elevated_button.dart';
+import '../../../../../general/common_widgets/text_form_field_multiline.dart';
+import '../../../../../general/common_widgets/text_header.dart';
+import '../../../../account/components/newAccount/add_disease.dart';
+import '../../../../account/components/newAccount/medical_history_item.dart';
+import '../../../../account/components/newAccount/no_medical_history.dart';
+import '../../../controllers/making_request_information_controller.dart';
 
 class NormalRequestScreen extends StatelessWidget {
   const NormalRequestScreen({Key? key}) : super(key: key);

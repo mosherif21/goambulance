@@ -515,6 +515,7 @@ class AuthenticationRepository extends GetxController {
   Future<FunctionStatus> logoutAuthUser() async {
     try {
       await signOutGoogle();
+      await _auth.signOut();
       isUserRegistered = false;
       isUserLoggedIn = false;
       isUserPhoneRegistered = false;

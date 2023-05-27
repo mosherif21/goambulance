@@ -12,7 +12,7 @@ class HomeNavigationBar extends StatelessWidget {
       context,
       margin: const EdgeInsets.all(15),
       bottomScreenMargin: 0,
-      controller: homeScreenController.homeBottomTabController,
+      controller: homeScreenController.homeBottomNavController,
       screens: homeScreenController.buildScreens(),
       items: homeScreenController.navBarsItems(),
       confineInSafeArea: true,

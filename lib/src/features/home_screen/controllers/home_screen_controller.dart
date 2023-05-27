@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
+import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
@@ -18,7 +19,7 @@ import '../../requests/screens/previous_requests_page.dart';
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
 
-  final homeBottomTabController = PersistentTabController(initialIndex: 0);
+  final homeBottomNavController = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
 
@@ -27,6 +28,13 @@ class HomeScreenController extends GetxController {
     handleLocation()
         .whenComplete(() => handleSmsPermission())
         .whenComplete(() => handleNotificationsPermission());
+    homeBottomNavController.addListener(() {
+      if (homeBottomNavController.index == 1 &&
+          Get.isRegistered<RequestsHistoryController>()) {
+        RequestsHistoryController.instance.getRequestsHistory();
+      }
+    });
+
     super.onReady();
   }
 
@@ -106,7 +114,7 @@ class HomeScreenController extends GetxController {
 
   @override
   void onClose() {
-    homeBottomTabController.dispose();
+    homeBottomNavController.dispose();
     super.onClose();
   }
 }

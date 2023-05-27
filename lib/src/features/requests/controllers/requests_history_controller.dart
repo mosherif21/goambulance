@@ -34,7 +34,6 @@ class RequestsHistoryController extends GetxController {
     userId = AuthenticationRepository.instance.fireUser.value!.uid;
     _firestore = FirebaseFirestore.instance;
     firestoreUserRef = _firestore.collection('users').doc(userId);
-    getRequestsHistory();
     super.onReady();
   }
 

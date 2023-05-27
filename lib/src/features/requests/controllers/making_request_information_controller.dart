@@ -64,7 +64,7 @@ class MakingRequestInformationController extends GetxController {
     if (highlightPatientCondition.value || highlightRequest.value) {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {
-      await unFocusAll();
+      FocusScope.of(Get.context!).unfocus();
       Get.to(
         () => const NormalRequestLocationPage(),
         transition: getPageTransition(),

@@ -23,14 +23,13 @@ class EmptyRequestsHistory extends StatelessWidget {
             fit: BoxFit.contain,
             height: screenHeight * 0.4,
           ),
-          const SizedBox(height: 10),
           AutoSizeText(
             'noRequests'.tr,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
             ),
-            maxLines: 2,
+            maxLines: 1,
           ),
         ],
       ),

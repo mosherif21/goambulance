@@ -25,13 +25,54 @@ exports.deletePendingRequests = functions.pubsub
       const batch = admin.firestore().batch();
 
       querySnapshot.forEach((doc) => {
+        const requestId = doc.id;
         const hospitalId = doc.data().hospitalId;
-        const patientId = doc.data().patientId;
+        const userId = doc.data().userId;
+
+        // Get the necessary fields from the pending request
+        const {
+          requestLocation,
+          hospitalLocation,
+          isUser,
+          patientCondition,
+          timestamp,
+          backupNumber,
+        } = doc.data();
+
+        const canceledRequestRef = admin.firestore()
+            .collection("canceledRequests")
+            .doc(requestId);
+        batch.set(canceledRequestRef, {
+          requestLocation,
+          hospitalLocation,
+          hospitalId,
+          isUser,
+          userId,
+          patientCondition,
+          timestamp,
+          backupNumber,
+          cancelReason: "timedOut",
+        });
+
+        const userCanceledRef = admin.firestore()
+            .collection("users")
+            .doc(userId)
+            .collection("canceledRequests")
+            .doc(requestId);
+        batch.set(userCanceledRef, {});
+
+        const hospitalCanceledRef = admin.firestore()
+            .collection("hospitals")
+            .doc(hospitalId)
+            .collection("canceledRequests")
+            .doc(requestId);
+        batch.set(hospitalCanceledRef, {});
+
         const docRef = doc.ref;
         const hospitalDocRef = admin.firestore()
             .collection("hospitals").doc(hospitalId);
         const patientDocRef = admin.firestore()
-            .collection("users").doc(patientId);
+            .collection("users").doc(userId);
 
         // Delete "diseases" subCollection within the "pendingRequests" document
         const diseasesRef = docRef.collection("diseases");
@@ -54,7 +95,7 @@ exports.deletePendingRequests = functions.pubsub
 
         // Get the document from Firestore
         admin.firestore()
-            .collection("fcmTokens").doc(patientId).get().then((snapshot) => {
+            .collection("fcmTokens").doc(userId).get().then((snapshot) => {
               // Check if the document exists
               if (snapshot.exists) {
                 const fcmTokenData = snapshot.data();

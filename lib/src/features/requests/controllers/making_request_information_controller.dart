@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/general/app_init.dart';
 
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
@@ -68,9 +66,6 @@ class MakingRequestInformationController extends GetxController {
     } else {
       if (Get.context != null) {
         FocusScope.of(Get.context!).requestFocus(FocusNode());
-      }
-      if (AppInit.isWeb) {
-        await SystemChannels.textInput.invokeMethod('TextInput.hide');
       }
       Get.to(
         () => const NormalRequestLocationPage(),

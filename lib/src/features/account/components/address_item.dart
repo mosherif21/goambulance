@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../general/general_functions.dart';
 import 'models.dart';
@@ -44,7 +45,7 @@ class LoadAddressItem extends StatelessWidget {
               ),
               const SizedBox(height: 10.0),
               AutoSizeText(
-                addressItem.streetName,
+                'Street'.tr + addressItem.streetName,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 12,
@@ -54,7 +55,7 @@ class LoadAddressItem extends StatelessWidget {
                 maxLines: 1,
               ),
               AutoSizeText(
-                addressItem.apartmentNumber,
+                'apartmentNumber'.tr + addressItem.apartmentNumber,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 12,
@@ -64,7 +65,7 @@ class LoadAddressItem extends StatelessWidget {
                 maxLines: 1,
               ),
               AutoSizeText(
-                addressItem.floorNumber,
+                'floorNumber'.tr + addressItem.floorNumber,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 12,
@@ -74,7 +75,7 @@ class LoadAddressItem extends StatelessWidget {
                 maxLines: 1,
               ),
               AutoSizeText(
-                addressItem.areaName,
+                'area'.tr + addressItem.areaName,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 12,

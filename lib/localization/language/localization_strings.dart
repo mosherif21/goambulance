@@ -325,6 +325,10 @@ class Languages extends Translations {
           'canceled': 'ألغيت',
           'addAddressTitle': 'يمكنك اضافة عنوان جديد من هنا ',
           'noRequests': 'ليس لديك أي طلبات سابقة',
+          'Street': 'اسم الشارع: ',
+          'apartmentNumber': "رقم العقار: ",
+          'floorNumber': "رقم الطابق: ",
+          'area': "المنطقة: ",
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -658,6 +662,10 @@ class Languages extends Translations {
           'aboutUsTitle4': 'Our Website',
           'addAddressTitle': 'You Can Add a New Address Here',
           'noAddressesSaved': 'No Saved Addresses',
+          'Street': 'Street Name: ',
+          'apartmentNumber': "Apartment Number: ",
+          'floorNumber': "Floor Number: ",
+          'area': "Area: ",
         },
       };
 }

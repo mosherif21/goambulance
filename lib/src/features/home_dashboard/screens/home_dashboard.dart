@@ -122,16 +122,9 @@ class HomeDashBoard extends StatelessWidget {
                       const ServicesButtons(),
                       const SizedBox(height: 15),
                       TextHeader(
-                        headerText: 'recentRequests'.tr,
+                        headerText: 'sponsors'.tr,
                         fontSize: 24,
                       ),
-                      // TextHeaderWithButton(
-                      //   headerText: 'recentRequests'.tr,
-                      //   onPressed: () => homeScreenController
-                      //       .homeBottomTabController
-                      //       .jumpToTab(2),
-                      //   buttonText: 'viewAll'.tr,
-                      // ),
                       CarouselSlider(
                         carouselController:
                             homeScreenController.carouselController,
@@ -191,7 +184,6 @@ class HomeDashBoard extends StatelessWidget {
                           );
                         }).toList(),
                       ),
-
                       SizedBox(height: screenHeight * 0.1)
                     ],
                   ),

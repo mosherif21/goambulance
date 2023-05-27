@@ -24,7 +24,7 @@ class ChooseHospitalsList extends StatelessWidget {
                   // footerTriggerDistance: 500,
                   // enableScrollWhenRefreshCompleted: true,
                   enableLoadingWhenFailed: true,
-                  hideFooterWhenNotFull: false,
+                  hideFooterWhenNotFull: true,
                   enableRefreshVibrate: true,
                   enableLoadMoreVibrate: true,
                   child: SmartRefresher(

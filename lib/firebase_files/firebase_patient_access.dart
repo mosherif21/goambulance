@@ -347,6 +347,7 @@ class FirebasePatientDataAccess extends GetxController {
         requestLocation: requestInfo.requestLocation,
         hospitalLocation: requestInfo.hospitalLocation,
         cancelReason: 'userCanceled',
+        hospitalName: requestInfo.hospitalName,
       );
       cancelRequestBatch.set(canceledRequestRef, cancelRequestInfo.toJson());
       cancelRequestBatch.set(

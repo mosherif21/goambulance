@@ -51,65 +51,68 @@ class OngoingRequestItem extends StatelessWidget {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AutoSizeText(
-                          requestInfo.hospitalName,
-                          style: const TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.black,
+                    Expanded(
+                      flex: 8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AutoSizeText(
+                            requestInfo.hospitalName,
+                            style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black,
+                                overflow: TextOverflow.ellipsis),
+                            maxLines: 1,
                           ),
-                          maxLines: 2,
-                        ),
-                        const SizedBox(height: 5),
-                        AutoSizeText(
-                          requestInfo.requestDateTime,
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black54,
-                          ),
-                          maxLines: 2,
-                        ),
-                        const SizedBox(height: 5),
-                        Row(
-                          children: [
-                            AutoSizeText(
-                              '${'status'.tr}: ',
-                              style: const TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black54,
-                              ),
-                              maxLines: 2,
+                          const SizedBox(height: 5),
+                          AutoSizeText(
+                            requestInfo.requestDateTime,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54,
                             ),
-                            AutoSizeText(
-                              requestInfo.requestStatus ==
-                                      RequestStatus.requestPending
-                                  ? 'pending'.tr
-                                  : requestInfo.requestStatus ==
-                                          RequestStatus.requestAccepted
-                                      ? 'accepted'.tr
-                                      : 'assigned'.tr,
-                              style: TextStyle(
+                            maxLines: 2,
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              AutoSizeText(
+                                '${'status'.tr}: ',
+                                style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: requestInfo.requestStatus ==
-                                          RequestStatus.requestPending
-                                      ? Colors.orange
-                                      : Colors.blue),
-                              maxLines: 2,
-                            ),
-                          ],
-                        ),
-                      ],
+                                  color: Colors.black54,
+                                ),
+                                maxLines: 2,
+                              ),
+                              AutoSizeText(
+                                requestInfo.requestStatus ==
+                                        RequestStatus.requestPending
+                                    ? 'pending'.tr
+                                    : requestInfo.requestStatus ==
+                                            RequestStatus.requestAccepted
+                                        ? 'accepted'.tr
+                                        : 'assigned'.tr,
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: requestInfo.requestStatus ==
+                                            RequestStatus.requestPending
+                                        ? Colors.orange
+                                        : Colors.blue),
+                                maxLines: 2,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     const Spacer(),
                     const Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.black,
+                      color: Colors.black54,
                     ),
                   ],
                 ),

@@ -34,6 +34,7 @@ exports.deletePendingRequests = functions.pubsub
           requestLocation,
           hospitalLocation,
           isUser,
+          hospitalName,
           patientCondition,
           timestamp,
           backupNumber,
@@ -45,6 +46,7 @@ exports.deletePendingRequests = functions.pubsub
         batch.set(canceledRequestRef, {
           requestLocation,
           hospitalLocation,
+          hospitalName,
           hospitalId,
           isUser,
           userId,

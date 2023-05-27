@@ -41,12 +41,14 @@ class RequestModel {
   final GeoPoint requestLocation;
   final GeoPoint hospitalLocation;
   final String hospitalId;
+  final String hospitalName;
   final String status;
   final DocumentReference requestRef;
   RequestModel({
     required this.requestRef,
     required this.userId,
     required this.hospitalId,
+    required this.hospitalName,
     required this.hospitalRequestInfo,
     required this.timestamp,
     required this.status,
@@ -55,6 +57,7 @@ class RequestModel {
   });
   Map<String, dynamic> toJson() => {
         'hospitalId': hospitalId,
+        'hospitalName': hospitalName,
         'userId': userId,
         'isUser': hospitalRequestInfo.isUser,
         'patientCondition': hospitalRequestInfo.patientCondition,
@@ -73,12 +76,14 @@ class CanceledRequestModel {
   final GeoPoint requestLocation;
   final GeoPoint hospitalLocation;
   final String hospitalId;
+  final String hospitalName;
   final String cancelReason;
   final DocumentReference requestRef;
   CanceledRequestModel({
     required this.requestRef,
     required this.userId,
     required this.hospitalId,
+    required this.hospitalName,
     required this.hospitalRequestInfo,
     required this.timestamp,
     required this.requestLocation,
@@ -87,6 +92,7 @@ class CanceledRequestModel {
   });
   Map<String, dynamic> toJson() => {
         'hospitalId': hospitalId,
+        'hospitalName': hospitalName,
         'userId': userId,
         'isUser': hospitalRequestInfo.isUser,
         'patientCondition': hospitalRequestInfo.patientCondition,

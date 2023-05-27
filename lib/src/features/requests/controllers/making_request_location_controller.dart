@@ -169,6 +169,7 @@ class MakingRequestLocationController extends GetxController {
         hospitalLocation: GeoPoint(selectedHospital.value!.location.latitude,
             selectedHospital.value!.location.longitude),
         status: 'pending',
+        hospitalName: selectedHospital.value!.name,
       );
       final functionStatus = await firebasePatientDataAccess.requestHospital(
           requestInfo: requestData);

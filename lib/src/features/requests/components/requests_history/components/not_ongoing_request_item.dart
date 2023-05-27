@@ -40,63 +40,66 @@ class RequestItem extends StatelessWidget {
                   child: LineIcon.hospital(size: 40),
                 ),
                 const SizedBox(width: 10.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeText(
-                      requestInfo.hospitalName,
-                      style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black,
-                      ),
-                      maxLines: 2,
-                    ),
-                    const SizedBox(height: 5),
-                    AutoSizeText(
-                      requestInfo.requestDateTime,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black54,
-                      ),
-                      maxLines: 2,
-                    ),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        AutoSizeText(
-                          '${'status'.tr}: ',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black54,
-                          ),
-                          maxLines: 2,
+                Expanded(
+                  flex: 7,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        requestInfo.hospitalName,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black,
                         ),
-                        AutoSizeText(
-                          requestInfo.requestStatus ==
-                                  RequestStatus.requestCanceled
-                              ? 'canceled'.tr
-                              : 'completed'.tr,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: requestInfo.requestStatus ==
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 5),
+                      AutoSizeText(
+                        requestInfo.requestDateTime,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black54,
+                        ),
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'status'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black54,
+                            ),
+                            maxLines: 2,
+                          ),
+                          AutoSizeText(
+                            requestInfo.requestStatus ==
                                     RequestStatus.requestCanceled
-                                ? Colors.red
-                                : Colors.green,
+                                ? 'canceled'.tr
+                                : 'completed'.tr,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: requestInfo.requestStatus ==
+                                      RequestStatus.requestCanceled
+                                  ? Colors.red
+                                  : Colors.green,
+                            ),
+                            maxLines: 2,
                           ),
-                          maxLines: 2,
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 const Icon(
                   Icons.arrow_forward_ios,
-                  color: Colors.black,
+                  color: Colors.black54,
                 ),
               ],
             ),

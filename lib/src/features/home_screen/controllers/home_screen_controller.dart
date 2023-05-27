@@ -34,7 +34,6 @@ class HomeScreenController extends GetxController {
         RequestsHistoryController.instance.getRequestsHistory();
       }
     });
-
     super.onReady();
   }
 

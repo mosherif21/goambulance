@@ -322,6 +322,7 @@ class Languages extends Translations {
           'waitingForAcceptance': 'في انتظار قبول طلب الإسعاف الخاص بك...',
           'waitingForAssign': 'في انتظار تخصيص سيارة الإسعاف الخاصة بك...',
           'canceled': 'ألغيت',
+          'addAddressTitle': 'يمكنك اضافة عنوان جديد من هنا ',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -651,6 +652,8 @@ class Languages extends Translations {
           'aboutUsTitle2': 'Privacy Policy',
           'aboutUsTitle3': 'FAQ',
           'aboutUsTitle4': 'Our Website',
+          'addAddressTitle': 'You Can Add a New Address Here',
+          'noAddressesSaved': 'No Saved Addresses',
         },
       };
 }

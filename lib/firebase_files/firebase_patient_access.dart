@@ -168,6 +168,32 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
+  Future<FunctionStatus> addNewAddress({
+    required List<AddressItem> addressesList,
+  }) async {
+    try {
+      final userDataBatch = fireStore.batch();
+      if (addressesList.isNotEmpty) {
+        final fireStoreUserAddressRef =
+            firestoreUserRef.collection('addresses');
+        for (AddressItem addressItem in addressesList) {
+          {
+            final addressRef = fireStoreUserAddressRef.doc();
+            userDataBatch.set(addressRef, addressItem.toJson());
+          }
+        }
+      }
+      await userDataBatch.commit();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+      return FunctionStatus.failure;
+    }
+  }
+
   Future<void> updateCurrentLanguage() async {
     try {
       await fireStore.collection('fcmTokens').doc(userId).update({

@@ -97,6 +97,20 @@ class MedicalHistoryModel {
       };
 }
 
+class SavedAddressesModel {
+  final String name;
+  final List<AddressItem> addressesList;
+
+  SavedAddressesModel({
+    required this.name,
+    required this.addressesList,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'Name': name,
+      };
+}
+
 class DiseaseItem {
   final String diseaseName;
   final String diseaseMedicines;
@@ -115,18 +129,30 @@ class DiseaseItem {
 }
 
 class AddressItem {
-  final String addressName;
-  final String address;
+  final String locationName;
+  final String streetName;
+  final String apartmentNumber;
+  final String floorNumber;
+  final String areaName;
+  final String? additionalInfo;
 
   AddressItem({
-    required this.addressName,
-    required this.address,
+    required this.locationName,
+    required this.streetName,
+    required this.apartmentNumber,
+    required this.floorNumber,
+    required this.areaName,
+    this.additionalInfo,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'addressName': addressName,
-      'address': address,
+      'locationName': locationName,
+      'streetName': streetName,
+      'apartmentNumber': apartmentNumber,
+      'floorNumber': floorNumber,
+      'areaName': areaName,
+      'additionalInfo': additionalInfo,
     };
   }
 }

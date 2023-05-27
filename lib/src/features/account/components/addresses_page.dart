@@ -2,10 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/add_address_page.dart';
+import 'package:goambulance/src/features/account/components/address_item.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
+import '../../../general/common_widgets/regular_card.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../controllers/addresses_controller.dart';
+import 'loading_addresses.dart';
 import 'no_addresses_saved.dart';
 
 class AccountAddressesPage extends StatelessWidget {
@@ -37,7 +40,37 @@ class AccountAddressesPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const NoAddressesSaved(),
+                  Obx(() => RegularCard(
+                      highlightRed: false,
+                      child: SingleChildScrollView(
+                        child: !controller.addressesLoaded.value
+                            ? const LoadingAddresses()
+                            : controller.addressesList.isNotEmpty
+                                ? Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(8),
+                                        child: AutoSizeText(
+                                          'addedDiseases'.tr,
+                                          style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w800,
+                                          ),
+                                          maxLines: 2,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 10),
+                                      for (var addressItem
+                                          in controller.addressesList)
+                                        LoadAddressItem(
+                                            addressItem: addressItem,
+                                            onDeletePressed: () => controller
+                                                .addressesList
+                                                .remove(addressItem)),
+                                    ],
+                                  )
+                                : const NoAddressesSaved(),
+                      ))),
                   RoundedElevatedButton(
                       buttonText: 'Add New Address',
                       onPressed: () {
@@ -45,49 +78,6 @@ class AccountAddressesPage extends StatelessWidget {
                       },
                       enabled: true,
                       color: Colors.indigo)
-                  // Obx(() =>
-                  //     RegularCard(highlightRed: false, child: SingleChildScrollView(child:!controller.diseasesLoaded.value
-                  //         ? const LoadingAddresses()
-                  //         : controller.addressesList.isNotEmpty
-                  //         ? Column(
-                  //       children: [
-                  //         Padding(
-                  //           padding: const EdgeInsets.all(8),
-                  //           child: AutoSizeText(
-                  //             'addedDiseases'.tr,
-                  //             style: const TextStyle(
-                  //               fontSize: 18,
-                  //               fontWeight: FontWeight.w800,
-                  //             ),
-                  //             maxLines: 2,
-                  //           ),
-                  //         ),
-                  //         const SizedBox(height: 10),
-                  //         for (var diseaseItem
-                  //         in controller.addressesList)
-                  //           MedicalHistoryItem(
-                  //             diseaseItem: diseaseItem,
-                  //             onDeletePressed: () => controller
-                  //                 .diseasesList
-                  //                 .remove(diseaseItem),
-                  //           ),
-                  //         Padding(
-                  //           padding: const EdgeInsets.only(
-                  //               left: 15.0, right: 15.0),
-                  //           child: RoundedElevatedButton(
-                  //             buttonText:
-                  //             'addAllergiesOrDiseases'.tr,
-                  //             onPressed: () => RegularBottomSheet
-                  //                 .showRegularBottomSheet(
-                  //               AddDisease(controller: controller),
-                  //             ),
-                  //             enabled: true,
-                  //             color: Colors.black,
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     )
-                  //         : NoMedicalHistory(controller: controller),,)))
                 ],
               ),
             ),

@@ -38,7 +38,7 @@ class AddAddressPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AutoSizeText(
-                    'editUserInfo'.tr,
+                    'addAddressTitle'.tr,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
@@ -57,7 +57,7 @@ class AddAddressPage extends StatelessWidget {
                         TextFormFieldRegular(
                           labelText: 'Address Name'.tr,
                           hintText: 'Example : Home'.tr,
-                          prefixIconData: Icons.person,
+                          prefixIconData: Icons.home_work,
                           textController: controller.locationNameTextController,
                           inputType: InputType.text,
                           editable: true,
@@ -72,12 +72,95 @@ class AddAddressPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TextHeader(
-                            headerText: 'Enter Your Address', fontSize: 18),
+                            headerText: 'Enter Your Street Name', fontSize: 18),
+                        TextFormFieldRegular(
+                          labelText: 'Street Name'.tr,
+                          hintText: 'Example : Abu kir'.tr,
+                          prefixIconData: Icons.add_road,
+                          textController: controller.streetNameTextController,
+                          inputType: InputType.text,
+                          editable: true,
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TextHeader(
+                            headerText: 'Enter Your Apartment Number',
+                            fontSize: 18),
+                        TextFormFieldRegular(
+                          labelText: 'Apartment Number'.tr,
+                          hintText: 'Example : 6'.tr,
+                          prefixIconData: Icons.house,
+                          textController:
+                              controller.apartmentNumberTextController,
+                          inputType: InputType.text,
+                          editable: true,
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TextHeader(
+                            headerText: 'Enter Your Floor Number',
+                            fontSize: 18),
+                        TextFormFieldRegular(
+                          labelText: 'Floor Number'.tr,
+                          hintText: 'Example : 1002'.tr,
+                          prefixIconData: Icons.numbers,
+                          textController: controller.floorNumberTextController,
+                          inputType: InputType.text,
+                          editable: true,
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TextHeader(
+                            headerText: 'Enter Your Area Name', fontSize: 18),
                         TextFormFieldRegular(
                           labelText: 'address'.tr,
-                          hintText: 'Example: 6 ش عبد المجيد'.tr,
-                          prefixIconData: Icons.email,
-                          textController: controller.addressesTextController,
+                          hintText: 'Example: Smouha'.tr,
+                          prefixIconData: Icons.map,
+                          textController: controller.areaNameTextController,
+                          inputType: InputType.text,
+                          editable: true,
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const TextHeader(
+                            headerText: 'Enter Any Additional Information',
+                            fontSize: 18),
+                        TextFormFieldRegular(
+                          labelText: 'Additional Information'.tr,
+                          hintText:
+                              'Example : there is a pharmacy under the building '
+                                  .tr,
+                          prefixIconData: Icons.info,
+                          textController:
+                              controller.additionalInfoTextController,
                           inputType: InputType.text,
                           editable: true,
                           textInputAction: TextInputAction.next,
@@ -86,7 +169,9 @@ class AddAddressPage extends StatelessWidget {
                           padding: const EdgeInsets.all(15.0),
                           child: RegularElevatedButton(
                             buttonText: 'save'.tr,
-                            onPressed: () {},
+                            onPressed: () {
+                              controller.addNewAddress();
+                            },
                             enabled: true,
                             color: kDefaultColor,
                           ),

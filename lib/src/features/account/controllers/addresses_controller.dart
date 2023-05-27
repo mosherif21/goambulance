@@ -5,17 +5,27 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 
 import '../../../../authentication/authentication_repository.dart';
-import '../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../../firebase_files/firebase_patient_access.dart';
+import '../../../constants/enums.dart';
+import '../../../general/general_functions.dart';
 
 class AddressesController extends GetxController {
   static AddressesController get instance => Get.find();
 
   final locationNameTextController = TextEditingController();
-  final addressesTextController = TextEditingController();
+  final streetNameTextController = TextEditingController();
+  final apartmentNumberTextController = TextEditingController();
+  final floorNumberTextController = TextEditingController();
+  final areaNameTextController = TextEditingController();
+  final additionalInfoTextController = TextEditingController();
   final savedAddressesScrollController = ScrollController();
 
   var addressesList = <AddressItem>[].obs;
-  final addressName = ''.obs;
+  final locationName = ''.obs;
+  final apartmentNumber = ''.obs;
+  final floorNumber = ''.obs;
+  final areaName = ''.obs;
+  final additionalInfo = ''.obs;
   var currentAddressesDocIds = <String>[];
 
   late final String userId;
@@ -47,9 +57,12 @@ class AddressesController extends GetxController {
           final addressesData = addressesDoc.data();
           addressesList.add(
             AddressItem(
-              addressName: addressesData['diseaseName'].toString(),
-              address: addressesData['diseaseMedicines'].toString(),
-            ),
+                locationName: addressesData['locationName'].toString(),
+                streetName: addressesData['streetName'].toString(),
+                apartmentNumber: addressesData['apartmentNumber'].toString(),
+                floorNumber: addressesData['floorNumber'].toString(),
+                areaName: addressesData['areaName'].toString(),
+                additionalInfo: addressesData['additionalInfo'].toString()),
           );
         }
         addressesLoaded.value = true;
@@ -61,21 +74,79 @@ class AddressesController extends GetxController {
     }
   }
 
-  void addDiseaseItem() {
-    if (addressName.value.isNotEmpty) {
-      final address = addressesTextController.text.trim();
-      addressesList
-          .add(AddressItem(addressName: addressName.value, address: address));
-      locationNameTextController.clear();
-      addressesTextController.clear();
-      RegularBottomSheet.hideBottomSheet();
+  void addNewAddress() async {
+    showLoadingScreen();
+    if (locationName.value.isNotEmpty) {
+      final locationName = locationNameTextController.text.trim();
+      final streetName = streetNameTextController.text.trim();
+      final apartmentNumber = apartmentNumberTextController.text.trim();
+      final floorNumber = floorNumberTextController.text.trim();
+      final areaName = areaNameTextController.text.trim();
+      final additionalInfo = additionalInfoTextController.text.trim();
+      addressesList.add(AddressItem(
+          locationName: locationName,
+          streetName: streetName,
+          apartmentNumber: apartmentNumber,
+          floorNumber: floorNumber,
+          areaName: areaName,
+          additionalInfo: additionalInfo));
+
+
+      final functionStatus = await FirebasePatientDataAccess.instance
+          .addNewAddress(addressesList: addressesList);
+      if (functionStatus == FunctionStatus.success) {
+        hideLoadingScreen();
+        locationNameTextController.clear();
+        streetNameTextController.clear();
+        apartmentNumberTextController.clear();
+        floorNumberTextController.clear();
+        areaNameTextController.clear();
+        additionalInfoTextController.clear();
+        showSnackBar(
+            text: 'medicalHistorySavedSuccess'.tr,
+            snackBarType: SnackBarType.success);
+      } else {
+        hideLoadingScreen();
+        showSnackBar(
+            text: 'medicalHistorySavedError'.tr,
+            snackBarType: SnackBarType.error);
+      }
     }
   }
+
+  // void addAddress() {
+  //   if (locationName.value.isNotEmpty) {
+  //     final locationName = locationNameTextController.text.trim();
+  //     final streetName = streetNameTextController.text.trim();
+  //     final apartmentNumber = apartmentNumberTextController.text.trim();
+  //     final floorNumber = floorNumberTextController.text.trim();
+  //     final areaName = areaNameTextController.text.trim();
+  //     final additionalInfo = additionalInfoTextController.text.trim();
+  //     addressesList.add(AddressItem(
+  //         locationName: locationName,
+  //         streetName: streetName,
+  //         apartmentNumber: apartmentNumber,
+  //         floorNumber: floorNumber,
+  //         areaName: areaName,
+  //         additionalInfo: additionalInfo));
+  //     locationNameTextController.clear();
+  //     streetNameTextController.clear();
+  //     apartmentNumberTextController.clear();
+  //     floorNumberTextController.clear();
+  //     areaNameTextController.clear();
+  //     additionalInfoTextController.clear();
+  //     RegularBottomSheet.hideBottomSheet();
+  //   }
+  // }
 
   @override
   void onClose() {
     locationNameTextController.dispose();
-    addressesTextController.dispose();
+    streetNameTextController.dispose();
+    apartmentNumberTextController.dispose();
+    floorNumberTextController.dispose();
+    areaNameTextController.dispose();
+    additionalInfoTextController.dispose();
     savedAddressesScrollController.dispose();
     super.onClose();
   }

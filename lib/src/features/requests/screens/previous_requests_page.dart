@@ -57,15 +57,15 @@ class PreviousRequestsPage extends StatelessWidget {
                           iconPos: isLangEnglish()
                               ? IconPosition.left
                               : IconPosition.right,
-                          textStyle: const TextStyle(color: Colors.black),
+                          textStyle: const TextStyle(color: Colors.grey),
                           failedIcon:
-                              const Icon(Icons.error, color: Colors.black),
+                              const Icon(Icons.error, color: Colors.grey),
                           completeIcon:
-                              const Icon(Icons.done, color: Colors.black),
+                              const Icon(Icons.done, color: Colors.grey),
                           idleIcon: const Icon(Icons.arrow_downward,
-                              color: Colors.black),
+                              color: Colors.grey),
                           releaseIcon:
-                              const Icon(Icons.refresh, color: Colors.black),
+                              const Icon(Icons.refresh, color: Colors.grey),
                         ),
                         controller: controller.requestsRefreshController,
                         onRefresh: () => controller.onRefresh(),

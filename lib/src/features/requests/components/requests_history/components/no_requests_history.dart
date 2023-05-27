@@ -28,6 +28,7 @@ class EmptyRequestsHistory extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
+              color: Colors.grey,
             ),
             maxLines: 1,
           ),

@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/general/app_init.dart';
 
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
@@ -64,7 +66,12 @@ class MakingRequestInformationController extends GetxController {
     if (highlightPatientCondition.value || highlightRequest.value) {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     } else {
-      FocusScope.of(Get.context!).unfocus();
+      if (Get.context != null) {
+        FocusScope.of(Get.context!).requestFocus(FocusNode());
+      }
+      if (AppInit.isWeb) {
+        await SystemChannels.textInput.invokeMethod('TextInput.hide');
+      }
       Get.to(
         () => const NormalRequestLocationPage(),
         transition: getPageTransition(),

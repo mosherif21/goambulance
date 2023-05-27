@@ -28,7 +28,7 @@ double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
 
 void showLoadingScreen() {
-  final height = Get.context?.height;
+  final height = Get.context != null ? Get.context!.height : 200;
   Get.dialog(
     AlertDialog(
       elevation: 0,
@@ -40,7 +40,7 @@ void showLoadingScreen() {
           width: double.infinity,
           child: LoadingAnimationWidget.inkDrop(
             color: Colors.white,
-            size: height! * 0.08,
+            size: height * 0.08,
           ),
         ),
       ),
@@ -49,12 +49,12 @@ void showLoadingScreen() {
   );
 }
 
-bool isUserCritical() {
-  return AuthenticationRepository.instance.userInfo.criticalUser;
-}
-
 void hideLoadingScreen() {
   Get.back();
+}
+
+bool isUserCritical() {
+  return AuthenticationRepository.instance.userInfo.criticalUser;
 }
 
 void showSnackBar({
@@ -164,28 +164,30 @@ void displayAlertDialog({
   IconData? negativeButtonIcon,
   bool? isDismissible,
 }) {
-  final SweetSheet sweetSheet = SweetSheet();
-  final context = Get.context!;
-  sweetSheet.show(
-    isDismissible: isDismissible ?? true,
-    context: context,
-    title: Text(title),
-    description: Text(body),
-    color: color,
-    icon: mainIcon,
-    positive: SweetSheetAction(
-      onPressed: () => positiveButtonOnPressed(),
-      title: positiveButtonText,
-      icon: positiveButtonIcon,
-    ),
-    negative: negativeButtonText != null
-        ? SweetSheetAction(
-            onPressed: () => negativeButtonOnPressed!(),
-            title: negativeButtonText,
-            icon: negativeButtonIcon,
-          )
-        : null,
-  );
+  if (Get.context != null) {
+    final SweetSheet sweetSheet = SweetSheet();
+    final context = Get.context!;
+    sweetSheet.show(
+      isDismissible: isDismissible ?? true,
+      context: context,
+      title: Text(title),
+      description: Text(body),
+      color: color,
+      icon: mainIcon,
+      positive: SweetSheetAction(
+        onPressed: () => positiveButtonOnPressed(),
+        title: positiveButtonText,
+        icon: positiveButtonIcon,
+      ),
+      negative: negativeButtonText != null
+          ? SweetSheetAction(
+              onPressed: () => negativeButtonOnPressed!(),
+              title: negativeButtonText,
+              icon: negativeButtonIcon,
+            )
+          : null,
+    );
+  }
 }
 
 Transition getPageTransition() {

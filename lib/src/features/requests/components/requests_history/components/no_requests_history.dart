@@ -22,6 +22,7 @@ class EmptyRequestsHistory extends StatelessWidget {
             kNoRequestsHistory,
             fit: BoxFit.contain,
             height: screenHeight * 0.4,
+            repeat: false,
           ),
           AutoSizeText(
             'noRequests'.tr,

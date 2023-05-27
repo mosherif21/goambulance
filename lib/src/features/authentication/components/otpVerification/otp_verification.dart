@@ -48,6 +48,7 @@ class OTPVerificationScreen extends StatelessWidget {
                     lottieAssetAnim,
                     fit: BoxFit.contain,
                     height: screenHeight * 0.4,
+                    repeat: false,
                   ),
                   AutoSizeText(
                     isLangEnglish()

@@ -334,6 +334,33 @@ class FirebasePatientDataAccess extends GetxController {
 
       cancelRequestBatch.delete(hospitalPendingRef);
 
+      final canceledRequestRef = fireStore
+          .collection('canceledRequests')
+          .doc(requestInfo.requestRef.id);
+
+      final cancelRequestInfo = CanceledRequestModel(
+        requestRef: requestInfo.requestRef,
+        userId: userId,
+        hospitalId: requestInfo.hospitalId,
+        hospitalRequestInfo: requestInfo.hospitalRequestInfo,
+        timestamp: requestInfo.timestamp,
+        requestLocation: requestInfo.requestLocation,
+        hospitalLocation: requestInfo.hospitalLocation,
+        cancelReason: 'userCanceled',
+      );
+      cancelRequestBatch.set(canceledRequestRef, cancelRequestInfo.toJson());
+      cancelRequestBatch.set(
+          firestoreUserRef
+              .collection('canceledRequests')
+              .doc(requestInfo.requestRef.id),
+          <String, dynamic>{});
+      final hospitalCanceledRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('canceledRequests')
+          .doc(requestInfo.requestRef.id);
+      cancelRequestBatch.set(hospitalCanceledRef, <String, dynamic>{});
+
       await cancelRequestBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {

@@ -159,13 +159,16 @@ class MakingRequestLocationController extends GetxController {
           MakingRequestInformationController.instance.getRequestInfo();
       final pendingRequestRef = _firestore.collection('pendingRequests').doc();
       final requestData = RequestModel(
-        patientId: userId,
+        userId: userId,
         hospitalId: selectedHospital.value!.hospitalId,
         hospitalRequestInfo: requestInfo,
         timestamp: Timestamp.now(),
-        location: GeoPoint(
+        requestLocation: GeoPoint(
             currentChosenLatLng.latitude, currentChosenLatLng.longitude),
         requestRef: pendingRequestRef,
+        hospitalLocation: GeoPoint(selectedHospital.value!.location.latitude,
+            selectedHospital.value!.location.longitude),
+        status: 'pending',
       );
       final functionStatus = await firebasePatientDataAccess.requestHospital(
           requestInfo: requestData);

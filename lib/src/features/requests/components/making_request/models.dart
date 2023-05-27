@@ -35,28 +35,65 @@ class RequestInfoModel {
 }
 
 class RequestModel {
-  final String patientId;
+  final String userId;
   final RequestInfoModel hospitalRequestInfo;
   final Timestamp timestamp;
-  final GeoPoint location;
+  final GeoPoint requestLocation;
+  final GeoPoint hospitalLocation;
   final String hospitalId;
+  final String status;
   final DocumentReference requestRef;
   RequestModel({
     required this.requestRef,
-    required this.patientId,
+    required this.userId,
     required this.hospitalId,
     required this.hospitalRequestInfo,
     required this.timestamp,
-    required this.location,
+    required this.status,
+    required this.requestLocation,
+    required this.hospitalLocation,
   });
   Map<String, dynamic> toJson() => {
         'hospitalId': hospitalId,
-        'patientId': patientId,
+        'userId': userId,
         'isUser': hospitalRequestInfo.isUser,
         'patientCondition': hospitalRequestInfo.patientCondition,
         'backupNumber': hospitalRequestInfo.backupNumber,
         'timestamp': timestamp,
-        'location': location,
-        'status': 'pending',
+        'requestLocation': requestLocation,
+        'hospitalLocation': hospitalLocation,
+        'status': status,
+      };
+}
+
+class CanceledRequestModel {
+  final String userId;
+  final RequestInfoModel hospitalRequestInfo;
+  final Timestamp timestamp;
+  final GeoPoint requestLocation;
+  final GeoPoint hospitalLocation;
+  final String hospitalId;
+  final String cancelReason;
+  final DocumentReference requestRef;
+  CanceledRequestModel({
+    required this.requestRef,
+    required this.userId,
+    required this.hospitalId,
+    required this.hospitalRequestInfo,
+    required this.timestamp,
+    required this.requestLocation,
+    required this.hospitalLocation,
+    required this.cancelReason,
+  });
+  Map<String, dynamic> toJson() => {
+        'hospitalId': hospitalId,
+        'userId': userId,
+        'isUser': hospitalRequestInfo.isUser,
+        'patientCondition': hospitalRequestInfo.patientCondition,
+        'backupNumber': hospitalRequestInfo.backupNumber,
+        'timestamp': timestamp,
+        'requestLocation': requestLocation,
+        'hospitalLocation': hospitalLocation,
+        'cancelReason': cancelReason,
       };
 }

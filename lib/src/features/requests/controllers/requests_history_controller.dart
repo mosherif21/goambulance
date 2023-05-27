@@ -225,14 +225,20 @@ class RequestsHistoryController extends GetxController {
       // Sort the list by timestamp
       readRequestsHistory.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
       requestsList.value = readRequestsHistory;
-      if (kDebugMode) print('loaded requests history');
-      if (kDebugMode) print(readRequestsHistory.length);
+      if (kDebugMode) {
+        AppInit.logger
+            .i('loaded requests history, no: ${readRequestsHistory.length}');
+      }
       requestLoaded.value = true;
       await trace.stop();
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
     }
   }
 
@@ -251,7 +257,7 @@ class RequestsHistoryController extends GetxController {
       points = PolylinePoints().decodePolyline(route!);
     } catch (err) {
       if (kDebugMode) {
-        print(err.toString());
+        AppInit.logger.e(err.toString());
       }
     }
     final latLngPoints =
@@ -302,7 +308,9 @@ class RequestsHistoryController extends GetxController {
 
       return polyline;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
     }
     return null;
   }

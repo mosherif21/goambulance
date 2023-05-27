@@ -6,6 +6,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 import '../components/requests_history/components/loading_requests_history.dart';
+import '../components/requests_history/components/no_requests_history.dart';
 import '../components/requests_history/components/not_ongoing_request_item.dart';
 import '../components/requests_history/components/ongoing_request_item.dart';
 import '../controllers/requests_history_controller.dart';
@@ -15,6 +16,7 @@ class PreviousRequestsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = getScreenHeight(context);
     final controller = Get.put(RequestsHistoryController());
     return Scaffold(
       appBar: AppBar(
@@ -90,8 +92,13 @@ class PreviousRequestsPage extends StatelessWidget {
                                   requestInfo: controller.requestsList[index],
                                 );
                               }
+                            } else if (index ==
+                                    controller.requestsList.length &&
+                                controller.requestsList.isNotEmpty) {
+                              return SizedBox(height: screenHeight * 0.08);
+                            } else {
+                              return const EmptyRequestsHistory();
                             }
-                            return const SizedBox.shrink();
                           },
                           itemCount: controller.requestsList.length + 1,
                           shrinkWrap: true,

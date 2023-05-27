@@ -324,6 +324,7 @@ class Languages extends Translations {
           'waitingForAssign': 'في انتظار تخصيص سيارة الإسعاف الخاصة بك...',
           'canceled': 'ألغيت',
           'addAddressTitle': 'يمكنك اضافة عنوان جديد من هنا ',
+          'noRequests': 'ليس لديك أي طلبات سابقة',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -334,6 +335,7 @@ class Languages extends Translations {
           'onBoardingSubTitle3': 'Wherever you are, we are here for you',
           'welcome': 'Welcome',
           'sponsors': 'Sponsors',
+          'noRequests': 'You don\'t have any previous requests',
           'changeGoogleAccount': 'Change Google Account',
           'noMoreHospitals': 'No more hospitals',
           'loadingFailed': 'Loading Failed, Click retry',

@@ -15,7 +15,6 @@ const String kAmbulanceImage = "assets/images/ambulance_side_view.svg";
 const String kSosImage = "assets/images/sos.svg";
 const String kEmergencyNumber = "assets/images/emergency_numbers.svg";
 const String kSosMessageImage = "assets/images/sosMessage.svg";
-const String kNoRequestsHistory = "assets/images/requests_history_large.png";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_above_medium.png";
 const String kHospitalMarkerImg = "assets/images/hospital.png";
 const String kRequestLocationMarkerImg =
@@ -48,6 +47,7 @@ const String kLoadingMapAnim = "assets/lottie_animations/loading_map4.json";
 const String kNoLocation = "assets/lottie_animations/no_location_service.json";
 const String kMapPin = "assets/lottie_animations/map_pin.json";
 const String kRouteAnim = "assets/lottie_animations/route.json";
+const String kNoRequestsHistory = "assets/lottie_animations/no_requests_history.json";
 
 //--Files assets
 const String kMapStyle = "assets/files/mapStyle.txt";

@@ -27,6 +27,17 @@ double getScreenHeight(BuildContext context) =>
 double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
 
+// SystemChrome.setSystemUIOverlayStyle(
+//   const SystemUiOverlayStyle(
+//     systemNavigationBarColor: Colors.transparent,
+//     statusBarColor: Colors.transparent,
+//     systemNavigationBarDividerColor: Colors.transparent,
+//     systemNavigationBarIconBrightness: Brightness.light,
+//     statusBarIconBrightness: Brightness.light,
+//     statusBarBrightness: Brightness.light,
+//   ),
+// );
+
 void showLoadingScreen() {
   final height = Get.context != null ? Get.context!.height : 200;
   Get.dialog(

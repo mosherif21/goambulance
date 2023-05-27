@@ -8,7 +8,7 @@ exports.deletePendingRequests = functions.pubsub
     .onRun(async (context) => {
       const currentTime = admin.firestore.Timestamp.now();
       const thresholdTime = currentTime.toMillis() -
-        (1 * 60 * 1000);
+        (2 * 60 * 1000);
 
       const pendingRequestsRef = admin.firestore()
           .collection("pendingRequests");

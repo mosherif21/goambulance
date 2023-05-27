@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
@@ -27,8 +28,7 @@ class RequestsHistoryController extends GetxController {
   late final String userId;
   late final DocumentReference firestoreUserRef;
   late final FirebaseFirestore _firestore;
-  RefreshController requestsRefreshController =
-      RefreshController(initialRefresh: false);
+  final requestsRefreshController = RefreshController(initialRefresh: false);
   @override
   void onReady() async {
     userId = AuthenticationRepository.instance.fireUser.value!.uid;
@@ -46,6 +46,10 @@ class RequestsHistoryController extends GetxController {
 
   void getRequestsHistory() async {
     try {
+      final trace =
+          FirebasePerformance.instance.newTrace('load_recent_requests');
+      await trace.start();
+
       requestLoaded.value = false;
       final List<RequestHistoryModel> readRequestsHistory = [];
 
@@ -224,6 +228,7 @@ class RequestsHistoryController extends GetxController {
       if (kDebugMode) print('loaded requests history');
       if (kDebugMode) print(readRequestsHistory.length);
       requestLoaded.value = true;
+      await trace.stop();
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (err) {

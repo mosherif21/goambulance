@@ -44,15 +44,11 @@ class PreviousRequestsPage extends StatelessWidget {
                           headerTriggerDistance: 60,
                           maxOverScrollExtent: 20,
                           maxUnderScrollExtent: 20,
-                          // footerTriggerDistance: 500,
-                          // enableScrollWhenRefreshCompleted: true,
                           enableLoadingWhenFailed: true,
                           hideFooterWhenNotFull: true,
-                          enableRefreshVibrate: true,
-                          //enableLoadMoreVibrate: true,
+                          // enableScrollWhenRefreshCompleted: true,
                           child: SmartRefresher(
                             enablePullDown: true,
-                            enablePullUp: false,
                             header: ClassicHeader(
                               completeDuration: const Duration(milliseconds: 0),
                               releaseText: 'releaseToRefresh'.tr,
@@ -74,17 +70,6 @@ class PreviousRequestsPage extends StatelessWidget {
                             ),
                             controller: controller.requestsRefreshController,
                             onRefresh: () => controller.onRefresh(),
-                            //onLoading: () => controller.onLoadMore(),
-                            // footer: ClassicFooter(
-                            //   completeDuration: const Duration(milliseconds: 0),
-                            //   canLoadingText: 'releaseToLoad'.tr,
-                            //   noDataText: 'noMoreHospitals'.tr,
-                            //   idleText: 'pullToLoad'.tr,
-                            //   loadingText: 'loading'.tr,
-                            //   iconPos: isLangEnglish()
-                            //       ? IconPosition.left
-                            //       : IconPosition.right,
-                            // ),
                             child: ListView.builder(
                               itemBuilder: (BuildContext context, int index) {
                                 final requestStatus =

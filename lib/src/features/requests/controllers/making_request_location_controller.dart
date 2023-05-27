@@ -69,8 +69,7 @@ class MakingRequestLocationController extends GetxController {
   late LatLng initialCameraLatLng;
   final cameraMoved = false.obs;
   final hospitalsPanelController = PanelController();
-  RefreshController hospitalsRefreshController =
-      RefreshController(initialRefresh: false);
+  final hospitalsRefreshController = RefreshController(initialRefresh: false);
 
   //making request
   late String currentChosenLocationAddress;

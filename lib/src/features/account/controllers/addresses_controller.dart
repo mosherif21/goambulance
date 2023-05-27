@@ -82,19 +82,19 @@ class AddressesController extends GetxController {
     final floorNumber = floorNumberTextController.text.trim();
     final areaName = areaNameTextController.text.trim();
     final additionalInfo = additionalInfoTextController.text.trim();
-    addressesList.add(AddressItem(
+    final AddressItem addressItem = AddressItem(
         locationName: locationName,
         streetName: streetName,
         apartmentNumber: apartmentNumber,
         floorNumber: floorNumber,
         areaName: areaName,
-        additionalInfo: additionalInfo));
+        additionalInfo: additionalInfo);
     final addressData = SavedAddressesModel(
         addressName: locationName, addressesList: addressesList);
 
     final functionStatus = await FirebasePatientDataAccess.instance
         .addNewAddress(
-            savedAddressData: addressData,
+            savedAddressData: addressItem,
             currentAddressDocIds: currentAddressesDocIds);
     if (functionStatus == FunctionStatus.success) {
       hideLoadingScreen();

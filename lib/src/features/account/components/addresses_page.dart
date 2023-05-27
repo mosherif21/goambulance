@@ -5,7 +5,6 @@ import 'package:goambulance/src/features/account/components/add_address_page.dar
 import 'package:goambulance/src/features/account/components/address_item.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
-import '../../../general/common_widgets/regular_card.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../controllers/addresses_controller.dart';
 import 'loading_addresses.dart';
@@ -40,26 +39,12 @@ class AccountAddressesPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(() => RegularCard(
-                      highlightRed: false,
-                      child: SingleChildScrollView(
+                  Obx(() => SingleChildScrollView(
                         child: !controller.addressesLoaded.value
                             ? const LoadingAddresses()
                             : controller.addressesList.isNotEmpty
                                 ? Column(
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: AutoSizeText(
-                                          'addedDiseases'.tr,
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w800,
-                                          ),
-                                          maxLines: 2,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10),
                                       for (var addressItem
                                           in controller.addressesList)
                                         LoadAddressItem(
@@ -70,7 +55,7 @@ class AccountAddressesPage extends StatelessWidget {
                                     ],
                                   )
                                 : const NoAddressesSaved(),
-                      ))),
+                      )),
                   RoundedElevatedButton(
                       buttonText: 'Add New Address',
                       onPressed: () {

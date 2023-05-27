@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
@@ -13,24 +11,20 @@ import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
 
 import '../../../constants/assets_strings.dart';
-import '../../../constants/enums.dart';
 import '../../../constants/no_localization_strings.dart';
 import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
-import '../components/requests_history/components/ongoing_request_item.dart';
 import '../components/requests_history/models.dart';
 
 class RequestsHistoryController extends GetxController {
   static RequestsHistoryController get instance => Get.find();
-  late final BitmapDescriptor requestLocationMarkerIcon;
-  late final BitmapDescriptor hospitalMarkerIcon;
-  late Widget ongoingTest;
+
   final snapshotLoaded = false.obs;
   late String mapStyle;
+  late String mapUrl;
 
   @override
   void onReady() async {
-    await _loadMarkersIcon();
     await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
     super.onReady();
   }
@@ -55,7 +49,7 @@ class RequestsHistoryController extends GetxController {
     required LatLng location,
     required int zoom,
     required List<StaticMarkerModel> markers,
-    required List<LatLng> polylines,
+    required List<LatLng> polyLines,
   }) {
     const baseUrl = 'https://maps.googleapis.com/maps/api/staticmap?';
 
@@ -68,15 +62,15 @@ class RequestsHistoryController extends GetxController {
     // Markers parameter
     final markerParams = markers
         .map((marker) =>
-            'markers=|${marker.location.latitude},${marker.location.longitude}')
+            'markers=icon:${marker.iconUrl}|${marker.location.latitude},${marker.location.longitude}')
         .join('&');
 
     // Map ID parameter
     const mapIDParam = 'map_id=$mapID';
 
     // Polyline parameter
-    final polylineParam = polylines.isNotEmpty
-        ? 'path=color:0x000000ff|weight:3|${polylines.map((polyline) => '${polyline.latitude},${polyline.longitude}').join('|')}'
+    final polylineParam = polyLines.isNotEmpty
+        ? 'path=color:0x000000ff|weight:3|${polyLines.map((polyline) => '${polyline.latitude},${polyline.longitude}').join('|')}'
         : '';
 
     // Combine all parameters
@@ -99,10 +93,10 @@ class RequestsHistoryController extends GetxController {
 
   void testStaticImage({
     required String marker1Id,
-    required BitmapDescriptor marker1Icon,
+    required String marker1Icon,
     required LatLng marker1LatLng,
     required String marker2Id,
-    required BitmapDescriptor marker2Icon,
+    required String marker2Icon,
     required LatLng marker2LatLng,
   }) async {
     try {
@@ -127,23 +121,18 @@ class RequestsHistoryController extends GetxController {
       double centerLongitude =
           (bounds.southwest.longitude + bounds.northeast.longitude) / 2;
       final center = LatLng(centerLatitude, centerLongitude);
-      final imageUrl = buildStaticMapURL(
+      snapshotLoaded.value = false;
+      mapUrl = buildStaticMapURL(
         location: center,
         zoom: zoomLevel.toInt(),
         markers: [
-          StaticMarkerModel(location: marker1LatLng, iconUrl: requestImageUrl),
-          StaticMarkerModel(location: marker2LatLng, iconUrl: hospitalImageUrl),
+          StaticMarkerModel(location: marker1LatLng, iconUrl: marker1Icon),
+          StaticMarkerModel(location: marker2LatLng, iconUrl: marker2Icon),
         ],
-        polylines: latLngPoints,
+        polyLines: latLngPoints,
       );
+
       snapshotLoaded.value = true;
-      ongoingTest = OngoingRequestItem(
-        onPressed: () {},
-        hospitalName: 'Royal Hospital',
-        dateTime: 'Apr 17 2023 1:54 PM',
-        status: RequestStatus.requestAccepted,
-        mapUrl: imageUrl,
-      );
     } catch (err) {
       if (kDebugMode) {
         print(err.toString());
@@ -202,26 +191,6 @@ class RequestsHistoryController extends GetxController {
     LatLng southWest = LatLng(southWestLat, southWestLng);
     LatLng northEast = LatLng(northEastLat, northEastLng);
     return LatLngBounds(southwest: southWest, northeast: northEast);
-  }
-
-  Future<void> _loadMarkersIcon() async {
-    await _getBytesFromAsset(kRequestLocationMarkerImg, 120).then((iconBytes) {
-      requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
-    });
-
-    await _getBytesFromAsset(kHospitalMarkerImg, 160).then((iconBytes) {
-      hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
-    });
-  }
-
-  Future<Uint8List> _getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
   }
 
   @override

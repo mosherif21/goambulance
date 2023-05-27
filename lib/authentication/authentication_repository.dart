@@ -127,15 +127,21 @@ class AuthenticationRepository extends GetxController {
           final profileImageRef =
               fireStorage.ref().child('users/$userId/profilePic');
           drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
-          if (kDebugMode) print('$userType');
+          if (kDebugMode) {
+            AppInit.logger.i(userType);
+          }
         }
       });
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.i(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -147,9 +153,13 @@ class AuthenticationRepository extends GetxController {
     try {
       await firestoreUsersCollRef.doc(userId).update({'email': email});
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
   }
 
@@ -158,13 +168,18 @@ class AuthenticationRepository extends GetxController {
       await fireUser.value!.updateEmail(email);
       return 'success';
     } on FirebaseAuthException catch (ex) {
+      if (kDebugMode) {
+        AppInit.logger.e(ex.code);
+      }
       if (ex.code == 'invalid-email') {
         return 'invalidEmailEntered'.tr;
       } else if (ex.code == 'email-already-in-use') {
         return 'emailAlreadyExists'.tr;
       }
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
     return 'unknownError'.tr;
   }
@@ -178,10 +193,14 @@ class AuthenticationRepository extends GetxController {
       await firestoreUsersCollRef.doc(userId).update({'phone': phone});
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -199,10 +218,14 @@ class AuthenticationRepository extends GetxController {
       }
     } on FirebaseAuthException catch (e) {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
-      if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+      if (kDebugMode) {
+        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+      }
       return ex.errorMessage;
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
     return 'unknownError'.tr;
   }
@@ -219,10 +242,16 @@ class AuthenticationRepository extends GetxController {
       }
     } on FirebaseAuthException catch (e) {
       final ex = SignInWithEmailAndPasswordFailure.code(e.code);
-      if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+
+      if (kDebugMode) {
+        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+      }
+
       return ex.errorMessage;
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
     return 'unknownError'.tr;
   }
@@ -235,10 +264,16 @@ class AuthenticationRepository extends GetxController {
       return 'success';
     } on FirebaseAuthException catch (e) {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
-      if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+
+      if (kDebugMode) {
+        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+      }
+
       return ex.errorMessage;
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
     return 'unknownError'.tr;
   }
@@ -277,8 +312,13 @@ class AuthenticationRepository extends GetxController {
       );
     } on FirebaseAuthException catch (e) {
       returnMessage = e.code;
+      if (kDebugMode) {
+        AppInit.logger.e(e.code);
+      }
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
       returnMessage = 'unknownError'.tr;
     }
 
@@ -296,13 +336,18 @@ class AuthenticationRepository extends GetxController {
         checkUserHasPhoneNumber();
         return 'success';
       } on FirebaseAuthException catch (ex) {
+        if (kDebugMode) {
+          AppInit.logger.e(ex.code);
+        }
         if (ex.code == 'credential-already-in-use') {
           return 'phoneNumberAlreadyLinked'.tr;
         } else if (ex.code == 'invalid-verification-code') {
           return 'wrongOTP'.tr;
         }
       } catch (e) {
-        if (kDebugMode) print(e.toString());
+        if (kDebugMode) {
+          AppInit.logger.e(e.toString());
+        }
       }
     }
     return 'unknownError'.tr;
@@ -318,11 +363,16 @@ class AuthenticationRepository extends GetxController {
         return 'success';
       }
     } on FirebaseAuthException catch (ex) {
+      if (kDebugMode) {
+        AppInit.logger.e(ex.code);
+      }
       if (ex.code == 'invalid-verification-code') {
         return 'wrongOTP'.tr;
       }
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
 
     return 'unknownError'.tr;
@@ -341,9 +391,13 @@ class AuthenticationRepository extends GetxController {
         }
       }
     } on FirebaseAuthException catch (ex) {
-      if (kDebugMode) print(ex.code);
+      if (kDebugMode) {
+        AppInit.logger.e(ex.toString());
+      }
     } catch (e) {
-      if (kDebugMode) e.printError();
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
     return 'failedGoogleAuth'.tr;
   }
@@ -384,13 +438,18 @@ class AuthenticationRepository extends GetxController {
         return 'failedGoogleLink'.tr;
       }
     } on FirebaseAuthException catch (ex) {
+      if (kDebugMode) {
+        AppInit.logger.e(ex.code);
+      }
       if (ex.code == 'credential-already-in-use') {
         return 'googleAccountInUse'.tr;
       } else if (ex.code == 'no-such-provider') {
         return 'failedGoogleLink'.tr;
       }
     } catch (e) {
-      if (kDebugMode) e.printError();
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
     return 'failedGoogleLink'.tr;
   }
@@ -402,9 +461,10 @@ class AuthenticationRepository extends GetxController {
       return signInMethods.contains('google.com');
     } catch (e) {
       if (kDebugMode) {
-        print(
+        AppInit.logger.e(
             'Error checking if Google account is connected to a Firebase user: $e');
       }
+
       return false;
     }
   }
@@ -434,7 +494,9 @@ class AuthenticationRepository extends GetxController {
             credential: credential, email: googleSignInAccount.email);
       }
     } catch (e) {
-      if (kDebugMode) e.printError();
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
     return null;
   }
@@ -447,9 +509,16 @@ class AuthenticationRepository extends GetxController {
           .whenComplete(() => returnMessage = 'emailSent');
     } on FirebaseAuthException catch (e) {
       final ex = ResetPasswordFailure.code(e.code);
-      if (kDebugMode) print('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+
+      if (kDebugMode) {
+        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+      }
       return ex.errorMessage;
-    } catch (_) {}
+    } catch (e) {
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
+    }
     return returnMessage;
   }
 
@@ -466,8 +535,11 @@ class AuthenticationRepository extends GetxController {
         }
       }
     } catch (e) {
-      if (kDebugMode) e.printError();
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
+
     return 'failedFacebookAuth'.tr;
   }
 
@@ -479,8 +551,11 @@ class AuthenticationRepository extends GetxController {
         return 'success';
       }
     } catch (e) {
-      if (kDebugMode) e.printError();
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
+
     return 'failedFacebookAuth'.tr;
   }
 
@@ -507,8 +582,11 @@ class AuthenticationRepository extends GetxController {
         return facebookAuthCredential;
       }
     } catch (e) {
-      if (kDebugMode) e.printError();
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
     }
+
     return null;
   }
 
@@ -543,7 +621,10 @@ class AuthenticationRepository extends GetxController {
       drawerProfileImageUrl.value = '';
       return FunctionStatus.success;
     } on FirebaseAuthException catch (ex) {
-      if (kDebugMode) print(ex.code);
+      if (kDebugMode) {
+        AppInit.logger.e(ex.code);
+      }
+
       return FunctionStatus.failure;
     } catch (e) {
       if (kDebugMode) e.printError();

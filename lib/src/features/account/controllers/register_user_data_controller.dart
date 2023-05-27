@@ -115,7 +115,9 @@ class RegisterUserDataController extends GetxController {
           highlightBirthdate.value = false;
           FocusManager.instance.primaryFocus?.unfocus();
         } catch (e) {
-          if (kDebugMode) print(e.toString());
+          if (kDebugMode) {
+            AppInit.logger.e(e.toString());
+          }
         }
       }
     });
@@ -176,7 +178,9 @@ class RegisterUserDataController extends GetxController {
         NIDInfo(nid: nationalId);
         highlightNationalId.value = false;
       } catch (e) {
-        if (kDebugMode) print(e.toString());
+        if (kDebugMode) {
+          AppInit.logger.e(e.toString());
+        }
         highlightNationalId.value = true;
       }
     } else {

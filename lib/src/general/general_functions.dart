@@ -262,7 +262,9 @@ Future<bool> handleLocationPermission() async {
       }
     }
   } catch (err) {
-    if (kDebugMode) print(err.toString());
+    if (kDebugMode) {
+      AppInit.logger.e(err.toString());
+    }
   }
   return false;
 }
@@ -278,7 +280,9 @@ Future<bool> handleLocationService() async {
       }
     }
   } catch (err) {
-    if (kDebugMode) print(err.toString());
+    if (kDebugMode) {
+      AppInit.logger.e(err.toString());
+    }
   }
   return false;
 }
@@ -382,7 +386,9 @@ Future<bool> handleGeneralPermission({
         );
       }
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
     }
   }
   return false;

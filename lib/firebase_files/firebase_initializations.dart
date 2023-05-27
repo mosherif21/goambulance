@@ -2,6 +2,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
+import '../src/general/app_init.dart';
 import 'firebase_options.dart';
 
 Future<void> initializeFireBaseApp() async {
@@ -16,7 +17,9 @@ Future<void> activateWebAppCheck() async {
     webRecaptchaSiteKey: '6LeqGb8iAAAAAJKFulsS32nYgwxFYlQ9yqMPMrld',
   )
       .onError((error, stackTrace) {
-    if (kDebugMode) print(error);
+    if (kDebugMode) {
+      AppInit.logger.e(error.toString());
+    }
   });
 }
 
@@ -27,7 +30,9 @@ Future<void> activateAndroidAppCheck() async {
     androidProvider: AndroidProvider.safetyNet,
   )
       .onError((error, stackTrace) {
-    if (kDebugMode) print(error);
+    if (kDebugMode) {
+      AppInit.logger.e(error.toString());
+    }
   });
 }
 

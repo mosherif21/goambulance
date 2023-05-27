@@ -30,53 +30,54 @@ class ContactItemWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AutoSizeText(
-                contactItem.contactName,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                ),
-                maxLines: 1,
-              ),
-              const SizedBox(height: 10.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  LineIcon.user(
-                    size: screenHeight * 0.06,
+          Expanded(
+            flex: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AutoSizeText(
+                  contactItem.contactName,
+                  style: const TextStyle(
                     color: Colors.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(height: 10),
-                  AutoSizeText(
-                    '${'phoneLabel'.tr}: ',
-                    style: const TextStyle(
+                  maxLines: 1,
+                ),
+                const SizedBox(height: 10.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    LineIcon.user(
+                      size: screenHeight * 0.06,
                       color: Colors.black,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
                     ),
-                    maxLines: 1,
-                  ),
-                  SizedBox(
-                    width: 70,
-                    child: AutoSizeText(
-                      contactItem.contactNumber,
+                    const SizedBox(height: 10),
+                    AutoSizeText(
+                      '${'phoneLabel'.tr}: ',
                       style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 12,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
                       maxLines: 1,
                     ),
-                  ),
-                ],
-              )
-            ],
+                    Expanded(
+                      child: AutoSizeText(
+                        contactItem.contactNumber,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
           const Spacer(),
           IconButton(

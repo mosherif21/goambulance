@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/intro_screen/screens/intro_screen.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
@@ -42,7 +43,7 @@ class AppInit {
       InternetConnectionStatus.disconnected;
   static Transition transition = Transition.leftToRightWithFade;
   static String notificationToken = '';
-
+  static final logger = Logger();
   static final currentAuthType = AuthType.emailLogin.obs;
 
   static Future<void> initializeConstants() async {
@@ -82,24 +83,36 @@ class AppInit {
     if (!isInitialised) {
       isInitialised = true;
       await initializeFireBaseApp();
-      if (kDebugMode) print('firebase app initialized');
+      if (kDebugMode) {
+        logger.i('firebase app initialized');
+      }
       if (isWeb || webMobile) {
         await activateWebAppCheck();
-        if (kDebugMode) print('web app check initialized');
+        if (kDebugMode) {
+          logger.i('web app check initialized');
+        }
       } else if (isAndroid) {
         await activateAndroidAppCheck();
-        if (kDebugMode) print('android app check initialized');
+        if (kDebugMode) {
+          logger.i('android app check initialized');
+        }
       } else if (isIos) {
         await activateIosAppCheck();
-        if (kDebugMode) print('ios app check initialized');
+        if (kDebugMode) {
+          logger.i('ios app check initialized');
+        }
       }
-      if (kDebugMode) print('Firebase initialized');
+      if (kDebugMode) {
+        logger.i('Firebase initialized');
+      }
       if (!AppInit.isWeb) {
         try {
           notificationToken = await FirebaseMessaging.instance.getToken() ?? '';
           initializeNotification();
         } catch (err) {
-          if (kDebugMode) print(err.toString());
+          if (kDebugMode) {
+            logger.e(err.toString());
+          }
         }
       }
       Get.put(AuthenticationRepository(), permanent: true);

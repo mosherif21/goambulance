@@ -4,13 +4,15 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:goambulance/src/general/app_init.dart';
 
 void initializeNotification() {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     if (kDebugMode) {
-      print("Handling a foreground message: ${message.notification?.title}");
+      AppInit.logger
+          .i('Handling a foreground message: ${message.notification?.title}');
     }
     _initializeMessaging().whenComplete(() =>
         _createNotification(message.notification!, Random().nextInt(10000)));
@@ -21,7 +23,8 @@ void initializeNotification() {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (kDebugMode) {
-    print("Handling a background message: ${message.notification?.title}");
+    AppInit.logger
+        .i('Handling a background message: ${message.notification?.title}');
   }
 }
 
@@ -44,7 +47,9 @@ Future<void> _initializeMessaging() async {
         defaultColor: Colors.black,
         ledColor: Colors.white)
   ])) {
-    if (kDebugMode) print('awesome notification initialized');
+    if (kDebugMode) {
+      AppInit.logger.i('awesome notification initialized');
+    }
   }
 
   NotificationSettings settings =
@@ -67,7 +72,9 @@ Future<void> _initializeMessaging() async {
       await AwesomeNotifications().requestPermissionToSendNotifications();
     }
   });
+
   if (kDebugMode) {
-    print('User granted permission: ${settings.authorizationStatus}');
+    AppInit.logger
+        .d('User granted permission: ${settings.authorizationStatus}');
   }
 }

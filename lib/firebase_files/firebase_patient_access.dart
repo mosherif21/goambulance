@@ -84,10 +84,14 @@ class FirebasePatientDataAccess extends GetxController {
       authRep.isUserRegistered = true;
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -110,9 +114,13 @@ class FirebasePatientDataAccess extends GetxController {
         },
       );
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
     }
     return contactsList;
   }
@@ -133,9 +141,13 @@ class FirebasePatientDataAccess extends GetxController {
         contactDocumentId: docRef.id,
       );
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
     }
     return null;
   }
@@ -147,10 +159,14 @@ class FirebasePatientDataAccess extends GetxController {
       await documentRef.delete();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -160,10 +176,14 @@ class FirebasePatientDataAccess extends GetxController {
       await firestoreUserRef.update({'sosMessage': sosMessage});
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -182,10 +202,14 @@ class FirebasePatientDataAccess extends GetxController {
       await userDataBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -196,9 +220,13 @@ class FirebasePatientDataAccess extends GetxController {
         'notificationsLang': isLangEnglish() ? 'en' : 'ar',
       });
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
     }
   }
 
@@ -241,10 +269,14 @@ class FirebasePatientDataAccess extends GetxController {
       await firestoreUserRef.update(accountDetails.toJson());
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -271,10 +303,14 @@ class FirebasePatientDataAccess extends GetxController {
       await userDataBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -315,10 +351,14 @@ class FirebasePatientDataAccess extends GetxController {
       await requestDataBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -387,10 +427,14 @@ class FirebasePatientDataAccess extends GetxController {
       await cancelRequestBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
       return FunctionStatus.failure;
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
       return FunctionStatus.failure;
     }
   }
@@ -402,9 +446,13 @@ class FirebasePatientDataAccess extends GetxController {
             FieldValue.delete()
       });
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
     } catch (err) {
-      if (kDebugMode) print(err.toString());
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
     }
   }
 

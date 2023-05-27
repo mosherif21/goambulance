@@ -329,6 +329,7 @@ class Languages extends Translations {
           'apartmentNumber': "رقم العقار: ",
           'floorNumber': "رقم الطابق: ",
           'area': "المنطقة: ",
+          'deleted': "Delete: ",
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -347,6 +348,7 @@ class Languages extends Translations {
           'loginTextTitle': 'LOGIN',
           'registerTextTitle': 'REGISTER',
           'skipLabel': 'Skip',
+          'deleted': "حذف: ",
           'successGoogleLink': 'Google account was linked successfully',
           'notAvailableErrorTitle': 'Not Currently Available',
           'notAvailableErrorSubTitle': 'We are working on it....',

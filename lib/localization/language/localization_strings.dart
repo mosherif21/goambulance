@@ -318,7 +318,7 @@ class Languages extends Translations {
           'requestCanceled':
               'تم رفض طلب سيارة الإسعاف الخاص بك من قبل المستشفى أو انقضت مهلته',
           'addresses': 'العناوين',
-          'sponsors': 'الرعاة',
+          'sponsors': 'رعاتنا',
           'noAddressesSaved': 'لا يوجد عناوين مسجلة',
           'waitingForAcceptance': 'في انتظار قبول طلب الإسعاف الخاص بك...',
           'waitingForAssign': 'في انتظار تخصيص سيارة الإسعاف الخاصة بك...',
@@ -334,7 +334,7 @@ class Languages extends Translations {
           'onBoardingSubTitle2': '24/7 available customer service',
           'onBoardingSubTitle3': 'Wherever you are, we are here for you',
           'welcome': 'Welcome',
-          'sponsors': 'Sponsors',
+          'sponsors': 'Our sponsors',
           'noRequests': 'You don\'t have any previous requests',
           'changeGoogleAccount': 'Change Google Account',
           'noMoreHospitals': 'No more hospitals',

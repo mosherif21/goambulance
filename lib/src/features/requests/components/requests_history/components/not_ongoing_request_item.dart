@@ -4,19 +4,16 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 
 import '../../../../../constants/enums.dart';
+import '../models.dart';
 
 class RequestItem extends StatelessWidget {
   const RequestItem({
     Key? key,
     required this.onPressed,
-    required this.hospitalName,
-    required this.dateTime,
-    required this.status,
+    required this.requestInfo,
   }) : super(key: key);
   final Function onPressed;
-  final String hospitalName;
-  final String dateTime;
-  final RequestStatus status;
+  final RequestHistoryModel requestInfo;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +44,7 @@ class RequestItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      hospitalName,
+                      requestInfo.hospitalName,
                       style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w800,
@@ -57,7 +54,7 @@ class RequestItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     AutoSizeText(
-                      dateTime,
+                      requestInfo.requestDateTime,
                       style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w800,
@@ -78,13 +75,15 @@ class RequestItem extends StatelessWidget {
                           maxLines: 2,
                         ),
                         AutoSizeText(
-                          status == RequestStatus.requestCanceled
+                          requestInfo.requestStatus ==
+                                  RequestStatus.requestCanceled
                               ? 'canceled'.tr
                               : 'completed'.tr,
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
-                            color: status == RequestStatus.requestCanceled
+                            color: requestInfo.requestStatus ==
+                                    RequestStatus.requestCanceled
                                 ? Colors.red
                                 : Colors.green,
                           ),
@@ -97,7 +96,7 @@ class RequestItem extends StatelessWidget {
                 const Spacer(),
                 const Icon(
                   Icons.arrow_forward_ios,
-                  color: Colors.black54,
+                  color: Colors.black,
                 ),
               ],
             ),

@@ -3,21 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../constants/enums.dart';
+import '../models.dart';
 
 class OngoingRequestItem extends StatelessWidget {
   const OngoingRequestItem({
     Key? key,
     required this.onPressed,
-    required this.hospitalName,
-    required this.dateTime,
-    required this.status,
-    required this.mapUrl,
+    required this.requestInfo,
   }) : super(key: key);
   final Function onPressed;
-  final String hospitalName;
-  final String dateTime;
-  final RequestStatus status;
-  final String mapUrl;
+  final RequestHistoryModel requestInfo;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +41,7 @@ class OngoingRequestItem extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300,
                         image: DecorationImage(
-                          image: NetworkImage(mapUrl),
+                          image: NetworkImage(requestInfo.mapUrl!),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -60,7 +55,7 @@ class OngoingRequestItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText(
-                          hospitalName,
+                          requestInfo.hospitalName,
                           style: const TextStyle(
                             fontSize: 25,
                             fontWeight: FontWeight.w700,
@@ -70,7 +65,7 @@ class OngoingRequestItem extends StatelessWidget {
                         ),
                         const SizedBox(height: 5),
                         AutoSizeText(
-                          dateTime,
+                          requestInfo.requestDateTime,
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
@@ -91,15 +86,18 @@ class OngoingRequestItem extends StatelessWidget {
                               maxLines: 2,
                             ),
                             AutoSizeText(
-                              status == RequestStatus.requestPending
+                              requestInfo.requestStatus ==
+                                      RequestStatus.requestPending
                                   ? 'pending'.tr
-                                  : status == RequestStatus.requestAccepted
+                                  : requestInfo.requestStatus ==
+                                          RequestStatus.requestAccepted
                                       ? 'accepted'.tr
                                       : 'assigned'.tr,
                               style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
-                                  color: status == RequestStatus.requestPending
+                                  color: requestInfo.requestStatus ==
+                                          RequestStatus.requestPending
                                       ? Colors.orange
                                       : Colors.blue),
                               maxLines: 2,
@@ -111,7 +109,7 @@ class OngoingRequestItem extends StatelessWidget {
                     const Spacer(),
                     const Icon(
                       Icons.arrow_forward_ios,
-                      color: Colors.black54,
+                      color: Colors.black,
                     ),
                   ],
                 ),

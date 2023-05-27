@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -10,7 +9,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
 
-import '../../../constants/assets_strings.dart';
 import '../../../constants/no_localization_strings.dart';
 import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
@@ -19,126 +17,59 @@ import '../components/requests_history/models.dart';
 class RequestsHistoryController extends GetxController {
   static RequestsHistoryController get instance => Get.find();
 
-  final snapshotLoaded = false.obs;
-  late String mapStyle;
-  late String mapUrl;
-
+  final requestLoaded = false.obs;
+  final requestsList = <RequestHistoryModel>[].obs;
+  // DateFormat dateFormat = DateFormat("MMM d y hh:mm a");
+  // String formattedDate = dateFormat.format(dateTime);
   @override
   void onReady() async {
-    await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
     super.onReady();
   }
 
-  double calculateZoomLevel(
-      LatLngBounds bounds, double mapWidth, double mapHeight) {
-    const double globe = 256; // Width of the Google Maps tile in pixels
-    const double zoomMax = 21; // Maximum zoom level
-
-    double latFraction =
-        (bounds.northeast.latitude - bounds.southwest.latitude).abs();
-    double lngDiff = bounds.northeast.longitude - bounds.southwest.longitude;
-
-    double latZoom = log(mapHeight * 360 / (latFraction * globe)) / log(2);
-    double lngZoom = log(mapWidth * 360 / (lngDiff * globe)) / log(2);
-    double zoom = min(latZoom, lngZoom);
-
-    return (zoom > zoomMax) ? zoomMax : zoom;
-  }
-
-  String buildStaticMapURL({
-    required LatLng location,
-    required int zoom,
-    required List<StaticMarkerModel> markers,
-    required List<LatLng> polyLines,
-  }) {
-    const baseUrl = 'https://maps.googleapis.com/maps/api/staticmap?';
-
-    // Location parameter
-    final locationParam = 'center=${location.latitude},${location.longitude}';
-
-    // Zoom parameter
-    final zoomParam = 'zoom=$zoom';
-
-    // Markers parameter
-    final markerParams = markers
-        .map((marker) =>
-            'markers=icon:${marker.iconUrl}|${marker.location.latitude},${marker.location.longitude}')
-        .join('&');
-
-    // Map ID parameter
-    const mapIDParam = 'map_id=$mapID';
-
-    // Polyline parameter
-    final polylineParam = polyLines.isNotEmpty
-        ? 'path=color:0x000000ff|weight:3|${polyLines.map((polyline) => '${polyline.latitude},${polyline.longitude}').join('|')}'
-        : '';
-
-    // Combine all parameters
-    final params = [
-      locationParam,
-      zoomParam,
-      'size=350x200',
-      markerParams,
-      mapIDParam,
-      polylineParam,
-    ].join('&');
-
-    // Construct the complete URL
-    final url = '$baseUrl$params&key=$googleMapsStaticAPIKey';
-    if (kDebugMode) {
-      print(url);
-    }
-    return url;
-  }
-
-  void testStaticImage({
+  Future<String> getStaticMapImgURL({
     required String marker1Id,
-    required String marker1Icon,
+    required String marker1IconUrl,
     required LatLng marker1LatLng,
     required String marker2Id,
-    required String marker2Icon,
+    required String marker2IconUrl,
     required LatLng marker2LatLng,
   }) async {
+    List<PointLatLng> points = [];
     try {
       final route = await getRouteToLocation(
         fromLocation: marker1LatLng,
         toLocation: marker2LatLng,
       );
-      final points = PolylinePoints().decodePolyline(route!);
-      final latLngPoints = points
-          .map((point) => LatLng(point.latitude, point.longitude))
-          .toList();
-      latLngPoints.insert(0, marker1LatLng);
-      latLngPoints.insert(latLngPoints.length, marker2LatLng);
-
-      late final LatLngBounds bounds =
-          getLatLngBounds(latLngList: latLngPoints);
-
-      double zoomLevel = calculateZoomLevel(bounds, 350, 200);
-
-      double centerLatitude =
-          (bounds.southwest.latitude + bounds.northeast.latitude) / 2;
-      double centerLongitude =
-          (bounds.southwest.longitude + bounds.northeast.longitude) / 2;
-      final center = LatLng(centerLatitude, centerLongitude);
-      snapshotLoaded.value = false;
-      mapUrl = buildStaticMapURL(
-        location: center,
-        zoom: zoomLevel.toInt(),
-        markers: [
-          StaticMarkerModel(location: marker1LatLng, iconUrl: marker1Icon),
-          StaticMarkerModel(location: marker2LatLng, iconUrl: marker2Icon),
-        ],
-        polyLines: latLngPoints,
-      );
-
-      snapshotLoaded.value = true;
+      points = PolylinePoints().decodePolyline(route!);
     } catch (err) {
       if (kDebugMode) {
         print(err.toString());
       }
     }
-    return null;
+    final latLngPoints =
+        points.map((point) => LatLng(point.latitude, point.longitude)).toList();
+    latLngPoints.insert(0, marker1LatLng);
+    latLngPoints.insert(latLngPoints.length, marker2LatLng);
+
+    late final LatLngBounds bounds = getLatLngBounds(latLngList: latLngPoints);
+
+    double zoomLevel = calculateZoomLevel(bounds, 350, 200);
+
+    double centerLatitude =
+        (bounds.southwest.latitude + bounds.northeast.latitude) / 2;
+    double centerLongitude =
+        (bounds.southwest.longitude + bounds.northeast.longitude) / 2;
+    final center = LatLng(centerLatitude, centerLongitude);
+
+    return buildStaticMapURL(
+      location: center,
+      zoom: zoomLevel.toInt(),
+      markers: [
+        StaticMarkerModel(location: marker1LatLng, iconUrl: marker1IconUrl),
+        StaticMarkerModel(location: marker2LatLng, iconUrl: marker2IconUrl),
+      ],
+      polyLines: latLngPoints,
+    );
   }
 
   Future<String?> getRouteToLocation({
@@ -166,6 +97,61 @@ class RequestsHistoryController extends GetxController {
       if (kDebugMode) print(err.toString());
     }
     return null;
+  }
+
+  String buildStaticMapURL({
+    required LatLng location,
+    required int zoom,
+    required List<StaticMarkerModel> markers,
+    required List<LatLng> polyLines,
+  }) {
+    const baseUrl = 'https://maps.googleapis.com/maps/api/staticmap?';
+
+    final locationParam = 'center=${location.latitude},${location.longitude}';
+
+    final zoomParam = 'zoom=$zoom';
+
+    final markerParams = markers
+        .map((marker) =>
+            'markers=icon:${marker.iconUrl}|${marker.location.latitude},${marker.location.longitude}')
+        .join('&');
+
+    const mapIDParam = 'map_id=$mapID';
+
+    final polylineParam = polyLines.isNotEmpty
+        ? 'path=color:0x000000ff|weight:3|${polyLines.map((polyline) => '${polyline.latitude},${polyline.longitude}').join('|')}'
+        : '';
+
+    final params = [
+      locationParam,
+      zoomParam,
+      'size=350x200',
+      markerParams,
+      mapIDParam,
+      polylineParam,
+    ].join('&');
+
+    final url = '$baseUrl$params&key=$googleMapsStaticAPIKey';
+    if (kDebugMode) {
+      print(url);
+    }
+    return url;
+  }
+
+  double calculateZoomLevel(
+      LatLngBounds bounds, double mapWidth, double mapHeight) {
+    const double globe = 256; // Width of the Google Maps tile in pixels
+    const double zoomMax = 21; // Maximum zoom level
+
+    double latFraction =
+        (bounds.northeast.latitude - bounds.southwest.latitude).abs();
+    double lngDiff = bounds.northeast.longitude - bounds.southwest.longitude;
+
+    double latZoom = log(mapHeight * 360 / (latFraction * globe)) / log(2);
+    double lngZoom = log(mapWidth * 360 / (lngDiff * globe)) / log(2);
+    double zoom = min(latZoom, lngZoom);
+
+    return (zoom > zoomMax) ? zoomMax : zoom;
   }
 
   LatLngBounds getLatLngBounds({required List<LatLng> latLngList}) {

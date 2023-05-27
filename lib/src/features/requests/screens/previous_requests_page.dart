@@ -15,7 +15,6 @@ class PreviousRequestsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final controller = Get.put(RequestsHistoryController());
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -34,39 +33,45 @@ class PreviousRequestsPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
           child: StretchingOverscrollIndicator(
-              axisDirection: AxisDirection.down,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) {
-                        return index == 0
-                            ? Obx(
-                                () => controller.snapshotLoaded.value
-                                    ? OngoingRequestItem(
-                                        onPressed: () {},
-                                        hospitalName: 'Royal Hospital',
-                                        dateTime: 'Apr 17 2023 1:54 PM',
-                                        status: RequestStatus.requestAccepted,
-                                        mapUrl: controller.mapUrl,
-                                      )
-                                    : const SizedBox.shrink(),
+            axisDirection: AxisDirection.down,
+            child: Column(
+              children: [
+                Expanded(
+                  child: Obx(
+                    () => controller.requestLoaded.value
+                        ? controller.requestsList.isNotEmpty
+                            ? ListView.builder(
+                                itemBuilder: (BuildContext context, int index) {
+                                  final requestStatus = controller
+                                      .requestsList[index].requestStatus;
+                                  final ongoingRequest = requestStatus ==
+                                          RequestStatus.requestPending ||
+                                      requestStatus ==
+                                          RequestStatus.requestAccepted ||
+                                      requestStatus ==
+                                          RequestStatus.requestAssigned;
+                                  return ongoingRequest
+                                      ? OngoingRequestItem(
+                                          onPressed: () {},
+                                          requestInfo:
+                                              controller.requestsList[index],
+                                        )
+                                      : RequestItem(
+                                          onPressed: () {},
+                                          requestInfo:
+                                              controller.requestsList[index],
+                                        );
+                                },
+                                itemCount: controller.requestsList.length,
+                                shrinkWrap: true,
                               )
-                            : index > 0 && index < 9
-                                ? RequestItem(
-                                    onPressed: () {},
-                                    hospitalName: 'Royal Hospital',
-                                    dateTime: 'Apr 17 2023 1:54 PM',
-                                    status: RequestStatus.requestCanceled,
-                                  )
-                                : SizedBox(height: screenHeight * 0.07);
-                      },
-                      itemCount: 10,
-                      shrinkWrap: true,
-                    ),
+                            : const SizedBox.shrink()
+                        : const SizedBox.shrink(),
                   ),
-                ],
-              )),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -49,7 +49,7 @@ class RequestItem extends StatelessWidget {
                     AutoSizeText(
                       hospitalName,
                       style: const TextStyle(
-                        fontSize: 15,
+                        fontSize: 17,
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
                       ),
@@ -59,7 +59,7 @@ class RequestItem extends StatelessWidget {
                     AutoSizeText(
                       dateTime,
                       style: const TextStyle(
-                        fontSize: 10,
+                        fontSize: 12,
                         fontWeight: FontWeight.w800,
                         color: Colors.black54,
                       ),
@@ -71,7 +71,7 @@ class RequestItem extends StatelessWidget {
                         AutoSizeText(
                           '${'status'.tr}: ',
                           style: const TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
                             color: Colors.black54,
                           ),
@@ -82,7 +82,7 @@ class RequestItem extends StatelessWidget {
                               ? 'canceled'.tr
                               : 'completed'.tr,
                           style: TextStyle(
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w600,
                             color: status == RequestStatus.requestCanceled
                                 ? Colors.red

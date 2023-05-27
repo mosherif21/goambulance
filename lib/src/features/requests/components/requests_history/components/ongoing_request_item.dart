@@ -5,17 +5,20 @@ import 'package:get/get.dart';
 import '../../../../../constants/enums.dart';
 
 class OngoingRequestItem extends StatelessWidget {
-  const OngoingRequestItem(
-      {Key? key,
-      required this.onPressed,
-      required this.hospitalName,
-      required this.dateTime,
-      required this.status})
-      : super(key: key);
+  const OngoingRequestItem({
+    Key? key,
+    required this.onPressed,
+    required this.hospitalName,
+    required this.dateTime,
+    required this.status,
+    required this.mapUrl,
+  }) : super(key: key);
   final Function onPressed;
   final String hospitalName;
   final String dateTime;
   final RequestStatus status;
+  final String mapUrl;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,59 +37,81 @@ class OngoingRequestItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: SizedBox(
+                    width: 350,
+                    height: 200,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        image: DecorationImage(
+                          image: NetworkImage(mapUrl),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                AutoSizeText(
-                  hospitalName,
-                  style: const TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                  ),
-                  maxLines: 2,
-                ),
-                const SizedBox(height: 5),
-                AutoSizeText(
-                  dateTime,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black54,
-                  ),
-                  maxLines: 2,
-                ),
-                const SizedBox(height: 5),
                 Row(
                   children: [
-                    AutoSizeText(
-                      '${'status'.tr}: ',
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black54,
-                      ),
-                      maxLines: 2,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText(
+                          hospitalName,
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black,
+                          ),
+                          maxLines: 2,
+                        ),
+                        const SizedBox(height: 5),
+                        AutoSizeText(
+                          dateTime,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black54,
+                          ),
+                          maxLines: 2,
+                        ),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            AutoSizeText(
+                              '${'status'.tr}: ',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black54,
+                              ),
+                              maxLines: 2,
+                            ),
+                            AutoSizeText(
+                              status == RequestStatus.requestPending
+                                  ? 'pending'.tr
+                                  : status == RequestStatus.requestAccepted
+                                      ? 'accepted'.tr
+                                      : 'assigned'.tr,
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                  color: status == RequestStatus.requestPending
+                                      ? Colors.orange
+                                      : Colors.blue),
+                              maxLines: 2,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    AutoSizeText(
-                      status == RequestStatus.requestPending
-                          ? 'pending'.tr
-                          : status == RequestStatus.requestAccepted
-                              ? 'accepted'.tr
-                              : 'assigned'.tr,
-                      style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: status == RequestStatus.requestPending
-                              ? Colors.orange
-                              : Colors.blue),
-                      maxLines: 2,
+                    const Spacer(),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black54,
                     ),
                   ],
                 ),

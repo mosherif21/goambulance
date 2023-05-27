@@ -169,14 +169,17 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> addNewAddress({
-    required List<AddressItem> addressesList,
+    required SavedAddressesModel savedAddressData,
+    required List<String> currentAddressDocIds,
   }) async {
     try {
       final userDataBatch = fireStore.batch();
-      if (addressesList.isNotEmpty) {
-        final fireStoreUserAddressRef =
-            firestoreUserRef.collection('addresses');
-        for (AddressItem addressItem in addressesList) {
+      final fireStoreUserAddressRef = firestoreUserRef.collection('addresses');
+      for (String addressDocId in currentAddressDocIds) {
+        userDataBatch.delete(fireStoreUserAddressRef.doc(addressDocId));
+      }
+      if (savedAddressData.addressesList.isNotEmpty) {
+        for (AddressItem addressItem in savedAddressData.addressesList) {
           {
             final addressRef = fireStoreUserAddressRef.doc();
             userDataBatch.set(addressRef, addressItem.toJson());

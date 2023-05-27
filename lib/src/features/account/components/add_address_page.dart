@@ -98,7 +98,7 @@ class AddAddressPage extends StatelessWidget {
                           hintText: 'Example : 6'.tr,
                           prefixIconData: Icons.house,
                           textController:
-                              controller.apartmentNumberTextController,
+                          controller.apartmentNumberTextController,
                           inputType: InputType.text,
                           editable: true,
                           textInputAction: TextInputAction.next,
@@ -156,27 +156,28 @@ class AddAddressPage extends StatelessWidget {
                         TextFormFieldRegular(
                           labelText: 'Additional Information'.tr,
                           hintText:
-                              'Example : there is a pharmacy under the building '
-                                  .tr,
+                          'Example : there is a pharmacy under the building '
+                              .tr,
                           prefixIconData: Icons.info,
                           textController:
-                              controller.additionalInfoTextController,
+                          controller.additionalInfoTextController,
                           inputType: InputType.text,
                           editable: true,
                           textInputAction: TextInputAction.next,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: RegularElevatedButton(
-                            buttonText: 'save'.tr,
-                            onPressed: () {
-                              controller.addNewAddress();
-                            },
-                            enabled: true,
-                            color: kDefaultColor,
-                          ),
-                        ),
+
                       ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: RegularElevatedButton(
+                      buttonText: 'save'.tr,
+                      onPressed: () {
+                        controller.addNewAddress();
+                      },
+                      enabled: true,
+                      color: kDefaultColor,
                     ),
                   ),
                 ],

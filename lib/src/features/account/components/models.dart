@@ -98,16 +98,16 @@ class MedicalHistoryModel {
 }
 
 class SavedAddressesModel {
-  final String name;
+  final String addressName;
   final List<AddressItem> addressesList;
 
   SavedAddressesModel({
-    required this.name,
+    required this.addressName,
     required this.addressesList,
   });
 
   Map<String, dynamic> toJson() => {
-        'Name': name,
+        'addressName': addressName,
       };
 }
 

@@ -47,11 +47,11 @@ class AddressesController extends GetxController {
 
   void loadAddresses() {
     try {
-      final userDiseasesRef = FirebaseFirestore.instance
+      final userAddressesRef = FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .collection('addresses');
-      userDiseasesRef.get().then((addressesSnapshot) {
+      userAddressesRef.get().then((addressesSnapshot) {
         for (var addressesDoc in addressesSnapshot.docs) {
           currentAddressesDocIds.add(addressesDoc.id);
           final addressesData = addressesDoc.data();
@@ -76,41 +76,42 @@ class AddressesController extends GetxController {
 
   void addNewAddress() async {
     showLoadingScreen();
-    if (locationName.value.isNotEmpty) {
-      final locationName = locationNameTextController.text.trim();
-      final streetName = streetNameTextController.text.trim();
-      final apartmentNumber = apartmentNumberTextController.text.trim();
-      final floorNumber = floorNumberTextController.text.trim();
-      final areaName = areaNameTextController.text.trim();
-      final additionalInfo = additionalInfoTextController.text.trim();
-      addressesList.add(AddressItem(
-          locationName: locationName,
-          streetName: streetName,
-          apartmentNumber: apartmentNumber,
-          floorNumber: floorNumber,
-          areaName: areaName,
-          additionalInfo: additionalInfo));
+    final locationName = locationNameTextController.text.trim();
+    final streetName = streetNameTextController.text.trim();
+    final apartmentNumber = apartmentNumberTextController.text.trim();
+    final floorNumber = floorNumberTextController.text.trim();
+    final areaName = areaNameTextController.text.trim();
+    final additionalInfo = additionalInfoTextController.text.trim();
+    addressesList.add(AddressItem(
+        locationName: locationName,
+        streetName: streetName,
+        apartmentNumber: apartmentNumber,
+        floorNumber: floorNumber,
+        areaName: areaName,
+        additionalInfo: additionalInfo));
+    final addressData = SavedAddressesModel(
+        addressName: locationName, addressesList: addressesList);
 
-
-      final functionStatus = await FirebasePatientDataAccess.instance
-          .addNewAddress(addressesList: addressesList);
-      if (functionStatus == FunctionStatus.success) {
-        hideLoadingScreen();
-        locationNameTextController.clear();
-        streetNameTextController.clear();
-        apartmentNumberTextController.clear();
-        floorNumberTextController.clear();
-        areaNameTextController.clear();
-        additionalInfoTextController.clear();
-        showSnackBar(
-            text: 'medicalHistorySavedSuccess'.tr,
-            snackBarType: SnackBarType.success);
-      } else {
-        hideLoadingScreen();
-        showSnackBar(
-            text: 'medicalHistorySavedError'.tr,
-            snackBarType: SnackBarType.error);
-      }
+    final functionStatus = await FirebasePatientDataAccess.instance
+        .addNewAddress(
+            savedAddressData: addressData,
+            currentAddressDocIds: currentAddressesDocIds);
+    if (functionStatus == FunctionStatus.success) {
+      hideLoadingScreen();
+      locationNameTextController.clear();
+      streetNameTextController.clear();
+      apartmentNumberTextController.clear();
+      floorNumberTextController.clear();
+      areaNameTextController.clear();
+      additionalInfoTextController.clear();
+      showSnackBar(
+          text: 'medicalHistorySavedSuccess'.tr,
+          snackBarType: SnackBarType.success);
+    } else {
+      hideLoadingScreen();
+      showSnackBar(
+          text: 'medicalHistorySavedError'.tr,
+          snackBarType: SnackBarType.error);
     }
   }
 

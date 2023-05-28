@@ -105,7 +105,7 @@ class PreviousRequestsPage extends StatelessWidget {
                               } else if (index ==
                                       controller.requestsList.length &&
                                   controller.requestsList.isNotEmpty) {
-                                return SizedBox(height: screenHeight * 0.08);
+                                return SizedBox(height: screenHeight * 0.1);
                               } else {
                                 return const EmptyRequestsHistory();
                               }

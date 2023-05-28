@@ -117,10 +117,10 @@ Future<void> logout() async {
   }
   final functionStatus =
       await AuthenticationRepository.instance.logoutAuthUser();
-  hideLoadingScreen();
   if (functionStatus == FunctionStatus.success) {
     Get.offAll(() => const AuthenticationScreen());
   } else {
+    hideLoadingScreen();
     showSnackBar(text: 'signOutFailed'.tr, snackBarType: SnackBarType.error);
   }
 }

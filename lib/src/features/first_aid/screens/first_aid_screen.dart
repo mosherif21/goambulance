@@ -64,21 +64,6 @@ class FirstAidScreen extends StatelessWidget {
                 shrinkWrap: true,
               ),
             ),
-
-            // AnimationLimiter(
-            //   child: Column(
-            //     children: AnimationConfiguration.toStaggeredList(
-            //       duration: const Duration(milliseconds: 375),
-            //       childAnimationBuilder: (widget) => SlideAnimation(
-            //         horizontalOffset: 50.0,
-            //         child: FadeInAnimation(
-            //           child: widget,
-            //         ),
-            //       ),
-            //       children: YourColumnChildren(),
-            //     ),
-            //   ),
-            // ),
           ),
         ),
       ),

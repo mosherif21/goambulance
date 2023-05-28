@@ -110,7 +110,10 @@ class OngoingRequestItem extends StatelessWidget {
                                     : requestInfo.requestStatus ==
                                             RequestStatus.accepted
                                         ? 'accepted'.tr
-                                        : 'assigned'.tr,
+                                        : requestInfo.requestStatus ==
+                                                RequestStatus.assigned
+                                            ? 'assigned'.tr
+                                            : 'ongoing'.tr,
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,

@@ -313,6 +313,12 @@ class FirebasePatientDataAccess extends GetxController {
             patientCondition:
                 assignedRequestDocument['patientCondition'].toString(),
             backupNumber: assignedRequestDocument['backupNumber'].toString(),
+            ambulanceCarID:
+                assignedRequestDocument['ambulanceCarID'].toString(),
+            ambulanceDriverID:
+                assignedRequestDocument['ambulanceDriverID'].toString(),
+            ambulanceMedicID:
+                assignedRequestDocument['ambulanceMedicID'].toString(),
             requestStatus: status == 'assigned'
                 ? RequestStatus.assigned
                 : RequestStatus.ongoing,
@@ -350,6 +356,12 @@ class FirebasePatientDataAccess extends GetxController {
             isUser: completedRequestDocument['isUser'] as bool,
             patientCondition:
                 completedRequestDocument['patientCondition'].toString(),
+            ambulanceCarID:
+                completedRequestDocument['ambulanceCarID'].toString(),
+            ambulanceDriverID:
+                completedRequestDocument['ambulanceDriverID'].toString(),
+            ambulanceMedicID:
+                completedRequestDocument['ambulanceMedicID'].toString(),
             backupNumber: completedRequestDocument['backupNumber'].toString(),
             requestStatus: RequestStatus.completed,
             requestDateTime: requestDateTime,
@@ -614,6 +626,30 @@ class FirebasePatientDataAccess extends GetxController {
       }
       return FunctionStatus.failure;
     }
+  }
+
+  Future<LatLng?> getAmbulanceLocation(
+      {required String ambulanceDriverId}) async {
+    try {
+      final snapshot = await fireStore
+          .collection('usersLocation')
+          .doc(ambulanceDriverId)
+          .get();
+      if (snapshot.exists) {
+        final ambulanceLocation =
+            snapshot.data()!['position']['geopoint'] as GeoPoint;
+        return LatLng(ambulanceLocation.latitude, ambulanceLocation.longitude);
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
   }
 
   Future<void> deleteFcmToken() async {

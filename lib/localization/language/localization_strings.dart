@@ -330,6 +330,7 @@ class Languages extends Translations {
           'floorNumber': "رقم الطابق: ",
           'area': "المنطقة: ",
           'delete': "حذف",
+          'ongoing': "جارية",
           'requestDetails': 'تفاصيل الطلب',
         },
         'en_US': {
@@ -342,6 +343,7 @@ class Languages extends Translations {
           'welcome': 'Welcome',
           'addresses': 'Addresses',
           'sponsors': 'Our sponsors',
+          'ongoing': "Ongoing",
           'noRequests': 'You don\'t have any previous requests',
           'changeGoogleAccount': 'Change Google Account',
           'noMoreHospitals': 'No more hospitals',

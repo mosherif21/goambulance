@@ -28,12 +28,14 @@ class RequestsHistoryController extends GetxController {
   late final String userId;
   late final DocumentReference firestoreUserRef;
   late final FirebaseFirestore _firestore;
+  late final FirebasePatientDataAccess firebasePatientDataAccess;
   final requestsRefreshController = RefreshController(initialRefresh: false);
   @override
   void onReady() async {
     userId = AuthenticationRepository.instance.fireUser.value!.uid;
     _firestore = FirebaseFirestore.instance;
     firestoreUserRef = _firestore.collection('users').doc(userId);
+    firebasePatientDataAccess = FirebasePatientDataAccess.instance;
     getRequestsHistory();
     super.onReady();
   }
@@ -52,7 +54,7 @@ class RequestsHistoryController extends GetxController {
             FirebasePerformance.instance.newTrace('load_recent_requests');
         await trace.start();
         requestsList.value =
-            await FirebasePatientDataAccess.instance.getRecentRequests();
+            await firebasePatientDataAccess.getRecentRequests();
         await trace.stop();
       }
       if (kDebugMode) {
@@ -70,19 +72,41 @@ class RequestsHistoryController extends GetxController {
           ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
         } else if (requestsList[index].requestStatus ==
             RequestStatus.assigned) {
-          getStaticMapImgURL(
-            marker1IconUrl: requestMarkerImageUrl,
-            marker1LatLng: requestsList[index].requestLocation,
-            marker2IconUrl: hospitalMarkerImageUrl,
-            marker2LatLng: requestsList[index].hospitalLocation,
-          ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
+          firebasePatientDataAccess
+              .getAmbulanceLocation(
+                  ambulanceDriverId: requestsList[index].ambulanceDriverID!)
+              .then(
+            (ambulanceLocation) {
+              getStaticMapImgURL(
+                marker1IconUrl: requestMarkerImageUrl,
+                marker1LatLng: requestsList[index].requestLocation,
+                marker2IconUrl: ambulanceLocation != null
+                    ? ambulanceMarkerImageUrl
+                    : hospitalMarkerImageUrl,
+                marker2LatLng:
+                    ambulanceLocation ?? requestsList[index].hospitalLocation,
+              ).then(
+                  (mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
+            },
+          );
         } else if (requestsList[index].requestStatus == RequestStatus.ongoing) {
-          getStaticMapImgURL(
-            marker1IconUrl: requestMarkerImageUrl,
-            marker1LatLng: requestsList[index].requestLocation,
-            marker2IconUrl: hospitalMarkerImageUrl,
-            marker2LatLng: requestsList[index].hospitalLocation,
-          ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
+          firebasePatientDataAccess
+              .getAmbulanceLocation(
+                  ambulanceDriverId: requestsList[index].ambulanceDriverID!)
+              .then(
+            (ambulanceLocation) {
+              getStaticMapImgURL(
+                marker1IconUrl: ambulanceLocation != null
+                    ? ambulanceMarkerImageUrl
+                    : requestMarkerImageUrl,
+                marker1LatLng:
+                    ambulanceLocation ?? requestsList[index].requestLocation,
+                marker2IconUrl: hospitalMarkerImageUrl,
+                marker2LatLng: requestsList[index].hospitalLocation,
+              ).then(
+                  (mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
+            },
+          );
         }
       }
     } on FirebaseException catch (error) {
@@ -96,6 +120,7 @@ class RequestsHistoryController extends GetxController {
     }
   }
 
+  void onRequestSelected({required RequestHistoryModel requestModel}) {}
   Future<String> getStaticMapImgURL({
     required String marker1IconUrl,
     required LatLng marker1LatLng,

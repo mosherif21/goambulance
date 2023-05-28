@@ -10,7 +10,6 @@ import '../components/requests_history/components/loading_requests_history.dart'
 import '../components/requests_history/components/no_requests_history.dart';
 import '../components/requests_history/components/not_ongoing_request_item.dart';
 import '../components/requests_history/components/ongoing_request_item.dart';
-import '../components/requests_history/components/request_details_page.dart';
 import '../controllers/requests_history_controller.dart';
 
 class PreviousRequestsPage extends StatelessWidget {
@@ -79,7 +78,8 @@ class PreviousRequestsPage extends StatelessWidget {
                                 final ongoingRequest = requestStatus ==
                                         RequestStatus.pending ||
                                     requestStatus == RequestStatus.accepted ||
-                                    requestStatus == RequestStatus.assigned;
+                                    requestStatus == RequestStatus.assigned ||
+                                    requestStatus == RequestStatus.ongoing;
 
                                 return AnimationConfiguration.staggeredList(
                                   position: index,
@@ -89,17 +89,18 @@ class PreviousRequestsPage extends StatelessWidget {
                                     child: FadeInAnimation(
                                       child: ongoingRequest
                                           ? OngoingRequestItem(
-                                              onPressed: () => Get.to(
-                                                () => RequestDetailsPage(
-                                                  requestModel: controller
-                                                      .requestsList[index],
-                                                ),
-                                              ),
+                                              onPressed: () =>
+                                                  controller.onRequestSelected(
+                                                      requestModel: controller
+                                                          .requestsList[index]),
                                               requestInfo: controller
                                                   .requestsList[index],
                                             )
                                           : RequestItem(
-                                              onPressed: () {},
+                                              onPressed: () =>
+                                                  controller.onRequestSelected(
+                                                      requestModel: controller
+                                                          .requestsList[index]),
                                               requestInfo: controller
                                                   .requestsList[index],
                                             ),

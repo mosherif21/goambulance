@@ -52,10 +52,10 @@ class RequestsHistoryController extends GetxController {
       if (Get.isRegistered<FirebasePatientDataAccess>()) {
         final trace =
             FirebasePerformance.instance.newTrace('load_recent_requests');
-        await trace.start();
+        trace.start();
         requestsList.value =
             await firebasePatientDataAccess.getRecentRequests();
-        await trace.stop();
+        trace.stop();
       }
       if (kDebugMode) {
         AppInit.logger.i('loaded requests history, no: ${requestsList.length}');
@@ -146,7 +146,7 @@ class RequestsHistoryController extends GetxController {
 
     late final LatLngBounds bounds = getLatLngBounds(latLngList: latLngPoints);
 
-    double zoomLevel = calculateZoomLevel(bounds, 350, 200);
+    double zoomLevel = calculateZoomLevel(bounds, 300, 150);
 
     double centerLatitude =
         (bounds.southwest.latitude + bounds.northeast.latitude) / 2;

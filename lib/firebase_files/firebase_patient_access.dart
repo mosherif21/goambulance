@@ -632,7 +632,7 @@ class FirebasePatientDataAccess extends GetxController {
       {required String ambulanceDriverId}) async {
     try {
       final snapshot = await fireStore
-          .collection('usersLocation')
+          .collection('driversLocations')
           .doc(ambulanceDriverId)
           .get();
       if (snapshot.exists) {

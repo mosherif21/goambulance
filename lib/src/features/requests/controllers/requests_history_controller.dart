@@ -46,16 +46,19 @@ class RequestsHistoryController extends GetxController {
 
   void getRequestsHistory() async {
     try {
-      final trace =
-          FirebasePerformance.instance.newTrace('load_recent_requests');
-      await trace.start();
-
       requestLoaded.value = false;
-
       if (Get.isRegistered<FirebasePatientDataAccess>()) {
+        final trace =
+            FirebasePerformance.instance.newTrace('load_recent_requests');
+        await trace.start();
         requestsList.value =
             await FirebasePatientDataAccess.instance.getRecentRequests();
+        await trace.stop();
       }
+      if (kDebugMode) {
+        AppInit.logger.i('loaded requests history, no: ${requestsList.length}');
+      }
+      requestLoaded.value = true;
       for (int index = 0; index < requestsList.length; index++) {
         if (requestsList[index].requestStatus == RequestStatus.requestPending ||
             requestsList[index].requestStatus ==
@@ -70,11 +73,6 @@ class RequestsHistoryController extends GetxController {
           ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
         }
       }
-      if (kDebugMode) {
-        AppInit.logger.i('loaded requests history, no: ${requestsList.length}');
-      }
-      requestLoaded.value = true;
-      await trace.stop();
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         AppInit.logger.e(error.toString());
@@ -118,7 +116,6 @@ class RequestsHistoryController extends GetxController {
     double centerLongitude =
         (bounds.southwest.longitude + bounds.northeast.longitude) / 2;
     final center = LatLng(centerLatitude, centerLongitude);
-
     return buildStaticMapURL(
       location: center,
       zoom: zoomLevel.toInt(),
@@ -238,6 +235,7 @@ class RequestsHistoryController extends GetxController {
 
   @override
   void onClose() {
+    requestsRefreshController.dispose();
     super.onClose();
   }
 }

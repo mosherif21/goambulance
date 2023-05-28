@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../general/common_widgets/labeled_image.dart';
 import '../../../general/common_widgets/text_header.dart';
@@ -32,6 +33,29 @@ class HomeDashBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     var current = 0;
     final homeScreenController = HomeScreenController.instance;
+    final controller = PageController(viewportFraction: 0.8, keepPage: true);
+    final controller2 = PageController(viewportFraction: 0.9, keepPage: true);
+    final sponserPages = List.generate(
+        16,
+        (sindex) => Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(15),
+            child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: OpenContainer(
+                  useRootNavigator: true,
+                  closedElevation: 0,
+                  openElevation: 0,
+                  closedBuilder: (context, action) => Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.all(15),
+                      child: Image.asset(getFirstAidTipImage(sindex + 1),
+                          fit: BoxFit.contain, width: 1000.0)),
+                  openBuilder: (context, action) => FirstAidTipsDetailsPage(
+                    imgPath: getFirstAidDetailsPath(sindex + 1),
+                  ),
+                ))));
+
     final screenHeight = getScreenHeight(context);
     return Scaffold(
       appBar: AppBar(
@@ -110,6 +134,7 @@ class HomeDashBoard extends StatelessWidget {
                           enlargeStrategy: CenterPageEnlargeStrategy.height,
                         ),
                       ),
+
                       const SizedBox(height: 15),
                       TextHeaderWithButton(
                         headerText: 'services'.tr,
@@ -124,6 +149,30 @@ class HomeDashBoard extends StatelessWidget {
                       TextHeader(
                         headerText: 'sponsors'.tr,
                         fontSize: 24,
+                      ),
+                      SizedBox(
+                        height: 200,
+                        child: PageView.builder(
+                          controller: controller,
+                          //itemCount: pages.length,
+                          itemBuilder: (_, sindex) {
+                            return sponserPages[sindex % sponserPages.length];
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SmoothPageIndicator(
+                            controller: controller,
+                            count: 6,
+                            effect: const WormEffect(
+                              dotHeight: 16,
+                              dotWidth: 16,
+                            ),
+                          ),
+                        ),
                       ),
                       // CarouselSlider(
                       //   carouselController:

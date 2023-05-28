@@ -52,10 +52,10 @@ class RequestsHistoryController extends GetxController {
       if (Get.isRegistered<FirebasePatientDataAccess>()) {
         final trace =
             FirebasePerformance.instance.newTrace('load_recent_requests');
-        trace.start();
+        await trace.start();
         requestsList.value =
             await firebasePatientDataAccess.getRecentRequests();
-        trace.stop();
+        await trace.stop();
       }
       if (kDebugMode) {
         AppInit.logger.i('loaded requests history, no: ${requestsList.length}');

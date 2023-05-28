@@ -678,6 +678,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.3"
+  flutter_staggered_animations:
+    dependency: "direct main"
+    description:
+      name: flutter_staggered_animations
+      sha256: "81d3c816c9bb0dca9e8a5d5454610e21ffb068aedb2bde49d2f8d04f75538351"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -691,14 +699,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_tts:
-    dependency: "direct main"
-    description:
-      name: flutter_tts
-      sha256: e91ad17793ad12cca9c3066accf99ceb353bf0355ad06b767176f178b5c428f6
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.6.3"
   flutter_web_frame:
     dependency: "direct main"
     description:
@@ -824,14 +824,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1"
-  google_maps:
-    dependency: transitive
-    description:
-      name: google_maps
-      sha256: "555d5d736339b0478e821167ac521c810d7b51c3b2734e6802a9f046b64ea37a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.3.0"
   google_maps_flutter:
     dependency: "direct main"
     description:
@@ -864,14 +856,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.7"
-  google_maps_flutter_web:
-    dependency: "direct main"
-    description:
-      name: google_maps_flutter_web
-      sha256: ed964ba9042472e851db5a6184d84c5ccb82c4c3729cff810bf6be1b0ac28e51
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0+9"
   google_maps_webservice:
     dependency: transitive
     description:
@@ -1024,14 +1008,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
-  js_wrapping:
-    dependency: transitive
-    description:
-      name: js_wrapping
-      sha256: e385980f7c76a8c1c9a560dfb623b890975841542471eade630b2871d243851c
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.7.4"
   json_annotation:
     dependency: transitive
     description:
@@ -1384,14 +1360,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.9"
-  sanitize_html:
-    dependency: transitive
-    description:
-      name: sanitize_html
-      sha256: "0a445f19bbaa196f5a4f93461aa066b94e6e025622eb1e9bc77872a5e25233a5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -1605,14 +1573,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0+1"
-  translator:
-    dependency: "direct main"
-    description:
-      name: translator
-      sha256: "225ee22fc482736c593be5c232c0c5884b16d7cc42945c51ac73d9a0441dddcc"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.7"
   typed_data:
     dependency: transitive
     description:

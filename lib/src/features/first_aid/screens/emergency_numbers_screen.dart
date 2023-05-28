@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -34,30 +35,41 @@ class EmergencyNumbersScreen extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int emergencyNumber) {
-                return RegularClickableCard(
-                  onPressed: () async {
-                    if (!AppInit.isWeb) {
-                      if (await handleCallPermission()) {
-                        await FlutterPhoneDirectCaller.callNumber(
-                            emergencyNumbers[emergencyNumber]);
-                      }
-                    } else {
-                      showSnackBar(
-                          text: 'useMobileToThisFeature'.tr,
-                          snackBarType: SnackBarType.info);
-                    }
-                  },
-                  title: 'emergencyNumber${emergencyNumber + 1}'.tr,
-                  subTitle: emergencyNumbers[emergencyNumber],
-                  icon: Icons.call,
-                  iconColor: Colors.green,
-                  imgPath: getEmergencyNumberImage(emergencyNumber + 1),
-                );
-              },
-              itemCount: emergencyNumbers.length,
+            child: AnimationLimiter(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int emergencyNumber) {
+                  return AnimationConfiguration.staggeredList(
+                    position: emergencyNumber,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: RegularClickableCard(
+                          onPressed: () async {
+                            if (!AppInit.isWeb) {
+                              if (await handleCallPermission()) {
+                                await FlutterPhoneDirectCaller.callNumber(
+                                    emergencyNumbers[emergencyNumber]);
+                              }
+                            } else {
+                              showSnackBar(
+                                  text: 'useMobileToThisFeature'.tr,
+                                  snackBarType: SnackBarType.info);
+                            }
+                          },
+                          title: 'emergencyNumber${emergencyNumber + 1}'.tr,
+                          subTitle: emergencyNumbers[emergencyNumber],
+                          icon: Icons.call,
+                          iconColor: Colors.green,
+                          imgPath: getEmergencyNumberImage(emergencyNumber + 1),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: emergencyNumbers.length,
+              ),
             ),
           ),
         ),

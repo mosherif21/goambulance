@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
@@ -32,25 +33,52 @@ class FirstAidScreen extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 20.0, left: 20.0, right: 20.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
-            child: ListView.builder(
-              itemBuilder: (BuildContext context, int firstAidNumber) {
-                return RegularClickableCard(
-                  onPressed: () => Get.to(
-                    () => FirstAidTipsDetailsPage(
-                      imgPath: getFirstAidDetailsPath(firstAidNumber + 1),
+            child: AnimationLimiter(
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int firstAidNumber) {
+                  return AnimationConfiguration.staggeredList(
+                    position: firstAidNumber,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: RegularClickableCard(
+                          onPressed: () => Get.to(
+                            () => FirstAidTipsDetailsPage(
+                              imgPath:
+                                  getFirstAidDetailsPath(firstAidNumber + 1),
+                            ),
+                            transition: getPageTransition(),
+                          ),
+                          title: 'firstAidTips${firstAidNumber + 1}'.tr,
+                          subTitle: '',
+                          icon: Icons.arrow_forward_ios,
+                          iconColor: Colors.black54,
+                          imgPath: getFirstAidTipImage(firstAidNumber + 1),
+                        ),
+                      ),
                     ),
-                    transition: getPageTransition(),
-                  ),
-                  title: 'firstAidTips${firstAidNumber + 1}'.tr,
-                  subTitle: '',
-                  icon: Icons.arrow_forward_ios,
-                  iconColor: Colors.black54,
-                  imgPath: getFirstAidTipImage(firstAidNumber + 1),
-                );
-              },
-              itemCount: 16,
-              shrinkWrap: true,
+                  );
+                },
+                itemCount: 16,
+                shrinkWrap: true,
+              ),
             ),
+
+            // AnimationLimiter(
+            //   child: Column(
+            //     children: AnimationConfiguration.toStaggeredList(
+            //       duration: const Duration(milliseconds: 375),
+            //       childAnimationBuilder: (widget) => SlideAnimation(
+            //         horizontalOffset: 50.0,
+            //         child: FadeInAnimation(
+            //           child: widget,
+            //         ),
+            //       ),
+            //       children: YourColumnChildren(),
+            //     ),
+            //   ),
+            // ),
           ),
         ),
       ),

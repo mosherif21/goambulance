@@ -43,10 +43,8 @@ class PreviousRequestsPage extends StatelessWidget {
                   ? RefreshConfiguration(
                       headerTriggerDistance: 60,
                       maxOverScrollExtent: 20,
-                      maxUnderScrollExtent: 20,
                       enableLoadingWhenFailed: true,
                       hideFooterWhenNotFull: true,
-                      // enableScrollWhenRefreshCompleted: true,
                       child: AnimationLimiter(
                         child: SmartRefresher(
                           enablePullDown: true,

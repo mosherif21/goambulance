@@ -47,7 +47,7 @@ class HomeDashBoard extends StatelessWidget {
                   closedElevation: 0,
                   openElevation: 0,
                   closedBuilder: (context, action) => Container(
-                      color: Colors.white,
+                      color: Colors.transparent,
                       padding: const EdgeInsets.all(15),
                       child: Image.asset(getFirstAidTipImage(sindex + 1),
                           fit: BoxFit.contain, width: 1000.0)),

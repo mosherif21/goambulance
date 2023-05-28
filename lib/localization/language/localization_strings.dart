@@ -329,7 +329,8 @@ class Languages extends Translations {
           'apartmentNumber': "رقم العقار: ",
           'floorNumber': "رقم الطابق: ",
           'area': "المنطقة: ",
-          'deleted': "Delete: ",
+          'delete': "حذف",
+          'requestDetails': 'تفاصيل الطلب',
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -349,7 +350,7 @@ class Languages extends Translations {
           'loginTextTitle': 'LOGIN',
           'registerTextTitle': 'REGISTER',
           'skipLabel': 'Skip',
-          'deleted': "حذف: ",
+          'delete': "Delete",
           'successGoogleLink': 'Google account was linked successfully',
           'notAvailableErrorTitle': 'Not Currently Available',
           'notAvailableErrorSubTitle': 'We are working on it....',
@@ -568,6 +569,7 @@ class Languages extends Translations {
           'enterContactNumber': 'Enter contact\'s number',
           'searchingForHospitals': 'Searching for hospitals',
           'pendingRequest': 'Your ambulance request was sent',
+          'requestDetails': 'Request details',
           'assignedRequest': 'Your ambulance request was assigned',
           'acceptedRequest': 'Your ambulance request was accepted',
           'enterMedicalHistory':

@@ -105,17 +105,17 @@ class OngoingRequestItem extends StatelessWidget {
                               ),
                               AutoSizeText(
                                 requestInfo.requestStatus ==
-                                        RequestStatus.requestPending
+                                        RequestStatus.pending
                                     ? 'pending'.tr
                                     : requestInfo.requestStatus ==
-                                            RequestStatus.requestAccepted
+                                            RequestStatus.accepted
                                         ? 'accepted'.tr
                                         : 'assigned'.tr,
                                 style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: requestInfo.requestStatus ==
-                                            RequestStatus.requestPending
+                                            RequestStatus.pending
                                         ? Colors.orange
                                         : Colors.blue),
                                 maxLines: 2,

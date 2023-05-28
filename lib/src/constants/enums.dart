@@ -1,9 +1,6 @@
 //--------------------- ENUMS -------------------//
 
-enum Gender {
-  male,
-  female,
-}
+enum Gender { male, female }
 
 enum Language { english, arabic }
 
@@ -20,11 +17,11 @@ enum FunctionStatus { success, failure }
 enum SnackBarType { success, error, info, warning }
 
 enum RequestStatus {
-  notRequested,
-  requestPending,
-  requestAccepted,
-  requestAssigned,
-  requestOngoing,
-  requestCompleted,
-  requestCanceled,
+  non,
+  pending,
+  accepted,
+  assigned,
+  ongoing,
+  completed,
+  canceled,
 }

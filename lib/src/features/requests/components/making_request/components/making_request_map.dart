@@ -75,14 +75,13 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               () => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: AutoSizeText(
-                  widget.controller.requestStatus.value ==
-                          RequestStatus.requestPending
+                  widget.controller.requestStatus.value == RequestStatus.pending
                       ? 'pendingRequest'.tr
                       : widget.controller.requestStatus.value ==
-                              RequestStatus.requestAccepted
+                              RequestStatus.accepted
                           ? 'acceptedRequest'.tr
                           : widget.controller.requestStatus.value ==
-                                  RequestStatus.requestAssigned
+                                  RequestStatus.assigned
                               ? 'assignedRequest'.tr
                               : widget.controller.searchedHospitals.isEmpty
                                   ? 'searchingForHospitals'.tr
@@ -98,16 +97,15 @@ class _MakingRequestMapState extends State<MakingRequestMap>
             const SizedBox(height: 8),
             const Divider(thickness: 0.5, height: 1),
             Expanded(
-              child: widget.controller.requestStatus.value ==
-                      RequestStatus.notRequested
+              child: widget.controller.requestStatus.value == RequestStatus.non
                   ? ChooseHospitalsList(
                       controller: widget.controller,
                     )
                   : widget.controller.requestStatus.value ==
-                          RequestStatus.requestPending
+                          RequestStatus.pending
                       ? const PendingRequest()
                       : widget.controller.requestStatus.value ==
-                              RequestStatus.requestAccepted
+                              RequestStatus.accepted
                           ? const AcceptingRequest()
                           : const SizedBox.shrink(),
             ),
@@ -116,14 +114,14 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               padding: const EdgeInsets.all(18),
               child: Obx(
                 () => RegularElevatedButton(
-                  buttonText: widget.controller.requestStatus.value ==
-                          RequestStatus.notRequested
-                      ? 'confirmRequest'.tr
-                      : 'cancelRequest'.tr,
-                  onPressed: widget.controller.requestStatus.value ==
-                          RequestStatus.notRequested
-                      ? widget.controller.confirmRequest
-                      : widget.controller.cancelRequest,
+                  buttonText:
+                      widget.controller.requestStatus.value == RequestStatus.non
+                          ? 'confirmRequest'.tr
+                          : 'cancelRequest'.tr,
+                  onPressed:
+                      widget.controller.requestStatus.value == RequestStatus.non
+                          ? widget.controller.confirmRequest
+                          : widget.controller.cancelRequest,
                   enabled: widget.controller.selectedHospital.value != null
                       ? true
                       : false,

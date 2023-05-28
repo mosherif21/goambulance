@@ -77,15 +77,14 @@ class RequestItem extends StatelessWidget {
                             maxLines: 2,
                           ),
                           AutoSizeText(
-                            requestInfo.requestStatus ==
-                                    RequestStatus.requestCanceled
+                            requestInfo.requestStatus == RequestStatus.canceled
                                 ? 'canceled'.tr
                                 : 'completed'.tr,
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
                               color: requestInfo.requestStatus ==
-                                      RequestStatus.requestCanceled
+                                      RequestStatus.canceled
                                   ? Colors.red
                                   : Colors.green,
                             ),

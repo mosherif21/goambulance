@@ -275,8 +275,8 @@ class FirebasePatientDataAccess extends GetxController {
                 pendingRequestDocument['patientCondition'].toString(),
             backupNumber: pendingRequestDocument['backupNumber'].toString(),
             requestStatus: status == 'pending'
-                ? RequestStatus.requestPending
-                : RequestStatus.requestAccepted,
+                ? RequestStatus.pending
+                : RequestStatus.accepted,
             requestDateTime: requestDateTime,
           );
           readRequestsHistory.add(requestModel);
@@ -300,6 +300,7 @@ class FirebasePatientDataAccess extends GetxController {
               requestLocationPoint.latitude, requestLocationPoint.longitude);
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
+          final status = assignedRequestDocument['status'].toString();
           final requestModel = RequestHistoryModel(
             requestId: assignedDoc.id,
             timeStamp: timeStamp,
@@ -312,7 +313,9 @@ class FirebasePatientDataAccess extends GetxController {
             patientCondition:
                 assignedRequestDocument['patientCondition'].toString(),
             backupNumber: assignedRequestDocument['backupNumber'].toString(),
-            requestStatus: RequestStatus.requestAssigned,
+            requestStatus: status == 'assigned'
+                ? RequestStatus.assigned
+                : RequestStatus.ongoing,
             requestDateTime: requestDateTime,
           );
           readRequestsHistory.add(requestModel);
@@ -348,7 +351,7 @@ class FirebasePatientDataAccess extends GetxController {
             patientCondition:
                 completedRequestDocument['patientCondition'].toString(),
             backupNumber: completedRequestDocument['backupNumber'].toString(),
-            requestStatus: RequestStatus.requestCompleted,
+            requestStatus: RequestStatus.completed,
             requestDateTime: requestDateTime,
           );
           readRequestsHistory.add(requestModel);
@@ -384,7 +387,7 @@ class FirebasePatientDataAccess extends GetxController {
             patientCondition:
                 canceledRequestDocument['patientCondition'].toString(),
             backupNumber: canceledRequestDocument['backupNumber'].toString(),
-            requestStatus: RequestStatus.requestCanceled,
+            requestStatus: RequestStatus.canceled,
             requestDateTime: requestDateTime,
           );
           readRequestsHistory.add(requestModel);

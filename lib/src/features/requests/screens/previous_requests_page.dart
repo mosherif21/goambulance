@@ -77,11 +77,9 @@ class PreviousRequestsPage extends StatelessWidget {
                                 final requestStatus = controller
                                     .requestsList[index].requestStatus;
                                 final ongoingRequest = requestStatus ==
-                                        RequestStatus.requestPending ||
-                                    requestStatus ==
-                                        RequestStatus.requestAccepted ||
-                                    requestStatus ==
-                                        RequestStatus.requestAssigned;
+                                        RequestStatus.pending ||
+                                    requestStatus == RequestStatus.accepted ||
+                                    requestStatus == RequestStatus.assigned;
 
                                 return AnimationConfiguration.staggeredList(
                                   position: index,

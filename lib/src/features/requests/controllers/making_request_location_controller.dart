@@ -77,7 +77,7 @@ class MakingRequestLocationController extends GetxController {
   late LatLng currentChosenLatLng;
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
-  final requestStatus = RequestStatus.notRequested.obs;
+  final requestStatus = RequestStatus.non.obs;
   late RequestModel currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final selectedHospital = Rx<HospitalModel?>(null);
@@ -124,7 +124,7 @@ class MakingRequestLocationController extends GetxController {
         if (snapshot.exists) {
           final status = snapshot.data()!['status'].toString();
           if (status == 'accepted') {
-            requestStatus.value = RequestStatus.requestAccepted;
+            requestStatus.value = RequestStatus.accepted;
           }
         } else {
           _firestore
@@ -175,7 +175,7 @@ class MakingRequestLocationController extends GetxController {
 
       if (functionStatus == FunctionStatus.success) {
         currentRequestData = requestData;
-        requestStatus.value = RequestStatus.requestPending;
+        requestStatus.value = RequestStatus.pending;
         initRequestListener(pendingRequestRef: pendingRequestRef);
       }
       hideLoadingScreen();
@@ -206,7 +206,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onRequestCanceledChanges() {
-    requestStatus.value = RequestStatus.notRequested;
+    requestStatus.value = RequestStatus.non;
     onRefresh();
   }
 
@@ -317,29 +317,27 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onBackPressed() {
-    if (choosingHospital.value &&
-        requestStatus.value == RequestStatus.notRequested) {
+    if (choosingHospital.value && requestStatus.value == RequestStatus.non) {
       choosingRequestLocationChanges();
     } else if (choosingHospital.value &&
-        requestStatus.value != RequestStatus.notRequested) {
+        requestStatus.value != RequestStatus.non) {
       Get.close(2);
     } else if (!choosingHospital.value &&
-        requestStatus.value == RequestStatus.notRequested) {
+        requestStatus.value == RequestStatus.non) {
       Get.back();
     }
   }
 
   Future<bool> onWillPop() {
-    if (choosingHospital.value &&
-        requestStatus.value == RequestStatus.notRequested) {
+    if (choosingHospital.value && requestStatus.value == RequestStatus.non) {
       choosingRequestLocationChanges();
       return Future.value(false);
     } else if (choosingHospital.value &&
-        requestStatus.value != RequestStatus.notRequested) {
+        requestStatus.value != RequestStatus.non) {
       Get.close(2);
       return Future.value(true);
     } else if (!choosingHospital.value &&
-        requestStatus.value == RequestStatus.notRequested) {
+        requestStatus.value == RequestStatus.non) {
       return Future.value(true);
     } else {
       return Future.value(false);
@@ -824,7 +822,7 @@ class MakingRequestLocationController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
-    if (requestStatus.value != RequestStatus.notRequested) {
+    if (requestStatus.value != RequestStatus.non) {
       pendingRequestListener?.cancel();
     }
 

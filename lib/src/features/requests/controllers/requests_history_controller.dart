@@ -60,11 +60,23 @@ class RequestsHistoryController extends GetxController {
       }
       requestLoaded.value = true;
       for (int index = 0; index < requestsList.length; index++) {
-        if (requestsList[index].requestStatus == RequestStatus.requestPending ||
-            requestsList[index].requestStatus ==
-                RequestStatus.requestAccepted ||
-            requestsList[index].requestStatus ==
-                RequestStatus.requestAssigned) {
+        if (requestsList[index].requestStatus == RequestStatus.pending ||
+            requestsList[index].requestStatus == RequestStatus.accepted) {
+          getStaticMapImgURL(
+            marker1IconUrl: requestMarkerImageUrl,
+            marker1LatLng: requestsList[index].requestLocation,
+            marker2IconUrl: hospitalMarkerImageUrl,
+            marker2LatLng: requestsList[index].hospitalLocation,
+          ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
+        } else if (requestsList[index].requestStatus ==
+            RequestStatus.assigned) {
+          getStaticMapImgURL(
+            marker1IconUrl: requestMarkerImageUrl,
+            marker1LatLng: requestsList[index].requestLocation,
+            marker2IconUrl: hospitalMarkerImageUrl,
+            marker2LatLng: requestsList[index].hospitalLocation,
+          ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
+        } else if (requestsList[index].requestStatus == RequestStatus.ongoing) {
           getStaticMapImgURL(
             marker1IconUrl: requestMarkerImageUrl,
             marker1LatLng: requestsList[index].requestLocation,

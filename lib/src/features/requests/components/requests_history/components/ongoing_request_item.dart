@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../constants/enums.dart';
 import '../models.dart';
@@ -32,21 +33,36 @@ class OngoingRequestItem extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: SizedBox(
-                    width: 350,
-                    height: 200,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        image: DecorationImage(
-                          image: NetworkImage(requestInfo.mapUrl!),
-                          fit: BoxFit.fill,
+                Obx(
+                  () => requestInfo.mapUrl.value.isEmpty
+                      ? Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 350,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(10.0),
+                          child: SizedBox(
+                            width: 350,
+                            height: 200,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade300,
+                                image: DecorationImage(
+                                  image: NetworkImage(requestInfo.mapUrl.value),
+                                  fit: BoxFit.fill,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 ),
                 const SizedBox(height: 10),
                 Row(

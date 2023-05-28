@@ -8,8 +8,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:goambulance/src/features/sos_message/controllers/sos_message_controller.dart';
 import 'package:goambulance/src/general/app_init.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../src/constants/enums.dart';
@@ -228,6 +230,178 @@ class FirebasePatientDataAccess extends GetxController {
         AppInit.logger.e(err.toString());
       }
     }
+  }
+
+  Future<List<RequestHistoryModel>> getRecentRequests() async {
+    final List<RequestHistoryModel> readRequestsHistory = [];
+    try {
+      final pendingSnapshot =
+          await firestoreUserRef.collection('pendingRequests').get();
+      final assignedSnapshot =
+          await firestoreUserRef.collection('assignedRequests').get();
+      final completedSnapshot =
+          await firestoreUserRef.collection('completedRequests').get();
+      final canceledSnapshot =
+          await firestoreUserRef.collection('canceledRequests').get();
+
+      // Process pending requests
+      for (DocumentSnapshot pendingDoc in pendingSnapshot.docs) {
+        final pendingRequestDocument = await fireStore
+            .collection('pendingRequests')
+            .doc(pendingDoc.id)
+            .get();
+        if (pendingRequestDocument.exists) {
+          final hospitalLocationPoint =
+              pendingRequestDocument['hospitalLocation'] as GeoPoint;
+          final requestLocationPoint =
+              pendingRequestDocument['requestLocation'] as GeoPoint;
+          final status = pendingRequestDocument['status'].toString();
+          final timeStamp = pendingRequestDocument['timestamp'] as Timestamp;
+          final requestDateTime = formatDateTime(timeStamp);
+          final requestLocation = LatLng(
+              requestLocationPoint.latitude, requestLocationPoint.longitude);
+          final hospitalLocation = LatLng(
+              hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
+          final requestModel = RequestHistoryModel(
+            requestId: pendingDoc.id,
+            timeStamp: timeStamp,
+            hospitalLocation: hospitalLocation,
+            requestLocation: requestLocation,
+            userId: pendingRequestDocument['userId'].toString(),
+            hospitalId: pendingRequestDocument['hospitalId'].toString(),
+            hospitalName: pendingRequestDocument['hospitalName'].toString(),
+            isUser: pendingRequestDocument['isUser'] as bool,
+            patientCondition:
+                pendingRequestDocument['patientCondition'].toString(),
+            backupNumber: pendingRequestDocument['backupNumber'].toString(),
+            requestStatus: status == 'pending'
+                ? RequestStatus.requestPending
+                : RequestStatus.requestAccepted,
+            requestDateTime: requestDateTime,
+          );
+          readRequestsHistory.add(requestModel);
+        }
+      }
+
+      // Process assigned requests
+      for (DocumentSnapshot assignedDoc in assignedSnapshot.docs) {
+        final assignedRequestDocument = await fireStore
+            .collection('assignedRequests')
+            .doc(assignedDoc.id)
+            .get();
+        if (assignedRequestDocument.exists) {
+          final hospitalLocationPoint =
+              assignedRequestDocument['hospitalLocation'] as GeoPoint;
+          final requestLocationPoint =
+              assignedRequestDocument['requestLocation'] as GeoPoint;
+          final timeStamp = assignedRequestDocument['timestamp'] as Timestamp;
+          final requestDateTime = formatDateTime(timeStamp);
+          final requestLocation = LatLng(
+              requestLocationPoint.latitude, requestLocationPoint.longitude);
+          final hospitalLocation = LatLng(
+              hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
+          final requestModel = RequestHistoryModel(
+            requestId: assignedDoc.id,
+            timeStamp: timeStamp,
+            hospitalLocation: hospitalLocation,
+            requestLocation: requestLocation,
+            userId: assignedRequestDocument['userId'].toString(),
+            hospitalId: assignedRequestDocument['hospitalId'].toString(),
+            hospitalName: assignedRequestDocument['hospitalName'].toString(),
+            isUser: assignedRequestDocument['isUser'] as bool,
+            patientCondition:
+                assignedRequestDocument['patientCondition'].toString(),
+            backupNumber: assignedRequestDocument['backupNumber'].toString(),
+            requestStatus: RequestStatus.requestAssigned,
+            requestDateTime: requestDateTime,
+          );
+          readRequestsHistory.add(requestModel);
+        }
+      }
+
+      // Process completed requests
+      for (DocumentSnapshot completedDoc in completedSnapshot.docs) {
+        final completedRequestDocument = await fireStore
+            .collection('completedRequests')
+            .doc(completedDoc.id)
+            .get();
+        if (completedRequestDocument.exists) {
+          final hospitalLocationPoint =
+              completedRequestDocument['hospitalLocation'] as GeoPoint;
+          final requestLocationPoint =
+              completedRequestDocument['requestLocation'] as GeoPoint;
+          final timeStamp = completedRequestDocument['timestamp'] as Timestamp;
+          final requestDateTime = formatDateTime(timeStamp);
+          final requestLocation = LatLng(
+              requestLocationPoint.latitude, requestLocationPoint.longitude);
+          final hospitalLocation = LatLng(
+              hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
+          final requestModel = RequestHistoryModel(
+            requestId: completedDoc.id,
+            timeStamp: timeStamp,
+            hospitalLocation: hospitalLocation,
+            requestLocation: requestLocation,
+            userId: completedRequestDocument['userId'].toString(),
+            hospitalId: completedRequestDocument['hospitalId'].toString(),
+            hospitalName: completedRequestDocument['hospitalName'].toString(),
+            isUser: completedRequestDocument['isUser'] as bool,
+            patientCondition:
+                completedRequestDocument['patientCondition'].toString(),
+            backupNumber: completedRequestDocument['backupNumber'].toString(),
+            requestStatus: RequestStatus.requestCompleted,
+            requestDateTime: requestDateTime,
+          );
+          readRequestsHistory.add(requestModel);
+        }
+      }
+
+      // Process canceled requests
+      for (DocumentSnapshot canceledDoc in canceledSnapshot.docs) {
+        final canceledRequestDocument = await fireStore
+            .collection('canceledRequests')
+            .doc(canceledDoc.id)
+            .get();
+        if (canceledRequestDocument.exists) {
+          final hospitalLocationPoint =
+              canceledRequestDocument['hospitalLocation'] as GeoPoint;
+          final requestLocationPoint =
+              canceledRequestDocument['requestLocation'] as GeoPoint;
+          final timeStamp = canceledRequestDocument['timestamp'] as Timestamp;
+          final requestDateTime = formatDateTime(timeStamp);
+          final requestLocation = LatLng(
+              requestLocationPoint.latitude, requestLocationPoint.longitude);
+          final hospitalLocation = LatLng(
+              hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
+          final requestModel = RequestHistoryModel(
+            requestId: canceledDoc.id,
+            timeStamp: timeStamp,
+            hospitalLocation: hospitalLocation,
+            requestLocation: requestLocation,
+            userId: canceledRequestDocument['userId'].toString(),
+            hospitalId: canceledRequestDocument['hospitalId'].toString(),
+            hospitalName: canceledRequestDocument['hospitalName'].toString(),
+            isUser: canceledRequestDocument['isUser'] as bool,
+            patientCondition:
+                canceledRequestDocument['patientCondition'].toString(),
+            backupNumber: canceledRequestDocument['backupNumber'].toString(),
+            requestStatus: RequestStatus.requestCanceled,
+            requestDateTime: requestDateTime,
+          );
+          readRequestsHistory.add(requestModel);
+        }
+      }
+      // Sort the list by timestamp
+      readRequestsHistory.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return readRequestsHistory;
   }
 
   Future<FunctionStatus> updateUserDataInfo({

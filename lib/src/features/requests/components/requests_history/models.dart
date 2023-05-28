@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../constants/enums.dart';
@@ -20,7 +21,7 @@ class RequestHistoryModel {
   final String hospitalName;
   final String backupNumber;
   final String patientCondition;
-  final String? mapUrl;
+  RxString mapUrl = ''.obs;
   final String requestDateTime;
   final RequestStatus requestStatus;
   final bool isUser;
@@ -41,6 +42,5 @@ class RequestHistoryModel {
     required this.requestStatus,
     required this.requestLocation,
     required this.hospitalLocation,
-    this.mapUrl,
   });
 }

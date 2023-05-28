@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
+import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -267,6 +269,13 @@ Future<bool> handleLocationPermission() async {
     }
   }
   return false;
+}
+
+String formatDateTime(Timestamp timestamp) {
+  DateTime dateTime =
+      DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+  DateFormat formatter = DateFormat("MMM d y hh:mm a");
+  return formatter.format(dateTime);
 }
 
 Future<bool> handleLocationService() async {

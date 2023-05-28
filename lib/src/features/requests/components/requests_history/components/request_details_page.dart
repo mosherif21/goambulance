@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 
 import '../../../../../general/common_widgets/back_button.dart';
+import '../../../controllers/request_history_details_controller.dart';
 
 class RequestDetailsPage extends StatelessWidget {
   const RequestDetailsPage({Key? key, required this.requestModel})
@@ -11,6 +12,8 @@ class RequestDetailsPage extends StatelessWidget {
   final RequestHistoryModel requestModel;
   @override
   Widget build(BuildContext context) {
+    final controller =
+        Get.put(RequestsHistoryDetailsController(requestModel: requestModel));
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

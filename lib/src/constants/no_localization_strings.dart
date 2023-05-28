@@ -6,4 +6,4 @@ const mapID = "10ee2ae844372e89";
 const requestMarkerImageUrl =
     "https://i.postimg.cc/ZKDnTKJN/pin-request-location.png";
 const hospitalMarkerImageUrl = "https://i.postimg.cc/gk0rF6bd/hospital.png";
-const ambulanceMarkerImageUrl = "https://i.postimg.cc/7YscdMt4/ambulance.png";
+const ambulanceMarkerImageUrl = "https://i.postimg.cc/j5Bd4tL3/ambulance.png";

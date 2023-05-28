@@ -35,26 +35,29 @@ class HomeDashBoard extends StatelessWidget {
     final homeScreenController = HomeScreenController.instance;
     final controller = PageController(viewportFraction: 0.8, keepPage: true);
     final controller2 = PageController(viewportFraction: 0.9, keepPage: true);
-    final sponserPages = List.generate(
-        16,
-        (sindex) => Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(15),
-            child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: OpenContainer(
-                  useRootNavigator: true,
-                  closedElevation: 0,
-                  openElevation: 0,
-                  closedBuilder: (context, action) => Container(
-                      color: Colors.transparent,
-                      padding: const EdgeInsets.all(15),
-                      child: Image.asset(getFirstAidTipImage(sindex + 1),
-                          fit: BoxFit.contain, width: 1000.0)),
-                  openBuilder: (context, action) => FirstAidTipsDetailsPage(
-                    imgPath: getFirstAidDetailsPath(sindex + 1),
-                  ),
-                ))));
+    final sponsorPages = List.generate(
+      16,
+      (index) => Container(
+        color: Colors.transparent,
+        padding: const EdgeInsets.all(15),
+        child: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: OpenContainer(
+            useRootNavigator: true,
+            closedElevation: 0,
+            openElevation: 0,
+            closedBuilder: (context, action) => Container(
+                color: Colors.transparent,
+                padding: const EdgeInsets.all(15),
+                child: Image.asset(getFirstAidTipImage(index + 1),
+                    fit: BoxFit.contain, width: 1000.0)),
+            openBuilder: (context, action) => FirstAidTipsDetailsPage(
+              imgPath: getFirstAidDetailsPath(index + 1),
+            ),
+          ),
+        ),
+      ),
+    );
 
     final screenHeight = getScreenHeight(context);
     return Scaffold(
@@ -155,13 +158,13 @@ class HomeDashBoard extends StatelessWidget {
                         child: PageView.builder(
                           controller: controller,
                           //itemCount: pages.length,
-                          itemBuilder: (_, sindex) {
-                            return sponserPages[sindex % sponserPages.length];
+                          itemBuilder: (_, index) {
+                            return sponsorPages[index % sponsorPages.length];
                           },
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         child: Align(
                           alignment: Alignment.center,
                           child: SmoothPageIndicator(

@@ -112,16 +112,15 @@ void logoutDialogue() => displayAlertDialog(
 
 Future<void> logout() async {
   showLoadingScreen();
+  if (Get.isRegistered<FirebasePatientDataAccess>()) {
+    await FirebasePatientDataAccess.instance.logoutFirebase();
+  }
   final functionStatus =
       await AuthenticationRepository.instance.logoutAuthUser();
+  hideLoadingScreen();
   if (functionStatus == FunctionStatus.success) {
-    if (Get.isRegistered<FirebasePatientDataAccess>()) {
-      await FirebasePatientDataAccess.instance.logoutFirebase();
-    }
-    hideLoadingScreen();
     Get.offAll(() => const AuthenticationScreen());
   } else {
-    hideLoadingScreen();
     showSnackBar(text: 'signOutFailed'.tr, snackBarType: SnackBarType.error);
   }
 }

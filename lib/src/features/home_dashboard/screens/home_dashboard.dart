@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
@@ -31,10 +32,10 @@ class HomeDashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var current = 0;
+    //var current = 0;
     final homeScreenController = HomeScreenController.instance;
     final controller = PageController(viewportFraction: 0.8, keepPage: true);
-    final controller2 = PageController(viewportFraction: 0.9, keepPage: true);
+    // final controller2 = PageController(viewportFraction: 0.9, keepPage: true);
     final sponsorPages = List.generate(
       16,
       (index) => Container(
@@ -85,164 +86,168 @@ class HomeDashBoard extends StatelessWidget {
         backgroundColor: Colors.grey.shade100,
       ),
       backgroundColor: Colors.grey.shade100,
-      body: Padding(
-        padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: StretchingOverscrollIndicator(
-                axisDirection: AxisDirection.down,
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextHeaderWithButton(
-                        headerText: 'firstAidTips'.tr,
-                        onPressed: () => Get.to(
-                          () => const FirstAidScreen(),
-                          transition: getPageTransition(),
-                        ),
-                        buttonText: 'viewAll'.tr,
+      body: StretchingOverscrollIndicator(
+        axisDirection: AxisDirection.down,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: AnimationLimiter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: AnimationConfiguration.toStaggeredList(
+                  duration: const Duration(milliseconds: 375),
+                  childAnimationBuilder: (widget) => SlideAnimation(
+                    horizontalOffset: 50.0,
+                    child: FadeInAnimation(
+                      child: widget,
+                    ),
+                  ),
+                  children: [
+                    TextHeaderWithButton(
+                      headerText: 'firstAidTips'.tr,
+                      onPressed: () => Get.to(
+                        () => const FirstAidScreen(),
+                        transition: getPageTransition(),
                       ),
-                      CarouselSlider(
-                        carouselController:
-                            homeScreenController.carouselController,
-                        items: [
-                          for (int firstAidNumber = 1;
-                              firstAidNumber <= 17;
-                              firstAidNumber++)
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: OpenContainer(
-                                useRootNavigator: true,
-                                closedElevation: 0,
-                                openElevation: 0,
-                                closedBuilder: (context, action) =>
-                                    clickableLabeledImage(
-                                  img: getFirstAidTipImage(firstAidNumber),
-                                  label: 'firstAidTips$firstAidNumber'.tr,
-                                ),
-                                openBuilder: (context, action) =>
-                                    FirstAidTipsDetailsPage(
-                                  imgPath:
-                                      getFirstAidDetailsPath(firstAidNumber),
-                                ),
+                      buttonText: 'viewAll'.tr,
+                    ),
+                    CarouselSlider(
+                      carouselController:
+                          homeScreenController.carouselController,
+                      items: [
+                        for (int firstAidNumber = 1;
+                            firstAidNumber <= 17;
+                            firstAidNumber++)
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: OpenContainer(
+                              useRootNavigator: true,
+                              closedElevation: 0,
+                              openElevation: 0,
+                              closedBuilder: (context, action) =>
+                                  clickableLabeledImage(
+                                img: getFirstAidTipImage(firstAidNumber),
+                                label: 'firstAidTips$firstAidNumber'.tr,
+                              ),
+                              openBuilder: (context, action) =>
+                                  FirstAidTipsDetailsPage(
+                                imgPath: getFirstAidDetailsPath(firstAidNumber),
                               ),
                             ),
-                        ],
-                        options: CarouselOptions(
-                          autoPlay: true,
-                          aspectRatio: 2.2,
-                          enlargeCenterPage: true,
-                          enlargeStrategy: CenterPageEnlargeStrategy.height,
-                        ),
+                          ),
+                      ],
+                      options: CarouselOptions(
+                        autoPlay: true,
+                        aspectRatio: 2.2,
+                        enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
                       ),
+                    ),
 
-                      const SizedBox(height: 15),
-                      TextHeaderWithButton(
-                        headerText: 'services'.tr,
-                        onPressed: () => Get.to(
-                          () => const ServicesScreen(),
-                          transition: getPageTransition(),
-                        ),
-                        buttonText: 'viewAll'.tr,
+                    const SizedBox(height: 15),
+                    TextHeaderWithButton(
+                      headerText: 'services'.tr,
+                      onPressed: () => Get.to(
+                        () => const ServicesScreen(),
+                        transition: getPageTransition(),
                       ),
-                      const ServicesButtons(),
-                      const SizedBox(height: 15),
-                      TextHeader(
-                        headerText: 'sponsors'.tr,
-                        fontSize: 24,
+                      buttonText: 'viewAll'.tr,
+                    ),
+                    const ServicesButtons(),
+                    const SizedBox(height: 15),
+                    TextHeader(
+                      headerText: 'sponsors'.tr,
+                      fontSize: 24,
+                    ),
+                    SizedBox(
+                      height: 200,
+                      child: PageView.builder(
+                        controller: controller,
+                        //itemCount: pages.length,
+                        itemBuilder: (_, index) {
+                          return sponsorPages[index % sponsorPages.length];
+                        },
                       ),
-                      SizedBox(
-                        height: 200,
-                        child: PageView.builder(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: SmoothPageIndicator(
                           controller: controller,
-                          //itemCount: pages.length,
-                          itemBuilder: (_, index) {
-                            return sponsorPages[index % sponsorPages.length];
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(12),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: SmoothPageIndicator(
-                            controller: controller,
-                            count: 6,
-                            effect: const WormEffect(
-                              dotHeight: 16,
-                              dotWidth: 16,
-                            ),
+                          count: 6,
+                          effect: const WormEffect(
+                            dotHeight: 16,
+                            dotWidth: 16,
                           ),
                         ),
                       ),
-                      // CarouselSlider(
-                      //   carouselController:
-                      //       homeScreenController.carouselController,
-                      //   items: [
-                      //     for (int firstAidNumber = 1;
-                      //         firstAidNumber <= 17;
-                      //         firstAidNumber++)
-                      //       Padding(
-                      //         padding: const EdgeInsets.all(5.0),
-                      //         child: OpenContainer(
-                      //           useRootNavigator: true,
-                      //           closedElevation: 0,
-                      //           openElevation: 0,
-                      //           closedBuilder: (context, action) =>
-                      //               clickableLabeledImage(
-                      //             img: getFirstAidTipImage(firstAidNumber),
-                      //             label: 'firstAidTips$firstAidNumber'.tr,
-                      //           ),
-                      //           openBuilder: (context, action) =>
-                      //               FirstAidTipsDetailsPage(
-                      //             imgPath:
-                      //                 getFirstAidDetailsPath(firstAidNumber),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //   ],
-                      //   options: CarouselOptions(
-                      //       autoPlay: false,
-                      //       aspectRatio: 2.0,
-                      //       enlargeCenterPage: true,
-                      //       enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-                      //       onPageChanged: (index, reason) {
-                      //         current = index;
-                      //       }),
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: imgList.asMap().entries.map((entry) {
-                      //     return GestureDetector(
-                      //       onTap: () => homeScreenController.carouselController
-                      //           .animateToPage(entry.key),
-                      //       child: Container(
-                      //         width: 12.0,
-                      //         height: 12.0,
-                      //         margin: const EdgeInsets.symmetric(
-                      //             vertical: 8.0, horizontal: 4.0),
-                      //         decoration: BoxDecoration(
-                      //           shape: BoxShape.circle,
-                      //           color: (Theme.of(context).brightness ==
-                      //                       Brightness.dark
-                      //                   ? Colors.white
-                      //                   : Colors.black)
-                      //               .withOpacity(
-                      //                   current == entry.key ? 0.9 : 0.4),
-                      //         ),
-                      //       ),
-                      //     );
-                      //   }).toList(),
-                      // ),
-                      SizedBox(height: screenHeight * 0.1)
-                    ],
-                  ),
+                    ),
+                    // CarouselSlider(
+                    //   carouselController:
+                    //       homeScreenController.carouselController,
+                    //   items: [
+                    //     for (int firstAidNumber = 1;
+                    //         firstAidNumber <= 17;
+                    //         firstAidNumber++)
+                    //       Padding(
+                    //         padding: const EdgeInsets.all(5.0),
+                    //         child: OpenContainer(
+                    //           useRootNavigator: true,
+                    //           closedElevation: 0,
+                    //           openElevation: 0,
+                    //           closedBuilder: (context, action) =>
+                    //               clickableLabeledImage(
+                    //             img: getFirstAidTipImage(firstAidNumber),
+                    //             label: 'firstAidTips$firstAidNumber'.tr,
+                    //           ),
+                    //           openBuilder: (context, action) =>
+                    //               FirstAidTipsDetailsPage(
+                    //             imgPath:
+                    //                 getFirstAidDetailsPath(firstAidNumber),
+                    //           ),
+                    //         ),
+                    //       ),
+                    //   ],
+                    //   options: CarouselOptions(
+                    //       autoPlay: false,
+                    //       aspectRatio: 2.0,
+                    //       enlargeCenterPage: true,
+                    //       enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                    //       onPageChanged: (index, reason) {
+                    //         current = index;
+                    //       }),
+                    // ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: imgList.asMap().entries.map((entry) {
+                    //     return GestureDetector(
+                    //       onTap: () => homeScreenController.carouselController
+                    //           .animateToPage(entry.key),
+                    //       child: Container(
+                    //         width: 12.0,
+                    //         height: 12.0,
+                    //         margin: const EdgeInsets.symmetric(
+                    //             vertical: 8.0, horizontal: 4.0),
+                    //         decoration: BoxDecoration(
+                    //           shape: BoxShape.circle,
+                    //           color: (Theme.of(context).brightness ==
+                    //                       Brightness.dark
+                    //                   ? Colors.white
+                    //                   : Colors.black)
+                    //               .withOpacity(
+                    //                   current == entry.key ? 0.9 : 0.4),
+                    //         ),
+                    //       ),
+                    //     );
+                    //   }).toList(),
+                    // ),
+                    SizedBox(height: screenHeight * 0.1)
+                  ],
                 ),
               ),
             ),
-          ],
+          ),
         ),
       ),
     );

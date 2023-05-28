@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -46,62 +47,74 @@ class PreviousRequestsPage extends StatelessWidget {
                       enableLoadingWhenFailed: true,
                       hideFooterWhenNotFull: true,
                       // enableScrollWhenRefreshCompleted: true,
-                      child: SmartRefresher(
-                        enablePullDown: true,
-                        header: ClassicHeader(
-                          completeDuration: const Duration(milliseconds: 0),
-                          releaseText: 'releaseToRefresh'.tr,
-                          refreshingText: 'refreshing'.tr,
-                          idleText: 'pullToRefresh'.tr,
-                          completeText: 'refreshCompleted'.tr,
-                          iconPos: isLangEnglish()
-                              ? IconPosition.left
-                              : IconPosition.right,
-                          textStyle: const TextStyle(color: Colors.grey),
-                          failedIcon:
-                              const Icon(Icons.error, color: Colors.grey),
-                          completeIcon:
-                              const Icon(Icons.done, color: Colors.grey),
-                          idleIcon: const Icon(Icons.arrow_downward,
-                              color: Colors.grey),
-                          releaseIcon:
-                              const Icon(Icons.refresh, color: Colors.grey),
-                        ),
-                        controller: controller.requestsRefreshController,
-                        onRefresh: () => controller.onRefresh(),
-                        child: ListView.builder(
-                          itemBuilder: (BuildContext context, int index) {
-                            if (index != controller.requestsList.length &&
-                                controller.requestsList.isNotEmpty) {
-                              final requestStatus =
-                                  controller.requestsList[index].requestStatus;
-                              final ongoingRequest = requestStatus ==
-                                      RequestStatus.requestPending ||
-                                  requestStatus ==
-                                      RequestStatus.requestAccepted ||
-                                  requestStatus ==
-                                      RequestStatus.requestAssigned;
-                              if (ongoingRequest) {
-                                return OngoingRequestItem(
-                                  onPressed: () {},
-                                  requestInfo: controller.requestsList[index],
+                      child: AnimationLimiter(
+                        child: SmartRefresher(
+                          enablePullDown: true,
+                          header: ClassicHeader(
+                            completeDuration: const Duration(milliseconds: 0),
+                            releaseText: 'releaseToRefresh'.tr,
+                            refreshingText: 'refreshing'.tr,
+                            idleText: 'pullToRefresh'.tr,
+                            completeText: 'refreshCompleted'.tr,
+                            iconPos: isLangEnglish()
+                                ? IconPosition.left
+                                : IconPosition.right,
+                            textStyle: const TextStyle(color: Colors.grey),
+                            failedIcon:
+                                const Icon(Icons.error, color: Colors.grey),
+                            completeIcon:
+                                const Icon(Icons.done, color: Colors.grey),
+                            idleIcon: const Icon(Icons.arrow_downward,
+                                color: Colors.grey),
+                            releaseIcon:
+                                const Icon(Icons.refresh, color: Colors.grey),
+                          ),
+                          controller: controller.requestsRefreshController,
+                          onRefresh: () => controller.onRefresh(),
+                          child: ListView.builder(
+                            itemBuilder: (BuildContext context, int index) {
+                              if (index != controller.requestsList.length &&
+                                  controller.requestsList.isNotEmpty) {
+                                final requestStatus = controller
+                                    .requestsList[index].requestStatus;
+                                final ongoingRequest = requestStatus ==
+                                        RequestStatus.requestPending ||
+                                    requestStatus ==
+                                        RequestStatus.requestAccepted ||
+                                    requestStatus ==
+                                        RequestStatus.requestAssigned;
+
+                                return AnimationConfiguration.staggeredList(
+                                  position: index,
+                                  duration: const Duration(milliseconds: 375),
+                                  child: SlideAnimation(
+                                    verticalOffset: 50.0,
+                                    child: FadeInAnimation(
+                                      child: ongoingRequest
+                                          ? OngoingRequestItem(
+                                              onPressed: () {},
+                                              requestInfo: controller
+                                                  .requestsList[index],
+                                            )
+                                          : RequestItem(
+                                              onPressed: () {},
+                                              requestInfo: controller
+                                                  .requestsList[index],
+                                            ),
+                                    ),
+                                  ),
                                 );
+                              } else if (index ==
+                                      controller.requestsList.length &&
+                                  controller.requestsList.isNotEmpty) {
+                                return SizedBox(height: screenHeight * 0.08);
                               } else {
-                                return RequestItem(
-                                  onPressed: () {},
-                                  requestInfo: controller.requestsList[index],
-                                );
+                                return const EmptyRequestsHistory();
                               }
-                            } else if (index ==
-                                    controller.requestsList.length &&
-                                controller.requestsList.isNotEmpty) {
-                              return SizedBox(height: screenHeight * 0.08);
-                            } else {
-                              return const EmptyRequestsHistory();
-                            }
-                          },
-                          itemCount: controller.requestsList.length + 1,
-                          shrinkWrap: true,
+                            },
+                            itemCount: controller.requestsList.length + 1,
+                            shrinkWrap: true,
+                          ),
                         ),
                       ),
                     )

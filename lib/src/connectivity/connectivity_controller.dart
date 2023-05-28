@@ -35,16 +35,13 @@ class ConnectivityController extends GetxController {
       if (kDebugMode) {
         AppInit.logger.i('Connected to internet');
       }
-
       AppInit.internetInitialize();
     } else if (internetConnectionStatus ==
         InternetConnectionStatus.disconnected) {
       if (!_isAlertDisplayed && _displayAlert) _showNetworkAlertDialog();
-
       if (kDebugMode) {
         AppInit.logger.i('Disconnected from internet');
       }
-
       AppInit.noInternetInitializeCheck();
     }
   }

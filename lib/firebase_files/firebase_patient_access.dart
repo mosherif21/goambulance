@@ -652,6 +652,63 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
+  Future<RequestStatus?> getRequestStatus(
+      {required String requestId, required RequestStatus knownStatus}) async {
+    try {
+      if (knownStatus == RequestStatus.pending ||
+          knownStatus == RequestStatus.accepted) {
+        final snapshot =
+            await fireStore.collection('pendingRequests').doc(requestId).get();
+        if (snapshot.exists) {
+          final status = snapshot.data()!['status'].toString();
+          return status == 'pending'
+              ? RequestStatus.pending
+              : RequestStatus.accepted;
+        } else {
+          final snapshot = await fireStore
+              .collection('canceledRequests')
+              .doc(requestId)
+              .get();
+          if (snapshot.exists) {
+            return RequestStatus.canceled;
+          } else {
+            knownStatus = RequestStatus.assigned;
+          }
+        }
+      }
+      if (knownStatus == RequestStatus.assigned ||
+          knownStatus == RequestStatus.ongoing) {
+        final snapshot =
+            await fireStore.collection('assignedRequests').doc(requestId).get();
+        if (snapshot.exists) {
+          final status = snapshot.data()!['status'].toString();
+          return status == 'assigned'
+              ? RequestStatus.assigned
+              : RequestStatus.ongoing;
+        } else {
+          final snapshot = await fireStore
+              .collection('completedRequests')
+              .doc(requestId)
+              .get();
+          if (snapshot.exists) {
+            return RequestStatus.completed;
+          } else {
+            return RequestStatus.canceled;
+          }
+        }
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
   Future<void> deleteFcmToken() async {
     try {
       await fireStore.collection('fcmTokens').doc(userId).update({

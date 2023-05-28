@@ -18,7 +18,9 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../constants/no_localization_strings.dart';
 import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
+import '../components/requests_history/components/request_details_page.dart';
 import '../components/requests_history/models.dart';
+import '../components/tracking_request/components/tracking_request_page.dart';
 
 class RequestsHistoryController extends GetxController {
   static RequestsHistoryController get instance => Get.find();
@@ -120,7 +122,40 @@ class RequestsHistoryController extends GetxController {
     }
   }
 
-  void onRequestSelected({required RequestHistoryModel requestModel}) {}
+  void onRequestSelected({required RequestHistoryModel requestModel}) async {
+    if (kDebugMode) {
+      AppInit.logger.i('known status: ${requestModel.requestStatus}');
+    }
+    if (requestModel.requestStatus == RequestStatus.completed ||
+        requestModel.requestStatus == RequestStatus.canceled) {
+      Get.to(() => RequestDetailsPage(requestModel: requestModel),
+          transition: getPageTransition());
+    } else {
+      showLoadingScreen();
+      final requestStatus = await firebasePatientDataAccess.getRequestStatus(
+          requestId: requestModel.requestId,
+          knownStatus: requestModel.requestStatus);
+      hideLoadingScreen();
+      if (kDebugMode) {
+        AppInit.logger
+            .i('after check status: ${requestStatus ?? 'failed to check'}');
+      }
+      if (requestStatus != null) {
+        requestModel.requestStatus = requestStatus;
+        if (requestStatus == RequestStatus.pending ||
+            requestStatus == RequestStatus.accepted ||
+            requestStatus == RequestStatus.assigned ||
+            requestStatus == RequestStatus.ongoing) {
+          Get.to(() => TrackingRequestPage(requestModel: requestModel),
+              transition: getPageTransition());
+        } else {
+          Get.to(() => RequestDetailsPage(requestModel: requestModel),
+              transition: getPageTransition());
+        }
+      }
+    }
+  }
+
   Future<String> getStaticMapImgURL({
     required String marker1IconUrl,
     required LatLng marker1LatLng,

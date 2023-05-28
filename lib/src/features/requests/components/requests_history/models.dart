@@ -23,7 +23,7 @@ class RequestHistoryModel {
   final String patientCondition;
   RxString mapUrl = ''.obs;
   final String requestDateTime;
-  final RequestStatus requestStatus;
+  RequestStatus requestStatus;
   final bool isUser;
   final LatLng requestLocation;
   final LatLng hospitalLocation;

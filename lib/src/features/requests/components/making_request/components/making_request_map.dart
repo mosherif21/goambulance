@@ -5,7 +5,6 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/pending_request.dart';
-import 'package:goambulance/src/features/requests/components/making_request/components/route_time.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
@@ -199,6 +198,24 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                   onTap: widget.controller.onMapTap,
                 ),
               ),
+              CustomInfoWindow(
+                controller: widget.controller.requestLocationWindowController,
+                height: 60,
+                width: 150,
+                offset: 50,
+              ),
+              CustomInfoWindow(
+                controller: widget.controller.ambulanceWindowController,
+                height: 60,
+                width: 150,
+                offset: 50,
+              ),
+              CustomInfoWindow(
+                controller: widget.controller.hospitalWindowController,
+                height: 60,
+                width: 150,
+                offset: 50,
+              ),
               Positioned(
                 top: 0,
                 left: 0,
@@ -213,14 +230,6 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                           onPress: widget.controller.onBackPressed,
                         ),
                         const SizedBox(width: 10),
-                        Obx(
-                          () => widget.controller.routeToHospitalTime.isNotEmpty
-                              ? RouteTime(
-                                  routeTime: widget
-                                      .controller.routeToHospitalTime.value,
-                                )
-                              : const SizedBox.shrink(),
-                        ),
                         Obx(
                           () => widget.controller.choosingHospital.value
                               ? const SizedBox.shrink()
@@ -297,24 +306,6 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                     ),
                   ),
                 ),
-              ),
-              CustomInfoWindow(
-                controller: widget.controller.requestLocationWindowController,
-                height: 75,
-                width: 150,
-                offset: 50,
-              ),
-              CustomInfoWindow(
-                controller: widget.controller.ambulanceWindowController,
-                height: 75,
-                width: 150,
-                offset: 50,
-              ),
-              CustomInfoWindow(
-                controller: widget.controller.hospitalWindowController,
-                height: 75,
-                width: 150,
-                offset: 50,
               ),
             ],
           ),

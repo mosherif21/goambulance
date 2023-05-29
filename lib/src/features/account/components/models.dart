@@ -129,6 +129,7 @@ class DiseaseItem {
 }
 
 class AddressItem {
+  late final String? addressId;
   final String locationName;
   final String streetName;
   final String apartmentNumber;
@@ -137,6 +138,7 @@ class AddressItem {
   final String? additionalInfo;
 
   AddressItem({
+    this.addressId,
     required this.locationName,
     required this.streetName,
     required this.apartmentNumber,

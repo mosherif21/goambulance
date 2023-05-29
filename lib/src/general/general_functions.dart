@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
@@ -29,17 +30,6 @@ double getScreenHeight(BuildContext context) =>
 double getScreenWidth(BuildContext context) =>
     MediaQuery.of(context).size.width;
 
-// SystemChrome.setSystemUIOverlayStyle(
-//   const SystemUiOverlayStyle(
-//     systemNavigationBarColor: Colors.transparent,
-//     statusBarColor: Colors.transparent,
-//     systemNavigationBarDividerColor: Colors.transparent,
-//     systemNavigationBarIconBrightness: Brightness.light,
-//     statusBarIconBrightness: Brightness.light,
-//     statusBarBrightness: Brightness.light,
-//   ),
-// );
-
 void showLoadingScreen() {
   final height = Get.context != null ? Get.context!.height : 200;
   Get.dialog(
@@ -59,6 +49,19 @@ void showLoadingScreen() {
       ),
     ),
     barrierDismissible: false,
+  );
+}
+
+void makeSystemUiTransparent() {
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+      statusBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark,
+    ),
   );
 }
 

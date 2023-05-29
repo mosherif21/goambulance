@@ -163,6 +163,7 @@ class AppInit {
       if (functionStatus == FunctionStatus.success) {
         if (authRepo.userType == UserType.driver ||
             authRepo.userType == UserType.medic) {
+          makeSystemUiTransparent();
           Get.offAll(
             () => const HomeScreen(),
             transition: Transition.circularReveal,
@@ -185,6 +186,7 @@ class AppInit {
             }
           } else if (authRepo.isUserPhoneRegistered &&
               authRepo.isUserRegistered) {
+            makeSystemUiTransparent();
             Get.offAll(() => const HomeScreen(),
                 transition: Transition.circularReveal);
           }

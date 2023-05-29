@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class MarkerWindowInfo extends StatelessWidget {
@@ -26,22 +27,10 @@ class MarkerWindowInfo extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.account_circle,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      "I am here",
-                    )
-                  ],
-                ),
+                child: AutoSizeText(title),
+              ),
+              Expanded(
+                child: AutoSizeText(title),
               ),
             ],
           ),

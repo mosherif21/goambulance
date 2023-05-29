@@ -93,6 +93,7 @@ class AddressesController extends GetxController {
           final addressesData = addressesDoc.data();
           addressesList.add(
             AddressItem(
+                addressId: addressesDoc.id,
                 locationName: addressesData['locationName'].toString(),
                 streetName: addressesData['streetName'].toString(),
                 apartmentNumber: addressesData['apartmentNumber'].toString(),
@@ -144,7 +145,8 @@ class AddressesController extends GetxController {
         apartmentNumber: apartmentNumber,
         floorNumber: floorNumber,
         areaName: areaName,
-        additionalInfo: additionalInfo);
+        additionalInfo: additionalInfo,
+        addressId: '');
     final addressData = SavedAddressesModel(
         addressName: locationName, addressesList: addressesList);
 
@@ -154,6 +156,8 @@ class AddressesController extends GetxController {
             currentAddressDocIds: currentAddressesDocIds);
     if (functionStatus == FunctionStatus.success) {
       hideLoadingScreen();
+      // addressItem.addressId=;
+      // addressesList.add(item)
       locationNameTextController.clear();
       streetNameTextController.clear();
       apartmentNumberTextController.clear();

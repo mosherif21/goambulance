@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +29,7 @@ import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
+import '../components/making_request/components/marker_window_info.dart';
 import 'making_request_information_controller.dart';
 
 class MakingRequestLocationController extends GetxController {
@@ -93,6 +95,10 @@ class MakingRequestLocationController extends GetxController {
   late final String userId;
   late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       pendingRequestListener;
+
+  final requestLocationWindowController = CustomInfoWindowController();
+  final hospitalWindowController = CustomInfoWindowController();
+  final ambulanceWindowController = CustomInfoWindowController();
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
@@ -233,6 +239,7 @@ class MakingRequestLocationController extends GetxController {
   void initMapController() {
     mapControllerCompleter.future.then((controller) {
       googleMapController = controller;
+      requestLocationWindowController.googleMapController = controller;
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
       if (AppInit.isWeb) {
@@ -288,10 +295,15 @@ class MakingRequestLocationController extends GetxController {
       markerId: MarkerId('requestLocation'.tr),
       position: currentChosenLatLng,
       icon: requestLocationMarkerIcon,
-      infoWindow: InfoWindow(
+    );
+    requestLocationWindowController.addInfoWindow!(
+      MarkerWindowInfo(
         title: 'requestLocationPinDesc'.tr,
+        subTitle: '',
+        startLocation: true,
+        onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
       ),
-      onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
+      currentChosenLatLng,
     );
     mapMarkers.add(requestLocationMarker!);
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
@@ -304,7 +316,6 @@ class MakingRequestLocationController extends GetxController {
     mapPolyLines.clear();
     if (hospitalMarker != null) {
       if (mapMarkers.contains(hospitalMarker)) {
-        googleMapController.hideMarkerInfoWindow(hospitalMarker!.markerId);
         mapMarkers.remove(hospitalMarker);
       }
     }
@@ -355,6 +366,15 @@ class MakingRequestLocationController extends GetxController {
     selectedHospital.value = null;
     if (mapMarkers.contains(requestLocationMarker)) {
       mapMarkers.remove(requestLocationMarker!);
+    }
+    if (requestLocationWindowController.hideInfoWindow != null) {
+      requestLocationWindowController.hideInfoWindow!();
+    }
+    if (hospitalWindowController.hideInfoWindow != null) {
+      hospitalWindowController.hideInfoWindow!();
+    }
+    if (ambulanceWindowController.hideInfoWindow != null) {
+      ambulanceWindowController.hideInfoWindow!();
     }
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
@@ -431,13 +451,9 @@ class MakingRequestLocationController extends GetxController {
               markerId: const MarkerId('hospital'),
               position: selectedHospital.value!.location,
               icon: hospitalMarkerIcon,
-              infoWindow: InfoWindow(
-                title:
-                    '${selectedHospital.value!.name} (${'hospitalLocationPinDesc'.tr})',
-              ),
-              onTap: () => animateToLocation(
-                  locationLatLng: selectedHospital.value!.location),
             );
+            //animateToLocation(locationLatLng: selectedHospital.value!.location)
+            //'${selectedHospital.value!.name} (${'hospitalLocationPinDesc'.tr})'
             mapMarkers.add(hospitalMarker!);
             getRouteToLocation(
               fromLocation: currentChosenLatLng,
@@ -495,12 +511,10 @@ class MakingRequestLocationController extends GetxController {
       markerId: const MarkerId('hospital'),
       position: hospitalItem.location,
       icon: hospitalMarkerIcon,
-      infoWindow: InfoWindow(
-        title: '${hospitalItem.name} (${'hospitalLocationPinDesc'.tr})',
-      ),
       anchor: const Offset(0.5, 0.5),
-      onTap: () => animateToLocation(locationLatLng: hospitalItem.location),
     );
+    // animateToLocation(locationLatLng: hospitalItem.location),
+    //'${hospitalItem.name} (${'hospitalLocationPinDesc'.tr})'
     selectedHospital.value = hospitalItem;
     mapMarkers.add(hospitalMarker!);
     getRouteToLocation(
@@ -753,9 +767,12 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onCameraMove(CameraPosition cameraPosition) {
+    requestLocationWindowController.onCameraMove!();
     currentCameraLatLng = cameraPosition.target;
     cameraMoved.value = true;
   }
+
+  void onMapTap(LatLng tappedPosition) {}
 
   void animateCamera({required LatLng locationLatLng}) {
     googleMapController.animateCamera(
@@ -825,6 +842,9 @@ class MakingRequestLocationController extends GetxController {
     if (requestStatus.value != RequestStatus.non) {
       pendingRequestListener?.cancel();
     }
+    requestLocationWindowController.dispose();
+    hospitalWindowController.dispose();
+    ambulanceWindowController.dispose();
 
     super.onClose();
   }

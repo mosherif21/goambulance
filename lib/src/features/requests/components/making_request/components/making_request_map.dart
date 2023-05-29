@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/making_request/components/pending_request.dart';
@@ -195,6 +196,7 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                       widget.controller.onCameraIdle();
                     }
                   },
+                  onTap: widget.controller.onMapTap,
                 ),
               ),
               Positioned(
@@ -295,6 +297,24 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                     ),
                   ),
                 ),
+              ),
+              CustomInfoWindow(
+                controller: widget.controller.requestLocationWindowController,
+                height: 75,
+                width: 150,
+                offset: 50,
+              ),
+              CustomInfoWindow(
+                controller: widget.controller.ambulanceWindowController,
+                height: 75,
+                width: 150,
+                offset: 50,
+              ),
+              CustomInfoWindow(
+                controller: widget.controller.hospitalWindowController,
+                height: 75,
+                width: 150,
+                offset: 50,
               ),
             ],
           ),

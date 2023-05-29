@@ -69,8 +69,18 @@ class RequestsHistoryController extends GetxController {
           getStaticMapImgURL(
             marker1IconUrl: requestMarkerImageUrl,
             marker1LatLng: requestsList[index].requestLocation,
+            marker1TitleIconUrl:
+                isLangEnglish() ? requestEngImageUrl : requestArImageUrl,
+            marker1TitleLatLng: LatLng(
+                requestsList[index].requestLocation.latitude + 0.003,
+                requestsList[index].requestLocation.longitude),
             marker2IconUrl: hospitalMarkerImageUrl,
             marker2LatLng: requestsList[index].hospitalLocation,
+            marker2TitleIconUrl:
+                isLangEnglish() ? hospitalEngImageUrl : hospitalArImageUrl,
+            marker2TitleLatLng: LatLng(
+                requestsList[index].hospitalLocation.latitude + 0.003,
+                requestsList[index].hospitalLocation.longitude),
           ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
         } else if (requestsList[index].requestStatus ==
             RequestStatus.assigned) {
@@ -82,11 +92,29 @@ class RequestsHistoryController extends GetxController {
               getStaticMapImgURL(
                 marker1IconUrl: requestMarkerImageUrl,
                 marker1LatLng: requestsList[index].requestLocation,
+                marker1TitleIconUrl:
+                    isLangEnglish() ? requestEngImageUrl : requestArImageUrl,
+                marker1TitleLatLng: LatLng(
+                    requestsList[index].requestLocation.latitude + 0.003,
+                    requestsList[index].requestLocation.longitude),
                 marker2IconUrl: ambulanceLocation != null
                     ? ambulanceMarkerImageUrl
                     : hospitalMarkerImageUrl,
                 marker2LatLng:
                     ambulanceLocation ?? requestsList[index].hospitalLocation,
+                marker2TitleIconUrl: isLangEnglish()
+                    ? ambulanceLocation != null
+                        ? ambulanceEngImageUrl
+                        : hospitalEngImageUrl
+                    : ambulanceLocation != null
+                        ? ambulanceArImageUrl
+                        : hospitalArImageUrl,
+                marker2TitleLatLng: ambulanceLocation != null
+                    ? LatLng(ambulanceLocation.latitude + 0.003,
+                        ambulanceLocation.longitude)
+                    : LatLng(
+                        requestsList[index].hospitalLocation.latitude + 0.003,
+                        requestsList[index].hospitalLocation.longitude),
               ).then(
                   (mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
             },
@@ -103,8 +131,26 @@ class RequestsHistoryController extends GetxController {
                     : requestMarkerImageUrl,
                 marker1LatLng:
                     ambulanceLocation ?? requestsList[index].requestLocation,
+                marker1TitleIconUrl: isLangEnglish()
+                    ? ambulanceLocation != null
+                        ? ambulanceEngImageUrl
+                        : requestEngImageUrl
+                    : ambulanceLocation != null
+                        ? ambulanceArImageUrl
+                        : requestArImageUrl,
+                marker1TitleLatLng: ambulanceLocation != null
+                    ? LatLng(ambulanceLocation.latitude + 0.003,
+                        ambulanceLocation.longitude)
+                    : LatLng(
+                        requestsList[index].requestLocation.latitude + 0.003,
+                        requestsList[index].requestLocation.longitude),
                 marker2IconUrl: hospitalMarkerImageUrl,
                 marker2LatLng: requestsList[index].hospitalLocation,
+                marker2TitleIconUrl:
+                    isLangEnglish() ? hospitalEngImageUrl : hospitalArImageUrl,
+                marker2TitleLatLng: LatLng(
+                    requestsList[index].hospitalLocation.latitude + 0.003,
+                    requestsList[index].hospitalLocation.longitude),
               ).then(
                   (mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
             },
@@ -159,8 +205,12 @@ class RequestsHistoryController extends GetxController {
   Future<String> getStaticMapImgURL({
     required String marker1IconUrl,
     required LatLng marker1LatLng,
+    required String marker1TitleIconUrl,
+    required LatLng marker1TitleLatLng,
     required String marker2IconUrl,
     required LatLng marker2LatLng,
+    required String marker2TitleIconUrl,
+    required LatLng marker2TitleLatLng,
   }) async {
     List<PointLatLng> points = [];
     try {
@@ -194,6 +244,10 @@ class RequestsHistoryController extends GetxController {
       markers: [
         StaticMarkerModel(location: marker1LatLng, iconUrl: marker1IconUrl),
         StaticMarkerModel(location: marker2LatLng, iconUrl: marker2IconUrl),
+        StaticMarkerModel(
+            location: marker1TitleLatLng, iconUrl: marker1TitleIconUrl),
+        StaticMarkerModel(
+            location: marker2TitleLatLng, iconUrl: marker2TitleIconUrl),
       ],
       polyLines: latLngPoints,
     );

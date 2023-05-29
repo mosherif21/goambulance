@@ -30,45 +30,50 @@ class MarkerWindowInfo extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Obx(
-                () => time.value != null &&
-                        windowType != MarkerWindowType.ambulanceLocation
-                    ? AutoSizeText(
-                        windowType == MarkerWindowType.requestLocation
-                            ? 'pickupIn'.trParams({
-                                'routeTime':
-                                    '${time.value!.toString()} ${getMinutesString(time.value!)}',
-                              })
-                            : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value! * 2)}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 10,
-                          color: windowType == MarkerWindowType.requestLocation
-                              ? Colors.grey
-                              : Colors.white,
-                        ),
-                        maxLines: 1,
-                      )
-                    : const SizedBox.shrink(),
-              ),
-              AutoSizeText(
-                title,
-                minFontSize: 14,
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 20,
-                  color: windowType == MarkerWindowType.requestLocation
-                      ? Colors.black
-                      : Colors.white,
-                  overflow: TextOverflow.ellipsis,
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: time.value != null
+                  ? CrossAxisAlignment.start
+                  : CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(
+                  () => time.value != null &&
+                          windowType != MarkerWindowType.ambulanceLocation
+                      ? AutoSizeText(
+                          windowType == MarkerWindowType.requestLocation
+                              ? 'pickupIn'.trParams({
+                                  'routeTime':
+                                      '${time.value!.toString()} ${getMinutesString(time.value!)}',
+                                })
+                              : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value! * 2)}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 10,
+                            color:
+                                windowType == MarkerWindowType.requestLocation
+                                    ? Colors.grey
+                                    : Colors.white,
+                          ),
+                          maxLines: 1,
+                        )
+                      : const SizedBox.shrink(),
                 ),
-                maxLines: 1,
-              ),
-            ],
+                AutoSizeText(
+                  title,
+                  minFontSize: 14,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20,
+                    color: windowType == MarkerWindowType.requestLocation
+                        ? Colors.black
+                        : Colors.white,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  maxLines: 1,
+                ),
+              ],
+            ),
           ),
         ),
         onTap: () => onTap(),

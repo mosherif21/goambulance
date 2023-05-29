@@ -239,9 +239,11 @@ class MakingRequestLocationController extends GetxController {
   void initMapController() {
     mapControllerCompleter.future.then((controller) {
       googleMapController = controller;
-      requestLocationWindowController.googleMapController = controller;
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
+      requestLocationWindowController.googleMapController = controller;
+      hospitalWindowController.googleMapController = controller;
+      ambulanceWindowController.googleMapController = controller;
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
@@ -798,7 +800,15 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onCameraMove(CameraPosition cameraPosition) {
-    requestLocationWindowController.onCameraMove!();
+    if (requestLocationWindowController.onCameraMove != null) {
+      requestLocationWindowController.onCameraMove!();
+    }
+    if (hospitalWindowController.onCameraMove != null) {
+      hospitalWindowController.onCameraMove!();
+    }
+    if (ambulanceWindowController.onCameraMove != null) {
+      ambulanceWindowController.onCameraMove!();
+    }
     currentCameraLatLng = cameraPosition.target;
     cameraMoved.value = true;
   }

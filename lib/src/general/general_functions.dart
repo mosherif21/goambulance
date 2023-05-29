@@ -273,19 +273,6 @@ Future<bool> handleLocationPermission() async {
   return false;
 }
 
-String formatDateTime(Timestamp timestamp) {
-  DateTime dateTime =
-      DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
-  DateFormat formatter = DateFormat("MMM d y hh:mm a");
-  return formatter.format(dateTime);
-}
-
-String getAddedCurrentTime({required int minutesToAdd}) {
-  DateTime currentTime = DateTime.now();
-  DateTime newTime = currentTime.add(Duration(minutes: minutesToAdd));
-  return DateFormat.jm().format(newTime);
-}
-
 Future<bool> handleLocationService() async {
   try {
     final location = Location();
@@ -409,4 +396,31 @@ Future<bool> handleGeneralPermission({
     }
   }
   return false;
+}
+
+String formatDateTime(Timestamp timestamp) {
+  DateTime dateTime =
+      DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+  DateFormat formatter = DateFormat("MMM d y hh:mm a");
+  return formatter.format(dateTime);
+}
+
+String getAddedCurrentTime({required int minutesToAdd}) {
+  DateTime currentTime = DateTime.now();
+  DateTime newTime = currentTime.add(Duration(minutes: minutesToAdd));
+  return DateFormat.jm().format(newTime);
+}
+
+String getMinutesString(int minutes) {
+  return minutes == 1
+      ? 'minute'.tr
+      : minutes == 2
+          ? isLangEnglish()
+              ? 'minutes'.tr
+              : 'minute'.tr
+          : minutes > 2 && minutes <= 10
+              ? 'minutes'.tr
+              : isLangEnglish()
+                  ? 'minutes'.tr
+                  : 'minute'.tr;
 }

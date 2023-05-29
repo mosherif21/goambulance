@@ -40,7 +40,8 @@ class MarkerWindowInfo extends StatelessWidget {
                     ? AutoSizeText(
                         windowType == MarkerWindowType.requestLocation
                             ? 'pickupIn'.trParams({
-                                'routeTime': time.value!.toString(),
+                                'routeTime':
+                                    '${time.value!.toString()} ${getMinutesString(time.value!)}',
                               })
                             : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value!)}',
                         style: TextStyle(
@@ -54,17 +55,20 @@ class MarkerWindowInfo extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
               ),
-              AutoSizeText(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  fontSize: 20,
-                  color: windowType == MarkerWindowType.requestLocation
-                      ? Colors.black
-                      : Colors.white,
-                  overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: AutoSizeText(
+                  title,
+                  minFontSize: 14,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 20,
+                    color: windowType == MarkerWindowType.requestLocation
+                        ? Colors.black
+                        : Colors.white,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  maxLines: 1,
                 ),
-                maxLines: 1,
               ),
             ],
           ),

@@ -408,7 +408,7 @@ String formatDateTime(Timestamp timestamp) {
 String getAddedCurrentTime({required int minutesToAdd}) {
   DateTime currentTime = DateTime.now();
   DateTime newTime = currentTime.add(Duration(minutes: minutesToAdd));
-  return DateFormat.jm(isLangEnglish() ? 'en_US' : 'ar_SA').format(newTime);
+  return DateFormat.jm().format(newTime);
 }
 
 String getMinutesString(int minutes) {

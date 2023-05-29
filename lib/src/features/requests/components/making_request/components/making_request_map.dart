@@ -200,19 +200,19 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               ),
               CustomInfoWindow(
                 controller: widget.controller.requestLocationWindowController,
-                height: isLangEnglish() ? 58 : 65,
+                height: isLangEnglish() ? 58 : 75,
                 width: 150,
                 offset: 50,
               ),
               CustomInfoWindow(
                 controller: widget.controller.hospitalWindowController,
-                height: isLangEnglish() ? 58 : 65,
+                height: isLangEnglish() ? 58 : 75,
                 width: 150,
                 offset: 50,
               ),
               CustomInfoWindow(
                 controller: widget.controller.ambulanceWindowController,
-                height: isLangEnglish() ? 58 : 65,
+                height: isLangEnglish() ? 58 : 75,
                 width: 150,
                 offset: 50,
               ),

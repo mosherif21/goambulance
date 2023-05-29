@@ -71,16 +71,10 @@ class RequestsHistoryController extends GetxController {
             marker1LatLng: requestsList[index].requestLocation,
             marker1TitleIconUrl:
                 isLangEnglish() ? requestEngImageUrl : requestArImageUrl,
-            marker1TitleLatLng: LatLng(
-                requestsList[index].requestLocation.latitude + 0.003,
-                requestsList[index].requestLocation.longitude),
             marker2IconUrl: hospitalMarkerImageUrl,
             marker2LatLng: requestsList[index].hospitalLocation,
             marker2TitleIconUrl:
                 isLangEnglish() ? hospitalEngImageUrl : hospitalArImageUrl,
-            marker2TitleLatLng: LatLng(
-                requestsList[index].hospitalLocation.latitude + 0.003,
-                requestsList[index].hospitalLocation.longitude),
           ).then((mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
         } else if (requestsList[index].requestStatus ==
             RequestStatus.assigned) {
@@ -94,9 +88,6 @@ class RequestsHistoryController extends GetxController {
                 marker1LatLng: requestsList[index].requestLocation,
                 marker1TitleIconUrl:
                     isLangEnglish() ? requestEngImageUrl : requestArImageUrl,
-                marker1TitleLatLng: LatLng(
-                    requestsList[index].requestLocation.latitude + 0.003,
-                    requestsList[index].requestLocation.longitude),
                 marker2IconUrl: ambulanceLocation != null
                     ? ambulanceMarkerImageUrl
                     : hospitalMarkerImageUrl,
@@ -109,12 +100,6 @@ class RequestsHistoryController extends GetxController {
                     : ambulanceLocation != null
                         ? ambulanceArImageUrl
                         : hospitalArImageUrl,
-                marker2TitleLatLng: ambulanceLocation != null
-                    ? LatLng(ambulanceLocation.latitude + 0.003,
-                        ambulanceLocation.longitude)
-                    : LatLng(
-                        requestsList[index].hospitalLocation.latitude + 0.003,
-                        requestsList[index].hospitalLocation.longitude),
               ).then(
                   (mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
             },
@@ -138,19 +123,10 @@ class RequestsHistoryController extends GetxController {
                     : ambulanceLocation != null
                         ? ambulanceArImageUrl
                         : requestArImageUrl,
-                marker1TitleLatLng: ambulanceLocation != null
-                    ? LatLng(ambulanceLocation.latitude + 0.003,
-                        ambulanceLocation.longitude)
-                    : LatLng(
-                        requestsList[index].requestLocation.latitude + 0.003,
-                        requestsList[index].requestLocation.longitude),
                 marker2IconUrl: hospitalMarkerImageUrl,
                 marker2LatLng: requestsList[index].hospitalLocation,
                 marker2TitleIconUrl:
                     isLangEnglish() ? hospitalEngImageUrl : hospitalArImageUrl,
-                marker2TitleLatLng: LatLng(
-                    requestsList[index].hospitalLocation.latitude + 0.003,
-                    requestsList[index].hospitalLocation.longitude),
               ).then(
                   (mapImgUrl) => requestsList[index].mapUrl.value = mapImgUrl);
             },
@@ -206,11 +182,9 @@ class RequestsHistoryController extends GetxController {
     required String marker1IconUrl,
     required LatLng marker1LatLng,
     required String marker1TitleIconUrl,
-    required LatLng marker1TitleLatLng,
     required String marker2IconUrl,
     required LatLng marker2LatLng,
     required String marker2TitleIconUrl,
-    required LatLng marker2TitleLatLng,
   }) async {
     List<PointLatLng> points = [];
     try {
@@ -231,26 +205,68 @@ class RequestsHistoryController extends GetxController {
 
     late final LatLngBounds bounds = getLatLngBounds(latLngList: latLngPoints);
 
-    double zoomLevel = calculateZoomLevel(bounds, 300, 150);
+    double zoomLevel = calculateZoomLevel(bounds, 350, 200);
 
     double centerLatitude =
         (bounds.southwest.latitude + bounds.northeast.latitude) / 2;
     double centerLongitude =
         (bounds.southwest.longitude + bounds.northeast.longitude) / 2;
     final center = LatLng(centerLatitude, centerLongitude);
+    print('zoom ${zoomLevel.toInt()}');
     return buildStaticMapURL(
       location: center,
-      zoom: zoomLevel.toInt(),
+      zoom: zoomLevel.toInt() - 1,
       markers: [
         StaticMarkerModel(location: marker1LatLng, iconUrl: marker1IconUrl),
         StaticMarkerModel(location: marker2LatLng, iconUrl: marker2IconUrl),
         StaticMarkerModel(
-            location: marker1TitleLatLng, iconUrl: marker1TitleIconUrl),
+            location: LatLng(
+                marker1LatLng.latitude +
+                    getMarkerTitleDisplacement(
+                        zoomLevel: zoomLevel.toInt() - 1),
+                marker1LatLng.longitude),
+            iconUrl: marker1TitleIconUrl),
         StaticMarkerModel(
-            location: marker2TitleLatLng, iconUrl: marker2TitleIconUrl),
+            location: LatLng(
+                marker2LatLng.latitude +
+                    getMarkerTitleDisplacement(
+                        zoomLevel: zoomLevel.toInt() - 1),
+                marker2LatLng.longitude),
+            iconUrl: marker2TitleIconUrl),
       ],
       polyLines: latLngPoints,
     );
+  }
+
+  double getMarkerTitleDisplacement({required int zoomLevel}) {
+    switch (zoomLevel) {
+      case 10:
+        return 0.005;
+      case 11:
+        return 0.004;
+      case 12:
+        return 0.003;
+      case 13:
+        return 0.002;
+      case 14:
+        return 0.001;
+      case 15:
+        return 0.0009;
+      case 16:
+        return 0.0008;
+      case 17:
+        return 0.0007;
+      case 18:
+        return 0.0006;
+      case 19:
+        return 0.0005;
+      case 20:
+        return 0.0004;
+      case 21:
+        return 0.0003;
+      default:
+        return 0.002;
+    }
   }
 
   Future<String?> getRouteToLocation({

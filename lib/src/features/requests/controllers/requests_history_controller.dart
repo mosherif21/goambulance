@@ -148,6 +148,7 @@ class RequestsHistoryController extends GetxController {
     if (kDebugMode) {
       AppInit.logger.i('known status: ${requestModel.requestStatus}');
     }
+    final initialKnownStatus = requestModel.requestStatus;
     if (requestModel.requestStatus == RequestStatus.completed ||
         requestModel.requestStatus == RequestStatus.canceled) {
       Get.to(() => RequestDetailsPage(requestModel: requestModel),
@@ -157,6 +158,7 @@ class RequestsHistoryController extends GetxController {
       final requestStatus = await firebasePatientDataAccess.getRequestStatus(
           requestId: requestModel.requestId,
           knownStatus: requestModel.requestStatus);
+
       hideLoadingScreen();
       if (kDebugMode) {
         AppInit.logger
@@ -174,6 +176,12 @@ class RequestsHistoryController extends GetxController {
           Get.to(() => RequestDetailsPage(requestModel: requestModel),
               transition: getPageTransition());
         }
+        if (initialKnownStatus != requestStatus) {
+          getRequestsHistory();
+        }
+      } else {
+        showSnackBar(
+            text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
       }
     }
   }
@@ -212,7 +220,6 @@ class RequestsHistoryController extends GetxController {
     double centerLongitude =
         (bounds.southwest.longitude + bounds.northeast.longitude) / 2;
     final center = LatLng(centerLatitude, centerLongitude);
-    print('zoom ${zoomLevel.toInt()}');
     return buildStaticMapURL(
       location: center,
       zoom: zoomLevel.toInt() - 1,

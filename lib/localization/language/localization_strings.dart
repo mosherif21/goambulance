@@ -332,6 +332,8 @@ class Languages extends Translations {
           'delete': "حذف",
           'ongoing': "جارية",
           'requestDetails': 'تفاصيل الطلب',
+          'errorOccurred':
+              "حدث خطأ، يرجى التحقق من الإنترنت والمحاولة مرة أخرى",
         },
         'en_US': {
           'onBoardingTitle1': 'Fast ambulance requests',
@@ -344,6 +346,8 @@ class Languages extends Translations {
           'addresses': 'Addresses',
           'sponsors': 'Our sponsors',
           'ongoing': "Ongoing",
+          'errorOccurred':
+              "An error occurred, please check your internet and try again",
           'noRequests': 'You don\'t have any previous requests',
           'changeGoogleAccount': 'Change Google Account',
           'noMoreHospitals': 'No more hospitals',

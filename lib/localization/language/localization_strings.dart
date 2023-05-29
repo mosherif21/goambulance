@@ -333,6 +333,7 @@ class Languages extends Translations {
           'arriveBy': 'الوصول',
           'minute': 'دقيقة',
           'minutes': 'دقائق',
+          'requestTracking': 'تتبع الطلب',
           'errorOccurred':
               "حدث خطأ، يرجى التحقق من الإنترنت والمحاولة مرة أخرى",
         },
@@ -341,6 +342,7 @@ class Languages extends Translations {
           'arriveBy': 'Arrive by',
           'minutes': 'minutes',
           'minute': 'minute',
+          'requestTracking': 'Request tracking',
           'onBoardingTitle1': 'Fast ambulance requests',
           'onBoardingTitle2': 'Customer Service',
           'onBoardingTitle3': 'Any Location',

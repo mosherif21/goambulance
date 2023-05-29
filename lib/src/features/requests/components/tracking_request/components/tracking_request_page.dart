@@ -1,5 +1,9 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
+
+import '../../../../../general/common_widgets/back_button.dart';
 
 class TrackingRequestPage extends StatelessWidget {
   const TrackingRequestPage({Key? key, required this.requestModel})
@@ -7,9 +11,22 @@ class TrackingRequestPage extends StatelessWidget {
   final RequestHistoryModel requestModel;
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: const RegularBackButton(padding: 0),
+        title: AutoSizeText(
+          'requestTracking'.tr,
+          maxLines: 1,
+        ),
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
+        elevation: 0,
+        scrolledUnderElevation: 5,
+        backgroundColor: Colors.white,
+      ),
       backgroundColor: Colors.white,
-      body: SafeArea(
+      body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
           child: StretchingOverscrollIndicator(

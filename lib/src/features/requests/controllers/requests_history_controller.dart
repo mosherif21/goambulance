@@ -200,7 +200,9 @@ class RequestsHistoryController extends GetxController {
         fromLocation: marker1LatLng,
         toLocation: marker2LatLng,
       );
-      points = PolylinePoints().decodePolyline(route!);
+      if (route != null) {
+        points = PolylinePoints().decodePolyline(route);
+      }
     } catch (err) {
       if (kDebugMode) {
         AppInit.logger.e(err.toString());

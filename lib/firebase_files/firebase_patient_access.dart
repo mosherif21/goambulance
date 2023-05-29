@@ -197,9 +197,10 @@ class FirebasePatientDataAccess extends GetxController {
     try {
       final userDataBatch = fireStore.batch();
       final fireStoreUserAddressRef = firestoreUserRef.collection('addresses');
+      final sad = await fireStoreUserAddressRef.add(savedAddressData.toJson());
       if (savedAddressData != null) {
         final addressRef = fireStoreUserAddressRef.doc();
-        userDataBatch.set(addressRef, savedAddressData.toJson());
+        //userDataBatch.set(addressRef, );
       }
       await userDataBatch.commit();
       return FunctionStatus.success;

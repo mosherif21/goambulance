@@ -30,7 +30,7 @@ class MarkerWindowInfo extends StatelessWidget {
                 child: AutoSizeText(title),
               ),
               Expanded(
-                child: AutoSizeText(title),
+                child: AutoSizeText(subTitle),
               ),
             ],
           ),

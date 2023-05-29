@@ -24,10 +24,10 @@ class MarkerWindowInfo extends StatelessWidget {
       color: windowType == MarkerWindowType.requestLocation
           ? Colors.white
           : Colors.black,
-      borderRadius: const BorderRadius.all(Radius.circular(5)),
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
       child: InkWell(
         splashFactory: InkSparkle.splashFactory,
-        borderRadius: const BorderRadius.all(Radius.circular(5)),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -55,20 +55,18 @@ class MarkerWindowInfo extends StatelessWidget {
                       )
                     : const SizedBox.shrink(),
               ),
-              Expanded(
-                child: AutoSizeText(
-                  title,
-                  minFontSize: 14,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 20,
-                    color: windowType == MarkerWindowType.requestLocation
-                        ? Colors.black
-                        : Colors.white,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  maxLines: 1,
+              AutoSizeText(
+                title,
+                minFontSize: 14,
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 20,
+                  color: windowType == MarkerWindowType.requestLocation
+                      ? Colors.black
+                      : Colors.white,
+                  overflow: TextOverflow.ellipsis,
                 ),
+                maxLines: 1,
               ),
             ],
           ),

@@ -60,8 +60,8 @@ class _MakingRequestMapState extends State<MakingRequestMap>
         borderRadius: const BorderRadius.all(Radius.circular(20)),
         boxShadow: [
           BoxShadow(
-            blurRadius: 20,
-            color: Colors.grey.shade400,
+            blurRadius: 10,
+            color: Colors.grey.shade500,
           ),
         ],
       ),
@@ -200,19 +200,19 @@ class _MakingRequestMapState extends State<MakingRequestMap>
               ),
               CustomInfoWindow(
                 controller: widget.controller.requestLocationWindowController,
-                height: 60,
+                height: isLangEnglish() ? 58 : 65,
                 width: 150,
                 offset: 50,
               ),
               CustomInfoWindow(
                 controller: widget.controller.hospitalWindowController,
-                height: 60,
+                height: isLangEnglish() ? 58 : 65,
                 width: 150,
                 offset: 50,
               ),
               CustomInfoWindow(
                 controller: widget.controller.ambulanceWindowController,
-                height: 60,
+                height: isLangEnglish() ? 58 : 65,
                 width: 150,
                 offset: 50,
               ),

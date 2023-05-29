@@ -127,6 +127,38 @@ class FirebasePatientDataAccess extends GetxController {
     return contactsList;
   }
 
+  Future<List<AddressItem>> getSavedAddresses() async {
+    final addressesList = <AddressItem>[];
+    try {
+      await firestoreUserRef.collection('addresses').get().then(
+        (addressesSnapshot) {
+          for (var address in addressesSnapshot.docs) {
+            final addressDoc = address.data();
+            addressesList.add(
+              AddressItem(
+                  locationName: addressDoc['locationName'].toString(),
+                  streetName: addressDoc['streetName'].toString(),
+                  apartmentNumber: addressDoc['apartmentNumber'].toString(),
+                  floorNumber: addressDoc['floorNumber'].toString(),
+                  areaName: addressDoc['areaName'].toString(),
+                  additionalInfo: addressDoc['additionalInfo'].toString(),
+                  addressId: address.id),
+            );
+          }
+        },
+      );
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return addressesList;
+  }
+
   Future<ContactItem?> addEmergencyContact({
     required String contactName,
     required String contactNumber,
@@ -190,31 +222,42 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<FunctionStatus> addNewAddress({
-    required AddressItem savedAddressData,
-    required List<String> currentAddressDocIds,
+  Future<AddressItem?> addNewAddress({
+    required String locationName,
+    required String streetName,
+    required String apartmentNumber,
+    required String floorNumber,
+    required String areaName,
+    String? additionalInfo,
   }) async {
     try {
-      final userDataBatch = fireStore.batch();
-      final fireStoreUserAddressRef = firestoreUserRef.collection('addresses');
-      final sad = await fireStoreUserAddressRef.add(savedAddressData.toJson());
-      if (savedAddressData != null) {
-        final addressRef = fireStoreUserAddressRef.doc();
-        //userDataBatch.set(addressRef, );
-      }
-      await userDataBatch.commit();
-      return FunctionStatus.success;
+      final docRef = await firestoreUserRef.collection('addresses').add({
+        'locationName': locationName,
+        'streetName': streetName,
+        'apartmentNumber': apartmentNumber,
+        'floorNumber': floorNumber,
+        'areaName': areaName,
+        'additionalInfo': additionalInfo,
+      });
+      return AddressItem(
+        addressId: docRef.id,
+        locationName: locationName,
+        streetName: streetName,
+        apartmentNumber: apartmentNumber,
+        floorNumber: floorNumber,
+        areaName: areaName,
+        additionalInfo: additionalInfo,
+      );
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         AppInit.logger.e(error.toString());
       }
-      return FunctionStatus.failure;
     } catch (err) {
       if (kDebugMode) {
         AppInit.logger.e(err.toString());
       }
-      return FunctionStatus.failure;
     }
+    return null;
   }
 
   Future<void> updateCurrentLanguage() async {

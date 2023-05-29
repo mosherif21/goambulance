@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -37,6 +35,7 @@ class AddressesController extends GetxController {
   late final String userId;
   late final UserInformation userInfo;
   late final AuthenticationRepository authRep;
+  late final FirebasePatientDataAccess firebasePatientDataAccess;
   final addressesLoaded = false.obs;
 
   @override
@@ -44,6 +43,7 @@ class AddressesController extends GetxController {
     authRep = AuthenticationRepository.instance;
     userInfo = authRep.userInfo;
     userId = authRep.fireUser.value!.uid;
+    firebasePatientDataAccess = FirebasePatientDataAccess.instance;
     loadAddresses();
     super.onInit();
   }
@@ -81,34 +81,9 @@ class AddressesController extends GetxController {
     });
   }
 
-  void loadAddresses() {
-    try {
-      final userAddressesRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('addresses');
-      userAddressesRef.get().then((addressesSnapshot) {
-        for (var addressesDoc in addressesSnapshot.docs) {
-          currentAddressesDocIds.add(addressesDoc.id);
-          final addressesData = addressesDoc.data();
-          addressesList.add(
-            AddressItem(
-                addressId: addressesDoc.id,
-                locationName: addressesData['locationName'].toString(),
-                streetName: addressesData['streetName'].toString(),
-                apartmentNumber: addressesData['apartmentNumber'].toString(),
-                floorNumber: addressesData['floorNumber'].toString(),
-                areaName: addressesData['areaName'].toString(),
-                additionalInfo: addressesData['additionalInfo'].toString()),
-          );
-        }
-        addressesLoaded.value = true;
-      });
-    } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
-    } catch (e) {
-      if (kDebugMode) print(e.toString());
-    }
+  void loadAddresses() async {
+    addressesList.value = await firebasePatientDataAccess.getSavedAddresses();
+    addressesLoaded.value = true;
   }
 
   Future<void> checkAddress() async {
@@ -139,25 +114,18 @@ class AddressesController extends GetxController {
     final floorNumber = floorNumberTextController.text.trim();
     final areaName = areaNameTextController.text.trim();
     final additionalInfo = additionalInfoTextController.text.trim();
-    final AddressItem addressItem = AddressItem(
+
+    final addressItem = await firebasePatientDataAccess.addNewAddress(
         locationName: locationName,
         streetName: streetName,
         apartmentNumber: apartmentNumber,
         floorNumber: floorNumber,
         areaName: areaName,
-        additionalInfo: additionalInfo,
-        addressId: '');
-    final addressData = SavedAddressesModel(
-        addressName: locationName, addressesList: addressesList);
+        additionalInfo: additionalInfo);
 
-    final functionStatus = await FirebasePatientDataAccess.instance
-        .addNewAddress(
-            savedAddressData: addressItem,
-            currentAddressDocIds: currentAddressesDocIds);
-    if (functionStatus == FunctionStatus.success) {
-      hideLoadingScreen();
-      // addressItem.addressId=;
-      // addressesList.add(item)
+    hideLoadingScreen();
+    if (addressItem != null) {
+      addressesList.add(addressItem);
       locationNameTextController.clear();
       streetNameTextController.clear();
       apartmentNumberTextController.clear();
@@ -175,21 +143,20 @@ class AddressesController extends GetxController {
     }
   }
 
-  void removeAddress() async {
-    final DocumentReference parentDoc =
-        FirebaseFirestore.instance.collection('users').doc(userId);
-    final CollectionReference subCollection = parentDoc.collection('addresses');
-
-    subCollection.get().then((querySnapshot) {
-      for (var document in querySnapshot.docs) {
-        if (kDebugMode) {
-          print(document.id);
-        } // this will print the id of each document in the subcollection
-      }
-    });
-
-    if (kDebugMode) {
-      print('7amda2');
+  removeAddress({required AddressItem addressItem}) async {
+    showLoadingScreen();
+    final addressDocumentId = firebasePatientDataAccess.firestoreUserRef
+        .collection('addresses')
+        .doc(addressItem.addressId);
+    final functionStatus = await firebasePatientDataAccess.deleteDocument(
+        documentRef: addressDocumentId);
+    hideLoadingScreen();
+    if (functionStatus == FunctionStatus.success) {
+      addressesList.remove(addressItem);
+    } else if (functionStatus == FunctionStatus.failure) {
+      showSnackBar(
+          text: 'deletingEmergencyContactFailed'.tr,
+          snackBarType: SnackBarType.error);
     }
   }
 

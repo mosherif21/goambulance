@@ -51,17 +51,25 @@ class RequestsHistoryController extends GetxController {
   void getRequestsHistory() async {
     try {
       requestLoaded.value = false;
-      if (Get.isRegistered<FirebasePatientDataAccess>()) {
-        final trace =
-            FirebasePerformance.instance.newTrace('load_recent_requests');
-        await trace.start();
-        requestsList.value =
-            await firebasePatientDataAccess.getRecentRequests();
-        await trace.stop();
+      final trace =
+          FirebasePerformance.instance.newTrace('load_recent_requests');
+      await trace.start();
+      final gotRequests = await firebasePatientDataAccess.getRecentRequests();
+      await trace.stop();
+      if (gotRequests != null) {
+        requestsList.value = gotRequests;
+        if (kDebugMode) {
+          AppInit.logger
+              .i('loaded requests history, no: ${requestsList.length}');
+        }
+      } else {
+        showSnackBar(
+            text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
+        if (kDebugMode) {
+          AppInit.logger.e('Failed to get requests');
+        }
       }
-      if (kDebugMode) {
-        AppInit.logger.i('loaded requests history, no: ${requestsList.length}');
-      }
+
       requestLoaded.value = true;
       for (int index = 0; index < requestsList.length; index++) {
         if (requestsList[index].requestStatus == RequestStatus.pending ||

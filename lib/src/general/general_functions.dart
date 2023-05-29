@@ -401,14 +401,14 @@ Future<bool> handleGeneralPermission({
 String formatDateTime(Timestamp timestamp) {
   DateTime dateTime =
       DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
-  DateFormat formatter = DateFormat("MMM d y hh:mm a");
+  DateFormat formatter = DateFormat('MMM d y hh:mm a');
   return formatter.format(dateTime);
 }
 
 String getAddedCurrentTime({required int minutesToAdd}) {
   DateTime currentTime = DateTime.now();
   DateTime newTime = currentTime.add(Duration(minutes: minutesToAdd));
-  return DateFormat.jm().format(newTime);
+  return DateFormat.jm(isLangEnglish() ? 'en_US' : 'ar_SA').format(newTime);
 }
 
 String getMinutesString(int minutes) {

@@ -43,7 +43,7 @@ class MarkerWindowInfo extends StatelessWidget {
                                 'routeTime':
                                     '${time.value!.toString()} ${getMinutesString(time.value!)}',
                               })
-                            : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value!)}',
+                            : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value! * 2)}',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 10,

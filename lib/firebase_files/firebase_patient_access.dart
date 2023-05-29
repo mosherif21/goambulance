@@ -276,7 +276,7 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<List<RequestHistoryModel>> getRecentRequests() async {
+  Future<List<RequestHistoryModel>?> getRecentRequests() async {
     final List<RequestHistoryModel> readRequestsHistory = [];
     try {
       final pendingSnapshot =
@@ -451,6 +451,7 @@ class FirebasePatientDataAccess extends GetxController {
       }
       // Sort the list by timestamp
       readRequestsHistory.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+      return readRequestsHistory;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         AppInit.logger.e(error.toString());
@@ -460,7 +461,7 @@ class FirebasePatientDataAccess extends GetxController {
         AppInit.logger.e(err.toString());
       }
     }
-    return readRequestsHistory;
+    return null;
   }
 
   Future<FunctionStatus> updateUserDataInfo({

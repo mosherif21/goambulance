@@ -280,6 +280,12 @@ String formatDateTime(Timestamp timestamp) {
   return formatter.format(dateTime);
 }
 
+String getAddedCurrentTime({required int minutesToAdd}) {
+  DateTime currentTime = DateTime.now();
+  DateTime newTime = currentTime.add(Duration(minutes: minutesToAdd));
+  return DateFormat.jm().format(newTime);
+}
+
 Future<bool> handleLocationService() async {
   try {
     final location = Location();

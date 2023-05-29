@@ -205,13 +205,13 @@ class _MakingRequestMapState extends State<MakingRequestMap>
                 offset: 50,
               ),
               CustomInfoWindow(
-                controller: widget.controller.ambulanceWindowController,
+                controller: widget.controller.hospitalWindowController,
                 height: 60,
                 width: 150,
                 offset: 50,
               ),
               CustomInfoWindow(
-                controller: widget.controller.hospitalWindowController,
+                controller: widget.controller.ambulanceWindowController,
                 height: 60,
                 width: 150,
                 offset: 50,

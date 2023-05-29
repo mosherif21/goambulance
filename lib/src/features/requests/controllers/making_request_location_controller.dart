@@ -54,7 +54,7 @@ class MakingRequestLocationController extends GetxController {
   //maps vars
   final mapPolyLines = <Polyline>{}.obs;
   final mapMarkers = <Marker>{}.obs;
-  final routeToHospitalTime = ''.obs;
+  final routeToDestinationTime = RxnInt();
   Marker? requestLocationMarker;
   Marker? ambulanceMarker;
   Marker? hospitalMarker;
@@ -295,25 +295,31 @@ class MakingRequestLocationController extends GetxController {
       markerId: MarkerId('requestLocation'.tr),
       position: currentChosenLatLng,
       icon: requestLocationMarkerIcon,
-    );
-    requestLocationWindowController.addInfoWindow!(
-      MarkerWindowInfo(
-        title: 'requestLocationPinDesc'.tr,
-        subTitle: '',
-        startLocation: true,
-        onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
-      ),
-      currentChosenLatLng,
+      consumeTapEvents: true,
     );
     mapMarkers.add(requestLocationMarker!);
+    if (requestLocationWindowController.addInfoWindow != null) {
+      requestLocationWindowController.addInfoWindow!(
+        MarkerWindowInfo(
+          time: routeToDestinationTime,
+          title: 'requestLocation'.tr,
+          windowType: MarkerWindowType.requestLocation,
+          onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
+        ),
+        currentChosenLatLng,
+      );
+    }
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
     loadHospitals();
   }
 
   void clearHospitalRoute() {
-    routeToHospitalTime.value = '';
+    routeToDestinationTime.value = null;
     mapPolyLines.clear();
+    if (hospitalWindowController.hideInfoWindow != null) {
+      hospitalWindowController.hideInfoWindow!();
+    }
     if (hospitalMarker != null) {
       if (mapMarkers.contains(hospitalMarker)) {
         mapMarkers.remove(hospitalMarker);
@@ -362,7 +368,6 @@ class MakingRequestLocationController extends GetxController {
     getHospitalsOperation?.cancel();
     getHospitalsDataOperation?.cancel();
     getRouteOperation?.cancel();
-
     selectedHospital.value = null;
     if (mapMarkers.contains(requestLocationMarker)) {
       mapMarkers.remove(requestLocationMarker!);
@@ -372,9 +377,6 @@ class MakingRequestLocationController extends GetxController {
     }
     if (hospitalWindowController.hideInfoWindow != null) {
       hospitalWindowController.hideInfoWindow!();
-    }
-    if (ambulanceWindowController.hideInfoWindow != null) {
-      ambulanceWindowController.hideInfoWindow!();
     }
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
@@ -451,10 +453,26 @@ class MakingRequestLocationController extends GetxController {
               markerId: const MarkerId('hospital'),
               position: selectedHospital.value!.location,
               icon: hospitalMarkerIcon,
+              consumeTapEvents: true,
             );
-            //animateToLocation(locationLatLng: selectedHospital.value!.location)
-            //'${selectedHospital.value!.name} (${'hospitalLocationPinDesc'.tr})'
             mapMarkers.add(hospitalMarker!);
+            animateToLatLngBounds(
+                latLngBounds: getLatLngBounds(latLngList: [
+              currentChosenLatLng,
+              selectedHospital.value!.location
+            ]));
+            if (hospitalWindowController.addInfoWindow != null) {
+              hospitalWindowController.addInfoWindow!(
+                MarkerWindowInfo(
+                  time: routeToDestinationTime,
+                  title: selectedHospital.value!.name,
+                  windowType: MarkerWindowType.hospitalLocation,
+                  onTap: () => animateToLocation(
+                      locationLatLng: selectedHospital.value!.location),
+                ),
+                selectedHospital.value!.location,
+              );
+            }
             getRouteToLocation(
               fromLocation: currentChosenLatLng,
               toLocation: selectedHospital.value!.location,
@@ -512,11 +530,24 @@ class MakingRequestLocationController extends GetxController {
       position: hospitalItem.location,
       icon: hospitalMarkerIcon,
       anchor: const Offset(0.5, 0.5),
+      consumeTapEvents: true,
     );
-    // animateToLocation(locationLatLng: hospitalItem.location),
-    //'${hospitalItem.name} (${'hospitalLocationPinDesc'.tr})'
-    selectedHospital.value = hospitalItem;
     mapMarkers.add(hospitalMarker!);
+    animateToLatLngBounds(
+        latLngBounds: getLatLngBounds(
+            latLngList: [currentChosenLatLng, hospitalItem.location]));
+    if (hospitalWindowController.addInfoWindow != null) {
+      hospitalWindowController.addInfoWindow!(
+        MarkerWindowInfo(
+          time: routeToDestinationTime,
+          title: hospitalItem.name,
+          windowType: MarkerWindowType.hospitalLocation,
+          onTap: () => animateToLocation(locationLatLng: hospitalItem.location),
+        ),
+        hospitalItem.location,
+      );
+    }
+    selectedHospital.value = hospitalItem;
     getRouteToLocation(
       fromLocation: currentChosenLatLng,
       toLocation: hospitalItem.location,
@@ -550,7 +581,7 @@ class MakingRequestLocationController extends GetxController {
           final route = result.routes.first;
           final leg = route.legs.first;
           final duration = leg.duration;
-          routeToHospitalTime.value = duration.text;
+          routeToDestinationTime.value = duration.value.seconds.inMinutes;
           final polyline = route.overviewPolyline.points;
           final polylinePoints = PolylinePoints();
           final points = polylinePoints.decodePolyline(polyline);

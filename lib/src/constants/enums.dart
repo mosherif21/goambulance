@@ -16,6 +16,8 @@ enum FunctionStatus { success, failure }
 
 enum SnackBarType { success, error, info, warning }
 
+enum MarkerWindowType { requestLocation, ambulanceLocation, hospitalLocation }
+
 enum RequestStatus {
   non,
   pending,

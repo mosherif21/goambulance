@@ -36,53 +36,48 @@ class DrawerPage extends StatelessWidget {
                 SizedBox(
                   height: screenHeight * 0.1,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 36.0,
-                    left: 24.0,
-                    right: 24.0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Obx(
-                        () => authRepo.drawerProfileImageUrl.value.isURL
-                            ? CircleAvatar(
-                                radius: 65,
-                                backgroundImage: NetworkImage(
-                                    authRepo.drawerProfileImageUrl.value),
-                              )
-                            : Shimmer.fromColors(
-                                baseColor: Colors.grey.shade300,
-                                highlightColor: Colors.grey.shade100,
-                                child: const Center(
-                                  child: CircleAvatar(
-                                    radius: 65,
-                                    backgroundColor: Colors.white,
-                                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Obx(
+                      () => authRepo.drawerProfileImageUrl.value.isURL
+                          ? CircleAvatar(
+                              radius: 65,
+                              backgroundImage: NetworkImage(
+                                  authRepo.drawerProfileImageUrl.value),
+                            )
+                          : Shimmer.fromColors(
+                              baseColor: Colors.grey.shade300,
+                              highlightColor: Colors.grey.shade100,
+                              child: const Center(
+                                child: CircleAvatar(
+                                  radius: 65,
+                                  backgroundColor: Colors.white,
                                 ),
                               ),
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: 200,
-                        child: Obx(
-                          () => AutoSizeText(
-                            authRepo.drawerAccountName.value,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            minFontSize: 22,
-                            style: const TextStyle(
-                              fontSize: 22,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w900,
                             ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 200,
+                      child: Obx(
+                        () => AutoSizeText(
+                          authRepo.drawerAccountName.value,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          minFontSize: 22,
+                          style: const TextStyle(
+                            fontSize: 22,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+                const SizedBox(height: 30),
                 Expanded(
                   child: ListView.builder(
                     itemBuilder: (context, index) {

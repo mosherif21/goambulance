@@ -46,103 +46,116 @@ class AddAddressPage extends StatelessWidget {
                     maxLines: 2,
                   ),
                   const SizedBox(height: 10.0),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TextHeader(
-                            headerText: 'Enter Your Address Name',
-                            fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'Address Name'.tr,
-                          hintText: 'Example : Home'.tr,
-                          prefixIconData: Icons.home_work,
-                          textController: controller.locationNameTextController,
-                          inputType: InputType.text,
-                          editable: true,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ],
+                  Obx(
+                    () => RegularCard(
+                      highlightRed: controller.highlightLocationName.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TextHeader(
+                              headerText: 'Enter Your Address Name',
+                              fontSize: 18),
+                          TextFormFieldRegular(
+                            labelText: 'Address Name'.tr,
+                            hintText: 'Example : Home'.tr,
+                            prefixIconData: Icons.home_work,
+                            textController:
+                                controller.locationNameTextController,
+                            inputType: InputType.text,
+                            editable: true,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TextHeader(
-                            headerText: 'Enter Your Street Name', fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'Street Name'.tr,
-                          hintText: 'Example : Abu kir'.tr,
-                          prefixIconData: Icons.add_road,
-                          textController: controller.streetNameTextController,
-                          inputType: InputType.text,
-                          editable: true,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ],
+                  Obx(
+                    () => RegularCard(
+                      highlightRed: controller.highlightStreetName.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TextHeader(
+                              headerText: 'Enter Your Street Name',
+                              fontSize: 18),
+                          TextFormFieldRegular(
+                            labelText: 'Street Name'.tr,
+                            hintText: 'Example : Abu kir'.tr,
+                            prefixIconData: Icons.add_road,
+                            textController: controller.streetNameTextController,
+                            inputType: InputType.text,
+                            editable: true,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TextHeader(
-                            headerText: 'Enter Your Apartment Number',
-                            fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'Apartment Number'.tr,
-                          hintText: 'Example : 6'.tr,
-                          prefixIconData: Icons.house,
-                          textController:
-                          controller.apartmentNumberTextController,
-                          inputType: InputType.text,
-                          editable: true,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ],
+                  Obx(
+                    () => RegularCard(
+                      highlightRed: controller.highlightApartmentNumber.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TextHeader(
+                              headerText: 'Enter Your Apartment Number',
+                              fontSize: 18),
+                          TextFormFieldRegular(
+                            labelText: 'Apartment Number'.tr,
+                            hintText: 'Example : 6'.tr,
+                            prefixIconData: Icons.house,
+                            textController:
+                                controller.apartmentNumberTextController,
+                            inputType: InputType.text,
+                            editable: true,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TextHeader(
-                            headerText: 'Enter Your Floor Number',
-                            fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'Floor Number'.tr,
-                          hintText: 'Example : 1002'.tr,
-                          prefixIconData: Icons.numbers,
-                          textController: controller.floorNumberTextController,
-                          inputType: InputType.text,
-                          editable: true,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ],
+                  Obx(
+                    () => RegularCard(
+                      highlightRed: controller.highlightFloorNumber.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TextHeader(
+                              headerText: 'Enter Your Floor Number',
+                              fontSize: 18),
+                          TextFormFieldRegular(
+                            labelText: 'Floor Number'.tr,
+                            hintText: 'Example : 1002'.tr,
+                            prefixIconData: Icons.numbers,
+                            textController:
+                                controller.floorNumberTextController,
+                            inputType: InputType.text,
+                            editable: true,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TextHeader(
-                            headerText: 'Enter Your Area Name', fontSize: 18),
-                        TextFormFieldRegular(
-                          labelText: 'address'.tr,
-                          hintText: 'Example: Smouha'.tr,
-                          prefixIconData: Icons.map,
-                          textController: controller.areaNameTextController,
-                          inputType: InputType.text,
-                          editable: true,
-                          textInputAction: TextInputAction.next,
-                        ),
-                      ],
+                  Obx(
+                    () => RegularCard(
+                      highlightRed: controller.highlightArea.value,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TextHeader(
+                              headerText: 'Enter Your Area Name', fontSize: 18),
+                          TextFormFieldRegular(
+                            labelText: 'address'.tr,
+                            hintText: 'Example: Smouha'.tr,
+                            prefixIconData: Icons.map,
+                            textController: controller.areaNameTextController,
+                            inputType: InputType.text,
+                            editable: true,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   RegularCard(
@@ -156,16 +169,15 @@ class AddAddressPage extends StatelessWidget {
                         TextFormFieldRegular(
                           labelText: 'Additional Information'.tr,
                           hintText:
-                          'Example : there is a pharmacy under the building '
-                              .tr,
+                              'Example : there is a pharmacy under the building '
+                                  .tr,
                           prefixIconData: Icons.info,
                           textController:
-                          controller.additionalInfoTextController,
+                              controller.additionalInfoTextController,
                           inputType: InputType.text,
                           editable: true,
                           textInputAction: TextInputAction.next,
                         ),
-
                       ],
                     ),
                   ),
@@ -174,7 +186,7 @@ class AddAddressPage extends StatelessWidget {
                     child: RegularElevatedButton(
                       buttonText: 'save'.tr,
                       onPressed: () {
-                        controller.addNewAddress();
+                        controller.checkAddress();
                       },
                       enabled: true,
                       color: kDefaultColor,

@@ -49,9 +49,8 @@ class AccountAddressesPage extends StatelessWidget {
                                           in controller.addressesList)
                                         LoadAddressItem(
                                             addressItem: addressItem,
-                                            onDeletePressed: () => controller
-                                                .addressesList
-                                                .remove(addressItem)),
+                                            onDeletePressed: () =>
+                                                controller.removeAddress()),
                                     ],
                                   )
                                 : const NoAddressesSaved(),

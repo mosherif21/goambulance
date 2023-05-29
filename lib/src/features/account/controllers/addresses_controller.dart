@@ -28,6 +28,12 @@ class AddressesController extends GetxController {
   final additionalInfo = ''.obs;
   var currentAddressesDocIds = <String>[];
 
+  RxBool highlightLocationName = false.obs;
+  RxBool highlightStreetName = false.obs;
+  RxBool highlightApartmentNumber = false.obs;
+  RxBool highlightFloorNumber = false.obs;
+  RxBool highlightArea = false.obs;
+
   late final String userId;
   late final UserInformation userInfo;
   late final AuthenticationRepository authRep;
@@ -43,7 +49,37 @@ class AddressesController extends GetxController {
   }
 
   @override
-  void onReady() async {}
+  void onReady() async {
+    locationNameTextController.addListener(() {
+      if (locationNameTextController.text.trim().isNotEmpty) {
+        highlightLocationName.value = false;
+      }
+    });
+
+    streetNameTextController.addListener(() {
+      if (streetNameTextController.text.trim().isNotEmpty) {
+        highlightStreetName.value = false;
+      }
+    });
+
+    apartmentNumberTextController.addListener(() {
+      if (apartmentNumberTextController.text.trim().isNotEmpty) {
+        highlightApartmentNumber.value = false;
+      }
+    });
+
+    floorNumberTextController.addListener(() {
+      if (floorNumberTextController.text.trim().isNotEmpty) {
+        highlightFloorNumber.value = false;
+      }
+    });
+
+    areaNameTextController.addListener(() {
+      if (areaNameTextController.text.trim().isNotEmpty) {
+        highlightArea.value = false;
+      }
+    });
+  }
 
   void loadAddresses() {
     try {
@@ -71,6 +107,26 @@ class AddressesController extends GetxController {
       if (kDebugMode) print(error.toString());
     } catch (e) {
       if (kDebugMode) print(e.toString());
+    }
+  }
+
+  Future<void> checkAddress() async {
+    highlightLocationName.value =
+        locationNameTextController.text.trim().isEmpty;
+    highlightStreetName.value = streetNameTextController.text.trim().isEmpty;
+    highlightApartmentNumber.value =
+        apartmentNumberTextController.text.trim().isEmpty;
+    highlightFloorNumber.value = floorNumberTextController.text.trim().isEmpty;
+    highlightArea.value = areaNameTextController.text.trim().isEmpty;
+
+    if (!highlightLocationName.value &&
+        !highlightStreetName.value &&
+        !highlightApartmentNumber.value &&
+        !highlightFloorNumber.value &&
+        !highlightArea.value) {
+      addNewAddress();
+    } else {
+      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
   }
 
@@ -112,6 +168,24 @@ class AddressesController extends GetxController {
       showSnackBar(
           text: 'medicalHistorySavedError'.tr,
           snackBarType: SnackBarType.error);
+    }
+  }
+
+  void removeAddress() async {
+    final DocumentReference parentDoc =
+        FirebaseFirestore.instance.collection('users').doc(userId);
+    final CollectionReference subCollection = parentDoc.collection('addresses');
+
+    subCollection.get().then((querySnapshot) {
+      for (var document in querySnapshot.docs) {
+        if (kDebugMode) {
+          print(document.id);
+        } // this will print the id of each document in the subcollection
+      }
+    });
+
+    if (kDebugMode) {
+      print('7amda2');
     }
   }
 

@@ -28,6 +28,7 @@ const String kFacebookImg = "assets/images/facebook.png";
 const String kEmailImg = "assets/images/email.png";
 const String kResetPasswordImg = "assets/images/reset-password.png";
 const String kAddressesImg = "assets/images/address.png";
+const String kLocationMarkerImg = "assets/images/location_marker.png";
 
 //--Lottie assets
 const String kAmbulanceCarAnim = "assets/lottie_animations/ambulance.json";
@@ -47,7 +48,8 @@ const String kLoadingMapAnim = "assets/lottie_animations/loading_map4.json";
 const String kNoLocation = "assets/lottie_animations/no_location_service.json";
 const String kMapPin = "assets/lottie_animations/map_pin.json";
 const String kRouteAnim = "assets/lottie_animations/route.json";
-const String kNoRequestsHistory = "assets/lottie_animations/no_requests_history.json";
+const String kNoRequestsHistory =
+    "assets/lottie_animations/no_requests_history.json";
 
 //--Files assets
 const String kMapStyle = "assets/files/mapStyle.txt";

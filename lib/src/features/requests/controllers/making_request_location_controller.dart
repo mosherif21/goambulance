@@ -775,25 +775,27 @@ class MakingRequestLocationController extends GetxController {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
         googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 40));
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 65));
       }
     }
   }
 
   void onCameraIdle() async {
-    if (mapEnabled.value) {
-      if (googleMapControllerInit) {
-        searchedText.value = 'loading'.tr;
-        String address = '';
-        if (!cameraMoved.value) {
-          currentCameraLatLng = LatLng(
-              initialCameraLatLng.latitude, initialCameraLatLng.longitude);
-        }
-        address = await getAddressFromLocation(latLng: currentCameraLatLng);
-        if (address.isNotEmpty) {
-          searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
-        } else {
-          searchedText.value = 'addressNotFound'.tr;
+    if (!choosingHospital.value) {
+      if (mapEnabled.value) {
+        if (googleMapControllerInit) {
+          searchedText.value = 'loading'.tr;
+          String address = '';
+          if (!cameraMoved.value) {
+            currentCameraLatLng = LatLng(
+                initialCameraLatLng.latitude, initialCameraLatLng.longitude);
+          }
+          address = await getAddressFromLocation(latLng: currentCameraLatLng);
+          if (address.isNotEmpty) {
+            searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
+          } else {
+            searchedText.value = 'addressNotFound'.tr;
+          }
         }
       }
     }

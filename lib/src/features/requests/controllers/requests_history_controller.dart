@@ -257,32 +257,50 @@ class RequestsHistoryController extends GetxController {
 
   double getMarkerTitleDisplacement({required int zoomLevel}) {
     switch (zoomLevel) {
+      case 1:
+        return 0.07;
+      case 2:
+        return 0.06;
+      case 3:
+        return 0.05;
+      case 4:
+        return 0.04;
+      case 5:
+        return 0.03;
+      case 6:
+        return 0.02;
+      case 7:
+        return 0.01;
+      case 8:
+        return 0.009;
+      case 9:
+        return 0.008;
       case 10:
-        return 0.005;
+        return 0.007;
       case 11:
-        return 0.004;
+        return 0.006;
       case 12:
-        return 0.003;
+        return 0.002;
       case 13:
-        return 0.002;
-      case 14:
         return 0.001;
-      case 15:
+      case 14:
         return 0.0009;
-      case 16:
+      case 15:
         return 0.0008;
-      case 17:
+      case 16:
         return 0.0007;
-      case 18:
+      case 17:
         return 0.0006;
-      case 19:
+      case 18:
         return 0.0005;
-      case 20:
+      case 19:
         return 0.0004;
-      case 21:
+      case 20:
         return 0.0003;
+      case 21:
+        return 0.0002;
       default:
-        return 0.002;
+        return 0.003;
     }
   }
 

@@ -5,6 +5,7 @@ class RequestsHistoryDetailsController extends GetxController {
   static RequestsHistoryDetailsController get instance => Get.find();
   late final RequestHistoryModel requestModel;
   RequestsHistoryDetailsController({required this.requestModel});
+  final requestLoaded = false.obs;
   @override
   void onReady() async {
     super.onReady();

@@ -177,8 +177,9 @@ class HomeDashBoard extends StatelessWidget {
                           controller: controller,
                           count: 6,
                           effect: const WormEffect(
-                            dotHeight: 16,
-                            dotWidth: 16,
+                            dotHeight: 12,
+                            dotWidth: 12,
+                            activeDotColor: Colors.black,
                           ),
                         ),
                       ),

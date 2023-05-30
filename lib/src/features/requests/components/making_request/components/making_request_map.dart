@@ -249,7 +249,7 @@ class MakingRequestMap extends StatelessWidget {
                       left: makingRequestController.cameraMoved.value ? 10 : 0,
                       right: makingRequestController.cameraMoved.value ? 10 : 0,
                       bottom:
-                          makingRequestController.cameraMoved.value ? 18 : 80,
+                          makingRequestController.cameraMoved.value ? 16 : 74,
                     ),
                     height: makingRequestController.choosingHospital.value
                         ? 0

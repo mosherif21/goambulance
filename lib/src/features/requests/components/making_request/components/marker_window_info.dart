@@ -47,13 +47,10 @@ class MarkerWindowInfo extends StatelessWidget {
                                       '${time.value!.toString()} ${getMinutesString(time.value!)}',
                                 })
                               : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value! * 2)}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
                             fontSize: 5,
-                            color:
-                                windowType == MarkerWindowType.requestLocation
-                                    ? Colors.grey
-                                    : Colors.white,
+                            color: Colors.grey,
                           ),
                           maxLines: 1,
                         )

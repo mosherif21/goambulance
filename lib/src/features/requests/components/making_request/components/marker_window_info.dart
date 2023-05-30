@@ -29,7 +29,7 @@ class MarkerWindowInfo extends StatelessWidget {
         splashFactory: InkSparkle.splashFactory,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Obx(
             () => Column(
               crossAxisAlignment: time.value != null
@@ -49,7 +49,7 @@ class MarkerWindowInfo extends StatelessWidget {
                               : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value! * 2)}',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 10,
+                            fontSize: 5,
                             color:
                                 windowType == MarkerWindowType.requestLocation
                                     ? Colors.grey
@@ -64,7 +64,7 @@ class MarkerWindowInfo extends StatelessWidget {
                   minFontSize: 14,
                   style: TextStyle(
                     fontWeight: FontWeight.w800,
-                    fontSize: 20,
+                    fontSize: 15,
                     color: windowType == MarkerWindowType.requestLocation
                         ? Colors.black
                         : Colors.white,

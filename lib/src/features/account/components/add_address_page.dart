@@ -24,7 +24,6 @@ class AddAddressPage extends StatelessWidget {
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),
         elevation: 0,
-        scrolledUnderElevation: 5,
         backgroundColor: Colors.grey.shade100,
       ),
       backgroundColor: Colors.grey.shade100,

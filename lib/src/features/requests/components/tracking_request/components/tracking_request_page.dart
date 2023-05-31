@@ -22,7 +22,6 @@ class TrackingRequestPage extends StatelessWidget {
         titleTextStyle: const TextStyle(
             fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
         elevation: 0,
-        scrolledUnderElevation: 5,
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,

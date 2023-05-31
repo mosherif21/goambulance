@@ -39,7 +39,6 @@ class RegisterUserDataPage extends StatelessWidget {
           leading:
               CustomBackButton(onPressed: () => logoutDialogue(), padding: 3),
           elevation: 0,
-          scrolledUnderElevation: 5,
           backgroundColor: Colors.grey.shade100,
         ),
         backgroundColor: Colors.grey.shade100,

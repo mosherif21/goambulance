@@ -28,6 +28,7 @@ class RequestHistoryModel {
   final LatLng requestLocation;
   final LatLng hospitalLocation;
   final Timestamp timeStamp;
+  final String? cancelReason;
   String? ambulanceCarID;
   String? ambulanceDriverID;
   String? ambulanceMedicID;
@@ -45,6 +46,7 @@ class RequestHistoryModel {
     required this.requestStatus,
     required this.requestLocation,
     required this.hospitalLocation,
+    this.cancelReason,
     this.ambulanceCarID,
     this.ambulanceDriverID,
     this.ambulanceMedicID,

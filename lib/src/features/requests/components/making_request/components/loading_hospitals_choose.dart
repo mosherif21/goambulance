@@ -25,9 +25,23 @@ class LoadingHospitalCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(height: 15, width: 100, color: Colors.white),
+                Container(
+                  height: 20,
+                  width: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3.0),
+                    color: Colors.white,
+                  ),
+                ),
                 const SizedBox(height: 5),
-                Container(height: 10, width: 50, color: Colors.white),
+                Container(
+                  height: 15,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(3.0),
+                    color: Colors.white,
+                  ),
+                ),
               ],
             ),
           ],

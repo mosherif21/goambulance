@@ -443,6 +443,7 @@ class FirebasePatientDataAccess extends GetxController {
             patientCondition:
                 canceledRequestDocument['patientCondition'].toString(),
             backupNumber: canceledRequestDocument['backupNumber'].toString(),
+            cancelReason: canceledRequestDocument['cancelReason'].toString(),
             requestStatus: RequestStatus.canceled,
             requestDateTime: requestDateTime,
           );

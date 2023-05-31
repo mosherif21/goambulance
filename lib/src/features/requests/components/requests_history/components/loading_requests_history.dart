@@ -40,13 +40,21 @@ class LoadingRequestsHistory extends StatelessWidget {
                                     Container(
                                       width: double.infinity,
                                       height: 25,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(3.0),
+                                        color: Colors.white,
+                                      ),
                                     ),
                                     const SizedBox(height: 5),
                                     Container(
                                       width: 150,
                                       height: 20,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(3.0),
+                                        color: Colors.white,
+                                      ),
                                     ),
                                     const SizedBox(height: 5),
                                     Row(
@@ -54,13 +62,21 @@ class LoadingRequestsHistory extends StatelessWidget {
                                         Container(
                                           width: 50,
                                           height: 15,
-                                          color: Colors.white,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(3.0),
+                                            color: Colors.white,
+                                          ),
                                         ),
                                         const SizedBox(width: 5),
                                         Container(
                                           width: 50,
                                           height: 15,
-                                          color: Colors.white,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(3.0),
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -93,13 +109,19 @@ class LoadingRequestsHistory extends StatelessWidget {
                                 Container(
                                   width: double.infinity,
                                   height: 25,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 const SizedBox(height: 5),
                                 Container(
                                   width: 150,
                                   height: 20,
-                                  color: Colors.white,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    color: Colors.white,
+                                  ),
                                 ),
                                 const SizedBox(height: 5),
                                 Row(
@@ -107,13 +129,21 @@ class LoadingRequestsHistory extends StatelessWidget {
                                     Container(
                                       width: 50,
                                       height: 15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Colors.white,
+                                      ),
                                     ),
                                     const SizedBox(width: 5),
                                     Container(
                                       width: 50,
                                       height: 15,
-                                      color: Colors.white,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5.0),
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ],
                                 ),

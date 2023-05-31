@@ -82,6 +82,7 @@ class HomeDashBoard extends StatelessWidget {
         ),
         actions: const [NotificationsButton()],
         elevation: 0,
+        scrolledUnderElevation: 2,
         backgroundColor: Colors.grey.shade100,
       ),
       backgroundColor: Colors.grey.shade100,

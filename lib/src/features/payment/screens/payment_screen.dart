@@ -20,6 +20,7 @@ class PaymentScreen extends StatelessWidget {
         titleTextStyle: const TextStyle(
             fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
         elevation: 0,
+        scrolledUnderElevation: 2,
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,

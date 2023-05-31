@@ -27,7 +27,14 @@ class EditMedicalHistoryPage extends StatelessWidget {
     final controller = Get.put(EditMedicalHistoryController());
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: const RegularBackButton(padding: 0),
+        title: AutoSizeText(
+          'accountTitle3'.tr,
+          maxLines: 1,
+        ),
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.grey.shade100,
       ),

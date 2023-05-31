@@ -43,7 +43,7 @@ class EditUserDataPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(

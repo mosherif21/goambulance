@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../../../../../constants/enums.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../controllers/request_history_details_controller.dart';
 
@@ -69,6 +70,74 @@ class RequestDetailsPage extends StatelessWidget {
                               ),
                             ),
                           ),
+                  ),
+                  const SizedBox(height: 5),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText(
+                        requestModel.hospitalName,
+                        style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                            overflow: TextOverflow.ellipsis),
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 5),
+                      AutoSizeText(
+                        requestModel.requestDateTime,
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black,
+                        ),
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'status'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            requestModel.requestStatus == RequestStatus.canceled
+                                ? 'canceled'.tr
+                                : 'completed'.tr,
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                                color: requestModel.requestStatus ==
+                                        RequestStatus.canceled
+                                    ? Colors.red
+                                    : Colors.green),
+                            maxLines: 1,
+                          ),
+                        ],
+                      ),
+                      if (requestModel.requestStatus == RequestStatus.canceled)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 5),
+                            AutoSizeText(
+                              '${'cancelReason'.tr}: ${'${requestModel.cancelReason}'.tr}',
+                              style: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
                 ],
               ),

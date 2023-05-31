@@ -62,7 +62,7 @@ class RequestItem extends StatelessWidget {
                           fontWeight: FontWeight.w800,
                           color: Colors.black54,
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
                       ),
                       const SizedBox(height: 5),
                       Row(
@@ -74,7 +74,7 @@ class RequestItem extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               color: Colors.black54,
                             ),
-                            maxLines: 2,
+                            maxLines: 1,
                           ),
                           AutoSizeText(
                             requestInfo.requestStatus == RequestStatus.canceled
@@ -88,7 +88,7 @@ class RequestItem extends StatelessWidget {
                                   ? Colors.red
                                   : Colors.green,
                             ),
-                            maxLines: 2,
+                            maxLines: 1,
                           ),
                         ],
                       ),

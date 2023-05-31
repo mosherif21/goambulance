@@ -89,7 +89,7 @@ class OngoingRequestItem extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               color: Colors.black54,
                             ),
-                            maxLines: 2,
+                            maxLines: 1,
                           ),
                           const SizedBox(height: 5),
                           Row(
@@ -101,7 +101,7 @@ class OngoingRequestItem extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                   color: Colors.black54,
                                 ),
-                                maxLines: 2,
+                                maxLines: 1,
                               ),
                               AutoSizeText(
                                 requestInfo.requestStatus ==
@@ -121,7 +121,7 @@ class OngoingRequestItem extends StatelessWidget {
                                             RequestStatus.pending
                                         ? Colors.orange
                                         : Colors.blue),
-                                maxLines: 2,
+                                maxLines: 1,
                               ),
                             ],
                           ),

@@ -32,7 +32,6 @@ class OTPVerificationScreen extends StatelessWidget {
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),
         elevation: 0,
-        scrolledUnderElevation: 2,
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,

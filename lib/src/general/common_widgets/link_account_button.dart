@@ -21,7 +21,7 @@ class LinkAccountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5, 5, 5, 10),
+      padding: const EdgeInsets.all(5),
       child: SizedBox(
         width: double.infinity,
         height: 45,

@@ -70,7 +70,8 @@ void hideLoadingScreen() {
 }
 
 bool isUserCritical() {
-  return AuthenticationRepository.instance.userInfo.criticalUser;
+  return AuthenticationRepository.instance.criticalUserStatus.value ==
+      CriticalUserStatus.criticalUserAccepted;
 }
 
 void showSnackBar({

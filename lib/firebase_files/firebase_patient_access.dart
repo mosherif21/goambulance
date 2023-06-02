@@ -278,6 +278,26 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
+  Future<FunctionStatus> sendCriticalUserRequest() async {
+    try {
+      await fireStore
+          .collection('criticalUserRequests')
+          .doc(userId)
+          .set(<String, dynamic>{});
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
   Future<List<RequestHistoryModel>?> getRecentRequests() async {
     final List<RequestHistoryModel> readRequestsHistory = [];
     try {

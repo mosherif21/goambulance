@@ -2,9 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:goambulance/src/general/common_widgets/link_account_button.dart';
 
+import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
@@ -102,6 +104,46 @@ class AccountScreen extends StatelessWidget {
                             icon: Icons.arrow_forward_ios,
                             iconColor: Colors.black45,
                           ),
+                  ),
+                  Obx(
+                    () => !(authRepo.criticalUserStatus.value ==
+                            CriticalUserStatus.criticalUserAccepted)
+                        ? RoundedElevatedButton(
+                            buttonText: authRepo.criticalUserStatus.value ==
+                                    CriticalUserStatus.criticalUserPending
+                                ? 'criticalUserRequested'.tr
+                                : authRepo.criticalUserStatus.value ==
+                                        CriticalUserStatus.criticalUserDenied
+                                    ? 'criticalUserDenied'.tr
+                                    : 'requestCritical'.tr,
+                            onPressed: () async {
+                              showLoadingScreen();
+                              final functionStatus =
+                                  await FirebasePatientDataAccess.instance
+                                      .sendCriticalUserRequest();
+                              hideLoadingScreen();
+                              if (functionStatus == FunctionStatus.success) {
+                                authRepo.criticalUserStatus.value =
+                                    CriticalUserStatus.criticalUserPending;
+                                showSnackBar(
+                                    text: 'criticalUserRequestSent'.tr,
+                                    snackBarType: SnackBarType.success);
+                              } else {
+                                showSnackBar(
+                                    text: 'criticalUserRequestFailed'.tr,
+                                    snackBarType: SnackBarType.error);
+                              }
+                            },
+                            enabled: authRepo.criticalUserStatus.value ==
+                                    CriticalUserStatus.criticalUserPending
+                                ? false
+                                : authRepo.criticalUserStatus.value ==
+                                        CriticalUserStatus.criticalUserDenied
+                                    ? false
+                                    : true,
+                            color: const Color(0xFF28AADC),
+                          )
+                        : const SizedBox.shrink(),
                   ),
                   Obx(
                     () => LinkAccountButton(

@@ -21,6 +21,7 @@ class AuthenticationRepository extends GetxController {
 
   //vars
   final _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
   late final Rx<User?> fireUser;
   bool isUserLoggedIn = false;
   bool isUserRegistered = false;
@@ -29,7 +30,11 @@ class AuthenticationRepository extends GetxController {
   final isEmailAndPasswordLinked = false.obs;
   final isFacebookLinked = false.obs;
   final isEmailVerified = false.obs;
-
+  final criticalUserStatus = Rx<CriticalUserStatus>(CriticalUserStatus.non);
+  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      criticalRequestListener;
+  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      criticalRequestDeniedListener;
   String verificationId = '';
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.patient;
@@ -53,6 +58,50 @@ class AuthenticationRepository extends GetxController {
     });
 
     super.onInit();
+  }
+
+  void initCriticalUserListeners() {
+    try {
+      _firestore
+          .collection('criticalUserRequests')
+          .doc(fireUser.value!.uid)
+          .get()
+          .then((snapshot) {
+        if (snapshot.exists) {
+          criticalUserStatus.value = CriticalUserStatus.criticalUserPending;
+        }
+      });
+      criticalRequestListener = _firestore
+          .collection('users')
+          .doc(fireUser.value!.uid)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final isCritical = snapshot.data()!['criticalUser'] as bool;
+          userInfo.criticalUser = isCritical;
+          if (isCritical) {
+            criticalUserStatus.value = CriticalUserStatus.criticalUserAccepted;
+          }
+        }
+      });
+      criticalRequestDeniedListener = _firestore
+          .collection('declinedCriticalUserRequests')
+          .doc(fireUser.value!.uid)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          criticalUserStatus.value = CriticalUserStatus.criticalUserDenied;
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
   }
 
   void checkUserHasPhoneNumber() {
@@ -116,6 +165,10 @@ class AuthenticationRepository extends GetxController {
             );
             drawerAccountName.value = userDoc['name'].toString();
             userType = UserType.patient;
+            criticalUserStatus.value = userInfo.criticalUser
+                ? CriticalUserStatus.criticalUserAccepted
+                : CriticalUserStatus.non;
+            initCriticalUserListeners();
           }
           if (AppInit.notificationToken.isNotEmpty) {
             await fireStore.collection('fcmTokens').doc(userId).set({
@@ -603,6 +656,8 @@ class AuthenticationRepository extends GetxController {
       isEmailVerified.value = false;
       verificationId = '';
       userType = UserType.patient;
+      criticalRequestListener?.cancel();
+      criticalRequestDeniedListener?.cancel();
       userInfo = UserInformation(
         name: '',
         email: '',

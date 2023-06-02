@@ -18,6 +18,13 @@ enum SnackBarType { success, error, info, warning }
 
 enum MarkerWindowType { requestLocation, ambulanceLocation, hospitalLocation }
 
+enum CriticalUserStatus {
+  non,
+  criticalUserAccepted,
+  criticalUserDenied,
+  criticalUserPending,
+}
+
 enum RequestStatus {
   non,
   pending,

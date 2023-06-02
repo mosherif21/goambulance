@@ -15,24 +15,27 @@ class RoundedElevatedButton extends StatelessWidget {
   final Color color;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 45,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          splashFactory: InkSparkle.splashFactory,
-          elevation: 0,
-          backgroundColor: color,
-          foregroundColor: Colors.white,
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-        ),
-        onPressed: enabled ? () => onPressed() : null,
-        child: AutoSizeText(
-          buttonText,
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
-          maxLines: 1,
+    return Padding(
+      padding: const EdgeInsets.all(5),
+      child: SizedBox(
+        width: double.infinity,
+        height: 45,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            splashFactory: InkSparkle.splashFactory,
+            elevation: 0,
+            backgroundColor: color,
+            foregroundColor: Colors.white,
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(25))),
+          ),
+          onPressed: enabled ? () => onPressed() : null,
+          child: AutoSizeText(
+            buttonText,
+            style: const TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w500),
+            maxLines: 1,
+          ),
         ),
       ),
     );

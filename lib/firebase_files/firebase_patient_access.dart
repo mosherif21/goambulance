@@ -229,7 +229,7 @@ class FirebasePatientDataAccess extends GetxController {
     required String floorNumber,
     required String areaName,
     required GeoPoint location,
-    String? additionalInfo,
+    required String additionalInfo,
   }) async {
     try {
       final docRef = await firestoreUserRef.collection('addresses').add({

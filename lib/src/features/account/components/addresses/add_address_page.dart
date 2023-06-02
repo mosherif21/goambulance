@@ -7,7 +7,6 @@ import 'package:goambulance/src/general/common_widgets/regular_elevated_button.d
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
-import '../../../../connectivity/connectivity.dart';
 import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 import '../../controllers/addresses_controller.dart';
@@ -17,8 +16,7 @@ class AddAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ConnectivityChecker.checkConnection(displayAlert: true);
-    final controller = Get.put(AddressesController());
+    final controller = AddressesController.instance;
     return Scaffold(
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),

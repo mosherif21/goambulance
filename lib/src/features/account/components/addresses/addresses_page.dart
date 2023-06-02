@@ -6,6 +6,7 @@ import 'package:goambulance/src/features/account/components/addresses/address_it
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 
+import '../../../../connectivity/connectivity.dart';
 import '../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../controllers/addresses_controller.dart';
 import 'loading_addresses.dart';
@@ -16,6 +17,7 @@ class AccountAddressesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ConnectivityChecker.checkConnection(displayAlert: true);
     final controller = Get.put(AddressesController());
     return Scaffold(
       appBar: AppBar(

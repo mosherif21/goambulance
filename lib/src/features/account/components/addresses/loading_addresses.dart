@@ -15,17 +15,12 @@ class LoadingAddresses extends StatelessWidget {
             for (int i = 0; i < 3; i++)
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(height: 15, width: 100, color: Colors.white),
-                        const SizedBox(height: 5),
-                        Container(height: 10, width: 50, color: Colors.white),
-                      ],
-                    ),
+                    Container(height: 20, width: 100, color: Colors.white),
+                    const SizedBox(height: 5),
+                    Container(height: 15, width: 50, color: Colors.white),
                   ],
                 ),
               )

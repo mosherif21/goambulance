@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -7,7 +8,6 @@ import '../../../../general/app_init.dart';
 import '../../../../general/common_widgets/back_button.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/general_functions.dart';
-import '../../../requests/components/making_request/components/my_location_button.dart';
 import '../../../requests/components/making_request/components/search_bar_map.dart';
 import '../../controllers/address_location_controller.dart';
 
@@ -93,8 +93,33 @@ class AddressMapPage extends StatelessWidget {
             bottom: 70,
             left: isLangEnglish() ? null : 0,
             right: isLangEnglish() ? 0 : null,
-            child: MyLocationButton(
-              controller: addressLocationController,
+            child: Obx(
+              () => AnimatedOpacity(
+                opacity:
+                    addressLocationController.locationAvailable.value ? 1 : 0,
+                duration: const Duration(milliseconds: 400),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Material(
+                    elevation: 5,
+                    shape: const CircleBorder(),
+                    color: Colors.white,
+                    child: InkWell(
+                      customBorder: const CircleBorder(),
+                      splashFactory: InkSparkle.splashFactory,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: SvgPicture.asset(
+                          kMyLocation,
+                          height: 30,
+                        ),
+                      ),
+                      onTap: () =>
+                          addressLocationController.onLocationButtonPress(),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           Center(

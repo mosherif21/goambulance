@@ -239,6 +239,7 @@ class FirebasePatientDataAccess extends GetxController {
         'floorNumber': floorNumber,
         'areaName': areaName,
         'additionalInfo': additionalInfo,
+        'location': location,
       });
       return AddressItem(
         addressId: docRef.id,

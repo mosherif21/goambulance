@@ -242,6 +242,7 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       color: Colors.black,
                     ),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

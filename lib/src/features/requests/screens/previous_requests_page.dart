@@ -34,7 +34,7 @@ class PreviousRequestsPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 20, left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15, right: 15),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: Obx(

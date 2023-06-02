@@ -183,6 +183,7 @@ class AddAddressPage extends StatelessWidget {
                       color: kDefaultColor,
                     ),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

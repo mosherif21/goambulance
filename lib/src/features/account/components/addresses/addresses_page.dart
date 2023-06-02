@@ -66,7 +66,8 @@ class AccountAddressesPage extends StatelessWidget {
                         transition: getPageTransition()),
                     enabled: true,
                     color: Colors.indigo,
-                  )
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

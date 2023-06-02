@@ -92,6 +92,7 @@ class DrawerPage extends StatelessWidget {
                     shrinkWrap: true,
                   ),
                 ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

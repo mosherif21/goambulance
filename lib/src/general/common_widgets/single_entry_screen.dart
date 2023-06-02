@@ -148,6 +148,7 @@ class SingleEntryScreen extends StatelessWidget {
                           showPhoneLogin: false,
                         )
                       : const SizedBox.shrink(),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

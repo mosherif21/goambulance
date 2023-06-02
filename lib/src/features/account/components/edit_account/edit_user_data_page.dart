@@ -342,6 +342,7 @@ class EditUserDataPage extends StatelessWidget {
                       color: kDefaultColor,
                     ),
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

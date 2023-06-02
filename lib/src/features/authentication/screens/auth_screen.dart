@@ -55,6 +55,7 @@ class AuthenticationScreen extends StatelessWidget {
                       screenHeight: screenHeight,
                       screenWidth: screenWidth,
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

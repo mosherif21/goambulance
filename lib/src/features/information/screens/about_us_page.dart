@@ -32,47 +32,42 @@ class AboutUsScreen extends StatelessWidget {
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListView.builder(
-                    itemBuilder: (BuildContext context, int count) {
-                      return RegularClickableCardNoP(
-                        onPressed: () {
-                          switch (count) {
-                            case 0:
-                              // Get.to(
-                              //   () => const EditUserDataPage(),
-                              //   transition: getPageTransition(),
-                              // );
-                              break;
-                            case 1:
-                              // Get.to(
-                              //   () => const AccountAddressesPage(),
-                              //   transition: getPageTransition(),
-                              // );
-                              break;
-                            case 2:
-                              // Get.to(
-                              //   () => const EditMedicalHistoryPage(),
-                              //   transition: getPageTransition(),
-                              // );
-                              break;
-                            case 3:
-                              _launchUrl(url);
-                              break;
-                          }
-                        },
-                        title: 'aboutUsTitle${count + 1}'.tr,
-                        subTitle: '',
-                        icon: Icons.arrow_forward_ios,
-                        iconColor: Colors.black45,
-                      );
+              child: ListView.builder(
+                itemBuilder: (BuildContext context, int count) {
+                  return RegularClickableCardNoP(
+                    onPressed: () {
+                      switch (count) {
+                        case 0:
+                          // Get.to(
+                          //   () => const EditUserDataPage(),
+                          //   transition: getPageTransition(),
+                          // );
+                          break;
+                        case 1:
+                          // Get.to(
+                          //   () => const AccountAddressesPage(),
+                          //   transition: getPageTransition(),
+                          // );
+                          break;
+                        case 2:
+                          // Get.to(
+                          //   () => const EditMedicalHistoryPage(),
+                          //   transition: getPageTransition(),
+                          // );
+                          break;
+                        case 3:
+                          _launchUrl(url);
+                          break;
+                      }
                     },
-                    itemCount: 4,
-                    shrinkWrap: true,
-                  ),
-                ],
+                    title: 'aboutUsTitle${count + 1}'.tr,
+                    subTitle: '',
+                    icon: Icons.arrow_forward_ios,
+                    iconColor: Colors.black45,
+                  );
+                },
+                itemCount: 4,
+                shrinkWrap: true,
               ),
             ),
           ),

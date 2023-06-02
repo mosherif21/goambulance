@@ -37,7 +37,7 @@ class OTPVerificationScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
@@ -108,6 +108,7 @@ class OTPVerificationScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

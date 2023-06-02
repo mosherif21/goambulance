@@ -115,7 +115,8 @@ class IntroScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

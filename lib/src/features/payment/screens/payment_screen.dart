@@ -31,7 +31,9 @@ class PaymentScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [],
+                children: [
+                  SizedBox(height: 20),
+                ],
               ),
             ),
           ),

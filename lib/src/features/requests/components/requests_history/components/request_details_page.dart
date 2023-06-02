@@ -174,7 +174,8 @@ class RequestDetailsPage extends StatelessWidget {
                       trailingIconColor: Colors.grey,
                     ),
                   ],
-                )
+                ),
+                const SizedBox(height: 20),
               ],
             ),
           ),

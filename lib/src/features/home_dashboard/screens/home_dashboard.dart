@@ -242,6 +242,7 @@ class HomeDashBoard extends StatelessWidget {
                     //     );
                     //   }).toList(),
                     // ),
+                    const SizedBox(height: 20),
                     SizedBox(height: screenHeight * 0.1)
                   ],
                 ),

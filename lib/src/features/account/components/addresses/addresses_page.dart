@@ -1,12 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/account/components/add_address_page.dart';
-import 'package:goambulance/src/features/account/components/address_item.dart';
+import 'package:goambulance/src/features/account/components/addresses/add_address_page.dart';
+import 'package:goambulance/src/features/account/components/addresses/address_item.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
-import '../../../general/common_widgets/rounded_elevated_button.dart';
-import '../controllers/addresses_controller.dart';
+import '../../../../general/common_widgets/rounded_elevated_button.dart';
+import '../../controllers/addresses_controller.dart';
 import 'loading_addresses.dart';
 import 'no_addresses_saved.dart';
 

@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
-import 'package:goambulance/src/features/account/components/newAccount/medical_history_insert_page.dart';
+import 'package:goambulance/src/features/account/components/new_account/medical_history_insert_page.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sweetsheet/sweetsheet.dart';

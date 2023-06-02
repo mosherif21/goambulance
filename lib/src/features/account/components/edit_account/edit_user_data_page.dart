@@ -8,7 +8,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/constants/colors.dart';
-import 'package:goambulance/src/features/account/components/newAccount/photo_select.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
@@ -18,11 +17,12 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'package:timer_count_down/timer_count_down.dart';
 
-import '../../../connectivity/connectivity.dart';
-import '../../../constants/enums.dart';
-import '../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../../../general/common_widgets/regular_card.dart';
-import '../controllers/edit_user_data_controller.dart';
+import '../../../../connectivity/connectivity.dart';
+import '../../../../constants/enums.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../../general/common_widgets/regular_card.dart';
+import '../../controllers/edit_user_data_controller.dart';
+import '../new_account/photo_select.dart';
 
 class EditUserDataPage extends StatelessWidget {
   const EditUserDataPage({Key? key}) : super(key: key);

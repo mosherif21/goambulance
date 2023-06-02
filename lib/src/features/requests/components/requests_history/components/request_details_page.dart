@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
+import 'package:goambulance/src/general/common_widgets/framed_text.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../constants/enums.dart';
@@ -109,18 +110,16 @@ class RequestDetailsPage extends StatelessWidget {
                             ),
                             maxLines: 1,
                           ),
-                          AutoSizeText(
-                            requestModel.requestStatus == RequestStatus.canceled
+                          FramedText(
+                            text: requestModel.requestStatus ==
+                                    RequestStatus.canceled
                                 ? 'canceled'.tr
                                 : 'completed'.tr,
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
-                                color: requestModel.requestStatus ==
-                                        RequestStatus.canceled
-                                    ? Colors.red
-                                    : Colors.green),
-                            maxLines: 1,
+                            color: requestModel.requestStatus ==
+                                    RequestStatus.canceled
+                                ? Colors.red
+                                : Colors.green,
+                            fontSize: 15,
                           ),
                         ],
                       ),

@@ -16,7 +16,7 @@ import '../../firebase_files/firebase_initializations.dart';
 import '../../localization/language/language_functions.dart';
 import '../constants/colors.dart';
 import '../constants/enums.dart';
-import '../features/account/components/newAccount/register_user_data_page.dart';
+import '../features/account/components/new_account/register_user_data_page.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/intro_screen/components/onboarding_shared_preferences.dart';

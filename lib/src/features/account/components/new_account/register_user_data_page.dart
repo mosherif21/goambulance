@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/colors.dart';
-import 'package:goambulance/src/features/account/components/newAccount/photo_select.dart';
+import 'package:goambulance/src/features/account/components/new_account/photo_select.dart';
 import 'package:goambulance/src/features/account/controllers/register_user_data_controller.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';

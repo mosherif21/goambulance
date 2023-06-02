@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../general/general_functions.dart';
+import '../../../../general/general_functions.dart';
 
 class LoadingMedicalDiseases extends StatelessWidget {
   const LoadingMedicalDiseases({Key? key}) : super(key: key);

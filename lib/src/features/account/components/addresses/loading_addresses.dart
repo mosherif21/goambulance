@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
-
-import '../../../general/general_functions.dart';
+import 'package:shimmer/shimmerons.dart';
 
 class LoadingAddresses extends StatelessWidget {
   const LoadingAddresses({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = getScreenHeight(context);
     return SingleChildScrollView(
       child: Shimmer.fromColors(
         baseColor: Colors.grey.shade300,

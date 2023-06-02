@@ -13,9 +13,9 @@ import '../../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../../../general/common_widgets/text_header.dart';
-import '../../../../account/components/newAccount/add_disease.dart';
-import '../../../../account/components/newAccount/medical_history_item.dart';
-import '../../../../account/components/newAccount/no_medical_history.dart';
+import '../../../../account/components/new_account/add_disease.dart';
+import '../../../../account/components/new_account/medical_history_item.dart';
+import '../../../../account/components/new_account/no_medical_history.dart';
 import '../../../controllers/making_request_information_controller.dart';
 
 class NormalRequestScreen extends StatelessWidget {

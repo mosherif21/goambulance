@@ -5,19 +5,19 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/controllers/edit_medical_history_controller.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
-import '../../../general/common_widgets/custom_rolling_switch.dart';
-import '../../../general/common_widgets/dropdown_list.dart';
-import '../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../../../general/common_widgets/regular_card.dart';
-import '../../../general/common_widgets/regular_elevated_button.dart';
-import '../../../general/common_widgets/rounded_elevated_button.dart';
-import '../../../general/common_widgets/text_form_field_multiline.dart';
-import '../../../general/common_widgets/text_header.dart';
+import '../../../../general/common_widgets/custom_rolling_switch.dart';
+import '../../../../general/common_widgets/dropdown_list.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../../general/common_widgets/regular_card.dart';
+import '../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../general/common_widgets/rounded_elevated_button.dart';
+import '../../../../general/common_widgets/text_form_field_multiline.dart';
+import '../../../../general/common_widgets/text_header.dart';
+import '../models.dart';
+import '../new_account/add_disease.dart';
+import '../new_account/medical_history_item.dart';
+import '../new_account/no_medical_history.dart';
 import 'loading_medical_diseases.dart';
-import 'models.dart';
-import 'newAccount/add_disease.dart';
-import 'newAccount/medical_history_item.dart';
-import 'newAccount/no_medical_history.dart';
 
 class EditMedicalHistoryPage extends StatelessWidget {
   const EditMedicalHistoryPage({Key? key}) : super(key: key);

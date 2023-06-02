@@ -1,9 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../general/general_functions.dart';
-import 'models.dart';
+rt';
+import '../models.dart';
 
 class LoadAddressItem extends StatelessWidget {
   const LoadAddressItem({
@@ -17,7 +16,6 @@ class LoadAddressItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = getScreenHeight(context);
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 15),

@@ -31,50 +31,52 @@ class RequestDetailsPage extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: StretchingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => controller.mapUrl.value.isNotEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(10.0),
-                            child: SizedBox(
-                              width: 350,
-                              height: 200,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade300,
-                                  image: DecorationImage(
-                                    image:
-                                        NetworkImage(controller.mapUrl.value),
-                                    fit: BoxFit.fill,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          )
-                        : Shimmer.fromColors(
-                            baseColor: Colors.grey.shade300,
-                            highlightColor: Colors.grey.shade100,
-                            child: Container(
-                              width: 350,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                  ),
-                  const SizedBox(height: 5),
-                  Column(
+        child: StretchingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Center(
+                        child: Obx(
+                          () => controller.mapUrl.value.isNotEmpty
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: SizedBox(
+                                    width: 350,
+                                    height: 200,
+                                    child: DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade300,
+                                        image: DecorationImage(
+                                          image: NetworkImage(
+                                              controller.mapUrl.value),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Container(
+                                    width: 350,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
                       AutoSizeText(
                         requestModel.hospitalName,
                         style: const TextStyle(
@@ -89,8 +91,8 @@ class RequestDetailsPage extends StatelessWidget {
                         requestModel.requestDateTime,
                         style: const TextStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black54,
                         ),
                         maxLines: 1,
                       ),
@@ -101,8 +103,8 @@ class RequestDetailsPage extends StatelessWidget {
                             '${'status'.tr}: ',
                             style: const TextStyle(
                               fontSize: 17,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black54,
                             ),
                             maxLines: 1,
                           ),
@@ -112,7 +114,7 @@ class RequestDetailsPage extends StatelessWidget {
                                 : 'completed'.tr,
                             style: TextStyle(
                                 fontSize: 17,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 color: requestModel.requestStatus ==
                                         RequestStatus.canceled
                                     ? Colors.red
@@ -130,8 +132,8 @@ class RequestDetailsPage extends StatelessWidget {
                               '${'cancelReason'.tr}: ${'${requestModel.cancelReason}'.tr}',
                               style: const TextStyle(
                                 fontSize: 17,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black54,
                               ),
                               maxLines: 1,
                             ),
@@ -139,8 +141,30 @@ class RequestDetailsPage extends StatelessWidget {
                         ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 15),
+                Divider(
+                  thickness: 8,
+                  color: Colors.grey.shade300,
+                ),
+                const SizedBox(height: 15),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Column(
+                    children: [
+                      AutoSizeText(
+                        'help'.tr,
+                        style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.black,
+                            overflow: TextOverflow.ellipsis),
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                )
+              ],
             ),
           ),
         ),

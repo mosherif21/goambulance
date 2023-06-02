@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmerons.dart';
+import 'package:shimmer/shimmer.dart';
 
 class LoadingAddresses extends StatelessWidget {
   const LoadingAddresses({Key? key}) : super(key: key);

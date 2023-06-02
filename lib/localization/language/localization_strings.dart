@@ -342,8 +342,10 @@ class Languages extends Translations {
           'timedOut': 'انقضت مهلة الطلب',
           'reportRequest': 'الإبلاغ عن مشكلة في طلب سيارة الإسعاف الخاص بك',
           'problemRequest': 'أبلغ عن مشكلة',
+          'addAddress': 'أضف عنوان جديد',
         },
         'en_US': {
+          'addAddress': 'Add new address',
           'reportRequest': 'Report a problem with your ambulance request',
           'problemRequest': 'Report problem',
           'userCanceled': 'User canceled the request',

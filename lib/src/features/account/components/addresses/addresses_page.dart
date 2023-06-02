@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/addresses/add_address_page.dart';
 import 'package:goambulance/src/features/account/components/addresses/address_item.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
+import 'package:goambulance/src/general/general_functions.dart';
 
 import '../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../controllers/addresses_controller.dart';
@@ -38,30 +39,32 @@ class AccountAddressesPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Obx(() => SingleChildScrollView(
-                        child: !controller.addressesLoaded.value
-                            ? const LoadingAddresses()
-                            : controller.addressesList.isNotEmpty
-                                ? Column(
-                                    children: [
-                                      for (var addressItem
-                                          in controller.addressesList)
-                                        LoadAddressItem(
-                                            addressItem: addressItem,
-                                            onDeletePressed: () =>
-                                                controller.removeAddress(
-                                                    addressItem: addressItem)),
-                                    ],
-                                  )
-                                : const NoAddressesSaved(),
-                      )),
+                  Obx(
+                    () => SingleChildScrollView(
+                      child: !controller.addressesLoaded.value
+                          ? const LoadingAddresses()
+                          : controller.addressesList.isNotEmpty
+                              ? Column(
+                                  children: [
+                                    for (var addressItem
+                                        in controller.addressesList)
+                                      LoadAddressItem(
+                                          addressItem: addressItem,
+                                          onDeletePressed: () =>
+                                              controller.removeAddress(
+                                                  addressItem: addressItem)),
+                                  ],
+                                )
+                              : const NoAddressesSaved(),
+                    ),
+                  ),
                   RoundedElevatedButton(
-                      buttonText: 'Add New Address',
-                      onPressed: () {
-                        Get.to(const AddAddressPage());
-                      },
-                      enabled: true,
-                      color: Colors.indigo)
+                    buttonText: 'addAddress'.tr,
+                    onPressed: () => Get.to(() => const AddAddressPage(),
+                        transition: getPageTransition()),
+                    enabled: true,
+                    color: Colors.indigo,
+                  )
                 ],
               ),
             ),

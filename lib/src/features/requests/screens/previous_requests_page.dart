@@ -34,7 +34,7 @@ class PreviousRequestsPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15),
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: Obx(
@@ -109,7 +109,7 @@ class PreviousRequestsPage extends StatelessWidget {
                               } else if (index ==
                                       controller.requestsList.length &&
                                   controller.requestsList.isNotEmpty) {
-                                return SizedBox(height: screenHeight * 0.1);
+                                return SizedBox(height: screenHeight * 0.08);
                               } else {
                                 return const EmptyRequestsHistory();
                               }

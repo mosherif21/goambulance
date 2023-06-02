@@ -698,7 +698,7 @@ class Languages extends Translations {
           'aboutUsTitle3': 'FAQ',
           'aboutUsTitle4': 'Our Website',
           'addAddressTitle': 'You Can Add a New Address Here',
-          'noAddressesSaved': 'No Saved Addresses',
+          'noAddressesSaved': 'No saved addresses',
           'Street': 'Street Name: ',
           'apartmentNumber': "Apartment Number: ",
           'floorNumber': "Floor Number: ",

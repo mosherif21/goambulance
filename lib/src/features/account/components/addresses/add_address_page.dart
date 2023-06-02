@@ -172,7 +172,7 @@ class AddAddressPage extends StatelessWidget {
                               controller.additionalInfoTextController,
                           inputType: InputType.text,
                           editable: true,
-                          textInputAction: TextInputAction.next,
+                          textInputAction: TextInputAction.done,
                         ),
                       ],
                     ),

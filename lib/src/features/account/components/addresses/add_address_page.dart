@@ -48,12 +48,11 @@ class AddAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const TextHeader(
-                              headerText: 'Enter Your Address Name',
-                              fontSize: 18),
+                          TextHeader(
+                              headerText: 'enterAddressName'.tr, fontSize: 18),
                           TextFormFieldRegular(
-                            labelText: 'Address Name'.tr,
-                            hintText: 'Example : Home'.tr,
+                            labelText: 'addressName'.tr,
+                            hintText: 'addNameExample'.tr,
                             prefixIconData: Icons.home_work,
                             textController:
                                 controller.locationNameTextController,
@@ -71,12 +70,11 @@ class AddAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const TextHeader(
-                              headerText: 'Enter Your Street Name',
-                              fontSize: 18),
+                          TextHeader(
+                              headerText: 'enterStreet'.tr, fontSize: 18),
                           TextFormFieldRegular(
-                            labelText: 'Street Name'.tr,
-                            hintText: 'Example : Abu kir'.tr,
+                            labelText: 'streetName'.tr,
+                            hintText: 'streetExample'.tr,
                             prefixIconData: Icons.add_road,
                             textController: controller.streetNameTextController,
                             inputType: InputType.text,
@@ -93,12 +91,12 @@ class AddAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const TextHeader(
-                              headerText: 'Enter Your Apartment Number',
+                          TextHeader(
+                              headerText: 'enterApartmentNumber'.tr,
                               fontSize: 18),
                           TextFormFieldRegular(
-                            labelText: 'Apartment Number'.tr,
-                            hintText: 'Example : 6'.tr,
+                            labelText: 'apartmentNumberText'.tr,
+                            hintText: 'apartmentNumberExample'.tr,
                             prefixIconData: Icons.house,
                             textController:
                                 controller.apartmentNumberTextController,
@@ -116,12 +114,11 @@ class AddAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const TextHeader(
-                              headerText: 'Enter Your Floor Number',
-                              fontSize: 18),
+                          TextHeader(
+                              headerText: 'enterFloorNumber'.tr, fontSize: 18),
                           TextFormFieldRegular(
-                            labelText: 'Floor Number'.tr,
-                            hintText: 'Example : 1002'.tr,
+                            labelText: 'floorNumberText'.tr,
+                            hintText: 'floorNumberExample'.tr,
                             prefixIconData: Icons.numbers,
                             textController:
                                 controller.floorNumberTextController,
@@ -139,11 +136,11 @@ class AddAddressPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const TextHeader(
-                              headerText: 'Enter Your Area Name', fontSize: 18),
+                          TextHeader(
+                              headerText: 'enterAreaName'.tr, fontSize: 18),
                           TextFormFieldRegular(
-                            labelText: 'address'.tr,
-                            hintText: 'Example: Smouha'.tr,
+                            labelText: 'areaName'.tr,
+                            hintText: 'areaNameExample'.tr,
                             prefixIconData: Icons.map,
                             textController: controller.areaNameTextController,
                             inputType: InputType.text,
@@ -159,14 +156,12 @@ class AddAddressPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const TextHeader(
-                            headerText: 'Enter Any Additional Information',
+                        TextHeader(
+                            headerText: 'enterAdditionalInformation'.tr,
                             fontSize: 18),
                         TextFormFieldRegular(
-                          labelText: 'Additional Information'.tr,
-                          hintText:
-                              'Example : there is a pharmacy under the building '
-                                  .tr,
+                          labelText: 'additionalInformation'.tr,
+                          hintText: 'additionalInfoExample'.tr,
                           prefixIconData: Icons.info,
                           textController:
                               controller.additionalInfoTextController,

@@ -122,15 +122,17 @@ class AddressMapPage extends StatelessWidget {
               ),
             ),
           ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(
-                left: addressLocationController.cameraMoved.value ? 10 : 0,
-                right: addressLocationController.cameraMoved.value ? 10 : 0,
-                bottom: addressLocationController.cameraMoved.value ? 16 : 74,
+          Obx(
+            () => Center(
+              child: Container(
+                margin: EdgeInsets.only(
+                  left: addressLocationController.cameraMoved.value ? 10 : 0,
+                  right: addressLocationController.cameraMoved.value ? 10 : 0,
+                  bottom: addressLocationController.cameraMoved.value ? 16 : 73,
+                ),
+                height: screenHeight * 0.1,
+                child: Image.asset(kLocationMarkerImg),
               ),
-              height: screenHeight * 0.1,
-              child: Image.asset(kLocationMarkerImg),
             ),
           ),
         ],

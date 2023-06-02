@@ -6,6 +6,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../../constants/enums.dart';
 import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
 import '../../../controllers/request_history_details_controller.dart';
 
 class RequestDetailsPage extends StatelessWidget {
@@ -91,7 +92,7 @@ class RequestDetailsPage extends StatelessWidget {
                         requestModel.requestDateTime,
                         style: const TextStyle(
                           fontSize: 17,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                           color: Colors.black54,
                         ),
                         maxLines: 1,
@@ -103,7 +104,7 @@ class RequestDetailsPage extends StatelessWidget {
                             '${'status'.tr}: ',
                             style: const TextStyle(
                               fontSize: 17,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               color: Colors.black54,
                             ),
                             maxLines: 1,
@@ -114,7 +115,7 @@ class RequestDetailsPage extends StatelessWidget {
                                 : 'completed'.tr,
                             style: TextStyle(
                                 fontSize: 17,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: requestModel.requestStatus ==
                                         RequestStatus.canceled
                                     ? Colors.red
@@ -129,10 +130,10 @@ class RequestDetailsPage extends StatelessWidget {
                           children: [
                             const SizedBox(height: 5),
                             AutoSizeText(
-                              '${'cancelReason'.tr}: ${'${requestModel.cancelReason}'.tr}',
+                              '${requestModel.cancelReason}'.tr,
                               style: const TextStyle(
                                 fontSize: 17,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.black54,
                               ),
                               maxLines: 1,
@@ -148,11 +149,12 @@ class RequestDetailsPage extends StatelessWidget {
                   color: Colors.grey.shade300,
                 ),
                 const SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    children: [
-                      AutoSizeText(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: AutoSizeText(
                         'help'.tr,
                         style: const TextStyle(
                             fontSize: 25,
@@ -161,8 +163,18 @@ class RequestDetailsPage extends StatelessWidget {
                             overflow: TextOverflow.ellipsis),
                         maxLines: 1,
                       ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 10),
+                    NoFrameClickableCard(
+                      onPressed: () {},
+                      title: 'problemRequest'.tr,
+                      subTitle: 'reportRequest'.tr,
+                      leadingIcon: Icons.report,
+                      leadingIconColor: Colors.black,
+                      trailingIcon: Icons.arrow_forward_ios_outlined,
+                      trailingIconColor: Colors.grey,
+                    ),
+                  ],
                 )
               ],
             ),

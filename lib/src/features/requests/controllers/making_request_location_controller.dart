@@ -301,7 +301,7 @@ class MakingRequestLocationController extends GetxController {
     );
     mapMarkers.add(requestLocationMarker!);
     if (requestLocationWindowController.addInfoWindow != null) {
-      requestLocationWindowController.addInfoWindow!(
+      await requestLocationWindowController.addInfoWindow!(
         MarkerWindowInfo(
           time: routeToDestinationTime,
           title: 'requestLocation'.tr,
@@ -464,7 +464,7 @@ class MakingRequestLocationController extends GetxController {
               selectedHospital.value!.location
             ]));
             if (hospitalWindowController.addInfoWindow != null) {
-              hospitalWindowController.addInfoWindow!(
+              await hospitalWindowController.addInfoWindow!(
                 MarkerWindowInfo(
                   time: routeToDestinationTime,
                   title: selectedHospital.value!.name,
@@ -539,7 +539,7 @@ class MakingRequestLocationController extends GetxController {
         latLngBounds: getLatLngBounds(
             latLngList: [currentChosenLatLng, hospitalItem.location]));
     if (hospitalWindowController.addInfoWindow != null) {
-      hospitalWindowController.addInfoWindow!(
+      await hospitalWindowController.addInfoWindow!(
         MarkerWindowInfo(
           time: routeToDestinationTime,
           title: hospitalItem.name,

@@ -18,8 +18,8 @@ class NormalRequestLocationPage extends StatelessWidget {
           ? MakingRequestMap(
               makingRequestController: makingRequestController,
             )
-          : MakingRequestLocationInaccessible(
-              makingRequestController: makingRequestController,
+          : LocationInaccessible(
+              locationController: makingRequestController,
               screenHeight: screenHeight,
             ),
     );

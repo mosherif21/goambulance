@@ -8,15 +8,14 @@ import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
-import '../../../controllers/making_request_location_controller.dart';
 
-class MakingRequestLocationInaccessible extends StatelessWidget {
-  const MakingRequestLocationInaccessible({
+class LocationInaccessible extends StatelessWidget {
+  const LocationInaccessible({
     Key? key,
-    required this.makingRequestController,
+    required this.locationController,
     required this.screenHeight,
   }) : super(key: key);
-  final MakingRequestLocationController makingRequestController;
+  final dynamic locationController;
   final double screenHeight;
   @override
   Widget build(BuildContext context) {
@@ -45,17 +44,17 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                 children: [
                   Obx(
                     () => Lottie.asset(
-                      makingRequestController.mapLoading.value
+                      locationController.mapLoading.value
                           ? kLoadingMapAnim
                           : kNoLocation,
-                      height: makingRequestController.mapLoading.value
+                      height: locationController.mapLoading.value
                           ? screenHeight * 0.8
                           : screenHeight * 0.4,
                     ),
                   ),
                   const SizedBox(height: 10),
                   Obx(
-                    () => !makingRequestController.mapLoading.value
+                    () => !locationController.mapLoading.value
                         ? Column(
                             children: [
                               AutoSizeText(
@@ -68,7 +67,7 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               Obx(
-                                () => !makingRequestController
+                                () => !locationController
                                         .locationServiceEnabled.value
                                     ? Container(
                                         margin: const EdgeInsets.only(top: 10),
@@ -84,7 +83,7 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                                     : const SizedBox.shrink(),
                               ),
                               Obx(
-                                () => !makingRequestController
+                                () => !locationController
                                         .locationPermissionGranted.value
                                     ? Container(
                                         margin: const EdgeInsets.only(top: 10),
@@ -92,9 +91,8 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                                           buttonText:
                                               'enableLocationPermissionButton'
                                                   .tr,
-                                          onPressed: () =>
-                                              makingRequestController
-                                                  .setupLocationPermission(),
+                                          onPressed: () => locationController
+                                              .setupLocationPermission(),
                                           enabled: true,
                                           color: Colors.black,
                                         ),
@@ -104,7 +102,7 @@ class MakingRequestLocationInaccessible extends StatelessWidget {
                               const OrDivider(),
                               RoundedElevatedButton(
                                 buttonText: 'searchPlace'.tr,
-                                onPressed: () => makingRequestController
+                                onPressed: () => locationController
                                     .googlePlacesSearch(context: context),
                                 enabled: true,
                                 color: Colors.black,

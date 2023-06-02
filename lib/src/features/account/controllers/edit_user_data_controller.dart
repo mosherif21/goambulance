@@ -96,10 +96,6 @@ class EditUserDataController extends GetxController {
       }
     });
 
-    /* ana 5leto ya5od el value bs 3shan lw hwa 8yar el value bta3t el birthdate
-     we el gender we etsayevo fe el database lama yeft7 el account details
-     ma y7otelo4 el 7aga men el national id we hwa mo5tlef fe el database
-    */
     nationalIdTextController.text = userInfo.nationalId;
     gender = userInfo.gender == 'male' ? Gender.male : Gender.female;
     genderRadioKey.currentState?.selectButton(gender!);

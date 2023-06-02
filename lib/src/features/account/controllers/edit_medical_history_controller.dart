@@ -130,7 +130,6 @@ class EditMedicalHistoryController extends GetxController {
   }
 
   void updateUserData({required String bloodType}) async {
-    Get.back();
     showLoadingScreen();
     String diabetic = diabetesDropdownController.text.trim();
     diabetic = diabetic.isEmpty || diabetic == 'no'.tr
@@ -156,7 +155,9 @@ class EditMedicalHistoryController extends GetxController {
       authRep.userInfo.heartPatient = medicalHistoryData.heartPatient;
       authRep.userInfo.additionalInformation =
           medicalHistoryData.additionalInformation;
+      authRep.criticalUserStatus.value = CriticalUserStatus.non;
       hideLoadingScreen();
+      Get.back();
       showSnackBar(
           text: 'medicalHistorySavedSuccess'.tr,
           snackBarType: SnackBarType.success);

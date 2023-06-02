@@ -557,6 +557,10 @@ class FirebasePatientDataAccess extends GetxController {
           }
         }
       }
+      userDataBatch
+          .delete(fireStore.collection('criticalUserRequests').doc(userId));
+      userDataBatch.delete(
+          fireStore.collection('declinedCriticalUserRequests').doc(userId));
       await userDataBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {

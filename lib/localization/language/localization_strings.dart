@@ -343,8 +343,13 @@ class Languages extends Translations {
           'reportRequest': 'الإبلاغ عن مشكلة في طلب سيارة الإسعاف الخاص بك',
           'problemRequest': 'أبلغ عن مشكلة',
           'addAddress': 'أضف عنوان جديد',
+          'confirmLocation': 'تأكيد الموقع',
+          'addressSavedSuccess': 'تم حفظ العنوان بنجاح',
+          'addressSavedError': 'فشل حفظ العنوان ، يرجى المحاولة مرة أخرى',
+          'addressDeletionFailed': 'فشل حذف العنوان ، يرجى المحاولة مرة أخرى',
         },
         'en_US': {
+          'confirmLocation': 'Confirm location',
           'addAddress': 'Add new address',
           'reportRequest': 'Report a problem with your ambulance request',
           'problemRequest': 'Report problem',
@@ -394,6 +399,8 @@ class Languages extends Translations {
           'medicalHistorySavedSuccess': 'Medical history saved successfully',
           'medicalHistorySavedError':
               'Medical history save failed, please try again',
+          'addressSavedSuccess': 'Address saved successfully',
+          'addressSavedError': 'Address save failed, please try again',
           'emailHintLabel': 'Enter your E-Mail',
           'tryAgain': 'Try again',
           'passwordLabel': 'Password',
@@ -422,6 +429,7 @@ class Languages extends Translations {
               'Sending SOS message failed, please try again',
           'deletingEmergencyContactFailed':
               'Contact deletion failed, please try again',
+          'addressDeletionFailed': 'Address deletion failed, please try again',
           'phoneFieldLabel': 'Enter your Phone Number',
           'passwordResetLink':
               'Enter your E-Mail to get the password reset link',

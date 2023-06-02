@@ -199,8 +199,7 @@ class MakingRequestMap extends StatelessWidget {
                               ? const SizedBox.shrink()
                               : Expanded(
                                   child: MakingRequestMapSearch(
-                                    makingRequestController:
-                                        makingRequestController,
+                                    locationController: makingRequestController,
                                   ),
                                 ),
                         ),

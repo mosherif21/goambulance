@@ -3,18 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../../general/general_functions.dart';
-import '../../../controllers/making_request_location_controller.dart';
 
 class MakingRequestMapSearch extends StatelessWidget {
   const MakingRequestMapSearch({
     Key? key,
-    required this.makingRequestController,
+    required this.locationController,
   }) : super(key: key);
-  final MakingRequestLocationController makingRequestController;
+  final dynamic locationController;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => makingRequestController.googlePlacesSearch(context: context),
+      onTap: () => locationController.googlePlacesSearch(context: context),
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
@@ -45,8 +44,8 @@ class MakingRequestMapSearch extends StatelessWidget {
                   () => Expanded(
                     child: AutoSizeText(
                       isLangEnglish()
-                          ? makingRequestController.searchedText.value
-                          : '   ${makingRequestController.searchedText.value}',
+                          ? locationController.searchedText.value
+                          : '   ${locationController.searchedText.value}',
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 
 import '../../../../../constants/assets_strings.dart';
 
@@ -9,7 +8,7 @@ class MyLocationButton extends StatelessWidget {
   const MyLocationButton({Key? key, required this.controller})
       : super(key: key);
 
-  final MakingRequestLocationController controller;
+  final dynamic controller;
   @override
   Widget build(BuildContext context) {
     return Obx(

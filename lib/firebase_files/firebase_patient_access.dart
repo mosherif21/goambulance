@@ -228,6 +228,7 @@ class FirebasePatientDataAccess extends GetxController {
     required String apartmentNumber,
     required String floorNumber,
     required String areaName,
+    required GeoPoint location,
     String? additionalInfo,
   }) async {
     try {

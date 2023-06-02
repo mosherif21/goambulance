@@ -1,11 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../../../../authentication/authentication_repository.dart';
 import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
+import '../components/addresses/add_address_page.dart';
 
 class AddressesController extends GetxController {
   static AddressesController get instance => Get.find();
@@ -16,15 +18,8 @@ class AddressesController extends GetxController {
   final floorNumberTextController = TextEditingController();
   final areaNameTextController = TextEditingController();
   final additionalInfoTextController = TextEditingController();
-  final savedAddressesScrollController = ScrollController();
 
   var addressesList = <AddressItem>[].obs;
-  final locationName = ''.obs;
-  final apartmentNumber = ''.obs;
-  final floorNumber = ''.obs;
-  final areaName = ''.obs;
-  final additionalInfo = ''.obs;
-  var currentAddressesDocIds = <String>[];
 
   RxBool highlightLocationName = false.obs;
   RxBool highlightStreetName = false.obs;
@@ -32,17 +27,12 @@ class AddressesController extends GetxController {
   RxBool highlightFloorNumber = false.obs;
   RxBool highlightArea = false.obs;
 
-  late final String userId;
-  late final UserInformation userInfo;
-  late final AuthenticationRepository authRep;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final addressesLoaded = false.obs;
+  late GeoPoint addressLocation;
 
   @override
   void onInit() async {
-    authRep = AuthenticationRepository.instance;
-    userInfo = authRep.userInfo;
-    userId = authRep.fireUser.value!.uid;
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
     loadAddresses();
     super.onInit();
@@ -86,6 +76,12 @@ class AddressesController extends GetxController {
     addressesLoaded.value = true;
   }
 
+  void confirmAddressLocation({required LatLng confirmAddressLocation}) {
+    addressLocation = GeoPoint(
+        confirmAddressLocation.latitude, confirmAddressLocation.longitude);
+    Get.to(() => const AddAddressPage(), transition: getPageTransition());
+  }
+
   Future<void> checkAddress() async {
     highlightLocationName.value =
         locationNameTextController.text.trim().isEmpty;
@@ -114,15 +110,15 @@ class AddressesController extends GetxController {
     final floorNumber = floorNumberTextController.text.trim();
     final areaName = areaNameTextController.text.trim();
     final additionalInfo = additionalInfoTextController.text.trim();
-
     final addressItem = await firebasePatientDataAccess.addNewAddress(
-        locationName: locationName,
-        streetName: streetName,
-        apartmentNumber: apartmentNumber,
-        floorNumber: floorNumber,
-        areaName: areaName,
-        additionalInfo: additionalInfo);
-
+      locationName: locationName,
+      streetName: streetName,
+      apartmentNumber: apartmentNumber,
+      floorNumber: floorNumber,
+      areaName: areaName,
+      additionalInfo: additionalInfo,
+      location: addressLocation,
+    );
     hideLoadingScreen();
     if (addressItem != null) {
       addressesList.add(addressItem);
@@ -132,14 +128,13 @@ class AddressesController extends GetxController {
       floorNumberTextController.clear();
       areaNameTextController.clear();
       additionalInfoTextController.clear();
+      Get.close(2);
       showSnackBar(
-          text: 'medicalHistorySavedSuccess'.tr,
-          snackBarType: SnackBarType.success);
+          text: 'addressSavedSuccess'.tr, snackBarType: SnackBarType.success);
     } else {
       hideLoadingScreen();
       showSnackBar(
-          text: 'medicalHistorySavedError'.tr,
-          snackBarType: SnackBarType.error);
+          text: 'addressSavedError'.tr, snackBarType: SnackBarType.error);
     }
   }
 
@@ -155,35 +150,9 @@ class AddressesController extends GetxController {
       addressesList.remove(addressItem);
     } else if (functionStatus == FunctionStatus.failure) {
       showSnackBar(
-          text: 'deletingEmergencyContactFailed'.tr,
-          snackBarType: SnackBarType.error);
+          text: 'addressDeletionFailed'.tr, snackBarType: SnackBarType.error);
     }
   }
-
-  // void addAddress() {
-  //   if (locationName.value.isNotEmpty) {
-  //     final locationName = locationNameTextController.text.trim();
-  //     final streetName = streetNameTextController.text.trim();
-  //     final apartmentNumber = apartmentNumberTextController.text.trim();
-  //     final floorNumber = floorNumberTextController.text.trim();
-  //     final areaName = areaNameTextController.text.trim();
-  //     final additionalInfo = additionalInfoTextController.text.trim();
-  //     addressesList.add(AddressItem(
-  //         locationName: locationName,
-  //         streetName: streetName,
-  //         apartmentNumber: apartmentNumber,
-  //         floorNumber: floorNumber,
-  //         areaName: areaName,
-  //         additionalInfo: additionalInfo));
-  //     locationNameTextController.clear();
-  //     streetNameTextController.clear();
-  //     apartmentNumberTextController.clear();
-  //     floorNumberTextController.clear();
-  //     areaNameTextController.clear();
-  //     additionalInfoTextController.clear();
-  //     RegularBottomSheet.hideBottomSheet();
-  //   }
-  // }
 
   @override
   void onClose() {
@@ -193,7 +162,6 @@ class AddressesController extends GetxController {
     floorNumberTextController.dispose();
     areaNameTextController.dispose();
     additionalInfoTextController.dispose();
-    savedAddressesScrollController.dispose();
     super.onClose();
   }
 }

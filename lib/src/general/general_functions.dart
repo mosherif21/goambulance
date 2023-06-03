@@ -343,6 +343,12 @@ Future<bool> handleNotificationsPermission() async =>
       deniedForeverSnackBarTitle: 'notificationsPermission'.tr,
       deniedForeverSnackBarBody: 'notificationsPermissionDeniedForever'.tr,
     );
+Future<bool> handleSpeechPermission() async => await handleGeneralPermission(
+      permission: Permission.speech,
+      deniedSnackBarText: 'enableSpeechPermission'.tr,
+      deniedForeverSnackBarTitle: 'speechPermission'.tr,
+      deniedForeverSnackBarBody: 'speechPermissionDeniedForever'.tr,
+    );
 Future<bool> handleAndroidBatteryPermission() async =>
     await handleGeneralPermission(
       permission: Permission.ignoreBatteryOptimizations,

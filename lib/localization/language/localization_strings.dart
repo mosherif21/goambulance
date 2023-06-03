@@ -377,6 +377,10 @@ class Languages extends Translations {
           'verificationSent': 'تم إرسال التحقق',
           'makePrimaryText': 'هل تريد ان تجعل هذا العنوان عنوانك الرئيسي؟',
           'primaryAskText': 'أجعل هذا عنواني الرئيسي',
+          'enableSpeechPermission': 'الرجاء قبول إذن الكلام',
+          'speechPermissionDeniedForever':
+              'تم رفض إذن الكلام إلى الأبد ، يرجى تمكينه من الإعدادات',
+          'speechPermission': 'إذن الكلام',
         },
         'en_US': {
           'requireRecentLoginError':
@@ -637,6 +641,10 @@ class Languages extends Translations {
           'enableSmsPermission': 'Please accept SMS permission',
           'enableNotificationPermission':
               'Please accept Notifications permission',
+          'enableSpeechPermission': 'Please accept speech permission',
+          'speechPermissionDeniedForever':
+              'Speech permission denied forever please enable it from the settings',
+          'speechPermission': 'Speech permission',
           'yes': 'Yes',
           'no': 'No',
           'don\'tKnow': 'Don\'t know',

@@ -44,8 +44,6 @@ class HomeDashBoard extends StatelessWidget {
                 child: Image.asset(
                   getSponsorImage(index + 1),
                   fit: BoxFit.fill,
-                  width: 1080.0,
-                  height: 1080.0,
                 )),
             openBuilder: (context, action) => PhotoView(
               imageProvider: AssetImage(getSponsorImage(index + 1)),

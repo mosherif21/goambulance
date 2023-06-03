@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:get/get.dart';
@@ -7,9 +10,16 @@ import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
+// ignore: depend_on_referenced_packages
+import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
+import '../../../../authentication/authentication_repository.dart';
+import '../../../constants/enums.dart';
+import '../../../constants/no_localization_strings.dart';
+import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
@@ -23,11 +33,36 @@ class HomeScreenController extends GetxController {
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
 
+  Future<Map<String, dynamic>> analyzeSentiment(String text) async {
+    const apiUrl =
+        "https://language.googleapis.com/v1/documents:analyzeSentiment?key=$googleAutoML";
+
+    final request = {
+      "document": {"type": "PLAIN_TEXT", "content": text},
+      "encodingType": "UTF8"
+    };
+
+    final response = await http.post(Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(request));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data.containsKey("error")) {
+        throw data["error"]["message"];
+      }
+      return data["documentSentiment"];
+    } else {
+      throw "Failed to analyze sentiment: ${response.reasonPhrase}";
+    }
+  }
+
   @override
-  void onReady() {
-    handleLocation()
+  void onReady() async {
+    await handleLocation()
         .whenComplete(() => handleSmsPermission())
-        .whenComplete(() => handleNotificationsPermission());
+        .whenComplete(() => handleNotificationsPermission())
+        .whenComplete(() => handleSpeechPermission());
     homeBottomNavController.addListener(() {
       if (homeBottomNavController.index == 1 &&
           Get.isRegistered<RequestsHistoryController>()) {
@@ -35,6 +70,37 @@ class HomeScreenController extends GetxController {
       }
     });
     super.onReady();
+  }
+
+  void listenForSos() async {
+    if (AuthenticationRepository.instance.criticalUserStatus.value ==
+        CriticalUserStatus.criticalUserAccepted) {
+      final speechToText = SpeechToText();
+      bool available = await speechToText.initialize(onStatus: (status) {
+        if (kDebugMode) {
+          AppInit.logger.i('Speech status $status');
+        }
+      }, onError: (error) {
+        if (kDebugMode) {
+          AppInit.logger.e('Speech error $error');
+        }
+      });
+      if (available) {
+        speechToText.listen(
+          listenMode: ListenMode.dictation,
+          localeId: Get.locale?.languageCode,
+          listenFor: const Duration(seconds: 5),
+          onResult: (listenedText) async {
+            showSnackBar(
+                text: listenedText.recognizedWords,
+                snackBarType: SnackBarType.info);
+            final sentiment =
+                await analyzeSentiment(listenedText.recognizedWords);
+            await speechToText.stop();
+          },
+        );
+      }
+    }
   }
 
   bool isDrawerOpen(DrawerState drawerState) =>

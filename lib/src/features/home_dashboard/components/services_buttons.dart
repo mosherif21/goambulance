@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 
 import '../../../../authentication/authentication_repository.dart';
 import '../../../constants/assets_strings.dart';
@@ -38,7 +39,9 @@ class ServicesButtons extends StatelessWidget {
                     child: RoundedImageElevatedButton(
                       buttonText: 'sosRequest'.tr,
                       imagePath: kSosImage,
-                      onPressed: () {},
+                      onPressed: () {
+                        HomeScreenController.instance.listenForSos();
+                      },
                     ),
                   )
                 : Expanded(

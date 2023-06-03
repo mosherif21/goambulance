@@ -11,7 +11,6 @@ import 'package:goambulance/src/general/common_widgets/regular_elevated_button.d
 import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -106,19 +105,26 @@ class EditUserDataPage extends StatelessWidget {
                                   textInputAction: TextInputAction.next,
                                 ),
                               ),
-                              const SizedBox(width: 5),
-                              Obx(
-                                () => Icon(
-                                  controller.authRep.isEmailVerified.value
-                                      ? LineIcons.checkCircleAlt
-                                      : Icons.close_rounded,
-                                  color:
-                                      controller.authRep.isEmailVerified.value
+                              const SizedBox(width: 10),
+                              Obx(() => Container(
+                                    decoration: BoxDecoration(
+                                      color: controller
+                                              .authRep.isEmailVerified.value
                                           ? Colors.green
                                           : Colors.red,
-                                  size: 35,
-                                ),
-                              ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Icon(
+                                        controller.authRep.isEmailVerified.value
+                                            ? Icons.check
+                                            : Icons.close_rounded,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  )),
                             ],
                           ),
                           Obx(() => !controller.authRep.isEmailVerified.value

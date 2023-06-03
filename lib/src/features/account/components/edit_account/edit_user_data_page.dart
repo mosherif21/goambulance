@@ -8,8 +8,10 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
+import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -67,6 +69,7 @@ class EditUserDataPage extends StatelessWidget {
                         children: [
                           TextHeader(
                               headerText: 'enterFullName'.tr, fontSize: 18),
+                          const SizedBox(height: 5),
                           TextFormFieldRegular(
                             labelText: 'fullName'.tr,
                             hintText: 'enterFullName'.tr,
@@ -88,19 +91,40 @@ class EditUserDataPage extends StatelessWidget {
                         children: [
                           TextHeader(
                               headerText: 'emailHintLabel'.tr, fontSize: 18),
-                          TextFormFieldRegular(
-                            labelText: 'emailLabel'.tr,
-                            hintText: 'emailHintLabel'.tr,
-                            prefixIconData: Icons.email,
-                            textController: controller.emailTextController,
-                            inputType: InputType.text,
-                            editable: false,
-                            textInputAction: TextInputAction.next,
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormFieldRegular(
+                                  labelText: 'emailLabel'.tr,
+                                  hintText: 'emailHintLabel'.tr,
+                                  prefixIconData: Icons.email,
+                                  textController:
+                                      controller.emailTextController,
+                                  inputType: InputType.text,
+                                  editable: false,
+                                  textInputAction: TextInputAction.next,
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Obx(
+                                () => Icon(
+                                  controller.authRep.isEmailVerified.value
+                                      ? LineIcons.checkCircleAlt
+                                      : Icons.close_rounded,
+                                  color:
+                                      controller.authRep.isEmailVerified.value
+                                          ? Colors.green
+                                          : Colors.red,
+                                  size: 35,
+                                ),
+                              ),
+                            ],
                           ),
                           Obx(() => !controller.authRep.isEmailVerified.value
                               ? Padding(
                                   padding: const EdgeInsets.all(15.0),
-                                  child: RegularElevatedButton(
+                                  child: RoundedElevatedButton(
                                     buttonText:
                                         controller.verificationSent.value
                                             ? 'verificationSent'.tr
@@ -123,6 +147,7 @@ class EditUserDataPage extends StatelessWidget {
                         children: [
                           TextHeader(
                               headerText: 'enterNationalId'.tr, fontSize: 18),
+                          const SizedBox(height: 5),
                           TextFormFieldRegular(
                             labelText: 'nationalId'.tr,
                             hintText: 'enterNationalId'.tr,
@@ -144,6 +169,7 @@ class EditUserDataPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(headerText: 'enterGender'.tr, fontSize: 18),
+                        const SizedBox(height: 5),
                         CustomRadioButton(
                           key: controller.genderRadioKey,
                           buttonTextStyle: const ButtonTextStyle(
@@ -182,6 +208,7 @@ class EditUserDataPage extends StatelessWidget {
                       children: [
                         TextHeader(
                             headerText: 'enterBirthDate'.tr, fontSize: 18),
+                        const SizedBox(height: 5),
                         Container(
                           decoration: const BoxDecoration(
                             color: kDefaultColorLessShade,

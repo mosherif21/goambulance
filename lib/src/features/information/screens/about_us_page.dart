@@ -1,10 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/information/components/web_page.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
+import '../../../general/general_functions.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
@@ -56,7 +58,11 @@ class AboutUsScreen extends StatelessWidget {
                           // );
                           break;
                         case 3:
-                          _launchUrl(url);
+                          // _launchUrl(url);
+                          Get.to(
+                            () => OurWebPageView(),
+                            transition: getPageTransition(),
+                          );
                           break;
                       }
                     },

@@ -40,7 +40,7 @@ class RequestDetailsPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -78,7 +78,7 @@ class RequestDetailsPage extends StatelessWidget {
                                 ),
                         ),
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 10),
                       AutoSizeText(
                         requestModel.hospitalName,
                         style: const TextStyle(

@@ -28,7 +28,7 @@ class RequestHistoryModel {
   final LatLng requestLocation;
   final LatLng hospitalLocation;
   final Timestamp timeStamp;
-  final String? cancelReason;
+  String? cancelReason;
   String? ambulanceCarID;
   String? ambulanceDriverID;
   String? ambulanceMedicID;

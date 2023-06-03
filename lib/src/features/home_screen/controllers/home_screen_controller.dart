@@ -106,6 +106,8 @@ class HomeScreenController extends GetxController {
         final topCategory = categories[0]['name'];
         return topCategory;
       }
+    } else {
+      return response.body;
     }
 
     return 'No category found';

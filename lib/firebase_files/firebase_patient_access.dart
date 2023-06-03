@@ -729,49 +729,63 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
-  Future<RequestStatus?> getRequestStatus(
-      {required String requestId, required RequestStatus knownStatus}) async {
+  Future<RequestHistoryModel?> getRequestStatus(
+      {required RequestHistoryModel requestModel}) async {
     try {
-      if (knownStatus == RequestStatus.pending ||
-          knownStatus == RequestStatus.accepted) {
-        final snapshot =
-            await fireStore.collection('pendingRequests').doc(requestId).get();
+      if (requestModel.requestStatus == RequestStatus.pending ||
+          requestModel.requestStatus == RequestStatus.accepted) {
+        final snapshot = await fireStore
+            .collection('pendingRequests')
+            .doc(requestModel.requestId)
+            .get();
         if (snapshot.exists) {
           final status = snapshot.data()!['status'].toString();
-          return status == 'pending'
-              ? RequestStatus.pending
-              : RequestStatus.accepted;
+          if (status == 'pending') {
+            requestModel.requestStatus = RequestStatus.pending;
+          } else {
+            requestModel.requestStatus = RequestStatus.accepted;
+          }
+          return requestModel;
         } else {
           final snapshot = await fireStore
               .collection('canceledRequests')
-              .doc(requestId)
+              .doc(requestModel.requestId)
               .get();
           if (snapshot.exists) {
-            return RequestStatus.canceled;
+            requestModel.requestStatus = RequestStatus.canceled;
+            requestModel.cancelReason = snapshot.data()!['cancelReason'];
+            return requestModel;
           } else {
-            knownStatus = RequestStatus.assigned;
+            requestModel.requestStatus = RequestStatus.assigned;
           }
         }
       }
-      if (knownStatus == RequestStatus.assigned ||
-          knownStatus == RequestStatus.ongoing) {
-        final snapshot =
-            await fireStore.collection('assignedRequests').doc(requestId).get();
+      if (requestModel.requestStatus == RequestStatus.assigned ||
+          requestModel.requestStatus == RequestStatus.ongoing) {
+        final snapshot = await fireStore
+            .collection('assignedRequests')
+            .doc(requestModel.requestId)
+            .get();
         if (snapshot.exists) {
           final status = snapshot.data()!['status'].toString();
-          return status == 'assigned'
-              ? RequestStatus.assigned
-              : RequestStatus.ongoing;
+          if (status == 'assigned') {
+            requestModel.requestStatus = RequestStatus.assigned;
+          } else {
+            requestModel.requestStatus = RequestStatus.ongoing;
+          }
+          return requestModel;
         } else {
           final snapshot = await fireStore
-              .collection('completedRequests')
-              .doc(requestId)
+              .collection('canceledRequests')
+              .doc(requestModel.requestId)
               .get();
           if (snapshot.exists) {
-            return RequestStatus.completed;
+            requestModel.requestStatus = RequestStatus.canceled;
+            requestModel.cancelReason = snapshot.data()!['cancelReason'];
           } else {
-            return RequestStatus.canceled;
+            requestModel.requestStatus = RequestStatus.completed;
           }
+          return requestModel;
         }
       }
     } on FirebaseException catch (error) {

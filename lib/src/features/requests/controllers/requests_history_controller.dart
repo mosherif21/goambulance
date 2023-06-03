@@ -162,17 +162,14 @@ class RequestsHistoryController extends GetxController {
           transition: getPageTransition());
     } else {
       showLoadingScreen();
-      final requestStatus = await firebasePatientDataAccess.getRequestStatus(
-          requestId: requestModel.requestId,
-          knownStatus: requestModel.requestStatus);
-
+      final latestRequestModel = await firebasePatientDataAccess
+          .getRequestStatus(requestModel: requestModel);
       hideLoadingScreen();
-      if (kDebugMode) {
-        AppInit.logger
-            .i('after check status: ${requestStatus ?? 'failed to check'}');
-      }
-      if (requestStatus != null) {
-        requestModel.requestStatus = requestStatus;
+      if (latestRequestModel != null) {
+        final requestStatus = latestRequestModel.requestStatus;
+        if (kDebugMode) {
+          AppInit.logger.i('after check status: $requestStatus');
+        }
         if (requestStatus == RequestStatus.pending ||
             requestStatus == RequestStatus.accepted ||
             requestStatus == RequestStatus.assigned ||

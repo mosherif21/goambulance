@@ -375,6 +375,8 @@ class Languages extends Translations {
           'verifyEmailSent': 'تم إرسال رابط التحقق من البريد الإلكتروني بنجاح',
           'verifyEmailSendFailed': 'فشل إرسال رابط التحقق من البريد الإلكتروني',
           'verificationSent': 'تم إرسال التحقق',
+          'makePrimaryText': 'هل تريد ان تجعل هذا العنوان عنوانك الرئيسي؟',
+          'primaryAskText': 'أجعل هذا عنواني الرئيسي',
         },
         'en_US': {
           'requireRecentLoginError':
@@ -759,6 +761,8 @@ class Languages extends Translations {
           'floorNumberText': 'Floor number',
           'floorNumberExample': 'Example : 10',
           'apartmentNumberExample': 'Example : 6',
+          'makePrimaryText': 'Make This Address Your Main Address?',
+          'primaryAskText': 'Make This My Primary Address',
           'additionalInfoExample':
               'Example: There is a pharmacy under the building',
         },

@@ -142,6 +142,7 @@ class FirebasePatientDataAccess extends GetxController {
                   floorNumber: addressDoc['floorNumber'].toString(),
                   areaName: addressDoc['areaName'].toString(),
                   additionalInfo: addressDoc['additionalInfo'].toString(),
+                  isPrimary: addressDoc['isPrimary'].toString(),
                   addressId: address.id),
             );
           }
@@ -230,6 +231,7 @@ class FirebasePatientDataAccess extends GetxController {
     required String areaName,
     required GeoPoint location,
     required String additionalInfo,
+    required String isPrimary,
   }) async {
     try {
       final docRef = await firestoreUserRef.collection('addresses').add({
@@ -240,6 +242,7 @@ class FirebasePatientDataAccess extends GetxController {
         'areaName': areaName,
         'additionalInfo': additionalInfo,
         'location': location,
+        'isPrimary': isPrimary,
       });
       return AddressItem(
         addressId: docRef.id,
@@ -248,6 +251,7 @@ class FirebasePatientDataAccess extends GetxController {
         apartmentNumber: apartmentNumber,
         floorNumber: floorNumber,
         areaName: areaName,
+        isPrimary: isPrimary,
         additionalInfo: additionalInfo,
       );
     } on FirebaseException catch (error) {

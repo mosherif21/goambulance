@@ -135,6 +135,7 @@ class AddressItem {
   final String apartmentNumber;
   final String floorNumber;
   final String areaName;
+  final String isPrimary;
   final String? additionalInfo;
 
   AddressItem({
@@ -144,6 +145,7 @@ class AddressItem {
     required this.apartmentNumber,
     required this.floorNumber,
     required this.areaName,
+    required this.isPrimary,
     this.additionalInfo,
   });
 
@@ -154,6 +156,7 @@ class AddressItem {
       'apartmentNumber': apartmentNumber,
       'floorNumber': floorNumber,
       'areaName': areaName,
+      'isPrimary': isPrimary,
       'additionalInfo': additionalInfo,
     };
   }

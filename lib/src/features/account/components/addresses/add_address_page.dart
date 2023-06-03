@@ -8,6 +8,7 @@ import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 
 import '../../../../constants/enums.dart';
+import '../../../../general/common_widgets/custom_rolling_switch.dart';
 import '../../../../general/common_widgets/regular_card.dart';
 import '../../controllers/addresses_controller.dart';
 
@@ -169,6 +170,31 @@ class AddAddressPage extends StatelessWidget {
                           editable: true,
                           textInputAction: TextInputAction.done,
                         ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(
+                            headerText: 'makePrimaryText'.tr, fontSize: 18),
+                        const SizedBox(height: 5.0),
+                        Row(
+                          children: [
+                            const Spacer(),
+                            CustomRollingSwitch(
+                              onText: 'yes'.tr,
+                              offText: 'no'.tr,
+                              onIcon: Icons.check,
+                              offIcon: Icons.close,
+                              onSwitched: (bool state) =>
+                                  controller.makePrimary = state,
+                              keyInternal: controller.makePrimaryKey,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

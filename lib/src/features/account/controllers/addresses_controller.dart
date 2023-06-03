@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:rolling_switch/rolling_switch.dart';
 
 import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../constants/enums.dart';
@@ -26,6 +27,9 @@ class AddressesController extends GetxController {
   RxBool highlightApartmentNumber = false.obs;
   RxBool highlightFloorNumber = false.obs;
   RxBool highlightArea = false.obs;
+
+  bool makePrimary = false;
+  final makePrimaryKey = GlobalKey<RollingSwitchState>();
 
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final addressesLoaded = false.obs;
@@ -53,13 +57,15 @@ class AddressesController extends GetxController {
     });
 
     apartmentNumberTextController.addListener(() {
-      if (apartmentNumberTextController.text.trim().isNotEmpty) {
+      if (apartmentNumberTextController.text.trim().isNotEmpty &&
+          apartmentNumberTextController.text.isNum) {
         highlightApartmentNumber.value = false;
       }
     });
 
     floorNumberTextController.addListener(() {
-      if (floorNumberTextController.text.trim().isNotEmpty) {
+      if (floorNumberTextController.text.trim().isNotEmpty &&
+          apartmentNumberTextController.text.isNum) {
         highlightFloorNumber.value = false;
       }
     });
@@ -111,6 +117,7 @@ class AddressesController extends GetxController {
     final areaName = areaNameTextController.text.trim();
     final additionalInfo = additionalInfoTextController.text.trim();
     final addressItem = await firebasePatientDataAccess.addNewAddress(
+      isPrimary: makePrimary ? 'Yes' : 'No',
       locationName: locationName,
       streetName: streetName,
       apartmentNumber: apartmentNumber,
@@ -152,6 +159,15 @@ class AddressesController extends GetxController {
       showSnackBar(
           text: 'addressDeletionFailed'.tr, snackBarType: SnackBarType.error);
     }
+  }
+
+  updatePrimary({required AddressItem addressItem}) async {
+    showLoadingScreen();
+    final addressDocumentId = firebasePatientDataAccess.firestoreUserRef
+        .collection('addresses')
+        .doc(addressItem.addressId);
+    addressDocumentId.update({'isPrimary': 'yes'});
+    hideLoadingScreen();
   }
 
   @override

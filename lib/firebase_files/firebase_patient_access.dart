@@ -799,7 +799,9 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<void> logoutFirebase() async {
-    await deleteFcmToken();
+    if (authRep.isUserRegistered) {
+      await deleteFcmToken();
+    }
   }
 }
 //StreamSubscription? driverLocationStreamSubscription;

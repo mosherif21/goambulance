@@ -53,8 +53,7 @@ class EditUserDataController extends GetxController {
   final highlightName = false.obs;
   final highlightEmail = false.obs;
   final highlightNationalId = false.obs;
-  bool makeEmailEditable = true;
-  bool makeButtonEditable = true;
+  final verificationSent = false.obs;
 
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
 
@@ -64,6 +63,20 @@ class EditUserDataController extends GetxController {
 
   late final AuthenticationRepository authRep;
   late final FirebaseStorage fireStorage;
+
+  void verifyEmail() async {
+    showLoadingScreen();
+    final functionStatus = await authRep.sendVerificationEmail();
+    hideLoadingScreen();
+    if (functionStatus == FunctionStatus.success) {
+      showSnackBar(
+          text: 'verifyEmailSent'.tr, snackBarType: SnackBarType.success);
+      verificationSent.value = true;
+    } else {
+      showSnackBar(
+          text: 'verifyEmailSendFailed'.tr, snackBarType: SnackBarType.success);
+    }
+  }
 
   @override
   void onInit() {
@@ -80,7 +93,6 @@ class EditUserDataController extends GetxController {
   void onReady() {
     if (currentUser.email != null) {
       emailTextController.text = currentUser.email!;
-      makeEmailEditable = false;
     } else {
       emailTextController.text = userInfo.email;
     }

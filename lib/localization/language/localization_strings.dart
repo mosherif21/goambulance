@@ -372,11 +372,17 @@ class Languages extends Translations {
           'requireRecentLoginError': 'هذه العملية حساسة وتتطلب تسجيل دخول حديث',
           'enterEmailPasswordDetails':
               'الرجاء إدخال تفاصيل حساب البريد الإلكتروني وكلمة المرور',
+          'verifyEmailSent': 'تم إرسال رابط التحقق من البريد الإلكتروني بنجاح',
+          'verifyEmailSendFailed': 'فشل إرسال رابط التحقق من البريد الإلكتروني',
+          'verificationSent': 'تم إرسال التحقق',
         },
         'en_US': {
           'requireRecentLoginError':
               'This operation is sensitive and requires recent authentication',
           'linkEmailPassword': 'Link email and password',
+          'verificationSent': 'Verification sent',
+          'verifyEmailSent': 'Email verification link sent successfully',
+          'verifyEmailSendFailed': 'Email verification link sending failed',
           'requestCritical': 'Critical user request',
           'criticalUserRequested': 'Critical user requested',
           'criticalUserDenied': 'Critical user denied',

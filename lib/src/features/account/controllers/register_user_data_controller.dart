@@ -241,6 +241,7 @@ class RegisterUserDataController extends GetxController {
     final returnMessage =
         await authRep.updateUserEmailAuthentication(email: email);
     if (returnMessage != 'success') {
+      hideLoadingScreen();
       showSnackBar(text: returnMessage, snackBarType: SnackBarType.error);
     } else {
       final userInfo = UserInformation(
@@ -267,7 +268,6 @@ class RegisterUserDataController extends GetxController {
         diseasesList: diseasesList,
       );
       if (functionStatus == FunctionStatus.success) {
-        hideLoadingScreen();
         AppInit.goToInitPage();
       } else {
         hideLoadingScreen();

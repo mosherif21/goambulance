@@ -60,6 +60,23 @@ class AuthenticationRepository extends GetxController {
     super.onInit();
   }
 
+  Future<FunctionStatus> sendVerificationEmail() async {
+    try {
+      await fireUser.value!.sendEmailVerification();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+      return FunctionStatus.failure;
+    } catch (e) {
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
   void initCriticalUserListeners() {
     try {
       _firestore
@@ -228,6 +245,8 @@ class AuthenticationRepository extends GetxController {
         return 'invalidEmailEntered'.tr;
       } else if (ex.code == 'email-already-in-use') {
         return 'emailAlreadyExists'.tr;
+      } else if (ex.code == 'requires-recent-login') {
+        return 'requireRecentLoginError'.tr;
       }
     } catch (e) {
       if (kDebugMode) {
@@ -315,6 +334,7 @@ class AuthenticationRepository extends GetxController {
           EmailAuthProvider.credential(email: email, password: password);
       await fireUser.value!.linkWithCredential(credential);
       await fireUser.value!.updateEmail(email);
+      await updateUserEmailFirestore(email: email);
       return 'success';
     } on FirebaseAuthException catch (e) {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
@@ -655,8 +675,10 @@ class AuthenticationRepository extends GetxController {
       isEmailVerified.value = false;
       verificationId = '';
       userType = UserType.patient;
-      criticalRequestListener?.cancel();
-      criticalRequestDeniedListener?.cancel();
+      if (isUserRegistered) {
+        criticalRequestListener?.cancel();
+        criticalRequestDeniedListener?.cancel();
+      }
       userInfo = UserInformation(
         name: '',
         email: '',

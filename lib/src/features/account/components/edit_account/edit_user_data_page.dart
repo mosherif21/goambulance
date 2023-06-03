@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cross_file_image/cross_file_image.dart';
 import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,8 +13,6 @@ import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
-import 'package:timer_count_down/timer_controller.dart';
-import 'package:timer_count_down/timer_count_down.dart';
 
 import '../../../../connectivity/connectivity.dart';
 import '../../../../constants/enums.dart';
@@ -31,8 +28,6 @@ class EditUserDataPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
     final controller = Get.put(EditUserDataController());
-    final CountdownController timerController = Get.put(CountdownController());
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -94,55 +89,20 @@ class EditUserDataPage extends StatelessWidget {
                         children: [
                           TextHeader(
                               headerText: 'emailHintLabel'.tr, fontSize: 18),
-                          Text(controller.emailTextController.text)
-                          // TextFormFieldRegular(
-                          //   labelText: 'emailLabel'.tr,
-                          //   hintText: 'emailHintLabel'.tr,
-                          //   prefixIconData: Icons.email,
-                          //   textController: controller.emailTextController,
-                          //   inputType: InputType.text,
-                          //   editable: controller.makeEmailEditable,
-                          //   textInputAction: TextInputAction.next,
-                          // )
-                          ,
-                          // ana kont 3aml account email we password bs ama d5lt l2et el zorar
-                          // 7atet ! abl dh 3shan el mfrod en verify email dh hyb2a zaher lama isEmailVerified false
+                          Text(controller.emailTextController.text),
                           Obx(() => !AuthenticationRepository
                                   .instance.isEmailVerified.value
                               ? Padding(
                                   padding: const EdgeInsets.all(15.0),
                                   child: RegularElevatedButton(
-                                    buttonText: 'verify'.tr,
-                                    onPressed: () {
-                                      controller.makeButtonEditable = false;
-                                      timerController.restart();
-                                      if (kDebugMode) {
-                                        print("Timer Started ..............");
-                                      }
-                                      // controller.currentUser
-                                      //     .sendEmailVerification();
-                                    },
-                                    enabled: controller.makeButtonEditable,
+                                    buttonText:
+                                        controller.verificationSent.value
+                                            ? 'verificationSent'.tr
+                                            : 'verify'.tr,
+                                    onPressed: controller.verifyEmail,
+                                    enabled: !controller.verificationSent.value,
                                     color: kDefaultColor,
                                   ),
-                                )
-                              : const SizedBox.shrink()),
-                          Obx(() => AuthenticationRepository
-                                  .instance.isEmailVerified.value
-                              ? Countdown(
-                                  controller: timerController,
-                                  seconds: 10,
-                                  build: (BuildContext context, double time) =>
-                                      Text(time.toString()),
-                                  interval: const Duration(milliseconds: 100),
-                                  onFinished: () {
-                                    if (kDebugMode) {
-                                      print("Timer Finished ..............");
-                                    }
-
-                                    controller.makeButtonEditable = true;
-                                    timerController.pause();
-                                  },
                                 )
                               : const SizedBox.shrink()),
                         ],

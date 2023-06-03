@@ -138,7 +138,6 @@ class HomeDashBoard extends StatelessWidget {
                           enlargeStrategy: CenterPageEnlargeStrategy.height,
                         ),
                       ),
-
                       const SizedBox(height: 15),
                       TextHeaderWithButton(
                         headerText: 'services'.tr,
@@ -179,65 +178,6 @@ class HomeDashBoard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // CarouselSlider(
-                      //   carouselController:
-                      //       homeScreenController.carouselController,
-                      //   items: [
-                      //     for (int firstAidNumber = 1;
-                      //         firstAidNumber <= 17;
-                      //         firstAidNumber++)
-                      //       Padding(
-                      //         padding: const EdgeInsets.all(5.0),
-                      //         child: OpenContainer(
-                      //           useRootNavigator: true,
-                      //           closedElevation: 0,
-                      //           openElevation: 0,
-                      //           closedBuilder: (context, action) =>
-                      //               clickableLabeledImage(
-                      //             img: getFirstAidTipImage(firstAidNumber),
-                      //             label: 'firstAidTips$firstAidNumber'.tr,
-                      //           ),
-                      //           openBuilder: (context, action) =>
-                      //               FirstAidTipsDetailsPage(
-                      //             imgPath:
-                      //                 getFirstAidDetailsPath(firstAidNumber),
-                      //           ),
-                      //         ),
-                      //       ),
-                      //   ],
-                      //   options: CarouselOptions(
-                      //       autoPlay: false,
-                      //       aspectRatio: 2.0,
-                      //       enlargeCenterPage: true,
-                      //       enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-                      //       onPageChanged: (index, reason) {
-                      //         current = index;
-                      //       }),
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: imgList.asMap().entries.map((entry) {
-                      //     return GestureDetector(
-                      //       onTap: () => homeScreenController.carouselController
-                      //           .animateToPage(entry.key),
-                      //       child: Container(
-                      //         width: 12.0,
-                      //         height: 12.0,
-                      //         margin: const EdgeInsets.symmetric(
-                      //             vertical: 8.0, horizontal: 4.0),
-                      //         decoration: BoxDecoration(
-                      //           shape: BoxShape.circle,
-                      //           color: (Theme.of(context).brightness ==
-                      //                       Brightness.dark
-                      //                   ? Colors.white
-                      //                   : Colors.black)
-                      //               .withOpacity(
-                      //                   current == entry.key ? 0.9 : 0.4),
-                      //         ),
-                      //       ),
-                      //     );
-                      //   }).toList(),
-                      // ),
                       SizedBox(height: screenHeight * 0.06)
                     ],
                   ),

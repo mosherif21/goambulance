@@ -33,30 +33,6 @@ class HomeScreenController extends GetxController {
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
 
-  Future<Map<String, dynamic>> analyzeSentiment(String text) async {
-    const apiUrl =
-        "https://language.googleapis.com/v1/documents:analyzeSentiment?key=$googleAutoML";
-
-    final request = {
-      "document": {"type": "PLAIN_TEXT", "content": text},
-      "encodingType": "UTF8"
-    };
-
-    final response = await http.post(Uri.parse(apiUrl),
-        headers: {"Content-Type": "application/json"},
-        body: json.encode(request));
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      if (data.containsKey("error")) {
-        throw data["error"]["message"];
-      }
-      return data["documentSentiment"];
-    } else {
-      throw "Failed to analyze sentiment: ${response.reasonPhrase}";
-    }
-  }
-
   @override
   void onReady() async {
     await handleLocation()
@@ -86,20 +62,78 @@ class HomeScreenController extends GetxController {
         }
       });
       if (available) {
-        speechToText.listen(
-          listenMode: ListenMode.dictation,
+        await speechToText.listen(
+          listenMode: ListenMode.deviceDefault,
           localeId: Get.locale?.languageCode,
           listenFor: const Duration(seconds: 5),
           onResult: (listenedText) async {
-            showSnackBar(
-                text: listenedText.recognizedWords,
-                snackBarType: SnackBarType.info);
-            final sentiment =
-                await analyzeSentiment(listenedText.recognizedWords);
-            await speechToText.stop();
+            if (listenedText.finalResult) {
+              showSnackBar(
+                  text: listenedText.recognizedWords,
+                  snackBarType: SnackBarType.info);
+              classifyText(listenedText.recognizedWords).then((classification) {
+                if (kDebugMode) {
+                  AppInit.logger.i('Classification $classification');
+                }
+              });
+            }
           },
         );
       }
+    }
+  }
+
+  Future<String> classifyText(String text) async {
+    const apiUrl =
+        'https://language.googleapis.com/v1/documents:classifyText?key=$googleNLPKey';
+
+    final requestBody = {
+      'document': {
+        'type': 'PLAIN_TEXT',
+        'content': text,
+      }
+    };
+
+    final response = await http.post(Uri.parse(apiUrl),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(requestBody));
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final categories = data['categories'];
+
+      if (categories.isNotEmpty) {
+        final topCategory = categories[0]['name'];
+        return topCategory;
+      }
+    }
+
+    return 'No category found';
+  }
+
+  Future<Map<String, dynamic>> analyzeSentiment(String text) async {
+    const apiUrl =
+        "https://language.googleapis.com/v1/documents:analyzeSentiment?key=$googleNLPKey";
+
+    final request = {
+      "document": {"type": "PLAIN_TEXT", "content": text},
+      "encodingType": "UTF8"
+    };
+
+    final response = await http.post(Uri.parse(apiUrl),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(request));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data.containsKey("error")) {
+        throw data["error"]["message"];
+      }
+      final sentimentScore = data["documentSentiment"]["score"];
+      final sentimentMagnitude = data["documentSentiment"]["magnitude"];
+      return {"score": sentimentScore, "magnitude": sentimentMagnitude};
+    } else {
+      throw "Failed to analyze sentiment: ${response.reasonPhrase}";
     }
   }
 

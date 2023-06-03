@@ -174,7 +174,7 @@ String buildStaticMapURL({
           'markers=icon:${marker.iconUrl}|${marker.location.latitude},${marker.location.longitude}')
       .join('&');
 
-  const mapIDParam = 'map_id=$mapID';
+  const mapIDParam = 'map_id=$mapStyleID';
 
   final polylineParam = polyLines.isNotEmpty
       ? 'path=color:0x000000ff|weight:3|${polyLines.map((polyline) => '${polyline.latitude},${polyline.longitude}').join('|')}'

@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../general/common_widgets/labeled_image.dart';
@@ -46,8 +47,8 @@ class HomeDashBoard extends StatelessWidget {
                   width: 1080.0,
                   height: 1080.0,
                 )),
-            openBuilder: (context, action) => FirstAidTipsDetailsPage(
-              imgPath: getFirstAidDetailsPath(index + 1),
+            openBuilder: (context, action) => PhotoView(
+              imageProvider: AssetImage(getSponsorImage(index + 1)),
             ),
           ),
         ),

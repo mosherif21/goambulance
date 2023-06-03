@@ -74,7 +74,7 @@ class EditUserDataController extends GetxController {
       verificationSent.value = true;
     } else {
       showSnackBar(
-          text: 'verifyEmailSendFailed'.tr, snackBarType: SnackBarType.success);
+          text: 'verifyEmailSendFailed'.tr, snackBarType: SnackBarType.error);
     }
   }
 

@@ -368,8 +368,15 @@ class Languages extends Translations {
           'criticalUserRequested': 'تم طلب مستخدم طوارئ',
           'criticalUserRequestSent': 'تم إرسال طلب مستخدم طوارئ بنجاح',
           'criticalUserRequestFailed': 'فشل إرسال طلب مستخدم طوارئ',
+          'linkEmailPassword': 'ربط البريد الإلكتروني وكلمة المرور',
+          'requireRecentLoginError': 'هذه العملية حساسة وتتطلب تسجيل دخول حديث',
+          'enterEmailPasswordDetails':
+              'الرجاء إدخال تفاصيل حساب البريد الإلكتروني وكلمة المرور',
         },
         'en_US': {
+          'requireRecentLoginError':
+              'This operation is sensitive and requires recent authentication',
+          'linkEmailPassword': 'Link email and password',
           'requestCritical': 'Critical user request',
           'criticalUserRequested': 'Critical user requested',
           'criticalUserDenied': 'Critical user denied',
@@ -588,6 +595,8 @@ class Languages extends Translations {
           'loadingCompleted': 'Loading completed',
           'fullName': 'Full Name',
           'enterSosMessage': 'Enter sos message',
+          'enterEmailPasswordDetails':
+              'Please enter email and password account details',
           'signOutFailed': 'Sign out failed, please try again',
           'nearHospitalsNotFound':
               'Sorry, we couldn\'t find any hospitals near the request location',

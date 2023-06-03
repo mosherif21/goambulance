@@ -314,14 +314,13 @@ class AuthenticationRepository extends GetxController {
       final credential =
           EmailAuthProvider.credential(email: email, password: password);
       await fireUser.value!.linkWithCredential(credential);
+      await fireUser.value!.updateEmail(email);
       return 'success';
     } on FirebaseAuthException catch (e) {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
-
       if (kDebugMode) {
-        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
+        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${e.toString()}');
       }
-
       return ex.errorMessage;
     } catch (e) {
       if (kDebugMode) {

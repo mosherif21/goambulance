@@ -10,6 +10,8 @@ class SignUpWithEmailAndPasswordFailure {
         return SignUpWithEmailAndPasswordFailure('enterStrongerPassword'.tr);
       case 'invalid-email':
         return SignUpWithEmailAndPasswordFailure('invalidEmailEntered'.tr);
+      case 'requires-recent-login':
+        return SignUpWithEmailAndPasswordFailure('requireRecentLoginError'.tr);
       case 'email-already-in-use':
         return SignUpWithEmailAndPasswordFailure('emailAlreadyExists'.tr);
       case 'operation-not-allowed':

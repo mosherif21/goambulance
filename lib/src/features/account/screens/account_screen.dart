@@ -14,6 +14,7 @@ import '../../authentication/components/resetPassword/email_reset_screen.dart';
 import '../components/addresses/addresses_page.dart';
 import '../components/edit_account/edit_medical_history_page.dart';
 import '../components/edit_account/edit_user_data_page.dart';
+import '../components/edit_account/link_email_password_page.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -85,7 +86,9 @@ class AccountScreen extends StatelessWidget {
                     () => authRepo.isEmailAndPasswordLinked.value
                         ? const SizedBox.shrink()
                         : RegularClickableCardNoP(
-                            onPressed: () {},
+                            onPressed: () => Get.to(
+                                () => const LinkEmailPasswordPage(),
+                                transition: getPageTransition()),
                             title: 'accountTitle5'.tr,
                             subTitle: '',
                             icon: Icons.arrow_forward_ios,
@@ -93,9 +96,8 @@ class AccountScreen extends StatelessWidget {
                           ),
                   ),
                   Obx(
-                    () => !authRepo.isEmailAndPasswordLinked.value
-                        ? const SizedBox.shrink()
-                        : RegularClickableCardNoP(
+                    () => authRepo.isEmailAndPasswordLinked.value
+                        ? RegularClickableCardNoP(
                             onPressed: () {
                               getToResetPasswordScreen();
                             },
@@ -103,7 +105,8 @@ class AccountScreen extends StatelessWidget {
                             subTitle: '',
                             icon: Icons.arrow_forward_ios,
                             iconColor: Colors.black45,
-                          ),
+                          )
+                        : const SizedBox.shrink(),
                   ),
                   Obx(
                     () => !(authRepo.criticalUserStatus.value ==

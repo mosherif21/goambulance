@@ -240,6 +240,7 @@ class RegisterUserDataController extends GetxController {
     final phone = user.phoneNumber!;
     final returnMessage =
         await authRep.updateUserEmailAuthentication(email: email);
+    await user.updateDisplayName(name);
     if (returnMessage != 'success') {
       hideLoadingScreen();
       showSnackBar(text: returnMessage, snackBarType: SnackBarType.error);

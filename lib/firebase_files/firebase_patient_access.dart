@@ -524,6 +524,7 @@ class FirebasePatientDataAccess extends GetxController {
         }
       }
       await firestoreUserRef.update(accountDetails.toJson());
+      await user.updateDisplayName(accountDetails.name);
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) {

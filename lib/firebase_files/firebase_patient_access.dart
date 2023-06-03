@@ -732,6 +732,7 @@ class FirebasePatientDataAccess extends GetxController {
   Future<RequestHistoryModel?> getRequestStatus(
       {required RequestHistoryModel requestModel}) async {
     try {
+      final initialRequestStatus = requestModel.requestStatus;
       if (requestModel.requestStatus == RequestStatus.pending ||
           requestModel.requestStatus == RequestStatus.accepted) {
         final snapshot = await fireStore
@@ -752,9 +753,12 @@ class FirebasePatientDataAccess extends GetxController {
               .doc(requestModel.requestId)
               .get();
           if (snapshot.exists) {
-            requestModel.requestStatus = RequestStatus.canceled;
-            requestModel.cancelReason = snapshot.data()!['cancelReason'];
-            return requestModel;
+            if (initialRequestStatus != RequestStatus.canceled) {
+              requestModel.requestStatus = RequestStatus.canceled;
+              requestModel.cancelReason =
+                  snapshot.data()!['cancelReason'].toString();
+              return requestModel;
+            }
           } else {
             requestModel.requestStatus = RequestStatus.assigned;
           }
@@ -768,6 +772,12 @@ class FirebasePatientDataAccess extends GetxController {
             .get();
         if (snapshot.exists) {
           final status = snapshot.data()!['status'].toString();
+          final snapData = snapshot.data()!;
+          requestModel.ambulanceDriverID =
+              snapData['ambulanceDriverID'].toString();
+          requestModel.ambulanceCarID = snapData['ambulanceCarID'].toString();
+          requestModel.ambulanceMedicID =
+              snapData['ambulanceMedicID'].toString();
           if (status == 'assigned') {
             requestModel.requestStatus = RequestStatus.assigned;
           } else {
@@ -781,7 +791,8 @@ class FirebasePatientDataAccess extends GetxController {
               .get();
           if (snapshot.exists) {
             requestModel.requestStatus = RequestStatus.canceled;
-            requestModel.cancelReason = snapshot.data()!['cancelReason'];
+            requestModel.cancelReason =
+                snapshot.data()!['cancelReason'].toString();
           } else {
             requestModel.requestStatus = RequestStatus.completed;
           }
@@ -823,27 +834,3 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 }
-//StreamSubscription? driverLocationStreamSubscription;
-// bool listenForDriverLocation = false;
-//
-// void driverLocationChanged() {
-//   driverLocationStreamSubscription = fireDatabase
-//       .ref('locations/drivers/f3MLM25HIGddzihhuAJUYMICQoS2')
-//       .onValue
-//       .listen((event) {
-//     if (event.snapshot.exists) {
-//       if (listenForDriverLocation) {
-//         final snapshot = event.snapshot;
-//         Map<dynamic, dynamic> locationDataMap =
-//             snapshot.value as Map<dynamic, dynamic>;
-//         final latitude =
-//             double.tryParse(locationDataMap['latitude'].toString());
-//         final longitude =
-//             double.tryParse(locationDataMap['longitude'].toString());
-//         if (latitude != null && longitude != null) {
-//           MapsController.instance.getRoute(LatLng(latitude, longitude));
-//         }
-//       }
-//     }
-//   });
-// }

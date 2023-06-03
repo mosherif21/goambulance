@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../constants/enums.dart';
+import '../../../account/components/models.dart';
 
 class StaticMarkerModel {
   final LatLng location;
@@ -32,6 +33,7 @@ class RequestHistoryModel {
   String? ambulanceCarID;
   String? ambulanceDriverID;
   String? ambulanceMedicID;
+  MedicalHistoryModel? medicalHistory;
 
   RequestHistoryModel({
     required this.requestId,

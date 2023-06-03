@@ -664,6 +664,10 @@ class AuthenticationRepository extends GetxController {
 
   Future<FunctionStatus> logoutAuthUser() async {
     try {
+      if (isUserRegistered) {
+        criticalRequestListener?.cancel();
+        criticalRequestDeniedListener?.cancel();
+      }
       await signOutGoogle();
       await _auth.signOut();
       isUserRegistered = false;
@@ -675,10 +679,6 @@ class AuthenticationRepository extends GetxController {
       isEmailVerified.value = false;
       verificationId = '';
       userType = UserType.patient;
-      if (isUserRegistered) {
-        criticalRequestListener?.cancel();
-        criticalRequestDeniedListener?.cancel();
-      }
       userInfo = UserInformation(
         name: '',
         email: '',

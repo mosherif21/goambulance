@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:location/location.dart';
@@ -14,6 +13,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../authentication/authentication_repository.dart';
+import '../../firebase_files/firebase_patient_access.dart';
 import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity.dart';
 import '../constants/assets_strings.dart';

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -10,15 +8,12 @@ import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
-// ignore: depend_on_referenced_packages
-import 'package:http/http.dart' as http;
 import 'package:line_icons/line_icon.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../../authentication/authentication_repository.dart';
 import '../../../constants/enums.dart';
-import '../../../constants/no_localization_strings.dart';
 import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
@@ -63,7 +58,7 @@ class HomeScreenController extends GetxController {
       });
       if (available) {
         await speechToText.listen(
-          listenMode: ListenMode.deviceDefault,
+          listenMode: ListenMode.dictation,
           localeId: Get.locale?.languageCode,
           listenFor: const Duration(seconds: 5),
           onResult: (listenedText) async {
@@ -71,71 +66,10 @@ class HomeScreenController extends GetxController {
               showSnackBar(
                   text: listenedText.recognizedWords,
                   snackBarType: SnackBarType.info);
-              classifyText(listenedText.recognizedWords).then((classification) {
-                if (kDebugMode) {
-                  AppInit.logger.i('Classification $classification');
-                }
-              });
             }
           },
         );
       }
-    }
-  }
-
-  Future<String> classifyText(String text) async {
-    const apiUrl =
-        'https://language.googleapis.com/v1/documents:classifyText?key=$googleNLPKey';
-
-    final requestBody = {
-      'document': {
-        'type': 'PLAIN_TEXT',
-        'content': text,
-      }
-    };
-
-    final response = await http.post(Uri.parse(apiUrl),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(requestBody));
-
-    if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
-      final categories = data['categories'];
-
-      if (categories.isNotEmpty) {
-        final topCategory = categories[0]['name'];
-        return topCategory;
-      }
-    } else {
-      return response.body;
-    }
-
-    return 'No category found';
-  }
-
-  Future<Map<String, dynamic>> analyzeSentiment(String text) async {
-    const apiUrl =
-        "https://language.googleapis.com/v1/documents:analyzeSentiment?key=$googleNLPKey";
-
-    final request = {
-      "document": {"type": "PLAIN_TEXT", "content": text},
-      "encodingType": "UTF8"
-    };
-
-    final response = await http.post(Uri.parse(apiUrl),
-        headers: {"Content-Type": "application/json"},
-        body: json.encode(request));
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(response.body);
-      if (data.containsKey("error")) {
-        throw data["error"]["message"];
-      }
-      final sentimentScore = data["documentSentiment"]["score"];
-      final sentimentMagnitude = data["documentSentiment"]["magnitude"];
-      return {"score": sentimentScore, "magnitude": sentimentMagnitude};
-    } else {
-      throw "Failed to analyze sentiment: ${response.reasonPhrase}";
     }
   }
 

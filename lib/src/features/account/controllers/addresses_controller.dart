@@ -177,7 +177,7 @@ class AddressesController extends GetxController {
 
   void updatePrimary({required AddressItem addressItem}) async {
     await firebasePatientDataAccess
-        .primarySetup(addressItem.addressId.toString());
+        .setPrimaryAddress(addressItem.addressId.toString());
     primaryAddressIndex.value = addressesList.indexOf(addressItem);
   }
 

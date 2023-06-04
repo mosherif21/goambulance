@@ -157,7 +157,7 @@ class FirebasePatientDataAccess extends GetxController {
     return addressesList;
   }
 
-  Future<List<AddressItem>> primarySetup(String addressDocId) async {
+  Future<List<AddressItem>> setPrimaryAddress(String addressDocId) async {
     final addressesList = <AddressItem>[];
     try {
       await firestoreUserRef.collection('addresses').get().then(

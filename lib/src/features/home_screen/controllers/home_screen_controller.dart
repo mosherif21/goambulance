@@ -9,6 +9,8 @@ import 'package:goambulance/src/features/notifications/screens/notifications_scr
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
 import 'package:line_icons/line_icon.dart';
+import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -30,10 +32,16 @@ class HomeScreenController extends GetxController {
 
   @override
   void onReady() async {
-    await handleLocation()
-        .whenComplete(() => handleSmsPermission())
-        .whenComplete(() => handleNotificationsPermission())
-        .whenComplete(() => handleSpeechPermission());
+    if (AuthenticationRepository.instance.criticalUserStatus.value ==
+        CriticalUserStatus.criticalUserAccepted) {
+    } else {
+      handleLocation()
+          .whenComplete(() => handleSmsPermission())
+          .whenComplete(() => handleNotificationsPermission())
+          .whenComplete(() => handleSpeechPermission())
+          .whenComplete(() => listenForSos());
+    }
+
     homeBottomNavController.addListener(() {
       if (homeBottomNavController.index == 1 &&
           Get.isRegistered<RequestsHistoryController>()) {
@@ -72,6 +80,20 @@ class HomeScreenController extends GetxController {
       }
     }
   }
+
+  void automatedSosRequest() async {
+    final locationPermissionGranted =
+        await Permission.location.status.isGranted;
+    final locationServiceEnabled = await Location().serviceEnabled();
+    if(locationPermissionGranted&&locationServiceEnabled){
+
+    }else{
+
+    }
+  }
+
+  void sosRequestPress() {}
+
 
   bool isDrawerOpen(DrawerState drawerState) =>
       drawerState == DrawerState.open ||

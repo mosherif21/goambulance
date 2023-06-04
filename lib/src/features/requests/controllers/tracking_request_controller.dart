@@ -31,7 +31,6 @@ import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
 import '../components/making_request/components/marker_window_info.dart';
 import '../components/requests_history/models.dart';
-import 'making_request_information_controller.dart';
 
 class TrackingRequestController extends GetxController {
   static TrackingRequestController get instance => Get.find();
@@ -167,8 +166,12 @@ class TrackingRequestController extends GetxController {
   void confirmRequest() async {
     if (selectedHospital.value != null) {
       showLoadingScreen();
-      final requestInfo =
-          MakingRequestInformationController.instance.getRequestInfo();
+      final requestInfo = RequestInfoModel(
+        isUser: initialRequestModel.isUser,
+        patientCondition: initialRequestModel.patientCondition,
+        backupNumber: initialRequestModel.backupNumber,
+        medicalHistory: initialRequestModel.medicalHistory,
+      );
       final pendingRequestRef = _firestore.collection('pendingRequests').doc();
       final requestData = RequestModel(
         userId: userId,

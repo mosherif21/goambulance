@@ -46,7 +46,7 @@ class TrackingRequestPage extends StatelessWidget {
             const SizedBox(height: 10),
             Obx(
               () => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: AutoSizeText(
                   trackingController.requestStatus.value ==
                           RequestStatus.pending

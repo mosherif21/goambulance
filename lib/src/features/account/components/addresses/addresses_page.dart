@@ -19,6 +19,7 @@ class AccountAddressesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     ConnectivityChecker.checkConnection(displayAlert: true);
     final controller = Get.put(AddressesController());
+
     return Scaffold(
       appBar: AppBar(
         leading: const RegularBackButton(padding: 0),

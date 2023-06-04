@@ -1,43 +1,259 @@
+// ignore_for_file: invalid_use_of_protected_member
+
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
+import 'package:goambulance/src/features/requests/controllers/tracking_request_controller.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
+import '../../../../../constants/assets_strings.dart';
+import '../../../../../constants/enums.dart';
+import '../../../../../general/app_init.dart';
 import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/common_widgets/regular_elevated_button.dart';
+import '../../../../../general/general_functions.dart';
+import '../../making_request/components/assigning_request.dart';
+import '../../making_request/components/choose_hospitals_widget.dart';
+import '../../making_request/components/my_location_button.dart';
+import '../../making_request/components/pending_request.dart';
+import '../../making_request/components/search_bar_map.dart';
 
 class TrackingRequestPage extends StatelessWidget {
   const TrackingRequestPage({Key? key, required this.requestModel})
       : super(key: key);
   final RequestHistoryModel requestModel;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: const RegularBackButton(padding: 0),
-        title: AutoSizeText(
-          'requestTracking'.tr,
-          maxLines: 1,
-        ),
-        titleTextStyle: const TextStyle(
-            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
-        elevation: 0,
-        backgroundColor: Colors.white,
+  Widget floatingPanel(
+      {required TrackingRequestController trackingController}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            blurRadius: 10,
+            color: Colors.grey.shade500,
+          ),
+        ],
       ),
-      backgroundColor: Colors.white,
-      body: const SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-          child: StretchingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 20),
-                ],
+      margin: const EdgeInsets.all(20),
+      child: Obx(
+        () => Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 10),
+            Obx(
+              () => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: AutoSizeText(
+                  trackingController.requestStatus.value ==
+                          RequestStatus.pending
+                      ? 'pendingRequest'.tr
+                      : trackingController.requestStatus.value ==
+                              RequestStatus.accepted
+                          ? 'acceptedRequest'.tr
+                          : trackingController.requestStatus.value ==
+                                  RequestStatus.assigned
+                              ? 'assignedRequest'.tr
+                              : trackingController.searchedHospitals.isEmpty
+                                  ? 'searchingForHospitals'.tr
+                                  : 'chooseRequestHospital'.tr,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w800,
+                  ),
+                  maxLines: 1,
+                ),
               ),
             ),
+            const SizedBox(height: 8),
+            const Divider(thickness: 0.5, height: 1),
+            Expanded(
+              child: trackingController.requestStatus.value == RequestStatus.non
+                  ? ChooseHospitalsList(
+                      controller: trackingController,
+                    )
+                  : trackingController.requestStatus.value ==
+                          RequestStatus.pending
+                      ? const PendingRequest()
+                      : trackingController.requestStatus.value ==
+                              RequestStatus.accepted
+                          ? const AcceptingRequest()
+                          : const SizedBox.shrink(),
+            ),
+            const Divider(thickness: 1, height: 2),
+            Padding(
+              padding: const EdgeInsets.all(18),
+              child: Obx(
+                () => RegularElevatedButton(
+                  buttonText: trackingController.requestStatus.value ==
+                          RequestStatus.non
+                      ? 'confirmRequest'.tr
+                      : 'cancelRequest'.tr,
+                  onPressed: trackingController.requestStatus.value ==
+                          RequestStatus.non
+                      ? trackingController.confirmRequest
+                      : trackingController.cancelRequest,
+                  enabled: trackingController.selectedHospital.value != null
+                      ? true
+                      : false,
+                  color: Colors.black,
+                  fontSize: 22,
+                  height: 50,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final trackingController =
+        Get.put(TrackingRequestController(initialRequestModel: requestModel));
+
+    final screenHeight = getScreenHeight(context);
+    return Scaffold(
+      body: WillPopScope(
+        onWillPop: trackingController.onWillPop,
+        child: SlidingUpPanel(
+          renderPanelSheet: false,
+          controller: trackingController.hospitalsPanelController,
+          panel: floatingPanel(trackingController: trackingController),
+          minHeight: 0,
+          maxHeight: screenHeight * 0.5,
+          isDraggable: false,
+          body: Stack(
+            children: [
+              Obx(
+                () => GoogleMap(
+                  compassEnabled: false,
+                  rotateGesturesEnabled: false,
+                  tiltGesturesEnabled: false,
+                  mapToolbarEnabled: false,
+                  myLocationEnabled: true,
+                  zoomControlsEnabled: false,
+                  myLocationButtonEnabled: false,
+                  padding: AppInit.isWeb
+                      ? EdgeInsets.zero
+                      : EdgeInsets.only(
+                          bottom: trackingController.choosingHospital.value
+                              ? screenHeight * 0.48
+                              : 70,
+                          left: 10,
+                          right: 10,
+                          top: screenHeight * 0.16,
+                        ),
+                  initialCameraPosition:
+                      trackingController.getInitialCameraPosition(),
+                  polylines: trackingController.mapPolyLines.value,
+                  markers: trackingController.mapMarkers.value,
+                  onMapCreated: (GoogleMapController controller) =>
+                      trackingController.mapControllerCompleter
+                          .complete(controller),
+                  onCameraMove: trackingController.onCameraMove,
+                  onCameraIdle: trackingController.onCameraIdle,
+                ),
+              ),
+              CustomInfoWindow(
+                controller: trackingController.requestLocationWindowController,
+                height: isLangEnglish() ? 50 : 56,
+                width: 150,
+                offset: 50,
+              ),
+              CustomInfoWindow(
+                controller: trackingController.hospitalWindowController,
+                height: isLangEnglish() ? 50 : 56,
+                width: 150,
+                offset: 50,
+              ),
+              CustomInfoWindow(
+                controller: trackingController.ambulanceWindowController,
+                height: isLangEnglish() ? 50 : 56,
+                width: 150,
+                offset: 50,
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Row(
+                      children: [
+                        CircleBackButton(
+                          padding: 0,
+                          onPress: trackingController.onBackPressed,
+                        ),
+                        const SizedBox(width: 10),
+                        Obx(
+                          () => trackingController.choosingHospital.value
+                              ? const SizedBox.shrink()
+                              : Expanded(
+                                  child: MakingRequestMapSearch(
+                                    locationController: trackingController,
+                                  ),
+                                ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Obx(
+                () => !trackingController.choosingHospital.value
+                    ? Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 10,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: RegularElevatedButton(
+                            buttonText: 'requestHere'.tr,
+                            onPressed: () =>
+                                trackingController.onRequestPress(),
+                            enabled: true,
+                            color: Colors.black,
+                            fontSize: 22,
+                            height: 60,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+              Obx(
+                () => Positioned(
+                  bottom: trackingController.choosingHospital.value
+                      ? screenHeight * 0.48
+                      : 70,
+                  left: isLangEnglish() ? null : 0,
+                  right: isLangEnglish() ? 0 : null,
+                  child: MyLocationButton(
+                    controller: trackingController,
+                  ),
+                ),
+              ),
+              Obx(
+                () => Center(
+                  child: Container(
+                    margin: EdgeInsets.only(
+                      left: trackingController.cameraMoved.value ? 10 : 0,
+                      right: trackingController.cameraMoved.value ? 10 : 0,
+                      bottom: trackingController.cameraMoved.value ? 16 : 73,
+                    ),
+                    height: trackingController.choosingHospital.value
+                        ? 0
+                        : screenHeight * 0.1,
+                    child: Image.asset(kLocationMarkerImg),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

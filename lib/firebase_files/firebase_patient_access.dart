@@ -769,6 +769,23 @@ class FirebasePatientDataAccess extends GetxController {
         if (snapshot.exists) {
           final status = snapshot.data()!['status'].toString();
           if (!requestModel.isUser) {
+            final diseasesRef = fireStore
+                .collection('pendingRequests')
+                .doc(requestModel.requestId)
+                .collection('diseases');
+            final diseasesList = <DiseaseItem>[];
+            await diseasesRef.get().then((diseasesSnapshot) {
+              for (var diseaseDoc in diseasesSnapshot.docs) {
+                final diseaseData = diseaseDoc.data();
+                diseasesList.add(
+                  DiseaseItem(
+                    diseaseName: diseaseData['diseaseName'].toString(),
+                    diseaseMedicines:
+                        diseaseData['diseaseMedicines'].toString(),
+                  ),
+                );
+              }
+            });
             final medicalHistory = MedicalHistoryModel(
               bloodType: snapshot.data()!['bloodType'].toString(),
               diabetic: snapshot.data()!['diabetic'].toString(),
@@ -776,8 +793,9 @@ class FirebasePatientDataAccess extends GetxController {
               heartPatient: snapshot.data()!['heartPatient'].toString(),
               additionalInformation:
                   snapshot.data()!['additionalInformation'].toString(),
-              diseasesList: [],
+              diseasesList: diseasesList,
             );
+            requestModel.medicalHistory = medicalHistory;
           }
           if (status == 'pending') {
             requestModel.requestStatus = RequestStatus.pending;
@@ -816,6 +834,35 @@ class FirebasePatientDataAccess extends GetxController {
           requestModel.ambulanceCarID = snapData['ambulanceCarID'].toString();
           requestModel.ambulanceMedicID =
               snapData['ambulanceMedicID'].toString();
+          if (!requestModel.isUser) {
+            final diseasesRef = fireStore
+                .collection('pendingRequests')
+                .doc(requestModel.requestId)
+                .collection('diseases');
+            final diseasesList = <DiseaseItem>[];
+            await diseasesRef.get().then((diseasesSnapshot) {
+              for (var diseaseDoc in diseasesSnapshot.docs) {
+                final diseaseData = diseaseDoc.data();
+                diseasesList.add(
+                  DiseaseItem(
+                    diseaseName: diseaseData['diseaseName'].toString(),
+                    diseaseMedicines:
+                        diseaseData['diseaseMedicines'].toString(),
+                  ),
+                );
+              }
+            });
+            final medicalHistory = MedicalHistoryModel(
+              bloodType: snapshot.data()!['bloodType'].toString(),
+              diabetic: snapshot.data()!['diabetic'].toString(),
+              hypertensive: snapshot.data()!['hypertensive'].toString(),
+              heartPatient: snapshot.data()!['heartPatient'].toString(),
+              additionalInformation:
+                  snapshot.data()!['additionalInformation'].toString(),
+              diseasesList: diseasesList,
+            );
+            requestModel.medicalHistory = medicalHistory;
+          }
           if (status == 'assigned') {
             requestModel.requestStatus = RequestStatus.assigned;
           } else {

@@ -4,14 +4,13 @@ import 'package:goambulance/src/features/requests/components/making_request/comp
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../general/general_functions.dart';
-import '../../../controllers/making_request_location_controller.dart';
 import 'hospital_choose_card.dart';
 import 'loading_hospitals_choose.dart';
 
 class ChooseHospitalsList extends StatelessWidget {
   const ChooseHospitalsList({Key? key, required this.controller})
       : super(key: key);
-  final MakingRequestLocationController controller;
+  final dynamic controller;
   @override
   Widget build(BuildContext context) {
     return Obx(

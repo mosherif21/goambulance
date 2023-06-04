@@ -4,7 +4,6 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/authentication/controllers/otp_verification_controller.dart';
 import 'package:goambulance/src/general/general_functions.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../general/app_init.dart';
@@ -53,7 +52,7 @@ class OTPVerificationScreen extends StatelessWidget {
                     isLangEnglish()
                         ? '$verificationType ${'verificationCode'.tr}'
                         : '${'verificationCode'.tr} $verificationType',
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       color: Colors.black,
                       fontSize: AppInit.notWebMobile ? 25 : 14,
                       fontWeight: FontWeight.w700,

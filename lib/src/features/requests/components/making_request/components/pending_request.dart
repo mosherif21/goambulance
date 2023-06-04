@@ -22,8 +22,11 @@ class PendingRequest extends StatelessWidget {
             const SizedBox(height: 10),
             Transform.scale(
               scale: 1.5,
-              child: Lottie.asset(kPendingRequestAnim,
-                  height: screenHeight * 0.2, frameRate: FrameRate.composition),
+              child: Lottie.asset(
+                kPendingRequestAnim,
+                height: screenHeight * 0.2,
+                filterQuality: FilterQuality.low,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(20),

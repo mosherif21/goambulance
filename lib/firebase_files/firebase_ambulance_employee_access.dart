@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +8,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
   static FirebaseAmbulanceEmployeeDataAccess get instance => Get.find();
   late final String? userId;
   late final FirebaseFirestore fireStore;
-  late final FirebaseDatabase fireDatabase;
+
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserRef;
   late final Reference userStorageReference;
@@ -17,7 +16,6 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
   void onInit() {
     userId = AuthenticationRepository.instance.fireUser.value?.uid;
     fireStore = FirebaseFirestore.instance;
-    fireDatabase = FirebaseDatabase.instance;
     fireStorage = FirebaseStorage.instance;
 
     firestoreUserRef = fireStore.collection('users').doc(userId!);

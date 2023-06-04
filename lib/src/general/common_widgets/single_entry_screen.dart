@@ -7,7 +7,6 @@ import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/general_functions.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:lottie/lottie.dart';
@@ -81,7 +80,7 @@ class SingleEntryScreen extends StatelessWidget {
                   ),
                   AutoSizeText(
                     title,
-                    style: GoogleFonts.montserrat(
+                    style: TextStyle(
                       color: Colors.black,
                       fontSize: AppInit.notWebMobile ? 25 : 14,
                       fontWeight: FontWeight.w700,

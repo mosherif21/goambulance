@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -25,7 +24,6 @@ class FirebasePatientDataAccess extends GetxController {
   late final String userId;
   late final User user;
   late final FirebaseFirestore fireStore;
-  late final FirebaseDatabase fireDatabase;
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserRef;
   late final Reference userStorageReference;
@@ -37,7 +35,6 @@ class FirebasePatientDataAccess extends GetxController {
     user = authRep.fireUser.value!;
     userId = user.uid;
     fireStore = FirebaseFirestore.instance;
-    fireDatabase = FirebaseDatabase.instance;
     fireStorage = FirebaseStorage.instance;
     firestoreUserRef = fireStore.collection('users').doc(userId);
     userStorageReference = fireStorage.ref().child('users').child(userId);

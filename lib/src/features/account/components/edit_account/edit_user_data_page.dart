@@ -127,9 +127,11 @@ class EditUserDataPage extends StatelessWidget {
                                   )),
                             ],
                           ),
+                          const SizedBox(height: 10),
                           Obx(() => !controller.authRep.isEmailVerified.value
                               ? Padding(
-                                  padding: const EdgeInsets.all(15.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
                                   child: RoundedElevatedButton(
                                     buttonText:
                                         controller.verificationSent.value

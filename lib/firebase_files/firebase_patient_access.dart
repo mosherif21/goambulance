@@ -160,6 +160,33 @@ class FirebasePatientDataAccess extends GetxController {
     return addressesList;
   }
 
+  Future<List<AddressItem>> primarySetup(String addressDocId) async {
+    final addressesList = <AddressItem>[];
+    try {
+      await firestoreUserRef.collection('addresses').get().then(
+        (addressesSnapshot) {
+          for (var address in addressesSnapshot.docs) {
+            if (address.id != addressDocId) {
+              firestoreUserRef
+                  .collection('addresses')
+                  .doc(address.id)
+                  .update({'isPrimary': 'No'});
+            }
+          }
+        },
+      );
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return addressesList;
+  }
+
   Future<ContactItem?> addEmergencyContact({
     required String contactName,
     required String contactNumber,

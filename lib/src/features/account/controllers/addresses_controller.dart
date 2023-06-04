@@ -167,6 +167,7 @@ class AddressesController extends GetxController {
         .collection('addresses')
         .doc(addressItem.addressId);
     addressDocumentId.update({'isPrimary': 'yes'});
+    firebasePatientDataAccess.primarySetup(addressItem.addressId.toString());
     hideLoadingScreen();
   }
 

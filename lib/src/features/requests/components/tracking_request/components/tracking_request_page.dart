@@ -94,7 +94,7 @@ class TrackingRequestPage extends StatelessWidget {
                       : 'cancelRequest'.tr,
                   onPressed: trackingController.requestStatus.value ==
                           RequestStatus.non
-                      ? trackingController.confirmRequest
+                      ? trackingController.confirmRequestPress
                       : trackingController.cancelRequest,
                   enabled: trackingController.selectedHospital.value != null
                       ? true

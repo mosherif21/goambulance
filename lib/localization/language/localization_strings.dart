@@ -381,6 +381,8 @@ class Languages extends Translations {
           'speechPermissionDeniedForever':
               'تم رفض إذن الكلام إلى الأبد ، يرجى تمكينه من الإعدادات',
           'speechPermission': 'إذن الكلام',
+          'previousRequestDataNotice':
+              'يرجى ملاحظة أنه سيتم إرسال الطلب مع معلومات الطلب الأخير',
         },
         'en_US': {
           'requireRecentLoginError':
@@ -698,6 +700,8 @@ class Languages extends Translations {
               'Your information will be shared with the hospital in case you request an ambulance',
           'cancelRequestConfirm':
               'Are you sure you want to cancel your ambulance request?',
+          'previousRequestDataNotice':
+              'Please notice that the request will be sent with the last request info',
           'additionalInformation': 'Additional information',
           'enterAdditionalInformation': 'Enter any additional information',
           'enterBackupPhoneNo': 'Enter a backup phone number',

@@ -23,6 +23,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
+import 'package:line_icons/line_icons.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
@@ -162,6 +163,22 @@ class TrackingRequestController extends GetxController {
   }
 
   void assignedRequestChanges() {}
+
+  void confirmRequestPress() {
+    displayAlertDialog(
+      title: 'confirm'.tr,
+      body: 'previousRequestDataNotice'.tr,
+      positiveButtonText: 'confirm'.tr,
+      negativeButtonText: 'cancel'.tr,
+      positiveButtonOnPressed: () {
+        Get.back();
+        confirmRequest();
+      },
+      negativeButtonOnPressed: () => Get.back(),
+      mainIcon: LineIcons.checkCircleAlt,
+      color: SweetSheetColor.NICE,
+    );
+  }
 
   void confirmRequest() async {
     if (selectedHospital.value != null) {

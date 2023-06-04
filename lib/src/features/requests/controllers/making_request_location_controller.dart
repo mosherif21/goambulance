@@ -301,7 +301,7 @@ class MakingRequestLocationController extends GetxController {
     );
     mapMarkers.add(requestLocationMarker!);
     if (requestLocationWindowController.addInfoWindow != null) {
-      await requestLocationWindowController.addInfoWindow!(
+      requestLocationWindowController.addInfoWindow!(
         MarkerWindowInfo(
           time: routeToDestinationTime,
           title: 'requestLocation'.tr,
@@ -464,7 +464,7 @@ class MakingRequestLocationController extends GetxController {
               selectedHospital.value!.location
             ]));
             if (hospitalWindowController.addInfoWindow != null) {
-              await hospitalWindowController.addInfoWindow!(
+              hospitalWindowController.addInfoWindow!(
                 MarkerWindowInfo(
                   time: routeToDestinationTime,
                   title: selectedHospital.value!.name,
@@ -479,7 +479,14 @@ class MakingRequestLocationController extends GetxController {
               fromLocation: currentChosenLatLng,
               toLocation: selectedHospital.value!.location,
               routeId: 'routeToHospital',
-            );
+            ).then((routePolyLine) {
+              if (routePolyLine != null) {
+                mapPolyLines.add(routePolyLine);
+                animateToLatLngBounds(
+                    latLngBounds:
+                        getLatLngBounds(latLngList: routePolyLine.points));
+              }
+            });
           }
         }
         skipCount += hospitalsDocuments.length;
@@ -539,7 +546,7 @@ class MakingRequestLocationController extends GetxController {
         latLngBounds: getLatLngBounds(
             latLngList: [currentChosenLatLng, hospitalItem.location]));
     if (hospitalWindowController.addInfoWindow != null) {
-      await hospitalWindowController.addInfoWindow!(
+      hospitalWindowController.addInfoWindow!(
         MarkerWindowInfo(
           time: routeToDestinationTime,
           title: hospitalItem.name,
@@ -554,10 +561,16 @@ class MakingRequestLocationController extends GetxController {
       fromLocation: currentChosenLatLng,
       toLocation: hospitalItem.location,
       routeId: 'routeToHospital',
-    );
+    ).then((routePolyLine) {
+      if (routePolyLine != null) {
+        mapPolyLines.add(routePolyLine);
+        animateToLatLngBounds(
+            latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
+      }
+    });
   }
 
-  Future<void> getRouteToLocation(
+  Future<Polyline?> getRouteToLocation(
       {required LatLng fromLocation,
       required LatLng toLocation,
       required String routeId}) async {
@@ -602,9 +615,7 @@ class MakingRequestLocationController extends GetxController {
             jointType: JointType.round,
             geodesic: true,
           );
-          animateToLatLngBounds(
-              latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
-          mapPolyLines.add(routePolyLine);
+          return routePolyLine;
         }
       } else {
         if (kDebugMode) {
@@ -614,6 +625,7 @@ class MakingRequestLocationController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
+    return null;
   }
 
   LatLngBounds getLatLngBounds({required List<LatLng> latLngList}) {

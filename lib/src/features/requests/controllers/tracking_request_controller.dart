@@ -244,8 +244,8 @@ class TrackingRequestController extends GetxController {
     );
   }
 
-  void initMapController() async {
-    await mapControllerCompleter.future.then((controller) {
+  void initMapController() {
+    mapControllerCompleter.future.then((controller) {
       googleMapController = controller;
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
@@ -255,8 +255,7 @@ class TrackingRequestController extends GetxController {
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
-      initialRequestChanges();
-    });
+    }).whenComplete(() => initialRequestChanges());
   }
 
   void onRefresh() async {
@@ -310,7 +309,7 @@ class TrackingRequestController extends GetxController {
     );
     mapMarkers.add(requestLocationMarker!);
     if (requestLocationWindowController.addInfoWindow != null) {
-      await requestLocationWindowController.addInfoWindow!(
+      requestLocationWindowController.addInfoWindow!(
         MarkerWindowInfo(
           time: routeToDestinationTime,
           title: 'requestLocation'.tr,
@@ -328,6 +327,14 @@ class TrackingRequestController extends GetxController {
   void initialRequestChanges() async {
     choosingHospital.value = true;
     hospitalsPanelController.open();
+    currentChosenLatLng = initialRequestModel.requestLocation;
+    requestStatus.value = initialRequestModel.requestStatus;
+    selectedHospital.value = HospitalModel(
+      hospitalId: initialRequestModel.hospitalId,
+      name: initialRequestModel.hospitalName,
+      avgPrice: '',
+      location: initialRequestModel.hospitalLocation,
+    );
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
       requestLocationMarker = Marker(
@@ -338,7 +345,7 @@ class TrackingRequestController extends GetxController {
       );
       mapMarkers.add(requestLocationMarker!);
       if (requestLocationWindowController.addInfoWindow != null) {
-        await requestLocationWindowController.addInfoWindow!(
+        requestLocationWindowController.addInfoWindow!(
           MarkerWindowInfo(
             time: routeToDestinationTime,
             title: 'requestLocation'.tr,
@@ -357,13 +364,9 @@ class TrackingRequestController extends GetxController {
         consumeTapEvents: true,
       );
       mapMarkers.add(hospitalMarker!);
-      animateToLatLngBounds(
-          latLngBounds: getLatLngBounds(latLngList: [
-        initialRequestModel.requestLocation,
-        initialRequestModel.hospitalLocation
-      ]));
+
       if (hospitalWindowController.addInfoWindow != null) {
-        await hospitalWindowController.addInfoWindow!(
+        hospitalWindowController.addInfoWindow!(
           MarkerWindowInfo(
             time: routeToDestinationTime,
             title: initialRequestModel.hospitalName,
@@ -374,11 +377,18 @@ class TrackingRequestController extends GetxController {
           initialRequestModel.hospitalLocation,
         );
       }
+
       getRouteToLocation(
         fromLocation: initialRequestModel.requestLocation,
         toLocation: initialRequestModel.hospitalLocation,
         routeId: 'routeToHospital',
-      );
+      ).then((routePolyLine) {
+        if (routePolyLine != null) {
+          mapPolyLines.add(routePolyLine);
+          animateToLatLngBounds(
+              latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
+        }
+      });
       final pendingRequestRef = _firestore
           .collection('pendingRequests')
           .doc(initialRequestModel.requestId);
@@ -404,7 +414,6 @@ class TrackingRequestController extends GetxController {
         hospitalName: initialRequestModel.hospitalName,
       );
       currentRequestData = requestData;
-      requestStatus.value = initialRequestModel.requestStatus;
       initRequestListener(pendingRequestRef: pendingRequestRef);
     } else if (initialRequestModel.requestStatus == RequestStatus.assigned ||
         initialRequestModel.requestStatus == RequestStatus.ongoing) {}
@@ -547,7 +556,7 @@ class TrackingRequestController extends GetxController {
               selectedHospital.value!.location
             ]));
             if (hospitalWindowController.addInfoWindow != null) {
-              await hospitalWindowController.addInfoWindow!(
+              hospitalWindowController.addInfoWindow!(
                 MarkerWindowInfo(
                   time: routeToDestinationTime,
                   title: selectedHospital.value!.name,
@@ -562,7 +571,14 @@ class TrackingRequestController extends GetxController {
               fromLocation: currentChosenLatLng,
               toLocation: selectedHospital.value!.location,
               routeId: 'routeToHospital',
-            );
+            ).then((routePolyLine) {
+              if (routePolyLine != null) {
+                mapPolyLines.add(routePolyLine);
+                animateToLatLngBounds(
+                    latLngBounds:
+                        getLatLngBounds(latLngList: routePolyLine.points));
+              }
+            });
           }
         }
         skipCount += hospitalsDocuments.length;
@@ -622,7 +638,7 @@ class TrackingRequestController extends GetxController {
         latLngBounds: getLatLngBounds(
             latLngList: [currentChosenLatLng, hospitalItem.location]));
     if (hospitalWindowController.addInfoWindow != null) {
-      await hospitalWindowController.addInfoWindow!(
+      hospitalWindowController.addInfoWindow!(
         MarkerWindowInfo(
           time: routeToDestinationTime,
           title: hospitalItem.name,
@@ -637,10 +653,16 @@ class TrackingRequestController extends GetxController {
       fromLocation: currentChosenLatLng,
       toLocation: hospitalItem.location,
       routeId: 'routeToHospital',
-    );
+    ).then((routePolyLine) {
+      if (routePolyLine != null) {
+        mapPolyLines.add(routePolyLine);
+        animateToLatLngBounds(
+            latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
+      }
+    });
   }
 
-  Future<void> getRouteToLocation(
+  Future<Polyline?> getRouteToLocation(
       {required LatLng fromLocation,
       required LatLng toLocation,
       required String routeId}) async {
@@ -685,9 +707,7 @@ class TrackingRequestController extends GetxController {
             jointType: JointType.round,
             geodesic: true,
           );
-          animateToLatLngBounds(
-              latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
-          mapPolyLines.add(routePolyLine);
+          return routePolyLine;
         }
       } else {
         if (kDebugMode) {
@@ -697,6 +717,7 @@ class TrackingRequestController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
+    return null;
   }
 
   LatLngBounds getLatLngBounds({required List<LatLng> latLngList}) {

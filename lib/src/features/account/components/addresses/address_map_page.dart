@@ -93,31 +93,24 @@ class AddressMapPage extends StatelessWidget {
             bottom: 70,
             left: isLangEnglish() ? null : 0,
             right: isLangEnglish() ? 0 : null,
-            child: Obx(
-              () => AnimatedOpacity(
-                opacity:
-                    addressLocationController.locationAvailable.value ? 1 : 0,
-                duration: const Duration(milliseconds: 400),
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Material(
-                    elevation: 5,
-                    shape: const CircleBorder(),
-                    color: Colors.white,
-                    child: InkWell(
-                      customBorder: const CircleBorder(),
-                      splashFactory: InkSparkle.splashFactory,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: SvgPicture.asset(
-                          kMyLocation,
-                          height: 30,
-                        ),
-                      ),
-                      onTap: () =>
-                          addressLocationController.onLocationButtonPress(),
+            child: Padding(
+              padding: const EdgeInsets.all(15),
+              child: Material(
+                elevation: 5,
+                shape: const CircleBorder(),
+                color: Colors.white,
+                child: InkWell(
+                  customBorder: const CircleBorder(),
+                  splashFactory: InkSparkle.splashFactory,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SvgPicture.asset(
+                      kMyLocation,
+                      height: 30,
                     ),
                   ),
+                  onTap: () =>
+                      addressLocationController.onLocationButtonPress(),
                 ),
               ),
             ),

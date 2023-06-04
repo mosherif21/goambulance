@@ -4,6 +4,8 @@
 const String kSAFlagImage = "assets/gifs/saudia_arabia_flag.gif";
 const String kUkFlagImage = "assets/gifs/uk_flag.gif";
 const String kNotAvailableErrorAnim = "assets/images/error_beach.gif";
+const String kLoadingHospitalGIF = "assets/gifs/loading_hospital.gif";
+const String kAmbulanceGIF = "assets/gifs/ambulance.gif";
 
 //--Images Assets
 const String kLogoImage = "assets/images/logo.png";

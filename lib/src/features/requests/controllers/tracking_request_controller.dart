@@ -67,7 +67,6 @@ class TrackingRequestController extends GetxController {
   final mapControllerCompleter = Completer<GoogleMapController>();
   late final GoogleMapController googleMapController;
   bool googleMapControllerInit = false;
-  final mapEnabled = false.obs;
   bool allowedLocation = false;
   final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
@@ -118,11 +117,11 @@ class TrackingRequestController extends GetxController {
 
   @override
   void onReady() async {
+    initMapController();
     await locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
-    initMapController();
     super.onReady();
   }
 
@@ -384,9 +383,12 @@ class TrackingRequestController extends GetxController {
         routeId: 'routeToHospital',
       ).then((routePolyLine) {
         if (routePolyLine != null) {
-          mapPolyLines.add(routePolyLine);
-          animateToLatLngBounds(
-              latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
+          Future.delayed(const Duration(milliseconds: 50)).whenComplete(() {
+            mapPolyLines.add(routePolyLine);
+            animateToLatLngBounds(
+                latLngBounds:
+                    getLatLngBounds(latLngList: routePolyLine.points));
+          });
         }
       });
       final pendingRequestRef = _firestore
@@ -765,7 +767,7 @@ class TrackingRequestController extends GetxController {
       if (predictions != null && predictions.description != null) {
         searchedLocation =
             await getLocationFromAddress(address: predictions.description!);
-        enableMap();
+
         animateToLocation(locationLatLng: searchedLocation);
       }
     } catch (err) {
@@ -853,8 +855,6 @@ class TrackingRequestController extends GetxController {
     }
   }
 
-  void enableMap() => mapEnabled.value = true;
-
   void onLocationButtonPress() {
     if (mapPolyLines.isNotEmpty) {
       animateToLatLngBounds(
@@ -867,38 +867,32 @@ class TrackingRequestController extends GetxController {
   }
 
   void animateToLocation({required LatLng locationLatLng}) {
-    if (mapEnabled.value) {
-      if (googleMapControllerInit) {
-        animateCamera(locationLatLng: locationLatLng);
-      }
+    if (googleMapControllerInit) {
+      animateCamera(locationLatLng: locationLatLng);
     }
   }
 
   void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
-    if (mapEnabled.value) {
-      if (googleMapControllerInit) {
-        googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 65));
-      }
+    if (googleMapControllerInit) {
+      googleMapController
+          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 65));
     }
   }
 
   void onCameraIdle() async {
     if (!choosingHospital.value) {
-      if (mapEnabled.value) {
-        if (googleMapControllerInit) {
-          searchedText.value = 'loading'.tr;
-          String address = '';
-          if (!cameraMoved.value) {
-            currentCameraLatLng = LatLng(
-                initialCameraLatLng.latitude, initialCameraLatLng.longitude);
-          }
-          address = await getAddressFromLocation(latLng: currentCameraLatLng);
-          if (address.isNotEmpty) {
-            searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
-          } else {
-            searchedText.value = 'addressNotFound'.tr;
-          }
+      if (googleMapControllerInit) {
+        searchedText.value = 'loading'.tr;
+        String address = '';
+        if (!cameraMoved.value) {
+          currentCameraLatLng = LatLng(
+              initialCameraLatLng.latitude, initialCameraLatLng.longitude);
+        }
+        address = await getAddressFromLocation(latLng: currentCameraLatLng);
+        if (address.isNotEmpty) {
+          searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
+        } else {
+          searchedText.value = 'addressNotFound'.tr;
         }
       }
     }
@@ -936,7 +930,7 @@ class TrackingRequestController extends GetxController {
           .then((locationPosition) {
         currentLocation = locationPosition;
         locationAvailable.value = true;
-        enableMap();
+
         if (kDebugMode) {
           print(
               'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');

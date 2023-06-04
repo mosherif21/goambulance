@@ -108,12 +108,12 @@ class MakingRequestLocationController extends GetxController {
     _firestore = FirebaseFirestore.instance;
     userId = AuthenticationRepository.instance.fireUser.value!.uid;
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
+    initMapController();
     await locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
     await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
-    initMapController();
     await _loadMarkersIcon();
     super.onReady();
   }

@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/general_functions.dart';
 
 class AcceptingRequest extends StatelessWidget {
@@ -18,10 +17,6 @@ class AcceptingRequest extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Image.asset(
-              kAmbulanceGIF,
-              height: screenHeight * 0.2,
-            ),
             Padding(
               padding: const EdgeInsets.all(20),
               child: AutoSizeText(

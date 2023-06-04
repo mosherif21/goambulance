@@ -768,6 +768,17 @@ class FirebasePatientDataAccess extends GetxController {
             .get();
         if (snapshot.exists) {
           final status = snapshot.data()!['status'].toString();
+          if (!requestModel.isUser) {
+            final medicalHistory = MedicalHistoryModel(
+              bloodType: snapshot.data()!['bloodType'].toString(),
+              diabetic: snapshot.data()!['diabetic'].toString(),
+              hypertensive: snapshot.data()!['hypertensive'].toString(),
+              heartPatient: snapshot.data()!['heartPatient'].toString(),
+              additionalInformation:
+                  snapshot.data()!['additionalInformation'].toString(),
+              diseasesList: [],
+            );
+          }
           if (status == 'pending') {
             requestModel.requestStatus = RequestStatus.pending;
           } else {

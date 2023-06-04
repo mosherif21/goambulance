@@ -24,10 +24,8 @@ class HomeDashBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //var current = 0;
     final homeScreenController = HomeScreenController.instance;
     final controller = PageController(viewportFraction: 0.8, keepPage: true);
-    // final controller2 = PageController(viewportFraction: 0.9, keepPage: true);
     final sponsorPages = List.generate(
       5,
       (index) => Container(
@@ -46,6 +44,7 @@ class HomeDashBoard extends StatelessWidget {
                   fit: BoxFit.fill,
                 )),
             openBuilder: (context, action) => PhotoView(
+              minScale: PhotoViewComputedScale.contained,
               imageProvider: AssetImage(getSponsorImage(index + 1)),
             ),
           ),

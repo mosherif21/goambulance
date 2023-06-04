@@ -57,7 +57,7 @@ class TrackingRequestController extends GetxController {
   //maps vars
   final mapPolyLines = <Polyline>{}.obs;
   final mapMarkers = <Marker>{}.obs;
-  final routeToDestinationTime = RxnInt();
+  int routeToDestinationTime = 0;
   Marker? requestLocationMarker;
   Marker? ambulanceMarker;
   Marker? hospitalMarker;
@@ -307,17 +307,7 @@ class TrackingRequestController extends GetxController {
       consumeTapEvents: true,
     );
     mapMarkers.add(requestLocationMarker!);
-    if (requestLocationWindowController.addInfoWindow != null) {
-      requestLocationWindowController.addInfoWindow!(
-        MarkerWindowInfo(
-          time: routeToDestinationTime,
-          title: 'requestLocation'.tr,
-          windowType: MarkerWindowType.requestLocation,
-          onTap: () => animateToLocation(locationLatLng: currentChosenLatLng),
-        ),
-        currentChosenLatLng,
-      );
-    }
+
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
     loadHospitals();
@@ -343,19 +333,6 @@ class TrackingRequestController extends GetxController {
         consumeTapEvents: true,
       );
       mapMarkers.add(requestLocationMarker!);
-      if (requestLocationWindowController.addInfoWindow != null) {
-        requestLocationWindowController.addInfoWindow!(
-          MarkerWindowInfo(
-            time: routeToDestinationTime,
-            title: 'requestLocation'.tr,
-            windowType: MarkerWindowType.requestLocation,
-            onTap: () => animateToLocation(
-              locationLatLng: initialRequestModel.requestLocation,
-            ),
-          ),
-          initialRequestModel.requestLocation,
-        );
-      }
       hospitalMarker = Marker(
         markerId: const MarkerId('hospital'),
         position: initialRequestModel.hospitalLocation,
@@ -364,25 +341,36 @@ class TrackingRequestController extends GetxController {
       );
       mapMarkers.add(hospitalMarker!);
 
-      if (hospitalWindowController.addInfoWindow != null) {
-        hospitalWindowController.addInfoWindow!(
-          MarkerWindowInfo(
-            time: routeToDestinationTime,
-            title: initialRequestModel.hospitalName,
-            windowType: MarkerWindowType.hospitalLocation,
-            onTap: () => animateToLocation(
-                locationLatLng: initialRequestModel.hospitalLocation),
-          ),
-          initialRequestModel.hospitalLocation,
-        );
-      }
-
       getRouteToLocation(
         fromLocation: initialRequestModel.requestLocation,
         toLocation: initialRequestModel.hospitalLocation,
         routeId: 'routeToHospital',
       ).then((routePolyLine) {
         if (routePolyLine != null) {
+          if (requestLocationWindowController.addInfoWindow != null) {
+            requestLocationWindowController.addInfoWindow!(
+              MarkerWindowInfo(
+                time: routeToDestinationTime,
+                title: 'requestLocation'.tr,
+                windowType: MarkerWindowType.requestLocation,
+                onTap: () =>
+                    animateToLocation(locationLatLng: currentChosenLatLng),
+              ),
+              currentChosenLatLng,
+            );
+          }
+          if (hospitalWindowController.addInfoWindow != null) {
+            hospitalWindowController.addInfoWindow!(
+              MarkerWindowInfo(
+                time: routeToDestinationTime,
+                title: initialRequestModel.hospitalName,
+                windowType: MarkerWindowType.hospitalLocation,
+                onTap: () => animateToLocation(
+                    locationLatLng: initialRequestModel.hospitalLocation),
+              ),
+              initialRequestModel.hospitalLocation,
+            );
+          }
           Future.delayed(const Duration(milliseconds: 50)).whenComplete(() {
             mapPolyLines.add(routePolyLine);
             animateToLatLngBounds(
@@ -422,8 +410,10 @@ class TrackingRequestController extends GetxController {
   }
 
   void clearHospitalRoute() {
-    routeToDestinationTime.value = null;
     mapPolyLines.clear();
+    if (requestLocationWindowController.hideInfoWindow != null) {
+      requestLocationWindowController.hideInfoWindow!();
+    }
     if (hospitalWindowController.hideInfoWindow != null) {
       hospitalWindowController.hideInfoWindow!();
     }
@@ -557,24 +547,37 @@ class TrackingRequestController extends GetxController {
               currentChosenLatLng,
               selectedHospital.value!.location
             ]));
-            if (hospitalWindowController.addInfoWindow != null) {
-              hospitalWindowController.addInfoWindow!(
-                MarkerWindowInfo(
-                  time: routeToDestinationTime,
-                  title: selectedHospital.value!.name,
-                  windowType: MarkerWindowType.hospitalLocation,
-                  onTap: () => animateToLocation(
-                      locationLatLng: selectedHospital.value!.location),
-                ),
-                selectedHospital.value!.location,
-              );
-            }
+
             getRouteToLocation(
               fromLocation: currentChosenLatLng,
               toLocation: selectedHospital.value!.location,
               routeId: 'routeToHospital',
             ).then((routePolyLine) {
               if (routePolyLine != null) {
+                if (requestLocationWindowController.addInfoWindow != null) {
+                  requestLocationWindowController.addInfoWindow!(
+                    MarkerWindowInfo(
+                      time: routeToDestinationTime,
+                      title: 'requestLocation'.tr,
+                      windowType: MarkerWindowType.requestLocation,
+                      onTap: () => animateToLocation(
+                          locationLatLng: currentChosenLatLng),
+                    ),
+                    currentChosenLatLng,
+                  );
+                }
+                if (hospitalWindowController.addInfoWindow != null) {
+                  hospitalWindowController.addInfoWindow!(
+                    MarkerWindowInfo(
+                      time: routeToDestinationTime,
+                      title: selectedHospital.value!.name,
+                      windowType: MarkerWindowType.hospitalLocation,
+                      onTap: () => animateToLocation(
+                          locationLatLng: selectedHospital.value!.location),
+                    ),
+                    selectedHospital.value!.location,
+                  );
+                }
                 mapPolyLines.add(routePolyLine);
                 animateToLatLngBounds(
                     latLngBounds:
@@ -639,17 +642,6 @@ class TrackingRequestController extends GetxController {
     animateToLatLngBounds(
         latLngBounds: getLatLngBounds(
             latLngList: [currentChosenLatLng, hospitalItem.location]));
-    if (hospitalWindowController.addInfoWindow != null) {
-      hospitalWindowController.addInfoWindow!(
-        MarkerWindowInfo(
-          time: routeToDestinationTime,
-          title: hospitalItem.name,
-          windowType: MarkerWindowType.hospitalLocation,
-          onTap: () => animateToLocation(locationLatLng: hospitalItem.location),
-        ),
-        hospitalItem.location,
-      );
-    }
     selectedHospital.value = hospitalItem;
     getRouteToLocation(
       fromLocation: currentChosenLatLng,
@@ -657,6 +649,30 @@ class TrackingRequestController extends GetxController {
       routeId: 'routeToHospital',
     ).then((routePolyLine) {
       if (routePolyLine != null) {
+        if (requestLocationWindowController.addInfoWindow != null) {
+          requestLocationWindowController.addInfoWindow!(
+            MarkerWindowInfo(
+              time: routeToDestinationTime,
+              title: 'requestLocation'.tr,
+              windowType: MarkerWindowType.requestLocation,
+              onTap: () =>
+                  animateToLocation(locationLatLng: currentChosenLatLng),
+            ),
+            currentChosenLatLng,
+          );
+        }
+        if (hospitalWindowController.addInfoWindow != null) {
+          hospitalWindowController.addInfoWindow!(
+            MarkerWindowInfo(
+              time: routeToDestinationTime,
+              title: hospitalItem.name,
+              windowType: MarkerWindowType.hospitalLocation,
+              onTap: () =>
+                  animateToLocation(locationLatLng: hospitalItem.location),
+            ),
+            hospitalItem.location,
+          );
+        }
         mapPolyLines.add(routePolyLine);
         animateToLatLngBounds(
             latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
@@ -690,7 +706,7 @@ class TrackingRequestController extends GetxController {
           final route = result.routes.first;
           final leg = route.legs.first;
           final duration = leg.duration;
-          routeToDestinationTime.value = duration.value.seconds.inMinutes;
+          routeToDestinationTime = duration.value.seconds.inMinutes;
           final polyline = route.overviewPolyline.points;
           final polylinePoints = PolylinePoints();
           final points = polylinePoints.decodePolyline(polyline);

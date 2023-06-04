@@ -13,7 +13,7 @@ class MarkerWindowInfo extends StatelessWidget {
     required this.windowType,
     required this.onTap,
   }) : super(key: key);
-  final RxnInt time;
+  final int time;
   final String title;
   final MarkerWindowType windowType;
   final Function onTap;
@@ -30,47 +30,39 @@ class MarkerWindowInfo extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          child: Obx(
-            () => Column(
-              crossAxisAlignment: time.value != null
-                  ? CrossAxisAlignment.start
-                  : CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Obx(
-                  () => time.value != null &&
-                          windowType != MarkerWindowType.ambulanceLocation
-                      ? AutoSizeText(
-                          windowType == MarkerWindowType.requestLocation
-                              ? 'pickupIn'.trParams({
-                                  'routeTime':
-                                      '${time.value!.toString()} ${getMinutesString(time.value!)}',
-                                })
-                              : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time.value! * 2)}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 5,
-                            color: Colors.grey,
-                          ),
-                          maxLines: 1,
-                        )
-                      : const SizedBox.shrink(),
-                ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (windowType != MarkerWindowType.ambulanceLocation)
                 AutoSizeText(
-                  title,
-                  minFontSize: 14,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15,
-                    color: windowType == MarkerWindowType.requestLocation
-                        ? Colors.black
-                        : Colors.white,
-                    overflow: TextOverflow.ellipsis,
+                  windowType == MarkerWindowType.requestLocation
+                      ? 'pickupIn'.trParams({
+                          'routeTime':
+                              '${time.toString()} ${getMinutesString(time)}',
+                        })
+                      : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time * 2)}',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 5,
+                    color: Colors.grey,
                   ),
                   maxLines: 1,
                 ),
-              ],
-            ),
+              AutoSizeText(
+                title,
+                minFontSize: 14,
+                style: TextStyle(
+                  fontWeight: FontWeight.w800,
+                  fontSize: 15,
+                  color: windowType == MarkerWindowType.requestLocation
+                      ? Colors.black
+                      : Colors.white,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                maxLines: 1,
+              ),
+            ],
           ),
         ),
         onTap: () => onTap(),

@@ -51,11 +51,18 @@ class AccountAddressesPage extends StatelessWidget {
                                   children: [
                                     for (var addressItem
                                         in controller.addressesList)
-                                      LoadAddressItem(
+                                      Obx(
+                                        () => LoadAddressItem(
                                           addressItem: addressItem,
                                           onDeletePressed: () =>
                                               controller.removeAddress(
-                                                  addressItem: addressItem)),
+                                                  addressItem: addressItem),
+                                          isPrimary: controller
+                                                  .primaryAddressIndex.value ==
+                                              controller.addressesList
+                                                  .indexOf(addressItem),
+                                        ),
+                                      ),
                                   ],
                                 )
                               : const NoAddressesSaved(),

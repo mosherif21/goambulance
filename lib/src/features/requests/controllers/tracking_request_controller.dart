@@ -316,6 +316,8 @@ class TrackingRequestController extends GetxController {
   void initialRequestChanges() async {
     choosingHospital.value = true;
     hospitalsPanelController.open();
+    Future.delayed(const Duration(milliseconds: 50)).whenComplete(
+        () => animateToLocation(locationLatLng: currentChosenLatLng));
     currentChosenLatLng = initialRequestModel.requestLocation;
     requestStatus.value = initialRequestModel.requestStatus;
     selectedHospital.value = HospitalModel(

@@ -34,7 +34,7 @@ class AddressesController extends GetxController {
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final addressesLoaded = false.obs;
   late GeoPoint addressLocation;
-
+  final primaryAddressIndex = RxnInt();
   @override
   void onInit() async {
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
@@ -45,43 +45,33 @@ class AddressesController extends GetxController {
   @override
   void onReady() async {
     locationNameTextController.addListener(() {
-      if (locationNameTextController.text
-          .trim()
-          .isNotEmpty) {
+      if (locationNameTextController.text.trim().isNotEmpty) {
         highlightLocationName.value = false;
       }
     });
 
     streetNameTextController.addListener(() {
-      if (streetNameTextController.text
-          .trim()
-          .isNotEmpty) {
+      if (streetNameTextController.text.trim().isNotEmpty) {
         highlightStreetName.value = false;
       }
     });
 
     apartmentNumberTextController.addListener(() {
-      if (apartmentNumberTextController.text
-          .trim()
-          .isNotEmpty &&
+      if (apartmentNumberTextController.text.trim().isNotEmpty &&
           apartmentNumberTextController.text.isNum) {
         highlightApartmentNumber.value = false;
       }
     });
 
     floorNumberTextController.addListener(() {
-      if (floorNumberTextController.text
-          .trim()
-          .isNotEmpty &&
+      if (floorNumberTextController.text.trim().isNotEmpty &&
           apartmentNumberTextController.text.isNum) {
         highlightFloorNumber.value = false;
       }
     });
 
     areaNameTextController.addListener(() {
-      if (areaNameTextController.text
-          .trim()
-          .isNotEmpty) {
+      if (areaNameTextController.text.trim().isNotEmpty) {
         highlightArea.value = false;
       }
     });
@@ -89,8 +79,10 @@ class AddressesController extends GetxController {
 
   void loadAddresses() async {
     addressesList.value = await firebasePatientDataAccess.getSavedAddresses();
-    if (addressesList.length == 1) {
-      updatePrimary(addressItem: addressesList.first);
+    for (final addressItem in addressesList) {
+      if (addressItem.isPrimary) {
+        primaryAddressIndex.value = addressesList.indexOf(addressItem);
+      }
     }
     addressesLoaded.value = true;
   }
@@ -103,22 +95,12 @@ class AddressesController extends GetxController {
 
   Future<void> checkAddress() async {
     highlightLocationName.value =
-        locationNameTextController.text
-            .trim()
-            .isEmpty;
-    highlightStreetName.value = streetNameTextController.text
-        .trim()
-        .isEmpty;
+        locationNameTextController.text.trim().isEmpty;
+    highlightStreetName.value = streetNameTextController.text.trim().isEmpty;
     highlightApartmentNumber.value =
-        apartmentNumberTextController.text
-            .trim()
-            .isEmpty;
-    highlightFloorNumber.value = floorNumberTextController.text
-        .trim()
-        .isEmpty;
-    highlightArea.value = areaNameTextController.text
-        .trim()
-        .isEmpty;
+        apartmentNumberTextController.text.trim().isEmpty;
+    highlightFloorNumber.value = floorNumberTextController.text.trim().isEmpty;
+    highlightArea.value = areaNameTextController.text.trim().isEmpty;
 
     if (!highlightLocationName.value &&
         !highlightStreetName.value &&
@@ -132,6 +114,9 @@ class AddressesController extends GetxController {
   }
 
   void addNewAddress() async {
+    if (Get.context != null) {
+      FocusScope.of(Get.context!).requestFocus(FocusNode());
+    }
     showLoadingScreen();
     final locationName = locationNameTextController.text.trim();
     final streetName = streetNameTextController.text.trim();
@@ -140,7 +125,7 @@ class AddressesController extends GetxController {
     final areaName = areaNameTextController.text.trim();
     final additionalInfo = additionalInfoTextController.text.trim();
     final addressItem = await firebasePatientDataAccess.addNewAddress(
-      isPrimary: makePrimary ? 'Yes' : 'No',
+      isPrimary: makePrimary,
       locationName: locationName,
       streetName: streetName,
       apartmentNumber: apartmentNumber,
@@ -152,6 +137,9 @@ class AddressesController extends GetxController {
     hideLoadingScreen();
     if (addressItem != null) {
       addressesList.add(addressItem);
+      if (addressesList.length == 1 || makePrimary) {
+        updatePrimary(addressItem: addressItem);
+      }
       locationNameTextController.clear();
       streetNameTextController.clear();
       apartmentNumberTextController.clear();
@@ -178,20 +166,19 @@ class AddressesController extends GetxController {
     hideLoadingScreen();
     if (functionStatus == FunctionStatus.success) {
       addressesList.remove(addressItem);
+      if (addressesList.length == 1 && !addressesList.first.isPrimary) {
+        updatePrimary(addressItem: addressesList.first);
+      }
     } else if (functionStatus == FunctionStatus.failure) {
       showSnackBar(
           text: 'addressDeletionFailed'.tr, snackBarType: SnackBarType.error);
     }
   }
 
-  updatePrimary({required AddressItem addressItem}) async {
-    showLoadingScreen();
-    final addressDocumentId = firebasePatientDataAccess.firestoreUserRef
-        .collection('addresses')
-        .doc(addressItem.addressId);
-    addressDocumentId.update({'isPrimary': 'yes'});
-    firebasePatientDataAccess.primarySetup(addressItem.addressId.toString());
-    hideLoadingScreen();
+  void updatePrimary({required AddressItem addressItem}) async {
+    await firebasePatientDataAccess
+        .primarySetup(addressItem.addressId.toString());
+    primaryAddressIndex.value = addressesList.indexOf(addressItem);
   }
 
   @override

@@ -135,7 +135,7 @@ class AddressItem {
   final String apartmentNumber;
   final String floorNumber;
   final String areaName;
-  final String isPrimary;
+  final bool isPrimary;
   final String? additionalInfo;
 
   AddressItem({

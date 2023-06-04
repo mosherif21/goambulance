@@ -8,25 +8,20 @@ import '../models.dart';
 
 class LoadAddressItem extends StatelessWidget {
   final controller = AddressesController.instance;
-  final isFinished = false.obs;
 
   LoadAddressItem({
     Key? key,
     required this.addressItem,
     required this.onDeletePressed,
+    required this.isPrimary,
   }) : super(key: key);
 
   final AddressItem addressItem;
   final Function onDeletePressed;
+  final bool isPrimary;
 
   @override
   Widget build(BuildContext context) {
-    final String addressId = addressItem.addressId.toString();
-    if (addressItem.isPrimary == 'yes') {
-      isFinished.value = true;
-    } else if (addressItem.isPrimary == 'No') {
-      isFinished.value = false;
-    }
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 15),
@@ -114,36 +109,32 @@ class LoadAddressItem extends StatelessWidget {
           ),
           const Padding(padding: EdgeInsets.all(10)),
           Center(
-            child: Obx(
-              () => !isFinished.value
-                  ? SwipeableButtonView(
-                      buttonText: 'primaryAskText'.tr,
-                      buttonWidget: const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.grey,
-                      ),
-                      activeColor: Colors.blueAccent,
-                      isFinished: isFinished.value,
-                      onWaitingProcess: () {
-                        Future.delayed(const Duration(seconds: 2), () {
-                          isFinished.value = true;
-                          controller.makePrimary = true;
-                          controller.updatePrimary(addressItem: addressItem);
-                        });
-                      },
-                      onFinish: () {},
-                    )
-                  : const AutoSizeText(
-                      'Done',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                      softWrap: false,
-                      maxLines: 1,
+            child: !isPrimary
+                ? SwipeableButtonView(
+                    buttonText: 'primaryAskText'.tr,
+                    buttonWidget: const Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: Colors.grey,
                     ),
-            ),
+                    activeColor: Colors.blueAccent,
+                    isFinished: false,
+                    onWaitingProcess: () {
+                      Future.delayed(const Duration(seconds: 1), () {
+                        controller.updatePrimary(addressItem: addressItem);
+                      });
+                    },
+                    onFinish: () {},
+                  )
+                : const AutoSizeText(
+                    'Done',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 12,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
+                    maxLines: 1,
+                  ),
           ),
         ],
       ),

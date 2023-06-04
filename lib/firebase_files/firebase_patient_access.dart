@@ -139,7 +139,7 @@ class FirebasePatientDataAccess extends GetxController {
                   floorNumber: addressDoc['floorNumber'].toString(),
                   areaName: addressDoc['areaName'].toString(),
                   additionalInfo: addressDoc['additionalInfo'].toString(),
-                  isPrimary: addressDoc['isPrimary'].toString(),
+                  isPrimary: addressDoc['isPrimary'] as bool,
                   addressId: address.id),
             );
           }
@@ -163,11 +163,16 @@ class FirebasePatientDataAccess extends GetxController {
       await firestoreUserRef.collection('addresses').get().then(
         (addressesSnapshot) {
           for (var address in addressesSnapshot.docs) {
-            if (address.id != addressDocId) {
+            if (address.id == addressDocId) {
               firestoreUserRef
                   .collection('addresses')
                   .doc(address.id)
-                  .update({'isPrimary': 'No'});
+                  .update({'isPrimary': true});
+            } else {
+              firestoreUserRef
+                  .collection('addresses')
+                  .doc(address.id)
+                  .update({'isPrimary': false});
             }
           }
         },
@@ -255,7 +260,7 @@ class FirebasePatientDataAccess extends GetxController {
     required String areaName,
     required GeoPoint location,
     required String additionalInfo,
-    required String isPrimary,
+    required bool isPrimary,
   }) async {
     try {
       final docRef = await firestoreUserRef.collection('addresses').add({

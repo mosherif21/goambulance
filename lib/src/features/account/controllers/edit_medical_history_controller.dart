@@ -155,7 +155,10 @@ class EditMedicalHistoryController extends GetxController {
       authRep.userInfo.heartPatient = medicalHistoryData.heartPatient;
       authRep.userInfo.additionalInformation =
           medicalHistoryData.additionalInformation;
-      authRep.criticalUserStatus.value = CriticalUserStatus.non;
+      if (authRep.criticalUserStatus.value !=
+          CriticalUserStatus.criticalUserAccepted) {
+        authRep.criticalUserStatus.value = CriticalUserStatus.non;
+      }
       hideLoadingScreen();
       Get.back();
       showSnackBar(

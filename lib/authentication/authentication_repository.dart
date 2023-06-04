@@ -97,6 +97,7 @@ class AuthenticationRepository extends GetxController {
           final isCritical = snapshot.data()!['criticalUser'] as bool;
           userInfo.criticalUser = isCritical;
           if (isCritical) {
+            userInfo.criticalUser=true;
             criticalUserStatus.value = CriticalUserStatus.criticalUserAccepted;
           }
         }
@@ -185,7 +186,9 @@ class AuthenticationRepository extends GetxController {
             criticalUserStatus.value = userInfo.criticalUser
                 ? CriticalUserStatus.criticalUserAccepted
                 : CriticalUserStatus.non;
-            initCriticalUserListeners();
+            if (!userInfo.criticalUser) {
+              initCriticalUserListeners();
+            }
           }
           if (AppInit.notificationToken.isNotEmpty) {
             await fireStore.collection('fcmTokens').doc(userId).set({
@@ -664,7 +667,7 @@ class AuthenticationRepository extends GetxController {
 
   Future<FunctionStatus> logoutAuthUser() async {
     try {
-      if (isUserRegistered) {
+      if (isUserRegistered && !userInfo.criticalUser) {
         criticalRequestListener?.cancel();
         criticalRequestDeniedListener?.cancel();
       }

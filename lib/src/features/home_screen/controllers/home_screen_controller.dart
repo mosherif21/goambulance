@@ -239,6 +239,8 @@ class HomeScreenController extends GetxController {
           showSnackBar(
               text: 'hasSosRequest'.tr, snackBarType: SnackBarType.error);
         }
+      } else {
+        if (pressed) hideLoadingScreen();
       }
     });
   }

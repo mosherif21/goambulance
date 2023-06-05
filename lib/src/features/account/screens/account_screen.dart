@@ -10,11 +10,11 @@ import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
-import '../../authentication/components/resetPassword/email_reset_screen.dart';
 import '../components/addresses/addresses_page.dart';
 import '../components/edit_account/edit_medical_history_page.dart';
 import '../components/edit_account/edit_user_data_page.dart';
 import '../components/edit_account/link_email_password_page.dart';
+import '../components/edit_account/logged_in_reset_password.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -98,9 +98,9 @@ class AccountScreen extends StatelessWidget {
                   Obx(
                     () => authRepo.isEmailAndPasswordLinked.value
                         ? RegularClickableCardNoP(
-                            onPressed: () {
-                              getToResetPasswordScreen();
-                            },
+                            onPressed: () => Get.to(
+                                () => const LoggedInResetPasswordPage(),
+                                transition: getPageTransition()),
                             title: 'accountTitle6'.tr,
                             subTitle: '',
                             icon: Icons.arrow_forward_ios,

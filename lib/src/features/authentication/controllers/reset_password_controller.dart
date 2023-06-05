@@ -8,6 +8,16 @@ import '../../../general/general_functions.dart';
 class ResetController extends GetxController {
   static ResetController get instance => Get.find();
   final emailController = TextEditingController();
+  @override
+  void onReady() {
+    final user = AuthenticationRepository.instance.fireUser.value;
+    if (user != null) {
+      if (user.email != null) {
+        emailController.text = user.email!;
+      }
+    }
+    super.onReady();
+  }
 
   Future<void> resetPassword(String email) async {
     FocusManager.instance.primaryFocus?.unfocus();

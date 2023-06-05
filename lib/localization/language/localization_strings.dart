@@ -391,6 +391,8 @@ class Languages extends Translations {
           'sosRequestCount': 'سيتم إرسال طلب استغاثة',
           'hasSosRequest':
               'لديك بالفعل طلب استغاثة قيد المعالجة أو تم إرساله إلى المستشفى',
+          'loggedInPasswordResetLink':
+              'اضغط على زر التأكيد للحصول على رابط إعادة تعيين كلمة المرور',
         },
         'en_US': {
           'sosRequestInitFailed':
@@ -497,6 +499,8 @@ class Languages extends Translations {
           'phoneFieldLabel': 'Enter your Phone Number',
           'passwordResetLink':
               'Enter your E-Mail to get the password reset link',
+          'loggedInPasswordResetLink':
+              'Press on confirm button to get the password reset link',
           'phoneVerification':
               'Enter your Phone Number to get the verification code',
           'continue': 'CONTINUE',

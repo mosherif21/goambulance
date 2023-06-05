@@ -62,19 +62,22 @@ class AuthenticationRepository extends GetxController {
 
   Future<FunctionStatus> sendVerificationEmail() async {
     try {
-      await fireUser.value!.sendEmailVerification();
-      return FunctionStatus.success;
+      if (_auth.currentUser != null) {
+        await _auth.setLanguageCode(isLangEnglish() ? 'en' : 'ar');
+        await _auth.currentUser!.sendEmailVerification();
+        await _auth.setLanguageCode('en');
+        return FunctionStatus.success;
+      }
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         AppInit.logger.e(error.toString());
       }
-      return FunctionStatus.failure;
     } catch (e) {
       if (kDebugMode) {
         AppInit.logger.e(e.toString());
       }
-      return FunctionStatus.failure;
     }
+    return FunctionStatus.failure;
   }
 
   void initCriticalUserListeners() {
@@ -97,7 +100,7 @@ class AuthenticationRepository extends GetxController {
           final isCritical = snapshot.data()!['criticalUser'] as bool;
           userInfo.criticalUser = isCritical;
           if (isCritical) {
-            userInfo.criticalUser=true;
+            userInfo.criticalUser = true;
             criticalUserStatus.value = CriticalUserStatus.criticalUserAccepted;
           }
         }
@@ -579,9 +582,11 @@ class AuthenticationRepository extends GetxController {
   Future<String> resetPassword({required String email}) async {
     String returnMessage = 'unknownError'.tr;
     try {
+      await _auth.setLanguageCode(isLangEnglish() ? 'en' : 'ar');
       await _auth
           .sendPasswordResetEmail(email: email)
           .whenComplete(() => returnMessage = 'emailSent');
+      await _auth.setLanguageCode('en');
     } on FirebaseAuthException catch (e) {
       final ex = ResetPasswordFailure.code(e.code);
 

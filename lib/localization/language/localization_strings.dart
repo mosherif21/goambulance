@@ -554,7 +554,7 @@ class Languages extends Translations {
           'passwordResetSuccess': 'Reset password email sent successfully',
           'emptyFields': 'Fields can\'t be empty',
           'smallPass': 'Password can\'t be less than 8 characters',
-          'passwordNotMatch': 'Passwords doesn\'t match',
+          'passwordNotMatch': 'Passwords don\'t match',
           'lang': 'Language',
           'logout': 'Logout',
           'logoutConfirm': 'Are you sure you want to logout?',

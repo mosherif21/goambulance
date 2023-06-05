@@ -383,8 +383,18 @@ class Languages extends Translations {
           'speechPermission': 'إذن الكلام',
           'previousRequestDataNotice':
               'يرجى ملاحظة أنه سيتم إرسال الطلب مع معلومات الطلب الأخير',
+          'sosRequestInitFailed':
+              'فشل طلب الاستغاثة لأننا لم نتمكن من الوصول إلى موقعك أو عنوانك الأساسي',
+          'sosRequestSent':
+              'سيتم معالجة طلب الاستغاثة بواسطة نظامنا لطلب أقرب مستشفى',
+          'sosRequestSendFailed': 'فشل إرسال طلب الاستغاثة',
         },
         'en_US': {
+          'sosRequestInitFailed':
+              'SOS request failed because we couldn\'t access your location or primary address',
+          'sosRequestSent':
+              'SOS request will be processed by our system to request the nearest hospital',
+          'sosRequestSendFailed': 'SOS request send failed',
           'requireRecentLoginError':
               'This operation is sensitive and requires recent authentication',
           'linkEmailPassword': 'Link email and password',

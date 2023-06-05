@@ -1,12 +1,19 @@
 import 'package:carousel_slider/carousel_controller.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/config.dart';
+import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:get/get.dart';
+import 'package:goambulance/firebase_files/firebase_patient_access.dart';
+import 'package:goambulance/src/constants/colors.dart';
+import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
+import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:location/location.dart';
@@ -34,12 +41,16 @@ class HomeScreenController extends GetxController {
   void onReady() async {
     if (AuthenticationRepository.instance.criticalUserStatus.value ==
         CriticalUserStatus.criticalUserAccepted) {
-    } else {
       handleLocation()
           .whenComplete(() => handleSmsPermission())
           .whenComplete(() => handleNotificationsPermission())
           .whenComplete(() => handleSpeechPermission())
           .whenComplete(() => listenForSos());
+    } else {
+      handleLocation()
+          .whenComplete(() => handleSmsPermission())
+          .whenComplete(() => handleNotificationsPermission())
+          .whenComplete(() => handleSpeechPermission());
     }
 
     homeBottomNavController.addListener(() {
@@ -71,9 +82,17 @@ class HomeScreenController extends GetxController {
           listenFor: const Duration(seconds: 5),
           onResult: (listenedText) async {
             if (listenedText.finalResult) {
-              showSnackBar(
-                  text: listenedText.recognizedWords,
-                  snackBarType: SnackBarType.info);
+              final listenedString = listenedText.recognizedWords.toLowerCase();
+              bool containsEmergencyWord = false;
+              for (String word in emergencyWords) {
+                if (listenedString.contains(word.toLowerCase())) {
+                  containsEmergencyWord = true;
+                  break;
+                }
+              }
+              if (containsEmergencyWord) {
+                sosRequest();
+              }
             }
           },
         );
@@ -81,19 +100,128 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void automatedSosRequest() async {
-    final locationPermissionGranted =
-        await Permission.location.status.isGranted;
-    final locationServiceEnabled = await Location().serviceEnabled();
-    if(locationPermissionGranted&&locationServiceEnabled){
-
-    }else{
-
+  void showSosAlertDialogue() {
+    if (Get.context != null) {
+      showDialog(
+        context: Get.context!,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: WillPopScope(
+              onWillPop: () {
+                return Future.value(false);
+              },
+              child: Container(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularCountDownTimer(
+                      duration: 5,
+                      initialDuration: 0,
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.height / 2,
+                      ringColor: Colors.grey[300]!,
+                      ringGradient: null,
+                      fillColor: kDefaultColorLessShade,
+                      fillGradient: null,
+                      backgroundColor: kDefaultColor,
+                      backgroundGradient: null,
+                      strokeWidth: 20.0,
+                      strokeCap: StrokeCap.round,
+                      textStyle: const TextStyle(
+                          fontSize: 33.0,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold),
+                      textFormat: CountdownTextFormat.S,
+                      isReverse: true,
+                      isReverseAnimation: true,
+                      isTimerTextShown: true,
+                      autoStart: true,
+                      onStart: () {
+                        debugPrint('Countdown Started');
+                      },
+                      onComplete: () {
+                        Get.back();
+                        debugPrint('Countdown Ended');
+                      },
+                      onChange: (String timeStamp) {},
+                      timeFormatterFunction:
+                          (defaultFormatterFunction, duration) {
+                        return Function.apply(
+                            defaultFormatterFunction, [duration]);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
     }
   }
 
-  void sosRequestPress() {}
+  void sosRequest() async {
+    final locationPermissionGranted =
+        await Permission.location.status.isGranted;
+    final locationServiceEnabled = await Location().serviceEnabled();
+    if (locationPermissionGranted && locationServiceEnabled) {
+      await geolocator.Geolocator.getCurrentPosition(
+              desiredAccuracy: geolocator.LocationAccuracy.high)
+          .then((currentLocation) {
+        if (kDebugMode) {
+          print(
+              'current location for sos Request ${currentLocation.latitude.toString()}, ${currentLocation.longitude.toString()}');
+        }
+        // sendSosRequest(
+        //     requestLocation:
+        //         GeoPoint(currentLocation.latitude, currentLocation.longitude));
+        showSosAlertDialogue();
+      });
+    } else {
+      final primaryAddressLocation =
+          await FirebasePatientDataAccess.instance.getPrimaryAddressLocation();
+      if (primaryAddressLocation != null) {
+        //sendSosRequest(requestLocation: primaryAddressLocation);
+        showSosAlertDialogue();
+      } else {
+        showSnackBar(
+            text: 'sosRequestInitFailed'.tr, snackBarType: SnackBarType.error);
+      }
+    }
+  }
 
+  void sendSosRequest({required GeoPoint requestLocation}) async {
+    final firebasePatientDataAccess = FirebasePatientDataAccess.instance;
+    final diseasesList = await firebasePatientDataAccess.getDiseases();
+    final authRep = AuthenticationRepository.instance;
+    final medicalHistoryModel = MedicalHistoryModel(
+      bloodType: authRep.userInfo.bloodType,
+      diabetic: authRep.userInfo.diabetic,
+      hypertensive: authRep.userInfo.hypertensive,
+      heartPatient: authRep.userInfo.heartPatient,
+      additionalInformation: authRep.userInfo.additionalInformation,
+      diseasesList: diseasesList,
+    );
+    final sosRequest = SosRequestModel(
+      userId: authRep.fireUser.value!.uid,
+      requestLocation: requestLocation,
+      medicalHistory: medicalHistoryModel,
+    );
+    firebasePatientDataAccess
+        .sosRequest(sosRequestInfo: sosRequest)
+        .then((functionStatus) {
+      if (functionStatus == FunctionStatus.success) {
+        showSnackBar(
+            text: 'sosRequestSent'.tr, snackBarType: SnackBarType.success);
+      } else {
+        showSnackBar(
+            text: 'sosRequestSendFailed'.tr, snackBarType: SnackBarType.error);
+      }
+    });
+  }
 
   bool isDrawerOpen(DrawerState drawerState) =>
       drawerState == DrawerState.open ||
@@ -169,6 +297,27 @@ class HomeScreenController extends GetxController {
     ];
   }
 
+  final emergencyWords = [
+    'mayday',
+    'ambulance',
+    'sos',
+    'emergency',
+    'distress',
+    'help',
+    'urgent',
+    'crisis',
+    'danger',
+    'طوارئ',
+    'انقذوني',
+    'استغاثة',
+    'اسعاف',
+    'مساعدة',
+    'معونة ',
+    'إنقاذ',
+    'تنبيه',
+    'الأمن',
+    'النجدة'
+  ];
   @override
   void onClose() {
     homeBottomNavController.dispose();

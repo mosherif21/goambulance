@@ -34,6 +34,21 @@ class RequestInfoModel {
       };
 }
 
+class SosRequestModel {
+  final String userId;
+  final GeoPoint requestLocation;
+  final MedicalHistoryModel medicalHistory;
+  SosRequestModel({
+    required this.userId,
+    required this.requestLocation,
+    required this.medicalHistory,
+  });
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+        'requestLocation': requestLocation,
+      };
+}
+
 class RequestModel {
   final String userId;
   final RequestInfoModel hospitalRequestInfo;
@@ -66,6 +81,7 @@ class RequestModel {
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,
         'status': status,
+        'notified': true,
       };
 }
 

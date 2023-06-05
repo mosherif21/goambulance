@@ -189,6 +189,54 @@ class FirebasePatientDataAccess extends GetxController {
     return addressesList;
   }
 
+  Future<GeoPoint?> getPrimaryAddressLocation() async {
+    try {
+      final addressSnapshot = await firestoreUserRef
+          .collection('addresses')
+          .where('isPrimary', isEqualTo: true)
+          .get();
+      if (addressSnapshot.docs.isNotEmpty) {
+        final addressData = addressSnapshot.docs.first.data();
+        return addressData['location'] as GeoPoint;
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
+  Future<List<DiseaseItem>> getDiseases() async {
+    final diseasesList = <DiseaseItem>[];
+    try {
+      final userDiseasesRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .collection('diseases');
+      userDiseasesRef.get().then((diseasesSnapshot) {
+        for (var diseaseDoc in diseasesSnapshot.docs) {
+          final diseaseData = diseaseDoc.data();
+          diseasesList.add(
+            DiseaseItem(
+              diseaseName: diseaseData['diseaseName'].toString(),
+              diseaseMedicines: diseaseData['diseaseMedicines'].toString(),
+            ),
+          );
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+    return diseasesList;
+  }
+
   Future<ContactItem?> addEmergencyContact({
     required String contactName,
     required String contactNumber,
@@ -596,6 +644,38 @@ class FirebasePatientDataAccess extends GetxController {
       userDataBatch.delete(
           fireStore.collection('declinedCriticalUserRequests').doc(userId));
       await userDataBatch.commit();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> sosRequest({
+    required SosRequestModel sosRequestInfo,
+  }) async {
+    try {
+      final requestDataBatch = fireStore.batch();
+      final sosRequestRef = fireStore.collection('sosRequests').doc();
+      requestDataBatch.set(sosRequestRef, sosRequestInfo.toJson());
+      final medicalHistory = sosRequestInfo.medicalHistory;
+      requestDataBatch.update(sosRequestRef, medicalHistory.toJson());
+      if (medicalHistory.diseasesList.isNotEmpty) {
+        for (DiseaseItem diseaseItem in medicalHistory.diseasesList) {
+          {
+            final diseaseRef = sosRequestRef.collection('diseases').doc();
+            requestDataBatch.set(diseaseRef, diseaseItem.toJson());
+          }
+        }
+      }
+      await requestDataBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) {

@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -80,30 +78,9 @@ class EditMedicalHistoryController extends GetxController {
     super.onReady();
   }
 
-  void loadDiseases() {
-    try {
-      final userDiseasesRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('diseases');
-      userDiseasesRef.get().then((diseasesSnapshot) {
-        for (var diseaseDoc in diseasesSnapshot.docs) {
-          currentDiseasesDocIds.add(diseaseDoc.id);
-          final diseaseData = diseaseDoc.data();
-          diseasesList.add(
-            DiseaseItem(
-              diseaseName: diseaseData['diseaseName'].toString(),
-              diseaseMedicines: diseaseData['diseaseMedicines'].toString(),
-            ),
-          );
-        }
-        diseasesLoaded.value = true;
-      });
-    } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
-    } catch (e) {
-      if (kDebugMode) print(e.toString());
-    }
+  void loadDiseases() async {
+    diseasesList.value = await FirebasePatientDataAccess.instance.getDiseases();
+    diseasesLoaded.value = true;
   }
 
   Future<void> updateMedicalInfo() async {

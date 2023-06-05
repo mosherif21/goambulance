@@ -8,6 +8,7 @@ import '../../../general/general_functions.dart';
 class ChangeEmailController extends GetxController {
   static ChangeEmailController get instance => Get.find();
   final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Future<void> changeEmail() async {
     FocusManager.instance.primaryFocus?.unfocus();
@@ -17,12 +18,12 @@ class ChangeEmailController extends GetxController {
         ? 'missingEmail'.tr
         : !email.isEmail
             ? 'invalidEmailEntered'.tr
-            : await AuthenticationRepository.instance.changeEmail(email: email);
+            : await AuthenticationRepository.instance.changeEmail(email, '');
 
     if (returnMessage == 'emailSent') {
       Get.back();
       showSnackBar(
-        text: 'emailChangeSuccess'.tr,
+        text: 'emailChangedSuccess'.tr,
         snackBarType: SnackBarType.success,
       );
     } else {
@@ -37,6 +38,7 @@ class ChangeEmailController extends GetxController {
   @override
   void onClose() {
     emailController.dispose();
+    passwordController.dispose();
     super.onClose();
   }
 }

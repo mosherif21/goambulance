@@ -24,7 +24,9 @@ class Languages extends Translations {
           'loginWithFacebook': 'اكمل عن طريق فيسبوك',
           'loginWithMobile': 'اكمل برقم الهاتف',
           'emailLabel': 'البريد الالكترونى',
+          'newEmailLabel': 'البريد الالكترونى الجديد',
           'emailHintLabel': 'ادخل بريدك الالكترونى',
+          'newEmailHintLabel': 'ادخل بريدك الالكترونى الجديد',
           'passwordLabel': 'كلمة المرور',
           'passwordHintLabel': 'ادخل كلمة المرور',
           'forgotPassword': 'لا تتذكر كلمة المرور؟',
@@ -393,14 +395,15 @@ class Languages extends Translations {
               'لديك بالفعل طلب استغاثة قيد المعالجة أو تم إرساله إلى المستشفى',
           'loggedInPasswordResetLink':
               'اضغط على زر التأكيد للحصول على رابط إعادة تعيين كلمة المرور',
-          'accountTitle7': 'أرسال رابط تغيير البريد الإلكتروني',
-          'enterNewEmail':
-              'يرجى إدخال بريدك الإلكتروني الجديد لإرسال رابط تغيير البريد الإلكتروني إليه',
-          'emailChangeSuccess': 'تم إرسال رابط تغيير البريد الإلكتروني بنجاح',
+          'accountTitle7': 'تغيير البريد الالكتروني',
+          'enterChangeEmailData':
+              'الرجاء إدخال البريد الإلكتروني الجديد وكلمة المرور الخاصة بك لتغيير بريدك الإلكتروني',
+          'emailChangedSuccess': 'تم تغيير بريدك الإلكتروني بنجاح',
         },
         'en_US': {
-          'enterNewEmail':
-              'Please enter your new email to send the email change link to it',
+          'emailChangedSuccess': 'Your email was changed successfully',
+          'enterChangeEmailData':
+              'Please enter the new email and your password to change your email',
           'sosRequestInitFailed':
               'SOS request failed because we couldn\'t access your location or primary address',
           'sosRequestSent':
@@ -467,6 +470,7 @@ class Languages extends Translations {
           'loginWithFacebook': 'CONTINUE WITH FACEBOOK',
           'loginWithMobile': 'CONTINUE WITH PHONE NUMBER',
           'emailLabel': 'E-Mail',
+          'newEmailLabel': 'New E-Mail',
           'sosMessageSaved': 'SOS message saved successfully',
           'medicalHistorySavedSuccess': 'Medical history saved successfully',
           'medicalHistorySavedError':
@@ -474,6 +478,7 @@ class Languages extends Translations {
           'addressSavedSuccess': 'Address saved successfully',
           'addressSavedError': 'Address save failed, please try again',
           'emailHintLabel': 'Enter your E-Mail',
+          'newEmailHintLabel': 'Enter your new E-Mail',
           'tryAgain': 'Try again',
           'passwordLabel': 'Password',
           'passwordHintLabel': 'Enter your Password',
@@ -548,7 +553,6 @@ class Languages extends Translations {
           'requests': 'Requests',
           'help': 'Help',
           'passwordResetSuccess': 'Reset password email sent successfully',
-          'emailChangeSuccess': 'Change email link sent successfully',
           'emptyFields': 'Fields can\'t be empty',
           'smallPass': 'Password can\'t be less than 8 characters',
           'passwordNotMatch': 'Passwords doesn\'t match',
@@ -775,7 +779,7 @@ class Languages extends Translations {
           'linkFacebookAccount': 'Link Facebook Account',
           'accountTitle5': 'Link email and password account',
           'accountTitle6': 'Send reset password link',
-          'accountTitle7': 'Send email change link',
+          'accountTitle7': 'Change email address',
           'verify': 'Verify Email',
           'aboutUsTitle1': 'Terms of use',
           'aboutUsTitle2': 'Privacy Policy',

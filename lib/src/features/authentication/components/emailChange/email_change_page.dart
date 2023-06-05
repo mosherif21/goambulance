@@ -11,6 +11,7 @@ import '../../../../constants/assets_strings.dart';
 import '../../../../constants/enums.dart';
 import '../../../../constants/sizes.dart';
 import '../../../../general/app_init.dart';
+import '../../../../general/common_widgets/text_form_field_passwords.dart';
 import '../../controllers/change_email_controller.dart';
 
 class EmailChangePage extends StatelessWidget {
@@ -46,7 +47,7 @@ class EmailChangePage extends StatelessWidget {
                     height: screenHeight * 0.4,
                   ),
                   AutoSizeText(
-                    'enterNewEmail'.tr,
+                    'enterChangeEmailData'.tr,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: AppInit.notWebMobile ? 25 : 14,
@@ -59,8 +60,8 @@ class EmailChangePage extends StatelessWidget {
                     height: 20.0,
                   ),
                   TextFormFieldRegular(
-                    labelText: 'emailLabel'.tr,
-                    hintText: 'emailHintLabel'.tr,
+                    labelText: 'newEmailLabel'.tr,
+                    hintText: 'newEmailHintLabel'.tr,
                     prefixIconData: Icons.email_outlined,
                     textController: controller.emailController,
                     inputType: InputType.email,
@@ -68,6 +69,11 @@ class EmailChangePage extends StatelessWidget {
                     textInputAction: TextInputAction.done,
                   ),
                   const SizedBox(height: 20.0),
+                  TextFormFieldPassword(
+                    labelText: 'passwordLabel'.tr,
+                    textController: controller.passwordController,
+                    textInputAction: TextInputAction.done,
+                  ),
                   RegularElevatedButton(
                     buttonText: 'confirm'.tr,
                     enabled: true,

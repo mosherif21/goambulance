@@ -11,11 +11,11 @@ import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
 import '../../authentication/components/emailChange/email_change_page.dart';
+import '../../authentication/components/linkEmailPassword/link_email_password_page.dart';
 import '../../authentication/components/resetPassword/logged_in_reset_password_page.dart';
 import '../components/addresses/addresses_page.dart';
 import '../components/edit_account/edit_medical_history_page.dart';
 import '../components/edit_account/edit_user_data_page.dart';
-import '../components/edit_account/link_email_password_page.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({Key? key}) : super(key: key);

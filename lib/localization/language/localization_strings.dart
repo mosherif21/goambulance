@@ -398,6 +398,8 @@ class Languages extends Translations {
           'enterChangeEmailData':
               'الرجاء إدخال البريد الإلكتروني الجديد وكلمة المرور الخاصة بك لتغيير بريدك الإلكتروني',
           'emailChangedSuccess': 'تم تغيير بريدك الإلكتروني بنجاح',
+          'emailPasswordAccountSuccess':
+              'تم ربط حساب البريد الإلكتروني وكلمة المرور بنجاح',
         },
         'en_US': {
           'emailChangedSuccess': 'Your email was changed successfully',
@@ -561,6 +563,8 @@ class Languages extends Translations {
           'qrCode': 'Qr code',
           'qrCodeEnter': 'Add using qr code',
           'normalRequest': 'Normal Request',
+          'emailPasswordAccountSuccess':
+              'Email and password account linked successfully',
           'sosRequest': 'SOS Request',
           'services': 'Services',
           'recentRequests': 'Recent requests',

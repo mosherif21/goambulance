@@ -36,6 +36,10 @@ class LinkEmailPasswordController extends GetxController {
       );
     } else {
       Get.back();
+      showSnackBar(
+        text: 'emailPasswordAccountSuccess'.tr,
+        snackBarType: SnackBarType.success,
+      );
     }
   }
 

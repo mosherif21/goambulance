@@ -340,14 +340,11 @@ class AuthenticationRepository extends GetxController {
     try {
       final credential =
           EmailAuthProvider.credential(email: email, password: password);
-      final userCredential =
-          await fireUser.value!.linkWithCredential(credential);
-      if (userCredential.credential != null) {
-        fireUser.value!.reauthenticateWithCredential(credential);
-        await fireUser.value!.updateEmail(email);
-        await updateUserEmailFirestore(email: email);
-        return 'success';
-      }
+      await fireUser.value!.linkWithCredential(credential);
+      await fireUser.value!.reauthenticateWithCredential(credential);
+      await fireUser.value!.updateEmail(email);
+      await updateUserEmailFirestore(email: email);
+      return 'success';
     } on FirebaseAuthException catch (e) {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);
       if (kDebugMode) {
@@ -510,11 +507,10 @@ class AuthenticationRepository extends GetxController {
           if (isGoogleLinked.value) {
             await fireUser.value!.unlink(GoogleAuthProvider.PROVIDER_ID);
           }
-          final userCredential =
-              await fireUser.value!.linkWithCredential(googleUser.credential);
-          final credential = userCredential.credential;
-          if (!isEmailAndPasswordLinked.value && credential != null) {
-            fireUser.value!.reauthenticateWithCredential(credential);
+          await fireUser.value!.linkWithCredential(googleUser.credential);
+          if (!isEmailAndPasswordLinked.value) {
+            await fireUser.value!
+                .reauthenticateWithCredential(googleUser.credential);
             await updateUserEmailAuthentication(email: googleUser.email);
             await updateUserEmailFirestore(email: googleUser.email);
             userInfo.email = googleUser.email;
@@ -592,20 +588,27 @@ class AuthenticationRepository extends GetxController {
     try {
       final credential = EmailAuthProvider.credential(
           email: fireUser.value!.email!, password: password);
-      final userCredential =
-          await fireUser.value!.reauthenticateWithCredential(credential);
-      if (userCredential.credential != null) {
-        fireUser.value!.reauthenticateWithCredential(credential);
-        await fireUser.value!.updateEmail(newEmail);
-        await updateUserEmailFirestore(email: newEmail);
-        return 'success';
-      }
-    } on FirebaseAuthException catch (e) {
-      final ex = SignInWithEmailAndPasswordFailure.code(e.code);
+      await fireUser.value!.reauthenticateWithCredential(credential);
+      await fireUser.value!.updateEmail(newEmail);
+      await updateUserEmailFirestore(email: newEmail);
+      return 'success';
+    } on FirebaseAuthException catch (ex) {
       if (kDebugMode) {
-        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${e.toString()}');
+        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${ex.toString()}');
       }
-      return ex.errorMessage;
+      if (ex.code == 'invalid-email') {
+        return 'invalidEmailEntered'.tr;
+      } else if (ex.code == 'email-already-in-use') {
+        return 'emailAlreadyExists'.tr;
+      } else if (ex.code == 'missing-email') {
+        return 'missingEmail'.tr;
+      } else if (ex.code == 'user-not-found') {
+        return 'noRegisteredEmail'.tr;
+      } else if (ex.code == 'wrong-password') {
+        return 'wrongPassword'.tr;
+      } else if (ex.code == 'requires-recent-login') {
+        return 'requireRecentLoginError'.tr;
+      }
     } catch (e) {
       if (kDebugMode) {
         AppInit.logger.e(e.toString());

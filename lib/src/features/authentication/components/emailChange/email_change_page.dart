@@ -56,9 +56,7 @@ class EmailChangePage extends StatelessWidget {
                     maxLines: 2,
                     minFontSize: 10,
                   ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
+                  const SizedBox(height: 20.0),
                   TextFormFieldRegular(
                     labelText: 'newEmailLabel'.tr,
                     hintText: 'newEmailHintLabel'.tr,
@@ -74,6 +72,7 @@ class EmailChangePage extends StatelessWidget {
                     textController: controller.passwordController,
                     textInputAction: TextInputAction.done,
                   ),
+                  const SizedBox(height: 20.0),
                   RegularElevatedButton(
                     buttonText: 'confirm'.tr,
                     enabled: true,

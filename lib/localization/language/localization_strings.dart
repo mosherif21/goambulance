@@ -75,8 +75,7 @@ class Languages extends Translations {
           'account': 'الحساب',
           'requests': 'الطلبات',
           'help': 'المساعدة',
-          'passwordResetSuccess':
-              'تم إرسال البريد الإلكتروني الخاص بإعادة تعيين كلمة المرور بنجاح',
+          'passwordResetSuccess': 'تم إرسال رابط إعادة تعيين كلمة المرور بنجاح',
           'emptyFields': 'لا يمكن أن تكون الخانات فارغة',
           'smallPass': 'لا يمكن أن تكون كلمة المرور أقل من 8 أحرف',
           'passwordNotMatch': 'كلمات المرور غير متطابقة',

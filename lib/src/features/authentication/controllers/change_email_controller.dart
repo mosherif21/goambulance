@@ -13,14 +13,16 @@ class ChangeEmailController extends GetxController {
   Future<void> changeEmail() async {
     FocusManager.instance.primaryFocus?.unfocus();
     final email = emailController.text.trim();
+    final password = passwordController.text.trim();
     showLoadingScreen();
     String returnMessage = email.isEmpty
         ? 'missingEmail'.tr
         : !email.isEmail
             ? 'invalidEmailEntered'.tr
-            : await AuthenticationRepository.instance.changeEmail(email, '');
+            : await AuthenticationRepository.instance
+                .changeEmail(email, password);
 
-    if (returnMessage == 'emailSent') {
+    if (returnMessage == 'success') {
       Get.back();
       showSnackBar(
         text: 'emailChangedSuccess'.tr,

@@ -292,8 +292,8 @@ Future<bool> handleLocationService() async {
   return false;
 }
 
-Future<void> handleLocation() async => await handleLocationPermission()
-    .whenComplete(() async => await handleLocationService());
+Future<void> handleLocation() async => await handleLocationService()
+    .whenComplete(() async => await handleLocationPermission());
 
 Future<bool> handleCameraPermission() async => await handleGeneralPermission(
       permission: Permission.camera,

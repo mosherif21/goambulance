@@ -117,7 +117,9 @@ class HomeScreenController extends GetxController {
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.all(15),
-                  height: screenHeight * 0.4,
+                  height: isLangEnglish()
+                      ? screenHeight * 0.38
+                      : screenHeight * 0.4,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20)),
@@ -188,6 +190,9 @@ class HomeScreenController extends GetxController {
       );
     }
   }
+
+  void sosRequestPress() =>
+      handleLocation().whenComplete(() => sosRequest(pressed: true));
 
   void sosRequest({required bool pressed}) async {
     if (pressed) showLoadingScreen();

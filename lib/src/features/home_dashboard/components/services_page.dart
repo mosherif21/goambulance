@@ -59,7 +59,7 @@ class ServicesScreen extends StatelessWidget {
                                 buttonText: 'sosRequest'.tr,
                                 imagePath: kSosImage,
                                 onPressed: () => HomeScreenController.instance
-                                    .sosRequest(pressed: true),
+                                    .sosRequestPress(),
                               ),
                             )
                           : Expanded(

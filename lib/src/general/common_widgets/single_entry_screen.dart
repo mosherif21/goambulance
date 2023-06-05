@@ -46,7 +46,7 @@ class SingleEntryScreen extends StatelessWidget {
     if (inputType == InputType.phone) {
       Get.put(OtpVerificationController());
     } else if (inputType == InputType.email) {
-      Get.put(ResetController());
+      Get.put(ResetPasswordController());
     }
     return WillPopScope(
       onWillPop: () async {
@@ -118,7 +118,7 @@ class SingleEntryScreen extends StatelessWidget {
                           hintText: textFormHint,
                           prefixIconData: prefixIconData,
                           textController:
-                              ResetController.instance.emailController,
+                              ResetPasswordController.instance.emailController,
                           inputType: inputType,
                           editable: true,
                           textInputAction: TextInputAction.done,
@@ -133,9 +133,8 @@ class SingleEntryScreen extends StatelessWidget {
                             linkWithPhone: linkWithPhone,
                             goToInitPage: goToInitPage);
                       } else {
-                        final controller = ResetController.instance;
-                        controller.resetPassword(
-                            controller.emailController.value.text.trim());
+                        final controller = ResetPasswordController.instance;
+                        controller.resetPassword();
                       }
                     },
                     color: Colors.black,

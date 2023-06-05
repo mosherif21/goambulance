@@ -5,21 +5,11 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 
-class ResetPasswordController extends GetxController {
-  static ResetPasswordController get instance => Get.find();
+class ChangeEmailController extends GetxController {
+  static ChangeEmailController get instance => Get.find();
   final emailController = TextEditingController();
-  @override
-  void onReady() {
-    final user = AuthenticationRepository.instance.fireUser.value;
-    if (user != null) {
-      if (user.email != null) {
-        emailController.text = user.email!;
-      }
-    }
-    super.onReady();
-  }
 
-  Future<void> resetPassword() async {
+  Future<void> changeEmail() async {
     FocusManager.instance.primaryFocus?.unfocus();
     final email = emailController.text.trim();
     showLoadingScreen();
@@ -27,13 +17,12 @@ class ResetPasswordController extends GetxController {
         ? 'missingEmail'.tr
         : !email.isEmail
             ? 'invalidEmailEntered'.tr
-            : await AuthenticationRepository.instance
-                .resetPassword(email: email);
+            : await AuthenticationRepository.instance.changeEmail(email: email);
 
     if (returnMessage == 'emailSent') {
       Get.back();
       showSnackBar(
-        text: 'passwordResetSuccess'.tr,
+        text: 'emailChangeSuccess'.tr,
         snackBarType: SnackBarType.success,
       );
     } else {

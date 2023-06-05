@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/authentication/components/resetPassword/email_reset_screen.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 
 import '../../../../general/common_widgets/framed_button.dart';

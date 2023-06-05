@@ -405,6 +405,23 @@ Future<bool> handleGeneralPermission({
   return false;
 }
 
+void getToResetPasswordScreen() {
+  Get.to(
+    () => SingleEntryScreen(
+      title: 'passwordResetLink'.tr,
+      prefixIconData: Icons.email_outlined,
+      lottieAssetAnim: kEmailVerificationAnim,
+      textFormTitle: 'emailLabel'.tr,
+      textFormHint: 'emailHintLabel'.tr,
+      buttonTitle: 'confirm'.tr,
+      inputType: InputType.email,
+      linkWithPhone: false,
+      goToInitPage: false,
+    ),
+    transition: getPageTransition(),
+  );
+}
+
 String formatDateTime(Timestamp timestamp) {
   DateTime dateTime =
       DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);

@@ -73,7 +73,7 @@ class Languages extends Translations {
           'account': 'الحساب',
           'requests': 'الطلبات',
           'help': 'المساعدة',
-          'emailResetSuccess':
+          'passwordResetSuccess':
               'تم إرسال البريد الإلكتروني الخاص بإعادة تعيين كلمة المرور بنجاح',
           'emptyFields': 'لا يمكن أن تكون الخانات فارغة',
           'smallPass': 'لا يمكن أن تكون كلمة المرور أقل من 8 أحرف',
@@ -393,8 +393,14 @@ class Languages extends Translations {
               'لديك بالفعل طلب استغاثة قيد المعالجة أو تم إرساله إلى المستشفى',
           'loggedInPasswordResetLink':
               'اضغط على زر التأكيد للحصول على رابط إعادة تعيين كلمة المرور',
+          'accountTitle7': 'أرسال رابط تغيير البريد الإلكتروني',
+          'enterNewEmail':
+              'يرجى إدخال بريدك الإلكتروني الجديد للحصول على رابط التحقق من تغيير البريد الإلكتروني',
+          'emailChangeSuccess': 'تم إرسال رابط تغيير البريد الإلكتروني بنجاح',
         },
         'en_US': {
+          'enterNewEmail':
+              'Please enter your new email to get the change email verification link',
           'sosRequestInitFailed':
               'SOS request failed because we couldn\'t access your location or primary address',
           'sosRequestSent':
@@ -541,7 +547,8 @@ class Languages extends Translations {
           'account': 'Account',
           'requests': 'Requests',
           'help': 'Help',
-          'emailResetSuccess': 'Reset password email sent successfully',
+          'passwordResetSuccess': 'Reset password email sent successfully',
+          'emailChangeSuccess': 'Change email link sent successfully',
           'emptyFields': 'Fields can\'t be empty',
           'smallPass': 'Password can\'t be less than 8 characters',
           'passwordNotMatch': 'Passwords doesn\'t match',
@@ -768,6 +775,7 @@ class Languages extends Translations {
           'linkFacebookAccount': 'Link Facebook Account',
           'accountTitle5': 'Link email and password account',
           'accountTitle6': 'Send reset password link',
+          'accountTitle7': 'Send email change link',
           'verify': 'Verify Email',
           'aboutUsTitle1': 'Terms of use',
           'aboutUsTitle2': 'Privacy Policy',

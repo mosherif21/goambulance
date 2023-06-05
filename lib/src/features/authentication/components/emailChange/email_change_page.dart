@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/authentication/controllers/reset_password_controller.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
@@ -12,14 +11,15 @@ import '../../../../constants/assets_strings.dart';
 import '../../../../constants/enums.dart';
 import '../../../../constants/sizes.dart';
 import '../../../../general/app_init.dart';
+import '../../controllers/change_email_controller.dart';
 
-class LoggedInResetPasswordPage extends StatelessWidget {
-  const LoggedInResetPasswordPage({Key? key}) : super(key: key);
+class EmailChangePage extends StatelessWidget {
+  const EmailChangePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    final controller = Get.put(ResetController());
+    final controller = Get.put(ChangeEmailController());
     return WillPopScope(
       onWillPop: () {
         return Future.value(true);
@@ -46,7 +46,7 @@ class LoggedInResetPasswordPage extends StatelessWidget {
                     height: screenHeight * 0.4,
                   ),
                   AutoSizeText(
-                    'loggedInPasswordResetLink'.tr,
+                    'enterNewEmail'.tr,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: AppInit.notWebMobile ? 25 : 14,
@@ -64,15 +64,14 @@ class LoggedInResetPasswordPage extends StatelessWidget {
                     prefixIconData: Icons.email_outlined,
                     textController: controller.emailController,
                     inputType: InputType.email,
-                    editable: false,
+                    editable: true,
                     textInputAction: TextInputAction.done,
                   ),
                   const SizedBox(height: 20.0),
                   RegularElevatedButton(
                     buttonText: 'confirm'.tr,
                     enabled: true,
-                    onPressed: () => controller.resetPassword(
-                        controller.emailController.value.text.trim()),
+                    onPressed: () => controller.changeEmail(),
                     color: Colors.black,
                   ),
                   const SizedBox(height: 20),

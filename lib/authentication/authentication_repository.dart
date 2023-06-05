@@ -579,6 +579,38 @@ class AuthenticationRepository extends GetxController {
     return null;
   }
 
+  Future<String> changeEmail({required String email}) async {
+    String returnMessage = 'unknownError'.tr;
+    try {
+      if (_auth.currentUser != null) {
+        await _auth.setLanguageCode(isLangEnglish() ? 'en' : 'ar');
+        await _auth.currentUser!
+            .verifyBeforeUpdateEmail(email)
+            .whenComplete(() => returnMessage = 'emailSent');
+        await _auth.setLanguageCode('en');
+      }
+    } on FirebaseAuthException catch (e) {
+      if (kDebugMode) {
+        AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${e.code}');
+      }
+      switch (e.code) {
+        case 'invalid-email':
+          return 'invalidEmailEntered'.tr;
+        case 'missing-email':
+          return 'missingEmail'.tr;
+        case 'email-already-in-use':
+          return 'emailAlreadyExists'.tr;
+        default:
+          return 'unknownError'.tr;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
+    }
+    return returnMessage;
+  }
+
   Future<String> resetPassword({required String email}) async {
     String returnMessage = 'unknownError'.tr;
     try {

@@ -9,7 +9,7 @@ import '../../../../general/common_widgets/regular_text_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';
 import '../../../../general/common_widgets/text_form_field_passwords.dart';
 import '../../../../general/general_functions.dart';
-import '../resetPassword/forgot_password.dart';
+import '../resetPassword/forgot_password_layout.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({

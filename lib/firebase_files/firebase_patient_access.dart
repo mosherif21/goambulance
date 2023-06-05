@@ -662,20 +662,8 @@ class FirebasePatientDataAccess extends GetxController {
     required SosRequestModel sosRequestInfo,
   }) async {
     try {
-      final requestDataBatch = fireStore.batch();
       final sosRequestRef = fireStore.collection('sosRequests').doc();
-      requestDataBatch.set(sosRequestRef, sosRequestInfo.toJson());
-      final medicalHistory = sosRequestInfo.medicalHistory;
-      requestDataBatch.update(sosRequestRef, medicalHistory.toJson());
-      if (medicalHistory.diseasesList.isNotEmpty) {
-        for (DiseaseItem diseaseItem in medicalHistory.diseasesList) {
-          {
-            final diseaseRef = sosRequestRef.collection('diseases').doc();
-            requestDataBatch.set(diseaseRef, diseaseItem.toJson());
-          }
-        }
-      }
-      await requestDataBatch.commit();
+      await sosRequestRef.set(sosRequestInfo.toJson());
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) {

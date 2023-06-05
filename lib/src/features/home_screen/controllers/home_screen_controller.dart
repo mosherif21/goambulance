@@ -11,7 +11,6 @@ import 'package:flutter_zoom_drawer/config.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
-import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
@@ -259,20 +258,10 @@ class HomeScreenController extends GetxController {
 
   void sendSosRequest({required GeoPoint requestLocation}) async {
     final firebasePatientDataAccess = FirebasePatientDataAccess.instance;
-    final diseasesList = await firebasePatientDataAccess.getDiseases();
     final authRep = AuthenticationRepository.instance;
-    final medicalHistoryModel = MedicalHistoryModel(
-      bloodType: authRep.userInfo.bloodType,
-      diabetic: authRep.userInfo.diabetic,
-      hypertensive: authRep.userInfo.hypertensive,
-      heartPatient: authRep.userInfo.heartPatient,
-      additionalInformation: authRep.userInfo.additionalInformation,
-      diseasesList: diseasesList,
-    );
     final sosRequest = SosRequestModel(
       userId: authRep.fireUser.value!.uid,
       requestLocation: requestLocation,
-      medicalHistory: medicalHistoryModel,
     );
     firebasePatientDataAccess
         .sosRequest(sosRequestInfo: sosRequest)

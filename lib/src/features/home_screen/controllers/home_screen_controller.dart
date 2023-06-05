@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
@@ -204,9 +206,11 @@ class HomeScreenController extends GetxController {
               await Permission.location.status.isGranted;
           final locationServiceEnabled = await Location().serviceEnabled();
           if (locationPermissionGranted && locationServiceEnabled) {
-            geolocator.Geolocator.getCurrentPosition(
-                    desiredAccuracy: geolocator.LocationAccuracy.high)
-                .then((currentLocation) {
+            try {
+              final currentLocation =
+                  await geolocator.Geolocator.getCurrentPosition(
+                      desiredAccuracy: geolocator.LocationAccuracy.high,
+                      timeLimit: const Duration(seconds: 10));
               if (kDebugMode) {
                 print(
                     'current location for sos Request ${currentLocation.latitude.toString()}, ${currentLocation.longitude.toString()}');
@@ -215,18 +219,20 @@ class HomeScreenController extends GetxController {
               showSosAlertDialogue(
                   requestLocation: GeoPoint(
                       currentLocation.latitude, currentLocation.longitude));
-            });
-          } else {
-            final primaryAddressLocation =
-                await firebasePatientAccess.getPrimaryAddressLocation();
-            if (pressed) hideLoadingScreen();
-            if (primaryAddressLocation != null) {
-              showSosAlertDialogue(requestLocation: primaryAddressLocation);
-            } else {
-              showSnackBar(
-                  text: 'sosRequestInitFailed'.tr,
-                  snackBarType: SnackBarType.error);
+            } on TimeoutException catch (_) {
+              if (kDebugMode) {
+                AppInit.logger
+                    .e('Location get timed out trying sos using primary');
+              }
+              sendSosPrimaryAddress(pressed: pressed);
+            } on geolocator.LocationServiceDisabledException catch (_) {
+              if (kDebugMode) {
+                AppInit.logger.e('Location get error trying sos using primary');
+              }
+              sendSosPrimaryAddress(pressed: pressed);
             }
+          } else {
+            sendSosPrimaryAddress(pressed: pressed);
           }
         } else {
           if (pressed) hideLoadingScreen();
@@ -235,6 +241,18 @@ class HomeScreenController extends GetxController {
         }
       }
     });
+  }
+
+  void sendSosPrimaryAddress({required bool pressed}) async {
+    final primaryAddressLocation =
+        await FirebasePatientDataAccess.instance.getPrimaryAddressLocation();
+    if (pressed) hideLoadingScreen();
+    if (primaryAddressLocation != null) {
+      showSosAlertDialogue(requestLocation: primaryAddressLocation);
+    } else {
+      showSnackBar(
+          text: 'sosRequestInitFailed'.tr, snackBarType: SnackBarType.error);
+    }
   }
 
   void sendSosRequest({required GeoPoint requestLocation}) async {

@@ -58,8 +58,8 @@ class ServicesScreen extends StatelessWidget {
                               child: RoundedImageElevatedButton(
                                 buttonText: 'sosRequest'.tr,
                                 imagePath: kSosImage,
-                                onPressed: () =>
-                                    HomeScreenController.instance.sosRequest(),
+                                onPressed: () => HomeScreenController.instance
+                                    .sosRequest(pressed: true),
                               ),
                             )
                           : Expanded(

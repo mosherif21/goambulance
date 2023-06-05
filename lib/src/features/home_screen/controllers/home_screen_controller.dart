@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,13 +9,13 @@ import 'package:flutter_zoom_drawer/config.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
-import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/notifications/screens/notifications_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
+import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -91,7 +92,7 @@ class HomeScreenController extends GetxController {
                 }
               }
               if (containsEmergencyWord) {
-                sosRequest();
+                sosRequest(pressed: false);
               }
             }
           },
@@ -100,11 +101,12 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void showSosAlertDialogue() {
+  void showSosAlertDialogue({required GeoPoint requestLocation}) {
     if (Get.context != null) {
       showDialog(
         context: Get.context!,
         builder: (BuildContext context) {
+          final screenHeight = getScreenHeight(context);
           return Dialog(
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -112,48 +114,72 @@ class HomeScreenController extends GetxController {
               onWillPop: () {
                 return Future.value(false);
               },
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircularCountDownTimer(
-                      duration: 5,
-                      initialDuration: 0,
-                      width: MediaQuery.of(context).size.width / 2,
-                      height: MediaQuery.of(context).size.height / 2,
-                      ringColor: Colors.grey[300]!,
-                      ringGradient: null,
-                      fillColor: kDefaultColorLessShade,
-                      fillGradient: null,
-                      backgroundColor: kDefaultColor,
-                      backgroundGradient: null,
-                      strokeWidth: 20.0,
-                      strokeCap: StrokeCap.round,
-                      textStyle: const TextStyle(
-                          fontSize: 33.0,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold),
-                      textFormat: CountdownTextFormat.S,
-                      isReverse: true,
-                      isReverseAnimation: true,
-                      isTimerTextShown: true,
-                      autoStart: true,
-                      onStart: () {
-                        debugPrint('Countdown Started');
-                      },
-                      onComplete: () {
-                        Get.back();
-                        debugPrint('Countdown Ended');
-                      },
-                      onChange: (String timeStamp) {},
-                      timeFormatterFunction:
-                          (defaultFormatterFunction, duration) {
-                        return Function.apply(
-                            defaultFormatterFunction, [duration]);
-                      },
-                    ),
-                  ],
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  height: screenHeight * 0.4,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      AutoSizeText(
+                        'sosRequestCount'.tr,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.w800,
+                        ),
+                        maxLines: 2,
+                      ),
+                      const SizedBox(height: 15),
+                      CircularCountDownTimer(
+                        duration: 5,
+                        initialDuration: 0,
+                        width: 150,
+                        height: screenHeight * 0.2,
+                        ringColor: Colors.grey[300]!,
+                        ringGradient: null,
+                        fillColor: Colors.black,
+                        fillGradient: null,
+                        backgroundColor: Colors.white,
+                        backgroundGradient: null,
+                        strokeWidth: 20.0,
+                        strokeCap: StrokeCap.round,
+                        textStyle: const TextStyle(
+                            fontSize: 33.0,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                        textFormat: CountdownTextFormat.S,
+                        isReverse: true,
+                        isReverseAnimation: true,
+                        isTimerTextShown: true,
+                        autoStart: true,
+                        onStart: () {},
+                        onComplete: () {
+                          Get.back();
+                          sendSosRequest(requestLocation: requestLocation);
+                        },
+                        onChange: (String timeStamp) {},
+                        timeFormatterFunction:
+                            (defaultFormatterFunction, duration) {
+                          return Function.apply(
+                              defaultFormatterFunction, [duration]);
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: RoundedElevatedButton(
+                          buttonText: 'cancel'.tr,
+                          onPressed: () => Get.back(),
+                          enabled: true,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -163,29 +189,30 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void sosRequest() async {
+  void sosRequest({required bool pressed}) async {
+    if (pressed) showLoadingScreen();
     final locationPermissionGranted =
         await Permission.location.status.isGranted;
     final locationServiceEnabled = await Location().serviceEnabled();
     if (locationPermissionGranted && locationServiceEnabled) {
-      await geolocator.Geolocator.getCurrentPosition(
+      geolocator.Geolocator.getCurrentPosition(
               desiredAccuracy: geolocator.LocationAccuracy.high)
           .then((currentLocation) {
         if (kDebugMode) {
           print(
               'current location for sos Request ${currentLocation.latitude.toString()}, ${currentLocation.longitude.toString()}');
         }
-        // sendSosRequest(
-        //     requestLocation:
-        //         GeoPoint(currentLocation.latitude, currentLocation.longitude));
-        showSosAlertDialogue();
+        if (pressed) hideLoadingScreen();
+        showSosAlertDialogue(
+            requestLocation:
+                GeoPoint(currentLocation.latitude, currentLocation.longitude));
       });
     } else {
       final primaryAddressLocation =
           await FirebasePatientDataAccess.instance.getPrimaryAddressLocation();
+      if (pressed) hideLoadingScreen();
       if (primaryAddressLocation != null) {
-        //sendSosRequest(requestLocation: primaryAddressLocation);
-        showSosAlertDialogue();
+        showSosAlertDialogue(requestLocation: primaryAddressLocation);
       } else {
         showSnackBar(
             text: 'sosRequestInitFailed'.tr, snackBarType: SnackBarType.error);

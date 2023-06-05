@@ -690,6 +690,45 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
+  Future<bool?> checkUserHasSosRequest() async {
+    try {
+      final sosExist = await fireStore
+          .collection('sosRequests')
+          .where('userId', isEqualTo: userId)
+          .get();
+      if (sosExist.docs.isNotEmpty) {
+        return true;
+      }
+      final sosPendingExist = await fireStore
+          .collection('pendingRequests')
+          .where('userId', isEqualTo: userId)
+          .where('patientCondition', isEqualTo: 'sosRequest')
+          .get();
+      if (sosPendingExist.docs.isNotEmpty) {
+        return true;
+      }
+      final sosAssignedExist = await fireStore
+          .collection('assignedRequests')
+          .where('userId', isEqualTo: userId)
+          .where('patientCondition', isEqualTo: 'sosRequest')
+          .get();
+      if (sosAssignedExist.docs.isNotEmpty) {
+        return true;
+      }
+      return false;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+      return null;
+    }
+    return null;
+  }
+
   Future<FunctionStatus> requestHospital({
     required RequestModel requestInfo,
   }) async {

@@ -389,6 +389,8 @@ class Languages extends Translations {
               'سيتم معالجة طلب الاستغاثة بواسطة نظامنا لطلب أقرب مستشفى',
           'sosRequestSendFailed': 'فشل إرسال طلب الاستغاثة',
           'sosRequestCount': 'سيتم إرسال طلب استغاثة',
+          'hasSosRequest':
+              'لديك بالفعل طلب استغاثة قيد المعالجة أو تم إرساله إلى المستشفى',
         },
         'en_US': {
           'sosRequestInitFailed':
@@ -397,6 +399,8 @@ class Languages extends Translations {
               'SOS request will be processed by our system to request the nearest hospital',
           'sosRequestSendFailed': 'SOS request send failed',
           'sosRequestCount': 'SOS request will be sent',
+          'hasSosRequest':
+              'You already have an SOS request being processed or was sent to a hospital',
           'requireRecentLoginError':
               'This operation is sensitive and requires recent authentication',
           'linkEmailPassword': 'Link email and password',

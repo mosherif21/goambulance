@@ -81,7 +81,6 @@ class RequestModel {
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,
         'status': status,
-        'notified': true,
       };
 }
 

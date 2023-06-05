@@ -194,35 +194,47 @@ class HomeScreenController extends GetxController {
   void sosRequestPress() =>
       handleLocation().whenComplete(() => sosRequest(pressed: true));
 
-  void sosRequest({required bool pressed}) async {
+  void sosRequest({required bool pressed}) {
     if (pressed) showLoadingScreen();
-    final locationPermissionGranted =
-        await Permission.location.status.isGranted;
-    final locationServiceEnabled = await Location().serviceEnabled();
-    if (locationPermissionGranted && locationServiceEnabled) {
-      geolocator.Geolocator.getCurrentPosition(
-              desiredAccuracy: geolocator.LocationAccuracy.high)
-          .then((currentLocation) {
-        if (kDebugMode) {
-          print(
-              'current location for sos Request ${currentLocation.latitude.toString()}, ${currentLocation.longitude.toString()}');
+    final firebasePatientAccess = FirebasePatientDataAccess.instance;
+    firebasePatientAccess.checkUserHasSosRequest().then((hasSosRequest) async {
+      if (hasSosRequest != null) {
+        if (!hasSosRequest) {
+          final locationPermissionGranted =
+              await Permission.location.status.isGranted;
+          final locationServiceEnabled = await Location().serviceEnabled();
+          if (locationPermissionGranted && locationServiceEnabled) {
+            geolocator.Geolocator.getCurrentPosition(
+                    desiredAccuracy: geolocator.LocationAccuracy.high)
+                .then((currentLocation) {
+              if (kDebugMode) {
+                print(
+                    'current location for sos Request ${currentLocation.latitude.toString()}, ${currentLocation.longitude.toString()}');
+              }
+              if (pressed) hideLoadingScreen();
+              showSosAlertDialogue(
+                  requestLocation: GeoPoint(
+                      currentLocation.latitude, currentLocation.longitude));
+            });
+          } else {
+            final primaryAddressLocation =
+                await firebasePatientAccess.getPrimaryAddressLocation();
+            if (pressed) hideLoadingScreen();
+            if (primaryAddressLocation != null) {
+              showSosAlertDialogue(requestLocation: primaryAddressLocation);
+            } else {
+              showSnackBar(
+                  text: 'sosRequestInitFailed'.tr,
+                  snackBarType: SnackBarType.error);
+            }
+          }
+        } else {
+          if (pressed) hideLoadingScreen();
+          showSnackBar(
+              text: 'hasSosRequest'.tr, snackBarType: SnackBarType.error);
         }
-        if (pressed) hideLoadingScreen();
-        showSosAlertDialogue(
-            requestLocation:
-                GeoPoint(currentLocation.latitude, currentLocation.longitude));
-      });
-    } else {
-      final primaryAddressLocation =
-          await FirebasePatientDataAccess.instance.getPrimaryAddressLocation();
-      if (pressed) hideLoadingScreen();
-      if (primaryAddressLocation != null) {
-        showSosAlertDialogue(requestLocation: primaryAddressLocation);
-      } else {
-        showSnackBar(
-            text: 'sosRequestInitFailed'.tr, snackBarType: SnackBarType.error);
       }
-    }
+    });
   }
 
   void sendSosRequest({required GeoPoint requestLocation}) async {

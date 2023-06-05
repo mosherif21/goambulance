@@ -395,12 +395,12 @@ class Languages extends Translations {
               'اضغط على زر التأكيد للحصول على رابط إعادة تعيين كلمة المرور',
           'accountTitle7': 'أرسال رابط تغيير البريد الإلكتروني',
           'enterNewEmail':
-              'يرجى إدخال بريدك الإلكتروني الجديد للحصول على رابط التحقق من تغيير البريد الإلكتروني',
+              'يرجى إدخال بريدك الإلكتروني الجديد لإرسال رابط تغيير البريد الإلكتروني إليه',
           'emailChangeSuccess': 'تم إرسال رابط تغيير البريد الإلكتروني بنجاح',
         },
         'en_US': {
           'enterNewEmail':
-              'Please enter your new email to get the change email verification link',
+              'Please enter your new email to send the email change link to it',
           'sosRequestInitFailed':
               'SOS request failed because we couldn\'t access your location or primary address',
           'sosRequestSent':

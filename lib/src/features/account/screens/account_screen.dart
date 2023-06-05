@@ -10,6 +10,7 @@ import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../general/general_functions.dart';
+import '../../authentication/components/emailChange/email_change_page.dart';
 import '../../authentication/components/resetPassword/logged_in_reset_password_page.dart';
 import '../components/addresses/addresses_page.dart';
 import '../components/edit_account/edit_medical_history_page.dart';
@@ -101,7 +102,7 @@ class AccountScreen extends StatelessWidget {
                             children: [
                               RegularClickableCardNoP(
                                 onPressed: () => Get.to(
-                                    () => const LoggedInResetPasswordPage(),
+                                    () => const EmailChangePage(),
                                     transition: getPageTransition()),
                                 title: 'accountTitle7'.tr,
                                 subTitle: '',

@@ -118,7 +118,6 @@ class TrackingRequestController extends GetxController {
   @override
   void onReady() async {
     initMapController();
-    await locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
@@ -486,9 +485,11 @@ class TrackingRequestController extends GetxController {
     if (hospitalWindowController.hideInfoWindow != null) {
       hospitalWindowController.hideInfoWindow!();
     }
-    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => animateToLocation(locationLatLng: currentChosenLatLng));
     clearSearchedHospitals();
+    Future.delayed(const Duration(milliseconds: 100))
+        .whenComplete(
+            () => animateToLocation(locationLatLng: currentChosenLatLng))
+        .whenComplete(() => locationInit());
   }
 
   Future<List<DocumentSnapshot<Object?>>> getHospitalsList() async {

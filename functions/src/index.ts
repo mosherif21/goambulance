@@ -3,6 +3,8 @@ import * as admin from "firebase-admin";
 
 admin.initializeApp();
 
+const firestore = admin.firestore();
+
 exports.deletePendingRequests = functions.pubsub
     .schedule("every 1 minutes")
     .onRun(async (context) => {
@@ -10,7 +12,7 @@ exports.deletePendingRequests = functions.pubsub
       const thresholdTime = currentTime.toMillis() -
         (1 * 60 * 1000);
 
-      const pendingRequestsRef = admin.firestore()
+      const pendingRequestsRef = firestore
           .collection("pendingRequests");
       const querySnapshot = await pendingRequestsRef
           .where("status", "==", "pending")
@@ -22,7 +24,7 @@ exports.deletePendingRequests = functions.pubsub
           .get();
 
       const deletionPromises: Promise<void>[] = [];
-      const batch = admin.firestore().batch();
+      const batch = firestore.batch();
 
       querySnapshot.forEach((doc) => {
         const requestId = doc.id;
@@ -40,7 +42,7 @@ exports.deletePendingRequests = functions.pubsub
           backupNumber,
         } = doc.data();
 
-        const canceledRequestRef = admin.firestore()
+        const canceledRequestRef = firestore
             .collection("canceledRequests")
             .doc(requestId);
         batch.set(canceledRequestRef, {
@@ -56,14 +58,14 @@ exports.deletePendingRequests = functions.pubsub
           cancelReason: "timedOut",
         });
 
-        const userCanceledRef = admin.firestore()
+        const userCanceledRef = firestore
             .collection("users")
             .doc(userId)
             .collection("canceledRequests")
             .doc(requestId);
         batch.set(userCanceledRef, {});
 
-        const hospitalCanceledRef = admin.firestore()
+        const hospitalCanceledRef = firestore
             .collection("hospitals")
             .doc(hospitalId)
             .collection("canceledRequests")
@@ -71,9 +73,9 @@ exports.deletePendingRequests = functions.pubsub
         batch.set(hospitalCanceledRef, {});
 
         const docRef = doc.ref;
-        const hospitalDocRef = admin.firestore()
+        const hospitalDocRef = firestore
             .collection("hospitals").doc(hospitalId);
-        const patientDocRef = admin.firestore()
+        const patientDocRef = firestore
             .collection("users").doc(userId);
 
         // Delete "diseases" subCollection within the "pendingRequests" document
@@ -96,7 +98,7 @@ exports.deletePendingRequests = functions.pubsub
         batch.delete(userPendingRef);
 
         // Get the document from Firestore
-        admin.firestore()
+        firestore
             .collection("fcmTokens").doc(userId).get().then((snapshot) => {
               // Check if the document exists
               if (snapshot.exists) {
@@ -159,7 +161,6 @@ exports.deletePendingRequests = functions.pubsub
 
 /**
  * Deletes all documents within a Firestore collection.
- *
  * @param {FirebaseFirestore.CollectionReference} collectionRef
  * @param {FirebaseFirestore.WriteBatch} batch - batch object for deletion.
  * @return {Promise<void>} - promise that resolves when all deleted.

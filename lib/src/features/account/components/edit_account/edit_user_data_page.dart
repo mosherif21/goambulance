@@ -51,14 +51,6 @@ class EditUserDataPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AutoSizeText(
-                    'editUserInfo'.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    maxLines: 2,
-                  ),
                   const SizedBox(height: 10.0),
                   Obx(
                     () => RegularCard(

@@ -12,7 +12,7 @@ exports.cancelPendingRequests = functions.pubsub
   .schedule("every 1 minutes")
   .onRun(async (context: functions.EventContext<Record<string, string>>) => {
     const currentTime = admin.firestore.Timestamp.now();
-    const thresholdTime = currentTime.toMillis() - (1 * 60 * 1000);
+    const thresholdTime = currentTime.toMillis() - (2 * 60 * 1000);
 
     const pendingRequestsRef = firestore.collection("pendingRequests");
     const querySnapshot = await pendingRequestsRef

@@ -174,11 +174,11 @@ exports.processSOSRequests = functions.firestore
       const sosRequestId = snapshot.id;
       const sosLocation = sosRequest.requestLocation;
 
-      const radiusInM = 15000;
+      const radiusInKm = 15;
 
       const query = hospitalLocationsCollection.near({
         center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
-        radius: radiusInM
+        radius: radiusInKm
       }).limit(1);
 
       const querySnapshot = await query.get();

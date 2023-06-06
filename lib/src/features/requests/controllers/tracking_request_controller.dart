@@ -240,15 +240,15 @@ class TrackingRequestController extends GetxController {
   void onRequestCanceledChanges() {
     requestStatus.value = RequestStatus.non;
     onRefresh();
+    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
+        () => animateToLocation(locationLatLng: currentChosenLatLng));
   }
 
   Future<void> locationInit() async {
-    showLoadingScreen();
     await handleLocationService().then((locationService) {
       locationServiceEnabled.value = locationService;
       setupLocationPermission();
     });
-    hideLoadingScreen();
   }
 
   Future<void> setupLocationPermission() async {

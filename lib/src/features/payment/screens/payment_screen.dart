@@ -139,8 +139,7 @@ class PaymentScreen extends StatelessWidget {
                                 bearing: 0.0,
                                 enableRefresh: false,
                                 alternatives: false,
-                                voiceInstructionsEnabled:
-                                    isLangEnglish() ? true : false,
+                                voiceInstructionsEnabled: true,
                                 bannerInstructionsEnabled: true,
                                 allowsUTurnAtWayPoints: true,
                                 mode: MapBoxNavigationMode.drivingWithTraffic,

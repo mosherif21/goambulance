@@ -102,9 +102,9 @@ class AddressesLocationController extends GetxController {
 
   Future<void> onLocationPress() async {
     if (allowedLocation) {
+      AddressesController.instance
+          .confirmAddressLocation(confirmAddressLocation: currentChosenLatLng);
       if (kDebugMode) {
-        AddressesController.instance.confirmAddressLocation(
-            confirmAddressLocation: currentChosenLatLng);
         print('chosen location LatLng: $currentChosenLatLng');
         print('chosen location address: $currentChosenLocationAddress');
       }

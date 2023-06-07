@@ -138,7 +138,7 @@ class PaymentScreen extends StatelessWidget {
                                 tilt: 0.0,
                                 bearing: 0.0,
                                 enableRefresh: false,
-                                alternatives: true,
+                                alternatives: false,
                                 voiceInstructionsEnabled:
                                     isLangEnglish() ? true : false,
                                 bannerInstructionsEnabled: true,
@@ -147,9 +147,9 @@ class PaymentScreen extends StatelessWidget {
                                 mapStyleUrlDay: "https://url_to_day_style",
                                 mapStyleUrlNight: "https://url_to_night_style",
                                 units: VoiceUnits.imperial,
-                                simulateRoute: true,
+                                simulateRoute: false,
                                 language: isLangEnglish() ? "en" : "ar",
-                                longPressDestinationEnabled: false,
+                                longPressDestinationEnabled: true,
                                 isOptimized: true,
                                 // showEndOfRouteFeedback: ,
                                 // showReportFeedbackButton: ,
@@ -160,14 +160,14 @@ class PaymentScreen extends StatelessWidget {
                               name: isLangEnglish() ? "Hospital" : "المستشفى",
                               latitude: 31.21573006389394,
                               longitude: 29.934194294709147,
-                              isSilent: isLangEnglish() ? true : false,
+                              isSilent: false,
                             );
 
                             final patient = WayPoint(
                               name: isLangEnglish() ? "Patient" : "المريض",
                               latitude: 31.2333236,
                               longitude: 29.9540145,
-                              isSilent: isLangEnglish() ? true : false,
+                              isSilent: false,
                             );
                             var wayPoints = <WayPoint>[];
                             wayPoints.add(patient);

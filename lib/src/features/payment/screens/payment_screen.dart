@@ -131,31 +131,6 @@ class PaymentScreen extends StatelessWidget {
                         ElevatedButton(
                           child: const Text("Start A to B"),
                           onPressed: () async {
-                            MapBoxNavigation.instance.setDefaultOptions(
-                              MapBoxOptions(
-                                initialLatitude: 31.2333236,
-                                initialLongitude: 29.9540145,
-                                zoom: 13.0,
-                                tilt: 0.0,
-                                bearing: 0.0,
-                                enableRefresh: false,
-                                alternatives: false,
-                                voiceInstructionsEnabled: true,
-                                bannerInstructionsEnabled: true,
-                                allowsUTurnAtWayPoints: true,
-                                mode: MapBoxNavigationMode.drivingWithTraffic,
-                                mapStyleUrlDay: "https://url_to_day_style",
-                                mapStyleUrlNight: "https://url_to_night_style",
-                                units: VoiceUnits.imperial,
-                                simulateRoute: false,
-                                language: "en",
-                                longPressDestinationEnabled: true,
-                                isOptimized: true,
-                                // showEndOfRouteFeedback: ,
-                                // showReportFeedbackButton: ,
-                              ),
-                            );
-
                             final hospital = WayPoint(
                               name: isLangEnglish() ? "Hospital" : "المستشفى",
                               latitude: 31.21573006389394,
@@ -172,8 +147,31 @@ class PaymentScreen extends StatelessWidget {
                             var wayPoints = <WayPoint>[];
                             wayPoints.add(patient);
                             wayPoints.add(hospital);
-                            await MapBoxNavigation.instance
-                                .startNavigation(wayPoints: wayPoints);
+                            await MapBoxNavigation.instance.startNavigation(
+                              wayPoints: wayPoints,
+                              options: MapBoxOptions(
+                                initialLatitude: 31.2333236,
+                                initialLongitude: 29.9540145,
+                                zoom: 13.0,
+                                tilt: 0.0,
+                                bearing: 0.0,
+                                enableRefresh: false,
+                                alternatives: false,
+                                voiceInstructionsEnabled: true,
+                                bannerInstructionsEnabled: true,
+                                allowsUTurnAtWayPoints: true,
+                                mode: MapBoxNavigationMode.drivingWithTraffic,
+                                // mapStyleUrlDay: "https://url_to_day_style",
+                                // mapStyleUrlNight: "https://url_to_night_style",
+                                units: VoiceUnits.imperial,
+                                simulateRoute: false,
+                                language: "en",
+                                longPressDestinationEnabled: true,
+                                isOptimized: true,
+                                // showEndOfRouteFeedback: ,
+                                showReportFeedbackButton: false,
+                              ),
+                            );
                           },
                         ),
                         const SizedBox(

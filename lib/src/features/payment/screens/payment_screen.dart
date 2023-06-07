@@ -147,7 +147,7 @@ class PaymentScreen extends StatelessWidget {
 //                                 mapStyleUrlNight: "https://url_to_night_style",
 //                                 units: VoiceUnits.imperial,
 //                                 simulateRoute: false,
-//                                 language: isLangEnglish() ? "en" : "ar",
+//                                 language:"en" ,
 //                                 longPressDestinationEnabled: true,
 //                                 isOptimized: true,
 //                                 // showEndOfRouteFeedback: ,

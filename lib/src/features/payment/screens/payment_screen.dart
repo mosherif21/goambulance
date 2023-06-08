@@ -99,6 +99,30 @@ class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
+    MapBoxNavigation.instance.setDefaultOptions(
+      MapBoxOptions(
+        initialLatitude: 31.2333236,
+        initialLongitude: 29.9540145,
+        zoom: 13.0,
+        tilt: 0.0,
+        bearing: 0.0,
+        enableRefresh: false,
+        alternatives: true,
+        voiceInstructionsEnabled: true,
+        bannerInstructionsEnabled: true,
+        allowsUTurnAtWayPoints: true,
+        mode: MapBoxNavigationMode.drivingWithTraffic,
+        // mapStyleUrlDay: "https://url_to_day_style",
+        // mapStyleUrlNight: "https://url_to_night_style",
+        units: VoiceUnits.imperial,
+        simulateRoute: true,
+        language: "en",
+        longPressDestinationEnabled: true,
+        isOptimized: true,
+        showReportFeedbackButton: false,
+        // showEndOfRouteFeedback: ,
+      ),
+    );
     return Scaffold(
       body: Center(
         child: ElevatedButton(
@@ -122,28 +146,6 @@ class PaymentScreen extends StatelessWidget {
             wayPoints.add(hospital);
             await MapBoxNavigation.instance.startNavigation(
               wayPoints: wayPoints,
-              options: MapBoxOptions(
-                initialLatitude: 31.2333236,
-                initialLongitude: 29.9540145,
-                zoom: 13.0,
-                tilt: 0.0,
-                bearing: 0.0,
-                enableRefresh: false,
-                alternatives: false,
-                voiceInstructionsEnabled: true,
-                bannerInstructionsEnabled: true,
-                allowsUTurnAtWayPoints: true,
-                mode: MapBoxNavigationMode.drivingWithTraffic,
-                // mapStyleUrlDay: "https://url_to_day_style",
-                // mapStyleUrlNight: "https://url_to_night_style",
-                units: VoiceUnits.imperial,
-                simulateRoute: false,
-                language: "en",
-                longPressDestinationEnabled: true,
-                isOptimized: true,
-                showReportFeedbackButton: false,
-                // showEndOfRouteFeedback: ,
-              ),
             );
           },
         ),

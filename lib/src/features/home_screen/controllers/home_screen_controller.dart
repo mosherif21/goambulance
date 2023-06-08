@@ -118,15 +118,14 @@ class HomeScreenController extends GetxController {
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.all(15),
-                  height: isLangEnglish()
-                      ? screenHeight * 0.38
-                      : screenHeight * 0.4,
+                  height: screenHeight * 0.4,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(20)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      const SizedBox(height: 5),
                       AutoSizeText(
                         'sosRequestCount'.tr,
                         style: const TextStyle(
@@ -136,7 +135,7 @@ class HomeScreenController extends GetxController {
                         ),
                         maxLines: 2,
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 20),
                       CircularCountDownTimer(
                         duration: 5,
                         initialDuration: 0,
@@ -171,9 +170,9 @@ class HomeScreenController extends GetxController {
                               defaultFormatterFunction, [duration]);
                         },
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 20),
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: RoundedElevatedButton(
                           buttonText: 'cancel'.tr,
                           onPressed: () => Get.back(),

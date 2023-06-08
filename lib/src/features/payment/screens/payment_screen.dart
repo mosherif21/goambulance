@@ -175,15 +175,6 @@ class PaymentScreen extends StatelessWidget {
                             );
                           },
                         ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ElevatedButton(
-                          child: const Text("Free Drive"),
-                          onPressed: () async {
-                            await MapBoxNavigation.instance.startFreeDrive();
-                          },
-                        ),
                       ],
                     ),
                   ],

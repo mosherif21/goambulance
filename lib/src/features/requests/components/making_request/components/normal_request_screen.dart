@@ -42,15 +42,6 @@ class NormalRequestScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 5.0),
-                  AutoSizeText(
-                    'enterRequestInfo'.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    maxLines: 2,
-                  ),
-                  const SizedBox(height: 20),
                   Obx(
                     () => RegularCard(
                       highlightRed: controller.highlightRequest.value,

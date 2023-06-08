@@ -99,89 +99,53 @@ class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
-
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Plugin example app'),
-      ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      color: Colors.grey,
-                      width: double.infinity,
-                      child: const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: (Text(
-                          "Full Screen Navigation",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        )),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          child: const Text("Start A to B"),
-                          onPressed: () async {
-                            final hospital = WayPoint(
-                              name: isLangEnglish() ? "Hospital" : "المستشفى",
-                              latitude: 31.21573006389394,
-                              longitude: 29.934194294709147,
-                              isSilent: false,
-                            );
+        child: ElevatedButton(
+          child: const Text("Start Navigation test"),
+          onPressed: () async {
+            final hospital = WayPoint(
+              name: isLangEnglish() ? "Hospital" : "المستشفى",
+              latitude: 31.21573006389394,
+              longitude: 29.934194294709147,
+              isSilent: false,
+            );
 
-                            final patient = WayPoint(
-                              name: isLangEnglish() ? "Patient" : "المريض",
-                              latitude: 31.2333236,
-                              longitude: 29.9540145,
-                              isSilent: false,
-                            );
-                            var wayPoints = <WayPoint>[];
-                            wayPoints.add(patient);
-                            wayPoints.add(hospital);
-                            await MapBoxNavigation.instance.startNavigation(
-                              wayPoints: wayPoints,
-                              options: MapBoxOptions(
-                                initialLatitude: 31.2333236,
-                                initialLongitude: 29.9540145,
-                                zoom: 13.0,
-                                tilt: 0.0,
-                                bearing: 0.0,
-                                enableRefresh: false,
-                                alternatives: false,
-                                voiceInstructionsEnabled: true,
-                                bannerInstructionsEnabled: true,
-                                allowsUTurnAtWayPoints: true,
-                                mode: MapBoxNavigationMode.drivingWithTraffic,
-                                // mapStyleUrlDay: "https://url_to_day_style",
-                                // mapStyleUrlNight: "https://url_to_night_style",
-                                units: VoiceUnits.imperial,
-                                simulateRoute: false,
-                                language: "en",
-                                longPressDestinationEnabled: true,
-                                isOptimized: true,
-                                // showEndOfRouteFeedback: ,
-                                showReportFeedbackButton: false,
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+            final patient = WayPoint(
+              name: isLangEnglish() ? "Patient" : "المريض",
+              latitude: 31.2333236,
+              longitude: 29.9540145,
+              isSilent: false,
+            );
+            var wayPoints = <WayPoint>[];
+            wayPoints.add(patient);
+            wayPoints.add(hospital);
+            await MapBoxNavigation.instance.startNavigation(
+              wayPoints: wayPoints,
+              options: MapBoxOptions(
+                initialLatitude: 31.2333236,
+                initialLongitude: 29.9540145,
+                zoom: 13.0,
+                tilt: 0.0,
+                bearing: 0.0,
+                enableRefresh: false,
+                alternatives: false,
+                voiceInstructionsEnabled: true,
+                bannerInstructionsEnabled: true,
+                allowsUTurnAtWayPoints: true,
+                mode: MapBoxNavigationMode.drivingWithTraffic,
+                // mapStyleUrlDay: "https://url_to_day_style",
+                // mapStyleUrlNight: "https://url_to_night_style",
+                units: VoiceUnits.imperial,
+                simulateRoute: false,
+                language: "en",
+                longPressDestinationEnabled: true,
+                isOptimized: true,
+                showReportFeedbackButton: false,
+                // showEndOfRouteFeedback: ,
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

@@ -22,6 +22,7 @@ class AccountAddressesPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         leading: const RegularBackButton(padding: 0),
         title: AutoSizeText(
           'addresses'.tr,

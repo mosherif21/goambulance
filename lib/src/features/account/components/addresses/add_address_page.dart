@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/colors.dart';
@@ -34,15 +33,6 @@ class AddAddressPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AutoSizeText(
-                    'addAddressTitle'.tr,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                    ),
-                    maxLines: 2,
-                  ),
-                  const SizedBox(height: 10.0),
                   Obx(
                     () => RegularCard(
                       highlightRed: controller.highlightLocationName.value,

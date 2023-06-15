@@ -103,8 +103,6 @@ class HomeScreenController extends GetxController {
   }
 
   void testSpeech() async {
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
     FlutterTts flutterTts = FlutterTts();
 
     await flutterTts.setLanguage("ar-SA");
@@ -130,21 +128,20 @@ class HomeScreenController extends GetxController {
     //see the "Pausing on Android" section for more info
     // await flutterTts.pause();
 
-    // // Android only
+    // Android only
     // await flutterTts.setSilence(2);
-    //
+
     // await flutterTts.getEngines;
-    //
+
     // await flutterTts.getDefaultVoice;
-    //
+
     // await flutterTts.isLanguageInstalled("en-AU");
-    //
+
     // await flutterTts.areLanguagesInstalled(["en-AU", "en-US"]);
-    //
+
     // await flutterTts.setQueueMode(1);
-    //
+
     // await flutterTts.getMaxSpeechInputLength;
-    //
   }
 
   void showSosAlertDialogue({required GeoPoint requestLocation}) async {

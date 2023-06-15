@@ -43,13 +43,15 @@
 //   }
 // }
 ////////////////////////////////////////////////////
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 
+import '../../../general/common_widgets/back_button.dart';
 import '../../../general/general_functions.dart';
 
-class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({super.key});
+class TestNav1 extends StatelessWidget {
+  const TestNav1({super.key});
 
   Future<void> _onEmbeddedRouteEvent(e) async {
     // _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
@@ -124,6 +126,18 @@ class PaymentScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: const RegularBackButton(padding: 0),
+        title: const AutoSizeText(
+          'nav test',
+          maxLines: 1,
+        ),
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
       body: Center(
         child: ElevatedButton(
           child: const Text("Start Navigation test"),

@@ -7,13 +7,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:flutter_zoom_drawer/config.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
 import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
-import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
 import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
 import 'package:line_icons/line_icon.dart';
@@ -81,7 +81,7 @@ class HomeScreenController extends GetxController {
         await speechToText.listen(
           listenMode: ListenMode.dictation,
           localeId: Get.locale?.languageCode,
-          listenFor: const Duration(seconds: 5),
+          listenFor: const Duration(seconds: 10),
           onResult: (listenedText) async {
             if (listenedText.finalResult) {
               final listenedString = listenedText.recognizedWords.toLowerCase();
@@ -102,7 +102,52 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void showSosAlertDialogue({required GeoPoint requestLocation}) {
+  void testSpeech() async {
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    FlutterTts flutterTts = FlutterTts();
+
+    await flutterTts.setLanguage("ar-SA");
+
+    await flutterTts.setVolume(1.0);
+
+    await flutterTts.speak("سوف يتم إرسال طلب إستغاثة");
+
+    // await flutterTts.setSpeechRate(0.5);
+
+    // await flutterTts.setPitch(1.0);
+
+    // await flutterTts.setVoice({"name": "Karen", "locale": "en-AU"});
+
+    // await flutterTts.stop();
+
+    // List<dynamic> languages = await flutterTts.getLanguages;
+
+    //await flutterTts.isLanguageAvailable("en-US");
+
+    // iOS, Android and Web only
+
+    //see the "Pausing on Android" section for more info
+    // await flutterTts.pause();
+
+    // // Android only
+    // await flutterTts.setSilence(2);
+    //
+    // await flutterTts.getEngines;
+    //
+    // await flutterTts.getDefaultVoice;
+    //
+    // await flutterTts.isLanguageInstalled("en-AU");
+    //
+    // await flutterTts.areLanguagesInstalled(["en-AU", "en-US"]);
+    //
+    // await flutterTts.setQueueMode(1);
+    //
+    // await flutterTts.getMaxSpeechInputLength;
+    //
+  }
+
+  void showSosAlertDialogue({required GeoPoint requestLocation}) async {
     if (Get.context != null) {
       showDialog(
         context: Get.context!,
@@ -137,7 +182,7 @@ class HomeScreenController extends GetxController {
                       ),
                       const SizedBox(height: 20),
                       CircularCountDownTimer(
-                        duration: 5,
+                        duration: 10,
                         initialDuration: 0,
                         width: 150,
                         height: screenHeight * 0.2,
@@ -255,25 +300,19 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void sendSosRequest({required GeoPoint requestLocation}) async {
-    final firebasePatientDataAccess = FirebasePatientDataAccess.instance;
-    final authRep = AuthenticationRepository.instance;
-    final sosRequest = SosRequestModel(
-      userId: authRep.fireUser.value!.uid,
-      requestLocation: requestLocation,
-    );
-    firebasePatientDataAccess
-        .sosRequest(sosRequestInfo: sosRequest)
-        .then((functionStatus) {
-      if (functionStatus == FunctionStatus.success) {
-        showSnackBar(
-            text: 'sosRequestSent'.tr, snackBarType: SnackBarType.success);
-      } else {
-        showSnackBar(
-            text: 'sosRequestSendFailed'.tr, snackBarType: SnackBarType.error);
-      }
-    });
-  }
+  void sendSosRequest({required GeoPoint requestLocation}) async =>
+      FirebasePatientDataAccess.instance
+          .sosRequest(requestLocation: requestLocation)
+          .then((functionStatus) {
+        if (functionStatus == FunctionStatus.success) {
+          showSnackBar(
+              text: 'sosRequestSent'.tr, snackBarType: SnackBarType.success);
+        } else {
+          showSnackBar(
+              text: 'sosRequestSendFailed'.tr,
+              snackBarType: SnackBarType.error);
+        }
+      });
 
   bool isDrawerOpen(DrawerState drawerState) =>
       drawerState == DrawerState.open ||

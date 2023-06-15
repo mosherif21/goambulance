@@ -64,25 +64,25 @@ class AlternateLoginButtons extends StatelessWidget {
                 width: buttonsWidth,
                 height: 50.0,
               ),
-        SizedBox(height: buttonSpacing),
-        SignInButton(
-          Buttons.Facebook,
-          text: 'loginWithFacebook'.tr,
-          onPressed: () async {
-            showLoadingScreen();
-            var returnMessage =
-                await AuthenticationRepository.instance.signInWithFacebook();
-            if (returnMessage != 'success') {
-              hideLoadingScreen();
-              showSnackBar(
-                text: returnMessage,
-                snackBarType: SnackBarType.error,
-              );
-            }
-          },
-          width: buttonsWidth,
-          height: 50.0,
-        ),
+        // SizedBox(height: buttonSpacing),
+        // SignInButton(
+        //   Buttons.Facebook,
+        //   text: 'loginWithFacebook'.tr,
+        //   onPressed: () async {
+        //     showLoadingScreen();
+        //     var returnMessage =
+        //         await AuthenticationRepository.instance.signInWithFacebook();
+        //     if (returnMessage != 'success') {
+        //       hideLoadingScreen();
+        //       showSnackBar(
+        //         text: returnMessage,
+        //         snackBarType: SnackBarType.error,
+        //       );
+        //     }
+        //   },
+        //   width: buttonsWidth,
+        //   height: 50.0,
+        // ),
       ],
     );
   }

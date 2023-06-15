@@ -101,7 +101,6 @@ dependencies:
   photo_view: ^0.14.0
   swipeable_button_view: ^0.0.2
   circular_countdown_timer: ^0.2.3
-  scale_button: ^2.1.2
 
   #state management dependencies
   get: ^4.6.5

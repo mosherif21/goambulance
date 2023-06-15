@@ -34,19 +34,6 @@ class RequestInfoModel {
       };
 }
 
-class SosRequestModel {
-  final String userId;
-  final GeoPoint requestLocation;
-  SosRequestModel({
-    required this.userId,
-    required this.requestLocation,
-  });
-  Map<String, dynamic> toJson() => {
-        'userId': userId,
-        'requestLocation': requestLocation,
-      };
-}
-
 class RequestModel {
   final String userId;
   final RequestInfoModel hospitalRequestInfo;

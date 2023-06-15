@@ -659,11 +659,14 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> sosRequest({
-    required SosRequestModel sosRequestInfo,
+    required GeoPoint requestLocation,
   }) async {
     try {
       final sosRequestRef = fireStore.collection('sosRequests').doc();
-      await sosRequestRef.set(sosRequestInfo.toJson());
+      await sosRequestRef.set({
+        'userId': userId,
+        'requestLocation': requestLocation,
+      });
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) {

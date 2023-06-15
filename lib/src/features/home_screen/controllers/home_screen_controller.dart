@@ -111,7 +111,7 @@ class HomeScreenController extends GetxController {
 
     await flutterTts.setVolume(1.0);
 
-    await flutterTts.speak("سوف يتم إرسال طلب إستغاثة");
+    await flutterTts.speak('');
 
     // await flutterTts.setSpeechRate(0.5);
 

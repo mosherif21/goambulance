@@ -13,13 +13,16 @@ class ForgetPasswordLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = getScreenHeight(context);
     return Container(
-      padding: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AutoSizeText(
             'chooseForgetPasswordMethod'.tr,
-            style: Theme.of(context).textTheme.headlineSmall,
+            style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87),
             maxLines: 2,
           ),
           SizedBox(height: screenHeight * 0.02),

@@ -18,7 +18,7 @@ class AddEmergencyContact extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = SosMessageController.instance;
     return Container(
-      padding: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

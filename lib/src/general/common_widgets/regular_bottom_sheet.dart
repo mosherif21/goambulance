@@ -5,7 +5,22 @@ class RegularBottomSheet {
   static void showRegularBottomSheet(Widget child) async {
     await Get.bottomSheet(
       Wrap(
-        children: [child],
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 10),
+              Container(
+                width: 60,
+                height: 5,
+                decoration: BoxDecoration(
+                    color: Colors.grey.shade400,
+                    borderRadius: BorderRadius.circular(20)),
+              ),
+              child,
+            ],
+          )
+        ],
       ),
       backgroundColor: Colors.white,
       elevation: 0,

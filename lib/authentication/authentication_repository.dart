@@ -151,10 +151,9 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<FunctionStatus> userInit() async {
-    final fireStore = FirebaseFirestore.instance;
     final fireStorage = FirebaseStorage.instance;
     final String userId = fireUser.value!.uid;
-    final firestoreUsersCollRef = fireStore.collection('users');
+    final firestoreUsersCollRef = _firestore.collection('users');
     try {
       await firestoreUsersCollRef.doc(userId).get().then((snapshot) async {
         if (snapshot.exists) {
@@ -193,8 +192,9 @@ class AuthenticationRepository extends GetxController {
               initCriticalUserListeners();
             }
           }
+
           if (AppInit.notificationToken.isNotEmpty) {
-            await fireStore.collection('fcmTokens').doc(userId).set({
+            await _firestore.collection('fcmTokens').doc(userId).set({
               'fcmToken${AppInit.isAndroid ? 'Android' : AppInit.isIos ? 'Ios' : 'Web'}':
                   AppInit.notificationToken,
               'notificationsLang': isLangEnglish() ? 'en' : 'ar',
@@ -205,6 +205,16 @@ class AuthenticationRepository extends GetxController {
           drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
           if (kDebugMode) {
             AppInit.logger.i(userType);
+          }
+          if (fireUser.value!.email != null) {
+            final authenticationEmail = fireUser.value!.email!;
+            if (userInfo.email != authenticationEmail) {
+              if (kDebugMode) {
+                AppInit.logger.i(
+                    'Firestore email is not equal to emailAuthentication email, updating it...');
+              }
+              updateUserEmailFirestore(email: authenticationEmail);
+            }
           }
         }
       });
@@ -223,9 +233,8 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> updateUserEmailFirestore({required String email}) async {
-    final fireStore = FirebaseFirestore.instance;
     final String userId = fireUser.value!.uid;
-    final firestoreUsersCollRef = fireStore.collection('users');
+    final firestoreUsersCollRef = _firestore.collection('users');
     try {
       await firestoreUsersCollRef.doc(userId).update({'email': email});
     } on FirebaseException catch (error) {
@@ -266,9 +275,8 @@ class AuthenticationRepository extends GetxController {
 
   Future<FunctionStatus> updateUserPhoneFirestore(
       {required String phone}) async {
-    final fireStore = FirebaseFirestore.instance;
     final String userId = fireUser.value!.uid;
-    final firestoreUsersCollRef = fireStore.collection('users');
+    final firestoreUsersCollRef = _firestore.collection('users');
     try {
       await firestoreUsersCollRef.doc(userId).update({'phone': phone});
       return FunctionStatus.success;

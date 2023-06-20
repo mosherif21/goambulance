@@ -19,7 +19,7 @@ class PhotoSelect extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     return Container(
-      padding: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

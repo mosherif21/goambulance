@@ -16,7 +16,7 @@ class LanguageSelect extends StatelessWidget {
     const TextStyle textStyle = TextStyle(
         fontSize: 25.0, fontWeight: FontWeight.w600, color: Colors.black54);
     return Container(
-      padding: const EdgeInsets.all(30.0),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
-import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
 import 'package:goambulance/src/general/common_widgets/link_account_button.dart';
 
@@ -14,6 +13,7 @@ import '../../authentication/components/emailChange/email_change_page.dart';
 import '../../authentication/components/linkEmailPassword/link_email_password_page.dart';
 import '../../authentication/components/resetPassword/logged_in_reset_password_page.dart';
 import '../components/addresses/addresses_page.dart';
+import '../components/critical_user/criticalUserRequestPage.dart';
 import '../components/edit_account/edit_medical_history_page.dart';
 import '../components/edit_account/edit_user_data_page.dart';
 
@@ -125,40 +125,50 @@ class AccountScreen extends StatelessWidget {
                   Obx(
                     () => !(authRepo.criticalUserStatus.value ==
                             CriticalUserStatus.criticalUserAccepted)
-                        ? RoundedElevatedButton(
-                            buttonText: authRepo.criticalUserStatus.value ==
-                                    CriticalUserStatus.criticalUserPending
-                                ? 'criticalUserRequested'.tr
-                                : authRepo.criticalUserStatus.value ==
-                                        CriticalUserStatus.criticalUserDenied
-                                    ? 'criticalUserDenied'.tr
-                                    : 'requestCritical'.tr,
-                            onPressed: () async {
-                              showLoadingScreen();
-                              final functionStatus =
-                                  await FirebasePatientDataAccess.instance
-                                      .sendCriticalUserRequest();
-                              hideLoadingScreen();
-                              if (functionStatus == FunctionStatus.success) {
-                                authRepo.criticalUserStatus.value =
-                                    CriticalUserStatus.criticalUserPending;
-                                showSnackBar(
-                                    text: 'criticalUserRequestSent'.tr,
-                                    snackBarType: SnackBarType.success);
-                              } else {
-                                showSnackBar(
-                                    text: 'criticalUserRequestFailed'.tr,
-                                    snackBarType: SnackBarType.error);
-                              }
-                            },
-                            enabled: authRepo.criticalUserStatus.value ==
-                                    CriticalUserStatus.criticalUserPending
-                                ? false
-                                : authRepo.criticalUserStatus.value ==
-                                        CriticalUserStatus.criticalUserDenied
-                                    ? false
-                                    : true,
-                            color: const Color(0xFF28AADC),
+                        ?
+                        // RoundedElevatedButton(
+                        //         buttonText: authRepo.criticalUserStatus.value ==
+                        //                 CriticalUserStatus.criticalUserPending
+                        //             ? 'criticalUserRequested'.tr
+                        //             : authRepo.criticalUserStatus.value ==
+                        //                     CriticalUserStatus.criticalUserDenied
+                        //                 ? 'criticalUserDenied'.tr
+                        //                 : 'requestCritical'.tr,
+                        //         onPressed: () async {
+                        //           showLoadingScreen();
+                        //           final functionStatus =
+                        //               await FirebasePatientDataAccess.instance
+                        //                   .sendCriticalUserRequest();
+                        //           hideLoadingScreen();
+                        //           if (functionStatus == FunctionStatus.success) {
+                        //             authRepo.criticalUserStatus.value =
+                        //                 CriticalUserStatus.criticalUserPending;
+                        //             showSnackBar(
+                        //                 text: 'criticalUserRequestSent'.tr,
+                        //                 snackBarType: SnackBarType.success);
+                        //           } else {
+                        //             showSnackBar(
+                        //                 text: 'criticalUserRequestFailed'.tr,
+                        //                 snackBarType: SnackBarType.error);
+                        //           }
+                        //         },
+                        //         enabled: authRepo.criticalUserStatus.value ==
+                        //                 CriticalUserStatus.criticalUserPending
+                        //             ? false
+                        //             : authRepo.criticalUserStatus.value ==
+                        //                     CriticalUserStatus.criticalUserDenied
+                        //                 ? false
+                        //                 : true,
+                        //         color: const Color(0xFF28AADC),
+                        //       )
+                        RegularClickableCardNoP(
+                            onPressed: () => Get.to(
+                                () => const CriticalUserRequestPage(),
+                                transition: getPageTransition()),
+                            title: 'requestCritical'.tr,
+                            subTitle: '',
+                            icon: Icons.arrow_forward_ios,
+                            iconColor: Colors.black45,
                           )
                         : const SizedBox.shrink(),
                   ),

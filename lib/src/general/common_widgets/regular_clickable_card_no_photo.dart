@@ -29,8 +29,7 @@ class RegularClickableCardNoP extends StatelessWidget {
           splashFactory: InkSparkle.splashFactory,
           onTap: () => onPressed(),
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(vertical: 25.0, horizontal: 15.0),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

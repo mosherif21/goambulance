@@ -39,6 +39,8 @@ class HomeScreenController extends GetxController {
   final homeBottomNavController = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
+  late final StreamSubscription shakingStreamListener;
+  bool processingSosRequest = false;
 
   @override
   void onReady() async {
@@ -68,11 +70,14 @@ class HomeScreenController extends GetxController {
   }
 
   void initShakeSos() {
-    accelerometerEvents.listen((AccelerometerEvent event) {
-      double acceleration =
+    shakingStreamListener =
+        accelerometerEvents.listen((AccelerometerEvent event) {
+      final acceleration =
           event.x * event.x + event.y * event.y + event.z * event.z;
-      if (acceleration > 20) sosRequest(pressed: false);
+      if (acceleration > 300) sosRequest(pressed: false);
     });
+    Future.delayed(const Duration(seconds: 10))
+        .whenComplete(() => shakingStreamListener.cancel());
   }
 
   void listenForSos() async {
@@ -199,7 +204,10 @@ class HomeScreenController extends GetxController {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: RoundedElevatedButton(
                           buttonText: 'cancel'.tr,
-                          onPressed: () => Get.back(),
+                          onPressed: () {
+                            processingSosRequest = false;
+                            Get.back();
+                          },
                           enabled: true,
                           color: Colors.red,
                         ),
@@ -219,53 +227,60 @@ class HomeScreenController extends GetxController {
       handleLocation().whenComplete(() => sosRequest(pressed: true));
 
   void sosRequest({required bool pressed}) {
-    if (pressed) showLoadingScreen();
-    final firebasePatientAccess = FirebasePatientDataAccess.instance;
-    firebasePatientAccess.checkUserHasSosRequest().then((hasSosRequest) async {
-      if (hasSosRequest != null) {
-        if (!hasSosRequest) {
-          final locationPermissionGranted =
-              await Permission.location.status.isGranted;
-          final locationServiceEnabled = await Location().serviceEnabled();
-          if (locationPermissionGranted && locationServiceEnabled) {
-            try {
-              final currentLocation =
-                  await geolocator.Geolocator.getCurrentPosition(
-                      desiredAccuracy: geolocator.LocationAccuracy.high,
-                      timeLimit: const Duration(seconds: 10));
-              if (kDebugMode) {
-                print(
-                    'current location for sos Request ${currentLocation.latitude.toString()}, ${currentLocation.longitude.toString()}');
+    if (!processingSosRequest) {
+      processingSosRequest = true;
+      if (pressed) showLoadingScreen();
+      final firebasePatientAccess = FirebasePatientDataAccess.instance;
+      firebasePatientAccess
+          .checkUserHasSosRequest()
+          .then((hasSosRequest) async {
+        if (hasSosRequest != null) {
+          if (!hasSosRequest) {
+            final locationPermissionGranted =
+                await Permission.location.status.isGranted;
+            final locationServiceEnabled = await Location().serviceEnabled();
+            if (locationPermissionGranted && locationServiceEnabled) {
+              try {
+                final currentLocation =
+                    await geolocator.Geolocator.getCurrentPosition(
+                        desiredAccuracy: geolocator.LocationAccuracy.high,
+                        timeLimit: const Duration(seconds: 10));
+                if (kDebugMode) {
+                  print(
+                      'current location for sos Request ${currentLocation.latitude.toString()}, ${currentLocation.longitude.toString()}');
+                }
+                if (pressed) hideLoadingScreen();
+                showSosAlertDialogue(
+                    requestLocation: GeoPoint(
+                        currentLocation.latitude, currentLocation.longitude));
+              } on TimeoutException catch (_) {
+                if (kDebugMode) {
+                  AppInit.logger
+                      .e('Location get timed out trying sos using primary');
+                }
+                sendSosPrimaryAddress(pressed: pressed);
+              } on geolocator.LocationServiceDisabledException catch (_) {
+                if (kDebugMode) {
+                  AppInit.logger
+                      .e('Location get error trying sos using primary');
+                }
+                sendSosPrimaryAddress(pressed: pressed);
               }
-              if (pressed) hideLoadingScreen();
-              showSosAlertDialogue(
-                  requestLocation: GeoPoint(
-                      currentLocation.latitude, currentLocation.longitude));
-            } on TimeoutException catch (_) {
-              if (kDebugMode) {
-                AppInit.logger
-                    .e('Location get timed out trying sos using primary');
-              }
-              sendSosPrimaryAddress(pressed: pressed);
-            } on geolocator.LocationServiceDisabledException catch (_) {
-              if (kDebugMode) {
-                AppInit.logger.e('Location get error trying sos using primary');
-              }
+            } else {
               sendSosPrimaryAddress(pressed: pressed);
             }
           } else {
-            sendSosPrimaryAddress(pressed: pressed);
+            processingSosRequest = false;
+            if (pressed) hideLoadingScreen();
+            showSnackBar(
+                text: 'hasSosRequest'.tr, snackBarType: SnackBarType.error);
+            textToSpeech(text: 'hasSosRequest'.tr);
           }
         } else {
           if (pressed) hideLoadingScreen();
-          showSnackBar(
-              text: 'hasSosRequest'.tr, snackBarType: SnackBarType.error);
-          textToSpeech(text: 'hasSosRequest'.tr);
         }
-      } else {
-        if (pressed) hideLoadingScreen();
-      }
-    });
+      });
+    }
   }
 
   void sendSosPrimaryAddress({required bool pressed}) async {
@@ -275,6 +290,7 @@ class HomeScreenController extends GetxController {
     if (primaryAddressLocation != null) {
       showSosAlertDialogue(requestLocation: primaryAddressLocation);
     } else {
+      processingSosRequest = false;
       showSnackBar(
           text: 'sosRequestInitFailed'.tr, snackBarType: SnackBarType.error);
       textToSpeech(text: 'sosRequestInitFailedTTS'.tr);
@@ -286,10 +302,12 @@ class HomeScreenController extends GetxController {
           .sosRequest(requestLocation: requestLocation)
           .then((functionStatus) {
         if (functionStatus == FunctionStatus.success) {
+          processingSosRequest = false;
           showSnackBar(
               text: 'sosRequestSent'.tr, snackBarType: SnackBarType.success);
           textToSpeech(text: 'sosRequestSentTTS'.tr);
         } else {
+          processingSosRequest = false;
           showSnackBar(
               text: 'sosRequestSendFailed'.tr,
               snackBarType: SnackBarType.error);
@@ -395,8 +413,9 @@ class HomeScreenController extends GetxController {
     'النجدة'
   ];
   @override
-  void onClose() {
+  void onClose() async {
     homeBottomNavController.dispose();
+    await shakingStreamListener.cancel();
     super.onClose();
   }
 }

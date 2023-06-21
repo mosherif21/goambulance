@@ -26,6 +26,8 @@ class FirebasePatientDataAccess extends GetxController {
   late final FirebaseFirestore fireStore;
   late final FirebaseStorage fireStorage;
   late final DocumentReference firestoreUserRef;
+  late final DocumentReference firestoreMedicalRef;
+  late final CollectionReference fireStoreUserDiseasesRef;
   late final Reference userStorageReference;
   late final AuthenticationRepository authRep;
 
@@ -37,8 +39,9 @@ class FirebasePatientDataAccess extends GetxController {
     fireStore = FirebaseFirestore.instance;
     fireStorage = FirebaseStorage.instance;
     firestoreUserRef = fireStore.collection('users').doc(userId);
+    firestoreMedicalRef = fireStore.collection('medicalHistory').doc(userId);
+    fireStoreUserDiseasesRef = firestoreMedicalRef.collection('diseases');
     userStorageReference = fireStorage.ref().child('users').child(userId);
-
     super.onInit();
   }
 
@@ -69,15 +72,11 @@ class FirebasePatientDataAccess extends GetxController {
         firestoreUserRef,
         userRegisterInfo.toJson(),
       );
-      final firestoreMedicalRef =
-          fireStore.collection('medicalHistory').doc(userId);
       userDataBatch.set(
         firestoreMedicalRef,
         medicalHistoryModel.toJson(),
       );
       if (medicalHistoryModel.diseasesList.isNotEmpty) {
-        final fireStoreUserDiseasesRef =
-            firestoreMedicalRef.collection('diseases');
         for (DiseaseItem diseaseItem in medicalHistoryModel.diseasesList) {
           {
             final diseaseRef = fireStoreUserDiseasesRef.doc();
@@ -648,8 +647,7 @@ class FirebasePatientDataAccess extends GetxController {
   }) async {
     try {
       final userDataBatch = fireStore.batch();
-      userDataBatch.update(firestoreUserRef, medicalHistoryData.toJson());
-      final fireStoreUserDiseasesRef = firestoreUserRef.collection('diseases');
+      userDataBatch.update(firestoreMedicalRef, medicalHistoryData.toJson());
       if (medicalHistoryData.currentDiseasesDocIds != null) {
         for (String diseaseDocId in medicalHistoryData.currentDiseasesDocIds!) {
           userDataBatch.delete(fireStoreUserDiseasesRef.doc(diseaseDocId));

@@ -125,43 +125,7 @@ class AccountScreen extends StatelessWidget {
                   Obx(
                     () => !(authRepo.criticalUserStatus.value ==
                             CriticalUserStatus.criticalUserAccepted)
-                        ?
-                        // RoundedElevatedButton(
-                        //         buttonText: authRepo.criticalUserStatus.value ==
-                        //                 CriticalUserStatus.criticalUserPending
-                        //             ? 'criticalUserRequested'.tr
-                        //             : authRepo.criticalUserStatus.value ==
-                        //                     CriticalUserStatus.criticalUserDenied
-                        //                 ? 'criticalUserDenied'.tr
-                        //                 : 'requestCritical'.tr,
-                        //         onPressed: () async {
-                        //           showLoadingScreen();
-                        //           final functionStatus =
-                        //               await FirebasePatientDataAccess.instance
-                        //                   .sendCriticalUserRequest();
-                        //           hideLoadingScreen();
-                        //           if (functionStatus == FunctionStatus.success) {
-                        //             authRepo.criticalUserStatus.value =
-                        //                 CriticalUserStatus.criticalUserPending;
-                        //             showSnackBar(
-                        //                 text: 'criticalUserRequestSent'.tr,
-                        //                 snackBarType: SnackBarType.success);
-                        //           } else {
-                        //             showSnackBar(
-                        //                 text: 'criticalUserRequestFailed'.tr,
-                        //                 snackBarType: SnackBarType.error);
-                        //           }
-                        //         },
-                        //         enabled: authRepo.criticalUserStatus.value ==
-                        //                 CriticalUserStatus.criticalUserPending
-                        //             ? false
-                        //             : authRepo.criticalUserStatus.value ==
-                        //                     CriticalUserStatus.criticalUserDenied
-                        //                 ? false
-                        //                 : true,
-                        //         color: const Color(0xFF28AADC),
-                        //       )
-                        RegularClickableCardNoP(
+                        ? RegularClickableCardNoP(
                             onPressed: () => Get.to(
                                 () => const CriticalUserRequestPage(),
                                 transition: getPageTransition()),

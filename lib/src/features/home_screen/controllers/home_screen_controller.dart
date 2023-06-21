@@ -400,6 +400,7 @@ class HomeScreenController extends GetxController {
     'انقذوني',
     'استغاثة',
     'اسعاف',
+    'ساعدونى',
     'مساعدة',
     'معونة ',
     'إنقاذ',

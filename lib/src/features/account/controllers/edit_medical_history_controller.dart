@@ -49,6 +49,9 @@ class EditMedicalHistoryController extends GetxController {
     if (medicalInfo != null) {
       diseasesList.value = medicalInfo.diseasesList;
       diseasesLoaded.value = true;
+      if (medicalInfo.currentDiseasesDocIds != null) {
+        currentDiseasesDocIds = medicalInfo.currentDiseasesDocIds!;
+      }
       additionalInformationTextController.text =
           medicalInfo.medicalAdditionalInfo;
       bloodTypeDropdownController.text = medicalInfo.bloodType;

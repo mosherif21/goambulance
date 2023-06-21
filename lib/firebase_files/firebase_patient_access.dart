@@ -218,16 +218,12 @@ class FirebasePatientDataAccess extends GetxController {
 
   Future<MedicalHistoryModel?> getMedicalHistory() async {
     try {
-      final userMedicalRef =
-          FirebaseFirestore.instance.collection('medicalHistory').doc(userId);
+      final userMedicalRef = fireStore.collection('medicalHistory').doc(userId);
       final medicalSnapshot = await userMedicalRef.get();
       if (medicalSnapshot.exists) {
         final diseasesList = <DiseaseItem>[];
         final currentDiseasesDocIds = <String>[];
-        final userDiseasesRef = FirebaseFirestore.instance
-            .collection('users')
-            .doc(userId)
-            .collection('diseases');
+        final userDiseasesRef = userMedicalRef.collection('diseases');
         await userDiseasesRef.get().then((diseasesSnapshot) {
           for (var diseaseDoc in diseasesSnapshot.docs) {
             currentDiseasesDocIds.add(diseaseDoc.id);

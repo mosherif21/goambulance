@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rolling_switch/rolling_switch.dart';
-import 'package:sweetsheet/sweetsheet.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../../../../authentication/authentication_repository.dart';
@@ -192,26 +191,10 @@ class EditUserDataController extends GetxController {
     if (!highlightName.value &&
         !highlightEmail.value &&
         !highlightNationalId.value) {
-      savePersonalInformation();
+      updateUserInfoData();
     } else {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
-  }
-
-  Future<void> savePersonalInformation() async {
-    displayAlertDialog(
-      title: 'confirm'.tr,
-      body: 'personalInfoShare'.tr,
-      positiveButtonText: 'agree'.tr,
-      negativeButtonText: 'disagree'.tr,
-      positiveButtonOnPressed: () {
-        Get.back();
-        updateUserInfoData();
-      },
-      negativeButtonOnPressed: () => Get.back(),
-      mainIcon: Icons.check_circle_outline,
-      color: SweetSheetColor.NICE,
-    );
   }
 
   void updateUserInfoData() async {

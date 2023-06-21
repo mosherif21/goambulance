@@ -20,6 +20,7 @@ import 'package:line_icons/line_icon.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import 'package:sensors_plus/sensors_plus.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../../../authentication/authentication_repository.dart';
@@ -47,7 +48,8 @@ class HomeScreenController extends GetxController {
           .whenComplete(() => handleSmsPermission())
           .whenComplete(() => handleNotificationsPermission())
           .whenComplete(() => handleSpeechPermission())
-          .whenComplete(() => listenForSos());
+          .whenComplete(() => listenForSos())
+          .whenComplete(() => initShakeSos());
     } else {
       handleLocation()
           .whenComplete(() => handleSmsPermission())
@@ -61,7 +63,16 @@ class HomeScreenController extends GetxController {
         RequestsHistoryController.instance.getRequestsHistory();
       }
     });
+
     super.onReady();
+  }
+
+  void initShakeSos() {
+    accelerometerEvents.listen((AccelerometerEvent event) {
+      double acceleration =
+          event.x * event.x + event.y * event.y + event.z * event.z;
+      if (acceleration > 20) sosRequest(pressed: false);
+    });
   }
 
   void listenForSos() async {

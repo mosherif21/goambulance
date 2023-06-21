@@ -29,6 +29,7 @@ dependencies:
   #translator: ^0.1.7
   flutter_sms: ^2.3.3
   async: ^2.11.0
+  sensors_plus: ^3.0.2
 
 
   #firebase dependencies

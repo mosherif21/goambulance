@@ -14,6 +14,7 @@ import '../../authentication/components/linkEmailPassword/link_email_password_pa
 import '../../authentication/components/resetPassword/logged_in_reset_password_page.dart';
 import '../components/addresses/addresses_page.dart';
 import '../components/critical_user/criticalUserRequestPage.dart';
+import '../components/critical_user/sos_settings_page.dart';
 import '../components/edit_account/edit_medical_history_page.dart';
 import '../components/edit_account/edit_user_data_page.dart';
 
@@ -130,6 +131,20 @@ class AccountScreen extends StatelessWidget {
                                 () => const CriticalUserRequestPage(),
                                 transition: getPageTransition()),
                             title: 'requestCritical'.tr,
+                            subTitle: '',
+                            icon: Icons.arrow_forward_ios,
+                            iconColor: Colors.black45,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                  Obx(
+                    () => (authRepo.criticalUserStatus.value ==
+                            CriticalUserStatus.criticalUserAccepted)
+                        ? RegularClickableCardNoP(
+                            onPressed: () => Get.to(
+                                () => const SOSRequestSettings(),
+                                transition: getPageTransition()),
+                            title: 'sosRequestSettings'.tr,
                             subTitle: '',
                             icon: Icons.arrow_forward_ios,
                             iconColor: Colors.black45,

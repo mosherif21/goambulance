@@ -91,11 +91,8 @@ class EditUserDataController extends GetxController {
 
   @override
   void onReady() {
-    if (currentUser.email != null) {
-      emailTextController.text = currentUser.email!;
-    } else {
-      emailTextController.text = userInfo.email;
-    }
+    emailTextController.text = userInfo.email;
+
     nameTextController.text = userInfo.name;
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {

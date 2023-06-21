@@ -71,6 +71,10 @@ class FirebasePatientDataAccess extends GetxController {
       );
       final firestoreMedicalRef =
           fireStore.collection('medicalHistory').doc(userId);
+      userDataBatch.set(
+        firestoreMedicalRef,
+        medicalHistoryModel.toJson(),
+      );
       if (medicalHistoryModel.diseasesList.isNotEmpty) {
         final fireStoreUserDiseasesRef =
             firestoreMedicalRef.collection('diseases');

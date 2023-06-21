@@ -45,39 +45,39 @@ class EditMedicalHistoryController extends GetxController {
 
   @override
   void onReady() async {
-    FirebasePatientDataAccess.instance.getMedicalHistory().then((medicalInfo) {
-      if (medicalInfo != null) {
-        diseasesLoaded.value = true;
-        additionalInformationTextController.text =
-            medicalInfo.medicalAdditionalInfo;
-        bloodTypeDropdownController.text = medicalInfo.bloodType;
-        diabetesDropdownController.text =
-            medicalInfo.diabetic == 'No' ? 'no'.tr : medicalInfo.diabetic;
-        if (medicalInfo.hypertensive == 'No') {
-          hypertensivePatient = false;
-        } else if (medicalInfo.hypertensive == 'Yes') {
-          hypertensivePatient = true;
-          hypertensiveKey.currentState!.action();
-        }
-        if (medicalInfo.heartPatient == 'No') {
-          heartPatient = false;
-        } else {
-          heartPatient = true;
-          heartPatientKey.currentState!.action();
-        }
-        bloodTypeDropdownController.addListener(() {
-          final bloodTypeValue = bloodTypeDropdownController.text.trim();
-          if (bloodTypeValue.isNotEmpty ||
-              bloodTypeValue.compareTo('pickBloodType'.tr) != 0) {
-            highlightBloodType.value = false;
-          }
-        });
-        diseaseNameTextController.addListener(() {
-          diseaseName.value = diseaseNameTextController.text.trim();
-        });
+    final medicalInfo =
+        await FirebasePatientDataAccess.instance.getMedicalHistory();
+    if (medicalInfo != null) {
+      diseasesList.value = medicalInfo.diseasesList;
+      diseasesLoaded.value = true;
+      additionalInformationTextController.text =
+          medicalInfo.medicalAdditionalInfo;
+      bloodTypeDropdownController.text = medicalInfo.bloodType;
+      diabetesDropdownController.text =
+          medicalInfo.diabetic == 'No' ? 'no'.tr : medicalInfo.diabetic;
+      if (medicalInfo.hypertensive == 'No') {
+        hypertensivePatient = false;
+      } else if (medicalInfo.hypertensive == 'Yes') {
+        hypertensivePatient = true;
+        hypertensiveKey.currentState!.action();
       }
-    });
-
+      if (medicalInfo.heartPatient == 'No') {
+        heartPatient = false;
+      } else {
+        heartPatient = true;
+        heartPatientKey.currentState!.action();
+      }
+      bloodTypeDropdownController.addListener(() {
+        final bloodTypeValue = bloodTypeDropdownController.text.trim();
+        if (bloodTypeValue.isNotEmpty ||
+            bloodTypeValue.compareTo('pickBloodType'.tr) != 0) {
+          highlightBloodType.value = false;
+        }
+      });
+      diseaseNameTextController.addListener(() {
+        diseaseName.value = diseaseNameTextController.text.trim();
+      });
+    }
     super.onReady();
   }
 

@@ -202,7 +202,8 @@ class AuthenticationRepository extends GetxController {
           }
           if (fireUser.value!.email != null) {
             final authenticationEmail = fireUser.value!.email!;
-            if (userInfo.email != authenticationEmail) {
+            if (authenticationEmail.isNotEmpty &&
+                userInfo.email != authenticationEmail) {
               if (kDebugMode) {
                 AppInit.logger.i(
                     'Firestore email is not equal to emailAuthentication email, updating it...');

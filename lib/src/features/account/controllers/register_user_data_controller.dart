@@ -50,8 +50,6 @@ class RegisterUserDataController extends GetxController {
   RxBool highlightProfilePic = false.obs;
   RxBool highlightNationalIdPick = false.obs;
 
-  bool makeEmailEditable = true;
-
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
   RxBool highlightBloodType = false.obs;
@@ -68,10 +66,7 @@ class RegisterUserDataController extends GetxController {
   void onInit() {
     authRep = AuthenticationRepository.instance;
     user = authRep.fireUser.value!;
-    if (user.email != null) {
-      emailTextController.text = user.email!;
-      makeEmailEditable = false;
-    }
+
     final userName = user.displayName ?? '';
     nameTextController.text = userName;
     super.onInit();

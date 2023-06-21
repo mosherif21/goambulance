@@ -11,7 +11,7 @@ class RegularBottomSheet {
             children: [
               const SizedBox(height: 10),
               Container(
-                width: 60,
+                width: 45,
                 height: 5,
                 decoration: BoxDecoration(
                     color: Colors.grey.shade400,

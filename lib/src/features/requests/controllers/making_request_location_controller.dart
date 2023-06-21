@@ -23,6 +23,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
+import 'package:map_box_geocoder/map_box_geocoder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
@@ -387,8 +388,7 @@ class MakingRequestLocationController extends GetxController {
             latitude: currentChosenLatLng.latitude,
             longitude: currentChosenLatLng.longitude);
 
-        final collectionReference =
-            _firestore.collection('hospitalsLocationsSOS');
+        final collectionReference = _firestore.collection('hospitalsLocations');
 
         Stream<List<DocumentSnapshot>> stream = geoFire
             .collection(collectionRef: collectionReference)
@@ -678,15 +678,17 @@ class MakingRequestLocationController extends GetxController {
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
     try {
       currentChosenLatLng = latLng;
-      final addressesInfo = await Geocoder2.getDataFromCoordinates(
-        latitude: latLng.latitude,
-        longitude: latLng.longitude,
-        googleMapApiKey: googleMapsAPIKeyWeb,
-        language: isLangEnglish() ? 'en' : 'ar',
+      MapBoxGeocoder geocoder = MapBoxGeocoder(mapboxAPIKey);
+      final geocodeResult = await geocoder.reverseSearch(
+        LatLon(latLng.latitude, latLng.longitude),
+        params: const ReverseQueryParams(
+          language: 'en',
+          limit: 1,
+        ),
       );
-      final address = addressesInfo.address;
+      final address = geocodeResult.features.first.placeName;
       currentChosenLocationAddress = address;
-      checkAllowedLocation(countryCode: addressesInfo.countryCode);
+      allowedLocation = address.contains('Egypt');
       return address;
     } catch (err) {
       if (kDebugMode) print(err.toString());

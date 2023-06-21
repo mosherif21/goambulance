@@ -11,6 +11,8 @@ import 'package:goambulance/src/general/common_widgets/regular_elevated_button.d
 import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -323,6 +325,36 @@ class EditUserDataPage extends StatelessWidget {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(
+                            headerText: 'enterBackupPhoneNo'.tr, fontSize: 18),
+                        const SizedBox(height: 5.0),
+                        IntlPhoneField(
+                          initialValue:
+                              controller.userInfo.backupNumber.substring(3),
+                          decoration: InputDecoration(
+                            labelText: 'phoneLabel'.tr,
+                            hintText: 'phoneFieldLabel'.tr,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
+                          ),
+                          initialCountryCode: 'EG',
+                          countries: const ['EG'],
+                          pickerDialogStyle: PickerDialogStyle(
+                            searchFieldInputDecoration:
+                                InputDecoration(hintText: 'searchCountry'.tr),
+                          ),
+                          onChanged: (phone) =>
+                              controller.backupPhoneNo = phone.completeNumber,
+                        ),
+                      ],
                     ),
                   ),
                   Padding(

@@ -2,8 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:intl_phone_field/country_picker_dialog.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/common_widgets/dropdown_list.dart';
@@ -266,34 +264,6 @@ class NormalRequestScreen extends StatelessWidget {
                               controller.additionalInformationTextController,
                           textInputAction: TextInputAction.done,
                           inputFormatter: LengthLimitingTextInputFormatter(150),
-                        ),
-                      ],
-                    ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(
-                            headerText: 'enterBackupPhoneNo'.tr, fontSize: 18),
-                        const SizedBox(height: 5.0),
-                        IntlPhoneField(
-                          decoration: InputDecoration(
-                            labelText: 'phoneLabel'.tr,
-                            hintText: 'phoneFieldLabel'.tr,
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(),
-                            ),
-                          ),
-                          initialCountryCode: 'EG',
-                          countries: const ['EG'],
-                          pickerDialogStyle: PickerDialogStyle(
-                            searchFieldInputDecoration:
-                                InputDecoration(hintText: 'searchCountry'.tr),
-                          ),
-                          onChanged: (phone) =>
-                              controller.backupPhoneNo = phone.completeNumber,
                         ),
                       ],
                     ),

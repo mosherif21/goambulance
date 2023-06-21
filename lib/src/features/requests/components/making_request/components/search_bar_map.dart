@@ -43,9 +43,8 @@ class MakingRequestMapSearch extends StatelessWidget {
                 Obx(
                   () => Expanded(
                     child: AutoSizeText(
-                      isLangEnglish()
-                          ? locationController.searchedText.value
-                          : '   ${locationController.searchedText.value}',
+                      locationController.searchedText.value,
+                      textDirection: TextDirection.ltr,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,

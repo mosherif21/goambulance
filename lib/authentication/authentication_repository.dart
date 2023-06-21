@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -176,6 +175,7 @@ class AuthenticationRepository extends GetxController {
               sosMessage: userDoc['sosMessage'].toString(),
               criticalUser: userDoc['criticalUser'] as bool,
               phone: userDoc['phone'].toString(),
+              backupNumber: userDoc['backupNumber'].toString(),
             );
             drawerAccountName.value = userDoc['name'].toString();
             userType = UserType.patient;
@@ -698,12 +698,12 @@ class AuthenticationRepository extends GetxController {
       //     return 'success';
       //   }
       // } else {}
-      final loginResult = await FacebookAuth.instance.login();
-      if (loginResult.accessToken?.token != null) {
-        final facebookAuthCredential =
-            FacebookAuthProvider.credential(loginResult.accessToken!.token);
-        return facebookAuthCredential;
-      }
+      //final loginResult = await FacebookAuth.instance.login();
+      // if (loginResult.accessToken?.token != null) {
+      //   final facebookAuthCredential =
+      //       FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      //   return facebookAuthCredential;
+      // }
     } catch (e) {
       if (kDebugMode) {
         AppInit.logger.e(e.toString());
@@ -739,6 +739,7 @@ class AuthenticationRepository extends GetxController {
         sosMessage: '',
         criticalUser: false,
         phone: '',
+        backupNumber: '',
       );
       drawerProfileImageUrl.value = '';
       return FunctionStatus.success;

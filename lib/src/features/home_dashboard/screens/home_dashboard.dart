@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:flutter_zoom_drawer/config.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/authentication/authentication_repository.dart';
 
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
@@ -18,7 +19,6 @@ class MakingRequestInformationController extends GetxController {
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
-  String backupPhoneNo = '';
   final diseaseName = ''.obs;
   final highlightPatientCondition = false.obs;
   final highlightRequest = false.obs;
@@ -106,7 +106,7 @@ class MakingRequestInformationController extends GetxController {
     return RequestInfoModel(
       isUser: userRequest.value,
       patientCondition: patientCondition,
-      backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : 'unknown',
+      backupNumber: AuthenticationRepository.instance.userInfo.backupNumber,
       medicalHistory: userRequest.value
           ? null
           : MedicalHistoryModel(
@@ -117,6 +117,7 @@ class MakingRequestInformationController extends GetxController {
               medicalAdditionalInfo: additionalInformation,
               diseasesList: diseasesList,
             ),
+
     );
   }
 

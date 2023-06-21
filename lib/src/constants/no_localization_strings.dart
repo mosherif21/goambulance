@@ -2,6 +2,8 @@
 const googleMapsAPIAndroidKey = "AIzaSyC87q_5UFi7zHJQD8CnLy5VIDBDML4j0VY";
 const googleMapsAPIKeyWeb = "AIzaSyCg8YoO7StyjzfD6rthmxZymPkwq7joNdI";
 const googleMapsStaticAPIKey = "AIzaSyB1Yst5-ElscTS7CzkxYJDO8bSoDAEtaxM";
+const mapboxAPIKey =
+    "sk.eyJ1IjoibW9zaGVyaWYyMyIsImEiOiJjbGlscnN5bzUwdjM4M2trZGFyZzQ5eHU1In0.wj_iV_UJeAGcSexLPmoRVA";
 
 const mapStyleID = "10ee2ae844372e89";
 const requestMarkerImageUrl = "https://i.postimg.cc/vZcFTkKz/pin.png";

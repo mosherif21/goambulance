@@ -24,6 +24,7 @@ class EditUserDataController extends GetxController {
   late final String oldEmail;
   late final String oldNationalId;
   late final DateTime oldBirthDate;
+  String backupPhoneNo = '';
 
   //controllers
   final nameTextController = TextEditingController();
@@ -91,7 +92,6 @@ class EditUserDataController extends GetxController {
   @override
   void onReady() {
     emailTextController.text = userInfo.email;
-
     nameTextController.text = userInfo.name;
     nameTextController.addListener(() {
       if (nameTextController.text.trim().isNotEmpty) {
@@ -106,6 +106,7 @@ class EditUserDataController extends GetxController {
 
     nationalIdTextController.text = userInfo.nationalId;
     gender = userInfo.gender == 'male' ? Gender.male : Gender.female;
+
     genderRadioKey.currentState?.selectButton(gender!);
     final birthDate = userInfo.birthDate;
     birthDateController.displayDate = birthDate;
@@ -205,6 +206,7 @@ class EditUserDataController extends GetxController {
       nationalId: nationalIdTextController.text.trim(),
       birthDate: birthDateController.selectedDate!,
       gender: gender == Gender.male ? 'male' : 'female',
+      backupNumber: backupPhoneNo,
     );
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateUserDataInfo(
@@ -221,6 +223,7 @@ class EditUserDataController extends GetxController {
       authRep.userInfo.nationalId = accountDetails.nationalId;
       authRep.userInfo.birthDate = accountDetails.birthDate;
       authRep.userInfo.gender = accountDetails.gender;
+      authRep.userInfo.backupNumber = accountDetails.backupNumber;
       Get.back();
       hideLoadingScreen();
       showSnackBar(

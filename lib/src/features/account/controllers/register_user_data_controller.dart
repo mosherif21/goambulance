@@ -49,7 +49,7 @@ class RegisterUserDataController extends GetxController {
   RxBool highlightBirthdate = false.obs;
   RxBool highlightProfilePic = false.obs;
   RxBool highlightNationalIdPick = false.obs;
-
+  String backupPhoneNo = '';
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
   RxBool highlightBloodType = false.obs;
@@ -248,6 +248,7 @@ class RegisterUserDataController extends GetxController {
         sosMessage: '',
         criticalUser: false,
         phone: phone,
+        backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : 'unknown',
       );
 
       final medicalHistoryModel = MedicalHistoryModel(

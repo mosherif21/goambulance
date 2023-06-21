@@ -6,7 +6,7 @@ admin.initializeApp();
 
 const firestore = admin.firestore();
 const geoFirestore = GeoFirestore.initializeApp(firestore);
-const hospitalLocationsCollection = geoFirestore.collection("hospitalsLocationsSOS");
+const hospitalLocationsCollection = geoFirestore.collection("hospitalsLocations");
 
 exports.cancelPendingRequests = functions.pubsub
   .schedule("every 1 minutes")

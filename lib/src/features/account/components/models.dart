@@ -6,6 +6,7 @@ class UserInformation {
   String gender;
   String phone;
   String sosMessage;
+  String backupNumber;
   bool criticalUser;
 
   UserInformation({
@@ -13,6 +14,7 @@ class UserInformation {
     required this.email,
     required this.nationalId,
     required this.birthDate,
+    required this.backupNumber,
     required this.gender,
     required this.sosMessage,
     required this.criticalUser,
@@ -29,6 +31,7 @@ class UserInformation {
         'criticalUser': criticalUser,
         'sosMessage': sosMessage,
         'phone': phone,
+        'backupNumber': backupNumber,
       };
 }
 
@@ -38,6 +41,7 @@ class AccountDetailsModel {
   String nationalId;
   DateTime birthDate;
   String gender;
+  String backupNumber;
 
   AccountDetailsModel({
     required this.name,
@@ -45,6 +49,7 @@ class AccountDetailsModel {
     required this.nationalId,
     required this.birthDate,
     required this.gender,
+    required this.backupNumber,
   });
 
   Map<String, dynamic> toJson() => {
@@ -53,6 +58,7 @@ class AccountDetailsModel {
         'nationalId': nationalId,
         'birthdate': birthDate,
         'gender': gender,
+        'backupNumber': backupNumber,
       };
 }
 

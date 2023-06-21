@@ -224,12 +224,14 @@ class FirebasePatientDataAccess extends GetxController {
       final medicalSnapshot = await userMedicalRef.get();
       if (medicalSnapshot.exists) {
         final diseasesList = <DiseaseItem>[];
+        final currentDiseasesDocIds = <String>[];
         final userDiseasesRef = FirebaseFirestore.instance
             .collection('users')
             .doc(userId)
             .collection('diseases');
         await userDiseasesRef.get().then((diseasesSnapshot) {
           for (var diseaseDoc in diseasesSnapshot.docs) {
+            currentDiseasesDocIds.add(diseaseDoc.id);
             final diseaseData = diseaseDoc.data();
             diseasesList.add(
               DiseaseItem(
@@ -247,6 +249,7 @@ class FirebasePatientDataAccess extends GetxController {
           heartPatient: medicalDoc['heartPatient'].toString(),
           medicalAdditionalInfo: medicalDoc['medicalAdditionalInfo'].toString(),
           diseasesList: diseasesList,
+          currentDiseasesDocIds: currentDiseasesDocIds,
         );
       }
     } on FirebaseException catch (error) {
@@ -642,14 +645,15 @@ class FirebasePatientDataAccess extends GetxController {
 
   Future<FunctionStatus> updateMedicalHistory({
     required MedicalHistoryModel medicalHistoryData,
-    required List<String> currentDiseasesDocIds,
   }) async {
     try {
       final userDataBatch = fireStore.batch();
       userDataBatch.update(firestoreUserRef, medicalHistoryData.toJson());
       final fireStoreUserDiseasesRef = firestoreUserRef.collection('diseases');
-      for (String diseaseDocId in currentDiseasesDocIds) {
-        userDataBatch.delete(fireStoreUserDiseasesRef.doc(diseaseDocId));
+      if (medicalHistoryData.currentDiseasesDocIds != null) {
+        for (String diseaseDocId in medicalHistoryData.currentDiseasesDocIds!) {
+          userDataBatch.delete(fireStoreUserDiseasesRef.doc(diseaseDocId));
+        }
       }
       if (medicalHistoryData.diseasesList.isNotEmpty) {
         for (DiseaseItem diseaseItem in medicalHistoryData.diseasesList) {

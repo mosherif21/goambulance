@@ -63,6 +63,7 @@ class MedicalHistoryModel {
   final String hypertensive;
   final String heartPatient;
   final List<DiseaseItem> diseasesList;
+  List<String>? currentDiseasesDocIds;
 
   MedicalHistoryModel({
     required this.bloodType,
@@ -71,6 +72,7 @@ class MedicalHistoryModel {
     required this.heartPatient,
     required this.medicalAdditionalInfo,
     required this.diseasesList,
+    this.currentDiseasesDocIds,
   });
 
   Map<String, dynamic> toJson() => {

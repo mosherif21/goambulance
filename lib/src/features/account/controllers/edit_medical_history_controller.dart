@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:rolling_switch/rolling_switch.dart';
-import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../../authentication/authentication_repository.dart';
 import '../../../../firebase_files/firebase_patient_access.dart';
@@ -86,19 +85,7 @@ class EditMedicalHistoryController extends GetxController {
     highlightBloodType.value =
         bloodType.compareTo('pickBloodType'.tr) == 0 || bloodType.isEmpty;
     if (!highlightBloodType.value) {
-      displayAlertDialog(
-        title: 'confirm'.tr,
-        body: 'personalInfoShare'.tr,
-        positiveButtonText: 'agree'.tr,
-        negativeButtonText: 'disagree'.tr,
-        positiveButtonOnPressed: () {
-          Get.back();
-          updateUserData(bloodType: bloodType);
-        },
-        negativeButtonOnPressed: () => Get.back(),
-        mainIcon: Icons.check_circle_outline,
-        color: SweetSheetColor.NICE,
-      );
+      updateUserData(bloodType: bloodType);
     } else {
       showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
@@ -117,11 +104,11 @@ class EditMedicalHistoryController extends GetxController {
       heartPatient: heartPatient ? 'Yes' : 'No',
       medicalAdditionalInfo: additionalInformationTextController.text.trim(),
       diseasesList: diseasesList,
+      currentDiseasesDocIds: currentDiseasesDocIds,
     );
     final functionStatus =
         await FirebasePatientDataAccess.instance.updateMedicalHistory(
       medicalHistoryData: medicalHistoryData,
-      currentDiseasesDocIds: currentDiseasesDocIds,
     );
     if (functionStatus == FunctionStatus.success) {
       if (authRep.criticalUserStatus.value !=

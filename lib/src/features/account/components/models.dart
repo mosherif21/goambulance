@@ -4,12 +4,7 @@ class UserInformation {
   String nationalId;
   DateTime birthDate;
   String gender;
-  String bloodType;
-  String diabetic;
   String phone;
-  String additionalInformation;
-  String hypertensive;
-  String heartPatient;
   String sosMessage;
   bool criticalUser;
 
@@ -19,11 +14,6 @@ class UserInformation {
     required this.nationalId,
     required this.birthDate,
     required this.gender,
-    required this.bloodType,
-    required this.diabetic,
-    required this.hypertensive,
-    required this.heartPatient,
-    required this.additionalInformation,
     required this.sosMessage,
     required this.criticalUser,
     required this.phone,
@@ -35,11 +25,6 @@ class UserInformation {
         'nationalId': nationalId,
         'birthdate': birthDate,
         'gender': gender,
-        'bloodType': bloodType,
-        'diabetic': diabetic,
-        'hypertensive': hypertensive,
-        'heartPatient': heartPatient,
-        'additionalInformation': additionalInformation,
         'type': 'patient',
         'criticalUser': criticalUser,
         'sosMessage': sosMessage,
@@ -74,7 +59,7 @@ class AccountDetailsModel {
 class MedicalHistoryModel {
   final String bloodType;
   final String diabetic;
-  final String additionalInformation;
+  final String medicalAdditionalInfo;
   final String hypertensive;
   final String heartPatient;
   final List<DiseaseItem> diseasesList;
@@ -84,7 +69,7 @@ class MedicalHistoryModel {
     required this.diabetic,
     required this.hypertensive,
     required this.heartPatient,
-    required this.additionalInformation,
+    required this.medicalAdditionalInfo,
     required this.diseasesList,
   });
 
@@ -93,7 +78,7 @@ class MedicalHistoryModel {
         'diabetic': diabetic,
         'hypertensive': hypertensive,
         'heartPatient': heartPatient,
-        'additionalInformation': additionalInformation,
+        'medicalAdditionalInfo': medicalAdditionalInfo,
       };
 }
 

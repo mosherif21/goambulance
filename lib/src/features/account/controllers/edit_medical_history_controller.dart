@@ -34,53 +34,51 @@ class EditMedicalHistoryController extends GetxController {
   final heartPatientKey = GlobalKey<RollingSwitchState>();
 
   late final String userId;
-  late final UserInformation userInfo;
   late final AuthenticationRepository authRep;
   final diseasesLoaded = false.obs;
   @override
-  void onInit() async {
+  void onInit() {
     authRep = AuthenticationRepository.instance;
-    userInfo = authRep.userInfo;
     userId = authRep.fireUser.value!.uid;
-    loadDiseases();
     super.onInit();
   }
 
   @override
   void onReady() async {
-    additionalInformationTextController.text = userInfo.additionalInformation;
-    bloodTypeDropdownController.text = userInfo.bloodType;
-    diabetesDropdownController.text =
-        userInfo.diabetic == 'No' ? 'no'.tr : userInfo.diabetic;
-    if (userInfo.hypertensive == 'No') {
-      hypertensivePatient = false;
-    } else if (userInfo.hypertensive == 'Yes') {
-      hypertensivePatient = true;
-      hypertensiveKey.currentState!.action();
-    }
-    if (userInfo.heartPatient == 'No') {
-      heartPatient = false;
-    } else {
-      heartPatient = true;
-      heartPatientKey.currentState!.action();
-    }
-    bloodTypeDropdownController.addListener(() {
-      final bloodTypeValue = bloodTypeDropdownController.text.trim();
-      if (bloodTypeValue.isNotEmpty ||
-          bloodTypeValue.compareTo('pickBloodType'.tr) != 0) {
-        highlightBloodType.value = false;
+    FirebasePatientDataAccess.instance.getMedicalHistory().then((medicalInfo) {
+      if (medicalInfo != null) {
+        diseasesLoaded.value = true;
+        additionalInformationTextController.text =
+            medicalInfo.medicalAdditionalInfo;
+        bloodTypeDropdownController.text = medicalInfo.bloodType;
+        diabetesDropdownController.text =
+            medicalInfo.diabetic == 'No' ? 'no'.tr : medicalInfo.diabetic;
+        if (medicalInfo.hypertensive == 'No') {
+          hypertensivePatient = false;
+        } else if (medicalInfo.hypertensive == 'Yes') {
+          hypertensivePatient = true;
+          hypertensiveKey.currentState!.action();
+        }
+        if (medicalInfo.heartPatient == 'No') {
+          heartPatient = false;
+        } else {
+          heartPatient = true;
+          heartPatientKey.currentState!.action();
+        }
+        bloodTypeDropdownController.addListener(() {
+          final bloodTypeValue = bloodTypeDropdownController.text.trim();
+          if (bloodTypeValue.isNotEmpty ||
+              bloodTypeValue.compareTo('pickBloodType'.tr) != 0) {
+            highlightBloodType.value = false;
+          }
+        });
+        diseaseNameTextController.addListener(() {
+          diseaseName.value = diseaseNameTextController.text.trim();
+        });
       }
     });
 
-    diseaseNameTextController.addListener(() {
-      diseaseName.value = diseaseNameTextController.text.trim();
-    });
     super.onReady();
-  }
-
-  void loadDiseases() async {
-    diseasesList.value = await FirebasePatientDataAccess.instance.getDiseases();
-    diseasesLoaded.value = true;
   }
 
   Future<void> updateMedicalInfo() async {
@@ -117,7 +115,7 @@ class EditMedicalHistoryController extends GetxController {
       diabetic: diabetic,
       hypertensive: hypertensivePatient ? 'Yes' : 'No',
       heartPatient: heartPatient ? 'Yes' : 'No',
-      additionalInformation: additionalInformationTextController.text.trim(),
+      medicalAdditionalInfo: additionalInformationTextController.text.trim(),
       diseasesList: diseasesList,
     );
     final functionStatus =
@@ -126,12 +124,6 @@ class EditMedicalHistoryController extends GetxController {
       currentDiseasesDocIds: currentDiseasesDocIds,
     );
     if (functionStatus == FunctionStatus.success) {
-      authRep.userInfo.bloodType = medicalHistoryData.bloodType;
-      authRep.userInfo.diabetic = medicalHistoryData.diabetic;
-      authRep.userInfo.hypertensive = medicalHistoryData.hypertensive;
-      authRep.userInfo.heartPatient = medicalHistoryData.heartPatient;
-      authRep.userInfo.additionalInformation =
-          medicalHistoryData.additionalInformation;
       if (authRep.criticalUserStatus.value !=
           CriticalUserStatus.criticalUserAccepted) {
         authRep.criticalUserStatus.value = CriticalUserStatus.non;

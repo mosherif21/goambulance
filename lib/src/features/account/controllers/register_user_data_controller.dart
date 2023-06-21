@@ -250,22 +250,26 @@ class RegisterUserDataController extends GetxController {
         nationalId: nationalId,
         birthDate: birthDate!,
         gender: gender == Gender.male ? 'male' : 'female',
-        bloodType: bloodType,
-        diabetic: diabetic,
-        hypertensive: hypertensivePatient ? 'Yes' : 'No',
-        heartPatient: heartPatient ? 'Yes' : 'No',
-        additionalInformation: additionalInformationTextController.text.trim(),
         sosMessage: '',
         criticalUser: false,
         phone: phone,
       );
 
+      final medicalHistoryModel = MedicalHistoryModel(
+        bloodType: bloodType,
+        diabetic: diabetic,
+        hypertensive: hypertensivePatient ? 'Yes' : 'No',
+        heartPatient: heartPatient ? 'Yes' : 'No',
+        medicalAdditionalInfo: additionalInformationTextController.text.trim(),
+        diseasesList: diseasesList,
+      );
+
       final functionStatus =
           await FirebasePatientDataAccess.instance.saveUserPersonalInformation(
         userRegisterInfo: userInfo,
+        medicalHistoryModel: medicalHistoryModel,
         profilePic: profileImage.value!,
         nationalID: iDImage.value!,
-        diseasesList: diseasesList,
       );
       if (functionStatus == FunctionStatus.success) {
         await user.updateDisplayName(name);

@@ -44,7 +44,7 @@ class FirebasePatientDataAccess extends GetxController {
 
   Future<FunctionStatus> saveUserPersonalInformation({
     required UserInformation userRegisterInfo,
-    required List<DiseaseItem> diseasesList,
+    required MedicalHistoryModel medicalHistoryModel,
     required XFile profilePic,
     required XFile nationalID,
   }) async {
@@ -69,10 +69,12 @@ class FirebasePatientDataAccess extends GetxController {
         firestoreUserRef,
         userRegisterInfo.toJson(),
       );
-      if (diseasesList.isNotEmpty) {
+      final firestoreMedicalRef =
+          fireStore.collection('medicalHistory').doc(userId);
+      if (medicalHistoryModel.diseasesList.isNotEmpty) {
         final fireStoreUserDiseasesRef =
-            firestoreUserRef.collection('diseases');
-        for (DiseaseItem diseaseItem in diseasesList) {
+            firestoreMedicalRef.collection('diseases');
+        for (DiseaseItem diseaseItem in medicalHistoryModel.diseasesList) {
           {
             final diseaseRef = fireStoreUserDiseasesRef.doc();
             userDataBatch.set(diseaseRef, diseaseItem.toJson());
@@ -211,30 +213,44 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
-  Future<List<DiseaseItem>> getDiseases() async {
-    final diseasesList = <DiseaseItem>[];
+  Future<MedicalHistoryModel?> getMedicalHistory() async {
     try {
-      final userDiseasesRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .collection('diseases');
-      userDiseasesRef.get().then((diseasesSnapshot) {
-        for (var diseaseDoc in diseasesSnapshot.docs) {
-          final diseaseData = diseaseDoc.data();
-          diseasesList.add(
-            DiseaseItem(
-              diseaseName: diseaseData['diseaseName'].toString(),
-              diseaseMedicines: diseaseData['diseaseMedicines'].toString(),
-            ),
-          );
-        }
-      });
+      final userMedicalRef =
+          FirebaseFirestore.instance.collection('medicalHistory').doc(userId);
+      final medicalSnapshot = await userMedicalRef.get();
+      if (medicalSnapshot.exists) {
+        final diseasesList = <DiseaseItem>[];
+        final userDiseasesRef = FirebaseFirestore.instance
+            .collection('users')
+            .doc(userId)
+            .collection('diseases');
+        await userDiseasesRef.get().then((diseasesSnapshot) {
+          for (var diseaseDoc in diseasesSnapshot.docs) {
+            final diseaseData = diseaseDoc.data();
+            diseasesList.add(
+              DiseaseItem(
+                diseaseName: diseaseData['diseaseName'].toString(),
+                diseaseMedicines: diseaseData['diseaseMedicines'].toString(),
+              ),
+            );
+          }
+        });
+        final medicalDoc = medicalSnapshot.data()!;
+        return MedicalHistoryModel(
+          bloodType: medicalDoc['bloodType'].toString(),
+          diabetic: medicalDoc['diabetic'].toString(),
+          hypertensive: medicalDoc['hypertensive'].toString(),
+          heartPatient: medicalDoc['heartPatient'].toString(),
+          medicalAdditionalInfo: medicalDoc['medicalAdditionalInfo'].toString(),
+          diseasesList: diseasesList,
+        );
+      }
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (e) {
       if (kDebugMode) print(e.toString());
     }
-    return diseasesList;
+    return null;
   }
 
   Future<ContactItem?> addEmergencyContact({
@@ -903,7 +919,7 @@ class FirebasePatientDataAccess extends GetxController {
               diabetic: snapshot.data()!['diabetic'].toString(),
               hypertensive: snapshot.data()!['hypertensive'].toString(),
               heartPatient: snapshot.data()!['heartPatient'].toString(),
-              additionalInformation:
+              medicalAdditionalInfo:
                   snapshot.data()!['additionalInformation'].toString(),
               diseasesList: diseasesList,
             );
@@ -969,7 +985,7 @@ class FirebasePatientDataAccess extends GetxController {
               diabetic: snapshot.data()!['diabetic'].toString(),
               hypertensive: snapshot.data()!['hypertensive'].toString(),
               heartPatient: snapshot.data()!['heartPatient'].toString(),
-              additionalInformation:
+              medicalAdditionalInfo:
                   snapshot.data()!['additionalInformation'].toString(),
               diseasesList: diseasesList,
             );

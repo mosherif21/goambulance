@@ -102,50 +102,21 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void testSpeech() async {
+  void textToSpeech({required String text}) async {
     FlutterTts flutterTts = FlutterTts();
 
-    await flutterTts.setLanguage("ar-SA");
+    await flutterTts.setLanguage(isLangEnglish() ? 'en' : 'ar');
 
     await flutterTts.setVolume(1.0);
 
-    await flutterTts.speak('');
+    await flutterTts.setSpeechRate(0.5);
 
-    // await flutterTts.setSpeechRate(0.5);
-
-    // await flutterTts.setPitch(1.0);
-
-    // await flutterTts.setVoice({"name": "Karen", "locale": "en-AU"});
-
-    // await flutterTts.stop();
-
-    // List<dynamic> languages = await flutterTts.getLanguages;
-
-    //await flutterTts.isLanguageAvailable("en-US");
-
-    // iOS, Android and Web only
-
-    //see the "Pausing on Android" section for more info
-    // await flutterTts.pause();
-
-    // Android only
-    // await flutterTts.setSilence(2);
-
-    // await flutterTts.getEngines;
-
-    // await flutterTts.getDefaultVoice;
-
-    // await flutterTts.isLanguageInstalled("en-AU");
-
-    // await flutterTts.areLanguagesInstalled(["en-AU", "en-US"]);
-
-    // await flutterTts.setQueueMode(1);
-
-    // await flutterTts.getMaxSpeechInputLength;
+    await flutterTts.speak(text);
   }
 
   void showSosAlertDialogue({required GeoPoint requestLocation}) async {
     if (Get.context != null) {
+      textToSpeech(text: 'sosRequestCountTTS'.tr);
       showDialog(
         context: Get.context!,
         builder: (BuildContext context) {
@@ -278,6 +249,7 @@ class HomeScreenController extends GetxController {
           if (pressed) hideLoadingScreen();
           showSnackBar(
               text: 'hasSosRequest'.tr, snackBarType: SnackBarType.error);
+          textToSpeech(text: 'hasSosRequest'.tr);
         }
       } else {
         if (pressed) hideLoadingScreen();
@@ -294,6 +266,7 @@ class HomeScreenController extends GetxController {
     } else {
       showSnackBar(
           text: 'sosRequestInitFailed'.tr, snackBarType: SnackBarType.error);
+      textToSpeech(text: 'sosRequestInitFailedTTS'.tr);
     }
   }
 
@@ -304,10 +277,12 @@ class HomeScreenController extends GetxController {
         if (functionStatus == FunctionStatus.success) {
           showSnackBar(
               text: 'sosRequestSent'.tr, snackBarType: SnackBarType.success);
+          textToSpeech(text: 'sosRequestSentTTS'.tr);
         } else {
           showSnackBar(
               text: 'sosRequestSendFailed'.tr,
               snackBarType: SnackBarType.error);
+          textToSpeech(text: 'sosRequestSendFailedTTS'.tr);
         }
       });
 

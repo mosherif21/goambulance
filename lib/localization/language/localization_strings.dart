@@ -387,9 +387,15 @@ class Languages extends Translations {
           'sosRequestInitFailed':
               'فشل طلب الاستغاثة لأننا لم نتمكن من الوصول إلى موقعك أو عنوانك الأساسي',
           'sosRequestSent':
-              'سيتم معالجة طلب الاستغاثة بواسطة نظامنا لطلب أقرب مستشفى',
+              'سيتم معالجة طلب الاستغاثة الخاص بك بواسطة نظامنا لطلب أقرب مستشفى',
           'sosRequestSendFailed': 'فشل إرسال طلب الاستغاثة',
           'sosRequestCount': 'سيتم إرسال طلب استغاثة',
+          'sosRequestInitFailedTTS':
+              'فَشَلُ طَلَبِ اَلِاسْتِغَاثَةِ لِأَنَّنَا لَمْ نَتَمَكَّنْ مِنْ اَلْوُصُولِ إِلَى مَوْقِعِكَ أَوْ عُنْوَانِكَ اَلْأَسَاسِيِّ',
+          'sosRequestSentTTS':
+              'سَيَتِمُّ مُعَالَجَةَ طَلَبِ اَلِاسْتِغَاثَةِ اَلْخَاصِّ بِكَ بِوَاسِطَةِ نِظَامِنَا لِطَلَبِ أَقْرَب مُسْتَشْفَى',
+          'sosRequestSendFailedTTS': 'فَشَلُ إِرْسَالِ طَلَبِ اَلِاسْتِغَاثَةِ',
+          'sosRequestCountTTS': 'سَيَتِمُّ إِرْسَالُ طَلَبِ اِسْتِغَاثَةٍ',
           'hasSosRequest':
               'لديك بالفعل طلب استغاثة قيد المعالجة أو تم إرساله إلى المستشفى',
           'loggedInPasswordResetLink':
@@ -403,10 +409,10 @@ class Languages extends Translations {
           'criticalUserRequestBody':
               'إذا كنت ترغب في أن تصبح مستخدم طوارئ، فسيقوم مراجعونا الطبيون بتقييم تاريخك الطبي لتحديد ما إذا كنت مؤهلاً لتصبح مستخدم طوارئ. ويحق لمستخدمين الطوارئ الاستفادة من الفوائد التي تتيح لهم طلب أقرب مستشفى بنقرة زر أو بتحريك الجهاز أو باستخدام أوامر الصوت مثل "ساعدونى" أو "اسعاف"، شريطة أن نتمكن من الوصول إلى موقعك أو عنوانك الرئيسي.',
           'sendRequest': 'إرسال الطلب',
-          'criticalUserSettings': 'إعدادات طلب الطوارئ',
+          'sosRequestSettings': 'إعدادات طلب الطوارئ',
         },
         'en_US': {
-          'criticalUserSettings': 'SOS request settings',
+          'sosRequestSettings': 'SOS request settings',
           'criticalUserRequestBody':
               'If you would like to become a critical user, our medical reviewers will evaluate your medical history to determine if you qualify. Critical users are entitled to the benefits of being able to request the nearest hospital with just a click of a button, by shaking the device, or by using voice commands such as \'Help me\' or \'Ambulance\', provided we have access to your location or primary address.',
           'sendRequest': 'Send request',
@@ -416,9 +422,15 @@ class Languages extends Translations {
           'sosRequestInitFailed':
               'SOS request failed because we couldn\'t access your location or primary address',
           'sosRequestSent':
-              'SOS request will be processed by our system to request the nearest hospital',
+              'Your SOS request will be processed by our system to request the nearest hospital',
           'sosRequestSendFailed': 'SOS request send failed',
           'sosRequestCount': 'SOS request will be sent',
+          'sosRequestInitFailedTTS':
+              'SOS request failed because we couldn\'t access your location or primary address',
+          'sosRequestSentTTS':
+              'Your SOS request will be processed by our system to request the nearest hospital',
+          'sosRequestSendFailedTTS': 'SOS request send failed',
+          'sosRequestCountTTS': 'SOS request will be sent',
           'hasSosRequest':
               'You already have an SOS request being processed or was sent to a hospital',
           'requireRecentLoginError':

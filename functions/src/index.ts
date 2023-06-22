@@ -229,3 +229,92 @@ exports.processSOSRequests = functions.firestore
       }
     }
   });
+
+exports.sendNotification = functions.https.onRequest(async (request, response) => {
+  const type = request.query.type;
+  const userId = request.query.userId;
+  const hospitalName = type !== "critical request accepted" && type !== "critical request denied" ? request.query.hospitalName : null;
+  const notificationsLang = request.query.notificationsLang;
+
+  if (!type || !userId) {
+    response.status(400).send("Missing parameters");
+    return;
+  }
+
+  const fcmTokenRef = admin.firestore().collection("fcmTokens").doc(userId);
+  const fcmTokenDoc = await fcmTokenRef.get();
+
+  if (fcmTokenDoc.exists) {
+    const { fcmToken, notificationsLang } = fcmTokenDoc.data();
+
+    let notificationTitle = "";
+    let notificationBody = "";
+
+    switch (type) {
+      case "request canceled by hospital":
+        notificationTitle = notificationsLang === "en" ? "Request Canceled" : "تم إلغاء الطلب";
+        notificationBody = notificationsLang === "en" ? `${hospitalName} has canceled your request` : `ألغت ${hospitalName} طلبك`;
+        break;
+      case "canceled timeout":
+        notificationTitle = notificationsLang === "en" ? "Request Canceled" : "تم إلغاء الطلب";
+        notificationBody = notificationsLang === "en" ? "Your request has been canceled due to timeout" : "تم إلغاء طلبك بسبب انتهاء الوقت المحدد";
+        break;
+      case "request accepted":
+        notificationTitle = notificationsLang === "en" ? "Request Accepted" : "تم قبول الطلب";
+        notificationBody = notificationsLang === "en" ? `${hospitalName} has accepted your request` : `قبلت ${hospitalName} طلبك`;
+        break;
+      case "request assigned":
+        notificationTitle = notificationsLang === "en" ? "Request Assigned" : "تم تعيين الطلب";
+        notificationBody = notificationsLang === "en" ? `${hospitalName} has assigned an ambulance to your request` : `تم تعيين سيارة إسعاف من ${hospitalName} لطلبك`;
+        break;
+      case "request ongoing":
+        notificationTitle = notificationsLang === "en" ? "Request Ongoing" : "الطلب قيد التنفيذ";
+        notificationBody = notificationsLang === "en" ? "Your request is now ongoing" : "يتم تنفيذ طلبك الآن";
+        break;
+      case "ambulance is near":
+        notificationTitle = notificationsLang === "en" ? "Ambulance is Near" : "هناك سيارة إسعاف بالقرب منك";
+        notificationBody = notificationsLang === "en" ? "An ambulance is on its way to you" : "هناك سيارة إسعاف في طريقها إليك";
+        break;
+      case "ambulance arrived":
+        notificationTitle = notificationsLang === "en" ? "Ambulance Arrived" : "وصلت السيارة إسعاف";
+        notificationBody = notificationsLang === "en" ? "The ambulance has arrived at your location" : "وصلت السيارة إسعاف إلى موقعك";
+        break;
+      case "request completed":
+        notificationTitle = notificationsLang === "en" ? "Request Completed" : "تم إنجاز الطلب";
+        notificationBody = notificationsLang === "en" ? "Your request has been completed" : "تم إنجاز طلبك";
+        break;
+      case "critical request accepted":
+        notificationTitle = notificationsLang === "en" ? "Critical Request Accepted" : "تم قبول الطلب الحرج";
+        notificationBody = notificationsLang === "en" ? "Your critical request has been accepted" : "تم قبول طلبك الحرج";
+        break;
+      case "critical request denied":
+        notificationTitle = notificationsLang === "en" ? "Critical Request Denied" : "تم رفض الطلب الحرج";
+        notificationBody = notificationsLang === "en" ? "I apologize, it seems like your critical request cannot be fulfilled atthe moment" : "عذراً، يبدو أن طلبك الحرج لا يمكن تنفيذه في الوقت الحالي";
+        break;
+      default:
+        response.status(400).send("Invalid notification type");
+        return;
+    }
+
+    const message = {
+      notification: {
+        title: notificationTitle,
+        body: notificationBody,
+      },
+      token: fcmToken,
+    };
+
+    admin
+      .messaging()
+      .send(message)
+      .then(() => {
+        response.status(200).send("Notification sent successfully");
+      })
+      .catch((error) => {
+        console.error("Error sending notification:", error);
+        response.status(500).send("Error sending notification");
+      });
+  } else {
+    response.status(404).send("User not found");
+  }
+});

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_controller.dart';
@@ -39,7 +40,6 @@ class HomeScreenController extends GetxController {
   final homeBottomNavController = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
-  late final StreamSubscription shakingStreamListener;
   bool processingSosRequest = false;
 
   @override
@@ -70,17 +70,16 @@ class HomeScreenController extends GetxController {
   }
 
   void initShakeSos() {
-    shakingStreamListener =
-        accelerometerEvents.listen((AccelerometerEvent event) {
-      final acceleration =
-          event.x * event.x + event.y * event.y + event.z * event.z;
-      if (acceleration > 300) {
-        if(kDebugMode) print('Device is shaking');
-        sosRequest(pressed: true);
+    accelerometerEvents.listen((AccelerometerEvent event) {
+      double magnitude =
+          sqrt(pow(event.x, 2) + pow(event.y, 2) + pow(event.z, 2));
+      if (magnitude > 20) {
+        if (kDebugMode) print('Device is shaking');
+        sosRequest(pressed: false);
       }
     });
     // Future.delayed(const Duration(seconds: 10))
-    //     .whenComplete(() => shakingStreamListener.cancel());
+    //     .whenComplete(() => accelerometerEvents.drain());
   }
 
   void listenForSos() async {
@@ -126,11 +125,7 @@ class HomeScreenController extends GetxController {
 
     await flutterTts.setLanguage(isLangEnglish() ? 'en' : 'ar');
 
-    await flutterTts.setVolume(1.0);
-
-    await flutterTts.setSpeechRate(0.5);
-
-    await flutterTts.speak(text);
+    flutterTts.speak(text);
   }
 
   void showSosAlertDialogue({required GeoPoint requestLocation}) async {
@@ -418,7 +413,7 @@ class HomeScreenController extends GetxController {
   @override
   void onClose() async {
     homeBottomNavController.dispose();
-    await shakingStreamListener.cancel();
+    await accelerometerEvents.drain();
     super.onClose();
   }
 }

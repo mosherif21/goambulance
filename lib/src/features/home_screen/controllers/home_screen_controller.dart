@@ -74,10 +74,13 @@ class HomeScreenController extends GetxController {
         accelerometerEvents.listen((AccelerometerEvent event) {
       final acceleration =
           event.x * event.x + event.y * event.y + event.z * event.z;
-      if (acceleration > 300) sosRequest(pressed: false);
+      if (acceleration > 300) {
+        if(kDebugMode) print('Device is shaking');
+        sosRequest(pressed: true);
+      }
     });
-    Future.delayed(const Duration(seconds: 10))
-        .whenComplete(() => shakingStreamListener.cancel());
+    // Future.delayed(const Duration(seconds: 10))
+    //     .whenComplete(() => shakingStreamListener.cancel());
   }
 
   void listenForSos() async {

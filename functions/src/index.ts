@@ -108,41 +108,33 @@ exports.cancelTimedOutRequests = functions.pubsub
       try {
         await batch.commit();
         if (patientCondition === "sosRequest") {
-          const options = {
-            hostname: 'https://ambulancebookingproject.cloudfunctions.net',
-            path: `/sendNotification`,
+          const userIdEncoded = encodeURIComponent(userId);
+          const hospitalNameEncoded = encodeURIComponent(hospitalName);
+          const notificationTypeEncoded = encodeURIComponent("sosRequestTimedOut");
+          const requestOptions = {
+            hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
+            path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             }
           };
-
-          const data = JSON.stringify({
-            type: 'sosRequestTimedOut',
-            userId: userId,
-            hospitalName: hospitalName,
-          });
-
-          const req = https.request(options);
-          req.write(data);
+          const req = https.request(requestOptions);
           req.end();
         } else {
-          const options = {
-            hostname: 'https://ambulancebookingproject.cloudfunctions.net',
-            path: `/sendNotification`,
+          const userIdEncoded = encodeURIComponent(userId);
+          const hospitalNameEncoded = encodeURIComponent(hospitalName);
+          const notificationTypeEncoded = encodeURIComponent("requestCanceledTimeout");
+          const requestOptions = {
+            hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
+            path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             }
           };
 
-          const data = JSON.stringify({
-            type: 'requestCanceledTimeout',
-            userId: userId,
-          });
-
-          const req = https.request(options);
-          req.write(data);
+          const req = https.request(requestOptions);
           req.end();
         }
       } catch (error) {
@@ -166,12 +158,18 @@ exports.processSOSRequests = functions.firestore
       blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
         blockedHospitalsIds.push(document.id);
       });
-      const query = hospitalLocationsCollection.near({
+      const query = blockedHospitalsIds.length !== 0 ? hospitalLocationsCollection
+      .where(admin.firestore.FieldPath.documentId(), 'not-in', blockedHospitalsIds)
+      .near({
         center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
         radius: radiusInKm
       })
-        .where(admin.firestore.FieldPath.documentId(), 'not-in', blockedHospitalsIds)
-        .limit(1);
+      .limit(1) :
+      hospitalLocationsCollection.near({
+        center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
+        radius: radiusInKm
+      })
+      .limit(1);
 
       const querySnapshot = await query.get();
 
@@ -215,6 +213,20 @@ exports.processSOSRequests = functions.firestore
           .doc(sosRequestId);
         batch.delete(sosRequestRef);
         await batch.commit();
+        const userIdEncoded = encodeURIComponent(userId);
+        const hospitalNameEncoded = encodeURIComponent(hospitalName);
+        const notificationTypeEncoded = encodeURIComponent("sosRequestSent");
+        const requestOptions = {
+          hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
+          path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        };
+
+        const req = https.request(requestOptions);
+        req.end();
         console.log("Pending request made.");
       } else {
         console.log("couldn't find hospital");
@@ -223,11 +235,14 @@ exports.processSOSRequests = functions.firestore
   });
 
 exports.sendNotification = functions.https.onRequest(async (request, response) => {
-  const notificationType = request.query.notificationType as string ;
-  let userId = request.query.userId  as string ;
+  const notificationType = request.query.notificationType as string;
+  let userId = request.query.userId as string;
+  console.log(userId);
+  console.log(notificationType);
   const hospitalName = notificationType !== "criticalRequestAccepted" && notificationType !== "criticalRequestDenied" ? request.query.hospitalName : null;
 
   if (!notificationType || !userId) {
+    console.error("Missing parameters");
     response.status(400).send("Missing parameters");
     return;
   }
@@ -249,11 +264,11 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
   switch (notificationType) {
     case "requestCanceledHospital":
       notificationTitle = notificationsLang === "en" ? "Ambulance request Canceled" : "تم إلغاء طلب الإسعاف";
-      notificationBody = notificationsLang === "en" ? `Sorry, ${hospitalName} has canceled your request, please request another ambulance` : `عذرًا ، ألغت ${hospitalName} طلبك ، يرجى طلب سيارة إسعاف أخرى`;
+      notificationBody = notificationsLang === "en" ? `Sorry, ${hospitalName} has canceled your ambulance request` : `عذرًا ، ألغت ${hospitalName} طلب الإسعاف الخاص بك`;
       break;
     case "requestCanceledTimeout":
       notificationTitle = notificationsLang === "en" ? "Ambulance request timed out" : "انقضت مهلة طلب الإسعاف";
-      notificationBody = notificationsLang === "en" ? `Your ambulance request for ${hospitalName} has been canceled due to timeout` : `تم إلغاء طلب سيارة الإسعاف الخاص بك لـ ${hospitalName} بسبب انقضاء مهلته`;
+      notificationBody = notificationsLang === "en" ? `Your ambulance request for ${hospitalName} has timed out` : `انقضت مهلة طلب سيارة الإسعاف لـ ${hospitalName}`;
       break;
     case "requestAccepted":
       notificationTitle = notificationsLang === "en" ? "Ambulance request Accepted" : "تم قبول طلب الإسعاف";
@@ -281,21 +296,22 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       break;
     case "criticalRequestAccepted":
       notificationTitle = notificationsLang === "en" ? "Critical user request accepted" : "تم قبول طلب مستخدم الطوارئ";
-      notificationBody = notificationsLang === "en" ? "Your critical user request has been accepted, you can now use the SOS features" : "تم قبول طلب المستخدم المهم الخاص بك ، يمكنك الآن استخدام ميزات الأستغاثة";
+      notificationBody = notificationsLang === "en" ? "Your critical user request has been accepted" : "تم قبول طلب المستخدم المهم الخاص بك";
       break;
     case "criticalRequestDenied":
       notificationTitle = notificationsLang === "en" ? "Critical user request denied" : "تم رفض طلب المستخدم المهم";
-      notificationBody = notificationsLang === "en" ? "Sorry, our medical reviewers have determined that your medical history does not qualify you as a critical user" : "عذرًا ، قرر المراجعون الطبيون لدينا أن تاريخك الطبي لا يؤهلك كمستخدم طوارئ";
+      notificationBody = notificationsLang === "en" ? "Sorry, your critical user request was denied" : "عذرا ، تم رفض طلب مستخدم الطوارئ الخاص بك";
       break;
     case "sosRequestSent":
       notificationTitle = notificationsLang === "en" ? "SOS request sent" : "تم إرسال طلب الأستغاثة";
-      notificationBody = notificationsLang === "en" ? `Your sos request was sent to ${hospitalName} which is the nearest hospital to you` : `تم إرسال طلب النجدة الخاص بك إلى ${hospitalName} وهي أقرب مستشفى إليك`;
+      notificationBody = notificationsLang === "en" ? `Your SOS request was sent to ${hospitalName}` : `تم إرسال طلب النجدة الخاص بك إلى ${hospitalName}`;
       break;
     case "sosRequestTimedOut":
       notificationTitle = notificationsLang === "en" ? "SOS request timed out" : "انقضت مهلة طلب الأستغاثة";
-      notificationBody = notificationsLang === "en" ? `Your sos request sent to ${hospitalName} has timed out we're searching for the next nearest hospital` : `انقضت مهلة طلب الأستغاثة الذي أرسلته إلى ${hospitalName} ، ونحن نبحث عن أقرب مستشفى تالية`;
+      notificationBody = notificationsLang === "en" ? `Your SOS request sent to ${hospitalName} has timed out` : `انقضت مهلة طلب الأستغاثة الذي أرسلته إلى ${hospitalName}`;
       break;
     default:
+      console.error("Invalid notification type");
       response.status(400).send("Invalid notification type");
       return;
   }
@@ -308,7 +324,7 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
     body: notificationBody,
     timestamp: admin.firestore.Timestamp.now(),
   });
-  batch.update(notificationsRef, {
+  batch.set(notificationsRef, {
     unseenCount: admin.firestore.FieldValue.increment(1),
   });
 

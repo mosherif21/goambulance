@@ -120,12 +120,12 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void textToSpeech({required String text}) async {
+  Future<void> textToSpeech({required String text}) async {
     FlutterTts flutterTts = FlutterTts();
 
     await flutterTts.setLanguage(isLangEnglish() ? 'en' : 'ar');
 
-    flutterTts.speak(text);
+    await flutterTts.speak(text);
   }
 
   void showSosAlertDialogue({required GeoPoint requestLocation}) async {
@@ -268,11 +268,11 @@ class HomeScreenController extends GetxController {
               sendSosPrimaryAddress(pressed: pressed);
             }
           } else {
-            processingSosRequest = false;
             if (pressed) hideLoadingScreen();
             showSnackBar(
                 text: 'hasSosRequest'.tr, snackBarType: SnackBarType.error);
-            textToSpeech(text: 'hasSosRequest'.tr);
+            textToSpeech(text: 'hasSosRequest'.tr)
+                .whenComplete(() => processingSosRequest = false);
           }
         } else {
           if (pressed) hideLoadingScreen();

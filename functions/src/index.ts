@@ -152,18 +152,18 @@ exports.processSOSRequests = functions.firestore
       const sosRequestId = snapshot.id;
       const sosLocation = sosRequest.requestLocation;
       const radiusInKm = 15;
-      const blockedHospitalsIds: string[] = [];
+      const blockedHospitalsGeoHashes: string[] = [];
       const blockedHospitalsRef = firestore.collection("sosRequests").doc(sosRequestId).collection("blockedHospitals");
       const blockedHospitalsDocuments = await blockedHospitalsRef.listDocuments();
       blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
-        blockedHospitalsIds.push(document.id);
+        blockedHospitalsGeoHashes.push(document.id);
       });
-      const query = blockedHospitalsIds.length !== 0 ? hospitalLocationsCollection
-      .where(admin.firestore.FieldPath.documentId(), 'not-in', blockedHospitalsIds)
+      const query = blockedHospitalsGeoHashes.length !== 0 ? hospitalLocationsCollection
       .near({
         center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
         radius: radiusInKm
       })
+      .where('g.geohash', 'not-in', blockedHospitalsGeoHashes)
       .limit(1) :
       hospitalLocationsCollection.near({
         center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
@@ -318,14 +318,21 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
 
   const batch = firestore.batch();
   const notificationsRef = firestore.collection("notifications").doc(userId);
+  const notificationsDoc = await notificationsRef.get();
+  if(notificationsDoc.exists){
+    batch.update(notificationsRef, {
+      unseenCount: admin.firestore.FieldValue.increment(1),
+    });
+  } else {
+    batch.set(notificationsRef, {
+      unseenCount: admin.firestore.FieldValue.increment(1),
+    });
+  }
   const messagesRef = notificationsRef.collection("messages").doc();
   batch.set(messagesRef, {
     title: notificationTitle,
     body: notificationBody,
     timestamp: admin.firestore.Timestamp.now(),
-  });
-  batch.set(notificationsRef, {
-    unseenCount: admin.firestore.FieldValue.increment(1),
   });
 
   try {

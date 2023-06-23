@@ -380,16 +380,14 @@ class MakingRequestLocationController extends GetxController {
     double maxRadius = 15;
     List<DocumentSnapshot<Object?>> hospitalGeoDocuments = [];
     try {
+      final center = geoFire.point(
+          latitude: currentChosenLatLng.latitude,
+          longitude: currentChosenLatLng.longitude);
+      final collectionReference = _firestore.collection('hospitalsLocations');
       while (hospitalGeoDocuments.length < pageSize &&
           searchRadius <= maxRadius &&
           choosingHospital.value) {
         if (kDebugMode) print('search radius $searchRadius');
-        GeoFirePoint center = geoFire.point(
-            latitude: currentChosenLatLng.latitude,
-            longitude: currentChosenLatLng.longitude);
-
-        final collectionReference = _firestore.collection('hospitalsLocations');
-
         Stream<List<DocumentSnapshot>> stream = geoFire
             .collection(collectionRef: collectionReference)
             .withinAsSingleStreamSubscription(

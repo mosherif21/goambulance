@@ -410,8 +410,10 @@ class Languages extends Translations {
               'إذا كنت ترغب في أن تصبح مستخدم طوارئ، فسيقوم مراجعونا الطبيون بتقييم تاريخك الطبي لتحديد ما إذا كنت مؤهلاً لتصبح مستخدم طوارئ. ويحق لمستخدمين الطوارئ الاستفادة من الفوائد التي تتيح لهم طلب أقرب مستشفى بنقرة زر أو بتحريك الجهاز أو باستخدام أوامر الصوت مثل "ساعدونى" أو "اسعاف"، شريطة أن نتمكن من الوصول إلى موقعك أو عنوانك الرئيسي.',
           'sendRequest': 'إرسال الطلب',
           'sosRequestSettings': 'إعدادات طلب الاستغاثة',
+          'chatBot': 'الدردشة',
         },
         'en_US': {
+          'chatBot': 'ChatBot',
           'sosRequestSettings': 'SOS request settings',
           'criticalUserRequestBody':
               'If you would like to become a critical user, our medical reviewers will evaluate your medical history to determine if you qualify. Critical users are entitled to the benefits of being able to request the nearest hospital with just a click of a button, by shaking the device, or by using voice commands such as \'Help me\' or \'Ambulance\', provided we have access to your location or primary address.',

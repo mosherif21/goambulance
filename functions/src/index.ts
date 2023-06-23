@@ -21,7 +21,7 @@ exports.cancelTimedOutRequests = functions.pubsub
       .where("timestamp", "<=", admin.firestore.Timestamp.fromMillis(thresholdTime))
       .get();
 
-    querySnapshot.forEach(async (doc: admin.firestore.QueryDocumentSnapshot) => {
+    const promises = querySnapshot.docs.map(async (doc: admin.firestore.QueryDocumentSnapshot) => {
       const requestId = doc.id;
 
       // Get the necessary fields from the pending request
@@ -142,8 +142,9 @@ exports.cancelTimedOutRequests = functions.pubsub
       } catch (error) {
         console.error(`Error sending notification: ${error}`);
       }
-
     });
+
+    await Promise.all(promises);
   });
 
 exports.processSOSRequests = functions.firestore
@@ -318,32 +319,40 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
   return 'completed';
 }
 
-exports.sendNotification = functions.https.onRequest(async (request, response) => {
-  const notificationType = request.query.notificationType as string;
-  let userId = request.query.userId as string;
-  console.log(userId);
-  console.log(notificationType);
-  const hospitalName = notificationType !== "criticalRequestAccepted" && notificationType !== "criticalRequestDenied" ? request.query.hospitalName : null;
+interface FcmTokenData {
+  fcmTokenAndroid?: string;
+  fcmTokenIos?: string;
+  fcmTokenWeb?: string;
+  notificationsLang?: string;
+}
 
+interface RequestParams {
+  notificationType?: string;
+  userId?: string;
+  hospitalName?: string;
+}
+
+exports.sendNotification = functions.https.onRequest(async (request, response) => {
+  const { notificationType, userId, hospitalName } = request.query as RequestParams;
   if (!notificationType || !userId) {
     console.error("Missing parameters");
     response.status(400).send("Missing parameters");
     return;
   }
 
-  let notificationsLang = "en";
-  let notificationTitle = "";
-  let notificationBody = "";
-  const fcmTokenRef = firestore.collection("fcmTokens").doc(userId);
+  const fcmTokenRef = admin.firestore().collection("fcmTokens").doc(userId);
   const fcmTokenDoc = await fcmTokenRef.get();
-  if (fcmTokenDoc.exists) {
-    const fcmTokenData = fcmTokenDoc.data();
-    if (fcmTokenData) {
-      if (fcmTokenData.notificationsLang) {
-        notificationsLang = fcmTokenData.notificationsLang;
-      }
-    }
+  if (!fcmTokenDoc.exists) {
+    console.error("FCM token not found");
+    response.status(404).send("FCM token not found");
+    return;
   }
+
+  const fcmTokenData = fcmTokenDoc.data() as FcmTokenData;
+
+  let notificationsLang = fcmTokenData.notificationsLang || "en";
+  let notificationTitle: string;
+  let notificationBody: string;
 
   switch (notificationType) {
     case "requestCanceledHospital":
@@ -400,58 +409,36 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       return;
   }
 
-  const batch = firestore.batch();
-  const notificationsRef = firestore.collection("notifications").doc(userId);
-  const notificationsDoc = await notificationsRef.get();
-  if (notificationsDoc.exists) {
-    batch.update(notificationsRef, {
-      unseenCount: admin.firestore.FieldValue.increment(1),
-    });
-  } else {
-    batch.set(notificationsRef, {
-      unseenCount: 1,
-    });
-  }
-  const messagesRef = notificationsRef.collection("messages").doc();
-  batch.set(messagesRef, {
-    title: notificationTitle,
-    body: notificationBody,
-    timestamp: admin.firestore.Timestamp.now(),
-  });
+  const message: admin.messaging.MessagingPayload = {
+    notification: {
+      title: notificationTitle,
+      body: notificationBody,
+    },
+  };
 
-  try {
-    await batch.commit();
-    if (fcmTokenDoc.exists) {
-      const fcmTokenData = fcmTokenDoc.data();
-      if (fcmTokenData) {
-        const tokens = [];
-        if (fcmTokenData.fcmTokenAndroid) {
-          tokens.push(fcmTokenData.fcmTokenAndroid);
-        }
-        if (fcmTokenData.fcmTokenIos) {
-          tokens.push(fcmTokenData.fcmTokenIos);
-        }
-        if (fcmTokenData.fcmTokenWeb) {
-          tokens.push(fcmTokenData.fcmTokenWeb);
-        }
-        if (tokens.length !== 0) {
-          const pay = {
-            notification: {
-              title: notificationTitle,
-              body: notificationBody,
-              badge: "1",
-            }
-          };
-          const options = {
-            priority: "high",
-          };
-          await admin.messaging().sendToDevice(tokens, pay, options);
-        }
-      }
-    }
-    response.status(200).send("Notification sent successfully");
-  } catch (error) {
-    console.error(error);
-    response.status(500).send("Error sending notification");
+  const options = {
+    priority: "high",
+  };
+  const tokens: string[] = [];
+  if (fcmTokenData.fcmTokenAndroid) {
+    tokens.push(fcmTokenData.fcmTokenAndroid);
   }
+  if (fcmTokenData.fcmTokenIos) {
+    tokens.push(fcmTokenData.fcmTokenIos);
+  }
+  if (fcmTokenData.fcmTokenWeb) {
+    tokens.push(fcmTokenData.fcmTokenWeb);
+  }
+
+  if (tokens.length === 0) {
+    console.error("No tokens to send notification to");
+    response.status(400).send("No tokens to send notification to");
+    return;
+  }
+
+  const messaging = admin.messaging();
+  const sendNotifications = tokens.map((token) => messaging.sendToDevice(token, message, options));
+  await Promise.all(sendNotifications);
+
+  response.status(200).send("Notifications sent successfully");
 });

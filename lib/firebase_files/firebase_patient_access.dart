@@ -690,6 +690,7 @@ class FirebasePatientDataAccess extends GetxController {
       await sosRequestRef.set({
         'userId': userId,
         'requestLocation': requestLocation,
+        'timestamp': Timestamp.now(),
       });
       return FunctionStatus.success;
     } on FirebaseException catch (error) {

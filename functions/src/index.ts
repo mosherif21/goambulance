@@ -39,35 +39,6 @@ exports.cancelTimedOutRequests = functions.pubsub
       } = doc.data();
 
       const batch = firestore.batch();
-      const canceledRequestRef = firestore
-        .collection("canceledRequests")
-        .doc(requestId);
-      batch.set(canceledRequestRef, {
-        requestLocation,
-        hospitalLocation,
-        hospitalName,
-        hospitalId,
-        isUser,
-        userId,
-        patientCondition,
-        timestamp,
-        backupNumber,
-        cancelReason: "timedOut",
-      });
-
-      const userCanceledRef = firestore
-        .collection("users")
-        .doc(userId)
-        .collection("canceledRequests")
-        .doc(requestId);
-      batch.set(userCanceledRef, {});
-
-      const hospitalCanceledRef = firestore
-        .collection("hospitals")
-        .doc(hospitalId)
-        .collection("canceledRequests")
-        .doc(requestId);
-      batch.set(hospitalCanceledRef, {});
 
       const docRef = doc.ref;
       const hospitalDocRef = firestore.collection("hospitals").doc(hospitalId);
@@ -97,6 +68,7 @@ exports.cancelTimedOutRequests = functions.pubsub
         batch.set(sosRequestRef, {
           userId: userId,
           requestLocation: requestLocation,
+          timestamp: admin.firestore.FieldValue.serverTimestamp(),
         });
 
         const blockedHospitalsDocuments = await docRef.collection('blockedHospitals').listDocuments();
@@ -105,6 +77,38 @@ exports.cancelTimedOutRequests = functions.pubsub
           batch.delete(document);
         });
         batch.set(sosRequestRef.collection('blockedHospitals').doc(hospitalGeohash), {});
+      }
+      else {
+        const canceledRequestRef = firestore
+          .collection("canceledRequests")
+          .doc(requestId);
+        batch.set(canceledRequestRef, {
+          requestLocation,
+          hospitalLocation,
+          hospitalName,
+          hospitalId,
+          isUser,
+          userId,
+          patientCondition,
+          timestamp,
+          backupNumber,
+          cancelReason: "timedOut",
+        });
+
+        const userCanceledRef = firestore
+          .collection("users")
+          .doc(userId)
+          .collection("canceledRequests")
+          .doc(requestId);
+        batch.set(userCanceledRef, {});
+
+        const hospitalCanceledRef = firestore
+          .collection("hospitals")
+          .doc(hospitalId)
+          .collection("canceledRequests")
+          .doc(requestId);
+        batch.set(hospitalCanceledRef, {});
+
       }
       try {
         await batch.commit();
@@ -144,98 +148,179 @@ exports.cancelTimedOutRequests = functions.pubsub
 
     });
   });
-
 exports.processSOSRequests = functions.firestore
   .document("sosRequests/{sosRequestId}")
   .onCreate(async (snapshot: admin.firestore.DocumentSnapshot) => {
-    const sosRequest = snapshot.data();
-    if (sosRequest && snapshot.id && sosRequest.requestLocation) {
+    // Set a timer for 50 seconds
+    const timerPromise = new Promise(resolve => setTimeout(resolve, 50000));
+
+    // Race the timer with the function execution
+    const result = await Promise.race([timerPromise, processSOSRequests(snapshot)]);
+
+    // Check if the result is from the timer or the function
+    if (result === 'timeout') {
+      console.log('Execution timed out after 50 seconds, creating another sos request');
       const sosRequestId = snapshot.id;
-      const sosLocation = sosRequest.requestLocation;
-      const radiusInKm = 15;
-      const blockedHospitalsGeoHashes: string[] = [];
-      const blockedHospitalsRef = firestore.collection("sosRequests").doc(sosRequestId).collection("blockedHospitals");
-      const blockedHospitalsDocuments = await blockedHospitalsRef.listDocuments();
-      blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
-        blockedHospitalsGeoHashes.push(document.id);
-      });
-      const query = blockedHospitalsGeoHashes.length !== 0 ? hospitalLocationsCollection
-      .near({
-        center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
-        radius: radiusInKm
-      })
-      .where('g.geohash', 'not-in', blockedHospitalsGeoHashes)
-      .limit(1) :
-      hospitalLocationsCollection.near({
-        center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
-        radius: radiusInKm
-      })
-      .limit(1);
-
-      const querySnapshot = await query.get();
-
-      if (!querySnapshot.empty) {
-        console.log("found near hospital");
-        const hospitalDoc = querySnapshot.docs[0];
-        const hospitalId = hospitalDoc.id;
-        const hospitalData = hospitalDoc.data();
-        const hospitalLocation = hospitalData.g.geopoint;
-        const hospitalGeohash = hospitalData.g.geohash;
-        const hospitalName = hospitalData.name;
-
+      const sosRequestData = snapshot.data();
+      if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation) {
+        const sosRequestRef = firestore
+        .collection("sosRequests")
+        .doc(sosRequestId);
+        const userId = sosRequestData.userId;
+        const sosLocation = sosRequestData.requestLocation;
+        const blockedHospitalsDocuments = await sosRequestRef.collection('blockedHospitals').listDocuments();
+        const sosRequestRefNew = firestore
+        .collection("sosRequests")
+        .doc();
         const batch = firestore.batch();
-        const pendingRequestRef = firestore.collection("pendingRequests").doc();
-        const userId = sosRequest.userId;
-        batch.set(pendingRequestRef, {
-          patientCondition: "sosRequest",
-          isUser: true,
-          status: "pending",
-          timestamp: admin.firestore.FieldValue.serverTimestamp(),
+        batch.delete(sosRequestRef);
+        batch.set(sosRequestRefNew, {
           userId: userId,
           requestLocation: sosLocation,
-          hospitalName: hospitalName,
-          hospitalLocation: hospitalLocation,
-          hospitalId: hospitalId,
-          hospitalGeohash: hospitalGeohash,
-          backupNumber: "unknown",
+          timestamp: admin.firestore.FieldValue.serverTimestamp(),
         });
-        const userPendingRequestRef = firestore
-          .collection("users")
-          .doc(userId)
-          .collection("pendingRequests")
-          .doc(pendingRequestRef.id);
-        batch.set(userPendingRequestRef, {});
-        const hospitalPendingRequestRef = firestore
-          .collection("hospitals")
-          .doc(hospitalId)
-          .collection("pendingRequests")
-          .doc(pendingRequestRef.id);
-        batch.set(hospitalPendingRequestRef, {});
-        const sosRequestRef = firestore
-          .collection("sosRequests")
-          .doc(sosRequestId);
-        batch.delete(sosRequestRef);
+        blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
+          batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
+          batch.delete(document);
+        });
         await batch.commit();
-        const userIdEncoded = encodeURIComponent(userId);
-        const hospitalNameEncoded = encodeURIComponent(hospitalName);
-        const notificationTypeEncoded = encodeURIComponent("sosRequestSent");
-        const requestOptions = {
-          hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
-          path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        };
+        console.log('New sos request created successfully');
+      }
+      else{
+        console.log('Failed to create new sos request, it\'s deleted');
+      }
+      return;
+    }
 
-        const req = https.request(requestOptions);
-        req.end();
-        console.log("Pending request made.");
+    // Otherwise, the function executed within the time limit
+    console.log('sos request made successfully');
+  });
+
+async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
+  const sosRequestData = snapshot.data();
+  if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation) {
+    const sosRequestId = snapshot.id;
+    const sosRequestRef = firestore
+      .collection("sosRequests")
+      .doc(sosRequestId);
+    const sosLocation = sosRequestData.requestLocation;
+    const userId = sosRequestData.userId;
+    let radiusInKm = 50;
+    let querySnapshot;
+    let sosRequestDeleted = false;
+    const blockedHospitalsGeoHashes: string[] = [];
+    const blockedHospitalsRef = firestore
+      .collection("sosRequests")
+      .doc(sosRequestId)
+      .collection("blockedHospitals");
+    const blockedHospitalsDocuments = await blockedHospitalsRef.listDocuments();
+    blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
+      blockedHospitalsGeoHashes.push(document.id);
+    });
+
+    while (!querySnapshot || querySnapshot.empty) {
+      if (sosRequestDeleted) {
+        console.log("Couldn't find hospital or sosRequest document was deleted.");
+        return;
+      }
+
+      const query = blockedHospitalsGeoHashes.length !== 0 ? hospitalLocationsCollection
+        .near({
+          center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
+          radius: radiusInKm
+        })
+        .where('g.geohash', 'not-in', blockedHospitalsGeoHashes)
+        .limit(1) :
+        hospitalLocationsCollection.near({
+          center: new admin.firestore.GeoPoint(sosLocation.latitude, sosLocation.longitude),
+          radius: radiusInKm
+        })
+          .limit(1);
+
+      querySnapshot = await query.get();
+
+      if (querySnapshot.empty) {
+        console.log(`No hospital found within ${radiusInKm} km radius`);
       } else {
-        console.log("couldn't find hospital");
+        console.log(`Hospital found within ${radiusInKm} km radius`);
+      }
+
+      const sosRequestSnapshot = await sosRequestRef.get();
+      sosRequestDeleted = !sosRequestSnapshot.exists;
+
+      if (sosRequestDeleted) {
+        console.log("sosRequest document deleted");
+        return;
       }
     }
-  });
+
+    const hospitalDoc = querySnapshot.docs[0];
+    const hospitalId = hospitalDoc.id;
+    const hospitalData = hospitalDoc.data();
+    const hospitalLocation = hospitalData.g.geopoint;
+    const hospitalGeohash = hospitalData.g.geohash;
+    const hospitalName = hospitalData.name;
+
+    const batch = firestore.batch();
+    const pendingRequestRef = firestore.collection("pendingRequests").doc();
+    batch.set(pendingRequestRef, {
+      patientCondition: "sosRequest",
+      isUser: true,
+      status: "pending",
+      timestamp: admin.firestore.FieldValue.serverTimestamp(),
+      userId: userId,
+      requestLocation: sosLocation,
+      hospitalName: hospitalName,
+      hospitalLocation: hospitalLocation,
+      hospitalId: hospitalId,
+      hospitalGeohash: hospitalGeohash,
+      backupNumber: "unknown",
+    });
+    const userPendingRequestRef = firestore
+      .collection("users")
+      .doc(userId)
+      .collection("pendingRequests")
+      .doc(pendingRequestRef.id);
+    batch.set(userPendingRequestRef, {});
+    const hospitalPendingRequestRef = firestore
+      .collection("hospitals")
+      .doc(hospitalId)
+      .collection("pendingRequests")
+      .doc(pendingRequestRef.id);
+    batch.set(hospitalPendingRequestRef, {});
+    batch.delete(sosRequestRef);
+    const pendingBlockedHospitals = pendingRequestRef.collection("blockedHospitals");
+    blockedHospitalsGeoHashes.forEach((geohash: string) => {
+      const blockedHospitalDoc = pendingBlockedHospitals.doc(geohash);
+      batch.set(blockedHospitalDoc, {});
+    });
+    blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
+      batch.delete(document);
+    });
+    await batch.commit();
+    const userIdEncoded = encodeURIComponent(userId);
+    const hospitalNameEncoded = encodeURIComponent(hospitalName);
+    const notificationTypeEncoded = encodeURIComponent("sosRequestSent");
+    const requestOptions = {
+      hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
+      path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    const request = https.request(requestOptions, (response) => {
+      console.log(`Notification sent to user ${userId}`);
+    });
+    request.on('error', (error) => {
+      console.log(`Error sending notification to user ${userId}: ${error}`);
+    });
+    request.end();
+  } else {
+    console.log("sosRequest document missing required fields");
+  }
+  return 'completed';
+}
 
 exports.sendNotification = functions.https.onRequest(async (request, response) => {
   const notificationType = request.query.notificationType as string;
@@ -322,13 +407,13 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
   const batch = firestore.batch();
   const notificationsRef = firestore.collection("notifications").doc(userId);
   const notificationsDoc = await notificationsRef.get();
-  if(notificationsDoc.exists){
+  if (notificationsDoc.exists) {
     batch.update(notificationsRef, {
       unseenCount: admin.firestore.FieldValue.increment(1),
     });
   } else {
     batch.set(notificationsRef, {
-      unseenCount: admin.firestore.FieldValue.increment(1),
+      unseenCount: 1,
     });
   }
   const messagesRef = notificationsRef.collection("messages").doc();

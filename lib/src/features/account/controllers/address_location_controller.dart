@@ -68,8 +68,6 @@ class AddressesLocationController extends GetxController {
     super.onReady();
   }
 
-  void assignedRequestChanges() {}
-
   Future<void> locationInit() async {
     showLoadingScreen();
     await handleLocationService().then((locationService) {

@@ -152,8 +152,7 @@ exports.processSOSRequests = functions.firestore
     // Set a timer for 50 seconds
     const timerPromise = new Promise((_, reject) => setTimeout(() => reject('timeout'), 50000));
     try {
-      const result = await Promise.race([timerPromise, processSOSRequests(snapshot)]);
-      // Otherwise, the function executed within the time limit
+      await Promise.race([timerPromise, processSOSRequests(snapshot)]);
       console.log('sos request made successfully');
     } catch (err) {
       if (err === 'timeout') {

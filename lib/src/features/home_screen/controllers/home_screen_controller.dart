@@ -73,7 +73,7 @@ class HomeScreenController extends GetxController {
     accelerometerEvents.listen((AccelerometerEvent event) {
       double magnitude =
           sqrt(pow(event.x, 2) + pow(event.y, 2) + pow(event.z, 2));
-      if (magnitude > 30) {
+      if (magnitude > 25) {
         if (kDebugMode) print('Device is shaking');
         sosRequest(pressed: false);
       }

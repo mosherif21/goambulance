@@ -389,7 +389,7 @@ class MakingRequestLocationController extends GetxController {
           searchRadius <= maxRadius &&
           choosingHospital.value) {
         if (kDebugMode) print('search radius $searchRadius');
-        Stream<List<DocumentSnapshot>> stream = geoFire
+        final stream = geoFire
             .collection(collectionRef: collectionReference)
             .withinAsSingleStreamSubscription(
               center: center,

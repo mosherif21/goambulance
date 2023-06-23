@@ -180,6 +180,7 @@ exports.processSOSRequests = functions.firestore
         const hospitalId = hospitalDoc.id;
         const hospitalData = hospitalDoc.data();
         const hospitalLocation = hospitalData.g.geopoint;
+        const hospitalGeohash = hospitalData.g.geohash;
         const hospitalName = hospitalData.name;
 
         const batch = firestore.batch();
@@ -195,6 +196,7 @@ exports.processSOSRequests = functions.firestore
           hospitalName: hospitalName,
           hospitalLocation: hospitalLocation,
           hospitalId: hospitalId,
+          hospitalGeohash: hospitalGeohash,
           backupNumber: "unknown",
         });
         const userPendingRequestRef = firestore

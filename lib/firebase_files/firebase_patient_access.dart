@@ -573,8 +573,6 @@ class FirebasePatientDataAccess extends GetxController {
             cancelReason: canceledRequestDocument['cancelReason'].toString(),
             requestStatus: RequestStatus.canceled,
             requestDateTime: requestDateTime,
-            hospitalGeohash:
-                canceledRequestDocument['hospitalGeohash'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }

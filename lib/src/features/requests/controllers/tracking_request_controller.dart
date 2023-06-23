@@ -90,8 +90,7 @@ class TrackingRequestController extends GetxController {
   static const pageSize = 6;
 
   final searchedHospitals = <HospitalModel>[].obs;
-  CancelableOperation<List<DocumentSnapshot<Object?>>>? getHospitalsOperation;
-  CancelableOperation<List<HospitalModel>>? getHospitalsDataOperation;
+  CancelableOperation<List<HospitalModel>>? getHospitalsOperation;
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
   late final FirebaseFirestore _firestore;
@@ -346,7 +345,7 @@ class TrackingRequestController extends GetxController {
       name: initialRequestModel.hospitalName,
       avgPrice: '',
       location: initialRequestModel.hospitalLocation,
-      geohash: initialRequestModel.hospitalGeohash,
+      geohash: initialRequestModel.hospitalGeohash!,
     );
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
@@ -426,7 +425,7 @@ class TrackingRequestController extends GetxController {
             ? 'pending'
             : 'accepted',
         hospitalName: initialRequestModel.hospitalName,
-        hospitalGeohash: initialRequestModel.hospitalGeohash,
+        hospitalGeohash: initialRequestModel.hospitalGeohash!,
       );
       currentRequestData = requestData;
       initRequestListener(pendingRequestRef: pendingRequestRef);
@@ -477,7 +476,6 @@ class TrackingRequestController extends GetxController {
     hospitalsLoaded.value = false;
     hospitalsPanelController.close();
     getHospitalsOperation?.cancel();
-    getHospitalsDataOperation?.cancel();
     getRouteOperation?.cancel();
     selectedHospital.value = null;
     if (mapMarkers.contains(requestLocationMarker)) {
@@ -496,34 +494,31 @@ class TrackingRequestController extends GetxController {
         .whenComplete(() => locationInit());
   }
 
-  Future<List<DocumentSnapshot<Object?>>> getHospitalsList() async {
+  Future<List<HospitalModel>> getHospitalsList() async {
     double searchRadius = 3;
     double maxRadius = 15;
-    List<DocumentSnapshot<Object?>> hospitalsDocuments =
-        <DocumentSnapshot<Object?>>[];
+    List<DocumentSnapshot<Object?>> hospitalGeoDocuments = [];
     try {
-      while (hospitalsDocuments.length < pageSize &&
+      final center = geoFire.point(
+          latitude: currentChosenLatLng.latitude,
+          longitude: currentChosenLatLng.longitude);
+      final collectionReference = _firestore.collection('hospitalsLocations');
+      while (hospitalGeoDocuments.length < pageSize &&
           searchRadius <= maxRadius &&
           choosingHospital.value) {
         if (kDebugMode) print('search radius $searchRadius');
-        GeoFirePoint center = geoFire.point(
-            latitude: currentChosenLatLng.latitude,
-            longitude: currentChosenLatLng.longitude);
-
-        final collectionReference = _firestore.collection('hospitalsLocations');
-
-        Stream<List<DocumentSnapshot>> stream = geoFire
+        final stream = geoFire
             .collection(collectionRef: collectionReference)
             .withinAsSingleStreamSubscription(
               center: center,
               radius: searchRadius,
-              field: 'position',
+              field: 'g',
               strictMode: true,
             )
             .skip(skipCount)
             .take(pageSize);
         try {
-          hospitalsDocuments =
+          hospitalGeoDocuments =
               await stream.first.timeout(const Duration(seconds: 2));
         } on TimeoutException {
           if (kDebugMode) print('search timed out');
@@ -535,17 +530,28 @@ class TrackingRequestController extends GetxController {
     } catch (e) {
       if (kDebugMode) print(e.toString());
     }
-    return hospitalsDocuments;
+    final List<HospitalModel> hospitalsDataDocuments = [];
+    for (final hospitalDoc in hospitalGeoDocuments) {
+      final geoPoint = hospitalDoc['g.geopoint'] as GeoPoint;
+      final geohash = hospitalDoc['g.geohash'] as String;
+      final foundHospital = HospitalModel(
+        hospitalId: hospitalDoc.id,
+        name: hospitalDoc['name'].toString(),
+        avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
+        location: LatLng(geoPoint.latitude, geoPoint.longitude),
+        geohash: geohash,
+      );
+      hospitalsDataDocuments.add(foundHospital);
+    }
+    return hospitalsDataDocuments;
   }
 
   Future<void> getHospitals() async {
-    List<DocumentSnapshot<Object?>> hospitalsDocuments = [];
     getHospitalsOperation?.cancel();
     getHospitalsOperation = CancelableOperation.fromFuture(getHospitalsList());
-    final returnedHospitals =
+    final hospitalsDocuments =
         await getHospitalsOperation!.valueOrCancellation();
-    if (returnedHospitals != null) {
-      hospitalsDocuments = returnedHospitals;
+    if (hospitalsDocuments != null) {
       if (kDebugMode) {
         print('hospitals got count ${hospitalsDocuments.length}');
       }
@@ -553,72 +559,60 @@ class TrackingRequestController extends GetxController {
         showSnackBar(
             text: 'nearHospitalsNotFound'.tr, snackBarType: SnackBarType.info);
       } else if (hospitalsDocuments.isNotEmpty) {
-        getHospitalsDataOperation?.cancel();
-        getHospitalsDataOperation = CancelableOperation.fromFuture(
-            getHospitalsDataDocuments(hospitalsDocuments: hospitalsDocuments));
-        final returnedDataHospitals =
-            await getHospitalsDataOperation!.valueOrCancellation();
-        if (returnedDataHospitals != null) {
-          searchedHospitals.value = returnedDataHospitals;
-          if (skipCount == 0) {
-            selectedHospital.value = returnedDataHospitals[0];
-            hospitalMarker = Marker(
-              markerId: const MarkerId('hospital'),
-              position: selectedHospital.value!.location,
-              icon: hospitalMarkerIcon,
-              consumeTapEvents: true,
-            );
-            mapMarkers.add(hospitalMarker!);
-            animateToLatLngBounds(
-                latLngBounds: getLatLngBounds(latLngList: [
-              currentChosenLatLng,
-              selectedHospital.value!.location
-            ]));
-
-            getRouteToLocation(
-              fromLocation: currentChosenLatLng,
-              toLocation: selectedHospital.value!.location,
-              routeId: 'routeToHospital',
-            ).then((routePolyLine) {
-              if (routePolyLine != null) {
-                if (requestLocationWindowController.addInfoWindow != null) {
-                  requestLocationWindowController.addInfoWindow!(
-                    MarkerWindowInfo(
-                      time: routeToDestinationTime,
-                      title: 'requestLocation'.tr,
-                      windowType: MarkerWindowType.requestLocation,
-                      onTap: () => animateToLocation(
-                          locationLatLng: currentChosenLatLng),
-                    ),
-                    currentChosenLatLng,
-                  );
-                }
-                if (hospitalWindowController.addInfoWindow != null) {
-                  hospitalWindowController.addInfoWindow!(
-                    MarkerWindowInfo(
-                      time: routeToDestinationTime,
-                      title: selectedHospital.value!.name,
-                      windowType: MarkerWindowType.hospitalLocation,
-                      onTap: () => animateToLocation(
-                          locationLatLng: selectedHospital.value!.location),
-                    ),
-                    selectedHospital.value!.location,
-                  );
-                }
-                mapPolyLines.add(routePolyLine);
-                animateToLatLngBounds(
-                    latLngBounds:
-                        getLatLngBounds(latLngList: routePolyLine.points));
+        searchedHospitals.value = hospitalsDocuments;
+        if (skipCount == 0) {
+          selectedHospital.value = hospitalsDocuments[0];
+          hospitalMarker = Marker(
+            markerId: const MarkerId('hospital'),
+            position: selectedHospital.value!.location,
+            icon: hospitalMarkerIcon,
+            consumeTapEvents: true,
+          );
+          mapMarkers.add(hospitalMarker!);
+          animateToLatLngBounds(
+              latLngBounds: getLatLngBounds(latLngList: [
+            currentChosenLatLng,
+            selectedHospital.value!.location
+          ]));
+          getRouteToLocation(
+            fromLocation: currentChosenLatLng,
+            toLocation: selectedHospital.value!.location,
+            routeId: 'routeToHospital',
+          ).then((routePolyLine) {
+            if (routePolyLine != null) {
+              if (requestLocationWindowController.addInfoWindow != null) {
+                requestLocationWindowController.addInfoWindow!(
+                  MarkerWindowInfo(
+                    time: routeToDestinationTime,
+                    title: 'requestLocation'.tr,
+                    windowType: MarkerWindowType.requestLocation,
+                    onTap: () =>
+                        animateToLocation(locationLatLng: currentChosenLatLng),
+                  ),
+                  currentChosenLatLng,
+                );
               }
-            });
-          }
+              if (hospitalWindowController.addInfoWindow != null) {
+                hospitalWindowController.addInfoWindow!(
+                  MarkerWindowInfo(
+                    time: routeToDestinationTime,
+                    title: selectedHospital.value!.name,
+                    windowType: MarkerWindowType.hospitalLocation,
+                    onTap: () => animateToLocation(
+                        locationLatLng: selectedHospital.value!.location),
+                  ),
+                  selectedHospital.value!.location,
+                );
+              }
+              mapPolyLines.add(routePolyLine);
+              animateToLatLngBounds(
+                  latLngBounds:
+                      getLatLngBounds(latLngList: routePolyLine.points));
+            }
+          });
         }
         skipCount += hospitalsDocuments.length;
         if (kDebugMode) print('skip count $skipCount');
-      } else {
-        if (kDebugMode) {
-          print('hospitals data get canceled');
-        }
       }
     } else {
       if (kDebugMode) {

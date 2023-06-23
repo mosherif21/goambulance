@@ -22,7 +22,6 @@ class RequestHistoryModel {
   final String hospitalName;
   final String backupNumber;
   final String patientCondition;
-  final String hospitalGeohash;
   RxString mapUrl = ''.obs;
   final String requestDateTime;
   RequestStatus requestStatus;
@@ -35,7 +34,7 @@ class RequestHistoryModel {
   String? ambulanceDriverID;
   String? ambulanceMedicID;
   MedicalHistoryModel? medicalHistory;
-
+  String? hospitalGeohash;
   RequestHistoryModel({
     required this.requestId,
     required this.userId,
@@ -43,7 +42,6 @@ class RequestHistoryModel {
     required this.patientCondition,
     required this.isUser,
     required this.hospitalId,
-    required this.hospitalGeohash,
     required this.timeStamp,
     required this.hospitalName,
     required this.requestDateTime,
@@ -54,5 +52,6 @@ class RequestHistoryModel {
     this.ambulanceCarID,
     this.ambulanceDriverID,
     this.ambulanceMedicID,
+    this.hospitalGeohash,
   });
 }

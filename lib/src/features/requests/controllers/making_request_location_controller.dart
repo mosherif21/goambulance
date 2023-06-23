@@ -175,6 +175,7 @@ class MakingRequestLocationController extends GetxController {
             selectedHospital.value!.location.longitude),
         status: 'pending',
         hospitalName: selectedHospital.value!.name,
+        hospitalGeohash: selectedHospital.value!.geohash,
       );
       final functionStatus = await firebasePatientDataAccess.requestHospital(
           requestInfo: requestData);
@@ -414,11 +415,13 @@ class MakingRequestLocationController extends GetxController {
     final List<HospitalModel> hospitalsDataDocuments = [];
     for (final hospitalDoc in hospitalGeoDocuments) {
       final geoPoint = hospitalDoc['g.geopoint'] as GeoPoint;
+      final geohash = hospitalDoc['g.geohash'] as String;
       final foundHospital = HospitalModel(
         hospitalId: hospitalDoc.id,
         name: hospitalDoc['name'].toString(),
         avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
         location: LatLng(geoPoint.latitude, geoPoint.longitude),
+        geohash: geohash,
       );
       hospitalsDataDocuments.add(foundHospital);
     }

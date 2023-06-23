@@ -7,11 +7,14 @@ class HospitalModel {
   final String hospitalId;
   final String name;
   final String avgPrice;
+  final String geohash;
   final LatLng location;
+
   HospitalModel({
     required this.hospitalId,
     required this.name,
     required this.avgPrice,
+    required this.geohash,
     required this.location,
   });
 }
@@ -40,6 +43,7 @@ class RequestModel {
   final Timestamp timestamp;
   final GeoPoint requestLocation;
   final GeoPoint hospitalLocation;
+  final String hospitalGeohash;
   final String hospitalId;
   final String hospitalName;
   final String status;
@@ -54,6 +58,7 @@ class RequestModel {
     required this.status,
     required this.requestLocation,
     required this.hospitalLocation,
+    required this.hospitalGeohash,
   });
   Map<String, dynamic> toJson() => {
         'hospitalId': hospitalId,
@@ -65,6 +70,7 @@ class RequestModel {
         'timestamp': timestamp,
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,
+        'hospitalGeohash': hospitalGeohash,
         'status': status,
       };
 }

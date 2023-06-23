@@ -443,6 +443,8 @@ class FirebasePatientDataAccess extends GetxController {
                 ? RequestStatus.pending
                 : RequestStatus.accepted,
             requestDateTime: requestDateTime,
+            hospitalGeohash:
+                pendingRequestDocument['hospitalGeohash'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -488,6 +490,8 @@ class FirebasePatientDataAccess extends GetxController {
                 ? RequestStatus.assigned
                 : RequestStatus.ongoing,
             requestDateTime: requestDateTime,
+            hospitalGeohash:
+                assignedRequestDocument['hospitalGeohash'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -530,6 +534,8 @@ class FirebasePatientDataAccess extends GetxController {
             backupNumber: completedRequestDocument['backupNumber'].toString(),
             requestStatus: RequestStatus.completed,
             requestDateTime: requestDateTime,
+            hospitalGeohash:
+                completedRequestDocument['hospitalGeohash'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -567,6 +573,8 @@ class FirebasePatientDataAccess extends GetxController {
             cancelReason: canceledRequestDocument['cancelReason'].toString(),
             requestStatus: RequestStatus.canceled,
             requestDateTime: requestDateTime,
+            hospitalGeohash:
+                canceledRequestDocument['hospitalGeohash'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }

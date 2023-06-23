@@ -202,6 +202,7 @@ class TrackingRequestController extends GetxController {
             selectedHospital.value!.location.longitude),
         status: 'pending',
         hospitalName: selectedHospital.value!.name,
+        hospitalGeohash: selectedHospital.value!.geohash,
       );
       final functionStatus = await firebasePatientDataAccess.requestHospital(
           requestInfo: requestData);
@@ -345,6 +346,7 @@ class TrackingRequestController extends GetxController {
       name: initialRequestModel.hospitalName,
       avgPrice: '',
       location: initialRequestModel.hospitalLocation,
+      geohash: initialRequestModel.hospitalGeohash,
     );
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
@@ -424,6 +426,7 @@ class TrackingRequestController extends GetxController {
             ? 'pending'
             : 'accepted',
         hospitalName: initialRequestModel.hospitalName,
+        hospitalGeohash: initialRequestModel.hospitalGeohash,
       );
       currentRequestData = requestData;
       initRequestListener(pendingRequestRef: pendingRequestRef);
@@ -634,12 +637,14 @@ class TrackingRequestController extends GetxController {
         final docSnap = await hospitalsRef.doc(hospitalId).get();
         if (docSnap.exists) {
           final hospitalDoc = docSnap.data()!;
-          GeoPoint geoPoint = hospitalDoc['location'] as GeoPoint;
+          final geoPoint = hospitalDoc['location'] as GeoPoint;
+          final geohash = hospitalDoc['g.geohash'] as String;
           final foundHospital = HospitalModel(
             hospitalId: hospitalId,
             name: hospitalDoc['name'].toString(),
             avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
             location: LatLng(geoPoint.latitude, geoPoint.longitude),
+            geohash: geohash,
           );
           hospitalsDataDocuments.add(foundHospital);
         }

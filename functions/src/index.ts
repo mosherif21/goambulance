@@ -35,6 +35,7 @@ exports.cancelTimedOutRequests = functions.pubsub
         patientCondition,
         timestamp,
         backupNumber,
+        hospitalGeohash,
       } = doc.data();
 
       const batch = firestore.batch();
@@ -103,7 +104,7 @@ exports.cancelTimedOutRequests = functions.pubsub
           batch.set(sosRequestRef.collection('blockedHospitals').doc(document.id), {});
           batch.delete(document);
         });
-        batch.set(sosRequestRef.collection('blockedHospitals').doc(hospitalId), {});
+        batch.set(sosRequestRef.collection('blockedHospitals').doc(hospitalGeohash), {});
       }
       try {
         await batch.commit();

@@ -682,7 +682,7 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<FunctionStatus> sosRequest({
+  Future<FunctionStatus> makeSosRequest({
     required GeoPoint requestLocation,
   }) async {
     try {
@@ -691,6 +691,39 @@ class FirebasePatientDataAccess extends GetxController {
         'userId': userId,
         'requestLocation': requestLocation,
         'timestamp': Timestamp.now(),
+      });
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> cancelSosRequest() async {
+    try {
+      final sosRequestsRef = fireStore.collection('sosRequests');
+      await sosRequestsRef
+          .where('userId', isEqualTo: userId)
+          .get()
+          .then((QuerySnapshot snapshot) async {
+        for (final document in snapshot.docs) {
+          final blockedHospitalsRef =
+              sosRequestsRef.doc(document.id).collection('blockedHospitals');
+          final batch = fireStore.batch();
+          batch.delete(document.reference);
+          final blockedHospitalDocuments = await blockedHospitalsRef.get();
+          for (final blockedHospital in blockedHospitalDocuments.docs) {
+            batch.delete(blockedHospital.reference);
+          }
+          await batch.commit();
+        }
       });
       return FunctionStatus.success;
     } on FirebaseException catch (error) {

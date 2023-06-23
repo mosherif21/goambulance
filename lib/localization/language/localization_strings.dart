@@ -411,8 +411,14 @@ class Languages extends Translations {
           'sendRequest': 'إرسال الطلب',
           'sosRequestSettings': 'إعدادات طلب الاستغاثة',
           'chatBot': 'الدردشة',
+          'sosRequestCanceledSuccessfully': 'تم إلغاء طلب الاستغاثة بنجاح',
+          'sosRequestCanceledFailed': 'إلغاء طلب الاستغاثة فشل',
+          'searchingHospitals': 'جارى البحث عن مسشتفيات...',
         },
         'en_US': {
+          'searchingHospitals': 'Searching for hospitals...',
+          'sosRequestCanceledFailed': 'Cancellation of the SOS request failed',
+          'sosRequestCanceledSuccessfully': 'SOS request canceled successfully',
           'chatBot': 'ChatBot',
           'sosRequestSettings': 'SOS request settings',
           'criticalUserRequestBody':

@@ -24,7 +24,9 @@ class RequestsHistoryController extends GetxController {
   late final DocumentReference firestoreUserRef;
   late final FirebaseFirestore _firestore;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
+
   final requestsRefreshController = RefreshController(initialRefresh: false);
+
   @override
   void onReady() async {
     userId = AuthenticationRepository.instance.fireUser.value!.uid;

@@ -62,6 +62,35 @@ exports.cancelTimedOutRequests = functions.pubsub
       // Add user's pendingRequests document deletion to the batch
       const userPendingRef = patientDocRef.collection("pendingRequests").doc(requestId);
       batch.delete(userPendingRef);
+      const canceledRequestRef = firestore
+        .collection("canceledRequests")
+        .doc(requestId);
+      batch.set(canceledRequestRef, {
+        requestLocation,
+        hospitalLocation,
+        hospitalName,
+        hospitalId,
+        isUser,
+        userId,
+        patientCondition,
+        timestamp,
+        backupNumber,
+        cancelReason: "timedOut",
+      });
+
+      const userCanceledRef = firestore
+        .collection("users")
+        .doc(userId)
+        .collection("canceledRequests")
+        .doc(requestId);
+      batch.set(userCanceledRef, {});
+
+      const hospitalCanceledRef = firestore
+        .collection("hospitals")
+        .doc(hospitalId)
+        .collection("canceledRequests")
+        .doc(requestId);
+      batch.set(hospitalCanceledRef, {});
 
       if (patientCondition === "sosRequest") {
         const sosRequestRef = firestore.collection("sosRequests").doc();
@@ -77,38 +106,6 @@ exports.cancelTimedOutRequests = functions.pubsub
           batch.delete(document);
         });
         batch.set(sosRequestRef.collection('blockedHospitals').doc(hospitalGeohash), {});
-      }
-      else {
-        const canceledRequestRef = firestore
-          .collection("canceledRequests")
-          .doc(requestId);
-        batch.set(canceledRequestRef, {
-          requestLocation,
-          hospitalLocation,
-          hospitalName,
-          hospitalId,
-          isUser,
-          userId,
-          patientCondition,
-          timestamp,
-          backupNumber,
-          cancelReason: "timedOut",
-        });
-
-        const userCanceledRef = firestore
-          .collection("users")
-          .doc(userId)
-          .collection("canceledRequests")
-          .doc(requestId);
-        batch.set(userCanceledRef, {});
-
-        const hospitalCanceledRef = firestore
-          .collection("hospitals")
-          .doc(hospitalId)
-          .collection("canceledRequests")
-          .doc(requestId);
-        batch.set(hospitalCanceledRef, {});
-
       }
       try {
         await batch.commit();
@@ -148,52 +145,54 @@ exports.cancelTimedOutRequests = functions.pubsub
 
     });
   });
+
 exports.processSOSRequests = functions.firestore
   .document("sosRequests/{sosRequestId}")
   .onCreate(async (snapshot: admin.firestore.DocumentSnapshot) => {
     // Set a timer for 50 seconds
-    const timerPromise = new Promise(resolve => setTimeout(resolve, 50000));
-
-    // Race the timer with the function execution
-    const result = await Promise.race([timerPromise, processSOSRequests(snapshot)]);
-
-    // Check if the result is from the timer or the function
-    if (result === 'timeout') {
-      console.log('Execution timed out after 50 seconds, creating another sos request');
-      const sosRequestId = snapshot.id;
-      const sosRequestData = snapshot.data();
-      if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation) {
-        const sosRequestRef = firestore
-        .collection("sosRequests")
-        .doc(sosRequestId);
-        const userId = sosRequestData.userId;
-        const sosLocation = sosRequestData.requestLocation;
-        const blockedHospitalsDocuments = await sosRequestRef.collection('blockedHospitals').listDocuments();
-        const sosRequestRefNew = firestore
-        .collection("sosRequests")
-        .doc();
-        const batch = firestore.batch();
-        batch.delete(sosRequestRef);
-        batch.set(sosRequestRefNew, {
-          userId: userId,
-          requestLocation: sosLocation,
-          timestamp: admin.firestore.FieldValue.serverTimestamp(),
-        });
-        blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
-          batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
-          batch.delete(document);
-        });
-        await batch.commit();
-        console.log('New sos request created successfully');
+    const timerPromise = new Promise((_, reject) => setTimeout(() => reject('timeout'), 50000));
+    try {
+      const result = await Promise.race([timerPromise, processSOSRequests(snapshot)]);
+      // Otherwise, the function executed within the time limit
+      console.log('sos request made successfully');
+    } catch (err) {
+      if (err === 'timeout') {
+        // Check if the result is from the timer or the function
+        console.log('No hospital found after 50 seconds, creating another sos request');
+        const sosRequestId = snapshot.id;
+        const sosRequestData = snapshot.data();
+        if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation) {
+          const sosRequestRef = firestore
+            .collection("sosRequests")
+            .doc(sosRequestId);
+          const userId = sosRequestData.userId;
+          const sosLocation = sosRequestData.requestLocation;
+          const blockedHospitalsDocuments = await sosRequestRef.collection('blockedHospitals').listDocuments();
+          const batch = firestore.batch();
+          batch.delete(sosRequestRef);
+          const sosRequestRefNew = firestore
+            .collection("sosRequests")
+            .doc();
+          batch.set(sosRequestRefNew, {
+            userId: userId,
+            requestLocation: sosLocation,
+            timestamp: admin.firestore.FieldValue.serverTimestamp(),
+          });
+          blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
+            batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
+            batch.delete(document);
+          });
+          await batch.commit();
+          console.log('New sos request created successfully');
+        }
+        else {
+          console.log('Failed to create new sos request, it\'s deleted');
+        }
+        return;
+      } else {
+        console.log(`an error occurred ${err}`);
       }
-      else{
-        console.log('Failed to create new sos request, it\'s deleted');
-      }
-      return;
     }
-
-    // Otherwise, the function executed within the time limit
-    console.log('sos request made successfully');
   });
 
 async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
@@ -220,7 +219,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
 
     while (!querySnapshot || querySnapshot.empty) {
       if (sosRequestDeleted) {
-        console.log("Couldn't find hospital or sosRequest document was deleted.");
+        console.log("sosRequest document was deleted.");
         return;
       }
 
@@ -239,9 +238,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
 
       querySnapshot = await query.get();
 
-      if (querySnapshot.empty) {
-        console.log(`No hospital found within ${radiusInKm} km radius`);
-      } else {
+      if (!querySnapshot.empty) {
         console.log(`Hospital found within ${radiusInKm} km radius`);
       }
 
@@ -249,7 +246,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       sosRequestDeleted = !sosRequestSnapshot.exists;
 
       if (sosRequestDeleted) {
-        console.log("sosRequest document deleted");
+        console.log("sosRequest document was deleted");
         return;
       }
     }

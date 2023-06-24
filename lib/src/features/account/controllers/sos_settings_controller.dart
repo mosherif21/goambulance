@@ -33,7 +33,9 @@ class SosSettingsController extends GetxController {
 
   void setShakeToSos(bool state) async {
     showLoadingScreen();
-    final functionStatus = await homeScreenController.setShakeToSos(set: state);
+    final functionStatus = state
+        ? await homeScreenController.enableShakeToSos()
+        : await homeScreenController.disableShakeToSos();
     hideLoadingScreen();
     if (functionStatus != FunctionStatus.success) {
       shakePrimaryKey.currentState!.action();

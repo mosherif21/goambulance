@@ -114,7 +114,6 @@ class HomeScreenController extends GetxController {
   Future<FunctionStatus> setShakeToSos({required bool set}) async {
     try {
       await AppInit.prefs.setBool("shakeSOS", set);
-      shakeForSosEnabled = set;
       return FunctionStatus.success;
     } catch (error) {
       if (kDebugMode) {
@@ -150,6 +149,39 @@ class HomeScreenController extends GetxController {
     }
   }
 
+  Future<FunctionStatus> enableShakeToSos() async {
+    try {
+      final functionStatus = await setShakeToSos(set: true);
+      if (functionStatus == FunctionStatus.success) {
+        await accelerometerSubscription?.cancel();
+        initShakeSos();
+        shakeForSosEnabled = true;
+        return FunctionStatus.success;
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e('Set error $error');
+      }
+    }
+    return FunctionStatus.failure;
+  }
+
+  Future<FunctionStatus> disableShakeToSos() async {
+    try {
+      final functionStatus = await setShakeToSos(set: false);
+      if (functionStatus == FunctionStatus.success) {
+        await accelerometerSubscription?.cancel();
+        shakeForSosEnabled = false;
+        return FunctionStatus.success;
+      }
+    } catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e('Set error $error');
+      }
+    }
+    return FunctionStatus.failure;
+  }
+
   void initShakeSos() {
     accelerometerSubscription =
         accelerometerEvents.listen((AccelerometerEvent event) {
@@ -160,8 +192,6 @@ class HomeScreenController extends GetxController {
         sosRequest(pressed: false);
       }
     });
-    // Future.delayed(const Duration(seconds: 10))
-    //     .whenComplete(() => accelerometerEvents.drain());
   }
 
   void listenForSos() async {
@@ -495,7 +525,7 @@ class HomeScreenController extends GetxController {
   @override
   void onClose() async {
     homeBottomNavController.dispose();
-    accelerometerSubscription?.cancel();
+    await accelerometerSubscription?.cancel();
     await accelerometerEvents.drain();
     super.onClose();
   }

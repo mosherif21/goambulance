@@ -442,6 +442,8 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
     notification: {
       title: notificationTitle,
       body: notificationBody,
+      click_action: null,
+      channel_id: "goambulance_channel"
     },
   };
 

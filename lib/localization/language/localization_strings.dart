@@ -414,8 +414,16 @@ class Languages extends Translations {
           'sosRequestCanceledSuccessfully': 'تم إلغاء طلب الاستغاثة بنجاح',
           'sosRequestCanceledFailed': 'إلغاء طلب الاستغاثة فشل',
           'searchingHospitals': 'جارى البحث عن مسشتفيات...',
+          'voiceToSos': 'تمكين الأمر الصوتي لإرسال طلب استغاثة',
+          'sendSosSms':
+              'إرسال رسالة قصيرة إلى جهات اتصال الطوارئ مع طلب الاستغاثة',
+          'shakeToSos': 'تمكين اهتزاز الجهاز لإرسال طلب استغاثة',
         },
         'en_US': {
+          'sendSosSms':
+              'Send sms message to emergency contacts with SOS request',
+          'shakeToSos': 'Enable shake device to make an SOS request',
+          'voiceToSos': 'Enable voice command to make an SOS request',
           'searchingHospitals': 'Searching for hospitals...',
           'sosRequestCanceledFailed': 'Cancellation of the SOS request failed',
           'sosRequestCanceledSuccessfully': 'SOS request canceled successfully',

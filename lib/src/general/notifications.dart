@@ -14,8 +14,8 @@ void initializeNotification() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
     if (kDebugMode) {
-      AppInit.logger
-          .i('Handling a foreground message: ${message.notification?.title}');
+      AppInit.logger.i(
+          'Handling a foreground message: ${message.notification?.body ?? 'Couldn\'t get notification body'}');
     }
     showFlutterNotification(message);
   });
@@ -41,7 +41,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
   if (kDebugMode) {
     AppInit.logger.i(
-        'Handling a background message: ${message.notification?.title ?? 'Couldn\'t get title'}');
+        'Handling a background message: ${message.notification?.body ?? 'Couldn\'t get notification body'}');
   }
 }
 
@@ -75,7 +75,7 @@ Future<void> setupFlutterNotifications() async {
 void showFlutterNotification(RemoteMessage message) {
   RemoteNotification? notification = message.notification;
   AndroidNotification? android = message.notification?.android;
-  if (notification != null && android != null && !kIsWeb) {
+  if (notification != null && android != null && !AppInit.isWeb) {
     flutterLocalNotificationsPlugin.show(
       notification.hashCode,
       notification.title,

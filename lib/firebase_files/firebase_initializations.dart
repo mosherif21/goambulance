@@ -5,14 +5,10 @@ import 'package:flutter/foundation.dart';
 import '../src/general/app_init.dart';
 import 'firebase_options.dart';
 
-bool isInitialised = false;
 Future<void> initializeFireBaseApp() async {
-  if (!isInitialised) {
-    isInitialised = true;
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 Future<void> activateWebAppCheck() async {

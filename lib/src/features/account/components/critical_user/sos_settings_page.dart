@@ -53,7 +53,7 @@ class SOSRequestSettings extends StatelessWidget {
                               onIcon: Icons.check,
                               offIcon: Icons.close,
                               onSwitched: (bool state) =>
-                                  controller.shakeSOS = state,
+                                  controller.setShakeToSos(state),
                               keyInternal: controller.shakePrimaryKey,
                             ),
                           ],
@@ -77,7 +77,7 @@ class SOSRequestSettings extends StatelessWidget {
                               onIcon: Icons.check,
                               offIcon: Icons.close,
                               onSwitched: (bool state) =>
-                                  controller.voiceSOS = state,
+                                  controller.setVoiceToSos(state),
                               keyInternal: controller.voicePrimaryKey,
                             ),
                           ],
@@ -101,7 +101,7 @@ class SOSRequestSettings extends StatelessWidget {
                               onIcon: Icons.check,
                               offIcon: Icons.close,
                               onSwitched: (bool state) =>
-                                  controller.smsSOS = state,
+                                  controller.setSMSToSos(state),
                               keyInternal: controller.smsPrimaryKey,
                             ),
                           ],

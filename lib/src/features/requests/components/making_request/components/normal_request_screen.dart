@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/common_widgets/custom_rolling_switch.dart';
 import '../../../../../general/common_widgets/dropdown_list.dart';
 import '../../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../../general/common_widgets/regular_card.dart';
@@ -26,6 +27,12 @@ class NormalRequestScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         leading: const RegularBackButton(padding: 0),
+        title: AutoSizeText(
+          'normalRequest'.tr,
+          maxLines: 1,
+        ),
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
         elevation: 0,
         backgroundColor: Colors.grey.shade100,
       ),
@@ -265,6 +272,28 @@ class NormalRequestScreen extends StatelessWidget {
                           textInputAction: TextInputAction.done,
                           inputFormatter: LengthLimitingTextInputFormatter(150),
                         ),
+                      ],
+                    ),
+                  ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(headerText: 'sendSosSms'.tr, fontSize: 18),
+                        const SizedBox(height: 5.0),
+                        Row(
+                          children: [
+                            const Spacer(),
+                            CustomRollingSwitch(
+                              onText: 'yes'.tr,
+                              offText: 'no'.tr,
+                              onIcon: Icons.check,
+                              offIcon: Icons.close,
+                              onSwitched: (bool state) => state,
+                            ),
+                          ],
+                        )
                       ],
                     ),
                   ),

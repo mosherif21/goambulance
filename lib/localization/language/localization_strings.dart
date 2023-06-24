@@ -415,13 +415,13 @@ class Languages extends Translations {
           'sosRequestCanceledFailed': 'إلغاء طلب الاستغاثة فشل',
           'searchingHospitals': 'جارى البحث عن مسشتفيات...',
           'voiceToSos': 'تمكين الأمر الصوتي لإرسال طلب استغاثة',
-          'sendSosSms':
-              'إرسال رسالة قصيرة إلى جهات اتصال الطوارئ مع طلب الاستغاثة',
+          'sendSosSms': 'إرسال رسالة إلى جهات اتصال الطوارئ',
           'shakeToSos': 'تمكين اهتزاز الجهاز لإرسال طلب استغاثة',
+          'failedToChangeSetting': 'فشل تغيير الإعداد ، يرجى المحاولة مرة أخرى',
         },
         'en_US': {
-          'sendSosSms':
-              'Send sms message to emergency contacts with SOS request',
+          'failedToChangeSetting': 'Failed to change setting, please try again',
+          'sendSosSms': 'Send sms message to emergency contacts',
           'shakeToSos': 'Enable shake device to make an SOS request',
           'voiceToSos': 'Enable voice command to make an SOS request',
           'searchingHospitals': 'Searching for hospitals...',

@@ -20,7 +20,7 @@ class TextHeader extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
         maxLines: 1,
-        minFontSize: 14,
+        minFontSize: 10,
       ),
     );
   }

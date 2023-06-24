@@ -41,6 +41,10 @@ class HomeScreenController extends GetxController {
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
   bool processingSosRequest = false;
+  bool shakeForSosEnabled = true;
+  bool voiceForSosEnabled = true;
+  bool smsForSosEnabled = true;
+  StreamSubscription<AccelerometerEvent>? accelerometerSubscription;
 
   @override
   void onReady() async {
@@ -50,8 +54,16 @@ class HomeScreenController extends GetxController {
           .whenComplete(() => handleSmsPermission())
           .whenComplete(() => handleNotificationsPermission())
           .whenComplete(() => handleSpeechPermission())
-          .whenComplete(() => listenForSos())
-          .whenComplete(() => initShakeSos());
+          .whenComplete(() => loadSosSettings())
+          .whenComplete(
+        () {
+          if (voiceForSosEnabled) listenForSos();
+        },
+      ).whenComplete(
+        () {
+          if (shakeForSosEnabled) initShakeSos();
+        },
+      );
     } else {
       handleLocation()
           .whenComplete(() => handleSmsPermission())
@@ -69,8 +81,78 @@ class HomeScreenController extends GetxController {
     super.onReady();
   }
 
+  Future<void> loadSosSettings() async {
+    final getShakeSos = AppInit.prefs.getBool("shakeSOS");
+    if (getShakeSos != null) {
+      shakeForSosEnabled = getShakeSos;
+    } else {
+      shakeForSosEnabled = true;
+    }
+    if (kDebugMode) {
+      AppInit.logger.i('Shake for sos $shakeForSosEnabled');
+    }
+    final getVoiceSos = AppInit.prefs.getBool("voiceSOS");
+    if (getVoiceSos != null) {
+      voiceForSosEnabled = getVoiceSos;
+    } else {
+      voiceForSosEnabled = true;
+    }
+    if (kDebugMode) {
+      AppInit.logger.i('Voice for sos $voiceForSosEnabled');
+    }
+    final getSmsSOS = AppInit.prefs.getBool("smsSOS");
+    if (getSmsSOS != null) {
+      smsForSosEnabled = getSmsSOS;
+    } else {
+      smsForSosEnabled = true;
+    }
+    if (kDebugMode) {
+      AppInit.logger.i('SMS for sos $smsForSosEnabled');
+    }
+  }
+
+  Future<FunctionStatus> setShakeToSos({required bool set}) async {
+    try {
+      await AppInit.prefs.setBool("shakeSOS", set);
+      shakeForSosEnabled = set;
+      return FunctionStatus.success;
+    } catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e('Set error $error');
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> setVoiceToSos({required bool set}) async {
+    try {
+      await AppInit.prefs.setBool("voiceSOS", set);
+      voiceForSosEnabled = set;
+      return FunctionStatus.success;
+    } catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e('Set error $error');
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> setSMSToSos({required bool set}) async {
+    try {
+      await AppInit.prefs.setBool("smsSOS", set);
+      smsForSosEnabled = set;
+      return FunctionStatus.success;
+    } catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e('Set error $error');
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
   void initShakeSos() {
-    accelerometerEvents.listen((AccelerometerEvent event) {
+    accelerometerSubscription =
+        accelerometerEvents.listen((AccelerometerEvent event) {
       double magnitude =
           sqrt(pow(event.x, 2) + pow(event.y, 2) + pow(event.z, 2));
       if (magnitude > 25) {
@@ -413,8 +495,8 @@ class HomeScreenController extends GetxController {
   @override
   void onClose() async {
     homeBottomNavController.dispose();
+    accelerometerSubscription?.cancel();
     await accelerometerEvents.drain();
-
     super.onClose();
   }
 }

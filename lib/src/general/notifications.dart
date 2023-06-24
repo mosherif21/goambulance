@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:goambulance/src/general/app_init.dart';
 
+import '../../firebase_files/firebase_initializations.dart';
+
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 late AndroidNotificationChannel channel;
 bool isFlutterLocalNotificationsInitialized = false;
@@ -33,6 +35,7 @@ void initializeNotification() async {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await initializeFireBaseApp();
   await setupFlutterNotifications();
   showFlutterNotification(message);
 

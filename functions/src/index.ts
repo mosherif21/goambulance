@@ -443,6 +443,9 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       title: notificationTitle,
       body: notificationBody,
     },
+    data: {
+      title: notificationTitle
+    }
   };
 
   const options = {

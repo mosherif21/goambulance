@@ -22,10 +22,9 @@ void initializeNotification() {
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (kDebugMode) {
-    AppInit.logger
-        .i('Handling a background message: ${message.notification?.title}');
-  }
+  // if (kDebugMode) {
+  //   AppInit.logger.i('Handling a background message: ${message.data['title']}');
+  // }
 }
 
 Future<void> _createNotification(RemoteNotification message, int id) async {

@@ -41,9 +41,7 @@ class HomeScreenController extends GetxController {
   final zoomDrawerController = ZoomDrawerController();
   final carouselController = CarouselController();
   bool processingSosRequest = false;
-  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
-      sosRequestSubscription;
-  final hasSosRequest = false.obs;
+
   @override
   void onReady() async {
     if (AuthenticationRepository.instance.criticalUserStatus.value ==
@@ -67,49 +65,8 @@ class HomeScreenController extends GetxController {
         RequestsHistoryController.instance.getRequestsHistory();
       }
     });
-    listenForSosRequests();
+
     super.onReady();
-  }
-
-  void listenForSosRequests() {
-    try {
-      final userId = AuthenticationRepository.instance.fireUser.value!.uid;
-      sosRequestSubscription = FirebaseFirestore.instance
-          .collection('sosRequests')
-          .where('userId', isEqualTo: userId)
-          .snapshots()
-          .listen((QuerySnapshot snapshot) {
-        if (snapshot.docs.isEmpty) {
-          hasSosRequest.value = false;
-        } else {
-          hasSosRequest.value = true;
-        }
-      });
-    } on FirebaseException catch (error) {
-      if (kDebugMode) {
-        AppInit.logger.e(error.toString());
-      }
-    } catch (err) {
-      if (kDebugMode) {
-        AppInit.logger.e(err.toString());
-      }
-    }
-  }
-
-  void cancelSosRequest() async {
-    showLoadingScreen();
-    final functionStatus =
-        await FirebasePatientDataAccess.instance.cancelSosRequest();
-    hideLoadingScreen();
-    if (functionStatus == FunctionStatus.success) {
-      showSnackBar(
-          text: 'sosRequestCanceledSuccessfully'.tr,
-          snackBarType: SnackBarType.success);
-    } else {
-      showSnackBar(
-          text: 'sosRequestCanceledFailed'.tr,
-          snackBarType: SnackBarType.error);
-    }
   }
 
   void initShakeSos() {
@@ -457,7 +414,7 @@ class HomeScreenController extends GetxController {
   void onClose() async {
     homeBottomNavController.dispose();
     await accelerometerEvents.drain();
-    sosRequestSubscription?.cancel();
+
     super.onClose();
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -6,12 +5,14 @@ import 'package:flutter/foundation.dart';
 import '../src/general/app_init.dart';
 import 'firebase_options.dart';
 
+bool isInitialised = false;
 Future<void> initializeFireBaseApp() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  FirebaseFirestore.instance.settings =
-      const Settings(persistenceEnabled: false);
+  if (!isInitialised) {
+    isInitialised = true;
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 }
 
 Future<void> activateWebAppCheck() async {

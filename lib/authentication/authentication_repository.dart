@@ -186,10 +186,9 @@ class AuthenticationRepository extends GetxController {
               initCriticalUserListeners();
             }
           }
-
           if (AppInit.notificationToken.isNotEmpty) {
             await _firestore.collection('fcmTokens').doc(userId).set({
-              'fcmToken${AppInit.isAndroid ? 'Android' : AppInit.isIos ? 'Ios' : 'Web'}':
+              'fcmToken${AppInit.isAndroid ? 'Android' : 'Ios'}':
                   AppInit.notificationToken,
               'notificationsLang': isLangEnglish() ? 'en' : 'ar',
             });

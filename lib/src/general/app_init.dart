@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,8 @@ class AppInit {
       if (kDebugMode) {
         logger.i('firebase app initialized');
       }
+      FirebaseFirestore.instance.settings =
+          const Settings(persistenceEnabled: false);
       if (isWeb || webMobile) {
         await activateWebAppCheck();
         if (kDebugMode) {

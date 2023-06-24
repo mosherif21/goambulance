@@ -14,7 +14,6 @@ import '../../../general/common_widgets/labeled_image.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
 import '../../../general/general_functions.dart';
 import '../../first_aid/components/first_aid_tips_details_page.dart';
-import '../../requests/components/requests_history/components/sos_request_item.dart';
 import '../components/notifications_button.dart';
 import '../components/services_buttons.dart';
 import '../components/services_page.dart';
@@ -146,14 +145,6 @@ class HomeDashBoard extends StatelessWidget {
                       ),
                       const ServicesButtons(),
                       const SizedBox(height: 15),
-                      Obx(
-                        () => homeScreenController.hasSosRequest.value
-                            ? SosRequestItem(
-                                onPressed: () =>
-                                    homeScreenController.cancelSosRequest(),
-                              )
-                            : const SizedBox.shrink(),
-                      ),
                       SizedBox(
                         height: 200,
                         child: PageView.builder(

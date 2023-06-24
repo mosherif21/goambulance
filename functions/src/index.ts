@@ -443,9 +443,6 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       title: notificationTitle,
       body: notificationBody,
     },
-    data: {
-      title: notificationTitle
-    }
   };
 
   const options = {
@@ -458,10 +455,6 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
   if (fcmTokenData.fcmTokenIos) {
     tokens.push(fcmTokenData.fcmTokenIos);
   }
-  if (fcmTokenData.fcmTokenWeb) {
-    tokens.push(fcmTokenData.fcmTokenWeb);
-  }
-
   if (tokens.length === 0) {
     console.log("No tokens to send notification to");
     response.status(200).send("No tokens to send notification to but notification saved");

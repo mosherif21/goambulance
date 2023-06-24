@@ -8,11 +8,6 @@
         android:name="android.hardware.telephony"
         android:required="false" />
 
-    <queries>
-        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" /> <!-- allows app to access Facebook app features -->
-        <provider android:authorities="com.facebook.orca.provider.PlatformProvider" /> <!-- allows sharing to Messenger app -->
-    </queries>
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -40,13 +35,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="goambulance"
         android:usesCleartextTraffic="true">
-        <service
-            android:name="io.flutter.plugins.firebasemessaging.FlutterFirebaseMessagingBackgroundService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -56,10 +44,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize">
-            <!-- Specifies an Android theme to apply to this Activity as soon as
-                 the Android process has started. This theme is visible to the user
-                 while the Flutter UI initializes. After that, this theme continues
-                 to determine the Window background behind the Flutter UI. -->
             <meta-data
                 android:name="io.flutter.embedding.android.NormalTheme"
                 android:resource="@style/NormalTheme" />
@@ -80,13 +64,19 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC87q_5UFi7zHJQD8CnLy5VIDBDML4j0VY" />
         <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.ClientToken"
-            android:value="@string/facebook_client_token" />
-
-
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="goambulance_channel" />
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification_icon" />
+        <intent-filter>
+            <action android:name="com.google.firebase.MESSAGING_EVENT" />
+        </intent-filter>
+        <!-- <meta-data
+             android:name="com.facebook.sdk.ApplicationId"
+             android:value="@string/facebook_app_id" />
+         <meta-data
+             android:name="com.facebook.sdk.ClientToken"
+             android:value="@string/facebook_client_token" />
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -103,7 +93,10 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
+            <queries>
+        <provider android:authorities="com.facebook.katana.provider.PlatformProvider" />
+        <provider android:authorities="com.facebook.orca.provider.PlatformProvider" />
+    </queries>  -->
 
     </application>
 </manifest>

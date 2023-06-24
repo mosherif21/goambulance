@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
@@ -24,8 +26,10 @@ class RequestsHistoryController extends GetxController {
   late final DocumentReference firestoreUserRef;
   late final FirebaseFirestore _firestore;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
-
   final requestsRefreshController = RefreshController(initialRefresh: false);
+  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
+      sosRequestSubscription;
+  final hasSosRequest = false.obs;
 
   @override
   void onReady() async {
@@ -34,6 +38,7 @@ class RequestsHistoryController extends GetxController {
     firestoreUserRef = _firestore.collection('users').doc(userId);
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
     getRequestsHistory();
+    listenForSosRequest();
     super.onReady();
   }
 
@@ -41,6 +46,47 @@ class RequestsHistoryController extends GetxController {
     getRequestsHistory();
     requestsRefreshController.refreshToIdle();
     requestsRefreshController.resetNoData();
+  }
+
+  void listenForSosRequest() {
+    try {
+      final userId = AuthenticationRepository.instance.fireUser.value!.uid;
+      sosRequestSubscription = FirebaseFirestore.instance
+          .collection('sosRequests')
+          .where('userId', isEqualTo: userId)
+          .snapshots()
+          .listen((QuerySnapshot snapshot) {
+        if (snapshot.docs.isEmpty) {
+          hasSosRequest.value = false;
+        } else {
+          hasSosRequest.value = true;
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+  }
+
+  void cancelSosRequest() async {
+    showLoadingScreen();
+    final functionStatus =
+        await FirebasePatientDataAccess.instance.cancelSosRequest();
+    hideLoadingScreen();
+    if (functionStatus == FunctionStatus.success) {
+      showSnackBar(
+          text: 'sosRequestCanceledSuccessfully'.tr,
+          snackBarType: SnackBarType.success);
+    } else {
+      showSnackBar(
+          text: 'sosRequestCanceledFailed'.tr,
+          snackBarType: SnackBarType.error);
+    }
   }
 
   void getRequestsHistory() async {
@@ -195,6 +241,7 @@ class RequestsHistoryController extends GetxController {
   @override
   void onClose() {
     requestsRefreshController.dispose();
+    sosRequestSubscription?.cancel();
     super.onClose();
   }
 }

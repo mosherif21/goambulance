@@ -127,13 +127,15 @@ void sendRequestSms(
       String encodedSosRequestId = Uri.encodeFull(requestId);
       String trackingLink =
           "https://goambulance.help/tracking?requestId=$encodedSosRequestId";
-      final sosMessage = (sosSmsType == SosSmsType.normalRequestSMS
-              ? 'normalSmsMsg'
-              : 'sosSmsMsg')
-          .trParams({
-        'patientName': patientName,
-        'trackingLink': trackingLink,
-      });
+      final sosMessage = sosSmsType == SosSmsType.normalRequestSMS
+          ? 'normalSmsMsg'.trParams({
+              'patientName': patientName,
+              'trackingLink': trackingLink,
+            })
+          : 'sosSmsMsg'.trParams({
+              'patientName': patientName,
+              'trackingLink': trackingLink,
+            });
       try {
         for (var contact in contactsList) {
           SmsStatus result = await BackgroundSms.sendMessage(

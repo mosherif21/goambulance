@@ -889,7 +889,12 @@ class FirebasePatientDataAccess extends GetxController {
           .collection('canceledRequests')
           .doc(requestInfo.requestRef.id);
       cancelRequestBatch.set(hospitalCanceledRef, <String, dynamic>{});
-
+      final blockedHospitalsRef =
+          requestInfo.requestRef.collection('blockedHospitals');
+      final blockedHospitalDocuments = await blockedHospitalsRef.get();
+      for (final blockedHospital in blockedHospitalDocuments.docs) {
+        cancelRequestBatch.delete(blockedHospital.reference);
+      }
       await cancelRequestBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {

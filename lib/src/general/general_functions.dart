@@ -115,7 +115,10 @@ void logoutDialogue() => displayAlertDialog(
       color: SweetSheetColor.DANGER,
     );
 
-void sendSmsToUserContacts({required String sosMessage}) async {
+void sendRequestSms(
+    {required String requestId,
+    required String patientName,
+    required SosSmsType sosSmsType}) async {
   if (Get.isRegistered<FirebasePatientDataAccess>()) {
     final smsPermissionGranted = await Permission.sms.status.isGranted;
     if (smsPermissionGranted) {
@@ -125,6 +128,16 @@ void sendSmsToUserContacts({required String sosMessage}) async {
       for (var contact in contactsList) {
         contactNumbersList.add(contact.contactNumber);
       }
+      String encodedSosRequestId = Uri.encodeFull(requestId);
+      String trackingLink =
+          "https://goambulance.help/tracking?requestId=$encodedSosRequestId";
+      final sosMessage = (sosSmsType == SosSmsType.normalRequestSMS
+              ? 'normalSmsMsg'
+              : 'sosSmsMsg')
+          .trParams({
+        'patientName': patientName,
+        'trackingLink': trackingLink,
+      });
       try {
         sendSMS(
           message: sosMessage,
@@ -133,7 +146,7 @@ void sendSmsToUserContacts({required String sosMessage}) async {
         );
       } catch (err) {
         if (kDebugMode) {
-          print(err.toString());
+          AppInit.logger.e('Request sms send error ${err.toString()}');
         }
       }
     }

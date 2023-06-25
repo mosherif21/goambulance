@@ -34,3 +34,5 @@ enum RequestStatus {
   completed,
   canceled,
 }
+
+enum SosSmsType { normalRequestSMS, sosRequestSMS }

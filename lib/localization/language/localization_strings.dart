@@ -420,6 +420,10 @@ class Languages extends Translations {
           'failedToChangeSetting': 'فشل تغيير الإعداد ، يرجى المحاولة مرة أخرى',
           'sosRequestHospitalCanceled': 'تم إلغاء طلب الاستغاثة لهذه المستشفى',
           'sosCancelReturn': 'تم إلغاء هذا الطلب ونحن نبحث عن مستشفى آخرى',
+          'sosSmsMsg':
+              'قام @patientName بارسال طلب أستغاثة. يرجى استخدام الرابط التالي لتتبع الطلب: @trackingLink. شكرًا لك.',
+          'normalSmsMsg':
+              'تقدم @patientName بطلب لإسعاف. يرجى استخدام الرابط التالي لتتبع الطلب: @trackingLink. شكرًا لك.',
         },
         'en_US': {
           'sosCancelReturn':
@@ -757,6 +761,10 @@ class Languages extends Translations {
           'chooseBloodType': 'Please choose your blood type',
           'pickBloodType': 'Select blood type',
           'askDiabetic': '@ask diabetic?',
+          'sosSmsMsg':
+              '@patientName has made an SOS request. Please use the following link to track the request: @trackingLink. Thank you.',
+          'normalSmsMsg':
+              '@patientName has requested an ambulance. Please use the following link to track the request: @trackingLink. Thank you.',
           'askHeartPatient': '@ask a heart patient?',
           'askHypertensivePatient': '@ask a hypertensive patient?',
           'chooseHisBloodType': 'Please choose his/hers blood type',

@@ -682,27 +682,26 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<FunctionStatus> makeSosRequest({
+  Future<String?> makeSosRequest({
     required GeoPoint requestLocation,
   }) async {
     try {
-      final sosRequestRef = fireStore.collection('sosRequests').doc();
-      await sosRequestRef.set({
+      final sosRequestRef = await fireStore.collection('sosRequests').add({
         'userId': userId,
         'requestLocation': requestLocation,
         'timestamp': Timestamp.now(),
       });
-      return FunctionStatus.success;
+      return sosRequestRef.id;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         AppInit.logger.e(error.toString());
       }
-      return FunctionStatus.failure;
+      return null;
     } catch (err) {
       if (kDebugMode) {
         AppInit.logger.e(err.toString());
       }
-      return FunctionStatus.failure;
+      return null;
     }
   }
 

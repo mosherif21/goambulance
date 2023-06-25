@@ -36,10 +36,14 @@ class HomeScreenController extends GetxController {
   bool smsForSosEnabled = true;
   final navBarIndex = 0.obs;
   StreamSubscription<AccelerometerEvent>? accelerometerSubscription;
+  late final FirebasePatientDataAccess firebasePatientAccess;
+  late final AuthenticationRepository authenticationRepository;
 
   @override
   void onReady() async {
-    if (AuthenticationRepository.instance.criticalUserStatus.value ==
+    firebasePatientAccess = FirebasePatientDataAccess.instance;
+    authenticationRepository = AuthenticationRepository.instance;
+    if (authenticationRepository.criticalUserStatus.value ==
         CriticalUserStatus.criticalUserAccepted) {
       handleLocation()
           .whenComplete(() => handleSmsPermission())
@@ -185,7 +189,7 @@ class HomeScreenController extends GetxController {
   }
 
   void listenForSos() async {
-    if (AuthenticationRepository.instance.criticalUserStatus.value ==
+    if (authenticationRepository.criticalUserStatus.value ==
         CriticalUserStatus.criticalUserAccepted) {
       final speechToText = SpeechToText();
       bool available = await speechToText.initialize(onStatus: (status) {
@@ -330,7 +334,7 @@ class HomeScreenController extends GetxController {
     if (!processingSosRequest) {
       processingSosRequest = true;
       if (pressed) showLoadingScreen();
-      final firebasePatientAccess = FirebasePatientDataAccess.instance;
+
       firebasePatientAccess
           .checkUserHasSosRequest()
           .then((hasSosRequest) async {
@@ -397,15 +401,19 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  void sendSosRequest({required GeoPoint requestLocation}) async =>
-      FirebasePatientDataAccess.instance
+  void sendSosRequest({required GeoPoint requestLocation}) =>
+      firebasePatientAccess
           .makeSosRequest(requestLocation: requestLocation)
-          .then((functionStatus) {
-        if (functionStatus == FunctionStatus.success) {
+          .then((sosRequestId) {
+        if (sosRequestId != null) {
           processingSosRequest = false;
           showSnackBar(
               text: 'sosRequestSent'.tr, snackBarType: SnackBarType.success);
           textToSpeech(text: 'sosRequestSentTTS'.tr);
+          sendRequestSms(
+              requestId: sosRequestId,
+              patientName: authenticationRepository.userInfo.name,
+              sosSmsType: SosSmsType.sosRequestSMS);
         } else {
           processingSosRequest = false;
           showSnackBar(

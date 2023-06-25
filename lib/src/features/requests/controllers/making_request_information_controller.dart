@@ -141,6 +141,7 @@ class MakingRequestInformationController extends GetxController {
         sendSms = true;
       } else {
         sendSosPrimaryKey.currentState?.action();
+        sendSms=false;
       }
     } else {
       sendSms = false;

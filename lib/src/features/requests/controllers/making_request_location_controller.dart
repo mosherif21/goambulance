@@ -185,11 +185,13 @@ class MakingRequestLocationController extends GetxController {
           requestInfo: requestData);
 
       if (functionStatus == FunctionStatus.success) {
-        if (requestInfo.sendSms!) {
-          sendRequestSms(
-              requestId: pendingRequestRef.id,
-              patientName: userName,
-              sosSmsType: SosSmsType.normalRequestSMS);
+        if (requestInfo.sendSms != null) {
+          if (requestInfo.sendSms!) {
+            sendRequestSms(
+                requestId: pendingRequestRef.id,
+                patientName: userName,
+                sosSmsType: SosSmsType.normalRequestSMS);
+          }
         }
         currentRequestData = requestData;
         requestStatus.value = RequestStatus.pending;

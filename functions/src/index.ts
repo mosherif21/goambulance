@@ -60,12 +60,11 @@ exports.cancelTimedOutRequests = functions.pubsub
       batch.delete(userPendingRef);
 
       if (patientCondition === "sosRequest") {
-        const { sosTimestamp } = doc.data();
         const sosRequestRef = firestore.collection("sosRequests").doc(requestId);
         batch.set(sosRequestRef, {
           userId: userId,
           requestLocation: requestLocation,
-          timestamp: sosTimestamp,
+          timestamp: admin.firestore.FieldValue.serverTimestamp(),
         });
         const blockedHospitalsDocuments = await docRef.collection('blockedHospitals').listDocuments();
         blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
@@ -160,8 +159,8 @@ exports.processSOSRequests = functions.firestore
           const userId = sosRequestData.userId;
           const sosLocation = sosRequestData.requestLocation;
           const sosRequestTimestamp = sosRequestData.timestamp;
-          // Remember to make it 30 minutes again
-          const thirtyMinutesInMs = 4 * 60 * 1000;
+          // remember to make it 30 minutes again not 5
+          const thirtyMinutesInMs = 5 * 60 * 1000;
           const now = admin.firestore.Timestamp.now();
           const sosRequestRef = firestore
             .collection("sosRequests")
@@ -218,9 +217,8 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
     const sosRequestRef = firestore
       .collection("sosRequests")
       .doc(sosRequestId);
-    const userId = sosRequestData.userId;
     const sosLocation = sosRequestData.requestLocation;
-    const sosRequestTimestamp = sosRequestData.timestamp;
+    const userId = sosRequestData.userId;
     let radiusInKm = 50;
     let querySnapshot;
     let sosRequestDeleted = false;
@@ -289,7 +287,6 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       hospitalId: hospitalId,
       hospitalGeohash: hospitalGeohash,
       backupNumber: "unknown",
-      sosTimestamp: sosRequestTimestamp,
     });
     const userPendingRequestRef = firestore
       .collection("users")

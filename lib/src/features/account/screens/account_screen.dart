@@ -23,7 +23,6 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = getScreenHeight(context);
     final authRepo = AuthenticationRepository.instance;
     return Scaffold(
       appBar: AppBar(
@@ -181,7 +180,6 @@ class AccountScreen extends StatelessWidget {
                     enabled: true,
                     color: Colors.red,
                   ),
-                  SizedBox(height: screenHeight * 0.1)
                 ],
               ),
             ),

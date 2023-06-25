@@ -18,7 +18,6 @@ class PreviousRequestsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = getScreenHeight(context);
     final controller = Get.put(RequestsHistoryController());
     return Scaffold(
       appBar: AppBar(
@@ -85,9 +84,7 @@ class PreviousRequestsPage extends StatelessWidget {
                                 child: ListView.builder(
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    if (index !=
-                                            controller.requestsList.length &&
-                                        controller.requestsList.isNotEmpty) {
+                                    if (controller.requestsList.isNotEmpty) {
                                       final requestStatus = controller
                                           .requestsList[index].requestStatus;
                                       final ongoingRequest = requestStatus ==
@@ -131,16 +128,11 @@ class PreviousRequestsPage extends StatelessWidget {
                                           ),
                                         ),
                                       );
-                                    } else if (index ==
-                                            controller.requestsList.length &&
-                                        controller.requestsList.isNotEmpty) {
-                                      return SizedBox(
-                                          height: screenHeight * 0.08);
                                     } else {
                                       return const EmptyRequestsHistory();
                                     }
                                   },
-                                  itemCount: controller.requestsList.length + 1,
+                                  itemCount: controller.requestsList.length,
                                   shrinkWrap: true,
                                 ),
                               ),

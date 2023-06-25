@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/enums.dart';
-import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../constants/no_localization_strings.dart';
 import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
 import '../../../general/map_utils.dart';
+import '../../home_screen/controllers/home_screen_controller.dart';
 import '../components/requests_history/components/request_details_page.dart';
 import '../components/requests_history/models.dart';
 import '../components/tracking_request/components/tracking_request_page.dart';
@@ -33,7 +33,7 @@ class RequestsHistoryController extends GetxController {
   final hasSosRequest = false.obs;
 
   @override
-  void onReady() async {
+  void onReady() {
     userId = AuthenticationRepository.instance.fireUser.value!.uid;
     _firestore = FirebaseFirestore.instance;
     firestoreUserRef = _firestore.collection('users').doc(userId);
@@ -43,7 +43,7 @@ class RequestsHistoryController extends GetxController {
     super.onReady();
   }
 
-  void onRefresh() async {
+  void onRefresh() {
     getRequestsHistory();
     requestsRefreshController.refreshToIdle();
     requestsRefreshController.resetNoData();
@@ -63,8 +63,7 @@ class RequestsHistoryController extends GetxController {
           if (hasSosRequest.value) {
             Future.delayed(const Duration(seconds: 1)).whenComplete(() {
               if (!hasSosRequest.value &&
-                  HomeScreenController.instance.homeBottomNavController.index ==
-                      1) {
+                  HomeScreenController.instance.navBarIndex.value == 2) {
                 getRequestsHistory();
               }
             });
@@ -259,9 +258,9 @@ class RequestsHistoryController extends GetxController {
   }
 
   @override
-  void onClose() {
+  void onClose() async {
+    await sosRequestSubscription?.cancel();
     requestsRefreshController.dispose();
-    sosRequestSubscription?.cancel();
     super.onClose();
   }
 }

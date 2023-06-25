@@ -198,7 +198,7 @@ class MakingRequestLocationController extends GetxController {
       positiveButtonOnPressed: () async {
         Get.back();
         showLoadingScreen();
-        pendingRequestListener?.cancel();
+        await pendingRequestListener?.cancel();
         final functionStatus = await firebasePatientDataAccess
             .cancelHospitalRequest(requestInfo: currentRequestData);
         hideLoadingScreen();
@@ -359,8 +359,8 @@ class MakingRequestLocationController extends GetxController {
     choosingHospital.value = false;
     hospitalsLoaded.value = false;
     hospitalsPanelController.close();
-    getHospitalsOperation?.cancel();
-    getRouteOperation?.cancel();
+    await getHospitalsOperation?.cancel();
+    await getRouteOperation?.cancel();
     selectedHospital.value = null;
     if (mapMarkers.contains(requestLocationMarker)) {
       mapMarkers.remove(requestLocationMarker!);
@@ -429,7 +429,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   Future<void> getHospitals() async {
-    getHospitalsOperation?.cancel();
+    await getHospitalsOperation?.cancel();
     getHospitalsOperation = CancelableOperation.fromFuture(getHospitalsList());
     final hospitalsDocuments =
         await getHospitalsOperation!.valueOrCancellation();
@@ -564,7 +564,7 @@ class MakingRequestLocationController extends GetxController {
         baseUrl: AppInit.isWeb ? "https://cors-anywhere.herokuapp.com/" : null,
         apiKey: googleMapsAPIKeyWeb,
       );
-      getRouteOperation?.cancel();
+      await getRouteOperation?.cancel();
       getRouteOperation = CancelableOperation.fromFuture(
         directions.directionsWithLocation(
           google_web_directions_service.Location(
@@ -841,7 +841,7 @@ class MakingRequestLocationController extends GetxController {
         }
       });
       if (positionStreamInitialized) {
-        currentPositionStream?.cancel();
+        await currentPositionStream?.cancel();
       }
       currentPositionStream =
           Geolocator.getPositionStream(locationSettings: locationSettings)
@@ -882,7 +882,7 @@ class MakingRequestLocationController extends GetxController {
       if (kDebugMode) print(err.toString());
     }
     if (requestStatus.value != RequestStatus.non) {
-      pendingRequestListener?.cancel();
+      await pendingRequestListener?.cancel();
     }
     requestLocationWindowController.dispose();
     hospitalWindowController.dispose();

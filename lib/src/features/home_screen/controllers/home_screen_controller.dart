@@ -2,10 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -13,13 +11,9 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
-import 'package:goambulance/src/features/account/screens/account_screen.dart';
-import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
 import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
-import 'package:line_icons/line_icon.dart';
 import 'package:location/location.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:sensors_plus/sensors_plus.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -28,21 +22,19 @@ import '../../../constants/enums.dart';
 import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
 import '../../help_center/screens/help_screen.dart';
-import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../information/screens/about_us_page.dart';
 import '../../notifications/screens/notifications_screen.dart';
-import '../../requests/screens/previous_requests_page.dart';
+import '../../requests/controllers/requests_history_controller.dart';
 
 class HomeScreenController extends GetxController {
   static HomeScreenController get instance => Get.find();
 
-  final homeBottomNavController = PersistentTabController(initialIndex: 0);
   final zoomDrawerController = ZoomDrawerController();
-  final carouselController = CarouselController();
   bool processingSosRequest = false;
   bool shakeForSosEnabled = true;
   bool voiceForSosEnabled = true;
   bool smsForSosEnabled = true;
+  final navBarIndex = 0.obs;
   StreamSubscription<AccelerometerEvent>? accelerometerSubscription;
 
   @override
@@ -69,15 +61,14 @@ class HomeScreenController extends GetxController {
           .whenComplete(() => handleNotificationsPermission())
           .whenComplete(() => handleSpeechPermission());
     }
-
-    homeBottomNavController.addListener(() {
-      if (homeBottomNavController.index == 1 &&
-          Get.isRegistered<RequestsHistoryController>()) {
-        RequestsHistoryController.instance.getRequestsHistory();
-      }
-    });
-
     super.onReady();
+  }
+
+  void navigationBarOnTap(int navIndex) {
+    if (navIndex != 2 && Get.isRegistered<RequestsHistoryController>()) {
+      Get.delete<RequestsHistoryController>();
+    }
+    navBarIndex.value = navIndex;
   }
 
   Future<void> loadSosSettings() async {
@@ -464,37 +455,6 @@ class HomeScreenController extends GetxController {
     zoomDrawerController.toggle?.call();
   }
 
-  List<Widget> buildScreens() {
-    return [
-      const HomeDashBoard(),
-      const PreviousRequestsPage(),
-      const AccountScreen(),
-    ];
-  }
-
-  List<PersistentBottomNavBarItem> navBarsItems() {
-    return [
-      PersistentBottomNavBarItem(
-        icon: LineIcon.home(),
-        title: ('home'.tr),
-        activeColorPrimary: Colors.black,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: LineIcon.history(),
-        title: ('requests'.tr),
-        activeColorPrimary: Colors.black,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-      PersistentBottomNavBarItem(
-        icon: const Icon(Icons.account_circle_outlined),
-        title: ('account'.tr),
-        activeColorPrimary: Colors.black,
-        inactiveColorPrimary: CupertinoColors.systemGrey,
-      ),
-    ];
-  }
-
   final emergencyWords = [
     'mayday',
     'ambulance',
@@ -519,7 +479,6 @@ class HomeScreenController extends GetxController {
   ];
   @override
   void onClose() async {
-    homeBottomNavController.dispose();
     await accelerometerSubscription?.cancel();
     await accelerometerEvents.drain();
     super.onClose();

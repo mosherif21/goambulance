@@ -91,9 +91,9 @@ class ConnectivityController extends GetxController {
   // }
 
   @override
-  void onClose() {
+  void onClose() async {
     super.onClose();
     //_connectivitySubscription.cancel();
-    _internetSubscription.cancel();
+    await _internetSubscription.cancel();
   }
 }

@@ -50,7 +50,6 @@ class HomeDashBoard extends StatelessWidget {
         ),
       ),
     );
-    final screenHeight = getScreenHeight(context);
     return Scaffold(
       appBar: AppBar(
         leading: ValueListenableBuilder(
@@ -102,8 +101,6 @@ class HomeDashBoard extends StatelessWidget {
                         buttonText: 'viewAll'.tr,
                       ),
                       CarouselSlider(
-                        carouselController:
-                            homeScreenController.carouselController,
                         items: [
                           for (int firstAidNumber = 1;
                               firstAidNumber <= 17;
@@ -170,7 +167,6 @@ class HomeDashBoard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.06)
                     ],
                   ),
                 ),

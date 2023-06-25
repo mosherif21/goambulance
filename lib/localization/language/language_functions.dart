@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
-import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 
 import '../../src/constants/enums.dart';
+import '../../src/features/home_screen/controllers/home_screen_controller.dart';
 import '../../src/features/intro_screen/components/onboarding_shared_preferences.dart';
 import '../../src/features/requests/controllers/requests_history_controller.dart';
 import '../../src/general/app_init.dart';
@@ -64,7 +64,7 @@ Future<void> setLocaleLanguage(String languageCode) async {
     }
     if (Get.isRegistered<HomeScreenController>()) {
       if (Get.isRegistered<RequestsHistoryController>()) {
-        if (HomeScreenController.instance.homeBottomNavController.index == 1) {
+        if (HomeScreenController.instance.navBarIndex.value == 2) {
           RequestsHistoryController.instance.getRequestsHistory();
         }
       }

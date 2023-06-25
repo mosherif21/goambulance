@@ -1,12 +1,13 @@
+import 'package:background_sms/background_sms.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sms/flutter_sms.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/enums.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
+import '../../../general/app_init.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/general_functions.dart';
 
@@ -139,41 +140,48 @@ class SosMessageController extends GetxController {
   }
 
   void sendSosMessage() async {
-    if (await handleSmsPermission()) {
-      highlightSosMessage.value = sosMessage.isEmpty;
-      if (!highlightSosMessage.value && contactsList.isNotEmpty) {
-        showLoadingScreen();
-        final contactNumbersList = <String>[];
-        for (var contact in contactsList) {
-          contactNumbersList.add(contact.contactNumber);
-        }
-        await saveSosMessage(displaySnackBar: false);
-        try {
-          await sendSMS(
-            message: sosMessage,
-            recipients: contactNumbersList,
-            sendDirect: true,
-          );
-          showSnackBar(
-              text: 'sendSosMessageSuccess'.tr,
-              snackBarType: SnackBarType.success);
-        } catch (err) {
-          if (kDebugMode) {
-            print(err.toString());
+    if (!AppInit.isWeb) {
+      if (await handleSmsPermission()) {
+        highlightSosMessage.value = sosMessage.isEmpty;
+        if (!highlightSosMessage.value && contactsList.isNotEmpty) {
+          showLoadingScreen();
+          await saveSosMessage(displaySnackBar: false);
+          try {
+            for (var contact in contactsList) {
+              SmsStatus result = await BackgroundSms.sendMessage(
+                  phoneNumber: contact.contactNumber, message: sosMessage);
+              if (kDebugMode) {
+                if (result == SmsStatus.sent) {
+                  print("SMS sent");
+                } else {
+                  print("SMS failed");
+                }
+              }
+            }
             showSnackBar(
-                text: 'sendingSosMessageFailed'.tr,
-                snackBarType: SnackBarType.error);
+                text: 'sendSosMessageSuccess'.tr,
+                snackBarType: SnackBarType.success);
+          } catch (err) {
+            if (kDebugMode) {
+              print(err.toString());
+              showSnackBar(
+                  text: 'sendingSosMessageFailed'.tr,
+                  snackBarType: SnackBarType.error);
+            }
           }
+          hideLoadingScreen();
+        } else if (highlightSosMessage.value) {
+          showSnackBar(
+              text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+        } else if (contactsList.isEmpty) {
+          showSnackBar(
+              text: 'missingEmergencyContact'.tr,
+              snackBarType: SnackBarType.error);
         }
-        hideLoadingScreen();
-      } else if (highlightSosMessage.value) {
-        showSnackBar(
-            text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
-      } else if (contactsList.isEmpty) {
-        showSnackBar(
-            text: 'missingEmergencyContact'.tr,
-            snackBarType: SnackBarType.error);
       }
+    } else {
+      showSnackBar(
+          text: 'useMobileToThisFeature'.tr, snackBarType: SnackBarType.info);
     }
   }
 

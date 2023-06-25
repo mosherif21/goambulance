@@ -1,8 +1,8 @@
+import 'package:background_sms/background_sms.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -124,10 +124,6 @@ void sendRequestSms(
     if (smsPermissionGranted) {
       final contactsList =
           await FirebasePatientDataAccess.instance.getEmergencyContacts();
-      final contactNumbersList = <String>[];
-      for (var contact in contactsList) {
-        contactNumbersList.add(contact.contactNumber);
-      }
       String encodedSosRequestId = Uri.encodeFull(requestId);
       String trackingLink =
           "https://goambulance.help/tracking?requestId=$encodedSosRequestId";
@@ -139,11 +135,17 @@ void sendRequestSms(
         'trackingLink': trackingLink,
       });
       try {
-        sendSMS(
-          message: sosMessage,
-          recipients: contactNumbersList,
-          sendDirect: true,
-        );
+        for (var contact in contactsList) {
+          SmsStatus result = await BackgroundSms.sendMessage(
+              phoneNumber: contact.contactNumber, message: sosMessage);
+          if (kDebugMode) {
+            if (result == SmsStatus.sent) {
+              print("SMS sent");
+            } else {
+              print("SMS failed");
+            }
+          }
+        }
       } catch (err) {
         if (kDebugMode) {
           AppInit.logger.e('Request sms send error ${err.toString()}');

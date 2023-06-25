@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:rolling_switch/rolling_switch.dart';
 
 import '../../../constants/enums.dart';
@@ -136,15 +137,20 @@ class MakingRequestInformationController extends GetxController {
   }
 
   void onSendSosSwitched(bool state) async {
-    if (state) {
-      if (await handleSmsPermission()) {
-        sendSms = true;
+    if (!AppInit.isWeb) {
+      if (state) {
+        if (await handleSmsPermission()) {
+          sendSms = true;
+        } else {
+          sendSosPrimaryKey.currentState?.action();
+        }
       } else {
-        sendSosPrimaryKey.currentState?.action();
-        sendSms=false;
+        sendSms = false;
       }
     } else {
-      sendSms = false;
+      sendSosPrimaryKey.currentState?.action();
+      showSnackBar(
+          text: 'useMobileToThisFeature'.tr, snackBarType: SnackBarType.info);
     }
   }
 

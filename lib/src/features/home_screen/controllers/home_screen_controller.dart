@@ -410,7 +410,7 @@ class HomeScreenController extends GetxController {
           showSnackBar(
               text: 'sosRequestSent'.tr, snackBarType: SnackBarType.success);
           textToSpeech(text: 'sosRequestSentTTS'.tr);
-          if (smsForSosEnabled) {
+          if (smsForSosEnabled && !AppInit.isWeb) {
             sendRequestSms(
                 requestId: sosRequestId,
                 patientName: authenticationRepository.userInfo.name,

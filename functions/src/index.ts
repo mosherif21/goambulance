@@ -93,7 +93,7 @@ exports.cancelTimedOutRequests = functions.pubsub
       batch.set(hospitalCanceledRef, {});
 
       if (patientCondition === "sosRequest") {
-        const sosRequestRef = firestore.collection("sosRequests").doc();
+        const sosRequestRef = firestore.collection("sosRequests").doc(requestId);
         batch.set(sosRequestRef, {
           userId: userId,
           requestLocation: requestLocation,
@@ -157,7 +157,6 @@ exports.processSOSRequests = functions.firestore
       console.log('sos request made successfully');
     } catch (err) {
       if (err === 'timeout') {
-        // Check if the result is from the timer or the function
         console.log('No hospital found after 50 seconds, creating another sos request');
         const sosRequestId = snapshot.id;
         const sosRequestData = snapshot.data();
@@ -168,11 +167,16 @@ exports.processSOSRequests = functions.firestore
           const userId = sosRequestData.userId;
           const sosLocation = sosRequestData.requestLocation;
           const blockedHospitalsDocuments = await sosRequestRef.collection('blockedHospitals').listDocuments();
-          const batch = firestore.batch();
+          let batch = firestore.batch();
           batch.delete(sosRequestRef);
+          blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
+            batch.delete(document);
+          });
+          await batch.commit();
+          batch = firestore.batch();
           const sosRequestRefNew = firestore
             .collection("sosRequests")
-            .doc();
+            .doc(sosRequestId);
           batch.set(sosRequestRefNew, {
             userId: userId,
             requestLocation: sosLocation,
@@ -180,7 +184,6 @@ exports.processSOSRequests = functions.firestore
           });
           blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
             batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
-            batch.delete(document);
           });
           await batch.commit();
           console.log('New sos request created successfully');
@@ -259,7 +262,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
     const hospitalName = hospitalData.name;
 
     const batch = firestore.batch();
-    const pendingRequestRef = firestore.collection("pendingRequests").doc();
+    const pendingRequestRef = firestore.collection("pendingRequests").doc(sosRequestId);
     batch.set(pendingRequestRef, {
       patientCondition: "sosRequest",
       isUser: true,
@@ -339,7 +342,7 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
     response.status(400).send("Missing parameters");
     return;
   }
-  if(notificationType !== "criticalRequestAccepted" && notificationType !== "criticalRequestDenied" && !hospitalName){
+  if (notificationType !== "criticalRequestAccepted" && notificationType !== "criticalRequestDenied" && !hospitalName) {
     console.error("Missing parameters");
     response.status(400).send("Missing parameters");
     return;

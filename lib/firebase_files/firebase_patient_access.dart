@@ -714,14 +714,18 @@ class FirebasePatientDataAccess extends GetxController {
           .get()
           .then((QuerySnapshot snapshot) async {
         for (final document in snapshot.docs) {
+          final sosRequestId = document.id;
           final blockedHospitalsRef =
-              sosRequestsRef.doc(document.id).collection('blockedHospitals');
+              sosRequestsRef.doc(sosRequestId).collection('blockedHospitals');
           final batch = fireStore.batch();
           batch.delete(document.reference);
           final blockedHospitalDocuments = await blockedHospitalsRef.get();
           for (final blockedHospital in blockedHospitalDocuments.docs) {
             batch.delete(blockedHospital.reference);
           }
+          final canceledSosRequestRef =
+              fireStore.collection('canceledSosRequests').doc(sosRequestId);
+          batch.set(canceledSosRequestRef, {'userId': userId});
           await batch.commit();
         }
       });

@@ -60,11 +60,12 @@ exports.cancelTimedOutRequests = functions.pubsub
       batch.delete(userPendingRef);
 
       if (patientCondition === "sosRequest") {
+        const { sosTimestamp } = doc.data();
         const sosRequestRef = firestore.collection("sosRequests").doc(requestId);
         batch.set(sosRequestRef, {
           userId: userId,
           requestLocation: requestLocation,
-          timestamp: admin.firestore.FieldValue.serverTimestamp(),
+          timestamp: sosTimestamp,
         });
         const blockedHospitalsDocuments = await docRef.collection('blockedHospitals').listDocuments();
         blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
@@ -155,36 +156,53 @@ exports.processSOSRequests = functions.firestore
         console.log('No hospital found after 50 seconds, creating another sos request');
         const sosRequestId = snapshot.id;
         const sosRequestData = snapshot.data();
-        if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation) {
+        if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation && sosRequestData.timestamp) {
+          const userId = sosRequestData.userId;
+          const sosLocation = sosRequestData.requestLocation;
+          const sosRequestTimestamp = sosRequestData.timestamp;
+          // Remember to make it 30 minutes again
+          const thirtyMinutesInMs = 4 * 60 * 1000;
+          const now = admin.firestore.Timestamp.now();
           const sosRequestRef = firestore
             .collection("sosRequests")
             .doc(sosRequestId);
-          const userId = sosRequestData.userId;
-          const sosLocation = sosRequestData.requestLocation;
           const blockedHospitalsDocuments = await sosRequestRef.collection('blockedHospitals').listDocuments();
           let batch = firestore.batch();
           batch.delete(sosRequestRef);
           blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
             batch.delete(document);
           });
-          await batch.commit();
-          batch = firestore.batch();
-          const sosRequestRefNew = firestore
-            .collection("sosRequests")
-            .doc(sosRequestId);
-          batch.set(sosRequestRefNew, {
-            userId: userId,
-            requestLocation: sosLocation,
-            timestamp: admin.firestore.FieldValue.serverTimestamp(),
-          });
-          blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
-            batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
-          });
-          await batch.commit();
-          console.log('New sos request created successfully');
+
+          if ((now.toMillis() - sosRequestTimestamp.toMillis()) >= thirtyMinutesInMs) {
+            console.log('30 minutes have passed and no hospital found canceling the sos');
+            const canceledSosRequestRef = firestore
+              .collection("canceledSosRequests")
+              .doc(sosRequestId);
+            batch.set(canceledSosRequestRef, {
+              userId: userId,
+            });
+            await batch.commit();
+            console.log('sos request that exceeded 30 minutes canceled successfully');
+          } else {
+            await batch.commit();
+            batch = firestore.batch();
+            const sosRequestRefNew = firestore
+              .collection("sosRequests")
+              .doc(sosRequestId);
+            batch.set(sosRequestRefNew, {
+              userId: userId,
+              requestLocation: sosLocation,
+              timestamp: sosRequestTimestamp,
+            });
+            blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
+              batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
+            });
+            await batch.commit();
+            console.log('New sos request created successfully');
+          }
         }
         else {
-          console.log('Failed to create new sos request, it\'s deleted');
+          console.log('Failed to process sos request after timeout, it\'s deleted');
         }
         return;
       } else {
@@ -200,8 +218,9 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
     const sosRequestRef = firestore
       .collection("sosRequests")
       .doc(sosRequestId);
-    const sosLocation = sosRequestData.requestLocation;
     const userId = sosRequestData.userId;
+    const sosLocation = sosRequestData.requestLocation;
+    const sosRequestTimestamp = sosRequestData.timestamp;
     let radiusInKm = 50;
     let querySnapshot;
     let sosRequestDeleted = false;
@@ -270,6 +289,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       hospitalId: hospitalId,
       hospitalGeohash: hospitalGeohash,
       backupNumber: "unknown",
+      sosTimestamp: sosRequestTimestamp,
     });
     const userPendingRequestRef = firestore
       .collection("users")

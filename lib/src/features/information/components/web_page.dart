@@ -37,59 +37,44 @@ class OurWebPageView extends StatelessWidget {
             },
           );
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            AppBar(
-              centerTitle: true,
-              leading: const RegularBackButton(padding: 0),
-              title: AutoSizeText(
-                'accountTitle1'.tr,
-                maxLines: 1,
-              ),
-              titleTextStyle: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
-              elevation: 0,
-              backgroundColor: Colors.grey.shade100,
-            ),
-            Expanded(
-              child: Stack(
-                children: [
-                  InAppWebView(
-                    key: webViewKey,
-                    initialUrlRequest:
-                        URLRequest(url: WebUri("https://goambulance.help")),
-                    initialSettings: settings,
-                    pullToRefreshController: pullToRefreshController,
-                    onWebViewCreated: (controller) {
-                      webViewController = controller;
-                    },
-                    onPermissionRequest: (controller, request) async {
-                      return PermissionResponse(
-                          resources: request.resources,
-                          action: PermissionResponseAction.GRANT);
-                    },
-                    onReceivedError: (controller, request, error) {
-                      pullToRefreshController?.endRefreshing();
-                    },
-                    onProgressChanged: (controller, progress) {
-                      if (progress == 100) {
-                        pullToRefreshController?.endRefreshing();
-                      }
-                    },
-                    onConsoleMessage: (controller, consoleMessage) {
-                      if (kDebugMode) {
-                        print(consoleMessage);
-                      }
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ],
+      appBar: AppBar(
+        centerTitle: true,
+        leading: const RegularBackButton(padding: 0),
+        title: AutoSizeText(
+          'aboutUsTitle4'.tr,
+          maxLines: 1,
         ),
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
+      body: InAppWebView(
+        key: webViewKey,
+        initialUrlRequest: URLRequest(url: WebUri("https://goambulance.help")),
+        initialSettings: settings,
+        pullToRefreshController: pullToRefreshController,
+        onWebViewCreated: (controller) {
+          webViewController = controller;
+        },
+        onPermissionRequest: (controller, request) async {
+          return PermissionResponse(
+              resources: request.resources,
+              action: PermissionResponseAction.GRANT);
+        },
+        onReceivedError: (controller, request, error) {
+          pullToRefreshController?.endRefreshing();
+        },
+        onProgressChanged: (controller, progress) {
+          if (progress == 100) {
+            pullToRefreshController?.endRefreshing();
+          }
+        },
+        onConsoleMessage: (controller, consoleMessage) {
+          if (kDebugMode) {
+            print(consoleMessage);
+          }
+        },
       ),
     );
   }

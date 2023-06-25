@@ -54,6 +54,7 @@ class SosMessageController extends GetxController {
     contactNameTextController.addListener(() {
       contactName.value = contactNameTextController.text.trim();
     });
+    handleSmsPermission();
   }
 
   void loadSosMsgData() async {

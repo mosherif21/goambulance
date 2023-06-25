@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sms/flutter_sms.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -113,6 +114,29 @@ void logoutDialogue() => displayAlertDialog(
       mainIcon: Icons.logout,
       color: SweetSheetColor.DANGER,
     );
+
+void sendSmsToUserContacts({required String sosMessage}) async {
+  final smsPermissionGranted = await Permission.sms.status.isGranted;
+  if (smsPermissionGranted) {
+    final contactsList =
+        await FirebasePatientDataAccess.instance.getEmergencyContacts();
+    final contactNumbersList = <String>[];
+    for (var contact in contactsList) {
+      contactNumbersList.add(contact.contactNumber);
+    }
+    try {
+      sendSMS(
+        message: sosMessage,
+        recipients: contactNumbersList,
+        sendDirect: true,
+      );
+    } catch (err) {
+      if (kDebugMode) {
+        print(err.toString());
+      }
+    }
+  }
+}
 
 Future<void> logout() async {
   showLoadingScreen();

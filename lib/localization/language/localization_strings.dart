@@ -613,7 +613,7 @@ class Languages extends Translations {
               'Email and password account linked successfully',
           'sosRequest': 'SOS Request',
           'services': 'Services',
-          'recentRequests': 'Recent requests',
+          'recentRequests': 'Previous requests',
           'firstAidTips': 'First aid tips',
           'firstAid': 'First Aid',
           'emergencyNumbers': 'Emergency Numbers',

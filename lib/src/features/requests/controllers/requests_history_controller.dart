@@ -199,19 +199,20 @@ class RequestsHistoryController extends GetxController {
     }
   }
 
-  void onRequestSelected({required RequestHistoryModel requestModel}) async {
+  void onRequestSelected(
+      {required RequestHistoryModel initialRequestModel}) async {
     if (kDebugMode) {
-      AppInit.logger.i('known status: ${requestModel.requestStatus}');
+      AppInit.logger.i('known status: ${initialRequestModel.requestStatus}');
     }
-    final initialKnownStatus = requestModel.requestStatus;
-    if (requestModel.requestStatus == RequestStatus.completed ||
-        requestModel.requestStatus == RequestStatus.canceled) {
-      Get.to(() => RequestDetailsPage(requestModel: requestModel),
+    final initialKnownStatus = initialRequestModel.requestStatus;
+    if (initialRequestModel.requestStatus == RequestStatus.completed ||
+        initialRequestModel.requestStatus == RequestStatus.canceled) {
+      Get.to(() => RequestDetailsPage(requestModel: initialRequestModel),
           transition: getPageTransition());
     } else {
       showLoadingScreen();
       final latestRequestModel = await firebasePatientDataAccess
-          .getRequestStatus(requestModel: requestModel);
+          .getRequestStatus(requestModel: initialRequestModel);
       hideLoadingScreen();
       if (latestRequestModel != null) {
         final requestStatus = latestRequestModel.requestStatus;
@@ -222,13 +223,14 @@ class RequestsHistoryController extends GetxController {
             requestStatus == RequestStatus.accepted ||
             requestStatus == RequestStatus.assigned ||
             requestStatus == RequestStatus.ongoing) {
-          Get.to(() => TrackingRequestPage(requestModel: requestModel),
+          Get.to(() => TrackingRequestPage(requestModel: latestRequestModel),
               transition: getPageTransition());
         } else {
-          Get.to(() => RequestDetailsPage(requestModel: requestModel),
+          Get.to(() => RequestDetailsPage(requestModel: latestRequestModel),
               transition: getPageTransition());
         }
-        if (initialKnownStatus != requestStatus) {
+        if (initialKnownStatus != requestStatus ||
+            latestRequestModel.hospitalId != initialRequestModel.hospitalId) {
           getRequestsHistory();
         }
       } else {

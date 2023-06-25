@@ -926,6 +926,7 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
+  //(reminder for me) remember to modify to return all the latest request model data
   Future<RequestHistoryModel?> getRequestStatus(
       {required RequestHistoryModel requestModel}) async {
     try {

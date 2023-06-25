@@ -111,18 +111,20 @@ class PreviousRequestsPage extends StatelessWidget {
                                                 ? OngoingRequestItem(
                                                     onPressed: () => controller
                                                         .onRequestSelected(
-                                                            requestModel: controller
-                                                                    .requestsList[
-                                                                index]),
+                                                            initialRequestModel:
+                                                                controller
+                                                                        .requestsList[
+                                                                    index]),
                                                     requestInfo: controller
                                                         .requestsList[index],
                                                   )
                                                 : RequestItem(
                                                     onPressed: () => controller
                                                         .onRequestSelected(
-                                                            requestModel: controller
-                                                                    .requestsList[
-                                                                index]),
+                                                            initialRequestModel:
+                                                                controller
+                                                                        .requestsList[
+                                                                    index]),
                                                     requestInfo: controller
                                                         .requestsList[index],
                                                   ),

@@ -421,9 +421,9 @@ class Languages extends Translations {
           'sosRequestHospitalCanceled': 'تم إلغاء طلب الاستغاثة لهذه المستشفى',
           'sosCancelReturn': 'تم إلغاء هذا الطلب ونحن نبحث عن مستشفى آخرى',
           'sosSmsMsg':
-              'قام @patientName بارسال طلب أستغاثة. يرجى استخدام الرابط التالي لتتبع الطلب: @trackingLink. شكرًا لك.',
+              'قام @patientName بارسال طلب أستغاثة. لتتبع الطلب: @trackingLink. شكرًا لك.',
           'normalSmsMsg':
-              'تقدم @patientName بطلب لإسعاف. يرجى استخدام الرابط التالي لتتبع الطلب: @trackingLink. شكرًا لك.',
+              'تقدم @patientName بطلب لإسعاف. لتتبع الطلب: @trackingLink. شكرًا لك.',
         },
         'en_US': {
           'sosCancelReturn':
@@ -762,9 +762,9 @@ class Languages extends Translations {
           'pickBloodType': 'Select blood type',
           'askDiabetic': '@ask diabetic?',
           'sosSmsMsg':
-              '@patientName has made an SOS request. Please use the following link to track the request: @trackingLink. Thank you.',
+              '@patientName has made an SOS request. Track the request: @trackingLink. Thank you.',
           'normalSmsMsg':
-              '@patientName has requested an ambulance. Please use the following link to track the request: @trackingLink. Thank you.',
+              '@patientName has requested an ambulance. Track the request: @trackingLink. Thank you.',
           'askHeartPatient': '@ask a heart patient?',
           'askHypertensivePatient': '@ask a hypertensive patient?',
           'chooseHisBloodType': 'Please choose his/hers blood type',

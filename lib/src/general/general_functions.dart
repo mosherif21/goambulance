@@ -136,13 +136,14 @@ void sendRequestSms(
               'patientName': patientName,
               'trackingLink': trackingLink,
             });
+
       try {
         for (var contact in contactsList) {
           SmsStatus result = await BackgroundSms.sendMessage(
               phoneNumber: contact.contactNumber, message: sosMessage);
           if (kDebugMode) {
             if (result == SmsStatus.sent) {
-              print("SMS sent");
+              print("SMS sent with body: $sosMessage");
             } else {
               print("SMS failed");
             }

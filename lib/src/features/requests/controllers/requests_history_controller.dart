@@ -233,20 +233,22 @@ class RequestsHistoryController extends GetxController {
             latestRequestStatus == RequestStatus.accepted ||
             latestRequestStatus == RequestStatus.assigned ||
             latestRequestStatus == RequestStatus.ongoing) {
-          Get.to(() => TrackingRequestPage(requestModel: latestRequestModel),
+          await Get.to(
+              () => TrackingRequestPage(requestModel: latestRequestModel),
               transition: getPageTransition());
-        } else {
-          Get.to(() => RequestDetailsPage(requestModel: latestRequestModel),
-              transition: getPageTransition());
-        }
-        if (initialKnownStatus != latestRequestStatus) {
-          // latestRequestModel.hospitalId != initialRequestModel.hospitalId) {
           getRequestsHistory();
+        } else {
+          await Get.to(
+              () => RequestDetailsPage(requestModel: latestRequestModel),
+              transition: getPageTransition());
+          if (initialKnownStatus != latestRequestStatus) {
+            getRequestsHistory();
+          }
         }
       } else {
         if (initialRequestModel.patientCondition == 'sosRequest') {
           showSnackBar(
-              text: 'sosRequestHospitalMaybeCanceled'.tr,
+              text: 'sosRequestHospitalCanceled'.tr,
               snackBarType: SnackBarType.error);
           getRequestsHistory();
         } else {

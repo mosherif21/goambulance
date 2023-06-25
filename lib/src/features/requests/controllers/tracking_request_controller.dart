@@ -147,9 +147,14 @@ class TrackingRequestController extends GetxController {
             if (snapshot.exists) {
               assignedRequestChanges();
             } else {
-              onRequestCanceledChanges();
-              showSnackBar(
-                  text: 'requestCanceled'.tr, snackBarType: SnackBarType.info);
+              if (initialRequestModel.patientCondition == 'sosRequest') {
+                Get.back(result: RequestStatus.canceled);
+              } else {
+                onRequestCanceledChanges();
+                showSnackBar(
+                    text: 'requestCanceled'.tr,
+                    snackBarType: SnackBarType.info);
+              }
             }
           });
         }

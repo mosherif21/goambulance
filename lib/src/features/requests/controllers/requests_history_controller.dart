@@ -233,9 +233,13 @@ class RequestsHistoryController extends GetxController {
             latestRequestStatus == RequestStatus.accepted ||
             latestRequestStatus == RequestStatus.assigned ||
             latestRequestStatus == RequestStatus.ongoing) {
-          await Get.to(
+          final result = await Get.to(
               () => TrackingRequestPage(requestModel: latestRequestModel),
               transition: getPageTransition());
+          if (result == 'sosCancelReturn') {
+            showSnackBar(
+                text: 'sosCancelReturn'.tr, snackBarType: SnackBarType.error);
+          }
           getRequestsHistory();
         } else {
           await Get.to(

@@ -419,8 +419,11 @@ class Languages extends Translations {
           'shakeToSos': 'تمكين اهتزاز الجهاز لإرسال طلب استغاثة',
           'failedToChangeSetting': 'فشل تغيير الإعداد ، يرجى المحاولة مرة أخرى',
           'sosRequestHospitalCanceled': 'تم إلغاء طلب الاستغاثة لهذه المستشفى',
+          'sosCancelReturn': 'تم إلغاء هذا الطلب ونحن نبحث عن مستشفى آخرى',
         },
         'en_US': {
+          'sosCancelReturn':
+              'This request was canceled we are searching for another hospital',
           'sosRequestHospitalCanceled':
               'The SOS request to this hospital have been canceled',
           'failedToChangeSetting': 'Failed to change setting, please try again',

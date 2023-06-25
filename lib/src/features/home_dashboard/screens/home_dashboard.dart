@@ -8,7 +8,6 @@ import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:photo_view/photo_view.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../general/common_widgets/labeled_image.dart';
 import '../../../general/common_widgets/text_header_with_button.dart';
@@ -76,7 +75,7 @@ class HomeDashBoard extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 30),
+          padding: const EdgeInsets.only(left: 10.0, right: 10.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
@@ -152,21 +151,22 @@ class HomeDashBoard extends StatelessWidget {
                           },
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: SmoothPageIndicator(
-                            controller: controller,
-                            count: 5,
-                            effect: const WormEffect(
-                              dotHeight: 12,
-                              dotWidth: 12,
-                              activeDotColor: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
+                      const SizedBox(height: 10),
+                      // Padding(
+                      //   padding: const EdgeInsets.all(8),
+                      //   child: Align(
+                      //     alignment: Alignment.center,
+                      //     child: SmoothPageIndicator(
+                      //       controller: controller,
+                      //       count: 5,
+                      //       effect: const WormEffect(
+                      //         dotHeight: 12,
+                      //         dotWidth: 12,
+                      //         activeDotColor: Colors.black,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

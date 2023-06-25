@@ -34,7 +34,7 @@ class PreviousRequestsPage extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 30),
+          padding: const EdgeInsets.only(left: 15.0, right: 15.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: Column(
@@ -84,7 +84,9 @@ class PreviousRequestsPage extends StatelessWidget {
                                 child: ListView.builder(
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    if (controller.requestsList.isNotEmpty) {
+                                    if (index !=
+                                            controller.requestsList.length &&
+                                        controller.requestsList.isNotEmpty) {
                                       final requestStatus = controller
                                           .requestsList[index].requestStatus;
                                       final ongoingRequest = requestStatus ==
@@ -128,11 +130,15 @@ class PreviousRequestsPage extends StatelessWidget {
                                           ),
                                         ),
                                       );
+                                    } else if (index ==
+                                            controller.requestsList.length &&
+                                        controller.requestsList.isNotEmpty) {
+                                      return const SizedBox(height: 20);
                                     } else {
                                       return const EmptyRequestsHistory();
                                     }
                                   },
-                                  itemCount: controller.requestsList.length,
+                                  itemCount: controller.requestsList.length + 1,
                                   shrinkWrap: true,
                                 ),
                               ),

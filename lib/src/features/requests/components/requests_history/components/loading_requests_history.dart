@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:line_icons/line_icon.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../general/general_functions.dart';
-
 class LoadingRequestsHistory extends StatelessWidget {
   const LoadingRequestsHistory({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = getScreenHeight(context);
     return ListView.builder(
       itemBuilder: (context, index) => index != 5
           ? Shimmer.fromColors(
@@ -155,7 +152,7 @@ class LoadingRequestsHistory extends StatelessWidget {
                       ),
               ),
             )
-          : SizedBox(height: screenHeight * 0.08),
+          : const SizedBox(height: 5),
       padding: EdgeInsets.zero,
       shrinkWrap: true,
       itemCount: 6,

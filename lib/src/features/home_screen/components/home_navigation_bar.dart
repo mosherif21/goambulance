@@ -2,7 +2,6 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../constants/colors.dart';
 import '../../account/screens/account_screen.dart';
 import '../../chat_bot/screens/chat_bot_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
@@ -29,8 +28,8 @@ class HomeNavigationBar extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 15),
           child: CustomNavigationBar(
             iconSize: 30.0,
-            selectedColor: kDefaultColor,
-            strokeColor: kDefaultColorLessShade,
+            selectedColor: Colors.black,
+            strokeColor: Colors.black38,
             unSelectedColor: Colors.grey[600],
             backgroundColor: Colors.white,
             elevation: 5,
@@ -40,7 +39,7 @@ class HomeNavigationBar extends StatelessWidget {
                 icon: const Icon(Icons.home_filled),
               ),
               CustomNavigationBarItem(
-                icon: const Icon(Icons.chat),
+                icon: const Icon(Icons.message_outlined),
               ),
               CustomNavigationBarItem(
                 icon: const Icon(Icons.history_outlined),

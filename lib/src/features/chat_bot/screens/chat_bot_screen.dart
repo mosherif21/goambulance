@@ -22,7 +22,7 @@ class ChatBotScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: const SafeArea(
         child: Padding(
-          padding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+          padding: EdgeInsets.only(left: 20.0, right: 20.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(

@@ -39,7 +39,7 @@ class AccountScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 30.0),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
@@ -162,6 +162,13 @@ class AccountScreen extends StatelessWidget {
                       enabled: true,
                     ),
                   ),
+                  RoundedElevatedButton(
+                    buttonText: 'logout'.tr,
+                    onPressed: () => logoutDialogue(),
+                    enabled: true,
+                    color: Colors.red,
+                  ),
+                  const SizedBox(height: 10),
                   // Obx(
                   //   () => authRepo.isFacebookLinked.value
                   //       ? const SizedBox.shrink()
@@ -174,12 +181,6 @@ class AccountScreen extends StatelessWidget {
                   //           enabled: true,
                   //         ),
                   // ),
-                  RoundedElevatedButton(
-                    buttonText: 'logout'.tr,
-                    onPressed: () => logoutDialogue(),
-                    enabled: true,
-                    color: Colors.red,
-                  ),
                 ],
               ),
             ),

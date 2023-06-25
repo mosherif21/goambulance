@@ -414,7 +414,7 @@ class TrackingRequestController extends GetxController {
           backupNumber: initialRequestModel.backupNumber,
           medicalHistory: initialRequestModel.medicalHistory,
         ),
-        timestamp: initialRequestModel.timeStamp,
+        timestamp: initialRequestModel.timestamp,
         requestLocation: GeoPoint(initialRequestModel.requestLocation.latitude,
             initialRequestModel.requestLocation.longitude),
         requestRef: pendingRequestRef,

@@ -234,8 +234,15 @@ class RequestsHistoryController extends GetxController {
           getRequestsHistory();
         }
       } else {
-        showSnackBar(
-            text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
+        if (initialRequestModel.patientCondition == 'sosRequest') {
+          showSnackBar(
+              text: 'sosRequestHospitalCanceled'.tr,
+              snackBarType: SnackBarType.error);
+          getRequestsHistory();
+        } else {
+          showSnackBar(
+              text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
+        }
       }
     }
   }

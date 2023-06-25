@@ -429,7 +429,7 @@ class FirebasePatientDataAccess extends GetxController {
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
           final requestModel = RequestHistoryModel(
             requestId: pendingDoc.id,
-            timeStamp: timeStamp,
+            timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
             requestLocation: requestLocation,
             userId: pendingRequestDocument['userId'].toString(),
@@ -470,7 +470,7 @@ class FirebasePatientDataAccess extends GetxController {
           final status = assignedRequestDocument['status'].toString();
           final requestModel = RequestHistoryModel(
             requestId: assignedDoc.id,
-            timeStamp: timeStamp,
+            timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
             requestLocation: requestLocation,
             userId: assignedRequestDocument['userId'].toString(),
@@ -516,7 +516,7 @@ class FirebasePatientDataAccess extends GetxController {
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
           final requestModel = RequestHistoryModel(
             requestId: completedDoc.id,
-            timeStamp: timeStamp,
+            timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
             requestLocation: requestLocation,
             userId: completedRequestDocument['userId'].toString(),
@@ -560,7 +560,7 @@ class FirebasePatientDataAccess extends GetxController {
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
           final requestModel = RequestHistoryModel(
             requestId: canceledDoc.id,
-            timeStamp: timeStamp,
+            timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
             requestLocation: requestLocation,
             userId: canceledRequestDocument['userId'].toString(),
@@ -578,7 +578,7 @@ class FirebasePatientDataAccess extends GetxController {
         }
       }
       // Sort the list by timestamp
-      readRequestsHistory.sort((a, b) => b.timeStamp.compareTo(a.timeStamp));
+      readRequestsHistory.sort((a, b) => b.timestamp.compareTo(a.timestamp));
       return readRequestsHistory;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -939,6 +939,19 @@ class FirebasePatientDataAccess extends GetxController {
             .get();
         if (snapshot.exists) {
           final status = snapshot.data()!['status'].toString();
+          final hospitalGeohash =
+              snapshot.data()!['hospitalGeohash'].toString();
+          final hospitalId = snapshot.data()!['hospitalId'].toString();
+          final hospitalLocation =
+              snapshot.data()!['hospitalLocation'] as GeoPoint;
+          final hospitalName = snapshot.data()!['hospitalName'].toString();
+          final timestamp = snapshot.data()!['timestamp'] as Timestamp;
+          requestModel.hospitalId = hospitalId;
+          requestModel.hospitalGeohash = hospitalGeohash;
+          requestModel.hospitalLocation =
+              LatLng(hospitalLocation.latitude, hospitalLocation.longitude);
+          requestModel.hospitalName = hospitalName;
+          requestModel.timestamp = timestamp;
           if (!requestModel.isUser) {
             final diseasesRef = fireStore
                 .collection('pendingRequests')
@@ -980,6 +993,19 @@ class FirebasePatientDataAccess extends GetxController {
               .doc(requestModel.requestId)
               .get();
           if (snapshot.exists) {
+            final hospitalGeohash =
+                snapshot.data()!['hospitalGeohash'].toString();
+            final hospitalId = snapshot.data()!['hospitalId'].toString();
+            final hospitalLocation =
+                snapshot.data()!['hospitalLocation'] as GeoPoint;
+            final hospitalName = snapshot.data()!['hospitalName'].toString();
+            final timestamp = snapshot.data()!['timestamp'] as Timestamp;
+            requestModel.hospitalId = hospitalId;
+            requestModel.hospitalGeohash = hospitalGeohash;
+            requestModel.hospitalLocation =
+                LatLng(hospitalLocation.latitude, hospitalLocation.longitude);
+            requestModel.hospitalName = hospitalName;
+            requestModel.timestamp = timestamp;
             if (initialRequestStatus != RequestStatus.canceled) {
               requestModel.requestStatus = RequestStatus.canceled;
               requestModel.cancelReason =
@@ -998,8 +1024,19 @@ class FirebasePatientDataAccess extends GetxController {
             .doc(requestModel.requestId)
             .get();
         if (snapshot.exists) {
-          final status = snapshot.data()!['status'].toString();
           final snapData = snapshot.data()!;
+          final status = snapData['status'].toString();
+          final hospitalGeohash = snapData['hospitalGeohash'].toString();
+          final hospitalId = snapData['hospitalId'].toString();
+          final hospitalLocation = snapData['hospitalLocation'] as GeoPoint;
+          final hospitalName = snapData['hospitalName'].toString();
+          final timestamp = snapData['timestamp'] as Timestamp;
+          requestModel.hospitalId = hospitalId;
+          requestModel.hospitalGeohash = hospitalGeohash;
+          requestModel.hospitalLocation =
+              LatLng(hospitalLocation.latitude, hospitalLocation.longitude);
+          requestModel.hospitalName = hospitalName;
+          requestModel.timestamp = timestamp;
           requestModel.ambulanceDriverID =
               snapData['ambulanceDriverID'].toString();
           requestModel.ambulanceCarID = snapData['ambulanceCarID'].toString();
@@ -1024,12 +1061,12 @@ class FirebasePatientDataAccess extends GetxController {
               }
             });
             final medicalHistory = MedicalHistoryModel(
-              bloodType: snapshot.data()!['bloodType'].toString(),
-              diabetic: snapshot.data()!['diabetic'].toString(),
-              hypertensive: snapshot.data()!['hypertensive'].toString(),
-              heartPatient: snapshot.data()!['heartPatient'].toString(),
+              bloodType: snapData['bloodType'].toString(),
+              diabetic: snapData['diabetic'].toString(),
+              hypertensive: snapData['hypertensive'].toString(),
+              heartPatient: snapData['heartPatient'].toString(),
               medicalAdditionalInfo:
-                  snapshot.data()!['additionalInformation'].toString(),
+                  snapData['additionalInformation'].toString(),
               diseasesList: diseasesList,
             );
             requestModel.medicalHistory = medicalHistory;
@@ -1046,11 +1083,41 @@ class FirebasePatientDataAccess extends GetxController {
               .doc(requestModel.requestId)
               .get();
           if (snapshot.exists) {
+            final snapData = snapshot.data()!;
+            final hospitalGeohash = snapData['hospitalGeohash'].toString();
+            final hospitalId = snapData['hospitalId'].toString();
+            final hospitalLocation = snapData['hospitalLocation'] as GeoPoint;
+            final hospitalName = snapData['hospitalName'].toString();
+            final timestamp = snapData['timestamp'] as Timestamp;
+            requestModel.hospitalId = hospitalId;
+            requestModel.hospitalGeohash = hospitalGeohash;
+            requestModel.hospitalLocation =
+                LatLng(hospitalLocation.latitude, hospitalLocation.longitude);
+            requestModel.hospitalName = hospitalName;
+            requestModel.timestamp = timestamp;
             requestModel.requestStatus = RequestStatus.canceled;
             requestModel.cancelReason =
                 snapshot.data()!['cancelReason'].toString();
           } else {
-            requestModel.requestStatus = RequestStatus.completed;
+            final snapshot = await fireStore
+                .collection('completedRequests')
+                .doc(requestModel.requestId)
+                .get();
+            if (snapshot.exists) {
+              final snapData = snapshot.data()!;
+              final hospitalGeohash = snapData['hospitalGeohash'].toString();
+              final hospitalId = snapData['hospitalId'].toString();
+              final hospitalLocation = snapData['hospitalLocation'] as GeoPoint;
+              final hospitalName = snapData['hospitalName'].toString();
+              final timestamp = snapData['timestamp'] as Timestamp;
+              requestModel.hospitalId = hospitalId;
+              requestModel.hospitalGeohash = hospitalGeohash;
+              requestModel.hospitalLocation =
+                  LatLng(hospitalLocation.latitude, hospitalLocation.longitude);
+              requestModel.hospitalName = hospitalName;
+              requestModel.timestamp = timestamp;
+              requestModel.requestStatus = RequestStatus.completed;
+            }
           }
           return requestModel;
         }

@@ -18,8 +18,8 @@ class StaticMarkerModel {
 class RequestHistoryModel {
   final String requestId;
   final String userId;
-  final String hospitalId;
-  final String hospitalName;
+  String hospitalId;
+  String hospitalName;
   final String backupNumber;
   final String patientCondition;
   RxString mapUrl = ''.obs;
@@ -27,8 +27,8 @@ class RequestHistoryModel {
   RequestStatus requestStatus;
   final bool isUser;
   final LatLng requestLocation;
-  final LatLng hospitalLocation;
-  final Timestamp timeStamp;
+  LatLng hospitalLocation;
+  Timestamp timestamp;
   String? cancelReason;
   String? ambulanceCarID;
   String? ambulanceDriverID;
@@ -42,7 +42,7 @@ class RequestHistoryModel {
     required this.patientCondition,
     required this.isUser,
     required this.hospitalId,
-    required this.timeStamp,
+    required this.timestamp,
     required this.hospitalName,
     required this.requestDateTime,
     required this.requestStatus,

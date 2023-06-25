@@ -336,8 +336,10 @@ class EditUserDataPage extends StatelessWidget {
                             headerText: 'enterBackupPhoneNo'.tr, fontSize: 18),
                         const SizedBox(height: 5.0),
                         IntlPhoneField(
-                          initialValue:
-                              controller.userInfo.backupNumber.substring(3),
+                          initialValue: controller
+                                  .userInfo.backupNumber.isNotEmpty
+                              ? controller.userInfo.backupNumber.substring(3)
+                              : '',
                           decoration: InputDecoration(
                             labelText: 'phoneLabel'.tr,
                             hintText: 'phoneFieldLabel'.tr,

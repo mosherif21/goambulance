@@ -112,6 +112,7 @@ class EditUserDataController extends GetxController {
     birthDateController.displayDate = birthDate;
     birthDateController.selectedDate =
         DateTime(birthDate.year, birthDate.month, birthDate.day);
+    backupPhoneNo = userInfo.backupNumber;
     super.onReady();
   }
 

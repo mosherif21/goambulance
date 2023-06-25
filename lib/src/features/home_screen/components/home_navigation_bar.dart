@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../constants/colors.dart';
 import '../../account/screens/account_screen.dart';
-import '../../chatbot/screens/chatbot_screen.dart';
+import '../../chat_bot/screens/chat_bot_screen.dart';
 import '../../home_dashboard/screens/home_dashboard.dart';
 import '../../requests/screens/previous_requests_page.dart';
 import '../controllers/home_screen_controller.dart';
@@ -56,40 +56,5 @@ class HomeNavigationBar extends StatelessWidget {
         ),
       ),
     );
-
-    //   PersistentTabView(
-    //   context,
-    //   margin: const EdgeInsets.all(15),
-    //   bottomScreenMargin: 0,
-    //   controller: homeScreenController.homeBottomNavController,
-    //   screens: homeScreenController.buildScreens(),
-    //   items: homeScreenController.navBarsItems(),
-    //   confineInSafeArea: true,
-    //   backgroundColor: Colors.white,
-    //   resizeToAvoidBottomInset: true,
-    //   stateManagement: false,
-    //   hideNavigationBarWhenKeyboardShows: true,
-    //   decoration: NavBarDecoration(
-    //     borderRadius: BorderRadius.circular(20.0),
-    //     colorBehindNavBar: Colors.grey.shade100,
-    //     boxShadow: [
-    //       BoxShadow(
-    //         color: Colors.grey.shade300, //New
-    //         blurRadius: 7,
-    //       )
-    //     ],
-    //   ),
-    //   popAllScreensOnTapOfSelectedTab: true,
-    //   popActionScreens: PopActionScreensType.all,
-    //   itemAnimationProperties: const ItemAnimationProperties(
-    //     duration: Duration(milliseconds: 100),
-    //     curve: Curves.ease,
-    //   ),
-    //   screenTransitionAnimation: const ScreenTransitionAnimation(
-    //     animateTabTransition: false,
-    //     curve: Curves.easeIn,
-    //   ),
-    //   navBarStyle: NavBarStyle.style6,
-    // );
   }
 }

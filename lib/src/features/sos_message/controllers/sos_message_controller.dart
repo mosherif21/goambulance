@@ -134,6 +134,7 @@ class SosMessageController extends GetxController {
   void onSaveSosMessageClick() async {
     showLoadingScreen();
     await saveSosMessage(displaySnackBar: true);
+    FocusManager.instance.primaryFocus?.unfocus();
     hideLoadingScreen();
   }
 

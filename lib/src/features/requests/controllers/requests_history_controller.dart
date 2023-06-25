@@ -59,13 +59,6 @@ class RequestsHistoryController extends GetxController {
           .listen((QuerySnapshot snapshot) {
         if (snapshot.docs.isNotEmpty) {
           hasSosRequest.value = true;
-          Future.delayed(const Duration(seconds: 1)).whenComplete(() {
-            if (hasSosRequest.value &&
-                HomeScreenController.instance.homeBottomNavController.index ==
-                    1) {
-              getRequestsHistory();
-            }
-          });
         } else {
           if (hasSosRequest.value) {
             Future.delayed(const Duration(seconds: 1)).whenComplete(() {
@@ -252,15 +245,15 @@ class RequestsHistoryController extends GetxController {
           getRequestsHistory();
         }
       } else {
-        // if (initialRequestModel.patientCondition == 'sosRequest') {
-        //   showSnackBar(
-        //       text: 'sosRequestHospitalCanceled'.tr,
-        //       snackBarType: SnackBarType.error);
-        //   getRequestsHistory();
-        // } else {
-        showSnackBar(
-            text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
-        //   }
+        if (initialRequestModel.patientCondition == 'sosRequest') {
+          showSnackBar(
+              text: 'sosRequestHospitalMaybeCanceled'.tr,
+              snackBarType: SnackBarType.error);
+          getRequestsHistory();
+        } else {
+          showSnackBar(
+              text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
+        }
       }
     }
   }

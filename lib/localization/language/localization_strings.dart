@@ -419,11 +419,11 @@ class Languages extends Translations {
           'shakeToSos': 'تمكين اهتزاز الجهاز لإرسال طلب استغاثة',
           'failedToChangeSetting': 'فشل تغيير الإعداد ، يرجى المحاولة مرة أخرى',
           'sosRequestHospitalMaybeCanceled':
-              'ربما تم إلغاء طلب الاستغاثة لهذه المستشفى ونبحث عن مستشفى آخر',
+              'ربما تم إلغاء طلب الاستغاثة لهذه المستشفى ونحن نبحث عن مستشفى آخرى',
         },
         'en_US': {
           'sosRequestHospitalMaybeCanceled':
-              'SOS request to this hospital was maybe canceled and we are searching for another hospital',
+              'The SOS request to this hospital may have been canceled and we are searching for another hospital',
           'failedToChangeSetting': 'Failed to change setting, please try again',
           'sendSosSms': 'Send sms message to emergency contacts',
           'shakeToSos': 'Enable shake device to make an SOS request',

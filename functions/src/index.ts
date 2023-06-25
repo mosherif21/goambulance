@@ -41,56 +41,23 @@ exports.cancelTimedOutRequests = functions.pubsub
       const batch = firestore.batch();
 
       const docRef = doc.ref;
-      const hospitalDocRef = firestore.collection("hospitals").doc(hospitalId);
-      const patientDocRef = firestore.collection("users").doc(userId);
-
-      // Delete "diseases" subCollection within the "pendingRequests" document
-      const diseasesRef = docRef.collection("diseases");
-      const diseasesDocuments = await diseasesRef.listDocuments();
-
-      diseasesDocuments.forEach((document: admin.firestore.DocumentReference) => {
-        batch.delete(document);
-      });
-
+      if (!isUser) {
+        // Delete "diseases" subCollection within the "pendingRequests" document
+        const diseasesDocuments = await docRef.collection("diseases").listDocuments();
+        diseasesDocuments.forEach((document: admin.firestore.DocumentReference) => {
+          batch.delete(document);
+        });
+      }
       // Add original pendingRequests document deletion to the batch
       batch.delete(docRef);
 
       // Add hospital's pendingRequests document deletion to the batch
-      const hospitalPendingRef = hospitalDocRef.collection("pendingRequests").doc(requestId);
+      const hospitalPendingRef = firestore.collection("hospitals").doc(hospitalId).collection("pendingRequests").doc(requestId);
       batch.delete(hospitalPendingRef);
 
       // Add user's pendingRequests document deletion to the batch
-      const userPendingRef = patientDocRef.collection("pendingRequests").doc(requestId);
+      const userPendingRef = firestore.collection("users").doc(userId).collection("pendingRequests").doc(requestId);
       batch.delete(userPendingRef);
-      const canceledRequestRef = firestore
-        .collection("canceledRequests")
-        .doc(requestId);
-      batch.set(canceledRequestRef, {
-        requestLocation,
-        hospitalLocation,
-        hospitalName,
-        hospitalId,
-        isUser,
-        userId,
-        patientCondition,
-        timestamp,
-        backupNumber,
-        cancelReason: "timedOut",
-      });
-
-      const userCanceledRef = firestore
-        .collection("users")
-        .doc(userId)
-        .collection("canceledRequests")
-        .doc(requestId);
-      batch.set(userCanceledRef, {});
-
-      const hospitalCanceledRef = firestore
-        .collection("hospitals")
-        .doc(hospitalId)
-        .collection("canceledRequests")
-        .doc(requestId);
-      batch.set(hospitalCanceledRef, {});
 
       if (patientCondition === "sosRequest") {
         const sosRequestRef = firestore.collection("sosRequests").doc(requestId);
@@ -99,13 +66,41 @@ exports.cancelTimedOutRequests = functions.pubsub
           requestLocation: requestLocation,
           timestamp: admin.firestore.FieldValue.serverTimestamp(),
         });
-
         const blockedHospitalsDocuments = await docRef.collection('blockedHospitals').listDocuments();
         blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
           batch.set(sosRequestRef.collection('blockedHospitals').doc(document.id), {});
           batch.delete(document);
         });
         batch.set(sosRequestRef.collection('blockedHospitals').doc(hospitalGeohash), {});
+      } else {
+        const canceledRequestRef = firestore
+          .collection("canceledRequests")
+          .doc(requestId);
+        batch.set(canceledRequestRef, {
+          requestLocation,
+          hospitalLocation,
+          hospitalName,
+          hospitalId,
+          isUser,
+          userId,
+          patientCondition,
+          timestamp,
+          backupNumber,
+          cancelReason: "timedOut",
+        });
+        const userCanceledRef = firestore
+          .collection("users")
+          .doc(userId)
+          .collection("canceledRequests")
+          .doc(requestId);
+        batch.set(userCanceledRef, {});
+
+        const hospitalCanceledRef = firestore
+          .collection("hospitals")
+          .doc(hospitalId)
+          .collection("canceledRequests")
+          .doc(requestId);
+        batch.set(hospitalCanceledRef, {});
       }
       try {
         await batch.commit();

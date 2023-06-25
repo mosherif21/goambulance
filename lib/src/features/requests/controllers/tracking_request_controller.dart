@@ -148,7 +148,7 @@ class TrackingRequestController extends GetxController {
               assignedRequestChanges();
             } else {
               if (initialRequestModel.patientCondition == 'sosRequest') {
-                Get.back(result: RequestStatus.canceled);
+                Get.back();
               } else {
                 onRequestCanceledChanges();
                 showSnackBar(

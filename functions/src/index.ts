@@ -397,7 +397,7 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       break;
     case "sosRequestSent":
       notificationTitle = notificationsLang === "en" ? "SOS request sent" : "تم إرسال طلب الأستغاثة";
-      notificationBody = notificationsLang === "en" ? `Your SOS request was sent to ${hospitalName}` : `تم إرسال طلب النجدة الخاص بك إلى ${hospitalName}`;
+      notificationBody = notificationsLang === "en" ? `Your SOS request was sent to ${hospitalName}` : `تم إرسال طلب الأستغاثة الخاص بك إلى ${hospitalName}`;
       break;
     case "sosRequestTimedOut":
       notificationTitle = notificationsLang === "en" ? "SOS request timed out" : "انقضت مهلة طلب الأستغاثة";

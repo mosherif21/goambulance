@@ -14,19 +14,21 @@ class HomeNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
-    return Obx(
-      () => Scaffold(
-        body: homeScreenController.navBarIndex.value == 0
+    return Scaffold(
+      body: Obx(
+        () => homeScreenController.navBarIndex.value == 0
             ? const HomeDashBoard()
             : homeScreenController.navBarIndex.value == 1
                 ? const ChatBotScreen()
                 : homeScreenController.navBarIndex.value == 2
                     ? const PreviousRequestsPage()
                     : const AccountScreen(),
-        backgroundColor: Colors.grey.shade100,
-        bottomNavigationBar: Container(
-          padding: const EdgeInsets.only(bottom: 15),
-          child: CustomNavigationBar(
+      ),
+      backgroundColor: Colors.grey.shade100,
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.only(bottom: 15),
+        child: Obx(
+          () => CustomNavigationBar(
             iconSize: 30.0,
             selectedColor: Colors.black,
             strokeColor: Colors.black38,

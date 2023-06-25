@@ -23,7 +23,7 @@ class HomeDashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
-    final controller = PageController(viewportFraction: 0.8, keepPage: true);
+    final controller = PageController(viewportFraction: 0.9, keepPage: true);
     final sponsorPages = List.generate(
       5,
       (index) => Container(
@@ -142,7 +142,7 @@ class HomeDashBoard extends StatelessWidget {
                       const ServicesButtons(),
                       const SizedBox(height: 15),
                       SizedBox(
-                        height: 200,
+                        height: 230,
                         child: PageView.builder(
                           controller: controller,
                           //itemCount: pages.length,
@@ -152,21 +152,6 @@ class HomeDashBoard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      // Padding(
-                      //   padding: const EdgeInsets.all(8),
-                      //   child: Align(
-                      //     alignment: Alignment.center,
-                      //     child: SmoothPageIndicator(
-                      //       controller: controller,
-                      //       count: 5,
-                      //       effect: const WormEffect(
-                      //         dotHeight: 12,
-                      //         dotWidth: 12,
-                      //         activeDotColor: Colors.black,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                 ),

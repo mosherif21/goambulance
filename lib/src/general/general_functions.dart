@@ -116,23 +116,25 @@ void logoutDialogue() => displayAlertDialog(
     );
 
 void sendSmsToUserContacts({required String sosMessage}) async {
-  final smsPermissionGranted = await Permission.sms.status.isGranted;
-  if (smsPermissionGranted) {
-    final contactsList =
-        await FirebasePatientDataAccess.instance.getEmergencyContacts();
-    final contactNumbersList = <String>[];
-    for (var contact in contactsList) {
-      contactNumbersList.add(contact.contactNumber);
-    }
-    try {
-      sendSMS(
-        message: sosMessage,
-        recipients: contactNumbersList,
-        sendDirect: true,
-      );
-    } catch (err) {
-      if (kDebugMode) {
-        print(err.toString());
+  if (Get.isRegistered<FirebasePatientDataAccess>()) {
+    final smsPermissionGranted = await Permission.sms.status.isGranted;
+    if (smsPermissionGranted) {
+      final contactsList =
+          await FirebasePatientDataAccess.instance.getEmergencyContacts();
+      final contactNumbersList = <String>[];
+      for (var contact in contactsList) {
+        contactNumbersList.add(contact.contactNumber);
+      }
+      try {
+        sendSMS(
+          message: sosMessage,
+          recipients: contactNumbersList,
+          sendDirect: true,
+        );
+      } catch (err) {
+        if (kDebugMode) {
+          print(err.toString());
+        }
       }
     }
   }

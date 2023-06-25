@@ -21,13 +21,13 @@ class SosSettingsController extends GetxController {
   @override
   void onReady() async {
     if (homeScreenController.shakeForSosEnabled) {
-      shakePrimaryKey.currentState!.action();
+      shakePrimaryKey.currentState?.action();
     }
     if (homeScreenController.voiceForSosEnabled) {
-      voicePrimaryKey.currentState!.action();
+      voicePrimaryKey.currentState?.action();
     }
     if (homeScreenController.smsForSosEnabled) {
-      smsPrimaryKey.currentState!.action();
+      smsPrimaryKey.currentState?.action();
     }
   }
 
@@ -38,7 +38,7 @@ class SosSettingsController extends GetxController {
         : await homeScreenController.disableShakeToSos();
     hideLoadingScreen();
     if (functionStatus != FunctionStatus.success) {
-      shakePrimaryKey.currentState!.action();
+      shakePrimaryKey.currentState?.action();
       showSnackBar(
           text: 'failedToChangeSetting'.tr, snackBarType: SnackBarType.error);
     }
@@ -49,7 +49,7 @@ class SosSettingsController extends GetxController {
     final functionStatus = await homeScreenController.setVoiceToSos(set: state);
     hideLoadingScreen();
     if (functionStatus != FunctionStatus.success) {
-      voicePrimaryKey.currentState!.action();
+      voicePrimaryKey.currentState?.action();
       showSnackBar(
           text: 'failedToChangeSetting'.tr, snackBarType: SnackBarType.error);
     }
@@ -60,7 +60,7 @@ class SosSettingsController extends GetxController {
     final functionStatus = await homeScreenController.setSMSToSos(set: state);
     hideLoadingScreen();
     if (functionStatus != FunctionStatus.success) {
-      smsPrimaryKey.currentState!.action();
+      smsPrimaryKey.currentState?.action();
       showSnackBar(
           text: 'failedToChangeSetting'.tr, snackBarType: SnackBarType.error);
     }

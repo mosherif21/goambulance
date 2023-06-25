@@ -61,13 +61,13 @@ class EditMedicalHistoryController extends GetxController {
         hypertensivePatient = false;
       } else if (medicalInfo.hypertensive == 'Yes') {
         hypertensivePatient = true;
-        hypertensiveKey.currentState!.action();
+        hypertensiveKey.currentState?.action();
       }
       if (medicalInfo.heartPatient == 'No') {
         heartPatient = false;
       } else {
         heartPatient = true;
-        heartPatientKey.currentState!.action();
+        heartPatientKey.currentState?.action();
       }
       bloodTypeDropdownController.addListener(() {
         final bloodTypeValue = bloodTypeDropdownController.text.trim();

@@ -286,11 +286,12 @@ class NormalRequestScreen extends StatelessWidget {
                           children: [
                             const Spacer(),
                             CustomRollingSwitch(
+                              keyInternal: controller.sendSosPrimaryKey,
                               onText: 'yes'.tr,
                               offText: 'no'.tr,
                               onIcon: Icons.check,
                               offIcon: Icons.close,
-                              onSwitched: (bool state) => state,
+                              onSwitched: controller.onSendSosSwitched,
                             ),
                           ],
                         )

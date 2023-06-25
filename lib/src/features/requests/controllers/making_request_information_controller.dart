@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:rolling_switch/rolling_switch.dart';
 
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
@@ -31,6 +32,8 @@ class MakingRequestInformationController extends GetxController {
   final diabetesDropdownController = TextEditingController();
   final heartPatientDropdownController = TextEditingController();
   final bloodTypeDropdownController = TextEditingController();
+  bool sendSms = false;
+  final sendSosPrimaryKey = GlobalKey<RollingSwitchState>();
 
   @override
   void onReady() async {
@@ -117,7 +120,7 @@ class MakingRequestInformationController extends GetxController {
               medicalAdditionalInfo: additionalInformation,
               diseasesList: diseasesList,
             ),
-
+      sendSms: sendSms,
     );
   }
 
@@ -129,6 +132,18 @@ class MakingRequestInformationController extends GetxController {
       diseaseNameTextController.clear();
       medicinesTextController.clear();
       RegularBottomSheet.hideBottomSheet();
+    }
+  }
+
+  void onSendSosSwitched(bool state) async {
+    if (state) {
+      if (await handleSmsPermission()) {
+        sendSms = true;
+      } else {
+        sendSosPrimaryKey.currentState?.action();
+      }
+    } else {
+      sendSms = false;
     }
   }
 

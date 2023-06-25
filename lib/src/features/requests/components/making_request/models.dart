@@ -24,10 +24,12 @@ class RequestInfoModel {
   final String patientCondition;
   final String backupNumber;
   final MedicalHistoryModel? medicalHistory;
+  final bool? sendSms;
   RequestInfoModel({
     required this.isUser,
     required this.patientCondition,
     required this.backupNumber,
+    this.sendSms,
     this.medicalHistory,
   });
   Map<String, dynamic> toJson() => {

@@ -92,7 +92,9 @@ class MakingRequestLocationController extends GetxController {
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
   late final FirebaseFirestore _firestore;
+  late final AuthenticationRepository authenticationRepository;
   late final String userId;
+  late final String userName;
   late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       pendingRequestListener;
 
@@ -106,7 +108,9 @@ class MakingRequestLocationController extends GetxController {
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
-    userId = AuthenticationRepository.instance.fireUser.value!.uid;
+    authenticationRepository = AuthenticationRepository.instance;
+    userId = authenticationRepository.fireUser.value!.uid;
+    userName = authenticationRepository.userInfo.name;
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
     initMapController();
     await locationInit();
@@ -181,9 +185,18 @@ class MakingRequestLocationController extends GetxController {
           requestInfo: requestData);
 
       if (functionStatus == FunctionStatus.success) {
+        if (requestInfo.sendSms!) {
+          sendRequestSms(
+              requestId: pendingRequestRef.id,
+              patientName: userName,
+              sosSmsType: SosSmsType.normalRequestSMS);
+        }
         currentRequestData = requestData;
         requestStatus.value = RequestStatus.pending;
         initRequestListener(pendingRequestRef: pendingRequestRef);
+      } else {
+        showSnackBar(
+            text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
       }
       hideLoadingScreen();
     }

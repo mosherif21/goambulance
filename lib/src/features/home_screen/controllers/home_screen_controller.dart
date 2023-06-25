@@ -14,7 +14,6 @@ import 'package:geolocator/geolocator.dart' as geolocator;
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/features/account/screens/account_screen.dart';
-import 'package:goambulance/src/features/payment/screens/payment_screen.dart';
 import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
 import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
 import 'package:line_icons/line_icon.dart';
@@ -436,31 +435,27 @@ class HomeScreenController extends GetxController {
     switch (index) {
       case 0:
         Get.to(
-          () => const TestNav1(),
-          // () => const PaymentScreen(),
-          transition: getPageTransition(),
-        );
-        break;
-      case 1:
-        Get.to(
+          // () => const TestNav1(),
           () => const NotificationsScreen(),
           transition: getPageTransition(),
         );
         break;
-      case 2:
+      case 1:
         displayChangeLang();
         break;
-      case 3:
+      case 2:
         Get.to(
           () => const HelpScreen(),
           transition: getPageTransition(),
         );
         break;
-      case 4:
+      case 3:
         Get.to(
           () => const AboutUsScreen(),
           transition: getPageTransition(),
         );
+        break;
+      default:
         break;
     }
   }

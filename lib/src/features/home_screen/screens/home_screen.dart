@@ -35,11 +35,10 @@ class HomeScreen extends StatelessWidget {
             controller: homeScreenController.zoomDrawerController,
             menuScreen: DrawerPage(
               [
-                MenuClass('payment'.tr, Icons.payment, 0),
-                MenuClass('notifications'.tr, Icons.notifications, 1),
-                MenuClass('lang'.tr, Icons.language, 2),
-                MenuClass('help'.tr, Icons.help, 3),
-                MenuClass('aboutUs'.tr, Icons.info_outline, 4),
+                MenuClass('notifications'.tr, Icons.notifications, 0),
+                MenuClass('lang'.tr, Icons.language, 1),
+                MenuClass('help'.tr, Icons.help, 2),
+                MenuClass('aboutUs'.tr, Icons.info_outline, 3),
               ],
               callback: (index) =>
                   homeScreenController.onDrawerItemSelected(index),

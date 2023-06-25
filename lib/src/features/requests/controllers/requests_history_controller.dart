@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/enums.dart';
+import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../constants/no_localization_strings.dart';
@@ -56,10 +57,26 @@ class RequestsHistoryController extends GetxController {
           .where('userId', isEqualTo: userId)
           .snapshots()
           .listen((QuerySnapshot snapshot) {
-        if (snapshot.docs.isEmpty) {
-          hasSosRequest.value = false;
-        } else {
+        if (snapshot.docs.isNotEmpty) {
           hasSosRequest.value = true;
+          Future.delayed(const Duration(seconds: 1)).whenComplete(() {
+            if (hasSosRequest.value &&
+                HomeScreenController.instance.homeBottomNavController.index ==
+                    1) {
+              getRequestsHistory();
+            }
+          });
+        } else {
+          if (hasSosRequest.value) {
+            Future.delayed(const Duration(seconds: 1)).whenComplete(() {
+              if (!hasSosRequest.value &&
+                  HomeScreenController.instance.homeBottomNavController.index ==
+                      1) {
+                getRequestsHistory();
+              }
+            });
+          }
+          hasSosRequest.value = false;
         }
       });
     } on FirebaseException catch (error) {
@@ -79,6 +96,7 @@ class RequestsHistoryController extends GetxController {
         await FirebasePatientDataAccess.instance.cancelSosRequest();
     hideLoadingScreen();
     if (functionStatus == FunctionStatus.success) {
+      hasSosRequest.value = false;
       showSnackBar(
           text: 'sosRequestCanceledSuccessfully'.tr,
           snackBarType: SnackBarType.success);
@@ -215,34 +233,34 @@ class RequestsHistoryController extends GetxController {
           .getRequestStatus(requestModel: initialRequestModel);
       hideLoadingScreen();
       if (latestRequestModel != null) {
-        final requestStatus = latestRequestModel.requestStatus;
+        final latestRequestStatus = latestRequestModel.requestStatus;
         if (kDebugMode) {
-          AppInit.logger.i('after check status: $requestStatus');
+          AppInit.logger.i('after check status: $latestRequestStatus');
         }
-        if (requestStatus == RequestStatus.pending ||
-            requestStatus == RequestStatus.accepted ||
-            requestStatus == RequestStatus.assigned ||
-            requestStatus == RequestStatus.ongoing) {
+        if (latestRequestStatus == RequestStatus.pending ||
+            latestRequestStatus == RequestStatus.accepted ||
+            latestRequestStatus == RequestStatus.assigned ||
+            latestRequestStatus == RequestStatus.ongoing) {
           Get.to(() => TrackingRequestPage(requestModel: latestRequestModel),
               transition: getPageTransition());
         } else {
           Get.to(() => RequestDetailsPage(requestModel: latestRequestModel),
               transition: getPageTransition());
         }
-        if (initialKnownStatus != requestStatus ||
-            latestRequestModel.hospitalId != initialRequestModel.hospitalId) {
+        if (initialKnownStatus != latestRequestStatus) {
+          // latestRequestModel.hospitalId != initialRequestModel.hospitalId) {
           getRequestsHistory();
         }
       } else {
-        if (initialRequestModel.patientCondition == 'sosRequest') {
-          showSnackBar(
-              text: 'sosRequestHospitalCanceled'.tr,
-              snackBarType: SnackBarType.error);
-          getRequestsHistory();
-        } else {
-          showSnackBar(
-              text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
-        }
+        // if (initialRequestModel.patientCondition == 'sosRequest') {
+        //   showSnackBar(
+        //       text: 'sosRequestHospitalCanceled'.tr,
+        //       snackBarType: SnackBarType.error);
+        //   getRequestsHistory();
+        // } else {
+        showSnackBar(
+            text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
+        //   }
       }
     }
   }

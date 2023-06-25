@@ -1117,9 +1117,9 @@ class FirebasePatientDataAccess extends GetxController {
               requestModel.hospitalName = hospitalName;
               requestModel.timestamp = timestamp;
               requestModel.requestStatus = RequestStatus.completed;
+              return requestModel;
             }
           }
-          return requestModel;
         }
       }
     } on FirebaseException catch (error) {

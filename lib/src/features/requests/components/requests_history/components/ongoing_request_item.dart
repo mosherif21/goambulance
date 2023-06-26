@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../../constants/enums.dart';
+import '../../../../../general/common_widgets/framed_text.dart';
 import '../models.dart';
 
 class OngoingRequestItem extends StatelessWidget {
@@ -123,6 +124,14 @@ class OngoingRequestItem extends StatelessWidget {
                                         : Colors.blue),
                                 maxLines: 1,
                               ),
+                              const SizedBox(width: 10),
+                              requestInfo.patientCondition == 'sosRequest'
+                                  ? FramedText(
+                                      text: 'sosRequest'.tr,
+                                      color: Colors.red,
+                                      fontSize: 15,
+                                    )
+                                  : const SizedBox.shrink(),
                             ],
                           ),
                         ],

@@ -44,8 +44,10 @@ class RequestsHistoryController extends GetxController {
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
     homeScreenController = HomeScreenController.instance;
     getRequestsHistory();
-    listenForSosRequest();
-    listenForSentSosRequests();
+    if (isUserCritical()) {
+      listenForSosRequest();
+      listenForSentSosRequests();
+    }
     super.onReady();
   }
 

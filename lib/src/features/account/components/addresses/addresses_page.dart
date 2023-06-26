@@ -74,7 +74,7 @@ class AccountAddressesPage extends StatelessWidget {
                     onPressed: () => Get.to(() => const AddressLocationPage(),
                         transition: getPageTransition()),
                     enabled: true,
-                    color: Colors.indigo,
+                    color: Colors.blueAccent,
                   ),
                   const SizedBox(height: 20),
                 ],

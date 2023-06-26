@@ -420,6 +420,10 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       notificationTitle = notificationsLang === "en" ? "SOS request timed out" : "انقضت مهلة طلب الأستغاثة";
       notificationBody = notificationsLang === "en" ? `Your SOS request sent to ${hospitalName} has timed out` : `انقضت مهلة طلب الأستغاثة الذي أرسلته إلى ${hospitalName}`;
       break;
+    case "ambulanceEmployeeAssigned":
+      notificationTitle = notificationsLang === "en" ? "Ambulance request assigned" : "تم تعيينك لطلب اسعاف";
+      notificationBody = notificationsLang === "en" ? "You have been assigned to an ambulance request" : "لقد تم تكليفك بطلب سيارة إسعاف";
+      break;
     default:
       console.error("Invalid notification type");
       response.status(400).send("Invalid notification type");

@@ -21,16 +21,20 @@ import '../components/tracking_request/components/tracking_request_page.dart';
 class RequestsHistoryController extends GetxController {
   static RequestsHistoryController get instance => Get.find();
 
-  final requestLoaded = false.obs;
+  final requestsLoaded = false.obs;
   final requestsList = <RequestHistoryModel>[].obs;
   late final String userId;
   late final DocumentReference firestoreUserRef;
   late final FirebaseFirestore _firestore;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
+  late final HomeScreenController homeScreenController;
   final requestsRefreshController = RefreshController(initialRefresh: false);
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
       sosRequestSubscription;
+  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
+      sentSosRequestSubscription;
   final hasSosRequest = false.obs;
+  bool hasSentSosRequest = false;
 
   @override
   void onReady() {
@@ -38,8 +42,10 @@ class RequestsHistoryController extends GetxController {
     _firestore = FirebaseFirestore.instance;
     firestoreUserRef = _firestore.collection('users').doc(userId);
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
+    homeScreenController = HomeScreenController.instance;
     getRequestsHistory();
     listenForSosRequest();
+    listenForSentSosRequests();
     super.onReady();
   }
 
@@ -47,6 +53,40 @@ class RequestsHistoryController extends GetxController {
     getRequestsHistory();
     requestsRefreshController.refreshToIdle();
     requestsRefreshController.resetNoData();
+  }
+
+  void listenForSentSosRequests() {
+    try {
+      final userId = AuthenticationRepository.instance.fireUser.value!.uid;
+      sentSosRequestSubscription = FirebaseFirestore.instance
+          .collection('pendingRequests')
+          .where('userId', isEqualTo: userId)
+          .where('patientCondition', isEqualTo: "sosRequest")
+          .snapshots()
+          .listen((QuerySnapshot snapshot) {
+        if (snapshot.docs.isNotEmpty) {
+          if (requestsLoaded.value &&
+              homeScreenController.navBarIndex.value == 1) {
+            getRequestsHistory();
+          }
+          hasSentSosRequest = true;
+        } else {
+          if (hasSentSosRequest &&
+              homeScreenController.navBarIndex.value == 1) {
+            getRequestsHistory();
+          }
+          hasSentSosRequest = false;
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
   }
 
   void listenForSosRequest() {
@@ -60,14 +100,6 @@ class RequestsHistoryController extends GetxController {
         if (snapshot.docs.isNotEmpty) {
           hasSosRequest.value = true;
         } else {
-          if (hasSosRequest.value) {
-            Future.delayed(const Duration(seconds: 1)).whenComplete(() {
-              if (!hasSosRequest.value &&
-                  HomeScreenController.instance.navBarIndex.value == 1) {
-                getRequestsHistory();
-              }
-            });
-          }
           hasSosRequest.value = false;
         }
       });
@@ -101,7 +133,7 @@ class RequestsHistoryController extends GetxController {
 
   void getRequestsHistory() async {
     try {
-      requestLoaded.value = false;
+      requestsLoaded.value = false;
       final trace =
           FirebasePerformance.instance.newTrace('load_recent_requests');
       await trace.start();
@@ -121,7 +153,7 @@ class RequestsHistoryController extends GetxController {
         }
       }
 
-      requestLoaded.value = true;
+      requestsLoaded.value = true;
       for (int index = 0; index < requestsList.length; index++) {
         if (requestsList[index].requestStatus == RequestStatus.pending ||
             requestsList[index].requestStatus == RequestStatus.accepted) {
@@ -266,6 +298,7 @@ class RequestsHistoryController extends GetxController {
   @override
   void onClose() async {
     await sosRequestSubscription?.cancel();
+    await sentSosRequestSubscription?.cancel();
     requestsRefreshController.dispose();
     super.onClose();
   }

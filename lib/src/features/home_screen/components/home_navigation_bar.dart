@@ -3,6 +3,7 @@ import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
+import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:lottie/lottie.dart';
 
@@ -18,6 +19,7 @@ class HomeNavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
     final screenHeight = getScreenHeight(context);
+    final screenWidth = getScreenWidth(context);
     return FloatingDraggableWidget(
       floatingWidget: GestureDetector(
         child: Transform.scale(
@@ -31,8 +33,8 @@ class HomeNavigationBar extends StatelessWidget {
       ),
       autoAlign: true,
       floatingWidgetHeight: 130,
-      floatingWidgetWidth: 130,
-      dx: 0,
+      floatingWidgetWidth: AppInit.isWeb ? 130 : screenWidth * 0.3,
+      dx: AppInit.isWeb ? 0.0 : screenWidth * 0.72,
       dy: screenHeight * 0.74,
       mainScreenWidget: Scaffold(
         body: Stack(children: [

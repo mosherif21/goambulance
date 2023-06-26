@@ -49,7 +49,7 @@ class PreviousRequestsPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: Obx(
-                    () => controller.requestLoaded.value
+                    () => controller.requestsLoaded.value
                         ? RefreshConfiguration(
                             headerTriggerDistance: 60,
                             maxOverScrollExtent: 20,

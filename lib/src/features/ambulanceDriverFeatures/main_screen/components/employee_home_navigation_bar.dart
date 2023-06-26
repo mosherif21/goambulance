@@ -2,8 +2,7 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../account/screens/account_screen.dart';
-import '../../../home_dashboard/screens/home_dashboard.dart';
+import '../../account/screens/employee_account_screen.dart';
 import '../controllers/employee_home_screen_controller.dart';
 
 class EmployeeHomeNavigationBar extends StatelessWidget {
@@ -16,8 +15,8 @@ class EmployeeHomeNavigationBar extends StatelessWidget {
       body: Stack(children: [
         Obx(
           () => homeScreenController.navBarIndex.value == 0
-              ? const HomeDashBoard()
-              : const AccountScreen(),
+              ? const SizedBox.expand()
+              : const EmployeeAccountScreen(),
         ),
         Positioned(
           bottom: 0,

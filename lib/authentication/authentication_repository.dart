@@ -172,6 +172,7 @@ class AuthenticationRepository extends GetxController {
               hospitalId: userDoc['hospitalId'].toString(),
               userType: userType,
             );
+            isUserRegistered = await checkEmployeeImagesRegistered();
           } else if (userTypeValue == 'patient') {
             isUserRegistered = true;
             userInfo = UserInformation(
@@ -307,10 +308,25 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> loadProfilePicUrl() async {
+    if (drawerProfileImageUrl.value.isEmpty) {
+      final fireStorage = FirebaseStorage.instance;
+      final String userId = fireUser.value!.uid;
+      final profileImageRef =
+          fireStorage.ref().child('users/$userId/profilePic');
+      drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
+    }
+  }
+
+  Future<bool> checkEmployeeImagesRegistered() async {
     final fireStorage = FirebaseStorage.instance;
     final String userId = fireUser.value!.uid;
     final profileImageRef = fireStorage.ref().child('users/$userId/profilePic');
+    final nationalImageRef =
+        fireStorage.ref().child('users/$userId/nationalId');
     drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
+    final hasNationalImage = await nationalImageRef.getDownloadURL();
+    return hasNationalImage.isNotEmpty &&
+        drawerProfileImageUrl.value.isNotEmpty;
   }
 
   Future<String> createUserWithEmailAndPassword(

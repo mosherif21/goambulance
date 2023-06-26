@@ -50,30 +50,28 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 10.0),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightName.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(headerText: 'fullName'.tr, fontSize: 18),
-                          const SizedBox(height: 5),
-                          TextFormFieldRegular(
-                            labelText: 'fullName'.tr,
-                            hintText: 'enterFullName'.tr,
-                            prefixIconData: Icons.person,
-                            textController: controller.nameTextController,
-                            inputType: InputType.text,
-                            editable: false,
-                            textInputAction: TextInputAction.next,
-                          ),
-                        ],
-                      ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(headerText: 'fullName'.tr, fontSize: 18),
+                        const SizedBox(height: 5),
+                        TextFormFieldRegular(
+                          labelText: 'fullName'.tr,
+                          hintText: 'enterFullName'.tr,
+                          prefixIconData: Icons.person,
+                          textController: controller.nameTextController,
+                          inputType: InputType.text,
+                          editable: false,
+                          textInputAction: TextInputAction.next,
+                        ),
+                      ],
                     ),
                   ),
                   Obx(
                     () => RegularCard(
-                      highlightRed: controller.highlightEmail.value,
+                      highlightRed: false,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -94,29 +92,29 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(width: 10),
-                              Obx(() => Container(
-                                    decoration: BoxDecoration(
-                                      color: controller
-                                              .authRep.isEmailVerified.value
+                              Container(
+                                decoration: BoxDecoration(
+                                  color:
+                                      controller.authRep.isEmailVerified.value
                                           ? Colors.green
                                           : Colors.red,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: Icon(
-                                        controller.authRep.isEmailVerified.value
-                                            ? Icons.check
-                                            : Icons.close_rounded,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  )),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Icon(
+                                    controller.authRep.isEmailVerified.value
+                                        ? Icons.check
+                                        : Icons.close_rounded,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 10),
-                          Obx(() => !controller.authRep.isEmailVerified.value
+                          !controller.authRep.isEmailVerified.value
                               ? Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
@@ -130,32 +128,29 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                                     color: kDefaultColor,
                                   ),
                                 )
-                              : const SizedBox.shrink()),
+                              : const SizedBox.shrink(),
                         ],
                       ),
                     ),
                   ),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightNationalId.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(headerText: 'nationalId'.tr, fontSize: 18),
-                          const SizedBox(height: 5),
-                          TextFormFieldRegular(
-                            labelText: 'nationalId'.tr,
-                            hintText: 'enterNationalId'.tr,
-                            prefixIconData: FontAwesomeIcons.idCard,
-                            textController: controller.nationalIdTextController,
-                            inputType: InputType.numbers,
-                            editable: false,
-                            textInputAction: TextInputAction.done,
-                            inputFormatter:
-                                LengthLimitingTextInputFormatter(14),
-                          ),
-                        ],
-                      ),
+                  RegularCard(
+                    highlightRed: false,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextHeader(headerText: 'nationalId'.tr, fontSize: 18),
+                        const SizedBox(height: 5),
+                        TextFormFieldRegular(
+                          labelText: 'nationalId'.tr,
+                          hintText: 'enterNationalId'.tr,
+                          prefixIconData: FontAwesomeIcons.idCard,
+                          textController: controller.nationalIdTextController,
+                          inputType: InputType.numbers,
+                          editable: false,
+                          textInputAction: TextInputAction.done,
+                          inputFormatter: LengthLimitingTextInputFormatter(14),
+                        ),
+                      ],
                     ),
                   ),
                   RegularCard(
@@ -263,8 +258,7 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                     padding: const EdgeInsets.all(15.0),
                     child: RegularElevatedButton(
                       buttonText: 'save'.tr,
-                      onPressed: () async =>
-                          await controller.checkPersonalInformation(),
+                      onPressed: () => controller.updateUserInfoData(),
                       enabled: true,
                       color: kDefaultColor,
                     ),

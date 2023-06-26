@@ -1,4 +1,3 @@
-import 'package:eg_nid/eg_nid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -41,16 +40,13 @@ class EmployeeUserDataController extends GetxController {
   final isNationalIDImageLoaded = false.obs;
   final isProfileImageLoaded = false.obs;
 
-  final highlightName = false.obs;
-  final highlightEmail = false.obs;
-  final highlightNationalId = false.obs;
   final verificationSent = false.obs;
 
   final hypertensiveKey = GlobalKey<RollingSwitchState>();
 
   late final String userId;
   late final User currentUser;
-  late final UserInformation userInfo;
+  late final EmployeeUserInformation userInfo;
 
   late final AuthenticationRepository authRep;
   late final FirebaseStorage fireStorage;
@@ -74,7 +70,7 @@ class EmployeeUserDataController extends GetxController {
     authRep = AuthenticationRepository.instance;
     fireStorage = FirebaseStorage.instance;
     currentUser = authRep.fireUser.value!;
-    userInfo = authRep.userInfo;
+    userInfo = authRep.employeeUserInfo;
     userId = currentUser.uid;
     loadImages();
     super.onInit();
@@ -84,17 +80,6 @@ class EmployeeUserDataController extends GetxController {
   void onReady() {
     emailTextController.text = userInfo.email;
     nameTextController.text = userInfo.name;
-    nameTextController.addListener(() {
-      if (nameTextController.text.trim().isNotEmpty) {
-        highlightName.value = false;
-      }
-    });
-    emailTextController.addListener(() {
-      if (emailTextController.text.trim().isEmail) {
-        highlightEmail.value = false;
-      }
-    });
-
     nationalIdTextController.text = userInfo.nationalId;
     super.onReady();
   }
@@ -154,31 +139,6 @@ class EmployeeUserDataController extends GetxController {
         iDImage.value = addedIdImage;
         isNationalIDImageChanged.value = true;
       }
-    }
-  }
-
-  Future<void> checkPersonalInformation() async {
-    highlightName.value = nameTextController.text.trim().isEmpty;
-    highlightEmail.value = !emailTextController.text.trim().isEmail;
-    final nationalId = nationalIdTextController.text.trim();
-
-    if (NIDInfo.NIDCheck(nid: nationalId)) {
-      try {
-        NIDInfo(nid: nationalId);
-        highlightNationalId.value = false;
-      } catch (e) {
-        if (kDebugMode) print(e.toString());
-        highlightNationalId.value = true;
-      }
-    } else {
-      highlightNationalId.value = true;
-    }
-    if (!highlightName.value &&
-        !highlightEmail.value &&
-        !highlightNationalId.value) {
-      updateUserInfoData();
-    } else {
-      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
     }
   }
 

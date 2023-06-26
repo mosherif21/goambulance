@@ -45,7 +45,7 @@ class RegisterEmployeeDataPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      'enterYourInfo'.tr,
+                      'employeeEnterYourInfo'.tr,
                       style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,

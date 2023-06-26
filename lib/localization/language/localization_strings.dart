@@ -426,6 +426,8 @@ class Languages extends Translations {
           'EmployeeAccountTitle2': 'تغيير رقم الهاتف',
           'EmployeeAccountTitle3': 'تغيير البريد الالكتروني',
           'EmployeeAccountTitle4': 'ارسال رابط تغيير كلمة المرور',
+          'employeeEnterYourInfo':
+              'الرجاء إضافة المعلومات الخاصة بك لإكمال تسجيل حسابك',
         },
         'en_US': {
           'sosCancelReturn':
@@ -700,6 +702,8 @@ class Languages extends Translations {
           'addressNotFound': 'Couldn\'t get address',
           'enterYourInfo':
               'Please enter your personal information to complete your account registration',
+          'employeeEnterYourInfo':
+              'Please add your information to complete your account registration',
           'enterNationalId': 'Enter your National ID',
           'nationalId': 'National ID',
           'enterBirthDate': 'Choose your Birth Date',

@@ -15,7 +15,8 @@ class RegularCard extends StatelessWidget {
       padding: const EdgeInsets.all(5.0),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10.0),
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.only(
+            bottom: 15.0, left: 15.0, right: 15.0, top: 5.0),
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(

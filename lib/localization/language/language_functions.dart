@@ -64,7 +64,7 @@ Future<void> setLocaleLanguage(String languageCode) async {
     }
     if (Get.isRegistered<HomeScreenController>()) {
       if (Get.isRegistered<RequestsHistoryController>()) {
-        if (HomeScreenController.instance.navBarIndex.value == 2) {
+        if (HomeScreenController.instance.navBarIndex.value == 1) {
           RequestsHistoryController.instance.getRequestsHistory();
         }
       }

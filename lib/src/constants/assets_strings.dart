@@ -51,6 +51,7 @@ const String kNoLocation = "assets/lottie_animations/no_location_service.json";
 const String kMapPin = "assets/lottie_animations/map_pin.json";
 const String kRouteAnim = "assets/lottie_animations/route.json";
 const String kSOSAnim = "assets/lottie_animations/sos.json";
+const String kChatBotAnim = "assets/lottie_animations/chat_bot.json";
 const String kNoRequestsHistory =
     "assets/lottie_animations/no_requests_history.json";
 

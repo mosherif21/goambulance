@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
             moveMenuScreen: true,
             style: DrawerStyle.defaultStyle,
             mainScreenAbsorbPointer: true,
-            disableDragGesture: false,
+            disableDragGesture: true,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.shade300, //New

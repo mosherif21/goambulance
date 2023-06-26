@@ -63,7 +63,7 @@ class RequestsHistoryController extends GetxController {
           if (hasSosRequest.value) {
             Future.delayed(const Duration(seconds: 1)).whenComplete(() {
               if (!hasSosRequest.value &&
-                  HomeScreenController.instance.navBarIndex.value == 2) {
+                  HomeScreenController.instance.navBarIndex.value == 1) {
                 getRequestsHistory();
               }
             });

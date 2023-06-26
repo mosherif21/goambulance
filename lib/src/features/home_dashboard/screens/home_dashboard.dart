@@ -68,7 +68,7 @@ class HomeDashBoard extends StatelessWidget {
       floatingWidgetHeight: 130,
       floatingWidgetWidth: 130,
       dx: 0,
-      dy: screenHeight * 0.75,
+      dy: screenHeight * 0.74,
       mainScreenWidget: Scaffold(
         appBar: AppBar(
           leading: ValueListenableBuilder(

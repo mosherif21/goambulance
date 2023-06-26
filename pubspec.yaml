@@ -107,6 +107,7 @@ dependencies:
 
   #state management dependencies
   get: ^4.6.5
+  path_provider: ^2.0.15
 
 
 dev_dependencies:

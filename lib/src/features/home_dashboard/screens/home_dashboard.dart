@@ -6,6 +6,7 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
 import 'package:goambulance/src/features/first_aid/screens/first_aid_screen.dart';
+import 'package:goambulance/src/features/home_dashboard/components/loading_ads.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:photo_view/photo_view.dart';
 
@@ -25,32 +26,7 @@ class HomeDashBoard extends StatelessWidget {
     final homeScreenController = HomeScreenController.instance;
     final screenHeight = getScreenHeight(context);
     final controller = PageController(viewportFraction: 0.9, keepPage: true);
-    final sponsorPages = List.generate(
-      5,
-      (index) => Container(
-        color: Colors.transparent,
-        padding: const EdgeInsets.all(8),
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: OpenContainer(
-            useRootNavigator: true,
-            closedElevation: 0,
-            openElevation: 0,
-            closedBuilder: (context, action) => Container(
-              color: Colors.transparent,
-              child: Image.asset(
-                getSponsorImage(index + 1),
-                fit: BoxFit.fill,
-              ),
-            ),
-            openBuilder: (context, action) => PhotoView(
-              minScale: PhotoViewComputedScale.contained,
-              imageProvider: AssetImage(getSponsorImage(index + 1)),
-            ),
-          ),
-        ),
-      ),
-    );
+
     return Scaffold(
       appBar: AppBar(
         leading: ValueListenableBuilder(
@@ -145,12 +121,44 @@ class HomeDashBoard extends StatelessWidget {
                       const SizedBox(height: 15),
                       SizedBox(
                         height: 230,
-                        child: PageView.builder(
-                          controller: controller,
-                          //itemCount: pages.length,
-                          itemBuilder: (_, index) {
-                            return sponsorPages[index % sponsorPages.length];
-                          },
+                        child: Obx(
+                          () => !homeScreenController.adsLoaded.value
+                              ? const LoadingAds()
+                              : PageView.builder(
+                                  controller: controller,
+                                  itemCount:
+                                      homeScreenController.adImageUrl.length,
+                                  itemBuilder: (_, index) {
+                                    return Container(
+                                      color: Colors.transparent,
+                                      padding: const EdgeInsets.all(8),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: OpenContainer(
+                                          useRootNavigator: true,
+                                          closedElevation: 0,
+                                          openElevation: 0,
+                                          closedBuilder: (context, action) =>
+                                              Container(
+                                            color: Colors.transparent,
+                                            child: Image.network(
+                                              homeScreenController
+                                                  .adImageUrl[index],
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                          openBuilder: (context, action) =>
+                                              PhotoView(
+                                            minScale: PhotoViewComputedScale
+                                                .contained,
+                                            imageProvider: AssetImage(
+                                                getSponsorImage(index + 1)),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.12),

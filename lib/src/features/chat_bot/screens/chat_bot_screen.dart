@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../general/common_widgets/back_button.dart';
+
 class ChatBotScreen extends StatelessWidget {
   const ChatBotScreen({Key? key}) : super(key: key);
 
@@ -10,6 +12,7 @@ class ChatBotScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: const RegularBackButton(padding: 0),
         title: AutoSizeText(
           'chatBot'.tr,
           maxLines: 1,
@@ -17,9 +20,9 @@ class ChatBotScreen extends StatelessWidget {
         titleTextStyle: const TextStyle(
             fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
         elevation: 0,
-        backgroundColor: Colors.grey.shade100,
+        backgroundColor: Colors.white,
       ),
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.white,
       body: const SafeArea(
         child: Padding(
           padding: EdgeInsets.only(left: 20.0, right: 20.0),

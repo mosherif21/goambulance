@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../general/general_functions.dart';
+import '../../requests/controllers/requests_history_controller.dart';
 import '../components/drawer_page.dart';
 import '../components/home_navigation_bar.dart';
 import '../controllers/home_screen_controller.dart';
@@ -20,18 +21,22 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: WillPopScope(
-          onWillPop: () {
+          onWillPop: () async {
             final drawerState =
                 homeScreenController.zoomDrawerController.stateNotifier?.value;
             if (drawerState == DrawerState.open ||
                 drawerState == DrawerState.opening) {
               homeScreenController.toggleDrawer();
-              return Future.value(false);
+              return false;
             } else if (homeScreenController.navBarIndex.value != 0) {
               homeScreenController.navBarIndex.value = 0;
-              return Future.value(false);
+              if (homeScreenController.navBarIndex.value != 1 &&
+                  Get.isRegistered<RequestsHistoryController>()) {
+                await Get.delete<RequestsHistoryController>();
+              }
+              return false;
             } else {
-              return Future.value(true);
+              return true;
             }
           },
           child: ZoomDrawer(

@@ -69,8 +69,8 @@ class HomeScreenController extends GetxController {
   }
 
   void navigationBarOnTap(int navIndex) async {
-    if (navIndex == 1 && Get.isRegistered<RequestsHistoryController>()) {
-      RequestsHistoryController.instance.getRequestsHistory();
+    if (navIndex != 1 && Get.isRegistered<RequestsHistoryController>()) {
+      await Get.delete<RequestsHistoryController>();
     }
     navBarIndex.value = navIndex;
   }

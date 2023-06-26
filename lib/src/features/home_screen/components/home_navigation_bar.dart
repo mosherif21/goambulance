@@ -33,7 +33,7 @@ class HomeNavigationBar extends StatelessWidget {
       floatingWidgetHeight: 130,
       floatingWidgetWidth: 130,
       dx: 0,
-      dy: screenHeight * 0.75,
+      dy: screenHeight * 0.74,
       mainScreenWidget: Scaffold(
         body: Stack(children: [
           Obx(
@@ -48,7 +48,7 @@ class HomeNavigationBar extends StatelessWidget {
             left: 0,
             right: 0,
             child: Padding(
-              padding: const EdgeInsets.all(25),
+              padding: const EdgeInsets.all(20),
               child: Obx(
                 () => CustomNavigationBar(
                   iconSize: 30.0,

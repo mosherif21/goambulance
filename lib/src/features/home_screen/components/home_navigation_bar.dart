@@ -30,7 +30,7 @@ class HomeNavigationBar extends StatelessWidget {
         closedColor: Colors.transparent,
         openColor: Colors.transparent,
         closedBuilder: (context, action) => Transform.scale(
-          scale: 1.5,
+          scale: 1.6,
           child: Lottie.asset(
             kChatBotAnim,
             fit: BoxFit.fill,

@@ -151,7 +151,6 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<FunctionStatus> userInit() async {
-    final fireStorage = FirebaseStorage.instance;
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = _firestore.collection('users');
     try {
@@ -193,8 +192,14 @@ class AuthenticationRepository extends GetxController {
             if (!userInfo.criticalUser) {
               initCriticalUserListeners();
             }
+            loadProfilePicUrl();
           }
-          drawerAccountName.value = userInfo.name;
+          if (kDebugMode) {
+            AppInit.logger.i(userType);
+          }
+          drawerAccountName.value = userType == UserType.patient
+              ? userInfo.name
+              : employeeUserInfo.name;
           if (AppInit.notificationToken.isNotEmpty) {
             await _firestore.collection('fcmTokens').doc(userId).set({
               'fcmToken${AppInit.isAndroid ? 'Android' : 'Ios'}':
@@ -202,21 +207,26 @@ class AuthenticationRepository extends GetxController {
               'notificationsLang': isLangEnglish() ? 'en' : 'ar',
             });
           }
-          final profileImageRef =
-              fireStorage.ref().child('users/$userId/profilePic');
-          drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
-          if (kDebugMode) {
-            AppInit.logger.i(userType);
-          }
           if (fireUser.value!.email != null) {
             final authenticationEmail = fireUser.value!.email!;
-            if (authenticationEmail.isNotEmpty &&
-                userInfo.email != authenticationEmail) {
-              if (kDebugMode) {
-                AppInit.logger.i(
-                    'Firestore email is not equal to emailAuthentication email, updating it...');
+            if (userType == UserType.patient) {
+              if (authenticationEmail.isNotEmpty &&
+                  userInfo.email != authenticationEmail) {
+                if (kDebugMode) {
+                  AppInit.logger.i(
+                      'Firestore email is not equal to Authentication email, updating it...');
+                }
+                updateUserEmailFirestore(email: authenticationEmail);
               }
-              updateUserEmailFirestore(email: authenticationEmail);
+            } else {
+              if (authenticationEmail.isNotEmpty &&
+                  employeeUserInfo.email != authenticationEmail) {
+                if (kDebugMode) {
+                  AppInit.logger.i(
+                      'Firestore email is not equal to Authentication email, updating it...');
+                }
+                updateUserEmailFirestore(email: authenticationEmail);
+              }
             }
           }
         }
@@ -294,6 +304,13 @@ class AuthenticationRepository extends GetxController {
       }
       return FunctionStatus.failure;
     }
+  }
+
+  Future<void> loadProfilePicUrl() async {
+    final fireStorage = FirebaseStorage.instance;
+    final String userId = fireUser.value!.uid;
+    final profileImageRef = fireStorage.ref().child('users/$userId/profilePic');
+    drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
   }
 
   Future<String> createUserWithEmailAndPassword(

@@ -20,6 +20,7 @@ class EmployeeHomeScreenController extends GetxController {
   void onReady() async {
     firebaseEmployeeDataAccess = FirebaseAmbulanceEmployeeDataAccess.instance;
     authenticationRepository = AuthenticationRepository.instance;
+    authenticationRepository.loadProfilePicUrl();
     handleLocation()
         .whenComplete(() => handleNotificationsPermission())
         .whenComplete(() => handleSpeechPermission());

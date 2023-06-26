@@ -64,7 +64,7 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                             prefixIconData: Icons.person,
                             textController: controller.nameTextController,
                             inputType: InputType.text,
-                            editable: true,
+                            editable: false,
                             textInputAction: TextInputAction.next,
                           ),
                         ],
@@ -149,7 +149,7 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                             prefixIconData: FontAwesomeIcons.idCard,
                             textController: controller.nationalIdTextController,
                             inputType: InputType.numbers,
-                            editable: true,
+                            editable: false,
                             textInputAction: TextInputAction.done,
                             inputFormatter:
                                 LengthLimitingTextInputFormatter(14),

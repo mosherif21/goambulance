@@ -1,3 +1,5 @@
+import 'package:goambulance/src/constants/enums.dart';
+
 class UserInformation {
   String name;
   String email;
@@ -32,6 +34,34 @@ class UserInformation {
         'sosMessage': sosMessage,
         'phone': phone,
         'backupNumber': backupNumber,
+      };
+}
+
+class EmployeeUserInformation {
+  String name;
+  String email;
+  String nationalId;
+  String phone;
+  String hospitalId;
+  UserType userType;
+
+  EmployeeUserInformation({
+    required this.name,
+    required this.email,
+    required this.nationalId,
+    required this.phone,
+    required this.hospitalId,
+    required this.userType,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'email': email,
+        'nationalId': nationalId,
+        'type':
+            userType == UserType.medic ? 'ambulanceMedic' : 'ambulanceDriver',
+        'hospitalId': hospitalId,
+        'phone': phone,
       };
 }
 

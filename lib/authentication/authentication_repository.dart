@@ -38,6 +38,7 @@ class AuthenticationRepository extends GetxController {
   GoogleSignIn? googleSignIn;
   UserType userType = UserType.patient;
   late UserInformation userInfo;
+  late EmployeeUserInformation employeeUserInfo;
   final drawerProfileImageUrl = ''.obs;
   final drawerAccountName = ''.obs;
 
@@ -158,12 +159,20 @@ class AuthenticationRepository extends GetxController {
         if (snapshot.exists) {
           final userDoc = snapshot.data()!;
           final userTypeValue = userDoc['type'].toString();
-          if (userTypeValue == 'medic') {
-            isUserRegistered = true;
-            userType = UserType.medic;
-          } else if (userTypeValue == 'driver') {
-            isUserRegistered = true;
-            userType = UserType.driver;
+          if (userTypeValue == 'ambulanceMedic' ||
+              userTypeValue == 'ambulanceDriver') {
+            userType = userTypeValue == 'ambulanceMedic'
+                ? UserType.medic
+                : UserType.driver;
+
+            employeeUserInfo = EmployeeUserInformation(
+              name: userDoc['name'].toString(),
+              email: userDoc['email'].toString(),
+              nationalId: userDoc['nationalId'].toString(),
+              phone: userDoc['phone'].toString(),
+              hospitalId: userDoc['hospitalId'].toString(),
+              userType: userType,
+            );
           } else if (userTypeValue == 'patient') {
             isUserRegistered = true;
             userInfo = UserInformation(
@@ -741,6 +750,14 @@ class AuthenticationRepository extends GetxController {
         criticalUser: false,
         phone: '',
         backupNumber: '',
+      );
+      employeeUserInfo = EmployeeUserInformation(
+        name: '',
+        email: '',
+        nationalId: '',
+        phone: '',
+        hospitalId: '',
+        userType: UserType.driver,
       );
       drawerProfileImageUrl.value = '';
     } on FirebaseAuthException catch (ex) {

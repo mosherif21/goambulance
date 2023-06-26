@@ -712,14 +712,16 @@ class AuthenticationRepository extends GetxController {
     return null;
   }
 
-  Future<FunctionStatus> logoutAuthUser() async {
+  Future<void> logoutAuthUser() async {
     try {
-      if (isUserRegistered && !userInfo.criticalUser) {
+      await signOutGoogle();
+      await _auth.signOut();
+      if (userType == UserType.patient &&
+          isUserRegistered &&
+          !userInfo.criticalUser) {
         await criticalRequestListener?.cancel();
         await criticalRequestDeniedListener?.cancel();
       }
-      await signOutGoogle();
-      await _auth.signOut();
       isUserRegistered = false;
       isUserLoggedIn = false;
       isUserPhoneRegistered = false;
@@ -741,16 +743,12 @@ class AuthenticationRepository extends GetxController {
         backupNumber: '',
       );
       drawerProfileImageUrl.value = '';
-      return FunctionStatus.success;
     } on FirebaseAuthException catch (ex) {
       if (kDebugMode) {
         AppInit.logger.e(ex.code);
       }
-
-      return FunctionStatus.failure;
     } catch (e) {
       if (kDebugMode) e.printError();
-      return FunctionStatus.failure;
     }
   }
 }

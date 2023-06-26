@@ -20,6 +20,7 @@ import '../connectivity/connectivity.dart';
 import '../constants/assets_strings.dart';
 import '../constants/enums.dart';
 import '../features/authentication/screens/auth_screen.dart';
+import '../features/chat_bot/controllers/chat_bot_controller.dart';
 import 'app_init.dart';
 import 'common_widgets/language_select.dart';
 import 'common_widgets/regular_bottom_sheet.dart';
@@ -160,17 +161,17 @@ void sendRequestSms(
 
 Future<void> logout() async {
   showLoadingScreen();
-  if (Get.isRegistered<FirebasePatientDataAccess>()) {
-    await FirebasePatientDataAccess.instance.logoutFirebase();
+  if (AuthenticationRepository.instance.userType == UserType.patient) {
+    if (Get.isRegistered<ChatBotController>()) {
+      await Get.delete<ChatBotController>();
+    }
+    if (Get.isRegistered<FirebasePatientDataAccess>()) {
+      await FirebasePatientDataAccess.instance.logoutFirebase();
+    }
   }
-  final functionStatus =
-      await AuthenticationRepository.instance.logoutAuthUser();
+  await AuthenticationRepository.instance.logoutAuthUser();
   hideLoadingScreen();
-  if (functionStatus == FunctionStatus.success) {
-    Get.offAll(() => const AuthenticationScreen());
-  } else {
-    showSnackBar(text: 'signOutFailed'.tr, snackBarType: SnackBarType.error);
-  }
+  Get.offAll(() => const AuthenticationScreen());
 }
 
 void getToPhoneVerificationScreen(

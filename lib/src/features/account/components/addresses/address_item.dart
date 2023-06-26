@@ -27,7 +27,8 @@ class LoadAddressItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        border: Border.all(color: Colors.blueAccent, width: 2),
+        color: Colors.white54,
         borderRadius: const BorderRadius.all(
           Radius.circular(15),
         ),
@@ -44,51 +45,111 @@ class LoadAddressItem extends StatelessWidget {
                     addressItem.locationName,
                     style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 15,
+                      fontSize: 25,
                       fontWeight: FontWeight.w700,
                     ),
                     maxLines: 1,
                   ),
-                  const SizedBox(height: 10.0),
-                  AutoSizeText(
-                    'Street'.tr + addressItem.streetName,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    maxLines: 1,
+                  const SizedBox(height: 5.0),
+                  Row(
+                    children: [
+                      AutoSizeText(
+                        'street'.tr,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                      AutoSizeText(
+                        addressItem.streetName,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                    ],
                   ),
-                  AutoSizeText(
-                    'apartmentNumber'.tr + addressItem.apartmentNumber,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    maxLines: 1,
+                  Row(
+                    children: [
+                      AutoSizeText(
+                        'apartmentNumber'.tr,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                      AutoSizeText(
+                        addressItem.apartmentNumber,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                    ],
                   ),
-                  AutoSizeText(
-                    'floorNumber'.tr + addressItem.floorNumber,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    maxLines: 1,
+                  Row(
+                    children: [
+                      AutoSizeText(
+                        'floorNumber'.tr,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                      AutoSizeText(
+                        addressItem.floorNumber,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                    ],
                   ),
-                  AutoSizeText(
-                    'area'.tr + addressItem.areaName,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: false,
-                    maxLines: 1,
+                  Row(
+                    children: [
+                      AutoSizeText(
+                        'area'.tr,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                      AutoSizeText(
+                        addressItem.areaName,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: false,
+                        maxLines: 1,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -103,6 +164,14 @@ class LoadAddressItem extends StatelessWidget {
                     ),
                     onPressed: () => onDeletePressed(),
                   ),
+                  IconButton(
+                    icon: const Icon(
+                      Icons.edit,
+                      size: 40,
+                      color: Colors.blueAccent,
+                    ),
+                    onPressed: () => () {},
+                  ),
                 ],
               )
             ],
@@ -112,6 +181,10 @@ class LoadAddressItem extends StatelessWidget {
             child: !isPrimary
                 ? SwipeableButtonView(
                     buttonText: 'primaryAskText'.tr,
+                    buttontextstyle: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                     buttonWidget: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,
@@ -126,8 +199,9 @@ class LoadAddressItem extends StatelessWidget {
                     onFinish: () {},
                   )
                 : const AutoSizeText(
-                    'Done',
+                    'This is Your Primary Address',
                     style: TextStyle(
+                      fontWeight: FontWeight.bold,
                       color: Colors.black,
                       fontSize: 12,
                     ),

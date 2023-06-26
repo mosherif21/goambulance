@@ -20,15 +20,18 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: WillPopScope(
-          onWillPop: () async {
+          onWillPop: () {
             final drawerState =
                 homeScreenController.zoomDrawerController.stateNotifier?.value;
             if (drawerState == DrawerState.open ||
                 drawerState == DrawerState.opening) {
               homeScreenController.toggleDrawer();
-              return false;
+              return Future.value(false);
+            } else if (homeScreenController.navBarIndex.value != 0) {
+              homeScreenController.navBarIndex.value = 0;
+              return Future.value(false);
             } else {
-              return true;
+              return Future.value(true);
             }
           },
           child: ZoomDrawer(

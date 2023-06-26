@@ -11,7 +11,7 @@ class LoadingAds extends StatelessWidget {
       highlightColor: Colors.grey.shade100,
       child: PageView.builder(
         controller: PageController(viewportFraction: 0.9, keepPage: true),
-        itemCount: 3,
+        itemCount: 2,
         itemBuilder: (_, index) {
           return Padding(
             padding: const EdgeInsets.all(12),

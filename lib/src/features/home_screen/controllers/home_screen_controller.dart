@@ -36,7 +36,7 @@ class HomeScreenController extends GetxController {
   bool smsForSosEnabled = true;
   final navBarIndex = 0.obs;
   final adImageUrl = [];
-  RxBool adsLoaded = false.obs;
+  final adsLoaded = false.obs;
 
   StreamSubscription<AccelerometerEvent>? accelerometerSubscription;
   late final FirebasePatientDataAccess firebasePatientAccess;

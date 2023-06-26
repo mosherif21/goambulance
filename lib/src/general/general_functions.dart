@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -172,6 +173,14 @@ Future<void> logout() async {
   await AuthenticationRepository.instance.logoutAuthUser();
   hideLoadingScreen();
   Get.offAll(() => const AuthenticationScreen());
+}
+
+Future<void> textToSpeech({required String text}) async {
+  final flutterTts = FlutterTts();
+
+  await flutterTts.setLanguage(isLangEnglish() ? 'en' : 'ar');
+
+  await flutterTts.speak(text);
 }
 
 void getToPhoneVerificationScreen(

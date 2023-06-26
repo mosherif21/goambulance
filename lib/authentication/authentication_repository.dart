@@ -177,7 +177,6 @@ class AuthenticationRepository extends GetxController {
               phone: userDoc['phone'].toString(),
               backupNumber: userDoc['backupNumber'].toString(),
             );
-            drawerAccountName.value = userDoc['name'].toString();
             userType = UserType.patient;
             criticalUserStatus.value = userInfo.criticalUser
                 ? CriticalUserStatus.criticalUserAccepted
@@ -186,6 +185,7 @@ class AuthenticationRepository extends GetxController {
               initCriticalUserListeners();
             }
           }
+          drawerAccountName.value = userInfo.name;
           if (AppInit.notificationToken.isNotEmpty) {
             await _firestore.collection('fcmTokens').doc(userId).set({
               'fcmToken${AppInit.isAndroid ? 'Android' : 'Ios'}':

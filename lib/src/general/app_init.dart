@@ -18,6 +18,7 @@ import '../../localization/language/language_functions.dart';
 import '../constants/colors.dart';
 import '../constants/enums.dart';
 import '../features/account/components/new_account/register_user_data_page.dart';
+import '../features/ambulanceDriverFeatures/main_screen/screens/employee_home_screen.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/intro_screen/components/onboarding_shared_preferences.dart';
@@ -166,11 +167,29 @@ class AppInit {
       if (functionStatus == FunctionStatus.success) {
         if (authRepo.userType == UserType.driver ||
             authRepo.userType == UserType.medic) {
-          makeSystemUiTransparent();
-          Get.offAll(
-            () => const HomeScreen(),
-            transition: Transition.circularReveal,
-          );
+          if (!authRepo.isUserPhoneRegistered && !authRepo.isUserRegistered) {
+            getOfAllPhoneVerificationScreen(
+                linkWithPhone: true, goToInitPage: true);
+          } else if (authRepo.isUserPhoneRegistered &&
+              !authRepo.isUserRegistered) {
+            if (AppInit.isWeb) {
+              await authRepo.logoutAuthUser();
+              Get.offAll(() => const AuthenticationScreen());
+              showSnackBar(
+                  text: 'useMobileToRegister'.tr,
+                  snackBarType: SnackBarType.info);
+            } else {
+              Get.offAll(() => const RegisterUserDataPage(),
+                  transition: Transition.circularReveal);
+            }
+          } else if (authRepo.isUserPhoneRegistered &&
+              authRepo.isUserRegistered) {
+            makeSystemUiTransparent();
+            Get.offAll(
+              () => const EmployeeHomeScreen(),
+              transition: Transition.circularReveal,
+            );
+          }
         } else if (authRepo.userType == UserType.patient) {
           if (!authRepo.isUserPhoneRegistered && !authRepo.isUserRegistered) {
             getOfAllPhoneVerificationScreen(

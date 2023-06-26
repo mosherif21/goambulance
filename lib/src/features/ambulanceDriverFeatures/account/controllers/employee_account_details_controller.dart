@@ -1,41 +1,32 @@
-import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:eg_nid/eg_nid.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rolling_switch/rolling_switch.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../../../authentication/authentication_repository.dart';
-import '../../../../firebase_files/firebase_patient_access.dart';
-import '../../../constants/enums.dart';
-import '../../../general/common_widgets/regular_bottom_sheet.dart';
-import '../components/models.dart';
+import '../../../../../authentication/authentication_repository.dart';
+import '../../../../constants/enums.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../../../account/components/models.dart';
 
-class EditUserDataController extends GetxController {
-  static EditUserDataController get instance => Get.find();
+class EmployeeUserDataController extends GetxController {
+  static EmployeeUserDataController get instance => Get.find();
 
   //vars
   late final String oldName;
   late final String oldEmail;
   late final String oldNationalId;
-  late final DateTime oldBirthDate;
-  String backupPhoneNo = '';
 
   //controllers
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final phoneTextController = TextEditingController();
   final nationalIdTextController = TextEditingController();
-  final birthDateController = DateRangePickerController();
-
-  //gender
-  Gender? gender;
-  final genderRadioKey = GlobalKey<CustomRadioButtonState<Gender>>();
 
   //images
   final picker = ImagePicker();
@@ -105,14 +96,6 @@ class EditUserDataController extends GetxController {
     });
 
     nationalIdTextController.text = userInfo.nationalId;
-    gender = userInfo.gender == 'male' ? Gender.male : Gender.female;
-
-    genderRadioKey.currentState?.selectButton(gender!);
-    final birthDate = userInfo.birthDate;
-    birthDateController.displayDate = birthDate;
-    birthDateController.selectedDate =
-        DateTime(birthDate.year, birthDate.month, birthDate.day);
-    backupPhoneNo = userInfo.backupNumber;
     super.onReady();
   }
 
@@ -201,30 +184,14 @@ class EditUserDataController extends GetxController {
 
   void updateUserInfoData() async {
     showLoadingScreen();
-    final accountDetails = AccountDetailsModel(
-      name: nameTextController.text.trim(),
-      email: emailTextController.text.trim(),
-      nationalId: nationalIdTextController.text.trim(),
-      birthDate: birthDateController.selectedDate!,
-      gender: gender == Gender.male ? 'male' : 'female',
-      backupNumber: backupPhoneNo,
-    );
     final functionStatus =
-        await FirebasePatientDataAccess.instance.updateUserDataInfo(
+        await FirebaseAmbulanceEmployeeDataAccess.instance.updateUserInfo(
       profilePic: isProfileImageChanged.value ? profileImage.value : null,
       nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
-      accountDetails: accountDetails,
     );
     if (functionStatus == FunctionStatus.success) {
       isProfileImageChanged.value = false;
       isNationalIDImageChanged.value = false;
-      authRep.userInfo.name = accountDetails.name;
-      authRep.drawerAccountName.value = accountDetails.name;
-      authRep.userInfo.email = accountDetails.email;
-      authRep.userInfo.nationalId = accountDetails.nationalId;
-      authRep.userInfo.birthDate = accountDetails.birthDate;
-      authRep.userInfo.gender = accountDetails.gender;
-      authRep.userInfo.backupNumber = accountDetails.backupNumber;
       hideLoadingScreen();
       Get.back();
       showSnackBar(
@@ -243,7 +210,6 @@ class EditUserDataController extends GetxController {
     emailTextController.dispose();
     phoneTextController.dispose();
     nationalIdTextController.dispose();
-    birthDateController.dispose();
     super.onClose();
   }
 }

@@ -422,6 +422,10 @@ class Languages extends Translations {
           'sosCancelReturn': 'تم إلغاء هذا الطلب ونحن نبحث عن مستشفى آخرى',
           'sosSmsMsg': 'استغاثة @trackingLink',
           'normalSmsMsg': 'إسعاف @trackingLink',
+          'EmployeeAccountTitle1': 'بيانات المستخدم',
+          'EmployeeAccountTitle2': 'تغيير رقم الهاتف',
+          'EmployeeAccountTitle3': 'تغيير البريد الالكتروني',
+          'EmployeeAccountTitle4': 'ارسال رابط تغيير كلمة المرور',
         },
         'en_US': {
           'sosCancelReturn':
@@ -860,6 +864,10 @@ class Languages extends Translations {
           'primaryAskText': 'Make This My Primary Address',
           'additionalInfoExample':
               'Example: There is a pharmacy under the building',
+          'EmployeeAccountTitle1': 'Account details',
+          'EmployeeAccountTitle2': 'Change phone number',
+          'EmployeeAccountTitle3': 'Change email address',
+          'EmployeeAccountTitle4': 'Send reset password link',
         },
       };
 }

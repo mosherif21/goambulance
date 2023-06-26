@@ -40,7 +40,10 @@ class AddAddressPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterAddressName'.tr, fontSize: 18),
+                            headerText: 'enterAddressName'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           TextFormFieldRegular(
                             labelText: 'addressName'.tr,
                             hintText: 'addNameExample'.tr,
@@ -62,7 +65,10 @@ class AddAddressPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterStreet'.tr, fontSize: 18),
+                            headerText: 'enterStreet'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           TextFormFieldRegular(
                             labelText: 'streetName'.tr,
                             hintText: 'streetExample'.tr,
@@ -83,8 +89,10 @@ class AddAddressPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterApartmentNumber'.tr,
-                              fontSize: 18),
+                            headerText: 'enterApartmentNumber'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           TextFormFieldRegular(
                             labelText: 'apartmentNumberText'.tr,
                             hintText: 'apartmentNumberExample'.tr,
@@ -106,7 +114,10 @@ class AddAddressPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterFloorNumber'.tr, fontSize: 18),
+                            headerText: 'enterFloorNumber'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           TextFormFieldRegular(
                             labelText: 'floorNumberText'.tr,
                             hintText: 'floorNumberExample'.tr,
@@ -128,7 +139,10 @@ class AddAddressPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterAreaName'.tr, fontSize: 18),
+                            headerText: 'enterAreaName'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           TextFormFieldRegular(
                             labelText: 'areaName'.tr,
                             hintText: 'areaNameExample'.tr,
@@ -148,8 +162,10 @@ class AddAddressPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'enterAdditionalInformation'.tr,
-                            fontSize: 18),
+                          headerText: 'enterAdditionalInformation'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         TextFormFieldRegular(
                           labelText: 'additionalInformation'.tr,
                           hintText: 'additionalInfoExample'.tr,
@@ -169,7 +185,10 @@ class AddAddressPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'makePrimaryText'.tr, fontSize: 18),
+                          headerText: 'makePrimaryText'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [

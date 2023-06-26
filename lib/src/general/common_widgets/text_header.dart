@@ -6,9 +6,11 @@ class TextHeader extends StatelessWidget {
     Key? key,
     required this.headerText,
     required this.fontSize,
+    required this.maxLines,
   }) : super(key: key);
   final String headerText;
   final double fontSize;
+  final int maxLines;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,7 +21,7 @@ class TextHeader extends StatelessWidget {
           fontSize: fontSize,
           fontWeight: FontWeight.w600,
         ),
-        maxLines: 1,
+        maxLines: maxLines,
         minFontSize: 10,
       ),
     );

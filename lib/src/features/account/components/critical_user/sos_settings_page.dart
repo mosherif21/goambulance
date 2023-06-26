@@ -42,7 +42,11 @@ class SOSRequestSettings extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'shakeToSos'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'shakeToSos'.tr,
+                          fontSize: 18,
+                          maxLines: 2,
+                        ),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [
@@ -66,7 +70,11 @@ class SOSRequestSettings extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'voiceToSos'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'voiceToSos'.tr,
+                          fontSize: 18,
+                          maxLines: 2,
+                        ),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [
@@ -90,7 +98,11 @@ class SOSRequestSettings extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'sendSosSms'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'sendSosSms'.tr,
+                          fontSize: 18,
+                          maxLines: 2,
+                        ),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [

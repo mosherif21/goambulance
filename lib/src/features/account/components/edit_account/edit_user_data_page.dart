@@ -61,7 +61,10 @@ class EditUserDataPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterFullName'.tr, fontSize: 18),
+                            headerText: 'enterFullName'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5),
                           TextFormFieldRegular(
                             labelText: 'fullName'.tr,
@@ -83,7 +86,10 @@ class EditUserDataPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'emailHintLabel'.tr, fontSize: 18),
+                            headerText: 'emailHintLabel'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5),
                           Row(
                             children: [
@@ -148,7 +154,10 @@ class EditUserDataPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterNationalId'.tr, fontSize: 18),
+                            headerText: 'enterNationalId'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5),
                           TextFormFieldRegular(
                             labelText: 'nationalId'.tr,
@@ -170,7 +179,11 @@ class EditUserDataPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'enterGender'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'enterGender'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5),
                         CustomRadioButton(
                           key: controller.genderRadioKey,
@@ -209,7 +222,10 @@ class EditUserDataPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'enterBirthDate'.tr, fontSize: 18),
+                          headerText: 'enterBirthDate'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5),
                         Container(
                           decoration: const BoxDecoration(
@@ -231,7 +247,11 @@ class EditUserDataPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'enterPhoto'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'enterPhoto'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         Obx(
                           () => controller.isProfileImageLoaded.value
                               ? Center(
@@ -283,8 +303,10 @@ class EditUserDataPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterNationalIDPhoto'.tr,
-                              fontSize: 18),
+                            headerText: 'enterNationalIDPhoto'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           controller.isNationalIDImageLoaded.value
                               ? Center(
                                   child: Image(
@@ -333,7 +355,10 @@ class EditUserDataPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'enterBackupPhoneNo'.tr, fontSize: 18),
+                          headerText: 'enterBackupPhoneNo'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5.0),
                         IntlPhoneField(
                           initialValue: controller

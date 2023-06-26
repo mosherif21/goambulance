@@ -69,7 +69,10 @@ class RegisterUserDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterFullName'.tr, fontSize: 18),
+                              headerText: 'enterFullName'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             TextFormFieldRegular(
                               labelText: 'fullName'.tr,
                               hintText: 'enterFullName'.tr,
@@ -90,7 +93,10 @@ class RegisterUserDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'emailHintLabel'.tr, fontSize: 18),
+                              headerText: 'emailHintLabel'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             TextFormFieldRegular(
                               labelText: 'emailLabel'.tr,
                               hintText: 'emailHintLabel'.tr,
@@ -111,7 +117,10 @@ class RegisterUserDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterNationalId'.tr, fontSize: 18),
+                              headerText: 'enterNationalId'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             TextFormFieldRegular(
                               labelText: 'nationalId'.tr,
                               hintText: 'enterNationalId'.tr,
@@ -135,7 +144,10 @@ class RegisterUserDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterGender'.tr, fontSize: 18),
+                              headerText: 'enterGender'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             CustomRadioButton(
                               key: controller.genderRadioKey,
                               buttonTextStyle: const ButtonTextStyle(
@@ -176,7 +188,10 @@ class RegisterUserDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterBirthDate'.tr, fontSize: 18),
+                              headerText: 'enterBirthDate'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             Container(
                               decoration: const BoxDecoration(
                                 color: kDefaultColorLessShade,
@@ -203,7 +218,10 @@ class RegisterUserDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterPhoto'.tr, fontSize: 18),
+                              headerText: 'enterPhoto'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             controller.isProfileImageAdded.value
                                 ? Center(
                                     child: CircleAvatar(
@@ -242,8 +260,10 @@ class RegisterUserDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterNationalIDPhoto'.tr,
-                                fontSize: 18),
+                              headerText: 'enterNationalIDPhoto'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             controller.isNationalIDImageAdded.value
                                 ? Center(
                                     child: Image(
@@ -281,8 +301,10 @@ class RegisterUserDataPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterBackupPhoneNo'.tr,
-                              fontSize: 18),
+                            headerText: 'enterBackupPhoneNo'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5.0),
                           IntlPhoneField(
                             decoration: InputDecoration(

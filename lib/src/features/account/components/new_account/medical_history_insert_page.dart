@@ -58,7 +58,10 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'chooseBloodType'.tr, fontSize: 18),
+                            headerText: 'chooseBloodType'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5.0),
                           DropdownList(
                             dropDownController:
@@ -76,10 +79,12 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'askDiabetic'.trParams({
-                              'ask': 'askYou'.tr,
-                            }),
-                            fontSize: 18),
+                          headerText: 'askDiabetic'.trParams({
+                            'ask': 'askYou'.tr,
+                          }),
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5.0),
                         DropdownList(
                           dropDownController:
@@ -100,10 +105,12 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'askHypertensivePatient'.trParams({
-                              'ask': 'askYou'.tr,
-                            }),
-                            fontSize: 18),
+                          headerText: 'askHypertensivePatient'.trParams({
+                            'ask': 'askYou'.tr,
+                          }),
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [
@@ -127,10 +134,12 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'askHeartPatient'.trParams({
-                              'ask': 'askYou'.tr,
-                            }),
-                            fontSize: 18),
+                          headerText: 'askHeartPatient'.trParams({
+                            'ask': 'askYou'.tr,
+                          }),
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [
@@ -219,8 +228,10 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'enterAdditionalInformation'.tr,
-                            fontSize: 18),
+                          headerText: 'enterAdditionalInformation'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5.0),
                         TextFormFieldMultiline(
                           labelText: 'additionalInformation'.tr,

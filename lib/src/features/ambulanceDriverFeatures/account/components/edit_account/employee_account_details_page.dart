@@ -55,7 +55,11 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'fullName'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'fullName'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5),
                         TextFormFieldRegular(
                           labelText: 'fullName'.tr,
@@ -75,7 +79,11 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextHeader(headerText: 'emailLabel'.tr, fontSize: 18),
+                          TextHeader(
+                            headerText: 'emailLabel'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5),
                           Row(
                             children: [
@@ -138,7 +146,11 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'nationalId'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'nationalId'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5),
                         TextFormFieldRegular(
                           labelText: 'nationalId'.tr,
@@ -158,7 +170,11 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'enterPhoto'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'enterPhoto'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         Obx(
                           () => controller.isProfileImageLoaded.value
                               ? Center(
@@ -210,8 +226,10 @@ class EmployeeEditUserDataPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterNationalIDPhoto'.tr,
-                              fontSize: 18),
+                            headerText: 'enterNationalIDPhoto'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           controller.isNationalIDImageLoaded.value
                               ? Center(
                                   child: Image(

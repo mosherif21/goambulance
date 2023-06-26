@@ -53,7 +53,11 @@ class NormalRequestScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          TextHeader(headerText: 'requestFor'.tr, fontSize: 18),
+                          TextHeader(
+                            headerText: 'requestFor'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5.0),
                           DropdownList(
                             items: [
@@ -78,8 +82,10 @@ class NormalRequestScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextHeader(
-                                      headerText: 'chooseHisBloodType'.tr,
-                                      fontSize: 18),
+                                    headerText: 'chooseHisBloodType'.tr,
+                                    fontSize: 18,
+                                    maxLines: 1,
+                                  ),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
                                     items: [
@@ -106,10 +112,12 @@ class NormalRequestScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextHeader(
-                                      headerText: 'askDiabetic'.trParams({
-                                        'ask': 'askHim'.tr,
-                                      }),
-                                      fontSize: 18),
+                                    headerText: 'askDiabetic'.trParams({
+                                      'ask': 'askHim'.tr,
+                                    }),
+                                    fontSize: 18,
+                                    maxLines: 1,
+                                  ),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
                                     items: [
@@ -131,11 +139,13 @@ class NormalRequestScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextHeader(
-                                      headerText:
-                                          'askHypertensivePatient'.trParams({
-                                        'ask': 'askHim'.tr,
-                                      }),
-                                      fontSize: 18),
+                                    headerText:
+                                        'askHypertensivePatient'.trParams({
+                                      'ask': 'askHim'.tr,
+                                    }),
+                                    fontSize: 18,
+                                    maxLines: 1,
+                                  ),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
                                     items: [
@@ -156,10 +166,12 @@ class NormalRequestScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TextHeader(
-                                      headerText: 'askHeartPatient'.trParams({
-                                        'ask': 'askHim'.tr,
-                                      }),
-                                      fontSize: 18),
+                                    headerText: 'askHeartPatient'.trParams({
+                                      'ask': 'askHim'.tr,
+                                    }),
+                                    fontSize: 18,
+                                    maxLines: 1,
+                                  ),
                                   const SizedBox(height: 5.0),
                                   DropdownList(
                                     items: [
@@ -239,8 +251,10 @@ class NormalRequestScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                              headerText: 'enterConditionInformation'.tr,
-                              fontSize: 18),
+                            headerText: 'enterConditionInformation'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
                           const SizedBox(height: 5.0),
                           TextFormFieldMultiline(
                             labelText: 'conditionInformation'.tr,
@@ -261,8 +275,10 @@ class NormalRequestScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextHeader(
-                            headerText: 'enterAdditionalInformation'.tr,
-                            fontSize: 18),
+                          headerText: 'enterAdditionalInformation'.tr,
+                          fontSize: 18,
+                          maxLines: 1,
+                        ),
                         const SizedBox(height: 5.0),
                         TextFormFieldMultiline(
                           labelText: 'additionalInformation'.tr,
@@ -280,7 +296,11 @@ class NormalRequestScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TextHeader(headerText: 'sendSosSms'.tr, fontSize: 18),
+                        TextHeader(
+                          headerText: 'sendSosSms'.tr,
+                          fontSize: 18,
+                          maxLines: 2,
+                        ),
                         const SizedBox(height: 5.0),
                         Row(
                           children: [

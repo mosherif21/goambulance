@@ -60,7 +60,10 @@ class RegisterEmployeeDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterPhoto'.tr, fontSize: 18),
+                              headerText: 'enterPhoto'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             controller.isProfileImageAdded.value
                                 ? Center(
                                     child: CircleAvatar(
@@ -99,8 +102,10 @@ class RegisterEmployeeDataPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             TextHeader(
-                                headerText: 'enterNationalIDPhoto'.tr,
-                                fontSize: 18),
+                              headerText: 'enterNationalIDPhoto'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
                             controller.isNationalIDImageAdded.value
                                 ? Center(
                                     child: Image(

@@ -6,24 +6,25 @@ class LoadingAds extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: Row(
-          children: [
-            for (int i = 0; i < 2; i++)
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(height: 150, width: 150, color: Colors.white),
-                  ],
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: PageView.builder(
+        controller: PageController(viewportFraction: 0.9, keepPage: true),
+        itemCount: 3,
+        itemBuilder: (_, index) {
+          return Padding(
+            padding: const EdgeInsets.all(12),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
                 ),
-              )
-          ],
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -129,31 +129,33 @@ class HomeDashBoard extends StatelessWidget {
                                   itemCount:
                                       homeScreenController.adImageUrl.length,
                                   itemBuilder: (_, index) {
-                                    return Container(
-                                      color: Colors.transparent,
-                                      padding: const EdgeInsets.all(8),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: OpenContainer(
-                                          useRootNavigator: true,
-                                          closedElevation: 0,
-                                          openElevation: 0,
-                                          closedBuilder: (context, action) =>
-                                              Container(
-                                            color: Colors.transparent,
-                                            child: Image.network(
-                                              homeScreenController
-                                                  .adImageUrl[index],
-                                              fit: BoxFit.fill,
+                                    return Padding(
+                                      padding: const EdgeInsets.all(12),
+                                      child: OpenContainer(
+                                        useRootNavigator: true,
+                                        closedElevation: 0,
+                                        openElevation: 0,
+                                        closedBuilder: (context, action) =>
+                                            Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade300,
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(10),
                                             ),
                                           ),
-                                          openBuilder: (context, action) =>
-                                              PhotoView(
-                                            minScale: PhotoViewComputedScale
-                                                .contained,
-                                            imageProvider: AssetImage(
-                                                getSponsorImage(index + 1)),
+                                          child: Image.network(
+                                            homeScreenController
+                                                .adImageUrl[index],
+                                            fit: BoxFit.fill,
                                           ),
+                                        ),
+                                        openBuilder: (context, action) =>
+                                            PhotoView(
+                                          minScale:
+                                              PhotoViewComputedScale.contained,
+                                          imageProvider: AssetImage(
+                                              getSponsorImage(index + 1)),
                                         ),
                                       ),
                                     );

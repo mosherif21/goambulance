@@ -388,6 +388,9 @@ class AuthenticationRepository extends GetxController {
       await fireUser.value!.reauthenticateWithCredential(credential);
       await fireUser.value!.updateEmail(email);
       await updateUserEmailFirestore(email: email);
+      userType == UserType.patient
+          ? userInfo.email = email
+          : employeeUserInfo.email = email;
       return 'success';
     } on FirebaseAuthException catch (e) {
       final ex = SignUpWithEmailAndPasswordFailure.code(e.code);

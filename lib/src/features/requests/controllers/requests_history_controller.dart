@@ -274,7 +274,9 @@ class RequestsHistoryController extends GetxController {
             showSnackBar(
                 text: 'sosCancelReturn'.tr, snackBarType: SnackBarType.error);
           }
-          getRequestsHistory();
+          if (latestRequestModel.patientCondition != 'sosRequest') {
+            getRequestsHistory();
+          }
         } else {
           await Get.to(
               () => RequestDetailsPage(requestModel: latestRequestModel),

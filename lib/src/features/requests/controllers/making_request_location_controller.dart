@@ -789,7 +789,7 @@ class MakingRequestLocationController extends GetxController {
     if (mapEnabled.value) {
       if (googleMapControllerInit) {
         googleMapController
-            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 65));
+            .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 80));
       }
     }
   }

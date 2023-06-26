@@ -772,7 +772,7 @@ class Languages extends Translations {
           'normalSmsMsg':
               '@patientName has requested an ambulance. Track the request: @trackingLink. Thank you.',
           'askHeartPatient': '@ask a heart patient?',
-          'askHypertensivePatient': '@ask a hypertensive patient?',
+          'askHypertensivePatient': '@ask hypertensive?',
           'chooseHisBloodType': 'Please choose his/hers blood type',
           'askYou': 'Are you',
           'askHim': 'Is he/she',

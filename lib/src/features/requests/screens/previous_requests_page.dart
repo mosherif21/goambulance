@@ -19,6 +19,7 @@ class PreviousRequestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(RequestsHistoryController());
+    final screenHeight = getScreenHeight(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -133,7 +134,8 @@ class PreviousRequestsPage extends StatelessWidget {
                                     } else if (index ==
                                             controller.requestsList.length &&
                                         controller.requestsList.isNotEmpty) {
-                                      return const SizedBox(height: 20);
+                                      return SizedBox(
+                                          height: screenHeight * 0.1);
                                     } else {
                                       return const EmptyRequestsHistory();
                                     }

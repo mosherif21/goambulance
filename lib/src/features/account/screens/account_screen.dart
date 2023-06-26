@@ -24,6 +24,7 @@ class AccountScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final authRepo = AuthenticationRepository.instance;
+    final screenHeight = getScreenHeight(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -168,7 +169,7 @@ class AccountScreen extends StatelessWidget {
                     enabled: true,
                     color: Colors.red,
                   ),
-                  const SizedBox(height: 10),
+                  SizedBox(height: screenHeight * 0.12),
                   // Obx(
                   //   () => authRepo.isFacebookLinked.value
                   //       ? const SizedBox.shrink()

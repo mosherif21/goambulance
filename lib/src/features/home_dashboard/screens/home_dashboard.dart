@@ -23,6 +23,7 @@ class HomeDashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
+    final screenHeight = getScreenHeight(context);
     final controller = PageController(viewportFraction: 0.9, keepPage: true);
     final sponsorPages = List.generate(
       5,
@@ -151,7 +152,7 @@ class HomeDashBoard extends StatelessWidget {
                           },
                         ),
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: screenHeight * 0.12),
                     ],
                   ),
                 ),

@@ -809,6 +809,7 @@ class AuthenticationRepository extends GetxController {
 class GoogleUserModel {
   final OAuthCredential credential;
   final String email;
+
   GoogleUserModel({
     required this.credential,
     required this.email,

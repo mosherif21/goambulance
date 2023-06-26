@@ -33,7 +33,7 @@ class HomeNavigationBar extends StatelessWidget {
           scale: 1.5,
           child: Lottie.asset(
             kChatBotAnim,
-            fit: BoxFit.contain,
+            fit: BoxFit.fill,
             repeat: true,
           ),
         ),

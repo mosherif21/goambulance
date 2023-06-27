@@ -12,25 +12,34 @@ class NotificationsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
       margin: EdgeInsets.only(
         left: isLangEnglish() ? 0 : 8,
         right: isLangEnglish() ? 8 : 0,
       ),
-      child: GestureDetector(
-        onTap: () => Get.to(() => const NotificationsScreen()),
-        child: notificationsCount != 0
-            ? badges.Badge(
-                badgeContent: Text(notificationsCount.toString()),
-                child: const Icon(
-                  Icons.notifications,
-                  size: 30,
-                ),
-              )
-            : const Icon(
-                Icons.notifications,
-                size: 30,
-              ),
+      child: Material(
+        elevation: 0,
+        shape: const CircleBorder(),
+        color: Colors.transparent,
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          splashFactory: InkSparkle.splashFactory,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: notificationsCount != 0
+                ? badges.Badge(
+                    badgeContent: Text(notificationsCount.toString()),
+                    child: const Icon(
+                      Icons.notifications,
+                      size: 30,
+                    ),
+                  )
+                : const Icon(
+                    Icons.notifications,
+                    size: 30,
+                  ),
+          ),
+          onTap: () => Get.to(() => const NotificationsScreen()),
+        ),
       ),
     );
   }

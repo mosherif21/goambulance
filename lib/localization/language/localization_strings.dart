@@ -399,7 +399,7 @@ class Languages extends Translations {
           'hasSosRequest':
               'لديك بالفعل طلب استغاثة قيد المعالجة أو تم إرساله إلى المستشفى',
           'loggedInPasswordResetLink':
-              'اضغط على زر التأكيد للحصول على رابط إعادة تعيين كلمة المرور',
+              'اضغط على زر الارسال للحصول على رابط إعادة تعيين كلمة المرور',
           'accountTitle7': 'تغيير البريد الالكتروني',
           'enterChangeEmailData':
               'الرجاء إدخال البريد الإلكتروني الجديد وكلمة المرور الخاصة بك لتغيير بريدك الإلكتروني',
@@ -428,6 +428,7 @@ class Languages extends Translations {
           'EmployeeAccountTitle4': 'ارسال رابط تغيير كلمة المرور',
           'employeeEnterYourInfo':
               'الرجاء إضافة المعلومات الخاصة بك لإكمال تسجيل حسابك',
+          'send': 'ارسال',
         },
         'en_US': {
           'sosCancelReturn':
@@ -562,7 +563,7 @@ class Languages extends Translations {
           'passwordResetLink':
               'Enter your E-Mail to get the password reset link',
           'loggedInPasswordResetLink':
-              'Press on confirm button to get the password reset link',
+              'Press on send button to get the password reset link',
           'phoneVerification':
               'Enter your Phone Number to get the verification code',
           'continue': 'CONTINUE',
@@ -872,6 +873,7 @@ class Languages extends Translations {
           'EmployeeAccountTitle2': 'Change phone number',
           'EmployeeAccountTitle3': 'Change email address',
           'EmployeeAccountTitle4': 'Send reset password link',
+          'send': 'Send',
         },
       };
 }

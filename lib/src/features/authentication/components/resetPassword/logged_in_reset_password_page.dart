@@ -69,7 +69,7 @@ class LoggedInResetPasswordPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 20.0),
                   RegularElevatedButton(
-                    buttonText: 'confirm'.tr,
+                    buttonText: 'send'.tr,
                     enabled: true,
                     onPressed: () => controller.resetPassword(),
                     color: Colors.black,

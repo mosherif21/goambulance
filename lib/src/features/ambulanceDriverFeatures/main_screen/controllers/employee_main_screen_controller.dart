@@ -39,6 +39,24 @@ class EmployeeMainScreenController extends GetxController {
     );
   }
 
+  Future<bool> onWillPopScope() {
+    final drawerState = zoomDrawerController.stateNotifier?.value;
+    if (drawerState == DrawerState.open || drawerState == DrawerState.opening) {
+      toggleDrawer();
+      return Future.value(false);
+    } else if (navBarIndex.value != 0) {
+      navBarIndex.value = 0;
+      pageController.animateToPage(
+        0,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      return Future.value(false);
+    } else {
+      return Future.value(true);
+    }
+  }
+
   bool isDrawerOpen(DrawerState drawerState) =>
       drawerState == DrawerState.open ||
               drawerState == DrawerState.opening ||
@@ -50,7 +68,6 @@ class EmployeeMainScreenController extends GetxController {
     switch (index) {
       case 0:
         Get.to(
-          // () => const TestNav1(),
           () => const NotificationsScreen(),
           transition: getPageTransition(),
         );

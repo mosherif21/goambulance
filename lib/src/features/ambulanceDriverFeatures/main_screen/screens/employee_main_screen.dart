@@ -19,20 +19,7 @@ class EmployeeMainScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       body: WillPopScope(
-        onWillPop: () async {
-          final drawerState =
-              homeScreenController.zoomDrawerController.stateNotifier?.value;
-          if (drawerState == DrawerState.open ||
-              drawerState == DrawerState.opening) {
-            homeScreenController.toggleDrawer();
-            return false;
-          } else if (homeScreenController.navBarIndex.value != 0) {
-            homeScreenController.navBarIndex.value = 0;
-            return false;
-          } else {
-            return true;
-          }
-        },
+        onWillPop: homeScreenController.onWillPopScope,
         child: ZoomDrawer(
           controller: homeScreenController.zoomDrawerController,
           menuScreen: EmployeeDrawerPage(

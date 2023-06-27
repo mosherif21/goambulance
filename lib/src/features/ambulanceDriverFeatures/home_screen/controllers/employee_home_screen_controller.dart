@@ -15,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -22,6 +23,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 // ignore: depend_on_referenced_packages
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
+import 'package:location/location.dart' as location;
 import 'package:map_box_geocoder/map_box_geocoder.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
@@ -81,10 +83,11 @@ class EmployeeHomeScreenController extends GetxController {
   late final String userId;
   late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       assignedRequestListener;
+  late final HospitalModel hospitalInfo;
 
   final requestLocationWindowController = CustomInfoWindowController();
   final hospitalWindowController = CustomInfoWindowController();
-  final ambulanceWindowController = CustomInfoWindowController();
+  // final ambulanceWindowController = CustomInfoWindowController();
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
@@ -100,12 +103,13 @@ class EmployeeHomeScreenController extends GetxController {
     firebaseEmployeeDataAccess = FirebaseAmbulanceEmployeeDataAccess.instance;
     loadHospitalInfo();
     initMapController();
-    await setupLocationPermission();
+    listenForNotificationCount();
+    locationPermissionGranted.value = await handleLocationPermission();
+    locationServiceEnabled.value = await location.Location().serviceEnabled();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
-    await _loadMarkersIcon();
-    listenForNotificationCount();
+    getCurrentLocation();
     super.onReady();
   }
 
@@ -138,25 +142,15 @@ class EmployeeHomeScreenController extends GetxController {
 
   void loadHospitalInfo() async {
     hospitalLoaded.value = false;
-    final hospitalInfo = await firebaseEmployeeDataAccess.getHospitalInfo();
+    final hospitalInfoGet = await firebaseEmployeeDataAccess.getHospitalInfo();
     hospitalLoaded.value = true;
-    if (hospitalInfo != null) {
-      hospitalLatLng = hospitalInfo.location;
+    if (hospitalInfoGet != null) {
+      hospitalLatLng = hospitalInfoGet.location;
+      hospitalInfo = hospitalInfoGet;
       hospitalDataAvailable.value = true;
     } else {
       hospitalDataAvailable.value = false;
     }
-  }
-
-  Future<void> setupLocationPermission() async {
-    await handleLocationPermission().then(
-      (permissionGranted) {
-        locationPermissionGranted.value = permissionGranted;
-        if (permissionGranted && locationServiceEnabled.value) {
-          getCurrentLocation();
-        }
-      },
-    );
   }
 
   void initMapController() {
@@ -165,9 +159,17 @@ class EmployeeHomeScreenController extends GetxController {
       await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
-      // requestLocationWindowController.googleMapController = controller;
-      // hospitalWindowController.googleMapController = controller;
+      requestLocationWindowController.googleMapController = controller;
+      hospitalWindowController.googleMapController = controller;
       // ambulanceWindowController.googleMapController = controller;
+      await _loadMarkersIcon();
+      hospitalMarker = Marker(
+        markerId: const MarkerId('hospital'),
+        position: hospitalLatLng,
+        icon: hospitalMarkerIcon,
+        consumeTapEvents: true,
+      );
+      mapMarkers.add(hospitalMarker!);
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
@@ -381,12 +383,12 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void onCameraMove(CameraPosition cameraPosition) {
-    // if (requestLocationWindowController.onCameraMove != null) {
-    //   requestLocationWindowController.onCameraMove!();
-    // }
-    // if (hospitalWindowController.onCameraMove != null) {
-    //   hospitalWindowController.onCameraMove!();
-    // }
+    if (requestLocationWindowController.onCameraMove != null) {
+      requestLocationWindowController.onCameraMove!();
+    }
+    if (hospitalWindowController.onCameraMove != null) {
+      hospitalWindowController.onCameraMove!();
+    }
     // if (ambulanceWindowController.onCameraMove != null) {
     //   ambulanceWindowController.onCameraMove!();
     // }
@@ -460,8 +462,8 @@ class EmployeeHomeScreenController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
-    // requestLocationWindowController.dispose();
-    // hospitalWindowController.dispose();
+    requestLocationWindowController.dispose();
+    hospitalWindowController.dispose();
     // ambulanceWindowController.dispose();
 
     super.onClose();

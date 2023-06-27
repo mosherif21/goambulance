@@ -31,10 +31,10 @@ class MarkerWindowInfo extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (windowType != MarkerWindowType.ambulanceLocation)
+              if (windowType != MarkerWindowType.ambulanceLocation && time != 0)
                 AutoSizeText(
                   windowType == MarkerWindowType.requestLocation
                       ? 'pickupIn'.trParams({

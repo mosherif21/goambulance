@@ -431,6 +431,7 @@ class Languages extends Translations {
           'send': 'ارسال',
           'loadingHospitalInfo': 'جارى تحميل معلومات المستشفى...',
           'failedToGetHospital': 'فشل الحصول على معلومات المستشفى',
+          'hospital': 'المستشفى',
         },
         'en_US': {
           'sosCancelReturn':
@@ -878,6 +879,7 @@ class Languages extends Translations {
           'send': 'Send',
           'loadingHospitalInfo': 'Loading hospital info...',
           'failedToGetHospital': 'Failed to get hospital info',
+          'hospital': 'Hospital',
         },
       };
 }

@@ -326,7 +326,7 @@ class TrackingRequestController extends GetxController {
     choosingHospital.value = true;
     hospitalsPanelController.open();
     requestLocationMarker = Marker(
-      markerId: MarkerId('requestLocation'.tr),
+      markerId: const MarkerId('requestLocation'),
       position: currentChosenLatLng,
       icon: requestLocationMarkerIcon,
       consumeTapEvents: true,
@@ -355,7 +355,7 @@ class TrackingRequestController extends GetxController {
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
       requestLocationMarker = Marker(
-        markerId: MarkerId('requestLocation'.tr),
+        markerId: const MarkerId('requestLocation'),
         position: initialRequestModel.requestLocation,
         icon: requestLocationMarkerIcon,
         consumeTapEvents: true,

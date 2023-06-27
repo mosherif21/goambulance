@@ -117,7 +117,7 @@ class MakingRequestLocationController extends GetxController {
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
-    await _loadMarkersIcon();
+    _loadMarkersIcon();
     super.onReady();
   }
 
@@ -311,7 +311,7 @@ class MakingRequestLocationController extends GetxController {
     choosingHospital.value = true;
     hospitalsPanelController.open();
     requestLocationMarker = Marker(
-      markerId: MarkerId('requestLocation'.tr),
+      markerId: const MarkerId('requestLocation'),
       position: currentChosenLatLng,
       icon: requestLocationMarkerIcon,
       consumeTapEvents: true,

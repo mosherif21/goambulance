@@ -72,7 +72,7 @@ class EmployeeHomeScreenController extends GetxController {
   final hasAssignedRequest = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
-  late RequestModel currentRequestData;
+  late RequestMakingModel currentRequestData;
   late final FirebaseAmbulanceEmployeeDataAccess firebaseEmployeeDataAccess;
 
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?

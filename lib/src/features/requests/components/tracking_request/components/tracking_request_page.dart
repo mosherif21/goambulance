@@ -24,7 +24,7 @@ import '../../making_request/components/search_bar_map.dart';
 class TrackingRequestPage extends StatelessWidget {
   const TrackingRequestPage({Key? key, required this.requestModel})
       : super(key: key);
-  final RequestHistoryModel requestModel;
+  final RequestDataModel requestModel;
   Widget floatingPanel(
       {required TrackingRequestController trackingController}) {
     return Container(

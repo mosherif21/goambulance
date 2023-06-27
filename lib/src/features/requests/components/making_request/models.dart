@@ -42,7 +42,7 @@ class RequestInfoModel {
       };
 }
 
-class RequestModel {
+class RequestMakingModel {
   final String userId;
   final RequestInfoModel requestInfo;
   final Timestamp timestamp;
@@ -53,7 +53,7 @@ class RequestModel {
   final String hospitalName;
   final String status;
   final DocumentReference requestRef;
-  RequestModel({
+  RequestMakingModel({
     required this.requestRef,
     required this.userId,
     required this.hospitalId,

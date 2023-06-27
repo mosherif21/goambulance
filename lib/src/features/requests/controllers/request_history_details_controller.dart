@@ -7,7 +7,7 @@ import '../../../general/map_utils.dart';
 
 class RequestsHistoryDetailsController extends GetxController {
   static RequestsHistoryDetailsController get instance => Get.find();
-  late final RequestHistoryModel requestModel;
+  late final RequestDataModel requestModel;
   RequestsHistoryDetailsController({required this.requestModel});
   final mapUrl = ''.obs;
   @override

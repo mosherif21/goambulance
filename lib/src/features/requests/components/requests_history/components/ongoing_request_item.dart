@@ -14,7 +14,7 @@ class OngoingRequestItem extends StatelessWidget {
     required this.requestInfo,
   }) : super(key: key);
   final Function onPressed;
-  final RequestHistoryModel requestInfo;
+  final RequestDataModel requestInfo;
 
   @override
   Widget build(BuildContext context) {

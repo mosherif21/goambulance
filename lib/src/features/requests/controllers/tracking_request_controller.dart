@@ -36,7 +36,7 @@ import '../components/requests_history/models.dart';
 
 class TrackingRequestController extends GetxController {
   static TrackingRequestController get instance => Get.find();
-  late RequestHistoryModel initialRequestModel;
+  late RequestDataModel initialRequestModel;
   TrackingRequestController({required this.initialRequestModel});
 
   //location permissions and services vars
@@ -83,7 +83,7 @@ class TrackingRequestController extends GetxController {
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
-  late RequestModel currentRequestData;
+  late RequestMakingModel currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final selectedHospital = Rx<HospitalLocationsModel?>(null);
   int skipCount = 0;
@@ -194,7 +194,7 @@ class TrackingRequestController extends GetxController {
         additionalInformation: initialRequestModel.additionalInformation,
       );
       final pendingRequestRef = _firestore.collection('pendingRequests').doc();
-      final requestData = RequestModel(
+      final requestData = RequestMakingModel(
         userId: userId,
         hospitalId: selectedHospital.value!.hospitalId,
         requestInfo: requestInfo,
@@ -411,7 +411,7 @@ class TrackingRequestController extends GetxController {
       final pendingRequestRef = _firestore
           .collection('pendingRequests')
           .doc(initialRequestModel.requestId);
-      final requestData = RequestModel(
+      final requestData = RequestMakingModel(
         userId: initialRequestModel.userId,
         hospitalId: initialRequestModel.hospitalId,
         requestInfo: RequestInfoModel(

@@ -15,7 +15,7 @@ class StaticMarkerModel {
   });
 }
 
-class RequestHistoryModel {
+class RequestDataModel {
   final String requestId;
   final String userId;
   final String additionalInformation;
@@ -36,7 +36,7 @@ class RequestHistoryModel {
   String? ambulanceMedicID;
   MedicalHistoryModel? medicalHistory;
   String? hospitalGeohash;
-  RequestHistoryModel({
+  RequestDataModel({
     required this.requestId,
     required this.userId,
     required this.backupNumber,

@@ -397,8 +397,8 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<List<RequestHistoryModel>?> getRecentRequests() async {
-    final List<RequestHistoryModel> readRequestsHistory = [];
+  Future<List<RequestDataModel>?> getRecentRequests() async {
+    final List<RequestDataModel> readRequestsHistory = [];
     try {
       final pendingSnapshot =
           await firestoreUserRef.collection('pendingRequests').get();
@@ -427,7 +427,7 @@ class FirebasePatientDataAccess extends GetxController {
               requestLocationPoint.latitude, requestLocationPoint.longitude);
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
-          final requestModel = RequestHistoryModel(
+          final requestModel = RequestDataModel(
             requestId: pendingDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -470,7 +470,7 @@ class FirebasePatientDataAccess extends GetxController {
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
           final status = assignedRequestDocument['status'].toString();
-          final requestModel = RequestHistoryModel(
+          final requestModel = RequestDataModel(
             requestId: assignedDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -518,7 +518,7 @@ class FirebasePatientDataAccess extends GetxController {
               requestLocationPoint.latitude, requestLocationPoint.longitude);
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
-          final requestModel = RequestHistoryModel(
+          final requestModel = RequestDataModel(
             requestId: completedDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -564,7 +564,7 @@ class FirebasePatientDataAccess extends GetxController {
               requestLocationPoint.latitude, requestLocationPoint.longitude);
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
-          final requestModel = RequestHistoryModel(
+          final requestModel = RequestDataModel(
             requestId: canceledDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -791,7 +791,7 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> requestHospital({
-    required RequestModel requestInfo,
+    required RequestMakingModel requestInfo,
   }) async {
     try {
       final requestDataBatch = fireStore.batch();
@@ -839,7 +839,7 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<FunctionStatus> cancelHospitalRequest({
-    required RequestModel requestInfo,
+    required RequestMakingModel requestInfo,
   }) async {
     try {
       final cancelRequestBatch = fireStore.batch();
@@ -945,8 +945,8 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   //(reminder for me) remember to modify to return all the latest request model data and that if it's not found it's not completed it may be sos request
-  Future<RequestHistoryModel?> getRequestStatus(
-      {required RequestHistoryModel requestModel}) async {
+  Future<RequestDataModel?> getRequestStatus(
+      {required RequestDataModel requestModel}) async {
     try {
       final initialRequestStatus = requestModel.requestStatus;
       if (requestModel.requestStatus == RequestStatus.pending ||

@@ -13,7 +13,7 @@ import '../../../controllers/request_history_details_controller.dart';
 class RequestDetailsPage extends StatelessWidget {
   const RequestDetailsPage({Key? key, required this.requestModel})
       : super(key: key);
-  final RequestHistoryModel requestModel;
+  final RequestDataModel requestModel;
   @override
   Widget build(BuildContext context) {
     final controller =

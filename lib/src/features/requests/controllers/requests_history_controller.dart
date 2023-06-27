@@ -22,7 +22,7 @@ class RequestsHistoryController extends GetxController {
   static RequestsHistoryController get instance => Get.find();
 
   final requestsLoaded = false.obs;
-  final requestsList = <RequestHistoryModel>[].obs;
+  final requestsList = <RequestDataModel>[].obs;
   late final String userId;
   late final DocumentReference firestoreUserRef;
   late final FirebaseFirestore _firestore;
@@ -244,7 +244,7 @@ class RequestsHistoryController extends GetxController {
   }
 
   void onRequestSelected(
-      {required RequestHistoryModel initialRequestModel}) async {
+      {required RequestDataModel initialRequestModel}) async {
     if (kDebugMode) {
       AppInit.logger.i('known status: ${initialRequestModel.requestStatus}');
     }

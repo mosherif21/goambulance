@@ -81,7 +81,7 @@ class MakingRequestLocationController extends GetxController {
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
-  late RequestModel currentRequestData;
+  late RequestMakingModel currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final selectedHospital = Rx<HospitalLocationsModel?>(null);
   int skipCount = 0;
@@ -166,7 +166,7 @@ class MakingRequestLocationController extends GetxController {
       final requestInfo =
           MakingRequestInformationController.instance.getRequestInfo();
       final pendingRequestRef = _firestore.collection('pendingRequests').doc();
-      final requestData = RequestModel(
+      final requestData = RequestMakingModel(
         userId: userId,
         hospitalId: selectedHospital.value!.hospitalId,
         requestInfo: requestInfo,

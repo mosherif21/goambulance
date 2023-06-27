@@ -3,7 +3,9 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/employee_map/employee_notifications_button.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/main_screen/controllers/employee_main_screen_controller.dart';
+import 'package:goambulance/src/general/general_functions.dart';
 
+import '../components/employee_map/employee_enable_location_button.dart';
 import '../components/employee_map/employee_loading_hospital.dart';
 import '../components/employee_map/employee_map_screen.dart';
 import '../components/employee_map/hospital_get_failed.dart';
@@ -85,6 +87,17 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen>
                         ),
                         onTap: () => mainScreenController.toggleDrawer(),
                       ),
+                    ),
+                    const SizedBox(width: 10),
+                    Obx(
+                      () => !employeeHomeScreenController
+                                  .locationServiceEnabled.value ||
+                              !employeeHomeScreenController
+                                  .locationPermissionGranted.value
+                          ? EmployeeEnableLocationButton(
+                              onPressed: () => handleLocation(),
+                            )
+                          : const SizedBox.shrink(),
                     ),
                     const Spacer(),
                     Obx(

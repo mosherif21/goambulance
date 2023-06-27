@@ -78,9 +78,7 @@ class EmployeeHomeScreenController extends GetxController {
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
   late final FirebaseFirestore _firestore;
-  late final AuthenticationRepository authenticationRepository;
   late final String userId;
-  late final String userName;
   late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       assignedRequestListener;
 
@@ -94,16 +92,15 @@ class EmployeeHomeScreenController extends GetxController {
   final notificationsCount = 0.obs;
   late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       notificationCountStreamSubscription;
+
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
-    authenticationRepository = AuthenticationRepository.instance;
-    userId = authenticationRepository.fireUser.value!.uid;
-    userName = authenticationRepository.employeeUserInfo.name;
+    userId = AuthenticationRepository.instance.fireUser.value!.uid;
     firebaseEmployeeDataAccess = FirebaseAmbulanceEmployeeDataAccess.instance;
     loadHospitalInfo();
     initMapController();
-    await locationInit();
+    await setupLocationPermission();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
@@ -114,7 +111,6 @@ class EmployeeHomeScreenController extends GetxController {
 
   void listenForNotificationCount() {
     try {
-      final userId = AuthenticationRepository.instance.fireUser.value!.uid;
       notificationCountStreamSubscription = _firestore
           .collection('notifications')
           .doc(userId)
@@ -150,15 +146,6 @@ class EmployeeHomeScreenController extends GetxController {
     } else {
       hospitalDataAvailable.value = false;
     }
-  }
-
-  Future<void> locationInit() async {
-    showLoadingScreen();
-    await handleLocationService().then((locationService) {
-      locationServiceEnabled.value = locationService;
-      setupLocationPermission();
-    });
-    hideLoadingScreen();
   }
 
   Future<void> setupLocationPermission() async {

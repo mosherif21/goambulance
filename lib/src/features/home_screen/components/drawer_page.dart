@@ -59,7 +59,8 @@ class DrawerPage extends StatelessWidget {
                             ),
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
                       width: 200,
                       child: Obx(
                         () => AutoSizeText(

@@ -118,10 +118,10 @@ class MakingRequestMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    return Scaffold(
-      body: WillPopScope(
-        onWillPop: makingRequestController.onWillPop,
-        child: SlidingUpPanel(
+    return WillPopScope(
+      onWillPop: makingRequestController.onWillPop,
+      child: Scaffold(
+        body: SlidingUpPanel(
           renderPanelSheet: false,
           controller: makingRequestController.hospitalsPanelController,
           panel: floatingPanel(),

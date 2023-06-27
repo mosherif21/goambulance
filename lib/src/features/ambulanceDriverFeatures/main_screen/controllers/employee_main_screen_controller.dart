@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
@@ -8,13 +9,14 @@ import '../../../help_center/screens/help_screen.dart';
 import '../../../information/screens/about_us_page.dart';
 import '../../../notifications/screens/notifications_screen.dart';
 
-class EmployeeHomeScreenController extends GetxController {
-  static EmployeeHomeScreenController get instance => Get.find();
+class EmployeeMainScreenController extends GetxController {
+  static EmployeeMainScreenController get instance => Get.find();
 
   final zoomDrawerController = ZoomDrawerController();
   final navBarIndex = 0.obs;
   late final FirebaseAmbulanceEmployeeDataAccess firebaseEmployeeDataAccess;
   late final AuthenticationRepository authenticationRepository;
+  final PageController pageController = PageController(initialPage: 0);
 
   @override
   void onReady() async {
@@ -30,6 +32,11 @@ class EmployeeHomeScreenController extends GetxController {
 
   void navigationBarOnTap(int navIndex) async {
     navBarIndex.value = navIndex;
+    pageController.animateToPage(
+      navIndex,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
   }
 
   bool isDrawerOpen(DrawerState drawerState) =>
@@ -74,6 +81,7 @@ class EmployeeHomeScreenController extends GetxController {
 
   @override
   void onClose() async {
+    pageController.dispose();
     super.onClose();
   }
 }

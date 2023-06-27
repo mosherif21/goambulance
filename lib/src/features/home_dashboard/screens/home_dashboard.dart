@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/first_aid/controllers/first_aid_assets.dart';
@@ -57,116 +56,100 @@ class HomeDashBoard extends StatelessWidget {
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
-              child: AnimationLimiter(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: AnimationConfiguration.toStaggeredList(
-                    duration: const Duration(milliseconds: 375),
-                    childAnimationBuilder: (widget) => SlideAnimation(
-                      horizontalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: widget,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextHeaderWithButton(
+                    headerText: 'firstAidTips'.tr,
+                    onPressed: () => Get.to(
+                      () => const FirstAidScreen(),
+                      transition: getPageTransition(),
                     ),
-                    children: [
-                      TextHeaderWithButton(
-                        headerText: 'firstAidTips'.tr,
-                        onPressed: () => Get.to(
-                          () => const FirstAidScreen(),
-                          transition: getPageTransition(),
-                        ),
-                        buttonText: 'viewAll'.tr,
-                      ),
-                      CarouselSlider(
-                        items: [
-                          for (int firstAidNumber = 1;
-                              firstAidNumber <= 17;
-                              firstAidNumber++)
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: OpenContainer(
-                                useRootNavigator: true,
-                                closedElevation: 0,
-                                openElevation: 0,
-                                closedBuilder: (context, action) =>
-                                    clickableLabeledImage(
-                                  img: getFirstAidTipImage(firstAidNumber),
-                                  label: 'firstAidTips$firstAidNumber'.tr,
-                                ),
-                                openBuilder: (context, action) =>
-                                    FirstAidTipsDetailsPage(
-                                  imgPath:
-                                      getFirstAidDetailsPath(firstAidNumber),
-                                ),
-                              ),
+                    buttonText: 'viewAll'.tr,
+                  ),
+                  CarouselSlider(
+                    items: [
+                      for (int firstAidNumber = 1;
+                          firstAidNumber <= 17;
+                          firstAidNumber++)
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: OpenContainer(
+                            useRootNavigator: true,
+                            closedElevation: 0,
+                            openElevation: 0,
+                            closedBuilder: (context, action) =>
+                                clickableLabeledImage(
+                              img: getFirstAidTipImage(firstAidNumber),
+                              label: 'firstAidTips$firstAidNumber'.tr,
                             ),
-                        ],
-                        options: CarouselOptions(
-                          autoPlay: true,
-                          aspectRatio: 2.2,
-                          enlargeCenterPage: true,
-                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                            openBuilder: (context, action) =>
+                                FirstAidTipsDetailsPage(
+                              imgPath: getFirstAidDetailsPath(firstAidNumber),
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 15),
-                      TextHeaderWithButton(
-                        headerText: 'services'.tr,
-                        onPressed: () => Get.to(
-                          () => const ServicesScreen(),
-                          transition: getPageTransition(),
-                        ),
-                        buttonText: 'viewAll'.tr,
-                      ),
-                      const ServicesButtons(),
-                      const SizedBox(height: 15),
-                      SizedBox(
-                        height: 230,
-                        child: Obx(
-                          () => !homeScreenController.adsLoaded.value
-                              ? const LoadingAds()
-                              : PageView.builder(
-                                  controller: controller,
-                                  itemCount:
-                                      homeScreenController.adImageUrl.length,
-                                  itemBuilder: (_, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(12),
-                                      child: OpenContainer(
-                                        useRootNavigator: true,
-                                        closedElevation: 0,
-                                        openElevation: 0,
-                                        closedBuilder: (context, action) =>
-                                            Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.shade300,
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(10),
-                                            ),
-                                          ),
-                                          child: Image.network(
-                                            homeScreenController
-                                                .adImageUrl[index],
-                                            fit: BoxFit.fill,
-                                          ),
-                                        ),
-                                        openBuilder: (context, action) =>
-                                            PhotoView(
-                                          minScale:
-                                              PhotoViewComputedScale.contained,
-                                          imageProvider: AssetImage(
-                                              getSponsorImage(index + 1)),
+                    ],
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      aspectRatio: 2.2,
+                      enlargeCenterPage: true,
+                      enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  TextHeaderWithButton(
+                    headerText: 'services'.tr,
+                    onPressed: () => Get.to(
+                      () => const ServicesScreen(),
+                      transition: getPageTransition(),
+                    ),
+                    buttonText: 'viewAll'.tr,
+                  ),
+                  const ServicesButtons(),
+                  const SizedBox(height: 15),
+                  SizedBox(
+                    height: 230,
+                    child: Obx(
+                      () => !homeScreenController.adsLoaded.value
+                          ? const LoadingAds()
+                          : PageView.builder(
+                              controller: controller,
+                              itemCount: homeScreenController.adImageUrl.length,
+                              itemBuilder: (_, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: OpenContainer(
+                                    useRootNavigator: true,
+                                    closedElevation: 0,
+                                    openElevation: 0,
+                                    closedBuilder: (context, action) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade300,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10),
                                         ),
                                       ),
-                                    );
-                                  },
-                                ),
-                        ),
-                      ),
-                      SizedBox(height: screenHeight * 0.12),
-                    ],
+                                      child: Image.network(
+                                        homeScreenController.adImageUrl[index],
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    openBuilder: (context, action) => PhotoView(
+                                      minScale:
+                                          PhotoViewComputedScale.contained,
+                                      imageProvider: AssetImage(
+                                          getSponsorImage(index + 1)),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                    ),
                   ),
-                ),
+                  SizedBox(height: screenHeight * 0.12),
+                ],
               ),
             ),
           ),

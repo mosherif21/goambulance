@@ -19,7 +19,7 @@ import '../../localization/language/language_functions.dart';
 import '../constants/colors.dart';
 import '../constants/enums.dart';
 import '../features/account/components/new_account/register_user_data_page.dart';
-import '../features/ambulanceDriverFeatures/main_screen/screens/employee_home_screen.dart';
+import '../features/ambulanceDriverFeatures/main_screen/screens/employee_main_screen.dart';
 import '../features/authentication/screens/auth_screen.dart';
 import '../features/home_screen/screens/home_screen.dart';
 import '../features/intro_screen/components/onboarding_shared_preferences.dart';
@@ -187,7 +187,7 @@ class AppInit {
               authRepo.isUserRegistered) {
             makeSystemUiTransparent();
             Get.offAll(
-              () => const EmployeeHomeScreen(),
+              () => const EmployeeMainScreen(),
               transition: Transition.circularReveal,
             );
           }

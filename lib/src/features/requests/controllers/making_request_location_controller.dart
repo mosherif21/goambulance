@@ -117,7 +117,6 @@ class MakingRequestLocationController extends GetxController {
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
-    await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
     await _loadMarkersIcon();
     super.onReady();
   }
@@ -253,9 +252,9 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void initMapController() {
-    mapControllerCompleter.future.then((controller) {
+    mapControllerCompleter.future.then((controller) async {
       googleMapController = controller;
-      controller.setMapStyle(mapStyle);
+
       googleMapControllerInit = true;
       requestLocationWindowController.googleMapController = controller;
       hospitalWindowController.googleMapController = controller;
@@ -263,6 +262,8 @@ class MakingRequestLocationController extends GetxController {
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
+      await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
+      controller.setMapStyle(mapStyle);
     });
   }
 

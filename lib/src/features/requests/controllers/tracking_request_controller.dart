@@ -110,7 +110,6 @@ class TrackingRequestController extends GetxController {
     _firestore = FirebaseFirestore.instance;
     userId = AuthenticationRepository.instance.fireUser.value!.uid;
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
-    await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
     await _loadMarkersIcon();
     super.onInit();
   }
@@ -269,9 +268,8 @@ class TrackingRequestController extends GetxController {
   }
 
   void initMapController() {
-    mapControllerCompleter.future.then((controller) {
+    mapControllerCompleter.future.then((controller) async {
       googleMapController = controller;
-      controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
       requestLocationWindowController.googleMapController = controller;
       hospitalWindowController.googleMapController = controller;
@@ -279,6 +277,8 @@ class TrackingRequestController extends GetxController {
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
+      await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
+      controller.setMapStyle(mapStyle);
     }).whenComplete(() => initialRequestChanges());
   }
 

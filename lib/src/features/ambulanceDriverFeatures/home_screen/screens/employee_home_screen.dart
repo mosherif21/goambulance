@@ -1,7 +1,10 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/employee_notifications_button.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/main_screen/controllers/employee_main_screen_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../general/app_init.dart';
@@ -25,6 +28,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen>
     final screenHeight = getScreenHeight(context);
     final employeeHomeScreenController =
         Get.put(EmployeeHomeScreenController());
+    final mainScreenController = EmployeeMainScreenController.instance;
     return Scaffold(
       body: Stack(
         children: [
@@ -78,29 +82,43 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen>
           //   width: 150,
           //   offset: 50,
           // ),
-          const Positioned(
+          Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: SafeArea(
               child: Padding(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Row(
                   children: [
-                    // CircleBackButton(
-                    //   padding: 0,
-                    //   onPress:( makingRequestController.onBackPressed),
-                    // ),
-                    SizedBox(width: 10),
-                    // Obx(
-                    //   () => makingRequestController.choosingHospital.value
-                    //       ? const SizedBox.shrink()
-                    //       : Expanded(
-                    //           child: MakingRequestMapSearch(
-                    //             locationController: makingRequestController,
-                    //           ),
-                    //         ),
-                    // ),
+                    Material(
+                      elevation: 5,
+                      shape: const CircleBorder(),
+                      color: Colors.white,
+                      child: InkWell(
+                        customBorder: const CircleBorder(),
+                        splashFactory: InkSparkle.splashFactory,
+                        child: Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: ValueListenableBuilder(
+                            valueListenable: mainScreenController
+                                .zoomDrawerController.stateNotifier!,
+                            builder: (BuildContext context,
+                                DrawerState drawerState, Widget? child) {
+                              return Icon(
+                                mainScreenController.isDrawerOpen(drawerState)
+                                    ? Icons.close
+                                    : Icons.menu_outlined,
+                                size: 30,
+                              );
+                            },
+                          ),
+                        ),
+                        onTap: () => mainScreenController.toggleDrawer(),
+                      ),
+                    ),
+                    const Spacer(),
+                    const EmployeeNotificationsButton(),
                   ],
                 ),
               ),

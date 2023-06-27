@@ -63,7 +63,7 @@ class AddressesLocationController extends GetxController {
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
-    await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
+
     initMapController();
     super.onReady();
   }
@@ -89,13 +89,14 @@ class AddressesLocationController extends GetxController {
   }
 
   void initMapController() {
-    mapControllerCompleter.future.then((controller) {
+    mapControllerCompleter.future.then((controller) async {
       googleMapController = controller;
-      controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
-      // if (AppInit.isWeb) {
-      //   animateCamera(locationLatLng: initialCameraLatLng);
-      // }
+      await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
+      controller.setMapStyle(mapStyle);
+      if (AppInit.isWeb) {
+        animateCamera(locationLatLng: initialCameraLatLng);
+      }
     });
   }
 

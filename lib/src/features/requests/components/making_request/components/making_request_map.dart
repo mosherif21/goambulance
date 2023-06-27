@@ -237,7 +237,8 @@ class MakingRequestMap extends StatelessWidget {
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(
-                    controller: makingRequestController,
+                    onLocationButtonPress: () =>
+                        makingRequestController.onLocationButtonPress(),
                   ),
                 ),
               ),

@@ -85,12 +85,12 @@ class TrackingRequestController extends GetxController {
   final requestStatus = RequestStatus.non.obs;
   late RequestModel currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
-  final selectedHospital = Rx<HospitalModel?>(null);
+  final selectedHospital = Rx<HospitalLocationsModel?>(null);
   int skipCount = 0;
   static const pageSize = 6;
 
-  final searchedHospitals = <HospitalModel>[].obs;
-  CancelableOperation<List<HospitalModel>>? getHospitalsOperation;
+  final searchedHospitals = <HospitalLocationsModel>[].obs;
+  CancelableOperation<List<HospitalLocationsModel>>? getHospitalsOperation;
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
   late final FirebaseFirestore _firestore;
@@ -345,7 +345,7 @@ class TrackingRequestController extends GetxController {
         () => animateToLocation(locationLatLng: currentChosenLatLng));
     currentChosenLatLng = initialRequestModel.requestLocation;
     requestStatus.value = initialRequestModel.requestStatus;
-    selectedHospital.value = HospitalModel(
+    selectedHospital.value = HospitalLocationsModel(
       hospitalId: initialRequestModel.hospitalId,
       name: initialRequestModel.hospitalName,
       avgPrice: '',
@@ -499,7 +499,7 @@ class TrackingRequestController extends GetxController {
         .whenComplete(() => locationInit());
   }
 
-  Future<List<HospitalModel>> getHospitalsList() async {
+  Future<List<HospitalLocationsModel>> getHospitalsList() async {
     double searchRadius = 3;
     double maxRadius = 15;
     List<DocumentSnapshot<Object?>> hospitalGeoDocuments = [];
@@ -535,11 +535,11 @@ class TrackingRequestController extends GetxController {
     } catch (e) {
       if (kDebugMode) print(e.toString());
     }
-    final List<HospitalModel> hospitalsDataDocuments = [];
+    final List<HospitalLocationsModel> hospitalsDataDocuments = [];
     for (final hospitalDoc in hospitalGeoDocuments) {
       final geoPoint = hospitalDoc['g.geopoint'] as GeoPoint;
       final geohash = hospitalDoc['g.geohash'] as String;
-      final foundHospital = HospitalModel(
+      final foundHospital = HospitalLocationsModel(
         hospitalId: hospitalDoc.id,
         name: hospitalDoc['name'].toString(),
         avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
@@ -626,9 +626,9 @@ class TrackingRequestController extends GetxController {
     }
   }
 
-  Future<List<HospitalModel>> getHospitalsDataDocuments(
+  Future<List<HospitalLocationsModel>> getHospitalsDataDocuments(
       {required List<DocumentSnapshot<Object?>> hospitalsDocuments}) async {
-    List<HospitalModel> hospitalsDataDocuments = [];
+    List<HospitalLocationsModel> hospitalsDataDocuments = [];
     try {
       final hospitalsRef = _firestore.collection('hospitals');
       for (var hospitalsDocument in hospitalsDocuments) {
@@ -638,7 +638,7 @@ class TrackingRequestController extends GetxController {
           final hospitalDoc = docSnap.data()!;
           final geoPoint = hospitalDoc['location'] as GeoPoint;
           final geohash = hospitalDoc['g.geohash'] as String;
-          final foundHospital = HospitalModel(
+          final foundHospital = HospitalLocationsModel(
             hospitalId: hospitalId,
             name: hospitalDoc['name'].toString(),
             avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),

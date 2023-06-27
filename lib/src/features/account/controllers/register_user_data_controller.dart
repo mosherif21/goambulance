@@ -247,7 +247,7 @@ class RegisterUserDataController extends GetxController {
         gender: gender == Gender.male ? 'male' : 'female',
         sosMessage: '',
         criticalUser: false,
-        phone: phone,
+        phoneNumber: phone,
         backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : 'unknown',
       );
 

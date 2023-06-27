@@ -234,7 +234,8 @@ class TrackingRequestPage extends StatelessWidget {
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(
-                    controller: trackingController,
+                    onLocationButtonPress: () =>
+                        trackingController.onLocationButtonPress(),
                   ),
                 ),
               ),

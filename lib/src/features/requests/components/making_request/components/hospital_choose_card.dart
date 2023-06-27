@@ -13,7 +13,7 @@ class HospitalChooseCard extends StatelessWidget {
     required this.selected,
     required this.onPress,
   }) : super(key: key);
-  final HospitalModel hospitalItem;
+  final HospitalLocationsModel hospitalItem;
   final bool selected;
   final Function onPress;
   @override

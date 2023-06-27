@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../authentication/authentication_repository.dart';
@@ -50,6 +52,10 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
             .child('nationalId')
             .putFile(File(nationalID.path));
       }
+      final phoneNumber = authRep.fireUser.value!.phoneNumber;
+      if (phoneNumber != null) {
+        await firestoreUserRef.update({'phoneNumber': phoneNumber});
+      }
       authRep.isUserRegistered = true;
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
@@ -63,6 +69,44 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
       }
       return FunctionStatus.failure;
     }
+  }
+
+  Future<HospitalModel?> getHospitalInfo() async {
+    try {
+      await fireStore
+          .collection('hospitals')
+          .doc(authRep.employeeUserInfo.hospitalId)
+          .get()
+          .then((snapshot) {
+        if (snapshot.exists) {
+          final snapshotData = snapshot.data();
+          if (snapshotData != null) {
+            final geoPointLocation =
+                snapshotData['location'].toString() as GeoPoint;
+            final hospitalInfo = HospitalModel(
+              hospitalId: snapshotData['hospitalId'].toString(),
+              name: snapshotData['name'].toString(),
+              avgAmbulancePrice: snapshotData['avgAmbulancePrice'].toString(),
+              geohash: snapshotData['geohash'].toString(),
+              location:
+                  LatLng(geoPointLocation.latitude, geoPointLocation.longitude),
+              hospitalNumber: snapshotData['hospitalNumber'].toString(),
+              address: snapshotData['address'].toString(),
+            );
+            return hospitalInfo;
+          }
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
   }
 
   Future<FunctionStatus> updateUserInfo({

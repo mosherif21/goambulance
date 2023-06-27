@@ -2,7 +2,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../notifications/screens/notifications_screen.dart';
+import '../../../../notifications/screens/notifications_screen.dart';
 
 class EmployeeNotificationsButton extends StatelessWidget {
   const EmployeeNotificationsButton(

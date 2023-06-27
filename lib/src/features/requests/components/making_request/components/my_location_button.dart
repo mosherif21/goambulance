@@ -4,10 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import '../../../../../constants/assets_strings.dart';
 
 class MyLocationButton extends StatelessWidget {
-  const MyLocationButton({Key? key, required this.controller})
+  const MyLocationButton({Key? key, required this.onLocationButtonPress})
       : super(key: key);
-
-  final dynamic controller;
+  final Function onLocationButtonPress;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,7 +25,7 @@ class MyLocationButton extends StatelessWidget {
               height: 30,
             ),
           ),
-          onTap: () => controller.onLocationButtonPress(),
+          onTap: () => onLocationButtonPress(),
         ),
       ),
     );

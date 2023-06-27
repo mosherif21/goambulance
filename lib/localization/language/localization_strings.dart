@@ -429,6 +429,8 @@ class Languages extends Translations {
           'employeeEnterYourInfo':
               'الرجاء إضافة المعلومات الخاصة بك لإكمال تسجيل حسابك',
           'send': 'ارسال',
+          'loadingHospitalInfo': 'جارى تحميل معلومات المستشفى...',
+          'failedToGetHospital': 'فشل الحصول على معلومات المستشفى',
         },
         'en_US': {
           'sosCancelReturn':
@@ -874,6 +876,8 @@ class Languages extends Translations {
           'EmployeeAccountTitle3': 'Change email address',
           'EmployeeAccountTitle4': 'Send reset password link',
           'send': 'Send',
+          'loadingHospitalInfo': 'Loading hospital info...',
+          'failedToGetHospital': 'Failed to get hospital info',
         },
       };
 }

@@ -3,14 +3,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../account/components/models.dart';
 
-class HospitalModel {
+class HospitalLocationsModel {
   final String hospitalId;
   final String name;
   final String avgPrice;
   final String geohash;
   final LatLng location;
 
-  HospitalModel({
+  HospitalLocationsModel({
     required this.hospitalId,
     required this.name,
     required this.avgPrice,

@@ -168,7 +168,7 @@ class AuthenticationRepository extends GetxController {
               name: userDoc['name'].toString(),
               email: userDoc['email'].toString(),
               nationalId: userDoc['nationalId'].toString(),
-              phone: userDoc['phone'].toString(),
+              phoneNumber: userDoc['phoneNumber'].toString(),
               hospitalId: userDoc['hospitalId'].toString(),
               userType: userType,
             );
@@ -183,7 +183,7 @@ class AuthenticationRepository extends GetxController {
               gender: userDoc['gender'].toString(),
               sosMessage: userDoc['sosMessage'].toString(),
               criticalUser: userDoc['criticalUser'] as bool,
-              phone: userDoc['phone'].toString(),
+              phoneNumber: userDoc['phoneNumber'].toString(),
               backupNumber: userDoc['backupNumber'].toString(),
             );
             userType = UserType.patient;
@@ -292,7 +292,7 @@ class AuthenticationRepository extends GetxController {
     final String userId = fireUser.value!.uid;
     final firestoreUsersCollRef = _firestore.collection('users');
     try {
-      await firestoreUsersCollRef.doc(userId).update({'phone': phone});
+      await firestoreUsersCollRef.doc(userId).update({'phoneNumber': phone});
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -460,7 +460,7 @@ class AuthenticationRepository extends GetxController {
             verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
         if (isUserRegistered) {
-          userInfo.phone = fireUser.value!.phoneNumber!;
+          userInfo.phoneNumber = fireUser.value!.phoneNumber!;
           await updateUserPhoneFirestore(phone: fireUser.value!.phoneNumber!);
         }
         checkUserHasPhoneNumber();
@@ -787,14 +787,14 @@ class AuthenticationRepository extends GetxController {
         gender: '',
         sosMessage: '',
         criticalUser: false,
-        phone: '',
+        phoneNumber: '',
         backupNumber: '',
       );
       employeeUserInfo = EmployeeUserInformation(
         name: '',
         email: '',
         nationalId: '',
-        phone: '',
+        phoneNumber: '',
         hospitalId: '',
         userType: UserType.driver,
       );

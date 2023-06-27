@@ -6,7 +6,7 @@ class UserInformation {
   String nationalId;
   DateTime birthDate;
   String gender;
-  String phone;
+  String phoneNumber;
   String sosMessage;
   String backupNumber;
   bool criticalUser;
@@ -20,7 +20,7 @@ class UserInformation {
     required this.gender,
     required this.sosMessage,
     required this.criticalUser,
-    required this.phone,
+    required this.phoneNumber,
   });
 
   Map<String, dynamic> toJson() => {
@@ -32,7 +32,7 @@ class UserInformation {
         'type': 'patient',
         'criticalUser': criticalUser,
         'sosMessage': sosMessage,
-        'phone': phone,
+        'phoneNumber': phoneNumber,
         'backupNumber': backupNumber,
       };
 }
@@ -41,7 +41,7 @@ class EmployeeUserInformation {
   String name;
   String email;
   String nationalId;
-  String phone;
+  String phoneNumber;
   String hospitalId;
   UserType userType;
 
@@ -49,7 +49,7 @@ class EmployeeUserInformation {
     required this.name,
     required this.email,
     required this.nationalId,
-    required this.phone,
+    required this.phoneNumber,
     required this.hospitalId,
     required this.userType,
   });
@@ -61,7 +61,7 @@ class EmployeeUserInformation {
         'type':
             userType == UserType.medic ? 'ambulanceMedic' : 'ambulanceDriver',
         'hospitalId': hospitalId,
-        'phone': phone,
+        'phoneNumber': phoneNumber,
       };
 }
 

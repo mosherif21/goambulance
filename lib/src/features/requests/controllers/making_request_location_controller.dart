@@ -83,12 +83,12 @@ class MakingRequestLocationController extends GetxController {
   final requestStatus = RequestStatus.non.obs;
   late RequestModel currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
-  final selectedHospital = Rx<HospitalModel?>(null);
+  final selectedHospital = Rx<HospitalLocationsModel?>(null);
   int skipCount = 0;
   static const pageSize = 6;
 
-  final searchedHospitals = <HospitalModel>[].obs;
-  CancelableOperation<List<HospitalModel>>? getHospitalsOperation;
+  final searchedHospitals = <HospitalLocationsModel>[].obs;
+  CancelableOperation<List<HospitalLocationsModel>>? getHospitalsOperation;
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
   late final FirebaseFirestore _firestore;
@@ -392,7 +392,7 @@ class MakingRequestLocationController extends GetxController {
     clearSearchedHospitals();
   }
 
-  Future<List<HospitalModel>> getHospitalsList() async {
+  Future<List<HospitalLocationsModel>> getHospitalsList() async {
     double searchRadius = 3;
     double maxRadius = 15;
     List<DocumentSnapshot<Object?>> hospitalGeoDocuments = [];
@@ -428,11 +428,11 @@ class MakingRequestLocationController extends GetxController {
     } catch (e) {
       if (kDebugMode) print(e.toString());
     }
-    final List<HospitalModel> hospitalsDataDocuments = [];
+    final List<HospitalLocationsModel> hospitalsDataDocuments = [];
     for (final hospitalDoc in hospitalGeoDocuments) {
       final geoPoint = hospitalDoc['g.geopoint'] as GeoPoint;
       final geohash = hospitalDoc['g.geohash'] as String;
-      final foundHospital = HospitalModel(
+      final foundHospital = HospitalLocationsModel(
         hospitalId: hospitalDoc.id,
         name: hospitalDoc['name'].toString(),
         avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),

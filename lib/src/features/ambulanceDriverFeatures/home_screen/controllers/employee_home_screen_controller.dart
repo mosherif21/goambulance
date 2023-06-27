@@ -7,7 +7,6 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_google_places_hoc081098/flutter_google_places_hoc081098.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoder2/geocoder2.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
@@ -24,7 +23,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
 import 'package:map_box_geocoder/map_box_geocoder.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
@@ -42,7 +40,6 @@ class EmployeeHomeScreenController extends GetxController {
   final accuracy = LocationAccuracy.high;
   final locationAvailable = false.obs;
   late Position currentLocation;
-  late LatLng searchedLocation;
   StreamSubscription<ServiceStatus>? serviceStatusStream;
   StreamSubscription<Position>? currentPositionStream;
   bool positionStreamInitialized = false;
@@ -64,29 +61,20 @@ class EmployeeHomeScreenController extends GetxController {
   bool googleMapControllerInit = false;
   final hospitalLoaded = false.obs;
   final hospitalDataAvailable = false.obs;
-  bool allowedLocation = false;
-  final searchedText = 'searchPlace'.tr.obs;
   late String mapStyle;
   late LatLng initialCameraLatLng;
   late LatLng hospitalLatLng;
   final cameraMoved = false.obs;
-  final hospitalsPanelController = PanelController();
-  final hospitalsRefreshController = RefreshController(initialRefresh: false);
+  final requestPanelController = PanelController();
 
   //making request
-  late String currentChosenLocationAddress;
   late LatLng currentCameraLatLng;
-  final choosingHospital = false.obs;
+  final hasAssignedRequest = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
   late RequestModel currentRequestData;
   late final FirebaseAmbulanceEmployeeDataAccess firebaseEmployeeDataAccess;
-  final selectedHospital = Rx<HospitalLocationsModel?>(null);
-  int skipCount = 0;
-  static const pageSize = 6;
 
-  final searchedHospitals = <HospitalLocationsModel>[].obs;
-  CancelableOperation<List<HospitalLocationsModel>>? getHospitalsOperation;
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
       getRouteOperation;
   late final FirebaseFirestore _firestore;
@@ -94,7 +82,7 @@ class EmployeeHomeScreenController extends GetxController {
   late final String userId;
   late final String userName;
   late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
-      pendingRequestListener;
+      assignedRequestListener;
 
   final requestLocationWindowController = CustomInfoWindowController();
   final hospitalWindowController = CustomInfoWindowController();
@@ -113,6 +101,7 @@ class EmployeeHomeScreenController extends GetxController {
     userId = authenticationRepository.fireUser.value!.uid;
     userName = authenticationRepository.employeeUserInfo.name;
     firebaseEmployeeDataAccess = FirebaseAmbulanceEmployeeDataAccess.instance;
+    loadHospitalInfo();
     initMapController();
     await locationInit();
     if (!AppInit.isWeb) {
@@ -152,6 +141,7 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void loadHospitalInfo() async {
+    hospitalLoaded.value = false;
     final hospitalInfo = await firebaseEmployeeDataAccess.getHospitalInfo();
     hospitalLoaded.value = true;
     if (hospitalInfo != null) {
@@ -161,113 +151,6 @@ class EmployeeHomeScreenController extends GetxController {
       hospitalDataAvailable.value = false;
     }
   }
-  // Future<void> initRequestListener({
-  //   required DocumentReference pendingRequestRef,
-  // }) async {
-  //   try {
-  //     pendingRequestListener = _firestore
-  //         .collection('pendingRequests')
-  //         .doc(pendingRequestRef.id)
-  //         .snapshots()
-  //         .listen((snapshot) {
-  //       if (snapshot.exists) {
-  //         final status = snapshot.data()!['status'].toString();
-  //         if (status == 'accepted') {
-  //           requestStatus.value = RequestStatus.accepted;
-  //         }
-  //       } else {
-  //         _firestore
-  //             .collection('assignedRequests')
-  //             .doc(pendingRequestRef.id)
-  //             .get()
-  //             .then((snapshot) {
-  //           if (snapshot.exists) {
-  //             assignedRequestChanges();
-  //           } else {
-  //             onRequestCanceledChanges();
-  //             showSnackBar(
-  //                 text: 'requestCanceled'.tr, snackBarType: SnackBarType.info);
-  //           }
-  //         });
-  //       }
-  //     });
-  //   } on FirebaseException catch (error) {
-  //     if (kDebugMode) print(error.toString());
-  //   } catch (err) {
-  //     if (kDebugMode) print(err.toString());
-  //   }
-  // }
-
-  // void confirmRequest() async {
-  //   if (selectedHospital.value != null) {
-  //     showLoadingScreen();
-  //     final requestInfo =
-  //         MakingRequestInformationController.instance.getRequestInfo();
-  //     final pendingRequestRef = _firestore.collection('pendingRequests').doc();
-  //     final requestData = RequestModel(
-  //       userId: userId,
-  //       hospitalId: selectedHospital.value!.hospitalId,
-  //       hospitalRequestInfo: requestInfo,
-  //       timestamp: Timestamp.now(),
-  //       requestLocation: GeoPoint(
-  //           currentChosenLatLng.latitude, currentChosenLatLng.longitude),
-  //       requestRef: pendingRequestRef,
-  //       hospitalLocation: GeoPoint(selectedHospital.value!.location.latitude,
-  //           selectedHospital.value!.location.longitude),
-  //       status: 'pending',
-  //       hospitalName: selectedHospital.value!.name,
-  //       hospitalGeohash: selectedHospital.value!.geohash,
-  //     );
-  //     final functionStatus = await firebasePatientDataAccess.requestHospital(
-  //         requestInfo: requestData);
-  //
-  //     if (functionStatus == FunctionStatus.success) {
-  //       if (requestInfo.sendSms != null) {
-  //         if (requestInfo.sendSms!) {
-  //           sendRequestSms(
-  //               requestId: pendingRequestRef.id,
-  //               patientName: userName,
-  //               sosSmsType: SosSmsType.normalRequestSMS);
-  //         }
-  //       }
-  //       currentRequestData = requestData;
-  //       requestStatus.value = RequestStatus.pending;
-  //       initRequestListener(pendingRequestRef: pendingRequestRef);
-  //     } else {
-  //       showSnackBar(
-  //           text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
-  //     }
-  //     hideLoadingScreen();
-  //   }
-  // }
-
-  // void cancelRequest() {
-  //   displayAlertDialog(
-  //     title: 'confirm'.tr,
-  //     body: 'cancelRequestConfirm'.tr,
-  //     positiveButtonText: 'yes'.tr,
-  //     negativeButtonText: 'no'.tr,
-  //     positiveButtonOnPressed: () async {
-  //       Get.back();
-  //       showLoadingScreen();
-  //       await pendingRequestListener?.cancel();
-  //       final functionStatus = await firebasePatientDataAccess
-  //           .cancelHospitalRequest(requestInfo: currentRequestData);
-  //       hideLoadingScreen();
-  //       if (functionStatus == FunctionStatus.success) {
-  //         onRequestCanceledChanges();
-  //       }
-  //     },
-  //     negativeButtonOnPressed: () => Get.back(),
-  //     mainIcon: Icons.cancel_outlined,
-  //     color: SweetSheetColor.DANGER,
-  //   );
-  // }
-
-  // void onRequestCanceledChanges() {
-  //   requestStatus.value = RequestStatus.non;
-  //   onRefresh();
-  // }
 
   Future<void> locationInit() async {
     showLoadingScreen();
@@ -387,33 +270,6 @@ class EmployeeHomeScreenController extends GetxController {
     return LatLngBounds(southwest: southWest, northeast: northEast);
   }
 
-  Future<void> googlePlacesSearch({required BuildContext context}) async {
-    try {
-      final predictions = await PlacesAutocomplete.show(
-        context: context,
-        apiKey: googleMapsAPIKeyWeb,
-        hint: 'searchPlace'.tr,
-        onError: (response) {
-          if (kDebugMode) print(response.errorMessage ?? '');
-        },
-        proxyBaseUrl:
-            AppInit.isWeb ? 'https://cors-anywhere.herokuapp.com/' : null,
-        region: 'EG',
-        cursorColor: Colors.black,
-        mode: Mode.overlay,
-        language: isLangEnglish() ? 'en' : 'ar',
-        backArrowIcon: const Icon(Icons.close, color: Colors.black),
-      );
-      if (predictions != null && predictions.description != null) {
-        searchedLocation =
-            await getLocationFromAddress(address: predictions.description!);
-        animateToLocation(locationLatLng: searchedLocation);
-      }
-    } catch (err) {
-      if (kDebugMode) print(err.toString());
-    }
-  }
-
   CameraPosition getInitialCameraPosition() {
     final cameraPosition = CameraPosition(
       target:
@@ -434,8 +290,7 @@ class EmployeeHomeScreenController extends GetxController {
         ),
       );
       final address = geocodeResult.features.first.placeName;
-      currentChosenLocationAddress = address;
-      allowedLocation = address.contains('Egypt');
+
       return address;
     } catch (err) {
       if (kDebugMode) print(err.toString());
@@ -444,7 +299,6 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   Future<LatLng> getLocationFromAddress({required String address}) async {
-    currentChosenLocationAddress = address;
     final location = await Geocoder2.getDataFromAddress(
       address: address,
       googleMapApiKey: googleMapsAPIKeyWeb,
@@ -613,7 +467,6 @@ class EmployeeHomeScreenController extends GetxController {
       if (!AppInit.isWeb) {
         await serviceStatusStream?.cancel();
       }
-      hospitalsRefreshController.dispose();
       if (positionStreamInitialized) await currentPositionStream?.cancel();
       await notificationCountStreamSubscription?.cancel();
     } catch (err) {
@@ -646,6 +499,113 @@ class EmployeeHomeScreenController extends GetxController {
         .asUint8List();
   }
 }
+// Future<void> initRequestListener({
+//   required DocumentReference pendingRequestRef,
+// }) async {
+//   try {
+//     pendingRequestListener = _firestore
+//         .collection('pendingRequests')
+//         .doc(pendingRequestRef.id)
+//         .snapshots()
+//         .listen((snapshot) {
+//       if (snapshot.exists) {
+//         final status = snapshot.data()!['status'].toString();
+//         if (status == 'accepted') {
+//           requestStatus.value = RequestStatus.accepted;
+//         }
+//       } else {
+//         _firestore
+//             .collection('assignedRequests')
+//             .doc(pendingRequestRef.id)
+//             .get()
+//             .then((snapshot) {
+//           if (snapshot.exists) {
+//             assignedRequestChanges();
+//           } else {
+//             onRequestCanceledChanges();
+//             showSnackBar(
+//                 text: 'requestCanceled'.tr, snackBarType: SnackBarType.info);
+//           }
+//         });
+//       }
+//     });
+//   } on FirebaseException catch (error) {
+//     if (kDebugMode) print(error.toString());
+//   } catch (err) {
+//     if (kDebugMode) print(err.toString());
+//   }
+// }
+
+// void confirmRequest() async {
+//   if (selectedHospital.value != null) {
+//     showLoadingScreen();
+//     final requestInfo =
+//         MakingRequestInformationController.instance.getRequestInfo();
+//     final pendingRequestRef = _firestore.collection('pendingRequests').doc();
+//     final requestData = RequestModel(
+//       userId: userId,
+//       hospitalId: selectedHospital.value!.hospitalId,
+//       hospitalRequestInfo: requestInfo,
+//       timestamp: Timestamp.now(),
+//       requestLocation: GeoPoint(
+//           currentChosenLatLng.latitude, currentChosenLatLng.longitude),
+//       requestRef: pendingRequestRef,
+//       hospitalLocation: GeoPoint(selectedHospital.value!.location.latitude,
+//           selectedHospital.value!.location.longitude),
+//       status: 'pending',
+//       hospitalName: selectedHospital.value!.name,
+//       hospitalGeohash: selectedHospital.value!.geohash,
+//     );
+//     final functionStatus = await firebasePatientDataAccess.requestHospital(
+//         requestInfo: requestData);
+//
+//     if (functionStatus == FunctionStatus.success) {
+//       if (requestInfo.sendSms != null) {
+//         if (requestInfo.sendSms!) {
+//           sendRequestSms(
+//               requestId: pendingRequestRef.id,
+//               patientName: userName,
+//               sosSmsType: SosSmsType.normalRequestSMS);
+//         }
+//       }
+//       currentRequestData = requestData;
+//       requestStatus.value = RequestStatus.pending;
+//       initRequestListener(pendingRequestRef: pendingRequestRef);
+//     } else {
+//       showSnackBar(
+//           text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
+//     }
+//     hideLoadingScreen();
+//   }
+// }
+
+// void cancelRequest() {
+//   displayAlertDialog(
+//     title: 'confirm'.tr,
+//     body: 'cancelRequestConfirm'.tr,
+//     positiveButtonText: 'yes'.tr,
+//     negativeButtonText: 'no'.tr,
+//     positiveButtonOnPressed: () async {
+//       Get.back();
+//       showLoadingScreen();
+//       await pendingRequestListener?.cancel();
+//       final functionStatus = await firebasePatientDataAccess
+//           .cancelHospitalRequest(requestInfo: currentRequestData);
+//       hideLoadingScreen();
+//       if (functionStatus == FunctionStatus.success) {
+//         onRequestCanceledChanges();
+//       }
+//     },
+//     negativeButtonOnPressed: () => Get.back(),
+//     mainIcon: Icons.cancel_outlined,
+//     color: SweetSheetColor.DANGER,
+//   );
+// }
+
+// void onRequestCanceledChanges() {
+//   requestStatus.value = RequestStatus.non;
+//   onRefresh();
+// }
 
 // Future<void> loadHospitals() async {
 //   hospitalsLoaded.value = false;

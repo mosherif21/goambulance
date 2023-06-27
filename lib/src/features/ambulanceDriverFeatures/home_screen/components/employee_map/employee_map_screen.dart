@@ -30,9 +30,10 @@ class EmployeeMapScreen extends StatelessWidget {
             padding: AppInit.isWeb
                 ? EdgeInsets.zero
                 : EdgeInsets.only(
-                    bottom: employeeHomeScreenController.choosingHospital.value
-                        ? screenHeight * 0.48
-                        : 80,
+                    bottom:
+                        employeeHomeScreenController.hasAssignedRequest.value
+                            ? screenHeight * 0.48
+                            : 80,
                     left: 10,
                     right: 10,
                     top: screenHeight * 0.16,
@@ -69,15 +70,16 @@ class EmployeeMapScreen extends StatelessWidget {
         // ),
         Obx(
           () => Positioned(
-            bottom:
-                // makingRequestController.choosingHospital.value
-                //     ? screenHeight * 0.48
-                //     :
-                70,
+            bottom: employeeHomeScreenController.hasAssignedRequest.value
+                ? screenHeight * 0.48
+                : isLangEnglish()
+                    ? 80
+                    : 105,
             left: isLangEnglish() ? null : 0,
             right: isLangEnglish() ? 0 : null,
             child: MyLocationButton(
-              onLocationButtonPress: () {},
+              onLocationButtonPress: () =>
+                  employeeHomeScreenController.onLocationButtonPress(),
             ),
           ),
         ),

@@ -6,6 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/controllers/employee_home_screen_controller.dart';
+import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:location/location.dart';
@@ -166,8 +169,21 @@ Future<void> logout() async {
     if (Get.isRegistered<ChatBotController>()) {
       await Get.delete<ChatBotController>();
     }
+    if (Get.isRegistered<HomeScreenController>()) {
+      await HomeScreenController.instance.notificationCountStreamSubscription
+          ?.cancel();
+    }
     if (Get.isRegistered<FirebasePatientDataAccess>()) {
       await FirebasePatientDataAccess.instance.logoutFirebase();
+    }
+  } else {
+    if (Get.isRegistered<EmployeeHomeScreenController>()) {
+      await EmployeeHomeScreenController
+          .instance.notificationCountStreamSubscription
+          ?.cancel();
+    }
+    if (Get.isRegistered<FirebaseAmbulanceEmployeeDataAccess>()) {
+      await FirebaseAmbulanceEmployeeDataAccess.instance.logoutFirebase();
     }
   }
   await AuthenticationRepository.instance.logoutAuthUser();

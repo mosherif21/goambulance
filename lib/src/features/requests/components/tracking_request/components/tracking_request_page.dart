@@ -230,7 +230,9 @@ class TrackingRequestPage extends StatelessWidget {
                 () => Positioned(
                   bottom: trackingController.choosingHospital.value
                       ? screenHeight * 0.48
-                      : 70,
+                      : isLangEnglish()
+                          ? 70
+                          : 95,
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(

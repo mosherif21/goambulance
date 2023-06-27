@@ -73,30 +73,27 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
 
   Future<HospitalModel?> getHospitalInfo() async {
     try {
-      await fireStore
+      final snapshot = await fireStore
           .collection('hospitals')
           .doc(authRep.employeeUserInfo.hospitalId)
-          .get()
-          .then((snapshot) {
-        if (snapshot.exists) {
-          final snapshotData = snapshot.data();
-          if (snapshotData != null) {
-            final geoPointLocation =
-                snapshotData['location'].toString() as GeoPoint;
-            final hospitalInfo = HospitalModel(
-              hospitalId: snapshotData['hospitalId'].toString(),
-              name: snapshotData['name'].toString(),
-              avgAmbulancePrice: snapshotData['avgAmbulancePrice'].toString(),
-              geohash: snapshotData['geohash'].toString(),
-              location:
-                  LatLng(geoPointLocation.latitude, geoPointLocation.longitude),
-              hospitalNumber: snapshotData['hospitalNumber'].toString(),
-              address: snapshotData['address'].toString(),
-            );
-            return hospitalInfo;
-          }
+          .get();
+      if (snapshot.exists) {
+        final snapshotData = snapshot.data();
+        if (snapshotData != null) {
+          final geoPointLocation = snapshotData['location'] as GeoPoint;
+          final hospitalInfo = HospitalModel(
+            hospitalId: snapshotData['hospitalId'].toString(),
+            name: snapshotData['name'].toString(),
+            avgAmbulancePrice: snapshotData['avgAmbulancePrice'].toString(),
+            geohash: snapshotData['geohash'].toString(),
+            location:
+                LatLng(geoPointLocation.latitude, geoPointLocation.longitude),
+            hospitalNumber: snapshotData['hospitalNumber'].toString(),
+            address: snapshotData['address'].toString(),
+          );
+          return hospitalInfo;
         }
-      });
+      }
     } on FirebaseException catch (error) {
       if (kDebugMode) {
         AppInit.logger.e(error.toString());
@@ -107,6 +104,29 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
       }
     }
     return null;
+  }
+
+  Future<void> deleteFcmToken() async {
+    try {
+      await fireStore.collection('fcmTokens').doc(userId).update({
+        'fcmToken${AppInit.isAndroid ? 'Android' : AppInit.isIos ? 'Ios' : 'Web'}':
+            FieldValue.delete()
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+  }
+
+  Future<void> logoutFirebase() async {
+    if (authRep.isUserRegistered) {
+      await deleteFcmToken();
+    }
   }
 
   Future<FunctionStatus> updateUserInfo({

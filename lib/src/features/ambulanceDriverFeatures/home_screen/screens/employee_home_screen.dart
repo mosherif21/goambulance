@@ -29,18 +29,27 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen>
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Obx(
-              () => employeeHomeScreenController.hospitalLoaded.value
-                  ? employeeHomeScreenController.hospitalDataAvailable.value
-                      ? const EmployeeMapScreen()
-                      : const EmployeeHospitalGetFailed()
-                  : const EmployeeLoadingHospital(),
-            ),
+          Obx(
+            () => employeeHomeScreenController.hospitalLoaded.value
+                ? employeeHomeScreenController.hospitalDataAvailable.value
+                    ? const EmployeeMapScreen()
+                    : Positioned(
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 50,
+                        child: EmployeeHospitalGetFailed(
+                          onTryAgainPressed: () =>
+                              employeeHomeScreenController.loadHospitalInfo(),
+                        ),
+                      )
+                : const Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 50,
+                    child: EmployeeLoadingHospital(),
+                  ),
           ),
           Positioned(
             top: 0,

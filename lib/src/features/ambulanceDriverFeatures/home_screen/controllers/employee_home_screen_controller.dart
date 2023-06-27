@@ -426,6 +426,7 @@ class EmployeeHomeScreenController extends GetxController {
           .then((locationPosition) {
         currentLocation = locationPosition;
         locationAvailable.value = true;
+        animateCamera(locationLatLng: currentLocationGetter());
         if (kDebugMode) {
           print(
               'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');
@@ -444,8 +445,8 @@ class EmployeeHomeScreenController extends GetxController {
           }
           if (kDebugMode) {
             print(position == null
-                ? 'current location is Unknown'
-                : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
+                ? 'current location from listener is Unknown'
+                : 'current location from listener ${position.latitude.toString()}, ${position.longitude.toString()}');
           }
         },
       );

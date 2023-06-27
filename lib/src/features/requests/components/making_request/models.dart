@@ -23,12 +23,14 @@ class RequestInfoModel {
   final bool isUser;
   final String patientCondition;
   final String backupNumber;
+  final String additionalInformation;
   final MedicalHistoryModel? medicalHistory;
   final bool? sendSms;
   RequestInfoModel({
     required this.isUser,
     required this.patientCondition,
     required this.backupNumber,
+    required this.additionalInformation,
     this.sendSms,
     this.medicalHistory,
   });
@@ -36,12 +38,13 @@ class RequestInfoModel {
         'isUser': isUser,
         'patientCondition': patientCondition,
         'backupNumber': backupNumber,
+        'additionalInformation': additionalInformation,
       };
 }
 
 class RequestModel {
   final String userId;
-  final RequestInfoModel hospitalRequestInfo;
+  final RequestInfoModel requestInfo;
   final Timestamp timestamp;
   final GeoPoint requestLocation;
   final GeoPoint hospitalLocation;
@@ -55,7 +58,7 @@ class RequestModel {
     required this.userId,
     required this.hospitalId,
     required this.hospitalName,
-    required this.hospitalRequestInfo,
+    required this.requestInfo,
     required this.timestamp,
     required this.status,
     required this.requestLocation,
@@ -66,9 +69,10 @@ class RequestModel {
         'hospitalId': hospitalId,
         'hospitalName': hospitalName,
         'userId': userId,
-        'isUser': hospitalRequestInfo.isUser,
-        'patientCondition': hospitalRequestInfo.patientCondition,
-        'backupNumber': hospitalRequestInfo.backupNumber,
+        'isUser': requestInfo.isUser,
+        'patientCondition': requestInfo.patientCondition,
+        'backupNumber': requestInfo.backupNumber,
+        'additionalInformation': requestInfo.additionalInformation,
         'timestamp': timestamp,
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,
@@ -86,6 +90,7 @@ class CanceledRequestModel {
   final String hospitalId;
   final String hospitalName;
   final String cancelReason;
+  final String additionalInformation;
   final DocumentReference requestRef;
   CanceledRequestModel({
     required this.requestRef,
@@ -97,6 +102,7 @@ class CanceledRequestModel {
     required this.requestLocation,
     required this.hospitalLocation,
     required this.cancelReason,
+    required this.additionalInformation,
   });
   Map<String, dynamic> toJson() => {
         'hospitalId': hospitalId,
@@ -109,5 +115,6 @@ class CanceledRequestModel {
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,
         'cancelReason': cancelReason,
+        'additionalInformation': additionalInformation,
       };
 }

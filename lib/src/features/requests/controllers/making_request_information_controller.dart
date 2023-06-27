@@ -118,10 +118,11 @@ class MakingRequestInformationController extends GetxController {
               diabetic: diabetic,
               hypertensive: hypertensive,
               heartPatient: heartPatient,
-              medicalAdditionalInfo: additionalInformation,
+              medicalAdditionalInfo: '',
               diseasesList: diseasesList,
             ),
       sendSms: sendSms,
+      additionalInformation: additionalInformation,
     );
   }
 

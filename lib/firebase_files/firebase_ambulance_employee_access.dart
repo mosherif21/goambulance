@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../authentication/authentication_repository.dart';
 import '../src/constants/enums.dart';
+import '../src/features/requests/components/making_request/models.dart';
 import '../src/general/app_init.dart';
 
 class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
@@ -92,6 +93,29 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
             address: snapshotData['address'].toString(),
           );
           return hospitalInfo;
+        }
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
+  Future<RequestInfoModel?> getAssignedRequestInfo(
+      {required String requestId}) async {
+    try {
+      final snapshot =
+          await fireStore.collection('assignedRequests').doc(requestId).get();
+      if (snapshot.exists) {
+        final snapshotData = snapshot.data();
+        if (snapshotData != null) {
+          final geoPointLocation = snapshotData['location'] as GeoPoint;
         }
       }
     } on FirebaseException catch (error) {

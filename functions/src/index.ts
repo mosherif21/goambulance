@@ -36,6 +36,7 @@ exports.cancelTimedOutRequests = functions.pubsub
         timestamp,
         backupNumber,
         hospitalGeohash,
+        additionalInformation,
       } = doc.data();
 
       const batch = firestore.batch();
@@ -87,6 +88,7 @@ exports.cancelTimedOutRequests = functions.pubsub
           timestamp,
           backupNumber,
           cancelReason: "timedOut",
+          additionalInformation: additionalInformation,
         });
         const userCanceledRef = firestore
           .collection("users")
@@ -287,6 +289,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       hospitalId: hospitalId,
       hospitalGeohash: hospitalGeohash,
       backupNumber: "unknown",
+      additionalInformation: "No additional Information"
     });
     const userPendingRequestRef = firestore
       .collection("users")

@@ -8,7 +8,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geocoder2/geocoder2.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -24,7 +23,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
 import 'package:location/location.dart' as location;
-import 'package:map_box_geocoder/map_box_geocoder.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 
@@ -86,7 +84,7 @@ class EmployeeHomeScreenController extends GetxController {
   late final HospitalModel hospitalInfo;
 
   final requestLocationWindowController = CustomInfoWindowController();
-  final hospitalWindowController = CustomInfoWindowController();
+  // final hospitalWindowController = CustomInfoWindowController();
   // final ambulanceWindowController = CustomInfoWindowController();
 
   //geoQuery vars
@@ -95,6 +93,8 @@ class EmployeeHomeScreenController extends GetxController {
   final notificationsCount = 0.obs;
   late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       notificationCountStreamSubscription;
+  late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
+      assignedRequestStreamSubscription;
 
   @override
   void onReady() async {
@@ -140,6 +140,32 @@ class EmployeeHomeScreenController extends GetxController {
     }
   }
 
+  void listenForAssignedRequests() {
+    try {
+      assignedRequestStreamSubscription = _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('')
+          .snapshots()
+          .listen((snapshots) {
+        if (snapshots.docs.isNotEmpty) {
+          final snapshot = snapshots.docs.first;
+          if (snapshot.exists) {
+            final requestId = snapshot.id;
+          } else {}
+        } else {}
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+  }
+
   void loadHospitalInfo() async {
     hospitalLoaded.value = false;
     final hospitalInfoGet = await firebaseEmployeeDataAccess.getHospitalInfo();
@@ -160,14 +186,14 @@ class EmployeeHomeScreenController extends GetxController {
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
       requestLocationWindowController.googleMapController = controller;
-      hospitalWindowController.googleMapController = controller;
+      // hospitalWindowController.googleMapController = controller;
       // ambulanceWindowController.googleMapController = controller;
       await _loadMarkersIcon();
       hospitalMarker = Marker(
         markerId: const MarkerId('hospital'),
         position: hospitalLatLng,
         icon: hospitalMarkerIcon,
-        consumeTapEvents: true,
+        onTap: () => animateCamera(locationLatLng: hospitalLatLng),
       );
       mapMarkers.add(hospitalMarker!);
       if (AppInit.isWeb) {
@@ -268,35 +294,6 @@ class EmployeeHomeScreenController extends GetxController {
     return cameraPosition;
   }
 
-  Future<String> getAddressFromLocation({required LatLng latLng}) async {
-    try {
-      MapBoxGeocoder geocoder = MapBoxGeocoder(mapboxAPIKey);
-      final geocodeResult = await geocoder.reverseSearch(
-        LatLon(latLng.latitude, latLng.longitude),
-        params: const ReverseQueryParams(
-          language: 'en',
-          limit: 1,
-        ),
-      );
-      final address = geocodeResult.features.first.placeName;
-
-      return address;
-    } catch (err) {
-      if (kDebugMode) print(err.toString());
-    }
-    return '';
-  }
-
-  Future<LatLng> getLocationFromAddress({required String address}) async {
-    final location = await Geocoder2.getDataFromAddress(
-      address: address,
-      googleMapApiKey: googleMapsAPIKeyWeb,
-      language: isLangEnglish() ? 'en' : 'ar',
-    );
-
-    return LatLng(location.latitude, location.longitude);
-  }
-
   void setupLocationServiceListener() async {
     try {
       serviceStatusStream = Geolocator.getServiceStatusStream().listen(
@@ -361,39 +358,20 @@ class EmployeeHomeScreenController extends GetxController {
     }
   }
 
-  void onCameraIdle() async {
-    // if (!choosingHospital.value) {
-    //   if (mapEnabled.value) {
-    //     if (googleMapControllerInit) {
-    //       searchedText.value = 'loading'.tr;
-    //       String address = '';
-    //       if (!cameraMoved.value) {
-    //         currentCameraLatLng = LatLng(
-    //             initialCameraLatLng.latitude, initialCameraLatLng.longitude);
-    //       }
-    //       address = await getAddressFromLocation(latLng: currentCameraLatLng);
-    //       if (address.isNotEmpty) {
-    //         searchedText.value = allowedLocation ? address : 'notAllowed'.tr;
-    //       } else {
-    //         searchedText.value = 'addressNotFound'.tr;
-    //       }
-    //     }
-    //   }
-    // }
-  }
+  void onCameraIdle() async {}
 
   void onCameraMove(CameraPosition cameraPosition) {
+    currentCameraLatLng = cameraPosition.target;
+    cameraMoved.value = true;
     if (requestLocationWindowController.onCameraMove != null) {
       requestLocationWindowController.onCameraMove!();
     }
-    if (hospitalWindowController.onCameraMove != null) {
-      hospitalWindowController.onCameraMove!();
-    }
+    // if (hospitalWindowController.onCameraMove != null) {
+    //   hospitalWindowController.onCameraMove!();
+    // }
     // if (ambulanceWindowController.onCameraMove != null) {
     //   ambulanceWindowController.onCameraMove!();
     // }
-    currentCameraLatLng = cameraPosition.target;
-    cameraMoved.value = true;
   }
 
   void onMapTap(LatLng tappedPosition) {}
@@ -463,7 +441,7 @@ class EmployeeHomeScreenController extends GetxController {
       if (kDebugMode) print(err.toString());
     }
     requestLocationWindowController.dispose();
-    hospitalWindowController.dispose();
+    // hospitalWindowController.dispose();
     // ambulanceWindowController.dispose();
 
     super.onClose();

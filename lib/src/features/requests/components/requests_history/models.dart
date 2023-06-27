@@ -18,6 +18,7 @@ class StaticMarkerModel {
 class RequestHistoryModel {
   final String requestId;
   final String userId;
+  final String additionalInformation;
   String hospitalId;
   String hospitalName;
   final String backupNumber;
@@ -48,6 +49,7 @@ class RequestHistoryModel {
     required this.requestStatus,
     required this.requestLocation,
     required this.hospitalLocation,
+    required this.additionalInformation,
     this.cancelReason,
     this.ambulanceCarID,
     this.ambulanceDriverID,

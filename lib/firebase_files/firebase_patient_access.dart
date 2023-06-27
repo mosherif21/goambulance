@@ -445,6 +445,8 @@ class FirebasePatientDataAccess extends GetxController {
             requestDateTime: requestDateTime,
             hospitalGeohash:
                 pendingRequestDocument['hospitalGeohash'].toString(),
+            additionalInformation:
+                pendingRequestDocument['additionalInformation'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -492,6 +494,8 @@ class FirebasePatientDataAccess extends GetxController {
             requestDateTime: requestDateTime,
             hospitalGeohash:
                 assignedRequestDocument['hospitalGeohash'].toString(),
+            additionalInformation:
+                assignedRequestDocument['additionalInformation'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -536,6 +540,8 @@ class FirebasePatientDataAccess extends GetxController {
             requestDateTime: requestDateTime,
             hospitalGeohash:
                 completedRequestDocument['hospitalGeohash'].toString(),
+            additionalInformation:
+                completedRequestDocument['additionalInformation'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -573,6 +579,8 @@ class FirebasePatientDataAccess extends GetxController {
             cancelReason: canceledRequestDocument['cancelReason'].toString(),
             requestStatus: RequestStatus.canceled,
             requestDateTime: requestDateTime,
+            additionalInformation:
+                canceledRequestDocument['additionalInformation'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -712,7 +720,8 @@ class FirebasePatientDataAccess extends GetxController {
           .where('userId', isEqualTo: userId)
           .get()
           .then((QuerySnapshot snapshot) async {
-        for (final document in snapshot.docs) {
+        if (snapshot.docs.isNotEmpty) {
+          final document = snapshot.docs.first;
           final sosRequestId = document.id;
           final blockedHospitalsRef =
               sosRequestsRef.doc(sosRequestId).collection('blockedHospitals');
@@ -788,7 +797,7 @@ class FirebasePatientDataAccess extends GetxController {
       final requestDataBatch = fireStore.batch();
 
       requestDataBatch.set(requestInfo.requestRef, requestInfo.toJson());
-      final medicalHistory = requestInfo.hospitalRequestInfo.medicalHistory;
+      final medicalHistory = requestInfo.requestInfo.medicalHistory;
       if (medicalHistory != null) {
         requestDataBatch.update(
             requestInfo.requestRef, medicalHistory.toJson());
@@ -835,7 +844,7 @@ class FirebasePatientDataAccess extends GetxController {
     try {
       final cancelRequestBatch = fireStore.batch();
       cancelRequestBatch.delete(requestInfo.requestRef);
-      final medicalHistory = requestInfo.hospitalRequestInfo.medicalHistory;
+      final medicalHistory = requestInfo.requestInfo.medicalHistory;
       if (medicalHistory != null) {
         if (medicalHistory.diseasesList.isNotEmpty) {
           final diseasesRef = fireStore
@@ -870,12 +879,13 @@ class FirebasePatientDataAccess extends GetxController {
         requestRef: requestInfo.requestRef,
         userId: userId,
         hospitalId: requestInfo.hospitalId,
-        hospitalRequestInfo: requestInfo.hospitalRequestInfo,
+        hospitalRequestInfo: requestInfo.requestInfo,
         timestamp: requestInfo.timestamp,
         requestLocation: requestInfo.requestLocation,
         hospitalLocation: requestInfo.hospitalLocation,
         cancelReason: 'userCanceled',
         hospitalName: requestInfo.hospitalName,
+        additionalInformation: requestInfo.requestInfo.additionalInformation,
       );
       cancelRequestBatch.set(canceledRequestRef, cancelRequestInfo.toJson());
       cancelRequestBatch.set(
@@ -984,7 +994,7 @@ class FirebasePatientDataAccess extends GetxController {
               hypertensive: snapshot.data()!['hypertensive'].toString(),
               heartPatient: snapshot.data()!['heartPatient'].toString(),
               medicalAdditionalInfo:
-                  snapshot.data()!['additionalInformation'].toString(),
+                  snapshot.data()!['medicalAdditionalInfo'].toString(),
               diseasesList: diseasesList,
             );
             requestModel.medicalHistory = medicalHistory;
@@ -1074,7 +1084,7 @@ class FirebasePatientDataAccess extends GetxController {
               hypertensive: snapData['hypertensive'].toString(),
               heartPatient: snapData['heartPatient'].toString(),
               medicalAdditionalInfo:
-                  snapData['additionalInformation'].toString(),
+                  snapData['medicalAdditionalInfo'].toString(),
               diseasesList: diseasesList,
             );
             requestModel.medicalHistory = medicalHistory;

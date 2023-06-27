@@ -191,12 +191,13 @@ class TrackingRequestController extends GetxController {
         patientCondition: initialRequestModel.patientCondition,
         backupNumber: initialRequestModel.backupNumber,
         medicalHistory: initialRequestModel.medicalHistory,
+        additionalInformation: initialRequestModel.additionalInformation,
       );
       final pendingRequestRef = _firestore.collection('pendingRequests').doc();
       final requestData = RequestModel(
         userId: userId,
         hospitalId: selectedHospital.value!.hospitalId,
-        hospitalRequestInfo: requestInfo,
+        requestInfo: requestInfo,
         timestamp: Timestamp.now(),
         requestLocation: GeoPoint(
             currentChosenLatLng.latitude, currentChosenLatLng.longitude),
@@ -413,11 +414,12 @@ class TrackingRequestController extends GetxController {
       final requestData = RequestModel(
         userId: initialRequestModel.userId,
         hospitalId: initialRequestModel.hospitalId,
-        hospitalRequestInfo: RequestInfoModel(
+        requestInfo: RequestInfoModel(
           isUser: initialRequestModel.isUser,
           patientCondition: initialRequestModel.patientCondition,
           backupNumber: initialRequestModel.backupNumber,
           medicalHistory: initialRequestModel.medicalHistory,
+          additionalInformation: initialRequestModel.additionalInformation,
         ),
         timestamp: initialRequestModel.timestamp,
         requestLocation: GeoPoint(initialRequestModel.requestLocation.latitude,

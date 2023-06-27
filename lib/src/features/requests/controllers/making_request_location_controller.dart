@@ -169,7 +169,7 @@ class MakingRequestLocationController extends GetxController {
       final requestData = RequestModel(
         userId: userId,
         hospitalId: selectedHospital.value!.hospitalId,
-        hospitalRequestInfo: requestInfo,
+        requestInfo: requestInfo,
         timestamp: Timestamp.now(),
         requestLocation: GeoPoint(
             currentChosenLatLng.latitude, currentChosenLatLng.longitude),

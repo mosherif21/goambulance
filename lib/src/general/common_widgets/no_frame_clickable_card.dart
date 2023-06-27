@@ -13,7 +13,6 @@ class NoFrameClickableCard extends StatelessWidget {
     required this.trailingIconColor,
   }) : super(key: key);
   final Function onPressed;
-
   final String title;
   final String subTitle;
   final IconData leadingIcon;

@@ -3,6 +3,7 @@
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:goambulance/src/general/common_widgets/no_frame_clickable_card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -26,12 +27,18 @@ class EmployeeMapScreen extends StatelessWidget {
         ],
       ),
       margin: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 100),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 10),
-          Expanded(
-            child: SizedBox.shrink(),
+          const SizedBox(height: 10),
+          NoFrameClickableCard(
+            onPressed: () {},
+            title: 'Patient information',
+            subTitle: '',
+            leadingIcon: Icons.account_box,
+            leadingIconColor: Colors.black,
+            trailingIcon: Icons.arrow_forward_ios_outlined,
+            trailingIconColor: Colors.grey,
           ),
         ],
       ),
@@ -90,12 +97,12 @@ class EmployeeMapScreen extends StatelessWidget {
             width: 150,
             offset: 50,
           ),
-          CustomInfoWindow(
-            controller: employeeHomeScreenController.hospitalWindowController,
-            height: isLangEnglish() ? 50 : 56,
-            width: 150,
-            offset: 50,
-          ),
+          // CustomInfoWindow(
+          //   controller: employeeHomeScreenController.hospitalWindowController,
+          //   height: isLangEnglish() ? 50 : 56,
+          //   width: 150,
+          //   offset: 50,
+          // ),
           // CustomInfoWindow(
           //   controller: makingRequestController.ambulanceWindowController,
           //   height: isLangEnglish() ? 50 : 56,

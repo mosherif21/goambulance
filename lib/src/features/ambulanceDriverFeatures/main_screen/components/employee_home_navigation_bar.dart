@@ -34,7 +34,7 @@ class EmployeeHomeNavigationBar extends StatelessWidget {
           right: 0,
           left: 0,
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
             child: Obx(
               () => CustomNavigationBar(
                 iconSize: 30.0,

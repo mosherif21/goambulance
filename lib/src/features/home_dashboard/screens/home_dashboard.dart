@@ -45,7 +45,13 @@ class HomeDashBoard extends StatelessWidget {
             );
           },
         ),
-        actions: const [NotificationsButton()],
+        actions: [
+          Obx(
+            () => NotificationsButton(
+              notificationsCount: homeScreenController.notificationsCount.value,
+            ),
+          ),
+        ],
         elevation: 0,
         backgroundColor: Colors.grey.shade100,
       ),

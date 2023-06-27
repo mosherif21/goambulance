@@ -6,8 +6,9 @@ import '../../../general/general_functions.dart';
 import '../../notifications/screens/notifications_screen.dart';
 
 class NotificationsButton extends StatelessWidget {
-  const NotificationsButton({Key? key}) : super(key: key);
-
+  const NotificationsButton({Key? key, required this.notificationsCount})
+      : super(key: key);
+  final int notificationsCount;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,13 +19,18 @@ class NotificationsButton extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () => Get.to(() => const NotificationsScreen()),
-        child: const badges.Badge(
-          badgeContent: Text('3'),
-          child: Icon(
-            Icons.notifications,
-            size: 30,
-          ),
-        ),
+        child: notificationsCount != 0
+            ? badges.Badge(
+                badgeContent: Text(notificationsCount.toString()),
+                child: const Icon(
+                  Icons.notifications,
+                  size: 30,
+                ),
+              )
+            : const Icon(
+                Icons.notifications,
+                size: 30,
+              ),
       ),
     );
   }

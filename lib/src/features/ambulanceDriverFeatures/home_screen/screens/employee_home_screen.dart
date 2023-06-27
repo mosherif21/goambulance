@@ -118,7 +118,12 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen>
                       ),
                     ),
                     const Spacer(),
-                    const EmployeeNotificationsButton(),
+                    Obx(
+                      () => EmployeeNotificationsButton(
+                        notificationsCount: employeeHomeScreenController
+                            .notificationsCount.value,
+                      ),
+                    ),
                   ],
                 ),
               ),

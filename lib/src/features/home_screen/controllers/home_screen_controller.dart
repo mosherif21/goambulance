@@ -42,6 +42,9 @@ class HomeScreenController extends GetxController {
   late final FirebasePatientDataAccess firebasePatientAccess;
   late final AuthenticationRepository authenticationRepository;
 
+  final notificationsCount = 0.obs;
+  late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      notificationCountStreamSubscription;
   @override
   void onReady() async {
     firebasePatientAccess = FirebasePatientDataAccess.instance;
@@ -92,8 +95,36 @@ class HomeScreenController extends GetxController {
       print('list got:${adImageUrl.length}');
     }
     adsLoaded.value = true;
-
+    listenForNotificationCount();
     super.onReady();
+  }
+
+  void listenForNotificationCount() {
+    try {
+      final userId = AuthenticationRepository.instance.fireUser.value!.uid;
+      notificationCountStreamSubscription = firebasePatientAccess.fireStore
+          .collection('notifications')
+          .doc(userId)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final notificationData = snapshot.data();
+          if (notificationData != null) {
+            notificationsCount.value = notificationData['unseenCount'] as int;
+          }
+        } else {
+          notificationsCount.value = 0;
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
   }
 
   void navigationBarOnTap(int navIndex) async {
@@ -550,6 +581,7 @@ class HomeScreenController extends GetxController {
   void onClose() async {
     await accelerometerSubscription?.cancel();
     await accelerometerEvents.drain();
+    await notificationCountStreamSubscription?.cancel();
     super.onClose();
   }
 }

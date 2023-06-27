@@ -103,6 +103,9 @@ class EmployeeHomeScreenController extends GetxController {
   //geoQuery vars
   final geoFire = GeoFlutterFire();
 
+  final notificationsCount = 0.obs;
+  late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      notificationCountStreamSubscription;
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
@@ -116,9 +119,37 @@ class EmployeeHomeScreenController extends GetxController {
       setupLocationServiceListener();
     }
     await _loadMarkersIcon();
+    listenForNotificationCount();
     super.onReady();
   }
 
+  void listenForNotificationCount() {
+    try {
+      final userId = AuthenticationRepository.instance.fireUser.value!.uid;
+      notificationCountStreamSubscription = _firestore
+          .collection('notifications')
+          .doc(userId)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final notificationData = snapshot.data();
+          if (notificationData != null) {
+            notificationsCount.value = notificationData['unseenCount'] as int;
+          }
+        } else {
+          notificationsCount.value = 0;
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+  }
   // Future<void> initRequestListener({
   //   required DocumentReference pendingRequestRef,
   // }) async {
@@ -842,6 +873,7 @@ class EmployeeHomeScreenController extends GetxController {
       }
       hospitalsRefreshController.dispose();
       if (positionStreamInitialized) await currentPositionStream?.cancel();
+      await notificationCountStreamSubscription?.cancel();
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }

@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -233,6 +234,17 @@ void getOfAllPhoneVerificationScreen(
     ),
     transition: Transition.circularReveal,
   );
+}
+
+void callNumber({required String phoneNumber}) async {
+  if (!AppInit.isWeb) {
+    if (await handleCallPermission()) {
+      await FlutterPhoneDirectCaller.callNumber(phoneNumber);
+    }
+  } else {
+    showSnackBar(
+        text: 'useMobileToThisFeature'.tr, snackBarType: SnackBarType.info);
+  }
 }
 
 void displayAlertDialog({

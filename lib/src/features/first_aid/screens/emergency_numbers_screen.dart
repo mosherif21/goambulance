@@ -1,12 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 
-import '../../../constants/enums.dart';
 import '../../../general/common_widgets/back_button.dart';
 import '../../../general/common_widgets/regular_clickable_card.dart';
 import '../controllers/first_aid_assets.dart';
@@ -45,18 +42,8 @@ class EmergencyNumbersScreen extends StatelessWidget {
                       verticalOffset: 50.0,
                       child: FadeInAnimation(
                         child: RegularClickableCard(
-                          onPressed: () async {
-                            if (!AppInit.isWeb) {
-                              if (await handleCallPermission()) {
-                                await FlutterPhoneDirectCaller.callNumber(
-                                    emergencyNumbers[emergencyNumber]);
-                              }
-                            } else {
-                              showSnackBar(
-                                  text: 'useMobileToThisFeature'.tr,
-                                  snackBarType: SnackBarType.info);
-                            }
-                          },
+                          onPressed: () => callNumber(
+                              phoneNumber: emergencyNumbers[emergencyNumber]),
                           title: 'emergencyNumber${emergencyNumber + 1}'.tr,
                           subTitle: emergencyNumbers[emergencyNumber],
                           icon: Icons.call,

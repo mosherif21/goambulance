@@ -105,10 +105,9 @@ class MakingRequestInformationController extends GetxController {
             : Get.translations['en_US']!['yes']!;
     String additionalInformation =
         additionalInformationTextController.text.trim();
-    additionalInformation = additionalInformation.isEmpty
-        ? 'No additional Information'
-        : additionalInformation;
-    String patientAge = patientConditionTextController.text.trim();
+    additionalInformation =
+        additionalInformation.isEmpty ? 'unknown' : additionalInformation;
+    String patientAge = patientAgeController.text.trim();
     patientAge = patientAge.isEmpty ? 'unknown' : patientAge;
     final userInfo = AuthenticationRepository.instance.userInfo;
     final userAge = DateTime.now().difference(userInfo.birthDate).inDays ~/ 365;
@@ -125,7 +124,7 @@ class MakingRequestInformationController extends GetxController {
               diabetic: diabetic,
               hypertensive: hypertensive,
               heartPatient: heartPatient,
-              medicalAdditionalInfo: '',
+              medicalAdditionalInfo: 'unknown',
               diseasesList: diseasesList,
             ),
       sendSms: sendSms,

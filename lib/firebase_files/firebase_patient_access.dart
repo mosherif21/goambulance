@@ -941,8 +941,7 @@ class FirebasePatientDataAccess extends GetxController {
           .doc(ambulanceDriverId)
           .get();
       if (snapshot.exists) {
-        final ambulanceLocation =
-            snapshot.data()!['position']['geopoint'] as GeoPoint;
+        final ambulanceLocation = snapshot.data()!['g']['geopoint'] as GeoPoint;
         return LatLng(ambulanceLocation.latitude, ambulanceLocation.longitude);
       }
     } on FirebaseException catch (error) {

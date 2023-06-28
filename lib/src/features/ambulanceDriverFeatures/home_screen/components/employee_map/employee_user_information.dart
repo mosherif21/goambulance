@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 
+import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/common_widgets/framed_text.dart';
+import '../../../../../general/common_widgets/regular_clickable_card_icon.dart';
+import '../../../../../general/general_functions.dart';
 
-class EmployeeUserInformationWidget extends StatelessWidget {
-  const EmployeeUserInformationWidget({
+class EmployeeUserInformationPage extends StatelessWidget {
+  const EmployeeUserInformationPage({
     super.key,
     required this.profilePicUrl,
     required this.userInfo,
@@ -16,38 +19,35 @@ class EmployeeUserInformationWidget extends StatelessWidget {
   final UserInfoRequestModel userInfo;
   @override
   Widget build(BuildContext context) {
-    return StretchingOverscrollIndicator(
-      axisDirection: AxisDirection.down,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Center(
-                      child: CircleAvatar(
-                        radius: 65,
-                        backgroundColor: profilePicUrl.isNotEmpty
-                            ? Colors.grey.shade300
-                            : Colors.white,
-                        backgroundImage: profilePicUrl.isNotEmpty
-                            ? NetworkImage(profilePicUrl)
-                            : null,
-                        child: profilePicUrl.isNotEmpty
-                            ? null
-                            : const Icon(Icons.person),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: const RegularBackButton(padding: 0),
+        title: AutoSizeText(
+          'userInformation'.tr,
+          maxLines: 1,
+        ),
+        titleTextStyle: const TextStyle(
+            fontSize: 25, fontWeight: FontWeight.w600, color: Colors.black),
+        elevation: 0,
+        backgroundColor: Colors.white,
+      ),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: StretchingOverscrollIndicator(
+          axisDirection: AxisDirection.down,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText(
-                        userInfo.name,
+                        'personalInformation'.tr,
                         style: const TextStyle(
                           fontSize: 25,
                           fontWeight: FontWeight.w800,
@@ -56,30 +56,93 @@ class EmployeeUserInformationWidget extends StatelessWidget {
                         ),
                         maxLines: 1,
                       ),
-                      if (userInfo.criticalUser)
-                        FramedText(
-                          text: 'criticalUser'.tr,
-                          color: Colors.red,
-                          fontSize: 15,
+                      const SizedBox(height: 20),
+                      Center(
+                        child: Center(
+                          child: CircleAvatar(
+                            radius: 80,
+                            backgroundColor: profilePicUrl.isNotEmpty
+                                ? Colors.grey.shade300
+                                : Colors.white,
+                            backgroundImage: profilePicUrl.isNotEmpty
+                                ? NetworkImage(profilePicUrl)
+                                : null,
+                            child: profilePicUrl.isNotEmpty
+                                ? null
+                                : const Icon(Icons.person),
+                          ),
                         ),
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: AutoSizeText(
+                              userInfo.name,
+                              style: const TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w800,
+                                color: Colors.black,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          if (userInfo.criticalUser)
+                            FramedText(
+                              text: 'criticalUser'.tr,
+                              color: Colors.red,
+                              fontSize: 15,
+                            ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      AutoSizeText(
+                        '${'emailLabel'.tr}: ${userInfo.email}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 10),
+                      AutoSizeText(
+                        '${'age'.tr}: ${userInfo.age}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 10),
+                      AutoSizeText(
+                        '${'gender'.tr}: ${userInfo.gender == 'male' ? 'male'.tr : 'female'.tr}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 1,
+                      ),
                     ],
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 15),
-            Divider(
-              thickness: 8,
-              color: Colors.grey.shade300,
-            ),
-            const SizedBox(height: 15),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+                ),
+                const SizedBox(height: 15),
+                Divider(
+                  thickness: 8,
+                  color: Colors.grey.shade300,
+                ),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: AutoSizeText(
-                    'help'.tr,
+                    'contactInformation'.tr,
                     style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w800,
@@ -88,11 +151,32 @@ class EmployeeUserInformationWidget extends StatelessWidget {
                     maxLines: 1,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
+                RegularClickableCardIcon(
+                  onPressed: () =>
+                      callNumber(phoneNumber: userInfo.phoneNumber),
+                  title: 'phoneNumber'.tr,
+                  subTitle: userInfo.phoneNumber,
+                  leadingIcon: Icons.phone_android,
+                  trailingIcon: Icons.phone,
+                  trailingIconColor: Colors.green,
+                  leadingIconColor: Colors.black,
+                ),
+                if (userInfo.backupNumber.isNotEmpty)
+                  RegularClickableCardIcon(
+                    onPressed: () =>
+                        callNumber(phoneNumber: userInfo.backupNumber),
+                    title: 'backupPhoneNumber'.tr,
+                    subTitle: userInfo.backupNumber,
+                    leadingIcon: Icons.contact_phone,
+                    trailingIcon: Icons.phone,
+                    trailingIconColor: Colors.green,
+                    leadingIconColor: Colors.black,
+                  ),
+                const SizedBox(height: 20),
               ],
             ),
-            const SizedBox(height: 20),
-          ],
+          ),
         ),
       ),
     );

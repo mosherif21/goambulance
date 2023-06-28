@@ -927,7 +927,7 @@ class TrackingRequestController extends GetxController {
   void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
     if (googleMapControllerInit) {
       googleMapController
-          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 80));
+          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 70));
     }
   }
 

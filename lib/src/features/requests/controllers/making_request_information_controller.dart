@@ -113,6 +113,7 @@ class MakingRequestInformationController extends GetxController {
     final userInfo = AuthenticationRepository.instance.userInfo;
     final userAge = DateTime.now().difference(userInfo.birthDate).inDays ~/ 365;
     final backupNumber = userInfo.backupNumber;
+    final phoneNumber = userInfo.phoneNumber;
     return RequestInfoModel(
       isUser: userRequest.value,
       patientCondition: patientCondition,
@@ -130,6 +131,7 @@ class MakingRequestInformationController extends GetxController {
       sendSms: sendSms,
       additionalInformation: additionalInformation,
       patientAge: userRequest.value ? userAge.toString() : patientAge,
+      phoneNumber: phoneNumber,
     );
   }
 

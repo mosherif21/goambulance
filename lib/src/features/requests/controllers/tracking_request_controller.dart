@@ -193,6 +193,7 @@ class TrackingRequestController extends GetxController {
         medicalHistory: initialRequestModel.medicalHistory,
         additionalInformation: initialRequestModel.additionalInformation,
         patientAge: initialRequestModel.patientAge!,
+        phoneNumber: initialRequestModel.phoneNumber,
       );
       final pendingRequestRef = _firestore.collection('pendingRequests').doc();
       final requestData = RequestMakingModel(
@@ -422,6 +423,7 @@ class TrackingRequestController extends GetxController {
           medicalHistory: initialRequestModel.medicalHistory,
           additionalInformation: initialRequestModel.additionalInformation,
           patientAge: initialRequestModel.patientAge!,
+          phoneNumber: initialRequestModel.phoneNumber,
         ),
         timestamp: initialRequestModel.timestamp,
         requestLocation: GeoPoint(initialRequestModel.requestLocation.latitude,

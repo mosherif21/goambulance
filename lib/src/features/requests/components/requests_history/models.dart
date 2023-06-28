@@ -19,6 +19,7 @@ class RequestDataModel {
   final String requestId;
   final String userId;
   final String additionalInformation;
+  final String phoneNumber;
   String? patientAge;
   String hospitalId;
   String hospitalName;
@@ -52,6 +53,7 @@ class RequestDataModel {
     required this.requestLocation,
     required this.hospitalLocation,
     required this.additionalInformation,
+    required this.phoneNumber,
     this.patientAge,
     this.cancelReason,
     this.licensePlate,

@@ -37,6 +37,7 @@ exports.cancelTimedOutRequests = functions.pubsub
         backupNumber,
         hospitalGeohash,
         additionalInformation,
+        phoneNumber,
       } = doc.data();
 
       const batch = firestore.batch();
@@ -89,6 +90,7 @@ exports.cancelTimedOutRequests = functions.pubsub
           backupNumber,
           cancelReason: "timedOut",
           additionalInformation,
+          phoneNumber,
         });
         const userCanceledRef = firestore
           .collection("users")
@@ -162,6 +164,7 @@ exports.processSOSRequests = functions.firestore
           const sosLocation = sosRequestData.requestLocation;
           const sosRequestTimestamp = sosRequestData.timestamp;
           const sosRequestPatientAge = sosRequestData.patientAge;
+          const sosRequestPhoneNumber = sosRequestData.phoneNumber;
           // remember to make it 30 minutes again not 5
           const thirtyMinutesInMs = 5 * 60 * 1000;
           const now = admin.firestore.Timestamp.now();
@@ -195,7 +198,8 @@ exports.processSOSRequests = functions.firestore
               userId: userId,
               requestLocation: sosLocation,
               timestamp: sosRequestTimestamp,
-              patientAge: sosRequestPatientAge
+              patientAge: sosRequestPatientAge,
+              phoneNumber: sosRequestPhoneNumber,
             });
             blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
               batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
@@ -224,6 +228,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
     const sosLocation = sosRequestData.requestLocation;
     const userId = sosRequestData.userId;
     const patientAge = sosRequestData.patientAge;
+    const phoneNumber = sosRequestData.phoneNumber;
     let radiusInKm = 50;
     let querySnapshot;
     let sosRequestDeleted = false;
@@ -294,6 +299,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       backupNumber: "unknown",
       additionalInformation: "No additional Information",
       patientAge: patientAge,
+      phoneNumber: phoneNumber,
     });
     const userPendingRequestRef = firestore
       .collection("users")

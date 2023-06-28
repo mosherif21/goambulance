@@ -439,6 +439,7 @@ class FirebasePatientDataAccess extends GetxController {
             patientCondition:
                 pendingRequestDocument['patientCondition'].toString(),
             backupNumber: pendingRequestDocument['backupNumber'].toString(),
+            phoneNumber: pendingRequestDocument['phoneNumber'].toString(),
             requestStatus: status == 'pending'
                 ? RequestStatus.pending
                 : RequestStatus.accepted,
@@ -486,6 +487,7 @@ class FirebasePatientDataAccess extends GetxController {
             backupNumber: assignedRequestDocument['backupNumber'].toString(),
             ambulanceType: assignedRequestDocument['ambulanceType'].toString(),
             licensePlate: assignedRequestDocument['licensePlate'].toString(),
+            phoneNumber: assignedRequestDocument['phoneNumber'].toString(),
             ambulanceDriverID:
                 assignedRequestDocument['ambulanceDriverID'].toString(),
             ambulanceMedicID:
@@ -529,6 +531,7 @@ class FirebasePatientDataAccess extends GetxController {
             userId: completedRequestDocument['userId'].toString(),
             hospitalId: completedRequestDocument['hospitalId'].toString(),
             hospitalName: completedRequestDocument['hospitalName'].toString(),
+            phoneNumber: completedRequestDocument['phoneNumber'].toString(),
             isUser: completedRequestDocument['isUser'] as bool,
             patientCondition:
                 completedRequestDocument['patientCondition'].toString(),
@@ -575,6 +578,7 @@ class FirebasePatientDataAccess extends GetxController {
             userId: canceledRequestDocument['userId'].toString(),
             hospitalId: canceledRequestDocument['hospitalId'].toString(),
             hospitalName: canceledRequestDocument['hospitalName'].toString(),
+            phoneNumber: canceledRequestDocument['phoneNumber'].toString(),
             isUser: canceledRequestDocument['isUser'] as bool,
             patientCondition:
                 canceledRequestDocument['patientCondition'].toString(),

@@ -23,6 +23,7 @@ class RequestInfoModel {
   final bool isUser;
   final String patientCondition;
   final String backupNumber;
+  final String phoneNumber;
   final String additionalInformation;
   final MedicalHistoryModel? medicalHistory;
   final bool? sendSms;
@@ -33,6 +34,7 @@ class RequestInfoModel {
     required this.backupNumber,
     required this.additionalInformation,
     required this.patientAge,
+    required this.phoneNumber,
     this.sendSms,
     this.medicalHistory,
   });
@@ -70,6 +72,7 @@ class RequestMakingModel {
         'backupNumber': requestInfo.backupNumber,
         'additionalInformation': requestInfo.additionalInformation,
         'patientAge': requestInfo.patientAge,
+        'phoneNumber': requestInfo.phoneNumber,
         'timestamp': timestamp,
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,

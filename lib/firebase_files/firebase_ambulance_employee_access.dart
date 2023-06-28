@@ -134,6 +134,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
               snapshotData['ambulanceDriverID'].toString();
           final ambulanceMedicID = snapshotData['ambulanceMedicID'].toString();
           final hospitalGeohash = snapshotData['hospitalGeohash'].toString();
+          final phoneNumber = snapshotData['phoneNumber'].toString();
           final requestStatus = status == 'assigned'
               ? RequestStatus.assigned
               : RequestStatus.ongoing;
@@ -226,6 +227,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
             ambulanceMedicID: ambulanceMedicID,
             hospitalGeohash: hospitalGeohash,
             medicalHistory: medicalHistory,
+            phoneNumber: phoneNumber,
           );
           return requestData;
         }

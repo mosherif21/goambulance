@@ -54,7 +54,6 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                           height: screenHeight * 0.25,
                         ),
                       ),
-
                       const SizedBox(height: 10),
                       AutoSizeText(
                         '${'bloodType'.tr}: ${medicalInfo.bloodType != 'unknown' ? medicalInfo.bloodType : 'unknown'.tr}',

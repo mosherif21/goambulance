@@ -56,7 +56,8 @@ class EmployeeMapScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           NoFrameClickableCard(
-                            onPressed: () {},
+                            onPressed: () => employeeHomeScreenController
+                                .onUserInformationPressed(),
                             title: 'userInformation'.tr,
                             subTitle: '',
                             leadingIcon: Icons.account_box,
@@ -68,7 +69,8 @@ class EmployeeMapScreen extends StatelessWidget {
                                 horizontal: 12),
                           ),
                           NoFrameClickableCard(
-                            onPressed: () {},
+                            onPressed: () => employeeHomeScreenController
+                                .onUserInformationPressed(),
                             title: 'PatientMedicalInformation'.tr,
                             subTitle: '',
                             leadingIcon: Icons.medical_information_outlined,

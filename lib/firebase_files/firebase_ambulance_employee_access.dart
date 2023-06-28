@@ -247,6 +247,40 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     return null;
   }
 
+  Future<UserInfoRequestModel?> getUserInfo({required String userId}) async {
+    try {
+      final snapshot = await fireStore.collection('users').doc(userId).get();
+      if (snapshot.exists) {
+        final snapshotData = snapshot.data();
+        if (snapshotData != null) {
+          final age = (DateTime.now()
+                  .difference((snapshotData['birthdate'] as Timestamp).toDate())
+                  .inDays ~/
+              365);
+          final userInfoRequest = UserInfoRequestModel(
+            name: snapshotData['name'].toString(),
+            criticalUser: snapshotData['criticalUser'] as bool,
+            email: snapshotData['email'].toString(),
+            gender: snapshotData['gender'].toString(),
+            backupNumber: snapshotData['backupNumber'].toString(),
+            phoneNumber: snapshotData['phoneNumber'].toString(),
+            age: age,
+          );
+          return userInfoRequest;
+        }
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
   Future<void> deleteFcmToken() async {
     try {
       await fireStore.collection('fcmTokens').doc(userId).update({
@@ -262,6 +296,26 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
         AppInit.logger.e(err.toString());
       }
     }
+  }
+
+  Future<String> getUserProfilePicUrl({required String userId}) async {
+    try {
+      return await fireStorage
+          .ref()
+          .child('users')
+          .child(userId)
+          .child('profilePic')
+          .getDownloadURL();
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return '';
   }
 
   Future<void> logoutFirebase() async {

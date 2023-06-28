@@ -30,6 +30,8 @@ import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../../constants/assets_strings.dart';
 import '../../../../constants/enums.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
+import '../components/employee_map/employee_user_information.dart';
 
 class EmployeeHomeScreenController extends GetxController {
   static EmployeeHomeScreenController get instance => Get.find();
@@ -271,6 +273,27 @@ class EmployeeHomeScreenController extends GetxController {
         await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
         hideLoadingScreen();
         startNavigation();
+      }
+    }
+  }
+
+  void onUserInformationPressed() async {
+    if (assignedRequestData != null) {
+      showLoadingScreen();
+      final userProfilePicUrl = await firebaseEmployeeDataAccess
+          .getUserProfilePicUrl(userId: assignedRequestData!.userId);
+      final userRequestInfo = await firebaseEmployeeDataAccess.getUserInfo(
+          userId: assignedRequestData!.userId);
+      hideLoadingScreen();
+      if (userRequestInfo != null) {
+        RegularBottomSheet.showRegularBottomSheet(
+          EmployeeUserInformationWidget(
+            profilePicUrl: userProfilePicUrl,
+            userInfo: userRequestInfo,
+          ),
+        );
+      } else {
+        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
       }
     }
   }

@@ -1,14 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/account/components/models.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
+
+import '../../../../../general/common_widgets/framed_text.dart';
 
 class EmployeeUserInformationWidget extends StatelessWidget {
-  const EmployeeUserInformationWidget(
-      {super.key, required this.userInformation, required this.profilePicUrl});
-  final UserInformation userInformation;
+  const EmployeeUserInformationWidget({
+    super.key,
+    required this.profilePicUrl,
+    required this.userInfo,
+  });
+
   final String profilePicUrl;
+  final UserInfoRequestModel userInfo;
   @override
   Widget build(BuildContext context) {
     return StretchingOverscrollIndicator(
@@ -24,73 +29,41 @@ class EmployeeUserInformationWidget extends StatelessWidget {
                 children: [
                   Center(
                     child: Center(
-                        child: CircleAvatar(
-                      radius: 65,
-                      backgroundColor: Colors.grey.shade300,
-                      backgroundImage: NetworkImage(profilePicUrl),
-                    )),
+                      child: CircleAvatar(
+                        radius: 65,
+                        backgroundColor: profilePicUrl.isNotEmpty
+                            ? Colors.grey.shade300
+                            : Colors.white,
+                        backgroundImage: profilePicUrl.isNotEmpty
+                            ? NetworkImage(profilePicUrl)
+                            : null,
+                        child: profilePicUrl.isNotEmpty
+                            ? null
+                            : const Icon(Icons.person),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 10),
-                  AutoSizeText(
-                    requestModel.hospitalName,
-                    style: const TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.black,
-                        overflow: TextOverflow.ellipsis),
-                    maxLines: 1,
-                  ),
-                  const SizedBox(height: 5),
-                  AutoSizeText(
-                    requestModel.requestDateTime,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black54,
-                    ),
-                    maxLines: 1,
-                  ),
-                  const SizedBox(height: 5),
                   Row(
                     children: [
                       AutoSizeText(
-                        '${'status'.tr}: ',
+                        userInfo.name,
                         style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black54,
+                          fontSize: 25,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.black,
+                          overflow: TextOverflow.ellipsis,
                         ),
                         maxLines: 1,
                       ),
-                      FramedText(
-                        text:
-                            requestModel.requestStatus == RequestStatus.canceled
-                                ? 'canceled'.tr
-                                : 'completed'.tr,
-                        color:
-                            requestModel.requestStatus == RequestStatus.canceled
-                                ? Colors.red
-                                : Colors.green,
-                        fontSize: 15,
-                      ),
+                      if (userInfo.criticalUser)
+                        FramedText(
+                          text: 'criticalUser'.tr,
+                          color: Colors.red,
+                          fontSize: 15,
+                        ),
                     ],
                   ),
-                  if (requestModel.requestStatus == RequestStatus.canceled)
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 5),
-                        AutoSizeText(
-                          '${requestModel.cancelReason}'.tr,
-                          style: const TextStyle(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black54,
-                          ),
-                          maxLines: 1,
-                        ),
-                      ],
-                    ),
                 ],
               ),
             ),

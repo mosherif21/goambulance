@@ -441,6 +441,7 @@ class Languages extends Translations {
           'PatientMedicalInformation': 'المعلومات الطبية للمريض',
           'startNavigation': 'ابدأ التنقل',
           'ambulance': 'سيارة الاسعاف',
+          'criticalUser': 'مستخدم طوارئ',
         },
         'en_US': {
           'sosCancelReturn':
@@ -898,6 +899,7 @@ class Languages extends Translations {
           'startNavigation': 'Start navigation',
           'PatientMedicalInformation': 'Patient medical information',
           'ambulance': 'Ambulance',
+          'criticalUser': 'Critical user',
         },
       };
 }

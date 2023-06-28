@@ -447,7 +447,7 @@ class Languages extends Translations {
           'gender': 'الجنس',
           'phoneNumber': 'رقم الهاتف',
           'backupPhoneNumber': 'رقم الهاتف الاحتياطى',
-          'bloodType': 'فصبلة الدم',
+          'bloodType': 'فصيلة الدم',
           'hypertensive': 'مريض ضغط دم',
           'diabetic': 'مريض سكر',
           'heartPatient': 'مريض قلب',

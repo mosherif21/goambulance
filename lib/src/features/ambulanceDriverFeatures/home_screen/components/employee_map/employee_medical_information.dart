@@ -2,8 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../../../../constants/assets_strings.dart';
 import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/general_functions.dart';
 
 class EmployeeMedicalInformationPage extends StatelessWidget {
   const EmployeeMedicalInformationPage({
@@ -41,6 +44,11 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
+                      Lottie.asset(
+                        kMedicalInfoAnim,
+                        fit: BoxFit.contain,
+                        height: getScreenHeight(context) * 0.4,
+                      ),
                       AutoSizeText(
                         '${'bloodType'.tr}: ${medicalInfo.bloodType != 'unknown' ? medicalInfo.bloodType : 'unknown'.tr}',
                         style: const TextStyle(

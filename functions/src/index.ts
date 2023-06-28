@@ -88,7 +88,7 @@ exports.cancelTimedOutRequests = functions.pubsub
           timestamp,
           backupNumber,
           cancelReason: "timedOut",
-          additionalInformation: additionalInformation,
+          additionalInformation,
         });
         const userCanceledRef = firestore
           .collection("users")
@@ -157,10 +157,11 @@ exports.processSOSRequests = functions.firestore
         console.log('No hospital found after 50 seconds, creating another sos request');
         const sosRequestId = snapshot.id;
         const sosRequestData = snapshot.data();
-        if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation && sosRequestData.timestamp) {
+        if (sosRequestData && sosRequestData.userId && sosRequestData.requestLocation && sosRequestData.timestamp && sosRequestData.patientAge) {
           const userId = sosRequestData.userId;
           const sosLocation = sosRequestData.requestLocation;
           const sosRequestTimestamp = sosRequestData.timestamp;
+          const sosRequestPatientAge = sosRequestData.patientAge;
           // remember to make it 30 minutes again not 5
           const thirtyMinutesInMs = 5 * 60 * 1000;
           const now = admin.firestore.Timestamp.now();
@@ -194,6 +195,7 @@ exports.processSOSRequests = functions.firestore
               userId: userId,
               requestLocation: sosLocation,
               timestamp: sosRequestTimestamp,
+              patientAge: sosRequestPatientAge
             });
             blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
               batch.set(sosRequestRefNew.collection('blockedHospitals').doc(document.id), {});
@@ -221,6 +223,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       .doc(sosRequestId);
     const sosLocation = sosRequestData.requestLocation;
     const userId = sosRequestData.userId;
+    const patientAge = sosRequestData.patientAge;
     let radiusInKm = 50;
     let querySnapshot;
     let sosRequestDeleted = false;
@@ -289,7 +292,8 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       hospitalId: hospitalId,
       hospitalGeohash: hospitalGeohash,
       backupNumber: "unknown",
-      additionalInformation: "No additional Information"
+      additionalInformation: "No additional Information",
+      patientAge: patientAge,
     });
     const userPendingRequestRef = firestore
       .collection("users")

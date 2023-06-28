@@ -27,6 +27,7 @@ class UserInfoRequestModel {
   final String gender;
   final String backupNumber;
   final String phoneNumber;
+  final String profilePicUrl;
   final int age;
 
   UserInfoRequestModel({
@@ -34,6 +35,7 @@ class UserInfoRequestModel {
     required this.criticalUser,
     required this.email,
     required this.gender,
+    required this.profilePicUrl,
     required this.backupNumber,
     required this.phoneNumber,
     required this.age,

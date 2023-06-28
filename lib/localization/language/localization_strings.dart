@@ -452,6 +452,11 @@ class Languages extends Translations {
           'diabetic': 'مريض سكر',
           'heartPatient': 'مريض قلب',
           'medicalAdditionalInformation': 'معلومات طبية إضافية',
+          'diseases': 'الأمراض / الحساسيات',
+          'noMedicalAdditionalInformation': 'لا توجد معلومات طبية إضافية',
+          'noAdditionalInformation': 'لا توجد معلومات إضافية',
+          'unknown': 'غير معروف',
+          'medicalInformation': 'المعلومات الطبية',
         },
         'en_US': {
           'sosCancelReturn':
@@ -920,6 +925,11 @@ class Languages extends Translations {
           'diabetic': 'Diabetic',
           'heartPatient': 'Heart patient',
           'medicalAdditionalInformation': 'Medical additional information',
+          'diseases': 'Diseases/Allergies',
+          'unknown': 'Unknown',
+          'noMedicalAdditionalInformation': 'No medical additional information',
+          'noAdditionalInformation': 'No additional information',
+          'medicalInformation': 'Medical information',
         },
       };
 }

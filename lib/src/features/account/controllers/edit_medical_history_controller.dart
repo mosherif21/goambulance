@@ -53,7 +53,9 @@ class EditMedicalHistoryController extends GetxController {
         currentDiseasesDocIds = medicalInfo.currentDiseasesDocIds!;
       }
       additionalInformationTextController.text =
-          medicalInfo.medicalAdditionalInfo;
+          medicalInfo.medicalAdditionalInfo == 'unknown'
+              ? ''
+              : medicalInfo.medicalAdditionalInfo;
       bloodTypeDropdownController.text = medicalInfo.bloodType;
       diabetesDropdownController.text =
           medicalInfo.diabetic == 'No' ? 'no'.tr : medicalInfo.diabetic;

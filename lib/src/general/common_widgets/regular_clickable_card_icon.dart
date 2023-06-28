@@ -65,6 +65,7 @@ class RegularClickableCardIcon extends StatelessWidget {
               Icon(
                 trailingIcon,
                 color: trailingIconColor,
+                size: 32,
               ),
             ],
           ),

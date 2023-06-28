@@ -30,6 +30,7 @@ import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../../constants/assets_strings.dart';
 import '../../../../constants/enums.dart';
+import '../components/employee_map/employee_medical_information.dart';
 import '../components/employee_map/employee_user_information.dart';
 
 class EmployeeHomeScreenController extends GetxController {
@@ -100,6 +101,7 @@ class EmployeeHomeScreenController extends GetxController {
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
       assignedRequestStreamSubscription;
   RequestDataModel? assignedRequestData;
+  UserInfoRequestModel? userRequestInfo;
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
@@ -260,16 +262,16 @@ class EmployeeHomeScreenController extends GetxController {
 
   void onStartNavigationPressed() async {
     if (locationPermissionGranted.value && locationServiceEnabled.value) {
-      if (locationAvailable.value) {
-        startNavigation();
-      } else {
-        await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
-        startNavigation();
-      }
+      showLoadingScreen();
+      currentLocation =
+          await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
+      hideLoadingScreen();
+      startNavigation();
     } else {
       if (await handleLocationPermission() && await handleLocationService()) {
         showLoadingScreen();
-        await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
+        currentLocation =
+            await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
         hideLoadingScreen();
         startNavigation();
       }
@@ -278,23 +280,35 @@ class EmployeeHomeScreenController extends GetxController {
 
   void onUserInformationPressed() async {
     if (assignedRequestData != null) {
-      showLoadingScreen();
-      final userProfilePicUrl = await firebaseEmployeeDataAccess
-          .getUserProfilePicUrl(userId: assignedRequestData!.userId);
-      final userRequestInfo = await firebaseEmployeeDataAccess.getUserInfo(
-          userId: assignedRequestData!.userId);
-      hideLoadingScreen();
+      if (userRequestInfo == null) {
+        showLoadingScreen();
+        userRequestInfo = await firebaseEmployeeDataAccess.getUserInfo(
+            userId: assignedRequestData!.userId);
+        hideLoadingScreen();
+      }
       if (userRequestInfo != null) {
         Get.to(
           () => EmployeeUserInformationPage(
-            profilePicUrl: userProfilePicUrl,
-            userInfo: userRequestInfo,
+            userInfo: userRequestInfo!,
           ),
           transition: getPageTransition(),
         );
       } else {
         showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
       }
+    }
+  }
+
+  void onMedicalInformationPressed() async {
+    if (assignedRequestData != null) {
+      Get.to(
+        () => EmployeeMedicalInformationPage(
+          medicalInfo: assignedRequestData!.medicalHistory!,
+        ),
+        transition: getPageTransition(),
+      );
+    } else {
+      showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
     }
   }
 
@@ -578,9 +592,7 @@ class EmployeeHomeScreenController extends GetxController {
           .then((locationPosition) {
         currentLocation = locationPosition;
         locationAvailable.value = true;
-        if (!hasAssignedRequest.value) {
-          animateCamera(locationLatLng: currentLocationGetter());
-        }
+        animateCamera(locationLatLng: currentLocationGetter());
         if (kDebugMode) {
           print(
               'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');
@@ -596,9 +608,6 @@ class EmployeeHomeScreenController extends GetxController {
           if (position != null) {
             currentLocation = position;
             locationAvailable.value = true;
-            if (!hasAssignedRequest.value) {
-              animateCamera(locationLatLng: currentLocationGetter());
-            }
           }
           if (kDebugMode) {
             print(position == null

@@ -11,11 +11,9 @@ import '../../../../../general/general_functions.dart';
 class EmployeeUserInformationPage extends StatelessWidget {
   const EmployeeUserInformationPage({
     super.key,
-    required this.profilePicUrl,
     required this.userInfo,
   });
 
-  final String profilePicUrl;
   final UserInfoRequestModel userInfo;
   @override
   Widget build(BuildContext context) {
@@ -61,13 +59,13 @@ class EmployeeUserInformationPage extends StatelessWidget {
                         child: Center(
                           child: CircleAvatar(
                             radius: 80,
-                            backgroundColor: profilePicUrl.isNotEmpty
+                            backgroundColor: userInfo.profilePicUrl.isNotEmpty
                                 ? Colors.grey.shade300
                                 : Colors.white,
-                            backgroundImage: profilePicUrl.isNotEmpty
-                                ? NetworkImage(profilePicUrl)
+                            backgroundImage: userInfo.profilePicUrl.isNotEmpty
+                                ? NetworkImage(userInfo.profilePicUrl)
                                 : null,
-                            child: profilePicUrl.isNotEmpty
+                            child: userInfo.profilePicUrl.isNotEmpty
                                 ? null
                                 : const Icon(Icons.person),
                           ),

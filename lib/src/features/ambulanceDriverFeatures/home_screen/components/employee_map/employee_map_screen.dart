@@ -69,7 +69,8 @@ class EmployeeMapScreen extends StatelessWidget {
                                 horizontal: 12),
                           ),
                           NoFrameClickableCard(
-                            onPressed: () {},
+                            onPressed: () => employeeHomeScreenController
+                                .onMedicalInformationPressed(),
                             title: 'PatientMedicalInformation'.tr,
                             subTitle: '',
                             leadingIcon: Icons.medical_information_outlined,

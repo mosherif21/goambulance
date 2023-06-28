@@ -257,6 +257,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
                   .difference((snapshotData['birthdate'] as Timestamp).toDate())
                   .inDays ~/
               365);
+          final userProfilePicUrl = await getUserProfilePicUrl(userId: userId);
           final userInfoRequest = UserInfoRequestModel(
             name: snapshotData['name'].toString(),
             criticalUser: snapshotData['criticalUser'] as bool,
@@ -265,6 +266,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
             backupNumber: snapshotData['backupNumber'].toString(),
             phoneNumber: snapshotData['phoneNumber'].toString(),
             age: age,
+            profilePicUrl: userProfilePicUrl,
           );
           return userInfoRequest;
         }

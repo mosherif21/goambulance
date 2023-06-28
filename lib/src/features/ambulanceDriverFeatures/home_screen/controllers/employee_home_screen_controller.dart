@@ -16,6 +16,7 @@ import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.da
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import 'package:goambulance/src/features/requests/components/making_request/models.dart';
+import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -70,6 +71,7 @@ class EmployeeHomeScreenController extends GetxController {
   //making request
   late LatLng currentCameraLatLng;
   final hasAssignedRequest = false.obs;
+  final assignedRequestLoaded = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
   late RequestMakingModel currentRequestData;
@@ -95,7 +97,7 @@ class EmployeeHomeScreenController extends GetxController {
       notificationCountStreamSubscription;
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
       assignedRequestStreamSubscription;
-
+  RequestDataModel? assignedRequestData;
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
@@ -145,15 +147,31 @@ class EmployeeHomeScreenController extends GetxController {
       assignedRequestStreamSubscription = _firestore
           .collection('users')
           .doc(userId)
-          .collection('')
+          .collection('assignedRequests')
           .snapshots()
           .listen((snapshots) {
         if (snapshots.docs.isNotEmpty) {
           final snapshot = snapshots.docs.first;
           if (snapshot.exists) {
+            onAssignedChanges();
             final requestId = snapshot.id;
-          } else {}
-        } else {}
+            firebaseEmployeeDataAccess
+                .getAssignedRequestInfo(requestId: requestId)
+                .then((requestData) {
+              if (requestData != null) {
+                assignedRequestData = requestData;
+                onAssignedLoadedChanges();
+              }
+            });
+          }
+        } else {
+          if (hasAssignedRequest.value) {
+            onNotAssignedChanges();
+            if (assignedRequestLoaded.value) {
+              onNotAssignedLoadedChanges();
+            }
+          }
+        }
       });
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -164,6 +182,28 @@ class EmployeeHomeScreenController extends GetxController {
         AppInit.logger.e(err.toString());
       }
     }
+  }
+
+  void onAssignedChanges() async {
+    requestPanelController.open();
+    hasAssignedRequest.value = true;
+  }
+
+  void onNotAssignedChanges() async {
+    hasAssignedRequest.value = false;
+  }
+
+  void onAssignedLoadedChanges() async {
+    assignedRequestLoaded.value = true;
+  }
+
+  void onNotAssignedLoadedChanges() async {
+    assignedRequestLoaded.value = false;
+  }
+
+  Future<void> cancelListeners() async {
+    await notificationCountStreamSubscription?.cancel();
+    await assignedRequestStreamSubscription?.cancel();
   }
 
   void loadHospitalInfo() async {
@@ -199,6 +239,7 @@ class EmployeeHomeScreenController extends GetxController {
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
+      listenForAssignedRequests();
     });
   }
 
@@ -437,6 +478,7 @@ class EmployeeHomeScreenController extends GetxController {
       }
       if (positionStreamInitialized) await currentPositionStream?.cancel();
       await notificationCountStreamSubscription?.cancel();
+      await assignedRequestStreamSubscription?.cancel();
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }

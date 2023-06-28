@@ -432,6 +432,9 @@ class Languages extends Translations {
           'loadingHospitalInfo': 'جارى تحميل معلومات المستشفى...',
           'failedToGetHospital': 'فشل الحصول على معلومات المستشفى',
           'hospital': 'المستشفى',
+          'enterHisAge': 'الرجاء إدخال عمره / عمرها',
+          'age': 'السن',
+          'enterHisAgeHint': 'أدخل عمره / عمرها',
         },
         'en_US': {
           'sosCancelReturn':
@@ -880,6 +883,9 @@ class Languages extends Translations {
           'loadingHospitalInfo': 'Loading hospital info...',
           'failedToGetHospital': 'Failed to get hospital info',
           'hospital': 'Hospital',
+          'enterHisAge': 'Please enter his/hers age',
+          'age': 'Age',
+          'enterHisAgeHint': 'Enter his/hers age',
         },
       };
 }

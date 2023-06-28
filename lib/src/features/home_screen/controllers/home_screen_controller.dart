@@ -71,7 +71,7 @@ class HomeScreenController extends GetxController {
           .whenComplete(() => handleNotificationsPermission())
           .whenComplete(() => handleSpeechPermission());
     }
-
+    listenForNotificationCount();
 // Get a reference to the storage bucket
     final FirebaseStorage storage = FirebaseStorage.instance;
 
@@ -95,7 +95,7 @@ class HomeScreenController extends GetxController {
       print('list got:${adImageUrl.length}');
     }
     adsLoaded.value = true;
-    listenForNotificationCount();
+
     super.onReady();
   }
 
@@ -492,7 +492,14 @@ class HomeScreenController extends GetxController {
 
   void sendSosRequest({required GeoPoint requestLocation}) =>
       firebasePatientAccess
-          .makeSosRequest(requestLocation: requestLocation)
+          .makeSosRequest(
+        requestLocation: requestLocation,
+        patientAge: (DateTime.now()
+                    .difference(authenticationRepository.userInfo.birthDate)
+                    .inDays ~/
+                365)
+            .toString(),
+      )
           .then((sosRequestId) {
         if (sosRequestId != null) {
           processingSosRequest = false;

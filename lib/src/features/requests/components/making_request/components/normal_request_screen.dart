@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/enums.dart';
 
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/common_widgets/custom_rolling_switch.dart';
@@ -10,6 +11,7 @@ import '../../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../../../general/common_widgets/regular_card.dart';
 import '../../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../../general/common_widgets/rounded_elevated_button.dart';
+import '../../../../../general/common_widgets/text_form_field.dart';
 import '../../../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../../../general/common_widgets/text_header.dart';
 import '../../../../account/components/new_account/add_disease.dart';
@@ -76,6 +78,32 @@ class NormalRequestScreen extends StatelessWidget {
                       ? const SizedBox.shrink()
                       : Column(
                           children: [
+                            RegularCard(
+                              highlightRed: false,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  TextHeader(
+                                    headerText: 'enterHisAge'.tr,
+                                    fontSize: 18,
+                                    maxLines: 1,
+                                  ),
+                                  const SizedBox(height: 5.0),
+                                  TextFormFieldRegular(
+                                    labelText: 'age'.tr,
+                                    hintText: 'enterHisAgeHint'.tr,
+                                    textController:
+                                        controller.patientAgeController,
+                                    textInputAction: TextInputAction.next,
+                                    inputFormatter:
+                                        LengthLimitingTextInputFormatter(20),
+                                    prefixIconData: Icons.access_time_outlined,
+                                    inputType: InputType.text,
+                                    editable: true,
+                                  ),
+                                ],
+                              ),
+                            ),
                             RegularCard(
                               highlightRed: false,
                               child: Column(

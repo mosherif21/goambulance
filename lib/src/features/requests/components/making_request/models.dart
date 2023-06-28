@@ -26,20 +26,16 @@ class RequestInfoModel {
   final String additionalInformation;
   final MedicalHistoryModel? medicalHistory;
   final bool? sendSms;
+  final String patientAge;
   RequestInfoModel({
     required this.isUser,
     required this.patientCondition,
     required this.backupNumber,
     required this.additionalInformation,
+    required this.patientAge,
     this.sendSms,
     this.medicalHistory,
   });
-  Map<String, dynamic> toJson() => {
-        'isUser': isUser,
-        'patientCondition': patientCondition,
-        'backupNumber': backupNumber,
-        'additionalInformation': additionalInformation,
-      };
 }
 
 class RequestMakingModel {
@@ -73,6 +69,7 @@ class RequestMakingModel {
         'patientCondition': requestInfo.patientCondition,
         'backupNumber': requestInfo.backupNumber,
         'additionalInformation': requestInfo.additionalInformation,
+        'patientAge': requestInfo.patientAge,
         'timestamp': timestamp,
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,

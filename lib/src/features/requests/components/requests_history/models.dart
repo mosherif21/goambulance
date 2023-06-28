@@ -19,6 +19,7 @@ class RequestDataModel {
   final String requestId;
   final String userId;
   final String additionalInformation;
+  String? patientAge;
   String hospitalId;
   String hospitalName;
   final String backupNumber;
@@ -31,7 +32,8 @@ class RequestDataModel {
   LatLng hospitalLocation;
   Timestamp timestamp;
   String? cancelReason;
-  String? ambulanceCarID;
+  String? licensePlate;
+  String? ambulanceType;
   String? ambulanceDriverID;
   String? ambulanceMedicID;
   MedicalHistoryModel? medicalHistory;
@@ -50,10 +52,13 @@ class RequestDataModel {
     required this.requestLocation,
     required this.hospitalLocation,
     required this.additionalInformation,
+    this.patientAge,
     this.cancelReason,
-    this.ambulanceCarID,
+    this.licensePlate,
+    this.ambulanceType,
     this.ambulanceDriverID,
     this.ambulanceMedicID,
     this.hospitalGeohash,
+    this.medicalHistory,
   });
 }

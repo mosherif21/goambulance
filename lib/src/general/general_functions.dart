@@ -178,9 +178,7 @@ Future<void> logout() async {
     }
   } else {
     if (Get.isRegistered<EmployeeHomeScreenController>()) {
-      await EmployeeHomeScreenController
-          .instance.notificationCountStreamSubscription
-          ?.cancel();
+      await EmployeeHomeScreenController.instance.cancelListeners();
     }
     if (Get.isRegistered<FirebaseAmbulanceEmployeeDataAccess>()) {
       await FirebaseAmbulanceEmployeeDataAccess.instance.logoutFirebase();

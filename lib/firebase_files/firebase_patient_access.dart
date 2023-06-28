@@ -447,6 +447,7 @@ class FirebasePatientDataAccess extends GetxController {
                 pendingRequestDocument['hospitalGeohash'].toString(),
             additionalInformation:
                 pendingRequestDocument['additionalInformation'].toString(),
+            patientAge: pendingRequestDocument['patientAge'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -470,6 +471,7 @@ class FirebasePatientDataAccess extends GetxController {
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
           final status = assignedRequestDocument['status'].toString();
+
           final requestModel = RequestDataModel(
             requestId: assignedDoc.id,
             timestamp: timeStamp,
@@ -482,8 +484,8 @@ class FirebasePatientDataAccess extends GetxController {
             patientCondition:
                 assignedRequestDocument['patientCondition'].toString(),
             backupNumber: assignedRequestDocument['backupNumber'].toString(),
-            ambulanceCarID:
-                assignedRequestDocument['ambulanceCarID'].toString(),
+            ambulanceType: assignedRequestDocument['ambulanceType'].toString(),
+            licensePlate: assignedRequestDocument['licensePlate'].toString(),
             ambulanceDriverID:
                 assignedRequestDocument['ambulanceDriverID'].toString(),
             ambulanceMedicID:
@@ -496,6 +498,7 @@ class FirebasePatientDataAccess extends GetxController {
                 assignedRequestDocument['hospitalGeohash'].toString(),
             additionalInformation:
                 assignedRequestDocument['additionalInformation'].toString(),
+            patientAge: assignedRequestDocument['patientAge'].toString(),
           );
           readRequestsHistory.add(requestModel);
         }
@@ -529,8 +532,8 @@ class FirebasePatientDataAccess extends GetxController {
             isUser: completedRequestDocument['isUser'] as bool,
             patientCondition:
                 completedRequestDocument['patientCondition'].toString(),
-            ambulanceCarID:
-                completedRequestDocument['ambulanceCarID'].toString(),
+            ambulanceType: completedRequestDocument['ambulanceType'].toString(),
+            licensePlate: completedRequestDocument['licensePlate'].toString(),
             ambulanceDriverID:
                 completedRequestDocument['ambulanceDriverID'].toString(),
             ambulanceMedicID:
@@ -692,11 +695,13 @@ class FirebasePatientDataAccess extends GetxController {
 
   Future<String?> makeSosRequest({
     required GeoPoint requestLocation,
+    required String patientAge,
   }) async {
     try {
       final sosRequestRef = await fireStore.collection('sosRequests').add({
         'userId': userId,
         'requestLocation': requestLocation,
+        'patientAge': patientAge,
         'timestamp': Timestamp.now(),
       });
       return sosRequestRef.id;
@@ -1057,7 +1062,9 @@ class FirebasePatientDataAccess extends GetxController {
           requestModel.timestamp = timestamp;
           requestModel.ambulanceDriverID =
               snapData['ambulanceDriverID'].toString();
-          requestModel.ambulanceCarID = snapData['ambulanceCarID'].toString();
+          requestModel.ambulanceType = snapData['ambulanceType'].toString();
+          requestModel.licensePlate = snapData['licensePlate'].toString();
+
           requestModel.ambulanceMedicID =
               snapData['ambulanceMedicID'].toString();
           if (!requestModel.isUser) {

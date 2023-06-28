@@ -33,6 +33,7 @@ class MakingRequestInformationController extends GetxController {
   final diabetesDropdownController = TextEditingController();
   final heartPatientDropdownController = TextEditingController();
   final bloodTypeDropdownController = TextEditingController();
+  final patientAgeController = TextEditingController();
   bool sendSms = false;
   final sendSosPrimaryKey = GlobalKey<RollingSwitchState>();
 
@@ -107,10 +108,15 @@ class MakingRequestInformationController extends GetxController {
     additionalInformation = additionalInformation.isEmpty
         ? 'No additional Information'
         : additionalInformation;
+    String patientAge = patientConditionTextController.text.trim();
+    patientAge = patientAge.isEmpty ? 'unknown' : patientAge;
+    final userInfo = AuthenticationRepository.instance.userInfo;
+    final userAge = DateTime.now().difference(userInfo.birthDate).inDays ~/ 365;
+    final backupNumber = userInfo.backupNumber;
     return RequestInfoModel(
       isUser: userRequest.value,
       patientCondition: patientCondition,
-      backupNumber: AuthenticationRepository.instance.userInfo.backupNumber,
+      backupNumber: backupNumber,
       medicalHistory: userRequest.value
           ? null
           : MedicalHistoryModel(
@@ -123,6 +129,7 @@ class MakingRequestInformationController extends GetxController {
             ),
       sendSms: sendSms,
       additionalInformation: additionalInformation,
+      patientAge: userRequest.value ? userAge.toString() : patientAge,
     );
   }
 
@@ -166,6 +173,7 @@ class MakingRequestInformationController extends GetxController {
     bloodTypeDropdownController.dispose();
     heartPatientDropdownController.dispose();
     patientConditionTextController.dispose();
+    patientAgeController.dispose();
     super.onClose();
   }
 }

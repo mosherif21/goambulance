@@ -457,6 +457,7 @@ class Languages extends Translations {
           'noAdditionalInformation': 'لا توجد معلومات إضافية',
           'unknown': 'غير معروف',
           'medicalInformation': 'المعلومات الطبية',
+          'patientAge': 'سن المريض',
         },
         'en_US': {
           'sosCancelReturn':
@@ -930,6 +931,7 @@ class Languages extends Translations {
           'noMedicalAdditionalInformation': 'No medical additional information',
           'noAdditionalInformation': 'No additional information',
           'medicalInformation': 'Medical information',
+          'patientAge': 'Patient age',
         },
       };
 }

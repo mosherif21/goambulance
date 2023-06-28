@@ -12,11 +12,14 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
   const EmployeeMedicalInformationPage({
     super.key,
     required this.medicalInfo,
+    required this.patientAge,
   });
 
   final MedicalHistoryModel medicalInfo;
+  final String patientAge;
   @override
   Widget build(BuildContext context) {
+    final screenHeight = getScreenHeight(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -43,12 +46,14 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 20),
-                      Lottie.asset(
-                        kMedicalInfoAnim,
-                        fit: BoxFit.contain,
-                        height: getScreenHeight(context) * 0.4,
+                      Center(
+                        child: Lottie.asset(
+                          kMedicalInfoAnim,
+                          fit: BoxFit.contain,
+                          height: screenHeight * 0.25,
+                        ),
                       ),
+                      const SizedBox(height: 10),
                       AutoSizeText(
                         '${'bloodType'.tr}: ${medicalInfo.bloodType != 'unknown' ? medicalInfo.bloodType : 'unknown'.tr}',
                         style: const TextStyle(
@@ -84,6 +89,17 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                       const SizedBox(height: 10),
                       AutoSizeText(
                         '${'heartPatient'.tr}: ${medicalInfo.heartPatient != 'unknown' ? medicalInfo.heartPatient == 'No' ? 'no'.tr : 'yes'.tr : 'unknown'.tr}',
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        maxLines: 1,
+                      ),
+                      const SizedBox(height: 10),
+                      AutoSizeText(
+                        '${'patientAge'.tr}: ${patientAge != 'unknown' ? patientAge : 'unknown'.tr}',
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,

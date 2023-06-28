@@ -304,6 +304,7 @@ class EmployeeHomeScreenController extends GetxController {
       Get.to(
         () => EmployeeMedicalInformationPage(
           medicalInfo: assignedRequestData!.medicalHistory!,
+          patientAge: assignedRequestData!.patientAge ?? 'unknown',
         ),
         transition: getPageTransition(),
       );

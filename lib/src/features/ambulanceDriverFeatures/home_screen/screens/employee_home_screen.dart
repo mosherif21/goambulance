@@ -6,9 +6,9 @@ import 'package:goambulance/src/features/ambulanceDriverFeatures/main_screen/con
 import 'package:goambulance/src/general/general_functions.dart';
 
 import '../components/employee_map/employee_enable_location_button.dart';
+import '../components/employee_map/employee_hospital_get_failed.dart';
 import '../components/employee_map/employee_loading_hospital.dart';
 import '../components/employee_map/employee_map_screen.dart';
-import '../components/employee_map/hospital_get_failed.dart';
 import '../controllers/employee_home_screen_controller.dart';
 
 class EmployeeHomeScreen extends StatefulWidget {

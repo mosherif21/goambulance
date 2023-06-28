@@ -7,6 +7,7 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geoflutterfire2/geoflutterfire2.dart';
 import 'package:geolocator/geolocator.dart';
@@ -187,11 +188,23 @@ class EmployeeHomeScreenController extends GetxController {
   void onAssignedChanges() async {
     requestPanelController.open();
     hasAssignedRequest.value = true;
+    Future.delayed(const Duration(milliseconds: 100)).whenComplete(() {
+      animateCamera(
+          locationLatLng: locationAvailable.value
+              ? currentLocationGetter()
+              : hospitalLatLng);
+    });
   }
 
   void onNotAssignedChanges() async {
     requestPanelController.close();
     hasAssignedRequest.value = false;
+    Future.delayed(const Duration(milliseconds: 100)).whenComplete(() {
+      animateCamera(
+          locationLatLng: locationAvailable.value
+              ? currentLocationGetter()
+              : hospitalLatLng);
+    });
   }
 
   void onAssignedLoadedChanges() async {
@@ -242,6 +255,89 @@ class EmployeeHomeScreenController extends GetxController {
       }
       listenForAssignedRequests();
     });
+  }
+
+  void onStartNavigationPressed() async {
+    if (locationPermissionGranted.value && locationServiceEnabled.value) {
+      if (locationAvailable.value) {
+      } else {}
+    } else {
+      if (await handleLocationPermission() && await handleLocationService()) {}
+    }
+  }
+
+  void startNavigation() async {
+    if (assignedRequestData != null) {
+      await MapBoxNavigation.instance
+          .registerRouteEventListener(_onEmbeddedRouteEvent);
+      late final WayPoint start;
+      late final WayPoint destination;
+      if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
+        start = WayPoint(
+            name: 'requestLocation'.tr,
+            latitude: 37.77440680146262,
+            longitude: -122.43539772352648,
+            isSilent: false);
+
+        destination = WayPoint(
+            name: "Store",
+            latitude: 37.76556957793795,
+            longitude: -122.42409811526268,
+            isSilent: false);
+      } else {
+        start = WayPoint(
+            name: 'requestLocation'.tr,
+            latitude: 37.77440680146262,
+            longitude: -122.43539772352648,
+            isSilent: false);
+
+        destination = WayPoint(
+            name: "Store",
+            latitude: 37.76556957793795,
+            longitude: -122.42409811526268,
+            isSilent: false);
+      }
+      final wayPoints = <WayPoint>[];
+      wayPoints.add(start);
+      wayPoints.add(destination);
+      MapBoxNavigation.instance.startNavigation(
+        wayPoints: wayPoints,
+        options: MapBoxOptions(
+          mode: MapBoxNavigationMode.driving,
+          simulateRoute: true,
+          language: "en",
+          allowsUTurnAtWayPoints: true,
+          units: VoiceUnits.metric,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onEmbeddedRouteEvent(navigationEvent) async {
+    // _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
+    // _durationRemaining = await MapBoxNavigation.instance.getDurationRemaining();
+    switch (navigationEvent.eventType) {
+      case MapBoxEvent.progress_change:
+        var progressEvent = navigationEvent.data as RouteProgressEvent;
+        if (progressEvent.currentStepInstruction != null) {
+          // _instruction = progressEvent.currentStepInstruction;
+        }
+        break;
+      case MapBoxEvent.route_building:
+      case MapBoxEvent.route_built:
+        break;
+      case MapBoxEvent.route_build_failed:
+        break;
+      case MapBoxEvent.navigation_running:
+        break;
+      case MapBoxEvent.on_arrival:
+        break;
+      case MapBoxEvent.navigation_finished:
+      case MapBoxEvent.navigation_cancelled:
+        break;
+      default:
+        break;
+    }
   }
 
   Future<Polyline?> getRouteToLocation(

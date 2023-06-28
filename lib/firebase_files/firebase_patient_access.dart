@@ -492,6 +492,8 @@ class FirebasePatientDataAccess extends GetxController {
                 assignedRequestDocument['ambulanceDriverID'].toString(),
             ambulanceMedicID:
                 assignedRequestDocument['ambulanceMedicID'].toString(),
+            ambulanceCarID:
+                assignedRequestDocument['ambulanceCarID'].toString(),
             requestStatus: status == 'assigned'
                 ? RequestStatus.assigned
                 : RequestStatus.ongoing,
@@ -541,6 +543,8 @@ class FirebasePatientDataAccess extends GetxController {
                 completedRequestDocument['ambulanceDriverID'].toString(),
             ambulanceMedicID:
                 completedRequestDocument['ambulanceMedicID'].toString(),
+            ambulanceCarID:
+                completedRequestDocument['ambulanceCarID'].toString(),
             backupNumber: completedRequestDocument['backupNumber'].toString(),
             requestStatus: RequestStatus.completed,
             requestDateTime: requestDateTime,

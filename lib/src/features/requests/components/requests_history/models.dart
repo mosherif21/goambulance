@@ -37,6 +37,7 @@ class RequestDataModel {
   String? ambulanceType;
   String? ambulanceDriverID;
   String? ambulanceMedicID;
+  String? ambulanceCarID;
   MedicalHistoryModel? medicalHistory;
   String? hospitalGeohash;
   RequestDataModel({
@@ -60,6 +61,7 @@ class RequestDataModel {
     this.ambulanceType,
     this.ambulanceDriverID,
     this.ambulanceMedicID,
+    this.ambulanceCarID,
     this.hospitalGeohash,
     this.medicalHistory,
   });

@@ -190,6 +190,7 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void onNotAssignedChanges() async {
+    requestPanelController.close();
     hasAssignedRequest.value = false;
   }
 

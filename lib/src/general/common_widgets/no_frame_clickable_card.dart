@@ -21,60 +21,57 @@ class NoFrameClickableCard extends StatelessWidget {
   final Color trailingIconColor;
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10.0),
-      child: Material(
-        color: Colors.white,
-        child: InkWell(
-          hoverColor: Colors.grey.shade50,
-          splashFactory: InkSparkle.splashFactory,
-          onTap: () => onPressed(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  leadingIcon,
-                  color: leadingIconColor,
-                  size: 35,
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  flex: 9,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText(
-                        title,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 18),
-                        maxLines: 1,
+    return Material(
+      color: Colors.white,
+      child: InkWell(
+        hoverColor: Colors.grey.shade50,
+        splashFactory: InkSparkle.splashFactory,
+        onTap: () => onPressed(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                leadingIcon,
+                color: leadingIconColor,
+                size: 35,
+              ),
+              const SizedBox(width: 20),
+              Expanded(
+                flex: 9,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      title,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w600, fontSize: 18),
+                      maxLines: 1,
+                    ),
+                    if (subTitle.isNotEmpty)
+                      Column(
+                        children: [
+                          const SizedBox(height: 5),
+                          AutoSizeText(
+                            subTitle,
+                            style: const TextStyle(
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15),
+                            maxLines: 2,
+                          ),
+                        ],
                       ),
-                      if (subTitle.isNotEmpty)
-                        Column(
-                          children: [
-                            const SizedBox(height: 5),
-                            AutoSizeText(
-                              subTitle,
-                              style: const TextStyle(
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
-                              maxLines: 2,
-                            ),
-                          ],
-                        ),
-                    ],
-                  ),
+                  ],
                 ),
-                const Spacer(),
-                Icon(
-                  trailingIcon,
-                  color: trailingIconColor,
-                ),
-              ],
-            ),
+              ),
+              const Spacer(),
+              Icon(
+                trailingIcon,
+                color: trailingIconColor,
+              ),
+            ],
           ),
         ),
       ),

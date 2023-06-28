@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
@@ -8,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../../general/app_init.dart';
+import '../../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
 import '../../../../requests/components/making_request/components/my_location_button.dart';
 import '../../controllers/employee_home_screen_controller.dart';
@@ -31,14 +33,57 @@ class EmployeeMapScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 10),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: AutoSizeText(
+              'Assigned request',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+              ),
+              maxLines: 1,
+            ),
+          ),
+          const SizedBox(height: 8),
+          const Divider(thickness: 0.5, height: 1),
           NoFrameClickableCard(
             onPressed: () {},
-            title: 'Patient information',
+            title: 'User information',
             subTitle: '',
             leadingIcon: Icons.account_box,
             leadingIconColor: Colors.black,
             trailingIcon: Icons.arrow_forward_ios_outlined,
             trailingIconColor: Colors.grey,
+          ),
+          NoFrameClickableCard(
+            onPressed: () {},
+            title: 'Patient medical information',
+            subTitle: '',
+            leadingIcon: Icons.medical_information_outlined,
+            leadingIconColor: Colors.black,
+            trailingIcon: Icons.arrow_forward_ios_outlined,
+            trailingIconColor: Colors.grey,
+          ),
+          NoFrameClickableCard(
+            onPressed: () {},
+            title: 'Start navigation',
+            subTitle: '',
+            leadingIcon: Icons.navigation_outlined,
+            leadingIconColor: Colors.black,
+            trailingIcon: Icons.arrow_forward_ios_outlined,
+            trailingIconColor: Colors.grey,
+          ),
+          const Divider(thickness: 1, height: 2),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+            child: RegularElevatedButton(
+              buttonText: 'Confirm pickup',
+              onPressed: () {},
+              enabled: true,
+              color: Colors.black,
+              fontSize: 22,
+              height: 45,
+            ),
           ),
         ],
       ),

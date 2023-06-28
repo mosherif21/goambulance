@@ -440,6 +440,7 @@ class Languages extends Translations {
           'userInformation': 'معلومات المستخدم',
           'PatientMedicalInformation': 'المعلومات الطبية للمريض',
           'startNavigation': 'ابدأ التنقل',
+          'ambulance': 'سيارة الاسعاف',
         },
         'en_US': {
           'sosCancelReturn':
@@ -896,6 +897,7 @@ class Languages extends Translations {
           'userInformation': 'User information',
           'startNavigation': 'Start navigation',
           'PatientMedicalInformation': 'Patient medical information',
+          'ambulance': 'Ambulance',
         },
       };
 }

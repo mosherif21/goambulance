@@ -260,9 +260,18 @@ class EmployeeHomeScreenController extends GetxController {
   void onStartNavigationPressed() async {
     if (locationPermissionGranted.value && locationServiceEnabled.value) {
       if (locationAvailable.value) {
-      } else {}
+        startNavigation();
+      } else {
+        await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
+        startNavigation();
+      }
     } else {
-      if (await handleLocationPermission() && await handleLocationService()) {}
+      if (await handleLocationPermission() && await handleLocationService()) {
+        showLoadingScreen();
+        await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
+        hideLoadingScreen();
+        startNavigation();
+      }
     }
   }
 
@@ -274,28 +283,31 @@ class EmployeeHomeScreenController extends GetxController {
       late final WayPoint destination;
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
         start = WayPoint(
-            name: 'requestLocation'.tr,
-            latitude: 37.77440680146262,
-            longitude: -122.43539772352648,
-            isSilent: false);
-
+          name: 'ambulance'.tr,
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+          isSilent: false,
+        );
         destination = WayPoint(
-            name: "Store",
-            latitude: 37.76556957793795,
-            longitude: -122.42409811526268,
-            isSilent: false);
+          name: 'requestLocation'.tr,
+          latitude: assignedRequestData!.requestLocation.latitude,
+          longitude: assignedRequestData!.requestLocation.longitude,
+          isSilent: false,
+        );
       } else {
         start = WayPoint(
-            name: 'requestLocation'.tr,
-            latitude: 37.77440680146262,
-            longitude: -122.43539772352648,
-            isSilent: false);
+          name: 'ambulance'.tr,
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+          isSilent: false,
+        );
 
         destination = WayPoint(
-            name: "Store",
-            latitude: 37.76556957793795,
-            longitude: -122.42409811526268,
-            isSilent: false);
+          name: assignedRequestData!.hospitalName,
+          latitude: assignedRequestData!.hospitalLocation.latitude,
+          longitude: assignedRequestData!.hospitalLocation.latitude,
+          isSilent: false,
+        );
       }
       final wayPoints = <WayPoint>[];
       wayPoints.add(start);
@@ -303,10 +315,17 @@ class EmployeeHomeScreenController extends GetxController {
       MapBoxNavigation.instance.startNavigation(
         wayPoints: wayPoints,
         options: MapBoxOptions(
+          initialLatitude: currentLocation.latitude,
+          initialLongitude: currentLocation.longitude,
           mode: MapBoxNavigationMode.driving,
           simulateRoute: true,
-          language: "en",
+          language: isLangEnglish() ? "en" : "ar",
+          alternatives: true,
           allowsUTurnAtWayPoints: true,
+          voiceInstructionsEnabled: true,
+          isOptimized: true,
+          longPressDestinationEnabled: false,
+          animateBuildRoute: true,
           units: VoiceUnits.metric,
         ),
       );
@@ -314,14 +333,19 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   Future<void> _onEmbeddedRouteEvent(navigationEvent) async {
-    // _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
-    // _durationRemaining = await MapBoxNavigation.instance.getDurationRemaining();
     switch (navigationEvent.eventType) {
       case MapBoxEvent.progress_change:
-        var progressEvent = navigationEvent.data as RouteProgressEvent;
-        if (progressEvent.currentStepInstruction != null) {
-          // _instruction = progressEvent.currentStepInstruction;
-        }
+        // String currentInstruction = '';
+        // final progressEvent = navigationEvent.data as RouteProgressEvent;
+        // if (progressEvent.currentStepInstruction != null) {
+        //   if (!isLangEnglish()) {
+        //     final newStepInstruction = progressEvent.currentStepInstruction!;
+        //     if (currentInstruction != newStepInstruction) {
+        //       textToSpeech(text: newStepInstruction);
+        //       currentInstruction = newStepInstruction;
+        //     }
+        //   }
+        // }
         break;
       case MapBoxEvent.route_building:
       case MapBoxEvent.route_built:
@@ -531,7 +555,9 @@ class EmployeeHomeScreenController extends GetxController {
           .then((locationPosition) {
         currentLocation = locationPosition;
         locationAvailable.value = true;
-        animateCamera(locationLatLng: currentLocationGetter());
+        if (!hasAssignedRequest.value) {
+          animateCamera(locationLatLng: currentLocationGetter());
+        }
         if (kDebugMode) {
           print(
               'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');

@@ -172,6 +172,8 @@ class RequestDetailsPage extends StatelessWidget {
                       leadingIconColor: Colors.black,
                       trailingIcon: Icons.arrow_forward_ios_outlined,
                       trailingIconColor: Colors.grey,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 20, horizontal: 12),
                     ),
                   ],
                 ),

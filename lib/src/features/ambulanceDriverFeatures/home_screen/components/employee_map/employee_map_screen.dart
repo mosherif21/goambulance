@@ -31,7 +31,7 @@ class EmployeeMapScreen extends StatelessWidget {
           ),
         ],
       ),
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 95),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 105),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -63,6 +63,9 @@ class EmployeeMapScreen extends StatelessWidget {
                             leadingIconColor: Colors.black,
                             trailingIcon: Icons.arrow_forward_ios_outlined,
                             trailingIconColor: Colors.grey,
+                            padding: EdgeInsets.symmetric(
+                                vertical: isLangEnglish() ? 14 : 12,
+                                horizontal: 12),
                           ),
                           NoFrameClickableCard(
                             onPressed: () {},
@@ -72,15 +75,22 @@ class EmployeeMapScreen extends StatelessWidget {
                             leadingIconColor: Colors.black,
                             trailingIcon: Icons.arrow_forward_ios_outlined,
                             trailingIconColor: Colors.grey,
+                            padding: EdgeInsets.symmetric(
+                                vertical: isLangEnglish() ? 14 : 12,
+                                horizontal: 12),
                           ),
                           NoFrameClickableCard(
-                            onPressed: () {},
+                            onPressed: () => employeeHomeScreenController
+                                .onStartNavigationPressed(),
                             title: 'startNavigation'.tr,
                             subTitle: '',
                             leadingIcon: Icons.navigation_outlined,
                             leadingIconColor: Colors.black,
                             trailingIcon: Icons.arrow_forward_ios_outlined,
                             trailingIconColor: Colors.grey,
+                            padding: EdgeInsets.symmetric(
+                                vertical: isLangEnglish() ? 14 : 12,
+                                horizontal: 12),
                           ),
                         ],
                       ),

@@ -11,6 +11,7 @@ class NoFrameClickableCard extends StatelessWidget {
     required this.leadingIconColor,
     required this.trailingIcon,
     required this.trailingIconColor,
+    required this.padding,
   }) : super(key: key);
   final Function onPressed;
   final String title;
@@ -19,6 +20,7 @@ class NoFrameClickableCard extends StatelessWidget {
   final Color leadingIconColor;
   final IconData trailingIcon;
   final Color trailingIconColor;
+  final EdgeInsets padding;
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -28,7 +30,7 @@ class NoFrameClickableCard extends StatelessWidget {
         splashFactory: InkSparkle.splashFactory,
         onTap: () => onPressed(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+          padding: padding,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

@@ -43,7 +43,7 @@ class EmployeeDrawerPage extends StatelessWidget {
                       () => authRepo.drawerProfileImageUrl.value.isURL
                           ? CircleAvatar(
                               radius: 65,
-                              backgroundColor: Colors.grey.shade500,
+                              backgroundColor: Colors.grey.shade300,
                               backgroundImage: NetworkImage(
                                   authRepo.drawerProfileImageUrl.value),
                             )

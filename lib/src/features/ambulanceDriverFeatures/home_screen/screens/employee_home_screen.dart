@@ -34,7 +34,9 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen>
           Obx(
             () => employeeHomeScreenController.hospitalLoaded.value
                 ? employeeHomeScreenController.hospitalDataAvailable.value
-                    ? const EmployeeMapScreen()
+                    ? EmployeeMapScreen(
+                        employeeHomeScreenController:
+                            employeeHomeScreenController)
                     : Positioned(
                         top: 0,
                         left: 0,

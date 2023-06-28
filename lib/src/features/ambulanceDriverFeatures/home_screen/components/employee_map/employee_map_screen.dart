@@ -3,19 +3,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-import 'package:goambulance/src/general/common_widgets/no_frame_clickable_card.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../../general/app_init.dart';
+import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
 import '../../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
 import '../../../../requests/components/making_request/components/my_location_button.dart';
 import '../../controllers/employee_home_screen_controller.dart';
+import 'loading_request_option.dart';
 
 class EmployeeMapScreen extends StatelessWidget {
-  const EmployeeMapScreen({super.key});
+  const EmployeeMapScreen(
+      {super.key, required this.employeeHomeScreenController});
+  final EmployeeHomeScreenController employeeHomeScreenController;
   Widget floatingPanel() {
     return Container(
       decoration: BoxDecoration(
@@ -28,16 +31,16 @@ class EmployeeMapScreen extends StatelessWidget {
           ),
         ],
       ),
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 100),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 95),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(height: 10),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: AutoSizeText(
-              'Assigned request',
-              style: TextStyle(
+              'assignedRequestHeader'.tr,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
               ),
@@ -46,43 +49,61 @@ class EmployeeMapScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           const Divider(thickness: 0.5, height: 1),
-          NoFrameClickableCard(
-            onPressed: () {},
-            title: 'User information',
-            subTitle: '',
-            leadingIcon: Icons.account_box,
-            leadingIconColor: Colors.black,
-            trailingIcon: Icons.arrow_forward_ios_outlined,
-            trailingIconColor: Colors.grey,
-          ),
-          NoFrameClickableCard(
-            onPressed: () {},
-            title: 'Patient medical information',
-            subTitle: '',
-            leadingIcon: Icons.medical_information_outlined,
-            leadingIconColor: Colors.black,
-            trailingIcon: Icons.arrow_forward_ios_outlined,
-            trailingIconColor: Colors.grey,
-          ),
-          NoFrameClickableCard(
-            onPressed: () {},
-            title: 'Start navigation',
-            subTitle: '',
-            leadingIcon: Icons.navigation_outlined,
-            leadingIconColor: Colors.black,
-            trailingIcon: Icons.arrow_forward_ios_outlined,
-            trailingIconColor: Colors.grey,
+          Expanded(
+            child: Obx(
+              () => employeeHomeScreenController.assignedRequestLoaded.value
+                  ? SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          NoFrameClickableCard(
+                            onPressed: () {},
+                            title: 'userInformation'.tr,
+                            subTitle: '',
+                            leadingIcon: Icons.account_box,
+                            leadingIconColor: Colors.black,
+                            trailingIcon: Icons.arrow_forward_ios_outlined,
+                            trailingIconColor: Colors.grey,
+                          ),
+                          NoFrameClickableCard(
+                            onPressed: () {},
+                            title: 'PatientMedicalInformation'.tr,
+                            subTitle: '',
+                            leadingIcon: Icons.medical_information_outlined,
+                            leadingIconColor: Colors.black,
+                            trailingIcon: Icons.arrow_forward_ios_outlined,
+                            trailingIconColor: Colors.grey,
+                          ),
+                          NoFrameClickableCard(
+                            onPressed: () {},
+                            title: 'startNavigation'.tr,
+                            subTitle: '',
+                            leadingIcon: Icons.navigation_outlined,
+                            leadingIconColor: Colors.black,
+                            trailingIcon: Icons.arrow_forward_ios_outlined,
+                            trailingIconColor: Colors.grey,
+                          ),
+                        ],
+                      ),
+                    )
+                  : const LoadingRequestInfo(),
+            ),
           ),
           const Divider(thickness: 1, height: 2),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-            child: RegularElevatedButton(
-              buttonText: 'Confirm pickup',
-              onPressed: () {},
-              enabled: true,
-              color: Colors.black,
-              fontSize: 22,
-              height: 45,
+            padding:
+                const EdgeInsets.only(left: 30, right: 30, bottom: 13, top: 10),
+            child: Obx(
+              () => RegularElevatedButton(
+                buttonText: 'confirmPickup'.tr,
+                onPressed: () {},
+                enabled:
+                    employeeHomeScreenController.assignedRequestLoaded.value
+                        ? true
+                        : false,
+                color: Colors.black,
+                fontSize: 22,
+                height: 45,
+              ),
             ),
           ),
         ],
@@ -93,7 +114,6 @@ class EmployeeMapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    final employeeHomeScreenController = EmployeeHomeScreenController.instance;
     return SlidingUpPanel(
       renderPanelSheet: false,
       controller: employeeHomeScreenController.requestPanelController,
@@ -157,7 +177,9 @@ class EmployeeMapScreen extends StatelessWidget {
           Obx(
             () => Positioned(
               bottom: employeeHomeScreenController.hasAssignedRequest.value
-                  ? screenHeight * 0.48
+                  ? isLangEnglish()
+                      ? screenHeight * 0.48
+                      : screenHeight * 0.51
                   : isLangEnglish()
                       ? 80
                       : 105,

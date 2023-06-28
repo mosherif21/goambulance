@@ -435,6 +435,11 @@ class Languages extends Translations {
           'enterHisAge': 'الرجاء إدخال عمره / عمرها',
           'age': 'السن',
           'enterHisAgeHint': 'أدخل عمره / عمرها',
+          'assignedRequestHeader': 'طلبك المعين',
+          'confirmPickup': 'تأكيد استلام المريض',
+          'userInformation': 'معلومات المستخدم',
+          'PatientMedicalInformation': 'المعلومات الطبية للمريض',
+          'startNavigation': 'ابدأ التنقل',
         },
         'en_US': {
           'sosCancelReturn':
@@ -886,6 +891,11 @@ class Languages extends Translations {
           'enterHisAge': 'Please enter his/hers age',
           'age': 'Age',
           'enterHisAgeHint': 'Enter his/hers age',
+          'assignedRequestHeader': 'Assigned request',
+          'confirmPickup': 'Confirm pickup',
+          'userInformation': 'User information',
+          'startNavigation': 'Start navigation',
+          'PatientMedicalInformation': 'Patient medical information',
         },
       };
 }

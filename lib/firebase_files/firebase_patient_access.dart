@@ -290,7 +290,7 @@ class FirebasePatientDataAccess extends GetxController {
         //h3mlhom sort be el wa2t
         notificationList.sort((a, b) => b.timestamp.compareTo(a.timestamp));
       }
-      /*  fe el 7ala de el return bara el notificationSnapshot.exists 3ady 3shan lw m3ndosh document fe el notifications collection asln
+      /*  fe el 7ala de el return bara el notificationSnapshot.exists 3ady 3shan lw m3ndosh document fe el notifications collection asln dh
       m3nah eno mtb3tlo4 notifications abl keda fa yerg3 list fadya we myrg34 null el 7ala el w7eda ely yerg3 feha null hwa en ye7sl exception aw error
       y5aly el try mtkml4 le a5erha asln we tro7 le return null ely fe el a5r*/
       return notificationList;

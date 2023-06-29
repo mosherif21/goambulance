@@ -177,11 +177,12 @@ Future<void> logout() async {
       await FirebasePatientDataAccess.instance.logoutFirebase();
     }
   } else {
-    if (Get.isRegistered<FirebaseAmbulanceEmployeeDataAccess>()) {
-      await FirebaseAmbulanceEmployeeDataAccess.instance.logoutFirebase();
-    }
     if (Get.isRegistered<EmployeeHomeScreenController>()) {
       await EmployeeHomeScreenController.instance.cancelListeners();
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+    if (Get.isRegistered<FirebaseAmbulanceEmployeeDataAccess>()) {
+      await FirebaseAmbulanceEmployeeDataAccess.instance.logoutFirebase();
     }
   }
   await AuthenticationRepository.instance.logoutAuthUser();

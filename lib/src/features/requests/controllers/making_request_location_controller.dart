@@ -361,13 +361,14 @@ class MakingRequestLocationController extends GetxController {
       return false;
     } else if (choosingHospital.value &&
         requestStatus.value != RequestStatus.non) {
-      Get.close(2);
       showLoadingScreen();
       if (!AppInit.isWeb) {
         await serviceStatusStream?.cancel();
       }
       if (positionStreamInitialized) await currentPositionStream?.cancel();
+      await Future.delayed(const Duration(milliseconds: 500));
       hideLoadingScreen();
+      Get.close(2);
       return true;
     } else if (!choosingHospital.value &&
         requestStatus.value == RequestStatus.non) {

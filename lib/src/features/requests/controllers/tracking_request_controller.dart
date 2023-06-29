@@ -483,6 +483,7 @@ class TrackingRequestController extends GetxController {
         await serviceStatusStream?.cancel();
       }
       if (positionStreamInitialized) await currentPositionStream?.cancel();
+      await Future.delayed(const Duration(milliseconds: 500));
       hideLoadingScreen();
       return true;
     }

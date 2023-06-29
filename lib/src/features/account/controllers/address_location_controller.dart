@@ -346,13 +346,13 @@ class AddressesLocationController extends GetxController {
     super.onClose();
   }
 
-  Future<bool> onWillPopMap() async {
+  Future<void> onWillPopMap() async {
     showLoadingScreen();
     if (!AppInit.isWeb) {
       await serviceStatusStream?.cancel();
     }
     if (positionStreamInitialized) await currentPositionStream?.cancel();
+    await Future.delayed(const Duration(milliseconds: 500));
     hideLoadingScreen();
-    return true;
   }
 }

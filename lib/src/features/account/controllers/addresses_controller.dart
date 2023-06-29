@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
+import 'package:goambulance/src/features/account/controllers/address_location_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rolling_switch/rolling_switch.dart';
 
@@ -51,43 +52,33 @@ class AddressesController extends GetxController {
   @override
   void onReady() async {
     locationNameTextController.addListener(() {
-      if (locationNameTextController.text
-          .trim()
-          .isNotEmpty) {
+      if (locationNameTextController.text.trim().isNotEmpty) {
         highlightLocationName.value = false;
       }
     });
 
     streetNameTextController.addListener(() {
-      if (streetNameTextController.text
-          .trim()
-          .isNotEmpty) {
+      if (streetNameTextController.text.trim().isNotEmpty) {
         highlightStreetName.value = false;
       }
     });
 
     apartmentNumberTextController.addListener(() {
-      if (apartmentNumberTextController.text
-          .trim()
-          .isNotEmpty &&
+      if (apartmentNumberTextController.text.trim().isNotEmpty &&
           apartmentNumberTextController.text.isNum) {
         highlightApartmentNumber.value = false;
       }
     });
 
     floorNumberTextController.addListener(() {
-      if (floorNumberTextController.text
-          .trim()
-          .isNotEmpty &&
+      if (floorNumberTextController.text.trim().isNotEmpty &&
           apartmentNumberTextController.text.isNum) {
         highlightFloorNumber.value = false;
       }
     });
 
     areaNameTextController.addListener(() {
-      if (areaNameTextController.text
-          .trim()
-          .isNotEmpty) {
+      if (areaNameTextController.text.trim().isNotEmpty) {
         highlightArea.value = false;
       }
     });
@@ -111,22 +102,12 @@ class AddressesController extends GetxController {
 
   Future<void> checkAddress() async {
     highlightLocationName.value =
-        locationNameTextController.text
-            .trim()
-            .isEmpty;
-    highlightStreetName.value = streetNameTextController.text
-        .trim()
-        .isEmpty;
+        locationNameTextController.text.trim().isEmpty;
+    highlightStreetName.value = streetNameTextController.text.trim().isEmpty;
     highlightApartmentNumber.value =
-        apartmentNumberTextController.text
-            .trim()
-            .isEmpty;
-    highlightFloorNumber.value = floorNumberTextController.text
-        .trim()
-        .isEmpty;
-    highlightArea.value = areaNameTextController.text
-        .trim()
-        .isEmpty;
+        apartmentNumberTextController.text.trim().isEmpty;
+    highlightFloorNumber.value = floorNumberTextController.text.trim().isEmpty;
+    highlightArea.value = areaNameTextController.text.trim().isEmpty;
 
     if (!highlightLocationName.value &&
         !highlightStreetName.value &&
@@ -178,6 +159,10 @@ class AddressesController extends GetxController {
         floorNumberTextController.clear();
         areaNameTextController.clear();
         additionalInfoTextController.clear();
+        if (Get.isRegistered<AddressesLocationController>()) {
+          AddressesLocationController.instance.onWillPopMap();
+        }
+
         Get.close(2);
         showSnackBar(
             text: 'addressSavedSuccess'.tr, snackBarType: SnackBarType.success);

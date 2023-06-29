@@ -57,7 +57,7 @@ class EditDisease extends StatelessWidget {
           const SizedBox(height: 10.0),
           Obx(
             () => RegularElevatedButton(
-              buttonText: 'add'.tr,
+              buttonText: 'edit'.tr,
               onPressed: () {
                 controller.editDiseaseItem(diseaseItem);
                 controller.diseasesList.remove(diseaseItem);

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:goambulance/src/constants/enums.dart';
 
 class UserInformation {
@@ -147,6 +148,26 @@ class DiseaseItem {
     return {
       'diseaseName': diseaseName,
       'diseaseMedicines': diseaseMedicines,
+    };
+  }
+}
+
+class NotificationItem {
+  final String title;
+  final String body;
+  final Timestamp timestamp;
+
+  NotificationItem({
+    required this.title,
+    required this.body,
+    required this.timestamp,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'body': body,
+      'timestamp': timestamp,
     };
   }
 }

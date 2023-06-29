@@ -458,6 +458,7 @@ class Languages extends Translations {
           'unknown': 'غير معروف',
           'medicalInformation': 'المعلومات الطبية',
           'patientAge': 'سن المريض',
+          'edit': 'تعديل',
         },
         'en_US': {
           'sosCancelReturn':
@@ -932,6 +933,7 @@ class Languages extends Translations {
           'noAdditionalInformation': 'No additional information',
           'medicalInformation': 'Medical information',
           'patientAge': 'Patient age',
+          'edit': 'Edit',
         },
       };
 }

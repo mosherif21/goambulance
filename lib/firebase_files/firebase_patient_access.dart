@@ -255,6 +255,42 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
+  Future<void> updateNotification() async {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection('notifications').doc(userId);
+
+    await documentReference.update({'unseenCount': '2'});
+  }
+
+  Future<List<NotificationItem>?> getNotifications() async {
+    try {
+      final userNotieRef = fireStore.collection('notifications').doc(userId);
+      final notieSnapshot = await userNotieRef.get();
+      if (notieSnapshot.exists) {
+        final notificationList = <NotificationItem>[];
+        final userNRef = userNotieRef.collection('messages');
+        await userNRef.get().then((notificationSnapshot) {
+          for (var notificationDoc in notificationSnapshot.docs) {
+            final notificationData = notificationDoc.data();
+            notificationList.add(
+              NotificationItem(
+                title: notificationData['title'].toString(),
+                body: notificationData['body'].toString(),
+                timestamp: notificationData['timestamp'],
+              ),
+            );
+          }
+        });
+        return notificationList;
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+    return null;
+  }
+
   Future<ContactItem?> addEmergencyContact({
     required String contactName,
     required String contactNumber,

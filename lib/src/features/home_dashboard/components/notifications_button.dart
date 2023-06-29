@@ -9,6 +9,7 @@ class NotificationsButton extends StatelessWidget {
   const NotificationsButton({Key? key, required this.notificationsCount})
       : super(key: key);
   final int notificationsCount;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +39,11 @@ class NotificationsButton extends StatelessWidget {
                     size: 30,
                   ),
           ),
-          onTap: () => Get.to(() => const NotificationsScreen()),
+          onTap: () {
+            Get.to(
+              () => const NotificationsScreen(),
+            );
+          },
         ),
       ),
     );

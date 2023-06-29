@@ -45,6 +45,7 @@ class HomeScreenController extends GetxController {
   final notificationsCount = 0.obs;
   late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       notificationCountStreamSubscription;
+
   @override
   void onReady() async {
     firebasePatientAccess = FirebasePatientDataAccess.instance;
@@ -102,18 +103,16 @@ class HomeScreenController extends GetxController {
   void listenForNotificationCount() {
     try {
       final userId = AuthenticationRepository.instance.fireUser.value!.uid;
+
       notificationCountStreamSubscription = firebasePatientAccess.fireStore
           .collection('notifications')
           .doc(userId)
           .snapshots()
           .listen((snapshot) {
         if (snapshot.exists) {
-          final notificationData = snapshot.data();
-          if (notificationData != null) {
-            notificationsCount.value = notificationData['unseenCount'] as int;
-          }
-        } else {
-          notificationsCount.value = 0;
+          String notificationData = snapshot.get('unseenCount');
+
+          notificationsCount.value = notificationData as int;
         }
       });
     } on FirebaseException catch (error) {

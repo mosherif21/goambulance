@@ -176,24 +176,18 @@ class HomeScreenController extends GetxController {
   }
 
   void getAdsUrl() async {
-    // Get a reference to the storage bucket
     final FirebaseStorage storage = FirebaseStorage.instance;
-
-    // Get a reference to the ads file in Firebase Storage
     final Reference fileRef = storage.ref('ads/');
-
-    // Get the list of image filenames from the ads file
     final List<dynamic> imageFilenames = await fileRef
         .listAll()
         .then((result) => result.items.map((item) => item.name).toList());
-    // Loop through the list of image filenames and get the download URL for each image
     for (final String filename in imageFilenames) {
       final Reference ref = storage.ref('ads/').child(filename);
       final String imageUrl = await ref.getDownloadURL();
       adImageUrl.add(imageUrl);
     }
     if (kDebugMode) {
-      print('ads list contains:${adImageUrl.length} ads');
+      print('ads list contains: ${adImageUrl.length} ads');
     }
     adsLoaded.value = true;
   }

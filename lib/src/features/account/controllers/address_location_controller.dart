@@ -60,10 +60,16 @@ class AddressesLocationController extends GetxController {
 
   @override
   void onReady() async {
-    addressesController = AddressesController.instance;
-    await locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
+    }
+    addressesController = AddressesController.instance;
+    if (addressesController.takeInitialLatLng &&
+        addressesController.initialLatLng != null) {
+      enableMap();
+      locationInit();
+    } else {
+      await locationInit();
     }
 
     initMapController();
@@ -239,9 +245,10 @@ class AddressesLocationController extends GetxController {
   }
 
   void onLocationButtonPress() {
-    if (locationAvailable.value) {
-      animateCamera(locationLatLng: currentLocationGetter());
-    }
+    animateCamera(
+        locationLatLng: locationAvailable.value
+            ? currentLocationGetter()
+            : initialCameraLatLng);
   }
 
   void animateToLocation({required LatLng locationLatLng}) {

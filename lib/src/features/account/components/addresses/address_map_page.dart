@@ -74,22 +74,6 @@ class AddressMapPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            left: 0,
-            right: 0,
-            bottom: 10,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: RegularElevatedButton(
-                buttonText: 'confirmLocation'.tr,
-                onPressed: () => addressLocationController.onLocationPress(),
-                enabled: true,
-                color: Colors.black,
-                fontSize: 22,
-                height: 60,
-              ),
-            ),
-          ),
-          Positioned(
             bottom: 70,
             left: isLangEnglish() ? null : 0,
             right: isLangEnglish() ? 0 : null,
@@ -125,6 +109,22 @@ class AddressMapPage extends StatelessWidget {
                 ),
                 height: screenHeight * 0.1,
                 child: Image.asset(kLocationMarkerImg),
+              ),
+            ),
+          ),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 10,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: RegularElevatedButton(
+                buttonText: 'confirmLocation'.tr,
+                onPressed: () => addressLocationController.onLocationPress(),
+                enabled: true,
+                color: Colors.black,
+                fontSize: 22,
+                height: 60,
               ),
             ),
           ),

@@ -225,8 +225,7 @@ class EmployeeHomeScreenController extends GetxController {
       await serviceStatusStream?.cancel();
     }
     if (positionStreamInitialized) await currentPositionStream?.cancel();
-    await notificationCountStreamSubscription?.cancel();
-    await assignedRequestStreamSubscription?.cancel();
+
   }
 
   void loadHospitalInfo() async {

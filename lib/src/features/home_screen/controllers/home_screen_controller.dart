@@ -87,6 +87,8 @@ class HomeScreenController extends GetxController {
           .listen((snapshot) {
         if (snapshot.exists) {
           notificationsCount.value = snapshot.data()!['unseenCount'] as int;
+        } else {
+          notificationsCount.value = 0;
         }
       });
     } on FirebaseException catch (error) {

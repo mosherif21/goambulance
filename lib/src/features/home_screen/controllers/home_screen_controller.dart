@@ -73,46 +73,20 @@ class HomeScreenController extends GetxController {
           .whenComplete(() => handleSpeechPermission());
     }
     listenForNotificationCount();
-// Get a reference to the storage bucket
-    final FirebaseStorage storage = FirebaseStorage.instance;
-
-    // Get a reference to the ads file in Firebase Storage
-    final Reference fileRef = storage.ref('ads/');
-
-    // Get the list of image filenames from the ads file
-    final List<dynamic> imageFilenames = await fileRef
-        .listAll()
-        .then((result) => result.items.map((item) => item.name).toList());
-    // Loop through the list of image filenames and get the download URL for each image
-    for (final String filename in imageFilenames) {
-      final Reference ref = storage.ref('ads/').child(filename);
-      if (kDebugMode) {
-        print(filename);
-      }
-      final String imageUrl = await ref.getDownloadURL();
-      adImageUrl.add(imageUrl);
-    }
-    if (kDebugMode) {
-      print('list got:${adImageUrl.length}');
-    }
-    adsLoaded.value = true;
-
+    getAdsUrl();
     super.onReady();
   }
 
   void listenForNotificationCount() {
     try {
       final userId = AuthenticationRepository.instance.fireUser.value!.uid;
-
       notificationCountStreamSubscription = firebasePatientAccess.fireStore
           .collection('notifications')
           .doc(userId)
           .snapshots()
           .listen((snapshot) {
         if (snapshot.exists) {
-          String notificationData = snapshot.get('unseenCount');
-
-          notificationsCount.value = notificationData as int;
+          notificationsCount.value = snapshot.data()!['unseenCount'] as int;
         }
       });
     } on FirebaseException catch (error) {
@@ -201,43 +175,28 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  Future<List<String>> fetchAdImageUrls() async {
-    // Get a reference to the Firebase Storage service
-    final storage = FirebaseStorage.instance;
+  void getAdsUrl() async {
+    // Get a reference to the storage bucket
+    final FirebaseStorage storage = FirebaseStorage.instance;
 
-    // Get a reference to the "ads" folder in Firebase Storage
-    final adsRef = storage.ref().child('ads');
+    // Get a reference to the ads file in Firebase Storage
+    final Reference fileRef = storage.ref('ads/');
 
-    // List all items in the "ads" folder
-    final result = await adsRef.listAll();
-
-    // Loop through each item in the folder and get the download URL
-    final downloadUrls = await Future.wait(
-        result.items.map((itemRef) => itemRef.getDownloadURL()));
-
-    // Return the list of download URLs
-    return downloadUrls;
+    // Get the list of image filenames from the ads file
+    final List<dynamic> imageFilenames = await fileRef
+        .listAll()
+        .then((result) => result.items.map((item) => item.name).toList());
+    // Loop through the list of image filenames and get the download URL for each image
+    for (final String filename in imageFilenames) {
+      final Reference ref = storage.ref('ads/').child(filename);
+      final String imageUrl = await ref.getDownloadURL();
+      adImageUrl.add(imageUrl);
+    }
+    if (kDebugMode) {
+      print('ads list contains:${adImageUrl.length} ads');
+    }
+    adsLoaded.value = true;
   }
-
-  // Future<List> getImageUrls() async {
-  //   // Get the Firebase Storage instance.
-  //   final storage = FirebaseStorage.instance;
-  //
-  //   // Create a reference to the images directory.
-  //   final imagesRef = storage.ref('ads');
-  //
-  //   // Get a list of all the images in the directory.
-  //   final allImages = await imagesRef.listAll();
-  //
-  //   // Create a list of URLs for the images.
-  //   final imageUrls = [];
-  //   for (final image in allImages.items) {
-  //     imageUrls.add(image.getDownloadURL());
-  //   }
-  //
-  //   // Return the list of URLs.
-  //   return imageUrls;
-  // }
 
   Future<FunctionStatus> enableShakeToSos() async {
     try {

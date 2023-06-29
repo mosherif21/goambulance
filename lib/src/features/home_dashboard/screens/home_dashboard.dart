@@ -25,7 +25,6 @@ class HomeDashBoard extends StatelessWidget {
     final homeScreenController = HomeScreenController.instance;
     final screenHeight = getScreenHeight(context);
     final controller = PageController(viewportFraction: 0.9, keepPage: true);
-    print(homeScreenController.notificationsCount);
 
     return Scaffold(
       appBar: AppBar(

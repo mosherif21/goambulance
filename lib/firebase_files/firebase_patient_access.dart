@@ -744,6 +744,7 @@ class FirebasePatientDataAccess extends GetxController {
     try {
       final sosRequestRef = await fireStore.collection('sosRequests').add({
         'userId': userId,
+        'phoneNumber': authRep.userInfo.phoneNumber,
         'requestLocation': requestLocation,
         'patientAge': patientAge,
         'timestamp': Timestamp.now(),

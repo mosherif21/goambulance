@@ -38,6 +38,7 @@ exports.cancelTimedOutRequests = functions.pubsub
         hospitalGeohash,
         additionalInformation,
         phoneNumber,
+        patientAge,
       } = doc.data();
 
       const batch = firestore.batch();
@@ -67,6 +68,8 @@ exports.cancelTimedOutRequests = functions.pubsub
           userId: userId,
           requestLocation: requestLocation,
           timestamp: admin.firestore.FieldValue.serverTimestamp(),
+          phoneNumber: phoneNumber,
+          patientAge: patientAge,
         });
         const blockedHospitalsDocuments = await docRef.collection('blockedHospitals').listDocuments();
         blockedHospitalsDocuments.forEach((document: admin.firestore.DocumentReference) => {
@@ -87,10 +90,10 @@ exports.cancelTimedOutRequests = functions.pubsub
           userId,
           patientCondition,
           timestamp,
+          phoneNumber,
           backupNumber,
           cancelReason: "timedOut",
           additionalInformation,
-          phoneNumber,
         });
         const userCanceledRef = firestore
           .collection("users")

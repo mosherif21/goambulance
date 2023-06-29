@@ -111,6 +111,7 @@ class CanceledRequestModel {
         'isUser': hospitalRequestInfo.isUser,
         'patientCondition': hospitalRequestInfo.patientCondition,
         'backupNumber': hospitalRequestInfo.backupNumber,
+        'phoneNumber': hospitalRequestInfo.phoneNumber,
         'timestamp': timestamp,
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,

@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
+import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -471,7 +472,12 @@ class AuthenticationRepository extends GetxController {
             verificationId: verificationId, smsCode: otp);
         await fireUser.value!.updatePhoneNumber(credential);
         if (isUserRegistered) {
-          userInfo.phoneNumber = fireUser.value!.phoneNumber!;
+          if (Get.isRegistered<HomeScreenController>()) {
+            userInfo.phoneNumber = fireUser.value!.phoneNumber!;
+          } else {
+            employeeUserInfo.phoneNumber = fireUser.value!.phoneNumber!;
+          }
+
           await updateUserPhoneFirestore(phone: fireUser.value!.phoneNumber!);
         }
         checkUserHasPhoneNumber();

@@ -179,7 +179,7 @@ Future<void> logout() async {
   } else {
     if (Get.isRegistered<EmployeeHomeScreenController>()) {
       await EmployeeHomeScreenController.instance.cancelListeners();
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 200));
     }
     if (Get.isRegistered<FirebaseAmbulanceEmployeeDataAccess>()) {
       await FirebaseAmbulanceEmployeeDataAccess.instance.logoutFirebase();

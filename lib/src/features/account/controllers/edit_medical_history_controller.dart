@@ -35,6 +35,7 @@ class EditMedicalHistoryController extends GetxController {
   late final String userId;
   late final AuthenticationRepository authRep;
   final diseasesLoaded = false.obs;
+
   @override
   void onInit() {
     authRep = AuthenticationRepository.instance;
@@ -142,6 +143,25 @@ class EditMedicalHistoryController extends GetxController {
       medicinesTextController.clear();
       RegularBottomSheet.hideBottomSheet();
     }
+  }
+
+  void editDiseaseItem(DiseaseItem diseaseItem) {
+    if (diseaseName.value.isNotEmpty) {
+      final diseaseMedicines = medicinesTextController.text.trim();
+      diseasesList.insert(
+          diseasesList.indexOf(diseaseItem),
+          DiseaseItem(
+              diseaseName: diseaseName.value,
+              diseaseMedicines: diseaseMedicines));
+      diseaseNameTextController.clear();
+      medicinesTextController.clear();
+      RegularBottomSheet.hideBottomSheet();
+    }
+  }
+
+  void clear() {
+    diseaseNameTextController.clear();
+    medicinesTextController.clear();
   }
 
   @override

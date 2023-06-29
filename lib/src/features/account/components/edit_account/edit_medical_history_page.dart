@@ -17,6 +17,7 @@ import '../models.dart';
 import '../new_account/add_disease.dart';
 import '../new_account/medical_history_item.dart';
 import '../new_account/no_medical_history.dart';
+import 'edit_disease.dart';
 import 'loading_medical_diseases.dart';
 
 class EditMedicalHistoryPage extends StatelessWidget {
@@ -187,6 +188,15 @@ class EditMedicalHistoryPage extends StatelessWidget {
                                           onDeletePressed: () => controller
                                               .diseasesList
                                               .remove(diseaseItem),
+                                          onEditPressed: () {
+                                            RegularBottomSheet
+                                                .showRegularBottomSheet(
+                                              EditDisease(
+                                                controller: controller,
+                                                diseaseItem: diseaseItem,
+                                              ),
+                                            );
+                                          },
                                         ),
                                       Padding(
                                         padding: const EdgeInsets.only(

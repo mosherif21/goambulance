@@ -14,6 +14,7 @@ import '../../../../../general/common_widgets/rounded_elevated_button.dart';
 import '../../../../../general/common_widgets/text_form_field.dart';
 import '../../../../../general/common_widgets/text_form_field_multiline.dart';
 import '../../../../../general/common_widgets/text_header.dart';
+import '../../../../account/components/edit_account/edit_disease.dart';
 import '../../../../account/components/new_account/add_disease.dart';
 import '../../../../account/components/new_account/medical_history_item.dart';
 import '../../../../account/components/new_account/no_medical_history.dart';
@@ -244,6 +245,16 @@ class NormalRequestScreen extends StatelessWidget {
                                                   onDeletePressed: () =>
                                                       controller.diseasesList
                                                           .remove(diseaseItem),
+                                                  onEditPressed: () {
+                                                    RegularBottomSheet
+                                                        .showRegularBottomSheet(
+                                                      EditDisease(
+                                                        controller: controller,
+                                                        diseaseItem:
+                                                            diseaseItem,
+                                                      ),
+                                                    );
+                                                  },
                                                 ),
                                               Padding(
                                                 padding: const EdgeInsets.only(

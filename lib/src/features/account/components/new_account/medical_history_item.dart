@@ -11,10 +11,13 @@ class MedicalHistoryItem extends StatelessWidget {
     Key? key,
     required this.diseaseItem,
     required this.onDeletePressed,
+    required this.onEditPressed,
   }) : super(key: key);
 
   final DiseaseItem diseaseItem;
   final Function onDeletePressed;
+  final Function onEditPressed;
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
@@ -23,6 +26,7 @@ class MedicalHistoryItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
+        border: Border.all(color: Colors.blueGrey, width: 2),
         color: Colors.grey.shade200,
         borderRadius: const BorderRadius.all(
           Radius.circular(15),
@@ -30,6 +34,10 @@ class MedicalHistoryItem extends StatelessWidget {
       ),
       child: Row(
         children: [
+          LineIcon.medicalNotes(
+            size: screenHeight * 0.06,
+            color: Colors.black,
+          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +46,7 @@ class MedicalHistoryItem extends StatelessWidget {
                 diseaseItem.diseaseName,
                 style: const TextStyle(
                   color: Colors.black,
-                  fontSize: 15,
+                  fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
                 maxLines: 1,
@@ -47,17 +55,13 @@ class MedicalHistoryItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  LineIcon.medicalNotes(
-                    size: screenHeight * 0.06,
-                    color: Colors.black,
-                  ),
                   const SizedBox(height: 10),
                   if (diseaseItem.diseaseMedicines.isNotEmpty)
                     AutoSizeText(
                       '${'medicineName'.tr}: ',
                       style: const TextStyle(
                         color: Colors.black,
-                        fontSize: 13,
+                        fontSize: 15,
                         fontWeight: FontWeight.w600,
                       ),
                       maxLines: 1,
@@ -69,7 +73,7 @@ class MedicalHistoryItem extends StatelessWidget {
                         diseaseItem.diseaseMedicines,
                         style: const TextStyle(
                           color: Colors.black,
-                          fontSize: 12,
+                          fontSize: 13,
                         ),
                         overflow: TextOverflow.ellipsis,
                         softWrap: false,
@@ -81,13 +85,25 @@ class MedicalHistoryItem extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          IconButton(
-            icon: const Icon(
-              Icons.delete,
-              size: 40,
-              color: Colors.red,
-            ),
-            onPressed: () => onDeletePressed(),
+          Column(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.delete,
+                  size: 40,
+                  color: Colors.red,
+                ),
+                onPressed: () => onDeletePressed(),
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.edit,
+                  size: 40,
+                  color: Colors.blue,
+                ),
+                onPressed: () => onEditPressed(),
+              )
+            ],
           ),
         ],
       ),

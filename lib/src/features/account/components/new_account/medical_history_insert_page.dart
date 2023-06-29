@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/account/components/edit_account/edit_disease.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
 import '../../../../general/common_widgets/custom_rolling_switch.dart';
@@ -180,28 +181,38 @@ class MedicalHistoryInsertPage extends StatelessWidget {
                                   for (var diseaseItem
                                       in controller.diseasesList)
                                     MedicalHistoryItem(
-                                        diseaseItem: diseaseItem,
-                                        onDeletePressed: () {
-                                          controller.diseasesList
-                                              .remove(diseaseItem);
-                                          if (controller.diseasesList.isEmpty) {
-                                            Future.delayed(const Duration(
-                                                    milliseconds: 50))
-                                                .whenComplete(
-                                              () => controller
+                                      diseaseItem: diseaseItem,
+                                      onDeletePressed: () {
+                                        controller.diseasesList
+                                            .remove(diseaseItem);
+                                        if (controller.diseasesList.isEmpty) {
+                                          Future.delayed(const Duration(
+                                                  milliseconds: 50))
+                                              .whenComplete(
+                                            () => controller
+                                                .medicalHistoryScrollController
+                                                .animateTo(
+                                              controller
                                                   .medicalHistoryScrollController
-                                                  .animateTo(
-                                                controller
-                                                    .medicalHistoryScrollController
-                                                    .position
-                                                    .maxScrollExtent,
-                                                duration: const Duration(
-                                                    milliseconds: 700),
-                                                curve: Curves.easeIn,
-                                              ),
-                                            );
-                                          }
-                                        }),
+                                                  .position
+                                                  .maxScrollExtent,
+                                              duration: const Duration(
+                                                  milliseconds: 700),
+                                              curve: Curves.easeIn,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      onEditPressed: () {
+                                        RegularBottomSheet
+                                            .showRegularBottomSheet(
+                                          EditDisease(
+                                            controller: controller,
+                                            diseaseItem: diseaseItem,
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   const SizedBox(height: 20),
                                   Padding(
                                     padding: const EdgeInsets.only(

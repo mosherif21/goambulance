@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../general/general_functions.dart';
 import '../../account/components/models.dart';
@@ -16,11 +15,8 @@ class NotiItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = getScreenWidth(context);
-
-    DateTime dateTime = notificationItem.timestamp.toDate();
-    String formattedDateTime =
-    DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime);
-
+    //kont 3aml ana el function de already bet format el time we be el am we pm kman
+    final formattedDateTime = formatDateTime(notificationItem.timestamp);
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(bottom: 15),

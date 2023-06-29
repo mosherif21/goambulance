@@ -717,6 +717,51 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
+  Future<AddressItem?> updateAddress({
+    required String addressId,
+    required String locationName,
+    required String streetName,
+    required String apartmentNumber,
+    required String floorNumber,
+    required String areaName,
+    required GeoPoint location,
+    required String additionalInfo,
+    required bool isPrimary,
+  }) async {
+    try {
+      await firestoreUserRef.collection('addresses').doc(addressId).update({
+        'locationName': locationName,
+        'streetName': streetName,
+        'apartmentNumber': apartmentNumber,
+        'floorNumber': floorNumber,
+        'areaName': areaName,
+        'additionalInfo': additionalInfo,
+        'location': location,
+        'isPrimary': isPrimary,
+      });
+      return AddressItem(
+        addressId: addressId,
+        locationName: locationName,
+        streetName: streetName,
+        apartmentNumber: apartmentNumber,
+        floorNumber: floorNumber,
+        areaName: areaName,
+        isPrimary: isPrimary,
+        additionalInfo: additionalInfo,
+        location: LatLng(location.latitude, location.longitude),
+      );
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
   Future<FunctionStatus> updateMedicalHistory({
     required MedicalHistoryModel medicalHistoryData,
   }) async {

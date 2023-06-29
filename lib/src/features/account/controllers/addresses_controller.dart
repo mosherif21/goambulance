@@ -33,11 +33,14 @@ class AddressesController extends GetxController {
   final makePrimaryKey = GlobalKey<RollingSwitchState>();
 
   LatLng? initialLatLng;
+  late String addressId;
+  late int addressIndex;
   bool takeInitialLatLng = false;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final addressesLoaded = false.obs;
   late GeoPoint addressLocation;
   final primaryAddressIndex = RxnInt();
+
   @override
   void onInit() async {
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
@@ -48,33 +51,43 @@ class AddressesController extends GetxController {
   @override
   void onReady() async {
     locationNameTextController.addListener(() {
-      if (locationNameTextController.text.trim().isNotEmpty) {
+      if (locationNameTextController.text
+          .trim()
+          .isNotEmpty) {
         highlightLocationName.value = false;
       }
     });
 
     streetNameTextController.addListener(() {
-      if (streetNameTextController.text.trim().isNotEmpty) {
+      if (streetNameTextController.text
+          .trim()
+          .isNotEmpty) {
         highlightStreetName.value = false;
       }
     });
 
     apartmentNumberTextController.addListener(() {
-      if (apartmentNumberTextController.text.trim().isNotEmpty &&
+      if (apartmentNumberTextController.text
+          .trim()
+          .isNotEmpty &&
           apartmentNumberTextController.text.isNum) {
         highlightApartmentNumber.value = false;
       }
     });
 
     floorNumberTextController.addListener(() {
-      if (floorNumberTextController.text.trim().isNotEmpty &&
+      if (floorNumberTextController.text
+          .trim()
+          .isNotEmpty &&
           apartmentNumberTextController.text.isNum) {
         highlightFloorNumber.value = false;
       }
     });
 
     areaNameTextController.addListener(() {
-      if (areaNameTextController.text.trim().isNotEmpty) {
+      if (areaNameTextController.text
+          .trim()
+          .isNotEmpty) {
         highlightArea.value = false;
       }
     });
@@ -98,12 +111,22 @@ class AddressesController extends GetxController {
 
   Future<void> checkAddress() async {
     highlightLocationName.value =
-        locationNameTextController.text.trim().isEmpty;
-    highlightStreetName.value = streetNameTextController.text.trim().isEmpty;
+        locationNameTextController.text
+            .trim()
+            .isEmpty;
+    highlightStreetName.value = streetNameTextController.text
+        .trim()
+        .isEmpty;
     highlightApartmentNumber.value =
-        apartmentNumberTextController.text.trim().isEmpty;
-    highlightFloorNumber.value = floorNumberTextController.text.trim().isEmpty;
-    highlightArea.value = areaNameTextController.text.trim().isEmpty;
+        apartmentNumberTextController.text
+            .trim()
+            .isEmpty;
+    highlightFloorNumber.value = floorNumberTextController.text
+        .trim()
+        .isEmpty;
+    highlightArea.value = areaNameTextController.text
+        .trim()
+        .isEmpty;
 
     if (!highlightLocationName.value &&
         !highlightStreetName.value &&
@@ -127,35 +150,73 @@ class AddressesController extends GetxController {
     final floorNumber = floorNumberTextController.text.trim();
     final areaName = areaNameTextController.text.trim();
     final additionalInfo = additionalInfoTextController.text.trim();
-    final addressItem = await firebasePatientDataAccess.addNewAddress(
-      isPrimary: makePrimary,
-      locationName: locationName,
-      streetName: streetName,
-      apartmentNumber: apartmentNumber,
-      floorNumber: floorNumber,
-      areaName: areaName,
-      additionalInfo: additionalInfo,
-      location: addressLocation,
-    );
-    hideLoadingScreen();
-    if (addressItem != null) {
-      addressesList.add(addressItem);
-      if (addressesList.length == 1 || makePrimary) {
-        updatePrimary(addressItem: addressItem);
-      }
-      locationNameTextController.clear();
-      streetNameTextController.clear();
-      apartmentNumberTextController.clear();
-      floorNumberTextController.clear();
-      areaNameTextController.clear();
-      additionalInfoTextController.clear();
-      Get.close(2);
-      showSnackBar(
-          text: 'addressSavedSuccess'.tr, snackBarType: SnackBarType.success);
-    } else {
+    AddressItem? addressItem;
+
+    if (takeInitialLatLng == true) {
+      addressItem = await firebasePatientDataAccess.updateAddress(
+        isPrimary: makePrimary,
+        locationName: locationName,
+        streetName: streetName,
+        apartmentNumber: apartmentNumber,
+        floorNumber: floorNumber,
+        areaName: areaName,
+        additionalInfo: additionalInfo,
+        location: addressLocation,
+        addressId: addressId,
+      );
+
       hideLoadingScreen();
-      showSnackBar(
-          text: 'addressSavedError'.tr, snackBarType: SnackBarType.error);
+      if (addressItem != null) {
+        addressesList.removeAt(addressIndex);
+        addressesList.insert(addressIndex, addressItem);
+        if (addressesList.length == 1 || makePrimary) {
+          updatePrimary(addressItem: addressItem);
+        }
+        locationNameTextController.clear();
+        streetNameTextController.clear();
+        apartmentNumberTextController.clear();
+        floorNumberTextController.clear();
+        areaNameTextController.clear();
+        additionalInfoTextController.clear();
+        Get.close(2);
+        showSnackBar(
+            text: 'addressSavedSuccess'.tr, snackBarType: SnackBarType.success);
+      } else {
+        hideLoadingScreen();
+        showSnackBar(
+            text: 'addressSavedError'.tr, snackBarType: SnackBarType.error);
+      }
+    } else {
+      addressItem = await firebasePatientDataAccess.addNewAddress(
+        isPrimary: makePrimary,
+        locationName: locationName,
+        streetName: streetName,
+        apartmentNumber: apartmentNumber,
+        floorNumber: floorNumber,
+        areaName: areaName,
+        additionalInfo: additionalInfo,
+        location: addressLocation,
+      );
+      hideLoadingScreen();
+      if (addressItem != null) {
+        addressesList.add(addressItem);
+        if (addressesList.length == 1 || makePrimary) {
+          updatePrimary(addressItem: addressItem);
+        }
+        locationNameTextController.clear();
+        streetNameTextController.clear();
+        apartmentNumberTextController.clear();
+        floorNumberTextController.clear();
+        areaNameTextController.clear();
+        additionalInfoTextController.clear();
+        Get.close(2);
+        showSnackBar(
+            text: 'addressSavedSuccess'.tr, snackBarType: SnackBarType.success);
+      } else {
+        hideLoadingScreen();
+        showSnackBar(
+            text: 'addressSavedError'.tr, snackBarType: SnackBarType.error);
+      }
     }
   }
 
@@ -181,8 +242,21 @@ class AddressesController extends GetxController {
   editAddress({required AddressItem addressItem}) async {
     initialLatLng = addressItem.location;
     takeInitialLatLng = true;
+
+    locationNameTextController.text = addressItem.locationName;
+    streetNameTextController.text = addressItem.streetName;
+    apartmentNumberTextController.text = addressItem.apartmentNumber;
+    floorNumberTextController.text = addressItem.floorNumber;
+    areaNameTextController.text = addressItem.areaName;
+    additionalInfoTextController.text = addressItem.additionalInfo!;
+    makePrimary = addressItem.isPrimary;
+
+    addressId = addressItem.addressId!;
+    addressIndex = addressesList.indexOf(addressItem);
+
     await Get.to(() => const AddressLocationPage(),
         transition: getPageTransition());
+
     initialLatLng = null;
     takeInitialLatLng = false;
   }

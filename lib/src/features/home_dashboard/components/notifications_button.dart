@@ -29,6 +29,8 @@ class NotificationsButton extends StatelessWidget {
             child: notificationsCount != 0
                 ? badges.Badge(
                     badgeContent: Text(notificationsCount.toString()),
+                    badgeStyle:
+                        const badges.BadgeStyle(badgeColor: Colors.blue),
                     child: const Icon(
                       Icons.notifications,
                       size: 30,

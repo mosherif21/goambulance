@@ -2,7 +2,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../notifications/screens/notifications_screen.dart';
+import '../../../account/notifications/screens/employee_notifcations_screen.dart';
 
 class EmployeeNotificationsButton extends StatelessWidget {
   const EmployeeNotificationsButton(
@@ -33,7 +33,7 @@ class EmployeeNotificationsButton extends StatelessWidget {
                   size: 30,
                 ),
         ),
-        onTap: () => Get.to(() => const NotificationsScreen()),
+        onTap: () => Get.to(() => const EmployeeNotificationsScreen()),
       ),
     );
   }

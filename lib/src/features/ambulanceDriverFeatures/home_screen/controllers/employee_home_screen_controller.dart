@@ -16,7 +16,6 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
-import 'package:goambulance/src/features/requests/components/making_request/models.dart';
 import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -77,7 +76,6 @@ class EmployeeHomeScreenController extends GetxController {
   final assignedRequestLoaded = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
-  late RequestMakingModel currentRequestData;
   late final FirebaseAmbulanceEmployeeDataAccess firebaseEmployeeDataAccess;
 
   CancelableOperation<google_web_directions_service.DirectionsResponse?>?
@@ -225,7 +223,6 @@ class EmployeeHomeScreenController extends GetxController {
       await serviceStatusStream?.cancel();
     }
     if (positionStreamInitialized) await currentPositionStream?.cancel();
-
   }
 
   void loadHospitalInfo() async {

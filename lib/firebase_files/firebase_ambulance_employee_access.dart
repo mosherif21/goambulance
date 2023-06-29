@@ -247,6 +247,51 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     return null;
   }
 
+  Future<List<NotificationItem>?> getNotifications() async {
+    try {
+      final userNotificationRef =
+          fireStore.collection('notifications').doc(userId);
+      final notificationSnapshot = await userNotificationRef.get();
+      final notificationList = <NotificationItem>[];
+      if (notificationSnapshot.exists) {
+        final userNRef = userNotificationRef.collection('messages');
+        await userNRef.get().then((notificationSnapshot) {
+          for (var notificationDoc in notificationSnapshot.docs) {
+            final notificationData = notificationDoc.data();
+            notificationList.add(
+              NotificationItem(
+                title: notificationData['title'].toString(),
+                body: notificationData['body'].toString(),
+                timestamp: notificationData['timestamp'],
+              ),
+            );
+          }
+        });
+
+        notificationList.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+      }
+
+      return notificationList;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+    return null;
+  }
+
+  Future<void> resetNotificationCount() async {
+    try {
+      final documentReference =
+          fireStore.collection('notifications').doc(userId);
+      await documentReference.update({'unseenCount': 0});
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+  }
+
   Future<UserInfoRequestModel?> getUserInfo({required String userId}) async {
     try {
       final snapshot = await fireStore.collection('users').doc(userId).get();

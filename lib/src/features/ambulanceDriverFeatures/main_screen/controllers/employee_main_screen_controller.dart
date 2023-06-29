@@ -26,7 +26,6 @@ class EmployeeMainScreenController extends GetxController {
     handleLocation()
         .whenComplete(() => handleNotificationsPermission())
         .whenComplete(() => handleSpeechPermission());
-
     super.onReady();
   }
 

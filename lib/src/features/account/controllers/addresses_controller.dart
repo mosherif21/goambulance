@@ -9,6 +9,7 @@ import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
 import '../components/addresses/add_address_page.dart';
+import '../components/addresses/address_location_page.dart';
 
 class AddressesController extends GetxController {
   static AddressesController get instance => Get.find();
@@ -31,6 +32,8 @@ class AddressesController extends GetxController {
   bool makePrimary = false;
   final makePrimaryKey = GlobalKey<RollingSwitchState>();
 
+  LatLng? initialLatLng;
+  bool takeInitialLatLng = false;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final addressesLoaded = false.obs;
   late GeoPoint addressLocation;
@@ -173,6 +176,15 @@ class AddressesController extends GetxController {
       showSnackBar(
           text: 'addressDeletionFailed'.tr, snackBarType: SnackBarType.error);
     }
+  }
+
+  editAddress({required AddressItem addressItem}) async {
+    initialLatLng = addressItem.location;
+    takeInitialLatLng = true;
+    await Get.to(() => const AddressLocationPage(),
+        transition: getPageTransition());
+    initialLatLng = null;
+    takeInitialLatLng = false;
   }
 
   void updatePrimary({required AddressItem addressItem}) async {

@@ -14,10 +14,12 @@ class LoadAddressItem extends StatelessWidget {
     required this.addressItem,
     required this.onDeletePressed,
     required this.isPrimary,
+    required this.onEditPressed,
   }) : super(key: key);
 
   final AddressItem addressItem;
   final Function onDeletePressed;
+  final Function onEditPressed;
   final bool isPrimary;
 
   @override
@@ -170,7 +172,7 @@ class LoadAddressItem extends StatelessWidget {
                       size: 40,
                       color: Colors.blueAccent,
                     ),
-                    onPressed: () => () {},
+                    onPressed: () => onEditPressed(),
                   ),
                 ],
               )
@@ -182,9 +184,10 @@ class LoadAddressItem extends StatelessWidget {
                 ? SwipeableButtonView(
                     buttonText: 'primaryAskText'.tr,
                     buttontextstyle: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                     buttonWidget: const Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: Colors.grey,

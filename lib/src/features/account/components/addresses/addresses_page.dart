@@ -62,6 +62,9 @@ class AccountAddressesPage extends StatelessWidget {
                                                   .primaryAddressIndex.value ==
                                               controller.addressesList
                                                   .indexOf(addressItem),
+                                          onEditPressed: () =>
+                                              controller.editAddress(
+                                                  addressItem: addressItem),
                                         ),
                                       ),
                                   ],

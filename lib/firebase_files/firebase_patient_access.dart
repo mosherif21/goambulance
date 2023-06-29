@@ -136,16 +136,20 @@ class FirebasePatientDataAccess extends GetxController {
         (addressesSnapshot) {
           for (var address in addressesSnapshot.docs) {
             final addressDoc = address.data();
+            final locationGeopoint = addressDoc['location'] as GeoPoint;
             addressesList.add(
               AddressItem(
-                  locationName: addressDoc['locationName'].toString(),
-                  streetName: addressDoc['streetName'].toString(),
-                  apartmentNumber: addressDoc['apartmentNumber'].toString(),
-                  floorNumber: addressDoc['floorNumber'].toString(),
-                  areaName: addressDoc['areaName'].toString(),
-                  additionalInfo: addressDoc['additionalInfo'].toString(),
-                  isPrimary: addressDoc['isPrimary'] as bool,
-                  addressId: address.id),
+                locationName: addressDoc['locationName'].toString(),
+                streetName: addressDoc['streetName'].toString(),
+                apartmentNumber: addressDoc['apartmentNumber'].toString(),
+                floorNumber: addressDoc['floorNumber'].toString(),
+                areaName: addressDoc['areaName'].toString(),
+                additionalInfo: addressDoc['additionalInfo'].toString(),
+                isPrimary: addressDoc['isPrimary'] as bool,
+                addressId: address.id,
+                location: LatLng(
+                    locationGeopoint.latitude, locationGeopoint.longitude),
+              ),
             );
           }
         },
@@ -397,6 +401,7 @@ class FirebasePatientDataAccess extends GetxController {
         areaName: areaName,
         isPrimary: isPrimary,
         additionalInfo: additionalInfo,
+        location: LatLng(location.latitude, location.longitude),
       );
     } on FirebaseException catch (error) {
       if (kDebugMode) {

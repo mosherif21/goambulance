@@ -53,12 +53,14 @@ class AddressesLocationController extends GetxController {
   late String currentChosenLocationAddress;
   late LatLng currentCameraLatLng;
   late LatLng currentChosenLatLng;
+  late final AddressesController addressesController;
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
 
   @override
   void onReady() async {
+    addressesController = AddressesController.instance;
     await locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
@@ -102,8 +104,8 @@ class AddressesLocationController extends GetxController {
 
   Future<void> onLocationPress() async {
     if (allowedLocation) {
-      AddressesController.instance
-          .confirmAddressLocation(confirmAddressLocation: currentChosenLatLng);
+      addressesController.confirmAddressLocation(
+          confirmAddressLocation: currentChosenLatLng);
       if (kDebugMode) {
         print('chosen location LatLng: $currentChosenLatLng');
         print('chosen location address: $currentChosenLocationAddress');
@@ -146,8 +148,11 @@ class AddressesLocationController extends GetxController {
 
   CameraPosition getInitialCameraPosition() {
     final cameraPosition = CameraPosition(
-      target:
-          locationAvailable.value ? currentLocationGetter() : searchedLocation,
+      target: addressesController.takeInitialLatLng
+          ? addressesController.initialLatLng!
+          : locationAvailable.value
+              ? currentLocationGetter()
+              : searchedLocation,
       zoom: 15.5,
     );
     initialCameraLatLng = cameraPosition.target;

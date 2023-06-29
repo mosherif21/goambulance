@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:goambulance/src/constants/enums.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class UserInformation {
   String name;
@@ -181,6 +182,7 @@ class AddressItem {
   final String areaName;
   final bool isPrimary;
   final String? additionalInfo;
+  final LatLng location;
 
   AddressItem({
     this.addressId,
@@ -190,6 +192,7 @@ class AddressItem {
     required this.floorNumber,
     required this.areaName,
     required this.isPrimary,
+    required this.location,
     this.additionalInfo,
   });
 

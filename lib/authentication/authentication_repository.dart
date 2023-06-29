@@ -323,10 +323,21 @@ class AuthenticationRepository extends GetxController {
     final profileImageRef = fireStorage.ref().child('users/$userId/profilePic');
     final nationalImageRef =
         fireStorage.ref().child('users/$userId/nationalId');
-    drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
-    final hasNationalImage = await nationalImageRef.getDownloadURL();
-    return hasNationalImage.isNotEmpty &&
-        drawerProfileImageUrl.value.isNotEmpty;
+    try {
+      drawerProfileImageUrl.value = await profileImageRef.getDownloadURL();
+      final hasNationalImage = await nationalImageRef.getDownloadURL();
+      return hasNationalImage.isNotEmpty &&
+          drawerProfileImageUrl.value.isNotEmpty;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.i(error.toString());
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        AppInit.logger.e(e.toString());
+      }
+    }
+    return false;
   }
 
   Future<String> createUserWithEmailAndPassword(

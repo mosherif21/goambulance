@@ -7,7 +7,6 @@ import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/controllers/employee_home_screen_controller.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +18,7 @@ import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 import '../../authentication/authentication_repository.dart';
+import '../../firebase_files/firebase_ambulance_employee_access.dart';
 import '../../firebase_files/firebase_patient_access.dart';
 import '../../localization/language/language_functions.dart';
 import '../connectivity/connectivity.dart';
@@ -171,18 +171,17 @@ Future<void> logout() async {
       await Get.delete<ChatBotController>();
     }
     if (Get.isRegistered<HomeScreenController>()) {
-      await HomeScreenController.instance.notificationCountStreamSubscription
-          ?.cancel();
+      await HomeScreenController.instance.cancelListeners();
     }
     if (Get.isRegistered<FirebasePatientDataAccess>()) {
       await FirebasePatientDataAccess.instance.logoutFirebase();
     }
   } else {
-    if (Get.isRegistered<EmployeeHomeScreenController>()) {
-      await EmployeeHomeScreenController.instance.cancelListeners();
-    }
     if (Get.isRegistered<FirebaseAmbulanceEmployeeDataAccess>()) {
       await FirebaseAmbulanceEmployeeDataAccess.instance.logoutFirebase();
+    }
+    if (Get.isRegistered<EmployeeHomeScreenController>()) {
+      await EmployeeHomeScreenController.instance.cancelListeners();
     }
   }
   await AuthenticationRepository.instance.logoutAuthUser();

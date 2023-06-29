@@ -473,12 +473,18 @@ class TrackingRequestController extends GetxController {
     }
   }
 
-  Future<bool> onWillPop() {
+  Future<bool> onWillPop() async {
     if (choosingHospital.value && requestStatus.value == RequestStatus.non) {
       choosingRequestLocationChanges();
-      return Future.value(false);
+      return false;
     } else {
-      return Future.value(true);
+      showLoadingScreen();
+      if (!AppInit.isWeb) {
+        await serviceStatusStream?.cancel();
+      }
+      if (positionStreamInitialized) await currentPositionStream?.cancel();
+      hideLoadingScreen();
+      return true;
     }
   }
 
@@ -1002,7 +1008,7 @@ class TrackingRequestController extends GetxController {
           if (kDebugMode) {
             print(position == null
                 ? 'current location is Unknown'
-                : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
+                : 'current location from listener ${position.latitude.toString()}, ${position.longitude.toString()}');
           }
         },
       );
@@ -1021,11 +1027,7 @@ class TrackingRequestController extends GetxController {
       if (googleMapControllerInit && !AppInit.isWeb) {
         googleMapController.dispose();
       }
-      if (!AppInit.isWeb) {
-        await serviceStatusStream?.cancel();
-      }
       hospitalsRefreshController.dispose();
-      if (positionStreamInitialized) await currentPositionStream?.cancel();
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }

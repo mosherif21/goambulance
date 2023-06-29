@@ -355,17 +355,29 @@ class MakingRequestLocationController extends GetxController {
     }
   }
 
-  Future<bool> onWillPop() {
+  Future<bool> onWillPop() async {
     if (choosingHospital.value && requestStatus.value == RequestStatus.non) {
       choosingRequestLocationChanges();
-      return Future.value(false);
+      return false;
     } else if (choosingHospital.value &&
         requestStatus.value != RequestStatus.non) {
       Get.close(2);
-      return Future.value(true);
+      showLoadingScreen();
+      if (!AppInit.isWeb) {
+        await serviceStatusStream?.cancel();
+      }
+      if (positionStreamInitialized) await currentPositionStream?.cancel();
+      hideLoadingScreen();
+      return true;
     } else if (!choosingHospital.value &&
         requestStatus.value == RequestStatus.non) {
-      return Future.value(true);
+      showLoadingScreen();
+      if (!AppInit.isWeb) {
+        await serviceStatusStream?.cancel();
+      }
+      if (positionStreamInitialized) await currentPositionStream?.cancel();
+      hideLoadingScreen();
+      return true;
     } else {
       return Future.value(false);
     }
@@ -870,7 +882,7 @@ class MakingRequestLocationController extends GetxController {
           if (kDebugMode) {
             print(position == null
                 ? 'current location is Unknown'
-                : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
+                : 'current location from listener ${position.latitude.toString()}, ${position.longitude.toString()}');
           }
         },
       );
@@ -889,11 +901,8 @@ class MakingRequestLocationController extends GetxController {
       if (googleMapControllerInit && !AppInit.isWeb) {
         googleMapController.dispose();
       }
-      if (!AppInit.isWeb) {
-        await serviceStatusStream?.cancel();
-      }
+
       hospitalsRefreshController.dispose();
-      if (positionStreamInitialized) await currentPositionStream?.cancel();
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }

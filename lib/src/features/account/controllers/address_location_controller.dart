@@ -321,7 +321,7 @@ class AddressesLocationController extends GetxController {
           if (kDebugMode) {
             print(position == null
                 ? 'current location is Unknown'
-                : 'current location ${position.latitude.toString()}, ${position.longitude.toString()}');
+                : 'current location from listener ${position.latitude.toString()}, ${position.longitude.toString()}');
           }
         },
       );
@@ -340,13 +340,19 @@ class AddressesLocationController extends GetxController {
       if (googleMapControllerInit && !AppInit.isWeb) {
         googleMapController.dispose();
       }
-      if (!AppInit.isWeb) {
-        await serviceStatusStream?.cancel();
-      }
-      if (positionStreamInitialized) await currentPositionStream?.cancel();
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
     super.onClose();
+  }
+
+  Future<bool> onWillPopMap() async {
+    showLoadingScreen();
+    if (!AppInit.isWeb) {
+      await serviceStatusStream?.cancel();
+    }
+    if (positionStreamInitialized) await currentPositionStream?.cancel();
+    hideLoadingScreen();
+    return true;
   }
 }

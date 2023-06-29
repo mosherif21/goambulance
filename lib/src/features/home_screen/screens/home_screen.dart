@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/features/requests/controllers/requests_history_controller.dart';
 
 import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../connectivity/connectivity.dart';
 import '../../../general/general_functions.dart';
-import '../../requests/controllers/requests_history_controller.dart';
 import '../components/drawer_page.dart';
 import '../components/home_navigation_bar.dart';
 import '../controllers/home_screen_controller.dart';
@@ -17,28 +17,28 @@ class HomeScreen extends StatelessWidget {
     final homeScreenController = Get.put(HomeScreenController());
     ConnectivityChecker.checkConnection(displayAlert: true);
     Get.put(FirebasePatientDataAccess());
-    return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      body: SafeArea(
-        child: WillPopScope(
-          onWillPop: () async {
-            final drawerState =
-                homeScreenController.zoomDrawerController.stateNotifier?.value;
-            if (drawerState == DrawerState.open ||
-                drawerState == DrawerState.opening) {
-              homeScreenController.toggleDrawer();
-              return false;
-            } else if (homeScreenController.navBarIndex.value != 0) {
-              homeScreenController.navBarIndex.value = 0;
-              if (homeScreenController.navBarIndex.value != 1 &&
-                  Get.isRegistered<RequestsHistoryController>()) {
-                await Get.delete<RequestsHistoryController>();
-              }
-              return false;
-            } else {
-              return true;
-            }
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        final drawerState =
+            homeScreenController.zoomDrawerController.stateNotifier?.value;
+        if (drawerState == DrawerState.open ||
+            drawerState == DrawerState.opening) {
+          homeScreenController.toggleDrawer();
+          return false;
+        } else if (homeScreenController.navBarIndex.value != 0) {
+          homeScreenController.navBarIndex.value = 0;
+          if (homeScreenController.navBarIndex.value != 1 &&
+              Get.isRegistered<RequestsHistoryController>()) {
+            Get.delete<RequestsHistoryController>();
+          }
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade100,
+        body: SafeArea(
           child: ZoomDrawer(
             controller: homeScreenController.zoomDrawerController,
             menuScreen: DrawerPage(

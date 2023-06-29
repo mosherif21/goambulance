@@ -538,11 +538,11 @@ class HomeScreenController extends GetxController {
     'النجدة'
   ];
 
-  @override
-  void onClose() async {
+  Future<void> cancelListeners() async {
+    showLoadingScreen();
     await accelerometerSubscription?.cancel();
-    await accelerometerEvents.drain();
+    accelerometerEvents.drain();
     await notificationCountStreamSubscription?.cancel();
-    super.onClose();
+    hideLoadingScreen();
   }
 }

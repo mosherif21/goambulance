@@ -221,6 +221,12 @@ class EmployeeHomeScreenController extends GetxController {
   Future<void> cancelListeners() async {
     await notificationCountStreamSubscription?.cancel();
     await assignedRequestStreamSubscription?.cancel();
+    if (!AppInit.isWeb) {
+      await serviceStatusStream?.cancel();
+    }
+    if (positionStreamInitialized) await currentPositionStream?.cancel();
+    await notificationCountStreamSubscription?.cancel();
+    await assignedRequestStreamSubscription?.cancel();
   }
 
   void loadHospitalInfo() async {
@@ -632,12 +638,6 @@ class EmployeeHomeScreenController extends GetxController {
       if (googleMapControllerInit && !AppInit.isWeb) {
         googleMapController.dispose();
       }
-      if (!AppInit.isWeb) {
-        await serviceStatusStream?.cancel();
-      }
-      if (positionStreamInitialized) await currentPositionStream?.cancel();
-      await notificationCountStreamSubscription?.cancel();
-      await assignedRequestStreamSubscription?.cancel();
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }

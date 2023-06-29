@@ -259,7 +259,7 @@ class FirebasePatientDataAccess extends GetxController {
     try {
       final documentReference =
           fireStore.collection('notifications').doc(userId);
-      //error kan by7sal 3shan kont bet set el unseen count le 2 bs be single quotes fa btb2a string mesh number fa mby3rf4 y7welha le int
+      //el error kan by7sal 3shan kont bet set el unseen count le 2 bs be single quotes fa btb2a string mesh number fa mby3rf4 y7welha le int
       // await documentReference.update({'unseenCount': '2'});
       await documentReference.update({'unseenCount': 0});
     } on FirebaseException catch (error) {

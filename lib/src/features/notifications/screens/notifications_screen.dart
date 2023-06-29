@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/notifications/components/notificationItem.dart';
+import 'package:goambulance/src/features/notifications/components/notification_Item.dart';
 import 'package:goambulance/src/features/notifications/controllers/notifications_controller.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
@@ -34,26 +34,20 @@ class NotificationsScreen extends StatelessWidget {
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Obx(
-                    () => SingleChildScrollView(
-                      child: !controller.notificationLoaded.value
-                          ? const LoadingAddresses()
-                          : controller.notificationList.isNotEmpty
-                              ? Column(
-                                  children: [
-                                    for (var notificationItem
-                                        in controller.notificationList)
-                                      NotiItem(
-                                          notificationItem: notificationItem),
-                                  ],
-                                )
-                              : const NoAddressesSaved(),
-                    ),
-                  ),
-                ],
+              child: Obx(
+                () => SingleChildScrollView(
+                  child: !controller.notificationLoaded.value
+                      ? const LoadingAddresses()
+                      : controller.notificationList.isNotEmpty
+                          ? Column(
+                              children: [
+                                for (var notificationItem
+                                    in controller.notificationList)
+                                  NotiItem(notificationItem: notificationItem),
+                              ],
+                            )
+                          : const NoAddressesSaved(),
+                ),
               ),
             ),
           ),

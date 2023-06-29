@@ -255,20 +255,26 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
-  Future<void> updateNotification() async {
-    DocumentReference documentReference =
-        FirebaseFirestore.instance.collection('notifications').doc(userId);
-
-    await documentReference.update({'unseenCount': '2'});
+  Future<void> resetNotificationCount() async {
+    try {
+      final documentReference =
+          fireStore.collection('notifications').doc(userId);
+      await documentReference.update({'unseenCount': '0'});
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
   }
 
   Future<List<NotificationItem>?> getNotifications() async {
     try {
-      final userNotieRef = fireStore.collection('notifications').doc(userId);
-      final notieSnapshot = await userNotieRef.get();
-      if (notieSnapshot.exists) {
-        final notificationList = <NotificationItem>[];
-        final userNRef = userNotieRef.collection('messages');
+      final userNotificationRef =
+          fireStore.collection('notifications').doc(userId);
+      final notificationSnapshot = await userNotificationRef.get();
+      final notificationList = <NotificationItem>[];
+      if (notificationSnapshot.exists) {
+        final userNRef = userNotificationRef.collection('messages');
         await userNRef.get().then((notificationSnapshot) {
           for (var notificationDoc in notificationSnapshot.docs) {
             final notificationData = notificationDoc.data();
@@ -281,8 +287,13 @@ class FirebasePatientDataAccess extends GetxController {
             );
           }
         });
-        return notificationList;
+        //h3mlhom sort be el wa2t
+        notificationList.sort((a, b) => b.timestamp.compareTo(a.timestamp));
       }
+      /*  fe el 7ala de el return bara el notificationSnapshot.exists 3ady 3shan lw m3ndosh document fe el notifications collection asln
+      m3nah eno mtb3tlo4 notifications abl keda fa yerg3 list fadya we myrg34 null el 7ala el w7eda ely yerg3 feha null hwa en ye7sl exception aw error
+      y5aly el try mtkml4 le a5erha asln we tro7 le return null ely fe el a5r*/
+      return notificationList;
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (e) {

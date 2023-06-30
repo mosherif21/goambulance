@@ -58,6 +58,7 @@ dependencies:
   geoflutterfire2: ^2.3.15
   flutter_mapbox_navigation: ^0.1.8
   map_box_geocoder: ^0.0.12
+  google_map_marker_animation: ^0.0.1
 
   #authentication dependencies
   google_sign_in: ^6.1.4

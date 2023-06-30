@@ -19,6 +19,7 @@ const String kEmergencyNumber = "assets/images/emergency_numbers.svg";
 const String kSosMessageImage = "assets/images/sosMessage.svg";
 const String kAmbulanceMarkerImg = "assets/images/ambulance_above_medium.png";
 const String kHospitalMarkerImg = "assets/images/hospital.png";
+const String kAmbulanceMarkerTopImg = "assets/images/ambulance_top_view.png";
 const String kRequestLocationMarkerImg =
     "assets/images/pin_request_location.png";
 const String kMedicalHistoryImg = "assets/images/medical_history_large.svg";

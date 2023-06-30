@@ -31,7 +31,9 @@ class MarkerWindowInfo extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: time != 0
+                ? CrossAxisAlignment.start
+                : CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (windowType != MarkerWindowType.ambulanceLocation && time != 0)

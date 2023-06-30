@@ -1,9 +1,10 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_map_marker_animation/helpers/extensions.dart';
+import 'package:google_map_marker_animation/widgets/animarker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -136,56 +137,44 @@ class EmployeeMapScreen extends StatelessWidget {
       body: Stack(
         children: [
           Obx(
-            () => GoogleMap(
-              compassEnabled: false,
-              rotateGesturesEnabled: false,
-              tiltGesturesEnabled: false,
-              mapToolbarEnabled: false,
-              myLocationEnabled: true,
-              zoomControlsEnabled: false,
-              myLocationButtonEnabled: false,
-              padding: AppInit.isWeb
-                  ? EdgeInsets.zero
-                  : EdgeInsets.only(
-                      bottom:
-                          employeeHomeScreenController.hasAssignedRequest.value
-                              ? screenHeight * 0.48
-                              : 80,
-                      left: 10,
-                      right: 10,
-                      top: screenHeight * 0.16,
-                    ),
-              initialCameraPosition:
-                  employeeHomeScreenController.getInitialCameraPosition(),
-              polylines: employeeHomeScreenController.mapPolyLines.value,
-              markers: employeeHomeScreenController.mapMarkers.value,
-              onMapCreated: (GoogleMapController controller) =>
-                  employeeHomeScreenController.mapControllerCompleter
-                      .complete(controller),
-              onCameraMove: employeeHomeScreenController.onCameraMove,
-              onCameraIdle: employeeHomeScreenController.onCameraIdle,
-              onTap: employeeHomeScreenController.onMapTap,
+            () => Animarker(
+              useRotation: true,
+              duration: const Duration(milliseconds: 2500),
+              mapId: employeeHomeScreenController.mapControllerCompleter.future
+                  .then<int>((value) => value.mapId),
+              markers: employeeHomeScreenController.mapMarkers.value.set,
+              shouldAnimateCamera: false,
+              child: GoogleMap(
+                compassEnabled: false,
+                rotateGesturesEnabled: false,
+                tiltGesturesEnabled: false,
+                mapToolbarEnabled: false,
+                myLocationEnabled: false,
+                zoomControlsEnabled: false,
+                myLocationButtonEnabled: false,
+                padding: AppInit.isWeb
+                    ? EdgeInsets.zero
+                    : EdgeInsets.only(
+                        bottom: employeeHomeScreenController
+                                .hasAssignedRequest.value
+                            ? screenHeight * 0.48
+                            : 80,
+                        left: 10,
+                        right: 10,
+                        top: screenHeight * 0.16,
+                      ),
+                initialCameraPosition:
+                    employeeHomeScreenController.getInitialCameraPosition(),
+                polylines: employeeHomeScreenController.mapPolyLines.value,
+                onMapCreated: (GoogleMapController controller) =>
+                    employeeHomeScreenController.mapControllerCompleter
+                        .complete(controller),
+                onCameraMove: employeeHomeScreenController.onCameraMove,
+                onCameraIdle: employeeHomeScreenController.onCameraIdle,
+                onTap: employeeHomeScreenController.onMapTap,
+              ),
             ),
           ),
-          CustomInfoWindow(
-            controller:
-                employeeHomeScreenController.requestLocationWindowController,
-            height: isLangEnglish() ? 50 : 56,
-            width: 150,
-            offset: 50,
-          ),
-          // CustomInfoWindow(
-          //   controller: employeeHomeScreenController.hospitalWindowController,
-          //   height: isLangEnglish() ? 50 : 56,
-          //   width: 150,
-          //   offset: 50,
-          // ),
-          // CustomInfoWindow(
-          //   controller: makingRequestController.ambulanceWindowController,
-          //   height: isLangEnglish() ? 50 : 56,
-          //   width: 150,
-          //   offset: 50,
-          // ),
           Obx(
             () => Positioned(
               bottom: employeeHomeScreenController.hasAssignedRequest.value

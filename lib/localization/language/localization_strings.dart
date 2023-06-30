@@ -459,6 +459,7 @@ class Languages extends Translations {
           'medicalInformation': 'المعلومات الطبية',
           'patientAge': 'سن المريض',
           'edit': 'تعديل',
+          'completeRequest': 'تأكيد تسليم المريض',
         },
         'en_US': {
           'sosCancelReturn':
@@ -934,6 +935,7 @@ class Languages extends Translations {
           'medicalInformation': 'Medical information',
           'patientAge': 'Patient age',
           'edit': 'Edit',
+          'confirmDropOff': 'Confirm drop off',
         },
       };
 }

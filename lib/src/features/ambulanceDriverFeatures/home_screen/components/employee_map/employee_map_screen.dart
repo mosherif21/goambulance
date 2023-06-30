@@ -3,6 +3,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/enums.dart';
 import 'package:google_map_marker_animation/helpers/extensions.dart';
 import 'package:google_map_marker_animation/widgets/animarker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -107,8 +108,22 @@ class EmployeeMapScreen extends StatelessWidget {
                 const EdgeInsets.only(left: 30, right: 30, bottom: 13, top: 10),
             child: Obx(
               () => RegularElevatedButton(
-                buttonText: 'confirmPickup'.tr,
-                onPressed: () {},
+                buttonText:
+                    employeeHomeScreenController.assignedRequestLoaded.value
+                        ? employeeHomeScreenController
+                                    .assignedRequestData!.requestStatus ==
+                                RequestStatus.assigned
+                            ? 'confirmPickup'.tr
+                            : 'confirmDropOff'.tr
+                        : 'tryAgain'.tr,
+                onPressed:
+                    employeeHomeScreenController.assignedRequestLoaded.value
+                        ? employeeHomeScreenController
+                                    .assignedRequestData!.requestStatus ==
+                                RequestStatus.assigned
+                            ? employeeHomeScreenController.onConfirmPickup
+                            : employeeHomeScreenController.onConfirmDropOff
+                        : () {},
                 enabled:
                     employeeHomeScreenController.assignedRequestLoaded.value
                         ? true

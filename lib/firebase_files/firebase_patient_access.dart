@@ -261,9 +261,10 @@ class FirebasePatientDataAccess extends GetxController {
 
   Future<void> resetNotificationCount() async {
     try {
-      final documentReference =
-          fireStore.collection('notifications').doc(userId);
-      await documentReference.update({'unseenCount': 0});
+      await fireStore
+          .collection('notifications')
+          .doc(userId)
+          .set({'unseenCount': 0});
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (e) {
@@ -1035,7 +1036,7 @@ class FirebasePatientDataAccess extends GetxController {
           .doc(ambulanceDriverId)
           .get();
       if (snapshot.exists) {
-        final ambulanceLocation = snapshot.data()!['g']['geopoint'] as GeoPoint;
+        final ambulanceLocation = snapshot.data()!['location'] as GeoPoint;
         return LatLng(ambulanceLocation.latitude, ambulanceLocation.longitude);
       }
     } on FirebaseException catch (error) {

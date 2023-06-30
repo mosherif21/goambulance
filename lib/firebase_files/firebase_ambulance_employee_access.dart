@@ -278,9 +278,23 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
 
   Future<void> resetNotificationCount() async {
     try {
-      final documentReference =
-          fireStore.collection('notifications').doc(userId);
-      await documentReference.update({'unseenCount': 0});
+      await fireStore
+          .collection('notifications')
+          .doc(userId)
+          .set({'unseenCount': 0});
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+  }
+
+  Future<void> updateDriverLocation({required GeoPoint driverLocation}) async {
+    try {
+      await fireStore
+          .collection('driversLocations')
+          .doc(userId)
+          .set({'location': driverLocation});
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (e) {

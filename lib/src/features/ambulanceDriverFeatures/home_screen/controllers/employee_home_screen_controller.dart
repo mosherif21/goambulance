@@ -293,8 +293,8 @@ class EmployeeHomeScreenController extends GetxController {
         ).then((routePolyLine) {
           if (routePolyLine != null) {
             mapPolyLines.value = {routePolyLine};
-            Future.delayed(const Duration(milliseconds: 1800)).whenComplete(
-                () => animateToLatLngBounds(
+            Future.delayed(const Duration(seconds: 1)).whenComplete(() =>
+                animateToLatLngBounds(
                     latLngBounds:
                         getLatLngBounds(latLngList: routePolyLine.points)));
             if (windowController.addInfoWindow != null) {
@@ -332,8 +332,8 @@ class EmployeeHomeScreenController extends GetxController {
         ).then((routePolyLine) {
           if (routePolyLine != null) {
             mapPolyLines.value = {routePolyLine};
-            Future.delayed(const Duration(milliseconds: 1800)).whenComplete(
-                () => animateToLatLngBounds(
+            Future.delayed(const Duration(seconds: 1)).whenComplete(() =>
+                animateToLatLngBounds(
                     latLngBounds:
                         getLatLngBounds(latLngList: routePolyLine.points)));
             if (windowController.addInfoWindow != null) {
@@ -779,6 +779,9 @@ class EmployeeHomeScreenController extends GetxController {
             currentLocation = position;
             locationAvailable.value = true;
             if (hasAssignedRequest.value && assignedRequestData != null) {
+              firebaseEmployeeDataAccess.updateDriverLocation(
+                  driverLocation: GeoPoint(
+                      currentLocation.latitude, currentLocation.longitude));
               updateRouteAndMap();
             } else {
               animateCamera(locationLatLng: currentLocationGetter());

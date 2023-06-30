@@ -105,7 +105,7 @@ class EmployeeMapScreen extends StatelessWidget {
           const Divider(thickness: 1, height: 2),
           Padding(
             padding:
-                const EdgeInsets.only(left: 30, right: 30, bottom: 13, top: 10),
+                const EdgeInsets.only(left: 45, right: 45, bottom: 13, top: 10),
             child: Obx(
               () => RegularElevatedButton(
                 buttonText:
@@ -118,8 +118,7 @@ class EmployeeMapScreen extends StatelessWidget {
                         : 'tryAgain'.tr,
                 onPressed:
                     employeeHomeScreenController.assignedRequestLoaded.value
-                        ? employeeHomeScreenController
-                                    .assignedRequestData!.requestStatus ==
+                        ? employeeHomeScreenController.requestStatus.value ==
                                 RequestStatus.assigned
                             ? employeeHomeScreenController.onConfirmPickup
                             : employeeHomeScreenController.onConfirmDropOff

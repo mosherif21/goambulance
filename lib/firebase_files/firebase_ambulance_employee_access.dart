@@ -5,7 +5,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
-import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -13,7 +12,6 @@ import '../authentication/authentication_repository.dart';
 import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
 import '../src/general/app_init.dart';
-import '../src/general/general_functions.dart';
 
 class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
   static FirebaseAmbulanceEmployeeDataAccess get instance => Get.find();
@@ -109,7 +107,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     return null;
   }
 
-  Future<RequestDataModel?> getAssignedRequestInfo(
+  Future<EmployeeRequestDataModel?> getAssignedRequestInfo(
       {required String requestId}) async {
     try {
       final snapshot =
@@ -142,7 +140,6 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
               : RequestStatus.ongoing;
           final isUser = snapshotData['isUser'] as bool;
           final timestamp = snapshotData['timestamp'] as Timestamp;
-          final requestDateTime = formatDateTime(timestamp);
           late final MedicalHistoryModel medicalHistory;
           if (isUser) {
             final medicalHistorySnapshot = await fireStore
@@ -206,7 +203,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
               diseasesList: diseasesList,
             );
           }
-          final requestData = RequestDataModel(
+          final requestData = EmployeeRequestDataModel(
             requestId: requestId,
             userId: requestUserId,
             backupNumber: backupNumber,
@@ -215,7 +212,6 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
             hospitalId: hospitalId,
             timestamp: timestamp,
             hospitalName: hospitalName,
-            requestDateTime: requestDateTime,
             requestStatus: requestStatus,
             requestLocation:
                 LatLng(requestLocation.latitude, requestLocation.longitude),
@@ -290,6 +286,108 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     } catch (e) {
       if (kDebugMode) print(e.toString());
     }
+  }
+
+  Future<FunctionStatus> confirmPickup({required String requestId}) async {
+    try {
+      final assignedRequestRef =
+          fireStore.collection('assignedRequests').doc(requestId);
+      await assignedRequestRef.update({'status': 'ongoing'});
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+    return FunctionStatus.failure;
+  }
+
+  Future<FunctionStatus> completeRequest(
+      {required EmployeeRequestDataModel requestInfo}) async {
+    try {
+      final assignedRequestRef =
+          fireStore.collection('assignedRequests').doc(requestInfo.requestId);
+      final completedRequestRef =
+          fireStore.collection('completedRequests').doc(requestInfo.requestId);
+      final completeRequestBatch = fireStore.batch();
+      completeRequestBatch.delete(assignedRequestRef);
+      completeRequestBatch.set(completedRequestRef, requestInfo.toJson());
+      if (!requestInfo.isUser) {
+        final medicalHistory = requestInfo.medicalHistory;
+        if (medicalHistory != null) {
+          completeRequestBatch.update(
+              completedRequestRef, medicalHistory.toJson());
+          if (medicalHistory.diseasesList.isNotEmpty) {
+            final diseasesRef = assignedRequestRef.collection('diseases');
+            final completedDiseasesRef =
+                completedRequestRef.collection('diseases');
+            await diseasesRef.get().then((diseasesSnapshot) {
+              for (var diseaseDoc in diseasesSnapshot.docs) {
+                final diseaseDocId = diseaseDoc.id;
+                final diseaseData = diseaseDoc.data();
+                final diseaseItem = DiseaseItem(
+                  diseaseName: diseaseData['diseaseName'].toString(),
+                  diseaseMedicines: diseaseData['diseaseMedicines'].toString(),
+                );
+                completeRequestBatch.delete(diseaseDoc.reference);
+                completeRequestBatch.set(completedDiseasesRef.doc(diseaseDocId),
+                    diseaseItem.toJson());
+              }
+            });
+          }
+        }
+      }
+      if (requestInfo.patientCondition == 'sosRequest') {
+        final blockedHospitalsRef =
+            assignedRequestRef.collection('blockedHospitals');
+        final blockedHospitalDocuments = await blockedHospitalsRef.get();
+        for (final blockedHospital in blockedHospitalDocuments.docs) {
+          completeRequestBatch.delete(blockedHospital.reference);
+        }
+      }
+      completeRequestBatch.delete(firestoreUserRef
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId));
+      completeRequestBatch.set(
+          firestoreUserRef
+              .collection('completedRequests')
+              .doc(requestInfo.requestId),
+          <String, dynamic>{});
+
+      final hospitalAssignedRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId);
+      completeRequestBatch.delete(hospitalAssignedRef);
+      final hospitalCompletedRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('completedRequests')
+          .doc(requestInfo.requestId);
+      completeRequestBatch.set(hospitalCompletedRef, <String, dynamic>{});
+
+      final medicAssignedRef = fireStore
+          .collection('users')
+          .doc(requestInfo.ambulanceMedicID)
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId);
+      completeRequestBatch.delete(medicAssignedRef);
+      final medicCompletedRef = fireStore
+          .collection('users')
+          .doc(requestInfo.ambulanceMedicID)
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId);
+      completeRequestBatch.set(medicCompletedRef, <String, dynamic>{});
+
+      await completeRequestBatch.commit();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+    return FunctionStatus.failure;
   }
 
   Future<UserInfoRequestModel?> getUserInfo({required String userId}) async {

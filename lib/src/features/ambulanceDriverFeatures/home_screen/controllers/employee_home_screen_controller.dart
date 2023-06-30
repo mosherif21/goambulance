@@ -17,7 +17,6 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
-import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -99,7 +98,7 @@ class EmployeeHomeScreenController extends GetxController {
       notificationCountStreamSubscription;
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
       assignedRequestStreamSubscription;
-  RequestDataModel? assignedRequestData;
+  EmployeeRequestDataModel? assignedRequestData;
   UserInfoRequestModel? userRequestInfo;
   @override
   void onReady() async {
@@ -205,6 +204,7 @@ class EmployeeHomeScreenController extends GetxController {
     clearRoutes();
     clearMarkers();
     assignedRequestLoaded.value = false;
+    requestStatus.value = RequestStatus.non;
     assignedRequestData = null;
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(() {
       animateCamera(
@@ -216,10 +216,11 @@ class EmployeeHomeScreenController extends GetxController {
 
   void onAssignedLoadedChanges() async {
     assignedRequestLoaded.value = true;
+    requestStatus.value = RequestStatus.assigned;
     if (assignedRequestData != null) {
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
         requestLocationMarker = Marker(
-          markerId: const MarkerId('requestLocation'),
+          markerId: kRequestLocationMarkerId,
           position: assignedRequestData!.requestLocation,
           icon: requestLocationMarkerIcon,
           consumeTapEvents: true,
@@ -230,21 +231,41 @@ class EmployeeHomeScreenController extends GetxController {
     updateRouteAndMap();
   }
 
-  void onConfirmPickup() {
+  void onConfirmPickup() async {
     if (assignedRequestLoaded.value && assignedRequestData != null) {
       assignedRequestData!.requestStatus = RequestStatus.ongoing;
-      clearMarkers();
-      clearRoutes();
-      updateRouteAndMap();
+      showLoadingScreen();
+      final functionStatus = await firebaseEmployeeDataAccess.confirmPickup(
+          requestId: assignedRequestData!.requestId);
+      hideLoadingScreen();
+      if (functionStatus == FunctionStatus.success) {
+        requestStatus.value = RequestStatus.ongoing;
+        clearMarkers();
+        clearRoutes();
+        updateRouteAndMap();
+      } else {
+        assignedRequestData!.requestStatus = RequestStatus.assigned;
+        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+      }
     }
   }
 
-  void onConfirmDropOff() {
+  void onConfirmDropOff() async {
     if (assignedRequestLoaded.value && assignedRequestData != null) {
-      assignedRequestData!.requestStatus = RequestStatus.ongoing;
-      clearMarkers();
-      clearRoutes();
-      updateRouteAndMap();
+      if (assignedRequestData!.requestStatus == RequestStatus.ongoing) {
+        final functionStatus = await firebaseEmployeeDataAccess.completeRequest(
+            requestInfo: assignedRequestData!);
+        if (functionStatus == FunctionStatus.success) {
+          clearRoutes();
+          animateCamera(
+              locationLatLng: locationAvailable.value
+                  ? currentLocationGetter()
+                  : initialCameraLatLng);
+        } else {
+          showSnackBar(
+              text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+        }
+      }
     }
   }
 
@@ -253,13 +274,13 @@ class EmployeeHomeScreenController extends GetxController {
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
         if (locationAvailable.value) {
           ambulanceMarker = Marker(
-            markerId: const MarkerId('ambulance'),
+            markerId: kAmbulanceMarkerId,
             position: locationAvailable.value
                 ? currentLocationGetter()
                 : initialCameraLatLng,
             icon: ambulanceMarkerIcon,
-            consumeTapEvents: true,
             anchor: const Offset(0.5, 0.5),
+            consumeTapEvents: true,
           );
           mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
         }
@@ -281,13 +302,13 @@ class EmployeeHomeScreenController extends GetxController {
       } else if (assignedRequestData!.requestStatus == RequestStatus.ongoing) {
         if (locationAvailable.value) {
           ambulanceMarker = Marker(
-            markerId: const MarkerId('ambulance'),
+            markerId: kAmbulanceMarkerId,
             position: locationAvailable.value
                 ? currentLocationGetter()
                 : assignedRequestData!.requestLocation,
             icon: ambulanceMarkerIcon,
-            consumeTapEvents: true,
             anchor: const Offset(0.5, 0.5),
+            consumeTapEvents: true,
           );
           mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
         }
@@ -317,9 +338,8 @@ class EmployeeHomeScreenController extends GetxController {
 
   void clearMarkers() async {
     if (requestLocationMarker != null) {
-      if (mapMarkers.containsKey(kRequestLocationMarkerId)) {
-        mapMarkers.remove(kRequestLocationMarkerId);
-      }
+      mapMarkers[kRequestLocationMarkerId] = Marker(
+          markerId: kRequestLocationMarkerId, position: const LatLng(0, 0));
     }
   }
 
@@ -353,10 +373,10 @@ class EmployeeHomeScreenController extends GetxController {
       googleMapControllerInit = true;
       await _loadMarkersIcon();
       hospitalMarker = Marker(
-        markerId: const MarkerId('hospital'),
+        markerId: kHospitalMarkerId,
         position: hospitalLatLng,
         icon: hospitalMarkerIcon,
-        onTap: () => animateCamera(locationLatLng: hospitalLatLng),
+        consumeTapEvents: true,
       );
       mapMarkers[kHospitalMarkerId] = hospitalMarker!;
 
@@ -439,7 +459,7 @@ class EmployeeHomeScreenController extends GetxController {
           longitude: assignedRequestData!.requestLocation.longitude,
           isSilent: false,
         );
-      } else {
+      } else if (assignedRequestData!.requestStatus == RequestStatus.ongoing) {
         start = WayPoint(
           name: 'ambulance'.tr,
           latitude: currentLocation.latitude,
@@ -668,8 +688,9 @@ class EmployeeHomeScreenController extends GetxController {
     }
   }
 
-  void onCameraIdle() async {
-    cameraMoved = false;
+  void onCameraIdle() {
+    Future.delayed(const Duration(seconds: 1))
+        .whenComplete(() => cameraMoved = false);
   }
 
   void onCameraMove(CameraPosition cameraPosition) {

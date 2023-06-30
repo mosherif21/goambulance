@@ -331,6 +331,7 @@ class Languages extends Translations {
           'ongoing': "جارية",
           'requestDetails': 'تفاصيل الطلب',
           'pickupIn': 'الوصول اليك خلال @routeTime',
+          'arriveIn': 'الوصول خلال @routeTime',
           'arriveBy': 'الوصول',
           'minute': 'دقيقة',
           'minutes': 'دقائق',
@@ -460,6 +461,7 @@ class Languages extends Translations {
           'patientAge': 'سن المريض',
           'edit': 'تعديل',
           'completeRequest': 'تأكيد تسليم المريض',
+          'newAssignedRequest': 'تَمَّ تَعْيِينُكَ لِطَلَبِ إِسْعَافٍ جَدِيد',
         },
         'en_US': {
           'sosCancelReturn':
@@ -515,6 +517,7 @@ class Languages extends Translations {
           'hospitalCanceled': 'Hospital canceled the request',
           'timedOut': 'Request timed out',
           'pickupIn': 'Pickup in @routeTime',
+          'arriveIn': 'Pickup in @routeTime',
           'arriveBy': 'Arrive by',
           'minutes': 'minutes',
           'minute': 'minute',
@@ -936,6 +939,8 @@ class Languages extends Translations {
           'patientAge': 'Patient age',
           'edit': 'Edit',
           'confirmDropOff': 'Confirm drop off',
+          'newAssignedRequest':
+              'You have been assigned a new ambulance request',
         },
       };
 }

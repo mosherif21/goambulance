@@ -1,6 +1,7 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/enums.dart';
@@ -53,7 +54,8 @@ class EmployeeMapScreen extends StatelessWidget {
           const Divider(thickness: 0.5, height: 1),
           Expanded(
             child: Obx(
-              () => employeeHomeScreenController.assignedRequestLoaded.value
+              () => employeeHomeScreenController.assignedRequestLoaded.value &&
+                      employeeHomeScreenController.assignedRequestData != null
                   ? SingleChildScrollView(
                       child: Column(
                         children: [
@@ -108,21 +110,23 @@ class EmployeeMapScreen extends StatelessWidget {
                 const EdgeInsets.only(left: 45, right: 45, bottom: 13, top: 10),
             child: Obx(
               () => RegularElevatedButton(
-                buttonText:
-                    employeeHomeScreenController.assignedRequestLoaded.value
+                buttonText: employeeHomeScreenController
+                        .assignedRequestLoaded.value
+                    ? employeeHomeScreenController.assignedRequestData != null
                         ? employeeHomeScreenController
                                     .assignedRequestData!.requestStatus ==
                                 RequestStatus.assigned
                             ? 'confirmPickup'.tr
                             : 'confirmDropOff'.tr
-                        : 'tryAgain'.tr,
+                        : 'tryAgain'.tr
+                    : 'loading'.tr,
                 onPressed:
                     employeeHomeScreenController.assignedRequestLoaded.value
                         ? employeeHomeScreenController.requestStatus.value ==
                                 RequestStatus.assigned
                             ? employeeHomeScreenController.onConfirmPickup
                             : employeeHomeScreenController.onConfirmDropOff
-                        : () {},
+                        : employeeHomeScreenController.loadAssignedRequest,
                 enabled:
                     employeeHomeScreenController.assignedRequestLoaded.value
                         ? true
@@ -188,6 +192,12 @@ class EmployeeMapScreen extends StatelessWidget {
                 onTap: employeeHomeScreenController.onMapTap,
               ),
             ),
+          ),
+          CustomInfoWindow(
+            controller: employeeHomeScreenController.windowController,
+            height: isLangEnglish() ? 50 : 56,
+            width: 150,
+            offset: 50,
           ),
           Obx(
             () => Positioned(

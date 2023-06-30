@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/employee_map/employee_marker_info.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -99,7 +101,9 @@ class EmployeeHomeScreenController extends GetxController {
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
       assignedRequestStreamSubscription;
   EmployeeRequestDataModel? assignedRequestData;
+  String? currentAssignedRequestId;
   UserInfoRequestModel? userRequestInfo;
+  final windowController = CustomInfoWindowController();
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
@@ -155,18 +159,11 @@ class EmployeeHomeScreenController extends GetxController {
         if (snapshots.docs.isNotEmpty) {
           final snapshot = snapshots.docs.first;
           if (snapshot.exists) {
-            if (!assignedRequestLoaded.value) {
+            if (assignedRequestData == null) {
+              final requestId = snapshot.id;
+              currentAssignedRequestId = requestId;
               onAssignedChanges();
             }
-            final requestId = snapshot.id;
-            firebaseEmployeeDataAccess
-                .getAssignedRequestInfo(requestId: requestId)
-                .then((requestData) {
-              if (requestData != null) {
-                assignedRequestData = requestData;
-                onAssignedLoadedChanges();
-              }
-            });
           }
         } else {
           if (hasAssignedRequest.value) {
@@ -198,6 +195,8 @@ class EmployeeHomeScreenController extends GetxController {
               ? currentLocationGetter()
               : hospitalLatLng);
     });
+    textToSpeech(text: 'newAssignedRequest'.tr);
+    loadAssignedRequest();
   }
 
   void onNotAssignedChanges() async {
@@ -206,6 +205,7 @@ class EmployeeHomeScreenController extends GetxController {
     assignedRequestLoaded.value = false;
     requestStatus.value = RequestStatus.non;
     assignedRequestData = null;
+    currentAssignedRequestId = null;
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(() {
       animateCamera(
           locationLatLng: locationAvailable.value
@@ -215,7 +215,6 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void onAssignedLoadedChanges() async {
-    assignedRequestLoaded.value = true;
     requestStatus.value = RequestStatus.assigned;
     if (assignedRequestData != null) {
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
@@ -257,6 +256,7 @@ class EmployeeHomeScreenController extends GetxController {
             requestInfo: assignedRequestData!);
         if (functionStatus == FunctionStatus.success) {
           clearRoutes();
+          clearMarkers();
           animateCamera(
               locationLatLng: locationAvailable.value
                   ? currentLocationGetter()
@@ -297,6 +297,17 @@ class EmployeeHomeScreenController extends GetxController {
                 () => animateToLatLngBounds(
                     latLngBounds:
                         getLatLngBounds(latLngList: routePolyLine.points)));
+            if (windowController.addInfoWindow != null) {
+              windowController.addInfoWindow!(
+                EmployeeMarkerWindowInfo(
+                  time: routeToDestinationTime,
+                  requestLocation: true,
+                  onTap: () => animateToLocation(
+                      locationLatLng: assignedRequestData!.requestLocation),
+                ),
+                assignedRequestData!.requestLocation,
+              );
+            }
           }
         });
       } else if (assignedRequestData!.requestStatus == RequestStatus.ongoing) {
@@ -325,6 +336,18 @@ class EmployeeHomeScreenController extends GetxController {
                 () => animateToLatLngBounds(
                     latLngBounds:
                         getLatLngBounds(latLngList: routePolyLine.points)));
+            if (windowController.addInfoWindow != null) {
+              windowController.addInfoWindow!(
+                EmployeeMarkerWindowInfo(
+                  time: routeToDestinationTime,
+                  title: assignedRequestData!.hospitalName,
+                  requestLocation: false,
+                  onTap: () => animateToLocation(
+                      locationLatLng: assignedRequestData!.hospitalLocation),
+                ),
+                assignedRequestData!.hospitalLocation,
+              );
+            }
           }
         });
       }
@@ -340,6 +363,9 @@ class EmployeeHomeScreenController extends GetxController {
     if (requestLocationMarker != null) {
       mapMarkers[kRequestLocationMarkerId] = Marker(
           markerId: kRequestLocationMarkerId, position: const LatLng(0, 0));
+    }
+    if (windowController.hideInfoWindow != null) {
+      windowController.hideInfoWindow!();
     }
   }
 
@@ -379,7 +405,16 @@ class EmployeeHomeScreenController extends GetxController {
         consumeTapEvents: true,
       );
       mapMarkers[kHospitalMarkerId] = hospitalMarker!;
-
+      ambulanceMarker = Marker(
+        markerId: kAmbulanceMarkerId,
+        position: locationAvailable.value
+            ? currentLocationGetter()
+            : initialCameraLatLng,
+        icon: ambulanceMarkerIcon,
+        consumeTapEvents: true,
+      );
+      mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+      windowController.googleMapController = controller;
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
@@ -470,7 +505,7 @@ class EmployeeHomeScreenController extends GetxController {
         destination = WayPoint(
           name: assignedRequestData!.hospitalName,
           latitude: assignedRequestData!.hospitalLocation.latitude,
-          longitude: assignedRequestData!.hospitalLocation.latitude,
+          longitude: assignedRequestData!.hospitalLocation.longitude,
           isSilent: false,
         );
       }
@@ -684,7 +719,7 @@ class EmployeeHomeScreenController extends GetxController {
   void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
     if (googleMapControllerInit) {
       googleMapController
-          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 35));
+          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 50));
     }
   }
 
@@ -696,6 +731,9 @@ class EmployeeHomeScreenController extends GetxController {
   void onCameraMove(CameraPosition cameraPosition) {
     currentCameraLatLng = cameraPosition.target;
     cameraMoved = true;
+    if (windowController.onCameraMove != null) {
+      windowController.onCameraMove!();
+    }
   }
 
   void onMapTap(LatLng tappedPosition) {}
@@ -765,6 +803,7 @@ class EmployeeHomeScreenController extends GetxController {
   @override
   void onClose() async {
     try {
+      windowController.dispose();
       if (googleMapControllerInit && !AppInit.isWeb) {
         googleMapController.dispose();
       }
@@ -795,5 +834,22 @@ class EmployeeHomeScreenController extends GetxController {
     return (await fi.image.toByteData(format: ImageByteFormat.png))!
         .buffer
         .asUint8List();
+  }
+
+  void loadAssignedRequest() {
+    if (currentAssignedRequestId != null) {
+      firebaseEmployeeDataAccess
+          .getAssignedRequestInfo(requestId: currentAssignedRequestId!)
+          .then((requestData) {
+        assignedRequestLoaded.value = true;
+        if (requestData != null) {
+          assignedRequestData = requestData;
+          onAssignedLoadedChanges();
+        } else {
+          showSnackBar(
+              text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+        }
+      });
+    }
   }
 }

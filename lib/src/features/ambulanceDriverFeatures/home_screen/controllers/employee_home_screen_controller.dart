@@ -519,7 +519,7 @@ class EmployeeHomeScreenController extends GetxController {
           initialLongitude: currentLocation.longitude,
           mode: MapBoxNavigationMode.driving,
           simulateRoute: false,
-          language: isLangEnglish() ? "en" : "ar",
+          language: "en",
           alternatives: true,
           allowsUTurnAtWayPoints: true,
           voiceInstructionsEnabled: true,

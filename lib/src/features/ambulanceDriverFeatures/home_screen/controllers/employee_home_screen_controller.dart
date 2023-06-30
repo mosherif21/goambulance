@@ -169,10 +169,12 @@ class EmployeeHomeScreenController extends GetxController {
           }
         } else {
           if (hasAssignedRequest.value) {
-            onNotAssignedChanges();
             if (assignedRequestLoaded.value) {
-              onNotAssignedLoadedChanges();
+              onNotAssignedChanges();
             }
+            requestPanelController.close();
+            hasAssignedRequest.value = false;
+            assignedRequestLoaded.value = false;
           }
         }
       });
@@ -199,9 +201,8 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void onNotAssignedChanges() async {
-    requestPanelController.close();
-    hasAssignedRequest.value = false;
     clearRoutes();
+    clearMarkers();
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(() {
       animateCamera(
           locationLatLng: locationAvailable.value
@@ -212,13 +213,51 @@ class EmployeeHomeScreenController extends GetxController {
 
   void onAssignedLoadedChanges() async {
     assignedRequestLoaded.value = true;
+    if (assignedRequestData != null) {
+      if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
+        requestLocationMarker = Marker(
+          markerId: const MarkerId('requestLocation'),
+          position: assignedRequestData!.requestLocation,
+          icon: requestLocationMarkerIcon,
+          consumeTapEvents: true,
+        );
+        mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
+      }
+    }
     updateRouteAndMap();
   }
 
   void updateRouteAndMap() {
-    clearRoutes();
     if (assignedRequestData != null) {
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
+        if (locationAvailable.value) {
+          ambulanceMarker = Marker(
+            markerId: const MarkerId('ambulance'),
+            position: locationAvailable.value
+                ? currentLocationGetter()
+                : initialCameraLatLng,
+            icon: ambulanceMarkerIcon,
+            consumeTapEvents: true,
+            anchor: const Offset(0.5, 0.5),
+          );
+          mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+        }
+        getRouteToLocation(
+          fromLocation: locationAvailable.value
+              ? currentLocationGetter()
+              : initialCameraLatLng,
+          toLocation: assignedRequestData!.requestLocation,
+          routeId: 'routeToHospital',
+        ).then((routePolyLine) {
+          if (routePolyLine != null) {
+            mapPolyLines.value = {routePolyLine};
+            Future.delayed(const Duration(milliseconds: 1800)).whenComplete(
+                () => animateToLatLngBounds(
+                    latLngBounds:
+                        getLatLngBounds(latLngList: routePolyLine.points)));
+          }
+        });
+      } else {
         if (locationAvailable.value) {
           ambulanceMarker = Marker(
             markerId: const MarkerId('ambulance'),
@@ -253,24 +292,21 @@ class EmployeeHomeScreenController extends GetxController {
                         getLatLngBounds(latLngList: routePolyLine.points)));
           }
         });
-      } else {}
+      }
     }
-  }
-
-  void onNotAssignedLoadedChanges() async {
-    assignedRequestLoaded.value = false;
   }
 
   void clearRoutes() async {
     getRouteOperation?.cancel();
+    mapPolyLines.clear();
   }
 
   void clearMarkers() async {
-    // if (requestLocationMarker != null) {
-    //   if (mapMarkers.contains(requestLocationMarker)) {
-    //     mapMarkers.remove(requestLocationMarker);
-    //   }
-    // }
+    if (requestLocationMarker != null) {
+      if (mapMarkers.containsKey(kRequestLocationMarkerId)) {
+        mapMarkers.remove(kRequestLocationMarkerId);
+      }
+    }
   }
 
   Future<void> cancelListeners() async {

@@ -117,7 +117,7 @@ class EmployeeMapScreen extends StatelessWidget {
                                     .assignedRequestData!.requestStatus ==
                                 RequestStatus.assigned
                             ? 'confirmPickup'.tr
-                            : 'confirmDropOff'.tr
+                            : 'completeRequest'.tr
                         : 'tryAgain'.tr
                     : 'loading'.tr,
                 onPressed:

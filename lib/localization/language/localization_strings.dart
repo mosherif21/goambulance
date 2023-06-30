@@ -461,7 +461,7 @@ class Languages extends Translations {
           'patientAge': 'سن المريض',
           'edit': 'تعديل',
           'completeRequest': 'تأكيد تسليم المريض',
-          'newAssignedRequest': 'تَمَّ تَعْيِينُكَ لِطَلَبِ إِسْعَافٍ جَدِيد',
+          'newAssignedRequest': 'تَمَّ تَعْيِينُكَ لِطَلَبِ إِسْعَاف',
         },
         'en_US': {
           'sosCancelReturn':
@@ -938,9 +938,8 @@ class Languages extends Translations {
           'medicalInformation': 'Medical information',
           'patientAge': 'Patient age',
           'edit': 'Edit',
-          'confirmDropOff': 'Confirm drop off',
-          'newAssignedRequest':
-              'You have been assigned a new ambulance request',
+          'completeRequest': 'Confirm drop off',
+          'newAssignedRequest': 'You have been assigned an ambulance request',
         },
       };
 }

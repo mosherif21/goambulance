@@ -422,14 +422,6 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
           }
         }
       }
-      if (requestInfo.patientCondition == 'sosRequest') {
-        final blockedHospitalsRef =
-            assignedRequestRef.collection('blockedHospitals');
-        final blockedHospitalDocuments = await blockedHospitalsRef.get();
-        for (final blockedHospital in blockedHospitalDocuments.docs) {
-          completeRequestBatch.delete(blockedHospital.reference);
-        }
-      }
       completeRequestBatch.delete(firestoreUserRef
           .collection('assignedRequests')
           .doc(requestInfo.requestId));
@@ -439,6 +431,45 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
               .doc(requestInfo.requestId),
           <String, dynamic>{});
 
+      final driverHospitalAssignedRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('assignedAmbulanceDrivers')
+          .doc(requestInfo.ambulanceDriverID);
+      final medicHospitalAssignedRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('assignedAmbulanceMedics')
+          .doc(requestInfo.ambulanceMedicID);
+      final carHospitalAssignedRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('assignedAmbulanceCars')
+          .doc(requestInfo.ambulanceCarID);
+      completeRequestBatch.delete(driverHospitalAssignedRef);
+      completeRequestBatch.delete(medicHospitalAssignedRef);
+      completeRequestBatch.delete(carHospitalAssignedRef);
+      final driverHospitalAvailableRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('availableAmbulanceDrivers')
+          .doc(requestInfo.ambulanceDriverID);
+      final medicHospitalAvailableRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('availableAmbulanceMedics')
+          .doc(requestInfo.ambulanceMedicID);
+      final carHospitalAvailableRef = fireStore
+          .collection('hospitals')
+          .doc(requestInfo.hospitalId)
+          .collection('availableAmbulanceCars')
+          .doc(requestInfo.ambulanceCarID);
+      completeRequestBatch.set(driverHospitalAvailableRef, <String, dynamic>{});
+      completeRequestBatch.set(medicHospitalAvailableRef, <String, dynamic>{});
+      completeRequestBatch.set(carHospitalAvailableRef, <String, dynamic>{
+        'type': requestInfo.ambulanceType,
+        'licensePlate': requestInfo.licensePlate,
+      });
       final hospitalAssignedRef = fireStore
           .collection('hospitals')
           .doc(requestInfo.hospitalId)

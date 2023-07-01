@@ -9,7 +9,7 @@ import 'package:google_maps_webservice/directions.dart'
     as google_web_directions_service;
 
 import '../constants/no_localization_strings.dart';
-import '../features/requests/components/requests_history/models.dart';
+import '../features/requests/components/models.dart';
 import 'app_init.dart';
 import 'general_functions.dart';
 

@@ -14,15 +14,15 @@ import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
 import '../../../general/map_utils.dart';
 import '../../home_screen/controllers/home_screen_controller.dart';
+import '../components/models.dart';
 import '../components/requests_history/components/request_details_page.dart';
-import '../components/requests_history/models.dart';
 import '../components/tracking_request/components/tracking_request_page.dart';
 
 class RequestsHistoryController extends GetxController {
   static RequestsHistoryController get instance => Get.find();
 
   final requestsLoaded = false.obs;
-  final requestsList = <RequestDataModel>[].obs;
+  final requestsList = <RequestHistoryDataModel>[].obs;
   late final String userId;
   late final DocumentReference firestoreUserRef;
   late final FirebaseFirestore _firestore;
@@ -244,7 +244,7 @@ class RequestsHistoryController extends GetxController {
   }
 
   void onRequestSelected(
-      {required RequestDataModel initialRequestModel}) async {
+      {required RequestHistoryDataModel initialRequestModel}) async {
     if (kDebugMode) {
       AppInit.logger.i('known status: ${initialRequestModel.requestStatus}');
     }

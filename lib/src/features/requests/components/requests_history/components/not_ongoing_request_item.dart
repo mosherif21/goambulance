@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 
 import '../../../../../constants/enums.dart';
-import '../models.dart';
+import '../../models.dart';
 
 class RequestItem extends StatelessWidget {
   const RequestItem({
@@ -13,7 +13,7 @@ class RequestItem extends StatelessWidget {
     required this.requestInfo,
   }) : super(key: key);
   final Function onPressed;
-  final RequestDataModel requestInfo;
+  final RequestHistoryDataModel requestInfo;
   @override
   Widget build(BuildContext context) {
     return Container(

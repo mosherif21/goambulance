@@ -16,7 +16,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
-import 'package:goambulance/src/features/requests/components/making_request/models.dart';
+import 'package:goambulance/src/features/requests/components/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -32,11 +32,10 @@ import 'package:sweetsheet/sweetsheet.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
 import '../components/making_request/components/marker_window_info.dart';
-import '../components/requests_history/models.dart';
 
 class TrackingRequestController extends GetxController {
   static TrackingRequestController get instance => Get.find();
-  late RequestDataModel initialRequestModel;
+  late RequestHistoryDataModel initialRequestModel;
   TrackingRequestController({required this.initialRequestModel});
 
   //location permissions and services vars

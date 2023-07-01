@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 
 import '../../../constants/no_localization_strings.dart';
 import '../../../general/general_functions.dart';
 import '../../../general/map_utils.dart';
+import '../components/models.dart';
 
 class RequestsHistoryDetailsController extends GetxController {
   static RequestsHistoryDetailsController get instance => Get.find();
-  late final RequestDataModel requestModel;
+  late final RequestHistoryDataModel requestModel;
   RequestsHistoryDetailsController({required this.requestModel});
   final mapUrl = ''.obs;
   @override

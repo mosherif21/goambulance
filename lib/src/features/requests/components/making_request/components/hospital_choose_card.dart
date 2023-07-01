@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/requests/components/making_request/models.dart';
+import 'package:goambulance/src/features/requests/components/models.dart';
 import 'package:line_icons/line_icon.dart';
 
 import '../../../../../general/general_functions.dart';

@@ -4,7 +4,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:goambulance/src/features/requests/controllers/tracking_request_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -20,11 +19,12 @@ import '../../making_request/components/choose_hospitals_widget.dart';
 import '../../making_request/components/my_location_button.dart';
 import '../../making_request/components/pending_request.dart';
 import '../../making_request/components/search_bar_map.dart';
+import '../../models.dart';
 
 class TrackingRequestPage extends StatelessWidget {
   const TrackingRequestPage({Key? key, required this.requestModel})
       : super(key: key);
-  final RequestDataModel requestModel;
+  final RequestHistoryDataModel requestModel;
   Widget floatingPanel(
       {required TrackingRequestController trackingController}) {
     return Container(

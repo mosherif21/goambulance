@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:goambulance/src/general/common_widgets/framed_text.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -9,11 +8,12 @@ import '../../../../../constants/enums.dart';
 import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
 import '../../../controllers/request_history_details_controller.dart';
+import '../../models.dart';
 
 class RequestDetailsPage extends StatelessWidget {
   const RequestDetailsPage({Key? key, required this.requestModel})
       : super(key: key);
-  final RequestDataModel requestModel;
+  final RequestHistoryDataModel requestModel;
   @override
   Widget build(BuildContext context) {
     final controller =

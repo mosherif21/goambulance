@@ -7,7 +7,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
-import 'package:goambulance/src/features/requests/components/requests_history/models.dart';
 import 'package:goambulance/src/features/sos_message/controllers/sos_message_controller.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
-import '../src/features/requests/components/making_request/models.dart';
+import '../src/features/requests/components/models.dart';
 import '../src/general/general_functions.dart';
 
 class FirebasePatientDataAccess extends GetxController {
@@ -446,8 +445,8 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<List<RequestDataModel>?> getRecentRequests() async {
-    final List<RequestDataModel> readRequestsHistory = [];
+  Future<List<RequestHistoryDataModel>?> getRecentRequests() async {
+    final List<RequestHistoryDataModel> readRequestsHistory = [];
     try {
       final pendingSnapshot =
           await firestoreUserRef.collection('pendingRequests').get();
@@ -476,7 +475,7 @@ class FirebasePatientDataAccess extends GetxController {
               requestLocationPoint.latitude, requestLocationPoint.longitude);
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
-          final requestModel = RequestDataModel(
+          final requestModel = RequestHistoryDataModel(
             requestId: pendingDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -522,7 +521,7 @@ class FirebasePatientDataAccess extends GetxController {
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
           final status = assignedRequestDocument['status'].toString();
 
-          final requestModel = RequestDataModel(
+          final requestModel = RequestHistoryDataModel(
             requestId: assignedDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -574,7 +573,7 @@ class FirebasePatientDataAccess extends GetxController {
               requestLocationPoint.latitude, requestLocationPoint.longitude);
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
-          final requestModel = RequestDataModel(
+          final requestModel = RequestHistoryDataModel(
             requestId: completedDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -623,7 +622,7 @@ class FirebasePatientDataAccess extends GetxController {
               requestLocationPoint.latitude, requestLocationPoint.longitude);
           final hospitalLocation = LatLng(
               hospitalLocationPoint.latitude, hospitalLocationPoint.longitude);
-          final requestModel = RequestDataModel(
+          final requestModel = RequestHistoryDataModel(
             requestId: canceledDoc.id,
             timestamp: timeStamp,
             hospitalLocation: hospitalLocation,
@@ -1051,8 +1050,8 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
-  Future<RequestDataModel?> getRequestStatus(
-      {required RequestDataModel requestModel}) async {
+  Future<RequestHistoryDataModel?> getRequestStatus(
+      {required RequestHistoryDataModel requestModel}) async {
     try {
       final initialRequestStatus = requestModel.requestStatus;
       if (requestModel.requestStatus == RequestStatus.pending ||

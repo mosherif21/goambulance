@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../../constants/enums.dart';
 import '../../../../../general/common_widgets/framed_text.dart';
-import '../models.dart';
+import '../../models.dart';
 
 class OngoingRequestItem extends StatelessWidget {
   const OngoingRequestItem({
@@ -14,7 +14,7 @@ class OngoingRequestItem extends StatelessWidget {
     required this.requestInfo,
   }) : super(key: key);
   final Function onPressed;
-  final RequestDataModel requestInfo;
+  final RequestHistoryDataModel requestInfo;
 
   @override
   Widget build(BuildContext context) {

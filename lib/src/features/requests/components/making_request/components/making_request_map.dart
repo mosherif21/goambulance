@@ -168,18 +168,6 @@ class MakingRequestMap extends StatelessWidget {
                 width: 150,
                 offset: 50,
               ),
-              CustomInfoWindow(
-                controller: makingRequestController.hospitalWindowController,
-                height: isLangEnglish() ? 50 : 56,
-                width: 150,
-                offset: 50,
-              ),
-              CustomInfoWindow(
-                controller: makingRequestController.ambulanceWindowController,
-                height: isLangEnglish() ? 50 : 56,
-                width: 150,
-                offset: 50,
-              ),
               Positioned(
                 top: 0,
                 left: 0,

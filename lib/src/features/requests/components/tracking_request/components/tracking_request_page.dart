@@ -165,18 +165,6 @@ class TrackingRequestPage extends StatelessWidget {
                 width: 150,
                 offset: 50,
               ),
-              CustomInfoWindow(
-                controller: trackingController.hospitalWindowController,
-                height: isLangEnglish() ? 50 : 56,
-                width: 150,
-                offset: 50,
-              ),
-              CustomInfoWindow(
-                controller: trackingController.ambulanceWindowController,
-                height: isLangEnglish() ? 50 : 56,
-                width: 150,
-                offset: 50,
-              ),
               Positioned(
                 top: 0,
                 left: 0,

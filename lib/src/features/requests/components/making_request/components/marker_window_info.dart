@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../../constants/enums.dart';
 import '../../../../../general/general_functions.dart';
 
 class MarkerWindowInfo extends StatelessWidget {
@@ -10,20 +9,16 @@ class MarkerWindowInfo extends StatelessWidget {
     Key? key,
     required this.time,
     required this.title,
-    required this.windowType,
     required this.onTap,
   }) : super(key: key);
   final int time;
   final String title;
-  final MarkerWindowType windowType;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
     return Material(
       elevation: 5,
-      color: windowType == MarkerWindowType.requestLocation
-          ? Colors.white
-          : Colors.black,
+      color: Colors.white,
       borderRadius: const BorderRadius.all(Radius.circular(10)),
       child: InkWell(
         splashFactory: InkSparkle.splashFactory,
@@ -36,14 +31,11 @@ class MarkerWindowInfo extends StatelessWidget {
                 : CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (windowType != MarkerWindowType.ambulanceLocation && time != 0)
+              if (time != 0)
                 AutoSizeText(
-                  windowType == MarkerWindowType.requestLocation
-                      ? 'pickupIn'.trParams({
-                          'routeTime':
-                              '${time.toString()} ${getMinutesString(time)}',
-                        })
-                      : '${'arriveBy'.tr} ${getAddedCurrentTime(minutesToAdd: time * 2)}',
+                  'pickupIn'.trParams({
+                    'routeTime': '${time.toString()} ${getMinutesString(time)}',
+                  }),
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 5,
@@ -54,12 +46,10 @@ class MarkerWindowInfo extends StatelessWidget {
               AutoSizeText(
                 title,
                 minFontSize: 14,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w800,
                   fontSize: 15,
-                  color: windowType == MarkerWindowType.requestLocation
-                      ? Colors.black
-                      : Colors.white,
+                  color: Colors.black,
                   overflow: TextOverflow.ellipsis,
                 ),
                 maxLines: 1,

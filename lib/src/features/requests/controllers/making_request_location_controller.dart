@@ -99,8 +99,6 @@ class MakingRequestLocationController extends GetxController {
       pendingRequestListener;
 
   final requestLocationWindowController = CustomInfoWindowController();
-  final hospitalWindowController = CustomInfoWindowController();
-  final ambulanceWindowController = CustomInfoWindowController();
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
@@ -257,8 +255,7 @@ class MakingRequestLocationController extends GetxController {
 
       googleMapControllerInit = true;
       requestLocationWindowController.googleMapController = controller;
-      hospitalWindowController.googleMapController = controller;
-      ambulanceWindowController.googleMapController = controller;
+
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
@@ -327,9 +324,6 @@ class MakingRequestLocationController extends GetxController {
     if (requestLocationWindowController.hideInfoWindow != null) {
       requestLocationWindowController.hideInfoWindow!();
     }
-    if (hospitalWindowController.hideInfoWindow != null) {
-      hospitalWindowController.hideInfoWindow!();
-    }
     if (hospitalMarker != null) {
       if (mapMarkers.contains(hospitalMarker)) {
         mapMarkers.remove(hospitalMarker);
@@ -397,9 +391,6 @@ class MakingRequestLocationController extends GetxController {
     }
     if (requestLocationWindowController.hideInfoWindow != null) {
       requestLocationWindowController.hideInfoWindow!();
-    }
-    if (hospitalWindowController.hideInfoWindow != null) {
-      hospitalWindowController.hideInfoWindow!();
     }
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
@@ -497,23 +488,10 @@ class MakingRequestLocationController extends GetxController {
                   MarkerWindowInfo(
                     time: routeToDestinationTime,
                     title: 'requestLocation'.tr,
-                    windowType: MarkerWindowType.requestLocation,
                     onTap: () =>
                         animateToLocation(locationLatLng: currentChosenLatLng),
                   ),
                   currentChosenLatLng,
-                );
-              }
-              if (hospitalWindowController.addInfoWindow != null) {
-                hospitalWindowController.addInfoWindow!(
-                  MarkerWindowInfo(
-                    time: routeToDestinationTime,
-                    title: selectedHospital.value!.name,
-                    windowType: MarkerWindowType.hospitalLocation,
-                    onTap: () => animateToLocation(
-                        locationLatLng: selectedHospital.value!.location),
-                  ),
-                  selectedHospital.value!.location,
                 );
               }
               mapPolyLines.add(routePolyLine);
@@ -559,25 +537,13 @@ class MakingRequestLocationController extends GetxController {
             MarkerWindowInfo(
               time: routeToDestinationTime,
               title: 'requestLocation'.tr,
-              windowType: MarkerWindowType.requestLocation,
               onTap: () =>
                   animateToLocation(locationLatLng: currentChosenLatLng),
             ),
             currentChosenLatLng,
           );
         }
-        if (hospitalWindowController.addInfoWindow != null) {
-          hospitalWindowController.addInfoWindow!(
-            MarkerWindowInfo(
-              time: routeToDestinationTime,
-              title: hospitalItem.name,
-              windowType: MarkerWindowType.hospitalLocation,
-              onTap: () =>
-                  animateToLocation(locationLatLng: hospitalItem.location),
-            ),
-            hospitalItem.location,
-          );
-        }
+
         mapPolyLines.add(routePolyLine);
         animateToLatLngBounds(
             latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
@@ -834,12 +800,7 @@ class MakingRequestLocationController extends GetxController {
     if (requestLocationWindowController.onCameraMove != null) {
       requestLocationWindowController.onCameraMove!();
     }
-    if (hospitalWindowController.onCameraMove != null) {
-      hospitalWindowController.onCameraMove!();
-    }
-    if (ambulanceWindowController.onCameraMove != null) {
-      ambulanceWindowController.onCameraMove!();
-    }
+
     currentCameraLatLng = cameraPosition.target;
     cameraMoved.value = true;
   }
@@ -912,8 +873,6 @@ class MakingRequestLocationController extends GetxController {
       await pendingRequestListener?.cancel();
     }
     requestLocationWindowController.dispose();
-    hospitalWindowController.dispose();
-    ambulanceWindowController.dispose();
 
     super.onClose();
   }

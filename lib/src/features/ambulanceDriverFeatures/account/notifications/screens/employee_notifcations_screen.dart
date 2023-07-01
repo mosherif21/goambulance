@@ -5,6 +5,7 @@ import 'package:goambulance/src/features/notifications/components/notification_I
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
 import '../../../../account/components/addresses/loading_addresses.dart';
+import '../../../../notifications/components/no_notifications.dart';
 import '../controllers/employee_notifications_controller.dart';
 
 class EmployeeNotificationsScreen extends StatelessWidget {
@@ -45,7 +46,7 @@ class EmployeeNotificationsScreen extends StatelessWidget {
                                   NotiItem(notificationItem: notificationItem),
                               ],
                             )
-                          : const SizedBox.shrink(),
+                          : const NoNotifications(),
                 ),
               ),
             ),

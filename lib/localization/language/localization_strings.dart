@@ -937,7 +937,8 @@ class Languages extends Translations {
           'medicalInformation': 'Medical information',
           'patientAge': 'Patient age',
           'edit': 'Edit',
-          'noNotification': 'You Don\'t Have Notifications Currently',
+          'noNotification': 'You don\'t have notifications currently',
+          'completeRequest': 'Confirm drop off',
         },
       };
 }

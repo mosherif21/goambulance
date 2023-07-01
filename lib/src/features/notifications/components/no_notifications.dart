@@ -14,30 +14,27 @@ class NoNotifications extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Lottie.asset(
-              kNoNotificationsAnim,
-              fit: BoxFit.contain,
-              height: screenHeight * 0.4,
-              repeat: true,
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Lottie.asset(
+            kNoNotificationsAnim,
+            fit: BoxFit.contain,
+            height: screenHeight * 0.4,
+            repeat: true,
+          ),
+          SizedBox(height: screenHeight * 0.02),
+          AutoSizeText(
+            'noNotification'.tr,
+            maxLines: 1,
+            style: const TextStyle(
+              color: Colors.grey,
+              fontSize: 20,
             ),
-            SizedBox(height: screenHeight * 0.02),
-            AutoSizeText(
-              'noNotification'.tr,
-              maxLines: 1,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 20,
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

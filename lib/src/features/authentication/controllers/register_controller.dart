@@ -10,30 +10,33 @@ class EmailRegisterController extends GetxController {
   final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
   final passwordConfirmTextController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   Future<void> registerNewUser() async {
-    final email = emailTextController.text;
-    final password = passwordTextController.text;
-    final passwordConfirm = passwordConfirmTextController.text;
-    String returnMessage = '';
-    FocusManager.instance.primaryFocus?.unfocus();
-    showLoadingScreen();
-    if (password == passwordConfirm && password.length >= 8) {
-      returnMessage = await AuthenticationRepository.instance
-          .createUserWithEmailAndPassword(email, password);
-    } else if (email.isEmpty || password.isEmpty || passwordConfirm.isEmpty) {
-      returnMessage = 'emptyFields'.tr;
-    } else if (password.length < 8) {
-      returnMessage = 'smallPass'.tr;
-    } else {
-      returnMessage = 'passwordNotMatch'.tr;
-    }
-    if (returnMessage != 'success') {
-      hideLoadingScreen();
-      showSnackBar(
-        text: returnMessage,
-        snackBarType: SnackBarType.error,
-      );
+    if (formKey.currentState!.validate()) {
+      final email = emailTextController.text;
+      final password = passwordTextController.text;
+      final passwordConfirm = passwordConfirmTextController.text;
+      String returnMessage = '';
+      FocusManager.instance.primaryFocus?.unfocus();
+      showLoadingScreen();
+      if (password == passwordConfirm && password.length >= 8) {
+        returnMessage = await AuthenticationRepository.instance
+            .createUserWithEmailAndPassword(email, password);
+      } else if (email.isEmpty || password.isEmpty || passwordConfirm.isEmpty) {
+        returnMessage = 'emptyFields'.tr;
+      } else if (password.length < 8) {
+        returnMessage = 'smallPass'.tr;
+      } else {
+        returnMessage = 'passwordNotMatch'.tr;
+      }
+      if (returnMessage != 'success') {
+        hideLoadingScreen();
+        showSnackBar(
+          text: returnMessage,
+          snackBarType: SnackBarType.error,
+        );
+      }
     }
   }
 

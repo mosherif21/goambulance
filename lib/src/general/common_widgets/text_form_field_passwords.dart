@@ -8,11 +8,14 @@ class TextFormFieldPassword extends StatelessWidget {
     required this.textController,
     required this.textInputAction,
     this.onSubmitted,
+    required this.validationFunction,
   }) : super(key: key);
   final String labelText;
   final TextEditingController textController;
   final TextInputAction textInputAction;
   final Function? onSubmitted;
+  final String? Function(String?)? validationFunction;
+
   @override
   Widget build(BuildContext context) {
     RxBool passwordHide = true.obs;
@@ -39,6 +42,7 @@ class TextFormFieldPassword extends StatelessWidget {
                 : Icons.visibility_outlined),
           ),
         ),
+        validator: validationFunction,
       ),
     );
   }

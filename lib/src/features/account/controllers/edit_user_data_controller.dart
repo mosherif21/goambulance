@@ -19,6 +19,8 @@ import '../components/models.dart';
 class EditUserDataController extends GetxController {
   static EditUserDataController get instance => Get.find();
 
+  final formKey = GlobalKey<FormState>();
+
   //vars
   late final String oldName;
   late final String oldEmail;
@@ -200,40 +202,42 @@ class EditUserDataController extends GetxController {
   }
 
   void updateUserInfoData() async {
-    showLoadingScreen();
-    final accountDetails = AccountDetailsModel(
-      name: nameTextController.text.trim(),
-      email: emailTextController.text.trim(),
-      nationalId: nationalIdTextController.text.trim(),
-      birthDate: birthDateController.selectedDate!,
-      gender: gender == Gender.male ? 'male' : 'female',
-      backupNumber: backupPhoneNo,
-    );
-    final functionStatus =
-        await FirebasePatientDataAccess.instance.updateUserDataInfo(
-      profilePic: isProfileImageChanged.value ? profileImage.value : null,
-      nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
-      accountDetails: accountDetails,
-    );
-    if (functionStatus == FunctionStatus.success) {
-      isProfileImageChanged.value = false;
-      isNationalIDImageChanged.value = false;
-      authRep.userInfo.name = accountDetails.name;
-      authRep.drawerAccountName.value = accountDetails.name;
-      authRep.userInfo.email = accountDetails.email;
-      authRep.userInfo.nationalId = accountDetails.nationalId;
-      authRep.userInfo.birthDate = accountDetails.birthDate;
-      authRep.userInfo.gender = accountDetails.gender;
-      authRep.userInfo.backupNumber = accountDetails.backupNumber;
-      hideLoadingScreen();
-      Get.back();
-      showSnackBar(
-          text: 'accountDetailSavedSuccess'.tr,
-          snackBarType: SnackBarType.success);
-    } else {
-      hideLoadingScreen();
-      showSnackBar(
-          text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
+    if (formKey.currentState!.validate()) {
+      showLoadingScreen();
+      final accountDetails = AccountDetailsModel(
+        name: nameTextController.text.trim(),
+        email: emailTextController.text.trim(),
+        nationalId: nationalIdTextController.text.trim(),
+        birthDate: birthDateController.selectedDate!,
+        gender: gender == Gender.male ? 'male' : 'female',
+        backupNumber: backupPhoneNo,
+      );
+      final functionStatus =
+          await FirebasePatientDataAccess.instance.updateUserDataInfo(
+        profilePic: isProfileImageChanged.value ? profileImage.value : null,
+        nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
+        accountDetails: accountDetails,
+      );
+      if (functionStatus == FunctionStatus.success) {
+        isProfileImageChanged.value = false;
+        isNationalIDImageChanged.value = false;
+        authRep.userInfo.name = accountDetails.name;
+        authRep.drawerAccountName.value = accountDetails.name;
+        authRep.userInfo.email = accountDetails.email;
+        authRep.userInfo.nationalId = accountDetails.nationalId;
+        authRep.userInfo.birthDate = accountDetails.birthDate;
+        authRep.userInfo.gender = accountDetails.gender;
+        authRep.userInfo.backupNumber = accountDetails.backupNumber;
+        hideLoadingScreen();
+        Get.back();
+        showSnackBar(
+            text: 'accountDetailSavedSuccess'.tr,
+            snackBarType: SnackBarType.success);
+      } else {
+        hideLoadingScreen();
+        showSnackBar(
+            text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
+      }
     }
   }
 

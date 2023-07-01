@@ -5,6 +5,7 @@ import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/general_functions.dart';
+import 'package:goambulance/src/general/validation_functions.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../constants/assets_strings.dart';
@@ -22,6 +23,7 @@ class EmailChangePage extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
     final controller = Get.put(ChangeEmailController());
     return WillPopScope(
+      key: controller.formKey,
       onWillPop: () {
         return Future.value(true);
       },
@@ -65,12 +67,14 @@ class EmailChangePage extends StatelessWidget {
                     inputType: InputType.email,
                     editable: true,
                     textInputAction: TextInputAction.done,
+                    validationFunction: validateEmail,
                   ),
                   const SizedBox(height: 20.0),
                   TextFormFieldPassword(
                     labelText: 'passwordLabel'.tr,
                     textController: controller.passwordController,
                     textInputAction: TextInputAction.done,
+                    validationFunction: validatePassword,
                   ),
                   const SizedBox(height: 20.0),
                   RegularElevatedButton(

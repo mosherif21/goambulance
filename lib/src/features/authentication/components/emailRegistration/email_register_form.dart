@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/authentication/controllers/register_controller.dart';
+import 'package:goambulance/src/general/validation_functions.dart';
 
 import '../../../../constants/enums.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
@@ -14,6 +15,7 @@ class EmailRegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(EmailRegisterController());
     return Form(
+      key: controller.formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -25,12 +27,14 @@ class EmailRegisterForm extends StatelessWidget {
             inputType: InputType.email,
             editable: true,
             textInputAction: TextInputAction.next,
+            validationFunction: validateEmail,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
             labelText: 'passwordLabel'.tr,
             textController: controller.passwordTextController,
             textInputAction: TextInputAction.next,
+            validationFunction: validatePassword,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
@@ -38,6 +42,7 @@ class EmailRegisterForm extends StatelessWidget {
             textController: controller.passwordConfirmTextController,
             textInputAction: TextInputAction.done,
             onSubmitted: () => controller.registerNewUser(),
+            validationFunction: validatePassword,
           ),
           const SizedBox(height: 12),
           RegularElevatedButton(

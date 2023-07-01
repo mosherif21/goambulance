@@ -11,6 +11,7 @@ import 'package:goambulance/src/general/common_widgets/regular_elevated_button.d
 import 'package:goambulance/src/general/common_widgets/rounded_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
+import 'package:goambulance/src/general/validation_functions.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -48,387 +49,399 @@ class EditUserDataPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: StretchingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10.0),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightName.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(
-                            headerText: 'enterFullName'.tr,
-                            fontSize: 18,
-                            maxLines: 1,
-                          ),
-                          const SizedBox(height: 5),
-                          TextFormFieldRegular(
-                            labelText: 'fullName'.tr,
-                            hintText: 'enterFullName'.tr,
-                            prefixIconData: Icons.person,
-                            textController: controller.nameTextController,
-                            inputType: InputType.text,
-                            editable: true,
-                            textInputAction: TextInputAction.next,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightEmail.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(
-                            headerText: 'emailHintLabel'.tr,
-                            fontSize: 18,
-                            maxLines: 1,
-                          ),
-                          const SizedBox(height: 5),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: TextFormFieldRegular(
-                                  labelText: 'emailLabel'.tr,
-                                  hintText: 'emailHintLabel'.tr,
-                                  prefixIconData: Icons.email,
-                                  textController:
-                                      controller.emailTextController,
-                                  inputType: InputType.text,
-                                  editable: false,
-                                  textInputAction: TextInputAction.next,
-                                ),
-                              ),
-                              const SizedBox(width: 10),
-                              Obx(() => Container(
-                                    decoration: BoxDecoration(
-                                      color: controller
-                                              .authRep.isEmailVerified.value
-                                          ? Colors.green
-                                          : Colors.red,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(5),
-                                      child: Icon(
-                                        controller.authRep.isEmailVerified.value
-                                            ? Icons.check
-                                            : Icons.close_rounded,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
-                                    ),
-                                  )),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Obx(() => !controller.authRep.isEmailVerified.value
-                              ? Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20),
-                                  child: RoundedElevatedButton(
-                                    buttonText:
-                                        controller.verificationSent.value
-                                            ? 'verificationSent'.tr
-                                            : 'verify'.tr,
-                                    onPressed: controller.verifyEmail,
-                                    enabled: !controller.verificationSent.value,
-                                    color: kDefaultColor,
-                                  ),
-                                )
-                              : const SizedBox.shrink()),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Obx(
-                    () => RegularCard(
-                      highlightRed: controller.highlightNationalId.value,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TextHeader(
-                            headerText: 'enterNationalId'.tr,
-                            fontSize: 18,
-                            maxLines: 1,
-                          ),
-                          const SizedBox(height: 5),
-                          TextFormFieldRegular(
-                            labelText: 'nationalId'.tr,
-                            hintText: 'enterNationalId'.tr,
-                            prefixIconData: FontAwesomeIcons.idCard,
-                            textController: controller.nationalIdTextController,
-                            inputType: InputType.numbers,
-                            editable: true,
-                            textInputAction: TextInputAction.done,
-                            inputFormatter:
-                                LengthLimitingTextInputFormatter(14),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(
-                          headerText: 'enterGender'.tr,
-                          fontSize: 18,
-                          maxLines: 1,
-                        ),
-                        const SizedBox(height: 5),
-                        CustomRadioButton(
-                          key: controller.genderRadioKey,
-                          buttonTextStyle: const ButtonTextStyle(
-                            selectedColor: Colors.white,
-                            unSelectedColor: Colors.black87,
-                            textStyle: TextStyle(
-                              fontSize: 16,
+          child: Form(
+            key: controller.formKey,
+            child: StretchingOverscrollIndicator(
+              axisDirection: AxisDirection.down,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10.0),
+                    Obx(
+                      () => RegularCard(
+                        highlightRed: controller.highlightName.value,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextHeader(
+                              headerText: 'enterFullName'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
                             ),
-                          ),
-                          unSelectedColor: Theme.of(context).canvasColor,
-                          buttonLables: ['male'.tr, 'female'.tr],
-                          spacing: 10,
-                          elevation: 0,
-                          enableShape: true,
-                          horizontal: false,
-                          enableButtonWrap: false,
-                          width: 110,
-                          absoluteZeroSpacing: false,
-                          padding: 15,
-                          selectedColor: kDefaultColor,
-                          buttonValues: const [
-                            Gender.male,
-                            Gender.female,
+                            const SizedBox(height: 5),
+                            TextFormFieldRegular(
+                              labelText: 'fullName'.tr,
+                              hintText: 'enterFullName'.tr,
+                              prefixIconData: Icons.person,
+                              textController: controller.nameTextController,
+                              inputType: InputType.text,
+                              editable: true,
+                              textInputAction: TextInputAction.next,
+                              validationFunction: validateTextOnly,
+                            ),
                           ],
-                          radioButtonValue: (gender) {
-                            controller.gender = gender;
-                          },
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(
-                          headerText: 'enterBirthDate'.tr,
-                          fontSize: 18,
-                          maxLines: 1,
-                        ),
-                        const SizedBox(height: 5),
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: kDefaultColorLessShade,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20.0)),
-                          ),
-                          padding: const EdgeInsets.all(10.0),
-                          child: SfDateRangePicker(
-                            controller: controller.birthDateController,
-                            selectionMode: DateRangePickerSelectionMode.single,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(
-                          headerText: 'enterPhoto'.tr,
-                          fontSize: 18,
-                          maxLines: 1,
-                        ),
-                        Obx(
-                          () => controller.isProfileImageLoaded.value
-                              ? Center(
-                                  child: CircleAvatar(
-                                    radius: 80,
-                                    backgroundImage: controller
-                                            .isProfileImageChanged.value
-                                        ? XFileImage(
-                                            controller.profileImage.value!)
-                                        : controller.profileMemoryImage.value!,
-                                  ),
-                                )
-                              : Shimmer.fromColors(
-                                  baseColor: Colors.grey.shade300,
-                                  highlightColor: Colors.grey.shade100,
-                                  child: const Center(
-                                    child: CircleAvatar(
-                                      radius: 80,
-                                      backgroundColor: Colors.white,
-                                    ),
+                    Obx(
+                      () => RegularCard(
+                        highlightRed: controller.highlightEmail.value,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextHeader(
+                              headerText: 'emailHintLabel'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
+                            const SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormFieldRegular(
+                                    labelText: 'emailLabel'.tr,
+                                    hintText: 'emailHintLabel'.tr,
+                                    prefixIconData: Icons.email,
+                                    textController:
+                                        controller.emailTextController,
+                                    inputType: InputType.text,
+                                    editable: false,
+                                    textInputAction: TextInputAction.next,
                                   ),
                                 ),
-                        ),
-                        const SizedBox(height: 10.0),
-                        Obx(
-                          () => RegularElevatedButton(
-                            buttonText: 'changePhoto'.tr,
-                            onPressed: () =>
-                                RegularBottomSheet.showRegularBottomSheet(
-                              PhotoSelect(
-                                headerText: 'choosePicMethod'.tr,
-                                onCapturePhotoPress: () =>
-                                    controller.captureProfilePic(),
-                                onChoosePhotoPress: () =>
-                                    controller.pickProfilePic(),
-                              ),
+                                const SizedBox(width: 10),
+                                Obx(() => Container(
+                                      decoration: BoxDecoration(
+                                        color: controller
+                                                .authRep.isEmailVerified.value
+                                            ? Colors.green
+                                            : Colors.red,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Icon(
+                                          controller
+                                                  .authRep.isEmailVerified.value
+                                              ? Icons.check
+                                              : Icons.close_rounded,
+                                          color: Colors.white,
+                                          size: 20,
+                                        ),
+                                      ),
+                                    )),
+                              ],
                             ),
-                            enabled: controller.isProfileImageLoaded.value,
-                            color: kDefaultColor,
-                          ),
+                            const SizedBox(height: 10),
+                            Obx(() => !controller.authRep.isEmailVerified.value
+                                ? Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: RoundedElevatedButton(
+                                      buttonText:
+                                          controller.verificationSent.value
+                                              ? 'verificationSent'.tr
+                                              : 'verify'.tr,
+                                      onPressed: controller.verifyEmail,
+                                      enabled:
+                                          !controller.verificationSent.value,
+                                      color: kDefaultColor,
+                                    ),
+                                  )
+                                : const SizedBox.shrink()),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  Obx(
-                    () => RegularCard(
+                    Obx(
+                      () => RegularCard(
+                        highlightRed: controller.highlightNationalId.value,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextHeader(
+                              headerText: 'enterNationalId'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
+                            ),
+                            const SizedBox(height: 5),
+                            TextFormFieldRegular(
+                              labelText: 'nationalId'.tr,
+                              hintText: 'enterNationalId'.tr,
+                              prefixIconData: FontAwesomeIcons.idCard,
+                              textController:
+                                  controller.nationalIdTextController,
+                              inputType: InputType.numbers,
+                              editable: true,
+                              textInputAction: TextInputAction.done,
+                              inputFormatter:
+                                  LengthLimitingTextInputFormatter(14),
+                              validationFunction: validateNationalId,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    RegularCard(
                       highlightRed: false,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TextHeader(
-                            headerText: 'enterNationalIDPhoto'.tr,
+                            headerText: 'enterGender'.tr,
                             fontSize: 18,
                             maxLines: 1,
                           ),
-                          controller.isNationalIDImageLoaded.value
-                              ? Center(
-                                  child: Image(
-                                    image: controller
-                                            .isNationalIDImageChanged.value
-                                        ? XFileImage(controller.iDImage.value!)
-                                        : controller.idMemoryImage.value!,
-                                  ),
-                                )
-                              : Shimmer.fromColors(
-                                  baseColor: Colors.grey.shade300,
-                                  highlightColor: Colors.grey.shade100,
-                                  child: Center(
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: 150,
-                                      color: Colors.white,
+                          const SizedBox(height: 5),
+                          CustomRadioButton(
+                            key: controller.genderRadioKey,
+                            buttonTextStyle: const ButtonTextStyle(
+                              selectedColor: Colors.white,
+                              unSelectedColor: Colors.black87,
+                              textStyle: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            unSelectedColor: Theme.of(context).canvasColor,
+                            buttonLables: ['male'.tr, 'female'.tr],
+                            spacing: 10,
+                            elevation: 0,
+                            enableShape: true,
+                            horizontal: false,
+                            enableButtonWrap: false,
+                            width: 110,
+                            absoluteZeroSpacing: false,
+                            padding: 15,
+                            selectedColor: kDefaultColor,
+                            buttonValues: const [
+                              Gender.male,
+                              Gender.female,
+                            ],
+                            radioButtonValue: (gender) {
+                              controller.gender = gender;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    RegularCard(
+                      highlightRed: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(
+                            headerText: 'enterBirthDate'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 5),
+                          Container(
+                            decoration: const BoxDecoration(
+                              color: kDefaultColorLessShade,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20.0)),
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            child: SfDateRangePicker(
+                              controller: controller.birthDateController,
+                              selectionMode:
+                                  DateRangePickerSelectionMode.single,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    RegularCard(
+                      highlightRed: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(
+                            headerText: 'enterPhoto'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
+                          Obx(
+                            () => controller.isProfileImageLoaded.value
+                                ? Center(
+                                    child: CircleAvatar(
+                                      radius: 80,
+                                      backgroundImage: controller
+                                              .isProfileImageChanged.value
+                                          ? XFileImage(
+                                              controller.profileImage.value!)
+                                          : controller
+                                              .profileMemoryImage.value!,
+                                    ),
+                                  )
+                                : Shimmer.fromColors(
+                                    baseColor: Colors.grey.shade300,
+                                    highlightColor: Colors.grey.shade100,
+                                    child: const Center(
+                                      child: CircleAvatar(
+                                        radius: 80,
+                                        backgroundColor: Colors.white,
+                                      ),
                                     ),
                                   ),
-                                ),
+                          ),
                           const SizedBox(height: 10.0),
                           Obx(
                             () => RegularElevatedButton(
-                              buttonText: 'changeNationalID'.tr,
+                              buttonText: 'changePhoto'.tr,
                               onPressed: () =>
                                   RegularBottomSheet.showRegularBottomSheet(
                                 PhotoSelect(
-                                  headerText: 'chooseIDMethod'.tr,
+                                  headerText: 'choosePicMethod'.tr,
                                   onCapturePhotoPress: () =>
-                                      controller.captureIDPic(),
+                                      controller.captureProfilePic(),
                                   onChoosePhotoPress: () =>
-                                      controller.pickIdPic(),
+                                      controller.pickProfilePic(),
                                 ),
                               ),
-                              enabled: controller.isNationalIDImageLoaded.value,
+                              enabled: controller.isProfileImageLoaded.value,
                               color: kDefaultColor,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  RegularCard(
-                    highlightRed: false,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TextHeader(
-                          headerText: 'enterBackupPhoneNo'.tr,
-                          fontSize: 18,
-                          maxLines: 1,
-                        ),
-                        const SizedBox(height: 5.0),
-                        IntlPhoneField(
-                          initialValue: controller
-                                  .userInfo.backupNumber.isNotEmpty
-                              ? controller.userInfo.backupNumber.substring(3)
-                              : '',
-                          decoration: InputDecoration(
-                            labelText: 'phoneLabel'.tr,
-                            hintText: 'phoneFieldLabel'.tr,
-                            border: const OutlineInputBorder(
-                              borderSide: BorderSide(),
+                    Obx(
+                      () => RegularCard(
+                        highlightRed: false,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            TextHeader(
+                              headerText: 'enterNationalIDPhoto'.tr,
+                              fontSize: 18,
+                              maxLines: 1,
                             ),
-                          ),
-                          initialCountryCode: 'EG',
-                          countries: const [
-                            Country(
-                              name: "Egypt",
-                              nameTranslations: {
-                                "sk": "Egypt",
-                                "se": "Egypt",
-                                "pl": "Egipt",
-                                "no": "Egypt",
-                                "ja": "エジプト",
-                                "it": "Egitto",
-                                "zh": "埃及",
-                                "nl": "Egypt",
-                                "de": "Ägypt",
-                                "fr": "Égypte",
-                                "es": "Egipt",
-                                "en": "Egypt",
-                                "pt_BR": "Egito",
-                                "sr-Cyrl": "Египат",
-                                "sr-Latn": "Egipat",
-                                "zh_TW": "埃及",
-                                "tr": "Mısır",
-                                "ro": "Egipt",
-                                "ar": "مصر",
-                                "fa": "مصر",
-                                "yue": "埃及"
-                              },
-                              flag: "🇪🇬",
-                              code: "EG",
-                              dialCode: "20",
-                              minLength: 10,
-                              maxLength: 10,
+                            controller.isNationalIDImageLoaded.value
+                                ? Center(
+                                    child: Image(
+                                      image: controller
+                                              .isNationalIDImageChanged.value
+                                          ? XFileImage(
+                                              controller.iDImage.value!)
+                                          : controller.idMemoryImage.value!,
+                                    ),
+                                  )
+                                : Shimmer.fromColors(
+                                    baseColor: Colors.grey.shade300,
+                                    highlightColor: Colors.grey.shade100,
+                                    child: Center(
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 150,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                            const SizedBox(height: 10.0),
+                            Obx(
+                              () => RegularElevatedButton(
+                                buttonText: 'changeNationalID'.tr,
+                                onPressed: () =>
+                                    RegularBottomSheet.showRegularBottomSheet(
+                                  PhotoSelect(
+                                    headerText: 'chooseIDMethod'.tr,
+                                    onCapturePhotoPress: () =>
+                                        controller.captureIDPic(),
+                                    onChoosePhotoPress: () =>
+                                        controller.pickIdPic(),
+                                  ),
+                                ),
+                                enabled:
+                                    controller.isNationalIDImageLoaded.value,
+                                color: kDefaultColor,
+                              ),
                             ),
                           ],
-                          pickerDialogStyle: PickerDialogStyle(
-                            searchFieldInputDecoration:
-                                InputDecoration(hintText: 'searchCountry'.tr),
-                          ),
-                          onChanged: (phone) =>
-                              controller.backupPhoneNo = phone.completeNumber,
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: RegularElevatedButton(
-                      buttonText: 'save'.tr,
-                      onPressed: () async =>
-                          await controller.checkPersonalInformation(),
-                      enabled: true,
-                      color: kDefaultColor,
+                    RegularCard(
+                      highlightRed: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(
+                            headerText: 'enterBackupPhoneNo'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 5.0),
+                          IntlPhoneField(
+                            initialValue: controller
+                                    .userInfo.backupNumber.isNotEmpty
+                                ? controller.userInfo.backupNumber.substring(3)
+                                : '',
+                            decoration: InputDecoration(
+                              labelText: 'phoneLabel'.tr,
+                              hintText: 'phoneFieldLabel'.tr,
+                              border: const OutlineInputBorder(
+                                borderSide: BorderSide(),
+                              ),
+                            ),
+                            initialCountryCode: 'EG',
+                            countries: const [
+                              Country(
+                                name: "Egypt",
+                                nameTranslations: {
+                                  "sk": "Egypt",
+                                  "se": "Egypt",
+                                  "pl": "Egipt",
+                                  "no": "Egypt",
+                                  "ja": "エジプト",
+                                  "it": "Egitto",
+                                  "zh": "埃及",
+                                  "nl": "Egypt",
+                                  "de": "Ägypt",
+                                  "fr": "Égypte",
+                                  "es": "Egipt",
+                                  "en": "Egypt",
+                                  "pt_BR": "Egito",
+                                  "sr-Cyrl": "Египат",
+                                  "sr-Latn": "Egipat",
+                                  "zh_TW": "埃及",
+                                  "tr": "Mısır",
+                                  "ro": "Egipt",
+                                  "ar": "مصر",
+                                  "fa": "مصر",
+                                  "yue": "埃及"
+                                },
+                                flag: "🇪🇬",
+                                code: "EG",
+                                dialCode: "20",
+                                minLength: 10,
+                                maxLength: 10,
+                              ),
+                            ],
+                            pickerDialogStyle: PickerDialogStyle(
+                              searchFieldInputDecoration:
+                                  InputDecoration(hintText: 'searchCountry'.tr),
+                            ),
+                            onChanged: (phone) =>
+                                controller.backupPhoneNo = phone.completeNumber,
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: RegularElevatedButton(
+                        buttonText: 'save'.tr,
+                        onPressed: () async =>
+                            await controller.checkPersonalInformation(),
+                        enabled: true,
+                        color: kDefaultColor,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),

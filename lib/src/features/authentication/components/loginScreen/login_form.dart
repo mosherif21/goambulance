@@ -9,16 +9,19 @@ import '../../../../general/common_widgets/regular_text_button.dart';
 import '../../../../general/common_widgets/text_form_field.dart';
 import '../../../../general/common_widgets/text_form_field_passwords.dart';
 import '../../../../general/general_functions.dart';
+import '../../../../general/validation_functions.dart';
 import '../resetPassword/forgot_password_layout.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
     Key? key,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
     return Form(
+      key: controller.formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -30,6 +33,7 @@ class LoginForm extends StatelessWidget {
             inputType: InputType.email,
             editable: true,
             textInputAction: TextInputAction.next,
+            validationFunction: validateEmail,
           ),
           const SizedBox(height: 10),
           TextFormFieldPassword(
@@ -37,6 +41,7 @@ class LoginForm extends StatelessWidget {
             textController: controller.passwordTextController,
             textInputAction: TextInputAction.done,
             onSubmitted: () => controller.loginUser(),
+            validationFunction: validatePassword,
           ),
           const SizedBox(height: 6),
           Align(

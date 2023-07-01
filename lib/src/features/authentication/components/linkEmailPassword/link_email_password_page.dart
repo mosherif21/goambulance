@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
+import 'package:goambulance/src/general/validation_functions.dart';
 
 import '../../../../connectivity/connectivity.dart';
 import '../../../../constants/enums.dart';
@@ -18,6 +19,7 @@ class LinkEmailPasswordPage extends StatelessWidget {
     ConnectivityChecker.checkConnection(displayAlert: true);
     final controller = Get.put(LinkEmailPasswordController());
     return Scaffold(
+      key: controller.formKey,
       appBar: AppBar(
         centerTitle: true,
         leading: const RegularBackButton(padding: 0),
@@ -56,12 +58,14 @@ class LinkEmailPasswordPage extends StatelessWidget {
                           inputType: InputType.email,
                           editable: true,
                           textInputAction: TextInputAction.next,
+                          validationFunction: validateEmail,
                         ),
                         const SizedBox(height: 10),
                         TextFormFieldPassword(
                           labelText: 'passwordLabel'.tr,
                           textController: controller.passwordTextController,
                           textInputAction: TextInputAction.next,
+                          validationFunction: validatePassword,
                         ),
                         const SizedBox(height: 10),
                         TextFormFieldPassword(
@@ -69,6 +73,7 @@ class LinkEmailPasswordPage extends StatelessWidget {
                           textController:
                               controller.passwordConfirmTextController,
                           textInputAction: TextInputAction.done,
+                          validationFunction: validatePassword,
                         ),
                         const SizedBox(height: 12),
                         RegularElevatedButton(

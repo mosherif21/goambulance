@@ -19,6 +19,8 @@ import '../../../general/common_widgets/regular_bottom_sheet.dart';
 
 class RegisterUserDataController extends GetxController {
   static RegisterUserDataController get instance => Get.find();
+  final formKey = GlobalKey<FormState>();
+
   //controllers
   final nameTextController = TextEditingController();
   final emailTextController = TextEditingController();
@@ -50,6 +52,7 @@ class RegisterUserDataController extends GetxController {
   RxBool highlightProfilePic = false.obs;
   RxBool highlightNationalIdPick = false.obs;
   String backupPhoneNo = '';
+
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
   RxBool highlightBloodType = false.obs;
@@ -62,6 +65,7 @@ class RegisterUserDataController extends GetxController {
   final bloodTypeDropdownController = TextEditingController();
   late final User user;
   late final AuthenticationRepository authRep;
+
   @override
   void onInit() {
     authRep = AuthenticationRepository.instance;
@@ -164,40 +168,43 @@ class RegisterUserDataController extends GetxController {
   }
 
   Future<void> checkPersonalInformation() async {
-    highlightName.value = nameTextController.text.trim().isEmpty;
-    highlightEmail.value = !emailTextController.text.trim().isEmail;
-    final nationalId = nationalIdTextController.text.trim();
+    if (formKey.currentState!.validate()) {
+      highlightName.value = nameTextController.text.trim().isEmpty;
+      highlightEmail.value = !emailTextController.text.trim().isEmail;
+      final nationalId = nationalIdTextController.text.trim();
 
-    if (NIDInfo.NIDCheck(nid: nationalId)) {
-      try {
-        NIDInfo(nid: nationalId);
-        highlightNationalId.value = false;
-      } catch (e) {
-        if (kDebugMode) {
-          AppInit.logger.e(e.toString());
+      if (NIDInfo.NIDCheck(nid: nationalId)) {
+        try {
+          NIDInfo(nid: nationalId);
+          highlightNationalId.value = false;
+        } catch (e) {
+          if (kDebugMode) {
+            AppInit.logger.e(e.toString());
+          }
+          highlightNationalId.value = true;
         }
+      } else {
         highlightNationalId.value = true;
       }
-    } else {
-      highlightNationalId.value = true;
-    }
-    highlightGender.value = gender == null;
-    highlightBirthdate.value = birthDateController.selectedDate == null;
-    highlightProfilePic.value = !isProfileImageAdded.value;
-    highlightNationalIdPick.value = !isNationalIDImageAdded.value;
-    if (!highlightName.value &&
-        !highlightEmail.value &&
-        !highlightNationalId.value &&
-        !highlightGender.value &&
-        !highlightBirthdate.value &&
-        !highlightProfilePic.value &&
-        !highlightNationalIdPick.value) {
-      Get.to(
-        () => const MedicalHistoryInsertPage(),
-        transition: getPageTransition(),
-      );
-    } else {
-      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+      highlightGender.value = gender == null;
+      highlightBirthdate.value = birthDateController.selectedDate == null;
+      highlightProfilePic.value = !isProfileImageAdded.value;
+      highlightNationalIdPick.value = !isNationalIDImageAdded.value;
+      if (!highlightName.value &&
+          !highlightEmail.value &&
+          !highlightNationalId.value &&
+          !highlightGender.value &&
+          !highlightBirthdate.value &&
+          !highlightProfilePic.value &&
+          !highlightNationalIdPick.value) {
+        Get.to(
+          () => const MedicalHistoryInsertPage(),
+          transition: getPageTransition(),
+        );
+      } else {
+        showSnackBar(
+            text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+      }
     }
   }
 

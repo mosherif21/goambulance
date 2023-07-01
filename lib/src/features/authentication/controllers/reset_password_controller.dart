@@ -8,6 +8,8 @@ import '../../../general/general_functions.dart';
 class ResetPasswordController extends GetxController {
   static ResetPasswordController get instance => Get.find();
   final emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
   @override
   void onReady() {
     final user = AuthenticationRepository.instance.fireUser.value;
@@ -20,29 +22,31 @@ class ResetPasswordController extends GetxController {
   }
 
   Future<void> resetPassword() async {
-    FocusManager.instance.primaryFocus?.unfocus();
-    final email = emailController.text.trim();
-    showLoadingScreen();
-    String returnMessage = email.isEmpty
-        ? 'missingEmail'.tr
-        : !email.isEmail
-            ? 'invalidEmailEntered'.tr
-            : await AuthenticationRepository.instance
-                .resetPassword(email: email);
+    if (formKey.currentState!.validate()) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      final email = emailController.text.trim();
+      showLoadingScreen();
+      String returnMessage = email.isEmpty
+          ? 'missingEmail'.tr
+          : !email.isEmail
+              ? 'invalidEmailEntered'.tr
+              : await AuthenticationRepository.instance
+                  .resetPassword(email: email);
 
-    if (returnMessage == 'emailSent') {
-      Get.back();
-      showSnackBar(
-        text: 'passwordResetSuccess'.tr,
-        snackBarType: SnackBarType.success,
-      );
-    } else {
-      showSnackBar(
-        text: returnMessage,
-        snackBarType: SnackBarType.error,
-      );
+      if (returnMessage == 'emailSent') {
+        Get.back();
+        showSnackBar(
+          text: 'passwordResetSuccess'.tr,
+          snackBarType: SnackBarType.success,
+        );
+      } else {
+        showSnackBar(
+          text: returnMessage,
+          snackBarType: SnackBarType.error,
+        );
+      }
+      hideLoadingScreen();
     }
-    hideLoadingScreen();
   }
 
   @override

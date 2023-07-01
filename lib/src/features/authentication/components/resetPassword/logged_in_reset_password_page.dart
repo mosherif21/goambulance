@@ -6,6 +6,7 @@ import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/general_functions.dart';
+import 'package:goambulance/src/general/validation_functions.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../constants/assets_strings.dart';
@@ -20,7 +21,9 @@ class LoggedInResetPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
     final controller = Get.put(ResetPasswordController());
+
     return WillPopScope(
+      key: controller.formKey,
       onWillPop: () {
         return Future.value(true);
       },
@@ -36,7 +39,7 @@ class LoggedInResetPasswordPage extends StatelessWidget {
             axisDirection: AxisDirection.down,
             child: SingleChildScrollView(
               padding:
-                  const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
+              const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -66,6 +69,7 @@ class LoggedInResetPasswordPage extends StatelessWidget {
                     inputType: InputType.email,
                     editable: false,
                     textInputAction: TextInputAction.done,
+                    validationFunction: validateEmail,
                   ),
                   const SizedBox(height: 20.0),
                   RegularElevatedButton(

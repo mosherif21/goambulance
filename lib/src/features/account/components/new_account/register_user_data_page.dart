@@ -13,6 +13,7 @@ import 'package:goambulance/src/general/common_widgets/regular_elevated_button.d
 import 'package:goambulance/src/general/common_widgets/text_form_field.dart';
 import 'package:goambulance/src/general/common_widgets/text_header.dart';
 import 'package:goambulance/src/general/general_functions.dart';
+import 'package:goambulance/src/general/validation_functions.dart';
 import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -33,6 +34,7 @@ class RegisterUserDataPage extends StatelessWidget {
     Get.put(FirebasePatientDataAccess());
     final controller = Get.put(RegisterUserDataController());
     return WillPopScope(
+      key: controller.formKey,
       onWillPop: () async {
         logoutDialogue();
         return true;
@@ -82,6 +84,7 @@ class RegisterUserDataPage extends StatelessWidget {
                               inputType: InputType.text,
                               editable: true,
                               textInputAction: TextInputAction.next,
+                              validationFunction: validateTextOnly,
                             ),
                           ],
                         ),
@@ -106,6 +109,7 @@ class RegisterUserDataPage extends StatelessWidget {
                               inputType: InputType.text,
                               textInputAction: TextInputAction.next,
                               editable: true,
+                              validationFunction: validateEmail,
                             ),
                           ],
                         ),
@@ -133,6 +137,7 @@ class RegisterUserDataPage extends StatelessWidget {
                               textInputAction: TextInputAction.done,
                               inputFormatter:
                                   LengthLimitingTextInputFormatter(14),
+                              validationFunction: validateNationalId,
                             ),
                           ],
                         ),

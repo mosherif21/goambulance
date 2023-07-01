@@ -747,7 +747,6 @@ class EmployeeHomeScreenController extends GetxController {
                 assignedRequestData!.requestLocation.longitude));
 
         if (distanceToRequest <= 0.6 && distanceToRequest >= 0.05) {
-
           if (!assignedRequestData!.notifiedNear) {
             assignedRequestData!.notifiedNear = true;
             firebaseEmployeeDataAccess
@@ -790,6 +789,16 @@ class EmployeeHomeScreenController extends GetxController {
         }
       }
     } else {
+      ambulanceMarker = Marker(
+        markerId: kAmbulanceMarkerId,
+        position: locationAvailable.value
+            ? currentLocationGetter()
+            : initialCameraLatLng,
+        icon: ambulanceMarkerIcon,
+        anchor: const Offset(0.5, 0.5),
+        consumeTapEvents: true,
+      );
+      mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
       animateCamera(locationLatLng: currentLocationGetter());
     }
   }

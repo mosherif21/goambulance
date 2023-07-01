@@ -75,7 +75,7 @@ dependencies:
   flutter_otp_text_field: ^1.1.1
   loading_animation_widget: ^1.2.0+4
   toggle_switch: ^2.1.0
-  intl_phone_field: ^3.1.0
+  intl_phone_field: ^3.2.0
   animations: ^2.0.7
   logger: ^1.4.0
   flutter_inappwebview: ^6.0.0-beta.24+1

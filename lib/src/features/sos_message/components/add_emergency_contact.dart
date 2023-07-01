@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl_phone_field/countries.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -51,7 +52,39 @@ class AddEmergencyContact extends StatelessWidget {
               ),
             ),
             initialCountryCode: 'EG',
-            countries: const ['EG'],
+            countries: const [
+              Country(
+                name: "Egypt",
+                nameTranslations: {
+                  "sk": "Egypt",
+                  "se": "Egypt",
+                  "pl": "Egipt",
+                  "no": "Egypt",
+                  "ja": "エジプト",
+                  "it": "Egitto",
+                  "zh": "埃及",
+                  "nl": "Egypt",
+                  "de": "Ägypt",
+                  "fr": "Égypte",
+                  "es": "Egipt",
+                  "en": "Egypt",
+                  "pt_BR": "Egito",
+                  "sr-Cyrl": "Египат",
+                  "sr-Latn": "Egipat",
+                  "zh_TW": "埃及",
+                  "tr": "Mısır",
+                  "ro": "Egipt",
+                  "ar": "مصر",
+                  "fa": "مصر",
+                  "yue": "埃及"
+                },
+                flag: "🇪🇬",
+                code: "EG",
+                dialCode: "20",
+                minLength: 10,
+                maxLength: 10,
+              ),
+            ],
             pickerDialogStyle: PickerDialogStyle(
               searchFieldInputDecoration:
                   InputDecoration(hintText: 'searchCountry'.tr),

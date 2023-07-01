@@ -308,12 +308,11 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     try {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
         await updateAssignedNotificationsVars(
             notificationType: notificationType, requestId: requestId);
         if (kDebugMode) {
           AppInit.logger.i(
-              'Notifications called with type: $notificationType and response: $data');
+              'Notifications called with type: $notificationType and response: ${response.body}');
         }
         return FunctionStatus.success;
       } else {
@@ -334,7 +333,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     required String requestId,
   }) async {
     try {
-      await fireStore.collection('assignedRequests').doc(requestId).set({
+      await fireStore.collection('assignedRequests').doc(requestId).update({
         notificationType == EmployeeNotificationType.ambulanceNear
             ? 'notifiedNear'
             : notificationType == EmployeeNotificationType.ambulanceArrived

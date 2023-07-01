@@ -1,12 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+// ignore: depend_on_referenced_packages
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
 import '../authentication/authentication_repository.dart';
@@ -289,29 +291,29 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     required EmployeeNotificationType notificationType,
     required String requestId,
   }) async {
-    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
-      'sendNotification',
-    );
+    final url = Uri.parse(
+        'https://us-central1-ambulancebookingproject.cloudfunctions.net/sendNotification');
+    final headers = {'Content-Type': 'application/json'};
     final notificationTypeParam =
         notificationType == EmployeeNotificationType.ambulanceNear
             ? 'ambulanceNear'
             : notificationType == EmployeeNotificationType.ambulanceArrived
                 ? 'ambulanceArrived'
                 : 'requestOngoing';
-    final Map<String, dynamic> data = {
+    final body = json.encode({
       'notificationType': notificationTypeParam,
       'userId': userId,
       'hospitalName': hospitalName,
-    };
+    });
     try {
-      final HttpsCallableResult result = await callable.call(data);
-      if (result.data != null) {
-        final response = result.data;
+      final response = await http.post(url, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
         await updateAssignedNotificationsVars(
             notificationType: notificationType, requestId: requestId);
         if (kDebugMode) {
           AppInit.logger.i(
-              'Notifications called with type: $notificationType and response: $response');
+              'Notifications called with type: $notificationType and response: $data');
         }
         return FunctionStatus.success;
       } else {

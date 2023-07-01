@@ -357,22 +357,18 @@ interface FcmTokenData {
   notificationsLang?: string;
 }
 
-interface RequestParams {
-  notificationType?: string;
-  userId?: string;
-  hospitalName?: string;
-}
-
 exports.sendNotification = functions.https.onRequest(async (request, response) => {
-  const { notificationType, userId, hospitalName } = request.query as RequestParams;
+  const userId = request.body.userId;
+  const hospitalName = request.body.hospitalName;
+  const notificationType = request.body.notificationType;
   if (!notificationType || !userId) {
-    console.error("Missing parameters");
-    response.status(400).send("Missing parameters");
+    console.error('Missing parameters userId, notificationType');
+    response.sendStatus(400);
     return;
   }
   if (notificationType !== "criticalRequestAccepted" && notificationType !== "criticalRequestDenied" && !hospitalName) {
-    console.error("Missing parameters");
-    response.status(400).send("Missing parameters");
+    console.error('Missing parameters');
+    response.sendStatus(400);
     return;
   }
   let notificationsLang = "en";
@@ -441,8 +437,8 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       notificationBody = notificationsLang === "en" ? "You have been assigned to an ambulance request" : "لقد تم تكليفك بطلب سيارة إسعاف";
       break;
     default:
-      console.error("Invalid notification type");
-      response.status(400).send("Invalid notification type");
+      console.error('Invalid notification type');
+      response.sendStatus(400);
       return;
   }
 
@@ -467,8 +463,8 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
   await batch.commit();
 
   if (!fcmTokenDoc.exists) {
-    console.log("FCM token doc not found");
-    response.status(200).send("FCM token doc not found but notification saved");
+    console.log('FCM token doc not found');
+    response.sendStatus(200);
     return;
   }
   const fcmTokenData = fcmTokenDoc.data() as FcmTokenData;
@@ -492,8 +488,8 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
     tokens.push(fcmTokenData.fcmTokenIos);
   }
   if (tokens.length === 0) {
-    console.log("No tokens to send notification to");
-    response.status(200).send("No tokens to send notification to but notification saved");
+    console.log('No tokens to send notification to but notification saved');
+    response.sendStatus(200);
     return;
   }
 
@@ -501,5 +497,5 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
   const sendNotifications = tokens.map((token) => messaging.sendToDevice(token, message, options));
   await Promise.all(sendNotifications);
 
-  response.status(200).send("Notifications sent and saved successfully");
+  response.sendStatus(200);
 });

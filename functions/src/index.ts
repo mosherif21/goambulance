@@ -112,30 +112,35 @@ exports.cancelTimedOutRequests = functions.pubsub
       try {
         await batch.commit();
         if (patientCondition === "sosRequest") {
-          const userIdEncoded = encodeURIComponent(userId);
-          const hospitalNameEncoded = encodeURIComponent(hospitalName);
-          const notificationTypeEncoded = encodeURIComponent("sosRequestTimedOut");
           const requestOptions = {
             hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
-            path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
+            path: '/sendNotification',
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+              userId: userId,
+              hospitalName: hospitalName,
+              notificationType: "sosRequestTimedOut"
+            })
           };
           const req = https.request(requestOptions);
           req.end();
         } else {
-          const userIdEncoded = encodeURIComponent(userId);
-          const hospitalNameEncoded = encodeURIComponent(hospitalName);
-          const notificationTypeEncoded = encodeURIComponent("requestCanceledTimeout");
+
           const requestOptions = {
             hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
-            path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
+            path: '/sendNotification',
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({
+              userId: userId,
+              hospitalName: hospitalName,
+              notificationType: "requestCanceledTimeout"
+            })
           };
 
           const req = https.request(requestOptions);
@@ -326,16 +331,18 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       batch.delete(document);
     });
     await batch.commit();
-    const userIdEncoded = encodeURIComponent(userId);
-    const hospitalNameEncoded = encodeURIComponent(hospitalName);
-    const notificationTypeEncoded = encodeURIComponent("sosRequestSent");
     const requestOptions = {
       hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
-      path: `/sendNotification?notificationType=${notificationTypeEncoded}&userId=${userIdEncoded}&hospitalName=${hospitalNameEncoded}`,
+      path: `/sendNotification`,
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        userId: userId,
+        hospitalName: hospitalName,
+        notificationType: "sosRequestSent"
+      })
     };
     const request = https.request(requestOptions, (response) => {
       console.log(`Notification sent to user ${userId}`);
@@ -402,7 +409,7 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       break;
     case "requestOngoing":
       notificationTitle = notificationsLang === "en" ? "Ambulance request ongoing" : "طلب الإسعاف جاري";
-      notificationBody = notificationsLang === "en" ? `The ambulance is on it's way to ${hospitalName}` :`سيارة الإسعاف في طريقها إلى ${hospitalName}`
+      notificationBody = notificationsLang === "en" ? `The ambulance is on it's way to ${hospitalName}` : `سيارة الإسعاف في طريقها إلى ${hospitalName}`
       break;
     case "ambulanceNear":
       notificationTitle = notificationsLang === "en" ? "Ambulance is near" : "سيارة الإسعاف قريبة منك";

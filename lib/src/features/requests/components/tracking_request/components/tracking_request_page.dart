@@ -88,10 +88,11 @@ class TrackingRequestPage extends StatelessWidget {
                               subTitle: '',
                               leadingIcon: LineIcons.hospital,
                               leadingIconColor: Colors.black,
-                              leadingIconSize: 50,
+                              leadingIconSize: 40,
                               trailingIcon: Icons.arrow_forward_ios_outlined,
                               trailingIconColor: Colors.grey,
-                              padding: const EdgeInsets.all(15),
+                              padding:
+                                  EdgeInsets.all(isLangEnglish() ? 16 : 13),
                             ),
                             NoFrameClickableCard(
                               onPressed: () =>
@@ -100,10 +101,11 @@ class TrackingRequestPage extends StatelessWidget {
                               subTitle: '',
                               leadingIcon: Icons.medical_information_outlined,
                               leadingIconColor: Colors.black,
-                              leadingIconSize: 50,
+                              leadingIconSize: 40,
                               trailingIcon: Icons.arrow_forward_ios_outlined,
                               trailingIconColor: Colors.grey,
-                              padding: const EdgeInsets.all(15),
+                              padding:
+                                  EdgeInsets.all(isLangEnglish() ? 16 : 13),
                             ),
                             NoFrameClickableCard(
                               onPressed: () =>
@@ -112,10 +114,11 @@ class TrackingRequestPage extends StatelessWidget {
                               subTitle: '',
                               leadingIcon: Icons.account_box,
                               leadingIconColor: Colors.black,
-                              leadingIconSize: 50,
+                              leadingIconSize: 40,
                               trailingIcon: Icons.arrow_forward_ios_outlined,
                               trailingIconColor: Colors.grey,
-                              padding: const EdgeInsets.all(15),
+                              padding:
+                                  EdgeInsets.all(isLangEnglish() ? 16 : 13),
                             ),
                           ],
                         ),
@@ -170,7 +173,7 @@ class TrackingRequestPage extends StatelessWidget {
           controller: trackingController.hospitalsPanelController,
           panel: floatingPanel(trackingController: trackingController),
           minHeight: 0,
-          maxHeight: screenHeight * 0.5,
+          maxHeight: screenHeight * 0.45,
           isDraggable: false,
           body: Stack(
             children: [
@@ -194,7 +197,7 @@ class TrackingRequestPage extends StatelessWidget {
                         ? EdgeInsets.zero
                         : EdgeInsets.only(
                             bottom: trackingController.choosingHospital.value
-                                ? screenHeight * 0.48
+                                ? screenHeight * 0.43
                                 : 70,
                             left: 10,
                             right: 10,
@@ -269,7 +272,9 @@ class TrackingRequestPage extends StatelessWidget {
               Obx(
                 () => Positioned(
                   bottom: trackingController.choosingHospital.value
-                      ? screenHeight * 0.48
+                      ? isLangEnglish()
+                          ? screenHeight * 0.43
+                          : screenHeight * 0.452
                       : isLangEnglish()
                           ? 70
                           : 95,

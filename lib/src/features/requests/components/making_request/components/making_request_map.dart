@@ -126,7 +126,7 @@ class MakingRequestMap extends StatelessWidget {
           controller: makingRequestController.hospitalsPanelController,
           panel: floatingPanel(),
           minHeight: 0,
-          maxHeight: screenHeight * 0.5,
+          maxHeight: screenHeight * 0.45,
           isDraggable: false,
           body: Stack(
             children: [
@@ -143,7 +143,7 @@ class MakingRequestMap extends StatelessWidget {
                       ? EdgeInsets.zero
                       : EdgeInsets.only(
                           bottom: makingRequestController.choosingHospital.value
-                              ? screenHeight * 0.48
+                              ? screenHeight * 0.43
                               : 70,
                           left: 10,
                           right: 10,
@@ -220,7 +220,9 @@ class MakingRequestMap extends StatelessWidget {
               Obx(
                 () => Positioned(
                   bottom: makingRequestController.choosingHospital.value
-                      ? screenHeight * 0.48
+                      ? isLangEnglish()
+                          ? screenHeight * 0.43
+                          : screenHeight * 0.452
                       : isLangEnglish()
                           ? 70
                           : 95,

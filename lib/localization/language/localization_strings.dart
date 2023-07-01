@@ -331,7 +331,6 @@ class Languages extends Translations {
           'ongoing': "جارية",
           'requestDetails': 'تفاصيل الطلب',
           'pickupIn': 'الوصول اليك خلال @routeTime',
-          'arriveIn': 'الوصول خلال @routeTime',
           'arriveBy': 'الوصول',
           'minute': 'دقيقة',
           'minutes': 'دقائق',
@@ -411,7 +410,7 @@ class Languages extends Translations {
               'إذا كنت ترغب في أن تصبح مستخدم طوارئ، فسيقوم مراجعونا الطبيون بتقييم تاريخك الطبي لتحديد ما إذا كنت مؤهلاً لتصبح مستخدم طوارئ. ويحق لمستخدمين الطوارئ الاستفادة من الفوائد التي تتيح لهم طلب أقرب مستشفى بنقرة زر أو بتحريك الجهاز أو باستخدام أوامر الصوت مثل "ساعدونى" أو "اسعاف"، شريطة أن نتمكن من الوصول إلى موقعك أو عنوانك الرئيسي.',
           'sendRequest': 'إرسال الطلب',
           'sosRequestSettings': 'إعدادات طلب الاستغاثة',
-          'chatBot': 'روبوت الدردشة الطبية',
+          'chatBot': 'بوت الدردشة الطبية',
           'sosRequestCanceledSuccessfully': 'تم إلغاء طلب الاستغاثة بنجاح',
           'sosRequestCanceledFailed': 'إلغاء طلب الاستغاثة فشل',
           'searchingHospitals': 'جارى البحث عن مسشتفيات...',
@@ -462,6 +461,7 @@ class Languages extends Translations {
           'edit': 'تعديل',
           'completeRequest': 'تأكيد تسليم المريض',
           'newAssignedRequest': 'تَمَّ تَعْيِينُكَ لِطَلَبِ إِسْعَاف',
+          'noNotification': 'انت حاليا لا تملك اشعارات',
         },
         'en_US': {
           'sosCancelReturn':
@@ -517,7 +517,6 @@ class Languages extends Translations {
           'hospitalCanceled': 'Hospital canceled the request',
           'timedOut': 'Request timed out',
           'pickupIn': 'Pickup in @routeTime',
-          'arriveIn': 'Arrive in @routeTime',
           'arriveBy': 'Arrive by',
           'minutes': 'minutes',
           'minute': 'minute',
@@ -938,8 +937,7 @@ class Languages extends Translations {
           'medicalInformation': 'Medical information',
           'patientAge': 'Patient age',
           'edit': 'Edit',
-          'completeRequest': 'Confirm drop off',
-          'newAssignedRequest': 'You have been assigned an ambulance request',
+          'noNotification': 'You Don\'t Have Notifications Currently',
         },
       };
 }

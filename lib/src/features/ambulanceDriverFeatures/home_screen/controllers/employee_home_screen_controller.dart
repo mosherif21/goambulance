@@ -5,7 +5,6 @@ import 'dart:ui';
 
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +16,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
-import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/employee_map/employee_marker_info.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -103,7 +101,6 @@ class EmployeeHomeScreenController extends GetxController {
   EmployeeRequestDataModel? assignedRequestData;
   String? currentAssignedRequestId;
   UserInfoRequestModel? userRequestInfo;
-  final windowController = CustomInfoWindowController();
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
@@ -312,17 +309,6 @@ class EmployeeHomeScreenController extends GetxController {
                 animateToLatLngBounds(
                     latLngBounds:
                         getLatLngBounds(latLngList: routePolyLine.points)));
-            if (windowController.addInfoWindow != null) {
-              windowController.addInfoWindow!(
-                EmployeeMarkerWindowInfo(
-                  time: routeToDestinationTime,
-                  requestLocation: true,
-                  onTap: () => animateToLocation(
-                      locationLatLng: assignedRequestData!.requestLocation),
-                ),
-                assignedRequestData!.requestLocation,
-              );
-            }
           }
         });
       } else if (assignedRequestData!.requestStatus == RequestStatus.ongoing) {
@@ -351,18 +337,6 @@ class EmployeeHomeScreenController extends GetxController {
                 animateToLatLngBounds(
                     latLngBounds:
                         getLatLngBounds(latLngList: routePolyLine.points)));
-            if (windowController.addInfoWindow != null) {
-              windowController.addInfoWindow!(
-                EmployeeMarkerWindowInfo(
-                  time: routeToDestinationTime,
-                  title: assignedRequestData!.hospitalName,
-                  requestLocation: false,
-                  onTap: () => animateToLocation(
-                      locationLatLng: assignedRequestData!.hospitalLocation),
-                ),
-                assignedRequestData!.hospitalLocation,
-              );
-            }
           }
         });
       }
@@ -378,9 +352,6 @@ class EmployeeHomeScreenController extends GetxController {
     if (requestLocationMarker != null) {
       mapMarkers[kRequestLocationMarkerId] = Marker(
           markerId: kRequestLocationMarkerId, position: const LatLng(0, 0));
-    }
-    if (windowController.hideInfoWindow != null) {
-      windowController.hideInfoWindow!();
     }
   }
 
@@ -429,7 +400,6 @@ class EmployeeHomeScreenController extends GetxController {
         consumeTapEvents: true,
       );
       mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
-      windowController.googleMapController = controller;
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
@@ -746,9 +716,6 @@ class EmployeeHomeScreenController extends GetxController {
   void onCameraMove(CameraPosition cameraPosition) {
     currentCameraLatLng = cameraPosition.target;
     cameraMoved = true;
-    if (windowController.onCameraMove != null) {
-      windowController.onCameraMove!();
-    }
   }
 
   void onMapTap(LatLng tappedPosition) {}
@@ -778,8 +745,10 @@ class EmployeeHomeScreenController extends GetxController {
                 currentLocation.latitude, currentLocation.longitude),
             from: Coordinates(assignedRequestData!.requestLocation.latitude,
                 assignedRequestData!.requestLocation.longitude));
-        if (distanceToRequest <= 300 && distanceToRequest >= 50) {
+        print(distanceToRequest);
+        if (distanceToRequest <= 0.3 && distanceToRequest >= 0.05) {
           print('near');
+
           // if (!assignedRequestData!.notifiedNear) {
           //   assignedRequestData!.notifiedNear = true;
           //   firebaseEmployeeDataAccess
@@ -799,7 +768,7 @@ class EmployeeHomeScreenController extends GetxController {
           //     },
           //   );
           // }
-        } else if (distanceToRequest < 50) {
+        } else if (distanceToRequest < 0.05) {
           print('arrived');
           // if (!assignedRequestData!.notifiedArrived) {
           //   assignedRequestData!.notifiedArrived = true;
@@ -871,7 +840,6 @@ class EmployeeHomeScreenController extends GetxController {
   @override
   void onClose() async {
     try {
-      windowController.dispose();
       if (googleMapControllerInit && !AppInit.isWeb) {
         googleMapController.dispose();
       }

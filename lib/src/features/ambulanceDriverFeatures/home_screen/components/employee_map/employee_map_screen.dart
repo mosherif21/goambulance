@@ -1,7 +1,6 @@
 // ignore_for_file: invalid_use_of_protected_member
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/enums.dart';
@@ -192,12 +191,6 @@ class EmployeeMapScreen extends StatelessWidget {
                 onTap: employeeHomeScreenController.onMapTap,
               ),
             ),
-          ),
-          CustomInfoWindow(
-            controller: employeeHomeScreenController.windowController,
-            height: isLangEnglish() ? 50 : 56,
-            width: 150,
-            offset: 50,
           ),
           Obx(
             () => Positioned(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../general/general_functions.dart';
-import '../../../requests/components/making_request/components/location_inaccessible.dart';
+import '../../../requests/components/general/location_inaccessible.dart';
 import '../../controllers/address_location_controller.dart';
 import 'address_map_page.dart';
 

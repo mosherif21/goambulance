@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/requests/components/making_request/components/no_hospitals_found.dart';
+import 'package:goambulance/src/features/requests/components/general/no_hospitals_found.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import '../../../../../general/general_functions.dart';
+import '../../../../general/general_functions.dart';
 import 'hospital_choose_card.dart';
 import 'loading_hospitals_choose.dart';
 

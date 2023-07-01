@@ -8,7 +8,7 @@ import '../../../../general/app_init.dart';
 import '../../../../general/common_widgets/back_button.dart';
 import '../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../general/general_functions.dart';
-import '../../../requests/components/making_request/components/search_bar_map.dart';
+import '../../../requests/components/general/search_bar_map.dart';
 import '../../controllers/address_location_controller.dart';
 
 class AddressMapPage extends StatelessWidget {

@@ -4,10 +4,10 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/general/common_widgets/or_divider.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../../constants/assets_strings.dart';
-import '../../../../../general/common_widgets/back_button.dart';
-import '../../../../../general/common_widgets/rounded_elevated_button.dart';
-import '../../../../../general/general_functions.dart';
+import '../../../../constants/assets_strings.dart';
+import '../../../../general/common_widgets/back_button.dart';
+import '../../../../general/common_widgets/rounded_elevated_button.dart';
+import '../../../../general/general_functions.dart';
 
 class LocationInaccessible extends StatelessWidget {
   const LocationInaccessible({

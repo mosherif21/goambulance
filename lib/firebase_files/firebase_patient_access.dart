@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
+import '../src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import '../src/features/requests/components/models.dart';
 import '../src/general/general_functions.dart';
 
@@ -294,6 +295,32 @@ class FirebasePatientDataAccess extends GetxController {
         notificationList.sort((a, b) => b.timestamp.compareTo(a.timestamp));
       }
       return notificationList;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
+    return null;
+  }
+
+  Future<HospitalModel?> getHospitalInfo({required String hospitalId}) async {
+    try {
+      final hospitalRef = fireStore.collection('hospitals').doc(hospitalId);
+      final hospitalSnapshot = await hospitalRef.get();
+      if (hospitalSnapshot.exists) {
+        final hospitalData = hospitalSnapshot.data()!;
+        final locationGeopoint = hospitalData['location'] as GeoPoint;
+        return HospitalModel(
+          hospitalId: hospitalId,
+          name: hospitalData['name'].toString(),
+          avgAmbulancePrice: hospitalData['avgAmbulancePrice'].toString(),
+          geohash: hospitalData['geohash'].toString(),
+          location:
+              LatLng(locationGeopoint.latitude, locationGeopoint.longitude),
+          hospitalNumber: hospitalData['hospitalNumber'].toString(),
+          address: hospitalData['address'].toString(),
+        );
+      }
     } on FirebaseException catch (error) {
       if (kDebugMode) print(error.toString());
     } catch (e) {

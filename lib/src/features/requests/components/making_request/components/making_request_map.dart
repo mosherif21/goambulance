@@ -4,21 +4,21 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/requests/components/making_request/components/pending_request.dart';
-import 'package:goambulance/src/features/requests/components/making_request/components/search_bar_map.dart';
+import 'package:goambulance/src/features/requests/components/general/search_bar_map.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../constants/enums.dart';
 import '../../../../../general/app_init.dart';
 import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
 import '../../../../../general/general_functions.dart';
-import 'assigning_request.dart';
-import 'choose_hospitals_widget.dart';
-import 'my_location_button.dart';
+import '../../general/choose_hospitals_widget.dart';
+import '../../general/my_location_button.dart';
 
 class MakingRequestMap extends StatelessWidget {
   const MakingRequestMap({
@@ -78,13 +78,58 @@ class MakingRequestMap extends StatelessWidget {
                   ? ChooseHospitalsList(
                       controller: makingRequestController,
                     )
-                  : makingRequestController.requestStatus.value ==
-                          RequestStatus.pending
-                      ? const PendingRequest()
-                      : makingRequestController.requestStatus.value ==
-                              RequestStatus.accepted
-                          ? const AcceptingRequest()
-                          : const SizedBox.shrink(),
+                  : SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          NoFrameClickableCard(
+                            onPressed: () => makingRequestController
+                                .viewHospitalInformation(),
+                            title: 'viewHospitalInformation'.tr,
+                            subTitle: '',
+                            leadingIcon: LineIcons.hospital,
+                            leadingIconColor: Colors.black,
+                            leadingIconSize: 40,
+                            trailingIcon: Icons.arrow_forward_ios_outlined,
+                            trailingIconColor: Colors.grey,
+                            padding: EdgeInsets.all(isLangEnglish() ? 16 : 13),
+                          ),
+                          NoFrameClickableCard(
+                            onPressed: () => makingRequestController
+                                .viewRequestInformation(),
+                            title: 'viewRequestInformation'.tr,
+                            subTitle: '',
+                            leadingIcon: Icons.medical_information_outlined,
+                            leadingIconColor: Colors.black,
+                            leadingIconSize: 40,
+                            trailingIcon: Icons.arrow_forward_ios_outlined,
+                            trailingIconColor: Colors.grey,
+                            padding: EdgeInsets.all(isLangEnglish() ? 16 : 13),
+                          ),
+                          Obx(
+                            () => makingRequestController.requestStatus.value ==
+                                        RequestStatus.assigned ||
+                                    makingRequestController
+                                            .requestStatus.value ==
+                                        RequestStatus.ongoing
+                                ? NoFrameClickableCard(
+                                    onPressed: () => makingRequestController
+                                        .viewDriverInformation(),
+                                    title: 'viewDriverInformation'.tr,
+                                    subTitle: '',
+                                    leadingIcon: Icons.account_box,
+                                    leadingIconColor: Colors.black,
+                                    leadingIconSize: 40,
+                                    trailingIcon:
+                                        Icons.arrow_forward_ios_outlined,
+                                    trailingIconColor: Colors.grey,
+                                    padding: EdgeInsets.all(
+                                        isLangEnglish() ? 16 : 13),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ],
+                      ),
+                    ),
             ),
             const Divider(thickness: 1, height: 2),
             Padding(
@@ -126,7 +171,7 @@ class MakingRequestMap extends StatelessWidget {
           controller: makingRequestController.hospitalsPanelController,
           panel: floatingPanel(),
           minHeight: 0,
-          maxHeight: screenHeight * 0.5,
+          maxHeight: screenHeight * 0.45,
           isDraggable: false,
           body: Stack(
             children: [
@@ -143,7 +188,7 @@ class MakingRequestMap extends StatelessWidget {
                       ? EdgeInsets.zero
                       : EdgeInsets.only(
                           bottom: makingRequestController.choosingHospital.value
-                              ? screenHeight * 0.48
+                              ? screenHeight * 0.43
                               : 70,
                           left: 10,
                           right: 10,
@@ -220,7 +265,9 @@ class MakingRequestMap extends StatelessWidget {
               Obx(
                 () => Positioned(
                   bottom: makingRequestController.choosingHospital.value
-                      ? screenHeight * 0.48
+                      ? isLangEnglish()
+                          ? screenHeight * 0.43
+                          : screenHeight * 0.452
                       : isLangEnglish()
                           ? 70
                           : 95,

@@ -30,7 +30,7 @@ import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
-import '../components/making_request/components/marker_window_info.dart';
+import '../components/general/marker_window_info.dart';
 import 'making_request_information_controller.dart';
 
 class MakingRequestLocationController extends GetxController {
@@ -81,7 +81,7 @@ class MakingRequestLocationController extends GetxController {
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
-  late RequestMakingModel currentRequestData;
+  RequestMakingModel? currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final selectedHospital = Rx<HospitalLocationsModel?>(null);
   int skipCount = 0;
@@ -119,6 +119,26 @@ class MakingRequestLocationController extends GetxController {
     super.onReady();
   }
 
+  void assignedRequestChanges() async {
+    await pendingRequestListener?.cancel();
+  }
+
+  void viewHospitalInformation() async {
+    if (currentRequestData != null) {
+      showLoadingScreen();
+      final hospitalInfo = await firebasePatientDataAccess.getHospitalInfo(
+          hospitalId: currentRequestData!.hospitalId);
+
+      hideLoadingScreen();
+      if (hospitalInfo != null) {
+      } else {
+        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+      }
+    }
+  }
+
+  void viewRequestInformation() {}
+  void viewDriverInformation() {}
   Future<void> initRequestListener({
     required DocumentReference pendingRequestRef,
   }) async {
@@ -154,10 +174,6 @@ class MakingRequestLocationController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
-  }
-
-  void assignedRequestChanges() async {
-    await pendingRequestListener?.cancel();
   }
 
   void confirmRequest() async {
@@ -210,14 +226,16 @@ class MakingRequestLocationController extends GetxController {
       positiveButtonText: 'yes'.tr,
       negativeButtonText: 'no'.tr,
       positiveButtonOnPressed: () async {
-        Get.back();
-        showLoadingScreen();
-        await pendingRequestListener?.cancel();
-        final functionStatus = await firebasePatientDataAccess
-            .cancelHospitalRequest(requestInfo: currentRequestData);
-        hideLoadingScreen();
-        if (functionStatus == FunctionStatus.success) {
-          onRequestCanceledChanges();
+        if (currentRequestData != null) {
+          Get.back();
+          showLoadingScreen();
+          await pendingRequestListener?.cancel();
+          final functionStatus = await firebasePatientDataAccess
+              .cancelHospitalRequest(requestInfo: currentRequestData!);
+          hideLoadingScreen();
+          if (functionStatus == FunctionStatus.success) {
+            onRequestCanceledChanges();
+          }
         }
       },
       negativeButtonOnPressed: () => Get.back(),

@@ -13,7 +13,7 @@ import '../../../../../general/app_init.dart';
 import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
 import '../../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
-import '../../../../requests/components/making_request/components/my_location_button.dart';
+import '../../../../requests/components/general/my_location_button.dart';
 import '../../controllers/employee_home_screen_controller.dart';
 import 'loading_request_option.dart';
 

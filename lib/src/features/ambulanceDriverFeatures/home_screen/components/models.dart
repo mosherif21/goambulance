@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../constants/enums.dart';
@@ -57,7 +56,6 @@ class EmployeeRequestDataModel {
   final String hospitalName;
   final String backupNumber;
   final String patientCondition;
-  final RxString mapUrl = ''.obs;
   RequestStatus requestStatus;
   final bool isUser;
   bool notifiedNear;

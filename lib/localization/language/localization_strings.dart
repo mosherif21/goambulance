@@ -464,8 +464,9 @@ class Languages extends Translations {
           'noNotification': 'انت حاليا لا تملك اشعارات',
           'viewHospitalInformation': 'عرض معلومات المستشفى',
           'viewRequestInformation': 'عرض معلومات الطلب',
-          'viewDriverInformation': 'عرض معلومات السائق',
+          'viewAmbulanceInformation': 'عرض معلومات الاسعاف',
           'hospitalInformation': 'معلومات المستشفى',
+          'requestInformation': 'معلومات الطلب',
         },
         'en_US': {
           'sosCancelReturn':
@@ -945,8 +946,9 @@ class Languages extends Translations {
           'completeRequest': 'Confirm drop off',
           'viewHospitalInformation': 'View hospital information',
           'viewRequestInformation': 'View request information',
-          'viewDriverInformation': 'View driver information',
+          'viewAmbulanceInformation': 'View ambulance information',
           'hospitalInformation': 'Hospital information',
+          'requestInformation': 'Request information',
         },
       };
 }

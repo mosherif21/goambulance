@@ -183,3 +183,73 @@ class RequestHistoryDataModel {
     this.medicalHistory,
   });
 }
+
+class AssignedRequestDataModel {
+  final String requestId;
+  final String userId;
+  final String additionalInformation;
+  final String phoneNumber;
+  final String? patientAge;
+  final String hospitalId;
+  final String hospitalName;
+  final String backupNumber;
+  final String patientCondition;
+  RequestStatus requestStatus;
+  final bool isUser;
+  final LatLng requestLocation;
+  final LatLng hospitalLocation;
+  final Timestamp timestamp;
+  final String licensePlate;
+  final String ambulanceType;
+  final String ambulanceDriverID;
+  final String ambulanceMedicID;
+  final String ambulanceCarID;
+  final MedicalHistoryModel? medicalHistory;
+  final String hospitalGeohash;
+  AssignedRequestDataModel({
+    required this.requestId,
+    required this.userId,
+    required this.backupNumber,
+    required this.patientCondition,
+    required this.isUser,
+    required this.hospitalId,
+    required this.timestamp,
+    required this.hospitalName,
+    required this.requestStatus,
+    required this.requestLocation,
+    required this.hospitalLocation,
+    required this.additionalInformation,
+    required this.phoneNumber,
+    required this.licensePlate,
+    required this.ambulanceType,
+    required this.ambulanceDriverID,
+    required this.ambulanceMedicID,
+    required this.ambulanceCarID,
+    required this.hospitalGeohash,
+    this.patientAge,
+    this.medicalHistory,
+  });
+  Map<String, dynamic> toJson() => {
+        'hospitalId': hospitalId,
+        'hospitalName': hospitalName,
+        'userId': userId,
+        'isUser': isUser,
+        'patientCondition': patientCondition,
+        'backupNumber': backupNumber,
+        'phoneNumber': phoneNumber,
+        'timestamp': timestamp,
+        'requestLocation':
+            GeoPoint(requestLocation.latitude, requestLocation.longitude),
+        'hospitalLocation':
+            GeoPoint(hospitalLocation.latitude, hospitalLocation.longitude),
+        'additionalInformation': additionalInformation,
+        'requestId': requestId,
+        'licensePlate': licensePlate,
+        'ambulanceType': ambulanceType,
+        'ambulanceDriverID': ambulanceDriverID,
+        'ambulanceMedicID': ambulanceMedicID,
+        'ambulanceCarID': ambulanceCarID,
+        'hospitalGeohash': hospitalGeohash,
+        'patientAge': patientAge,
+      };
+}

@@ -115,7 +115,7 @@ class TrackingRequestPage extends StatelessWidget {
                                 ? NoFrameClickableCard(
                                     onPressed: () => trackingController
                                         .viewDriverInformation(),
-                                    title: 'viewDriverInformation'.tr,
+                                    title: 'viewAmbulanceInformation'.tr,
                                     subTitle: '',
                                     leadingIcon: Icons.account_box,
                                     leadingIconColor: Colors.black,

@@ -33,6 +33,7 @@ import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
 import '../components/general/hospital_information_page.dart';
 import '../components/general/marker_window_info.dart';
+import '../components/general/request_information_page.dart';
 
 class TrackingRequestController extends GetxController {
   static TrackingRequestController get instance => Get.find();
@@ -185,8 +186,18 @@ class TrackingRequestController extends GetxController {
     }
   }
 
-  void viewRequestInformation() {}
-  void viewDriverInformation() {}
+  void viewRequestInformation() {
+    if (currentRequestData != null) {
+      Get.to(
+          () => RequestInformationPage(
+              requestInfo: currentRequestData!.requestInfo),
+          transition: getPageTransition());
+    }
+  }
+
+  void viewDriverInformation() {
+    if (currentRequestData != null) {}
+  }
 
   void confirmRequestPress() {
     displayAlertDialog(

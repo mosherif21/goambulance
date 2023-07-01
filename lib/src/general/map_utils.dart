@@ -190,7 +190,8 @@ String buildStaticMapURL({
     polylineParam,
   ].join('&');
 
-  final url = '$baseUrl$params&key=$googleMapsStaticAPIKey';
+  final url =
+      '$baseUrl$params&key=${AppInit.isWeb ? googleMapsStaticAPIWebKey : googleMapsStaticAPIAndroidKey}';
   return url;
 }
 

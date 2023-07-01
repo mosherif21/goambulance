@@ -1051,7 +1051,6 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
-  //(reminder for me) remember to modify to return all the latest request model data and that if it's not found it's not completed it may be sos request
   Future<RequestDataModel?> getRequestStatus(
       {required RequestDataModel requestModel}) async {
     try {

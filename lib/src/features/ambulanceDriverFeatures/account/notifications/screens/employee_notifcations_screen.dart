@@ -1,11 +1,14 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/notifications/components/notification_Item.dart';
+import 'package:goambulance/src/features/notifications/components/no_notifications.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../../../general/general_functions.dart';
 import '../../../../account/components/addresses/loading_addresses.dart';
-import '../../../../notifications/components/no_notifications.dart';
+import '../../../../notifications/components/notification_Item.dart';
 import '../controllers/employee_notifications_controller.dart';
 
 class EmployeeNotificationsScreen extends StatelessWidget {
@@ -30,25 +33,54 @@ class EmployeeNotificationsScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              child: Obx(
-                () => SingleChildScrollView(
-                  child: !controller.notificationLoaded.value
-                      ? const LoadingAddresses()
-                      : controller.notificationList.isNotEmpty
-                          ? Column(
-                              children: [
-                                for (var notificationItem
-                                    in controller.notificationList)
-                                  NotiItem(notificationItem: notificationItem),
-                              ],
-                            )
-                          : const NoNotifications(),
-                ),
-              ),
+            child: Obx(
+              () => !controller.notificationLoaded.value
+                  ? const LoadingAddresses()
+                  : RefreshConfiguration(
+                      headerTriggerDistance: 60,
+                      maxOverScrollExtent: 20,
+                      enableLoadingWhenFailed: true,
+                      hideFooterWhenNotFull: true,
+                      child: AnimationLimiter(
+                        child: SmartRefresher(
+                          enablePullDown: true,
+                          header: ClassicHeader(
+                            completeDuration: const Duration(milliseconds: 0),
+                            releaseText: 'releaseToRefresh'.tr,
+                            refreshingText: 'refreshing'.tr,
+                            idleText: 'pullToRefresh'.tr,
+                            completeText: 'refreshCompleted'.tr,
+                            iconPos: isLangEnglish()
+                                ? IconPosition.left
+                                : IconPosition.right,
+                            textStyle: const TextStyle(color: Colors.grey),
+                            failedIcon:
+                                const Icon(Icons.error, color: Colors.grey),
+                            completeIcon:
+                                const Icon(Icons.done, color: Colors.grey),
+                            idleIcon: const Icon(Icons.arrow_downward,
+                                color: Colors.grey),
+                            releaseIcon:
+                                const Icon(Icons.refresh, color: Colors.grey),
+                          ),
+                          controller: controller.notificationsRefreshController,
+                          onRefresh: () => controller.onRefresh(),
+                          child: ListView.builder(
+                            itemBuilder: (_, int index) =>
+                                index < controller.notificationList.length
+                                    ? NotiItem(
+                                        notificationItem:
+                                            controller.notificationList[index])
+                                    : const NoNotifications(),
+                            itemCount: controller.notificationList.length + 1,
+                            shrinkWrap: true,
+                          ),
+                        ),
+                      ),
+                    ),
             ),
           ),
         ),

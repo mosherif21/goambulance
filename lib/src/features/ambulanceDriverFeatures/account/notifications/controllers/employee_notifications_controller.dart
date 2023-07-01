@@ -4,6 +4,7 @@ import 'package:goambulance/src/constants/enums.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
 import 'package:goambulance/src/general/general_functions.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class EmployeeNotificationController extends GetxController {
   static EmployeeNotificationController get instance => Get.find();
@@ -12,7 +13,8 @@ class EmployeeNotificationController extends GetxController {
 
   late final FirebaseAmbulanceEmployeeDataAccess firebaseEmployeesDataAccess;
   final notificationLoaded = false.obs;
-
+  final notificationsRefreshController =
+      RefreshController(initialRefresh: false);
   @override
   void onInit() async {
     firebaseEmployeesDataAccess = FirebaseAmbulanceEmployeeDataAccess.instance;
@@ -39,5 +41,18 @@ class EmployeeNotificationController extends GetxController {
     } else {
       showSnackBar(text: 'errorOccurred'.tr, snackBarType: SnackBarType.error);
     }
+  }
+
+  @override
+  void onClose() {
+    notificationsRefreshController.dispose();
+    super.onClose();
+  }
+
+  void onRefresh() {
+    notificationLoaded.value = false;
+    loadNotifications();
+    notificationsRefreshController.refreshToIdle();
+    notificationsRefreshController.resetNoData();
   }
 }

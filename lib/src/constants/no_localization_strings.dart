@@ -1,7 +1,8 @@
 /* ------------------------ strings that won't be translated --------------------------------*/
 const googleMapsAPIAndroidKey = "AIzaSyC87q_5UFi7zHJQD8CnLy5VIDBDML4j0VY";
 const googleMapsAPIKeyWeb = "AIzaSyCg8YoO7StyjzfD6rthmxZymPkwq7joNdI";
-const googleMapsStaticAPIKey = "AIzaSyB1Yst5-ElscTS7CzkxYJDO8bSoDAEtaxM";
+const googleMapsStaticAPIAndroidKey = "AIzaSyB1Yst5-ElscTS7CzkxYJDO8bSoDAEtaxM";
+const googleMapsStaticAPIWebKey = "AIzaSyDuqlCluqlv8KWVnfWR0EaecROkVse756Q";
 const mapboxAPIKey =
     "sk.eyJ1IjoibW9zaGVyaWYyMyIsImEiOiJjbGlscnN5bzUwdjM4M2trZGFyZzQ5eHU1In0.wj_iV_UJeAGcSexLPmoRVA";
 

@@ -778,46 +778,48 @@ class EmployeeHomeScreenController extends GetxController {
                 currentLocation.latitude, currentLocation.longitude),
             from: Coordinates(assignedRequestData!.requestLocation.latitude,
                 assignedRequestData!.requestLocation.longitude));
-        if (distanceToRequest <= 300 && distanceToRequest >= 100) {
-          if (!assignedRequestData!.notifiedNear) {
-            assignedRequestData!.notifiedNear = true;
-            firebaseEmployeeDataAccess
-                .sendNotification(
-              userId: assignedRequestData!.userId,
-              hospitalName: assignedRequestData!.hospitalName,
-              notificationType: EmployeeNotificationType.ambulanceNear,
-              requestId: assignedRequestData!.requestId,
-            )
-                .then(
-              (functionStatus) {
-                if (functionStatus == FunctionStatus.success) {
-                  assignedRequestData!.notifiedNear = true;
-                } else {
-                  assignedRequestData!.notifiedNear = false;
-                }
-              },
-            );
-          }
-        } else if (distanceToRequest < 100) {
-          if (!assignedRequestData!.notifiedArrived) {
-            assignedRequestData!.notifiedArrived = true;
-            firebaseEmployeeDataAccess
-                .sendNotification(
-              userId: assignedRequestData!.userId,
-              hospitalName: assignedRequestData!.hospitalName,
-              notificationType: EmployeeNotificationType.ambulanceArrived,
-              requestId: assignedRequestData!.requestId,
-            )
-                .then(
-              (functionStatus) {
-                if (functionStatus == FunctionStatus.success) {
-                  assignedRequestData!.notifiedArrived = true;
-                } else {
-                  assignedRequestData!.notifiedArrived = false;
-                }
-              },
-            );
-          }
+        if (distanceToRequest <= 300 && distanceToRequest >= 50) {
+          print('near');
+          // if (!assignedRequestData!.notifiedNear) {
+          //   assignedRequestData!.notifiedNear = true;
+          //   firebaseEmployeeDataAccess
+          //       .sendNotification(
+          //     userId: assignedRequestData!.userId,
+          //     hospitalName: assignedRequestData!.hospitalName,
+          //     notificationType: EmployeeNotificationType.ambulanceNear,
+          //     requestId: assignedRequestData!.requestId,
+          //   )
+          //       .then(
+          //     (functionStatus) {
+          //       if (functionStatus == FunctionStatus.success) {
+          //         assignedRequestData!.notifiedNear = true;
+          //       } else {
+          //         assignedRequestData!.notifiedNear = false;
+          //       }
+          //     },
+          //   );
+          // }
+        } else if (distanceToRequest < 50) {
+          print('arrived');
+          // if (!assignedRequestData!.notifiedArrived) {
+          //   assignedRequestData!.notifiedArrived = true;
+          //   firebaseEmployeeDataAccess
+          //       .sendNotification(
+          //     userId: assignedRequestData!.userId,
+          //     hospitalName: assignedRequestData!.hospitalName,
+          //     notificationType: EmployeeNotificationType.ambulanceArrived,
+          //     requestId: assignedRequestData!.requestId,
+          //   )
+          //       .then(
+          //     (functionStatus) {
+          //       if (functionStatus == FunctionStatus.success) {
+          //         assignedRequestData!.notifiedArrived = true;
+          //       } else {
+          //         assignedRequestData!.notifiedArrived = false;
+          //       }
+          //     },
+          //   );
+          // }
         }
       }
     } else {

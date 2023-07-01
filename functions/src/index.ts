@@ -114,37 +114,55 @@ exports.cancelTimedOutRequests = functions.pubsub
         if (patientCondition === "sosRequest") {
           const requestOptions = {
             hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
-            path: '/sendNotification',
+            path: `/sendNotification`,
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-              userId: userId,
-              hospitalName: hospitalName,
-              notificationType: "sosRequestTimedOut"
-            })
           };
-          const req = https.request(requestOptions);
-          req.end();
-        } else {
 
+          const request = https.request(requestOptions, (response) => {
+            console.log(`Notification sent to user ${userId}`);
+          });
+
+          request.on('error', (error) => {
+            console.log(`Error sending notification to user ${userId}: ${error}`);
+          });
+
+          const payload = JSON.stringify({
+            userId: userId,
+            hospitalName: hospitalName,
+            notificationType: "sosRequestTimedOut"
+          });
+
+          request.write(payload);
+          request.end();
+        } else {
           const requestOptions = {
             hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
-            path: '/sendNotification',
+            path: `/sendNotification`,
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-              userId: userId,
-              hospitalName: hospitalName,
-              notificationType: "requestCanceledTimeout"
-            })
           };
 
-          const req = https.request(requestOptions);
-          req.end();
+          const request = https.request(requestOptions, (response) => {
+            console.log(`Notification sent to user ${userId}`);
+          });
+
+          request.on('error', (error) => {
+            console.log(`Error sending notification to user ${userId}: ${error}`);
+          });
+
+          const payload = JSON.stringify({
+            userId: userId,
+            hospitalName: hospitalName,
+            notificationType: "requestCanceledTimeout"
+          });
+
+          request.write(payload);
+          request.end();
         }
       } catch (error) {
         console.error(`Error sending notification: ${error}`);
@@ -331,6 +349,7 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       batch.delete(document);
     });
     await batch.commit();
+
     const requestOptions = {
       hostname: 'us-central1-ambulancebookingproject.cloudfunctions.net',
       path: `/sendNotification`,
@@ -338,18 +357,23 @@ async function processSOSRequests(snapshot: admin.firestore.DocumentSnapshot) {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        userId: userId,
-        hospitalName: hospitalName,
-        notificationType: "sosRequestSent"
-      })
     };
+
     const request = https.request(requestOptions, (response) => {
       console.log(`Notification sent to user ${userId}`);
     });
+
     request.on('error', (error) => {
       console.log(`Error sending notification to user ${userId}: ${error}`);
     });
+
+    const payload = JSON.stringify({
+      userId: userId,
+      hospitalName: hospitalName,
+      notificationType: "sosRequestSent"
+    });
+
+    request.write(payload);
     request.end();
   } else {
     console.log("sosRequest document missing required fields");

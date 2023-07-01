@@ -492,7 +492,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
       final medicCompletedRef = fireStore
           .collection('users')
           .doc(requestInfo.ambulanceMedicID)
-          .collection('assignedRequests')
+          .collection('completedRequests')
           .doc(requestInfo.requestId);
       completeRequestBatch.set(medicCompletedRef, <String, dynamic>{});
       final userAssignedRef = fireStore

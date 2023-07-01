@@ -101,6 +101,7 @@ class EmployeeHomeScreenController extends GetxController {
   EmployeeRequestDataModel? assignedRequestData;
   String? currentAssignedRequestId;
   UserInfoRequestModel? userRequestInfo;
+  bool loggingOut = false;
   @override
   void onReady() async {
     _firestore = FirebaseFirestore.instance;
@@ -356,12 +357,14 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   Future<void> cancelListeners() async {
-    await notificationCountStreamSubscription?.cancel();
-    await assignedRequestStreamSubscription?.cancel();
+    loggingOut = true;
     if (!AppInit.isWeb) {
       await serviceStatusStream?.cancel();
     }
     if (positionStreamInitialized) await currentPositionStream?.cancel();
+    await notificationCountStreamSubscription?.cancel();
+    await assignedRequestStreamSubscription?.cancel();
+    loggingOut = false;
   }
 
   void loadHospitalInfo() async {
@@ -734,70 +737,72 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void onLocationChanges() {
-    if (hasAssignedRequest.value && assignedRequestData != null) {
-      firebaseEmployeeDataAccess.updateDriverLocation(
-          driverLocation:
-              GeoPoint(currentLocation.latitude, currentLocation.longitude));
-      updateRouteAndMap();
-      if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
-        final distanceToRequest = GeoFirePoint.distanceBetween(
-            to: Coordinates(
-                currentLocation.latitude, currentLocation.longitude),
-            from: Coordinates(assignedRequestData!.requestLocation.latitude,
-                assignedRequestData!.requestLocation.longitude));
+    if (!loggingOut) {
+      if (hasAssignedRequest.value && assignedRequestData != null) {
+        firebaseEmployeeDataAccess.updateDriverLocation(
+            driverLocation:
+                GeoPoint(currentLocation.latitude, currentLocation.longitude));
+        updateRouteAndMap();
+        if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
+          final distanceToRequest = GeoFirePoint.distanceBetween(
+              to: Coordinates(
+                  currentLocation.latitude, currentLocation.longitude),
+              from: Coordinates(assignedRequestData!.requestLocation.latitude,
+                  assignedRequestData!.requestLocation.longitude));
 
-        if (distanceToRequest <= 0.6 && distanceToRequest >= 0.05) {
-          if (!assignedRequestData!.notifiedNear) {
-            assignedRequestData!.notifiedNear = true;
-            firebaseEmployeeDataAccess
-                .sendNotification(
-              userId: assignedRequestData!.userId,
-              hospitalName: assignedRequestData!.hospitalName,
-              notificationType: EmployeeNotificationType.ambulanceNear,
-              requestId: assignedRequestData!.requestId,
-            )
-                .then(
-              (functionStatus) {
-                if (functionStatus == FunctionStatus.success) {
-                  assignedRequestData!.notifiedNear = true;
-                } else {
-                  assignedRequestData!.notifiedNear = false;
-                }
-              },
-            );
-          }
-        } else if (distanceToRequest < 0.05) {
-          if (!assignedRequestData!.notifiedArrived) {
-            assignedRequestData!.notifiedArrived = true;
-            firebaseEmployeeDataAccess
-                .sendNotification(
-              userId: assignedRequestData!.userId,
-              hospitalName: assignedRequestData!.hospitalName,
-              notificationType: EmployeeNotificationType.ambulanceArrived,
-              requestId: assignedRequestData!.requestId,
-            )
-                .then(
-              (functionStatus) {
-                if (functionStatus == FunctionStatus.success) {
-                  assignedRequestData!.notifiedArrived = true;
-                } else {
-                  assignedRequestData!.notifiedArrived = false;
-                }
-              },
-            );
+          if (distanceToRequest <= 0.6 && distanceToRequest >= 0.05) {
+            if (!assignedRequestData!.notifiedNear) {
+              assignedRequestData!.notifiedNear = true;
+              firebaseEmployeeDataAccess
+                  .sendNotification(
+                userId: assignedRequestData!.userId,
+                hospitalName: assignedRequestData!.hospitalName,
+                notificationType: EmployeeNotificationType.ambulanceNear,
+                requestId: assignedRequestData!.requestId,
+              )
+                  .then(
+                (functionStatus) {
+                  if (functionStatus == FunctionStatus.success) {
+                    assignedRequestData!.notifiedNear = true;
+                  } else {
+                    assignedRequestData!.notifiedNear = false;
+                  }
+                },
+              );
+            }
+          } else if (distanceToRequest < 0.05) {
+            if (!assignedRequestData!.notifiedArrived) {
+              assignedRequestData!.notifiedArrived = true;
+              firebaseEmployeeDataAccess
+                  .sendNotification(
+                userId: assignedRequestData!.userId,
+                hospitalName: assignedRequestData!.hospitalName,
+                notificationType: EmployeeNotificationType.ambulanceArrived,
+                requestId: assignedRequestData!.requestId,
+              )
+                  .then(
+                (functionStatus) {
+                  if (functionStatus == FunctionStatus.success) {
+                    assignedRequestData!.notifiedArrived = true;
+                  } else {
+                    assignedRequestData!.notifiedArrived = false;
+                  }
+                },
+              );
+            }
           }
         }
+      } else {
+        ambulanceMarker = Marker(
+          markerId: kAmbulanceMarkerId,
+          position: currentLocationGetter(),
+          icon: ambulanceMarkerIcon,
+          anchor: const Offset(0.5, 0.5),
+          consumeTapEvents: true,
+        );
+        mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+        animateCamera(locationLatLng: currentLocationGetter());
       }
-    } else {
-      ambulanceMarker = Marker(
-        markerId: kAmbulanceMarkerId,
-        position: currentLocationGetter(),
-        icon: ambulanceMarkerIcon,
-        anchor: const Offset(0.5, 0.5),
-        consumeTapEvents: true,
-      );
-      mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
-      animateCamera(locationLatLng: currentLocationGetter());
     }
   }
 

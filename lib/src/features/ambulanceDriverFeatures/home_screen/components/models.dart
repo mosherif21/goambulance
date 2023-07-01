@@ -64,7 +64,7 @@ class EmployeeRequestDataModel {
   bool notifiedArrived;
   bool notifiedOngoing;
   final LatLng requestLocation;
-  LatLng hospitalLocation;
+  final LatLng hospitalLocation;
   final Timestamp timestamp;
   final String licensePlate;
   final String ambulanceType;
@@ -108,8 +108,10 @@ class EmployeeRequestDataModel {
         'backupNumber': backupNumber,
         'phoneNumber': phoneNumber,
         'timestamp': timestamp,
-        'requestLocation': requestLocation,
-        'hospitalLocation': hospitalLocation,
+        'requestLocation':
+            GeoPoint(requestLocation.latitude, requestLocation.longitude),
+        'hospitalLocation':
+            GeoPoint(hospitalLocation.latitude, hospitalLocation.longitude),
         'additionalInformation': additionalInformation,
         'requestId': requestId,
         'licensePlate': licensePlate,

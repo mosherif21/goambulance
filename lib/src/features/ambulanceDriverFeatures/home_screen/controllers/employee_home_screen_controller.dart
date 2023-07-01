@@ -745,9 +745,9 @@ class EmployeeHomeScreenController extends GetxController {
                 currentLocation.latitude, currentLocation.longitude),
             from: Coordinates(assignedRequestData!.requestLocation.latitude,
                 assignedRequestData!.requestLocation.longitude));
-        print(distanceToRequest);
+
         if (distanceToRequest <= 0.6 && distanceToRequest >= 0.05) {
-          print('near');
+
           if (!assignedRequestData!.notifiedNear) {
             assignedRequestData!.notifiedNear = true;
             firebaseEmployeeDataAccess
@@ -768,7 +768,6 @@ class EmployeeHomeScreenController extends GetxController {
             );
           }
         } else if (distanceToRequest < 0.05) {
-          print('arrived');
           if (!assignedRequestData!.notifiedArrived) {
             assignedRequestData!.notifiedArrived = true;
             firebaseEmployeeDataAccess

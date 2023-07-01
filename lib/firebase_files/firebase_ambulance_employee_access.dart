@@ -504,16 +504,18 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
       final userCompletedRef = fireStore
           .collection('users')
           .doc(requestInfo.userId)
-          .collection('assignedRequests')
+          .collection('completedRequests')
           .doc(requestInfo.requestId);
       completeRequestBatch.set(userCompletedRef, <String, dynamic>{});
 
       await completeRequestBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
+      if (kDebugMode) {
+        print('firebase complete request error ${error.toString()}');
+      }
     } catch (e) {
-      if (kDebugMode) print(e.toString());
+      if (kDebugMode) print('firebase complete request error ${e.toString()}');
     }
     return FunctionStatus.failure;
   }

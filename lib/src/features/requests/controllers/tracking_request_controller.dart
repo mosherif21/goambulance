@@ -56,7 +56,10 @@ class TrackingRequestController extends GetxController {
 
   //maps vars
   final mapPolyLines = <Polyline>{}.obs;
-  final mapMarkers = <Marker>{}.obs;
+  final mapMarkers = <MarkerId, Marker>{}.obs;
+  final kRequestLocationMarkerId = const MarkerId('requestLocation');
+  final kAmbulanceMarkerId = const MarkerId('ambulance');
+  final kHospitalMarkerId = const MarkerId('hospital');
   int routeToDestinationTime = 0;
   Marker? requestLocationMarker;
   Marker? ambulanceMarker;
@@ -325,12 +328,13 @@ class TrackingRequestController extends GetxController {
     choosingHospital.value = true;
     hospitalsPanelController.open();
     requestLocationMarker = Marker(
-      markerId: const MarkerId('requestLocation'),
+      markerId: kRequestLocationMarkerId,
       position: currentChosenLatLng,
       icon: requestLocationMarkerIcon,
       consumeTapEvents: true,
+      rotation: 0,
     );
-    mapMarkers.add(requestLocationMarker!);
+    mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
 
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
@@ -354,19 +358,21 @@ class TrackingRequestController extends GetxController {
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
       requestLocationMarker = Marker(
-        markerId: const MarkerId('requestLocation'),
+        markerId: kRequestLocationMarkerId,
         position: initialRequestModel.requestLocation,
         icon: requestLocationMarkerIcon,
         consumeTapEvents: true,
+        rotation: 0,
       );
-      mapMarkers.add(requestLocationMarker!);
+      mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
       hospitalMarker = Marker(
-        markerId: const MarkerId('hospital'),
+        markerId: kHospitalMarkerId,
         position: initialRequestModel.hospitalLocation,
         icon: hospitalMarkerIcon,
         consumeTapEvents: true,
+        rotation: 0,
       );
-      mapMarkers.add(hospitalMarker!);
+      mapMarkers[kHospitalMarkerId] = hospitalMarker!;
 
       getRouteToLocation(
         fromLocation: initialRequestModel.requestLocation,
@@ -435,9 +441,11 @@ class TrackingRequestController extends GetxController {
     }
 
     if (hospitalMarker != null) {
-      if (mapMarkers.contains(hospitalMarker)) {
-        mapMarkers.remove(hospitalMarker);
-      }
+      mapMarkers[kHospitalMarkerId] = Marker(
+        markerId: kHospitalMarkerId,
+        position: const LatLng(0, 0),
+        rotation: 0,
+      );
     }
   }
 
@@ -478,9 +486,11 @@ class TrackingRequestController extends GetxController {
     getHospitalsOperation?.cancel();
     getRouteOperation?.cancel();
     selectedHospital.value = null;
-    if (mapMarkers.contains(requestLocationMarker)) {
-      mapMarkers.remove(requestLocationMarker!);
-    }
+    mapMarkers[kRequestLocationMarkerId] = Marker(
+      markerId: kRequestLocationMarkerId,
+      position: const LatLng(0, 0),
+      rotation: 0,
+    );
     if (requestLocationWindowController.hideInfoWindow != null) {
       requestLocationWindowController.hideInfoWindow!();
     }
@@ -561,12 +571,13 @@ class TrackingRequestController extends GetxController {
         if (skipCount == 0) {
           selectedHospital.value = hospitalsDocuments[0];
           hospitalMarker = Marker(
-            markerId: const MarkerId('hospital'),
+            markerId: kHospitalMarkerId,
             position: selectedHospital.value!.location,
             icon: hospitalMarkerIcon,
             consumeTapEvents: true,
+            rotation: 0,
           );
-          mapMarkers.add(hospitalMarker!);
+          mapMarkers[kHospitalMarkerId] = hospitalMarker!;
           animateToLatLngBounds(
               latLngBounds: getLatLngBounds(latLngList: [
             currentChosenLatLng,
@@ -641,13 +652,14 @@ class TrackingRequestController extends GetxController {
     clearHospitalRoute();
     final hospitalItem = searchedHospitals[hospitalIndex];
     hospitalMarker = Marker(
-      markerId: const MarkerId('hospital'),
+      markerId: kHospitalMarkerId,
       position: hospitalItem.location,
       icon: hospitalMarkerIcon,
       anchor: const Offset(0.5, 0.5),
       consumeTapEvents: true,
+      rotation: 0,
     );
-    mapMarkers.add(hospitalMarker!);
+    mapMarkers[kHospitalMarkerId] = hospitalMarker!;
     animateToLatLngBounds(
         latLngBounds: getLatLngBounds(
             latLngList: [currentChosenLatLng, hospitalItem.location]));
@@ -890,7 +902,7 @@ class TrackingRequestController extends GetxController {
   void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
     if (googleMapControllerInit) {
       googleMapController
-          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 70));
+          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 35));
     }
   }
 

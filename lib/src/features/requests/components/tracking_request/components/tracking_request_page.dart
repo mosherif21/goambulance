@@ -5,6 +5,8 @@ import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/controllers/tracking_request_controller.dart';
+import 'package:google_map_marker_animation/helpers/extensions.dart';
+import 'package:google_map_marker_animation/widgets/animarker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -130,33 +132,40 @@ class TrackingRequestPage extends StatelessWidget {
           body: Stack(
             children: [
               Obx(
-                () => GoogleMap(
-                  compassEnabled: false,
-                  rotateGesturesEnabled: false,
-                  tiltGesturesEnabled: false,
-                  mapToolbarEnabled: false,
-                  myLocationEnabled: true,
-                  zoomControlsEnabled: false,
-                  myLocationButtonEnabled: false,
-                  padding: AppInit.isWeb
-                      ? EdgeInsets.zero
-                      : EdgeInsets.only(
-                          bottom: trackingController.choosingHospital.value
-                              ? screenHeight * 0.48
-                              : 70,
-                          left: 10,
-                          right: 10,
-                          top: screenHeight * 0.16,
-                        ),
-                  initialCameraPosition:
-                      trackingController.getInitialCameraPosition(),
-                  polylines: trackingController.mapPolyLines.value,
-                  markers: trackingController.mapMarkers.value,
-                  onMapCreated: (GoogleMapController controller) =>
-                      trackingController.mapControllerCompleter
-                          .complete(controller),
-                  onCameraMove: trackingController.onCameraMove,
-                  onCameraIdle: trackingController.onCameraIdle,
+                () => Animarker(
+                  useRotation: true,
+                  duration: const Duration(milliseconds: 2500),
+                  mapId: trackingController.mapControllerCompleter.future
+                      .then<int>((value) => value.mapId),
+                  markers: trackingController.mapMarkers.value.set,
+                  shouldAnimateCamera: false,
+                  child: GoogleMap(
+                    compassEnabled: false,
+                    rotateGesturesEnabled: false,
+                    tiltGesturesEnabled: false,
+                    mapToolbarEnabled: false,
+                    myLocationEnabled: true,
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
+                    padding: AppInit.isWeb
+                        ? EdgeInsets.zero
+                        : EdgeInsets.only(
+                            bottom: trackingController.choosingHospital.value
+                                ? screenHeight * 0.48
+                                : 70,
+                            left: 10,
+                            right: 10,
+                            top: screenHeight * 0.16,
+                          ),
+                    initialCameraPosition:
+                        trackingController.getInitialCameraPosition(),
+                    polylines: trackingController.mapPolyLines.value,
+                    onMapCreated: (GoogleMapController controller) =>
+                        trackingController.mapControllerCompleter
+                            .complete(controller),
+                    onCameraMove: trackingController.onCameraMove,
+                    onCameraIdle: trackingController.onCameraIdle,
+                  ),
                 ),
               ),
               CustomInfoWindow(

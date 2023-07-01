@@ -221,6 +221,7 @@ class EmployeeHomeScreenController extends GetxController {
           position: assignedRequestData!.requestLocation,
           icon: requestLocationMarkerIcon,
           consumeTapEvents: true,
+          rotation: 0,
         );
         mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
       }
@@ -352,7 +353,10 @@ class EmployeeHomeScreenController extends GetxController {
   void clearMarkers() async {
     if (requestLocationMarker != null) {
       mapMarkers[kRequestLocationMarkerId] = Marker(
-          markerId: kRequestLocationMarkerId, position: const LatLng(0, 0));
+        markerId: kRequestLocationMarkerId,
+        position: const LatLng(0, 0),
+        rotation: 0,
+      );
     }
   }
 
@@ -392,6 +396,7 @@ class EmployeeHomeScreenController extends GetxController {
         position: hospitalLatLng,
         icon: hospitalMarkerIcon,
         consumeTapEvents: true,
+        rotation: 0,
       );
       mapMarkers[kHospitalMarkerId] = hospitalMarker!;
       ambulanceMarker = Marker(

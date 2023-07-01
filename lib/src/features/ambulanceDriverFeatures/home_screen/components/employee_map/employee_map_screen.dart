@@ -65,6 +65,7 @@ class EmployeeMapScreen extends StatelessWidget {
                             subTitle: '',
                             leadingIcon: Icons.account_box,
                             leadingIconColor: Colors.black,
+                            leadingIconSize: 35,
                             trailingIcon: Icons.arrow_forward_ios_outlined,
                             trailingIconColor: Colors.grey,
                             padding: EdgeInsets.symmetric(
@@ -78,6 +79,7 @@ class EmployeeMapScreen extends StatelessWidget {
                             subTitle: '',
                             leadingIcon: Icons.medical_information_outlined,
                             leadingIconColor: Colors.black,
+                            leadingIconSize: 35,
                             trailingIcon: Icons.arrow_forward_ios_outlined,
                             trailingIconColor: Colors.grey,
                             padding: EdgeInsets.symmetric(
@@ -91,6 +93,7 @@ class EmployeeMapScreen extends StatelessWidget {
                             subTitle: '',
                             leadingIcon: Icons.navigation_outlined,
                             leadingIconColor: Colors.black,
+                            leadingIconSize: 35,
                             trailingIcon: Icons.arrow_forward_ios_outlined,
                             trailingIconColor: Colors.grey,
                             padding: EdgeInsets.symmetric(

@@ -165,7 +165,12 @@ class TrackingRequestController extends GetxController {
     }
   }
 
-  void assignedRequestChanges() {}
+  void assignedRequestChanges() async {
+    await pendingRequestListener?.cancel();
+  }
+
+  void viewHospitalInformation() {}
+  void viewRequestInformation() {}
 
   void confirmRequestPress() {
     displayAlertDialog(

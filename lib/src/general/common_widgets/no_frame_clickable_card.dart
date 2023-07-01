@@ -9,6 +9,7 @@ class NoFrameClickableCard extends StatelessWidget {
     required this.subTitle,
     required this.leadingIcon,
     required this.leadingIconColor,
+    required this.leadingIconSize,
     required this.trailingIcon,
     required this.trailingIconColor,
     required this.padding,
@@ -17,6 +18,7 @@ class NoFrameClickableCard extends StatelessWidget {
   final String title;
   final String subTitle;
   final IconData leadingIcon;
+  final double leadingIconSize;
   final Color leadingIconColor;
   final IconData trailingIcon;
   final Color trailingIconColor;
@@ -37,9 +39,9 @@ class NoFrameClickableCard extends StatelessWidget {
               Icon(
                 leadingIcon,
                 color: leadingIconColor,
-                size: 35,
+                size: leadingIconSize,
               ),
-              const SizedBox(width: 20),
+              const SizedBox(width: 10),
               Expanded(
                 flex: 9,
                 child: Column(
@@ -48,7 +50,7 @@ class NoFrameClickableCard extends StatelessWidget {
                     AutoSizeText(
                       title,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w600, fontSize: 18),
+                          fontWeight: FontWeight.w800, fontSize: 18),
                       maxLines: 1,
                     ),
                     if (subTitle.isNotEmpty)

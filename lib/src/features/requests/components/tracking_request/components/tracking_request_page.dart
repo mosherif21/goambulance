@@ -8,18 +8,18 @@ import 'package:goambulance/src/features/requests/controllers/tracking_request_c
 import 'package:google_map_marker_animation/helpers/extensions.dart';
 import 'package:google_map_marker_animation/widgets/animarker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../../../../constants/assets_strings.dart';
 import '../../../../../constants/enums.dart';
 import '../../../../../general/app_init.dart';
 import '../../../../../general/common_widgets/back_button.dart';
+import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
 import '../../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
-import '../../making_request/components/assigning_request.dart';
 import '../../making_request/components/choose_hospitals_widget.dart';
 import '../../making_request/components/my_location_button.dart';
-import '../../making_request/components/pending_request.dart';
 import '../../making_request/components/search_bar_map.dart';
 import '../../models.dart';
 
@@ -73,18 +73,61 @@ class TrackingRequestPage extends StatelessWidget {
             const SizedBox(height: 8),
             const Divider(thickness: 0.5, height: 1),
             Expanded(
-              child: trackingController.requestStatus.value == RequestStatus.non
-                  ? ChooseHospitalsList(
-                      controller: trackingController,
-                    )
-                  : trackingController.requestStatus.value ==
-                          RequestStatus.pending
-                      ? const PendingRequest()
-                      : trackingController.requestStatus.value ==
-                              RequestStatus.accepted
-                          ? const AcceptingRequest()
-                          : const SizedBox.shrink(),
-            ),
+                child: trackingController.requestStatus.value ==
+                        RequestStatus.non
+                    ? ChooseHospitalsList(
+                        controller: trackingController,
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            NoFrameClickableCard(
+                              onPressed: () =>
+                                  trackingController.viewHospitalInformation(),
+                              title: 'viewHospitalInformation'.tr,
+                              subTitle: '',
+                              leadingIcon: LineIcons.hospital,
+                              leadingIconColor: Colors.black,
+                              leadingIconSize: 50,
+                              trailingIcon: Icons.arrow_forward_ios_outlined,
+                              trailingIconColor: Colors.grey,
+                              padding: const EdgeInsets.all(15),
+                            ),
+                            NoFrameClickableCard(
+                              onPressed: () =>
+                                  trackingController.viewRequestInformation(),
+                              title: 'viewRequestInformation'.tr,
+                              subTitle: '',
+                              leadingIcon: Icons.medical_information_outlined,
+                              leadingIconColor: Colors.black,
+                              leadingIconSize: 50,
+                              trailingIcon: Icons.arrow_forward_ios_outlined,
+                              trailingIconColor: Colors.grey,
+                              padding: const EdgeInsets.all(15),
+                            ),
+                            NoFrameClickableCard(
+                              onPressed: () =>
+                                  trackingController.viewRequestInformation(),
+                              title: 'viewDriverInformation'.tr,
+                              subTitle: '',
+                              leadingIcon: Icons.account_box,
+                              leadingIconColor: Colors.black,
+                              leadingIconSize: 50,
+                              trailingIcon: Icons.arrow_forward_ios_outlined,
+                              trailingIconColor: Colors.grey,
+                              padding: const EdgeInsets.all(15),
+                            ),
+                          ],
+                        ),
+                      )
+                // trackingController.requestStatus.value ==
+                //             RequestStatus.pending
+                //         ? const PendingRequest()
+                //         : trackingController.requestStatus.value ==
+                //                 RequestStatus.accepted
+                //             ? const AcceptingRequest()
+                //             : const SizedBox.shrink(),
+                ),
             const Divider(thickness: 1, height: 2),
             Padding(
               padding: const EdgeInsets.all(18),

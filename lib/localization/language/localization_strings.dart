@@ -462,6 +462,9 @@ class Languages extends Translations {
           'completeRequest': 'تأكيد تسليم المريض',
           'newAssignedRequest': 'تَمَّ تَعْيِينُكَ لِطَلَبِ إِسْعَاف',
           'noNotification': 'انت حاليا لا تملك اشعارات',
+          'viewHospitalInformation': 'عرض معلومات المستشفى',
+          'viewRequestInformation': 'عرض معلومات الطلب',
+          'viewDriverInformation': 'عرض معلومات السائق',
         },
         'en_US': {
           'sosCancelReturn':
@@ -939,6 +942,9 @@ class Languages extends Translations {
           'edit': 'Edit',
           'noNotification': 'You don\'t have notifications currently',
           'completeRequest': 'Confirm drop off',
+          'viewHospitalInformation': 'View hospital information',
+          'viewRequestInformation': 'View request information',
+          'viewDriverInformation': 'View driver information',
         },
       };
 }

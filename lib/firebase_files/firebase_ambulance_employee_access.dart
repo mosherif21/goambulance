@@ -495,6 +495,18 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
           .collection('assignedRequests')
           .doc(requestInfo.requestId);
       completeRequestBatch.set(medicCompletedRef, <String, dynamic>{});
+      final userAssignedRef = fireStore
+          .collection('users')
+          .doc(requestInfo.userId)
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId);
+      completeRequestBatch.delete(userAssignedRef);
+      final userCompletedRef = fireStore
+          .collection('users')
+          .doc(requestInfo.userId)
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId);
+      completeRequestBatch.set(userCompletedRef, <String, dynamic>{});
 
       await completeRequestBatch.commit();
       return FunctionStatus.success;
@@ -559,6 +571,20 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     }
   }
 
+  Future<void> deleteDriversLocation() async {
+    try {
+      await fireStore.collection('driversLocations').doc(userId).delete();
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+  }
+
   Future<String> getUserProfilePicUrl({required String userId}) async {
     try {
       return await fireStorage
@@ -583,6 +609,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     if (authRep.isUserRegistered) {
       await deleteFcmToken();
     }
+    await deleteDriversLocation();
   }
 
   Future<FunctionStatus> updateUserInfo({

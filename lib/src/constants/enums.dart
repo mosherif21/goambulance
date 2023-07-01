@@ -12,6 +12,12 @@ enum AuthType { emailLogin, emailRegister, facebook, google, phone }
 
 enum UserType { driver, medic, patient }
 
+enum EmployeeNotificationType {
+  requestOngoing,
+  ambulanceNear,
+  ambulanceArrived,
+}
+
 enum FunctionStatus { success, failure }
 
 enum SnackBarType { success, error, info, warning }

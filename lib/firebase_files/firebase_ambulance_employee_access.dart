@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
@@ -139,6 +140,9 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
               ? RequestStatus.assigned
               : RequestStatus.ongoing;
           final isUser = snapshotData['isUser'] as bool;
+          final notifiedNear = snapshotData['notifiedNear'] as bool;
+          final notifiedArrived = snapshotData['notifiedArrived'] as bool;
+          final notifiedOngoing = snapshotData['notifiedOngoing'] as bool;
           final timestamp = snapshotData['timestamp'] as Timestamp;
           late final MedicalHistoryModel medicalHistory;
           if (isUser) {
@@ -227,6 +231,9 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
             hospitalGeohash: hospitalGeohash,
             medicalHistory: medicalHistory,
             phoneNumber: phoneNumber,
+            notifiedNear: notifiedNear,
+            notifiedArrived: notifiedArrived,
+            notifiedOngoing: notifiedOngoing,
           );
           return requestData;
         }
@@ -274,6 +281,68 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
       if (kDebugMode) print(e.toString());
     }
     return null;
+  }
+
+  Future<FunctionStatus> sendNotification({
+    required String userId,
+    required String hospitalName,
+    required EmployeeNotificationType notificationType,
+    required String requestId,
+  }) async {
+    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+      'sendNotification',
+    );
+    final Map<String, dynamic> data = {
+      'notificationType':
+          notificationType == EmployeeNotificationType.ambulanceNear
+              ? 'ambulanceNear'
+              : notificationType == EmployeeNotificationType.ambulanceArrived
+                  ? 'ambulanceArrived'
+                  : 'requestOngoing',
+      'userId': userId,
+      'hospitalName': hospitalName,
+    };
+    try {
+      final HttpsCallableResult result = await callable.call(data);
+      if (result.data != null) {
+        final response = result.data;
+        await updateAssignedNotificationsVars(
+            notificationType: notificationType, requestId: requestId);
+        if (kDebugMode) {
+          AppInit.logger.i(
+              'Notifications called with type: $notificationType and response: $response');
+        }
+        return FunctionStatus.success;
+      } else {
+        if (kDebugMode) {
+          AppInit.logger.e('Notifications send failed');
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        AppInit.logger.e('Notifications send failed');
+      }
+    }
+    return FunctionStatus.failure;
+  }
+
+  Future<void> updateAssignedNotificationsVars({
+    required EmployeeNotificationType notificationType,
+    required String requestId,
+  }) async {
+    try {
+      await fireStore.collection('assignedRequests').doc(requestId).set({
+        notificationType == EmployeeNotificationType.ambulanceNear
+            ? 'notifiedNear'
+            : notificationType == EmployeeNotificationType.ambulanceArrived
+                ? 'notifiedArrived'
+                : 'notifiedOngoing': true
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (e) {
+      if (kDebugMode) print(e.toString());
+    }
   }
 
   Future<void> resetNotificationCount() async {

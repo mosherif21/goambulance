@@ -60,6 +60,9 @@ class EmployeeRequestDataModel {
   final RxString mapUrl = ''.obs;
   RequestStatus requestStatus;
   final bool isUser;
+  bool notifiedNear;
+  bool notifiedArrived;
+  bool notifiedOngoing;
   final LatLng requestLocation;
   LatLng hospitalLocation;
   final Timestamp timestamp;
@@ -90,6 +93,9 @@ class EmployeeRequestDataModel {
     required this.ambulanceMedicID,
     required this.ambulanceCarID,
     required this.hospitalGeohash,
+    required this.notifiedNear,
+    required this.notifiedArrived,
+    required this.notifiedOngoing,
     this.patientAge,
     this.medicalHistory,
   });

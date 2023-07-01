@@ -242,6 +242,21 @@ class EmployeeHomeScreenController extends GetxController {
         clearMarkers();
         clearRoutes();
         updateRouteAndMap();
+        if (!assignedRequestData!.notifiedOngoing) {
+          assignedRequestData!.notifiedOngoing = true;
+          final functionStatus =
+              await firebaseEmployeeDataAccess.sendNotification(
+            userId: assignedRequestData!.userId,
+            hospitalName: assignedRequestData!.hospitalName,
+            notificationType: EmployeeNotificationType.requestOngoing,
+            requestId: assignedRequestData!.requestId,
+          );
+          if (functionStatus == FunctionStatus.success) {
+            assignedRequestData!.notifiedOngoing = true;
+          } else {
+            assignedRequestData!.notifiedOngoing = false;
+          }
+        }
       } else {
         assignedRequestData!.requestStatus = RequestStatus.assigned;
         showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
@@ -751,17 +766,72 @@ class EmployeeHomeScreenController extends GetxController {
     }
   }
 
+  void onLocationChanges() {
+    if (hasAssignedRequest.value && assignedRequestData != null) {
+      firebaseEmployeeDataAccess.updateDriverLocation(
+          driverLocation:
+              GeoPoint(currentLocation.latitude, currentLocation.longitude));
+      updateRouteAndMap();
+      if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
+        final distanceToRequest = GeoFirePoint.distanceBetween(
+            to: Coordinates(
+                currentLocation.latitude, currentLocation.longitude),
+            from: Coordinates(assignedRequestData!.requestLocation.latitude,
+                assignedRequestData!.requestLocation.longitude));
+        if (distanceToRequest <= 300 && distanceToRequest >= 100) {
+          if (!assignedRequestData!.notifiedNear) {
+            assignedRequestData!.notifiedNear = true;
+            firebaseEmployeeDataAccess
+                .sendNotification(
+              userId: assignedRequestData!.userId,
+              hospitalName: assignedRequestData!.hospitalName,
+              notificationType: EmployeeNotificationType.ambulanceNear,
+              requestId: assignedRequestData!.requestId,
+            )
+                .then(
+              (functionStatus) {
+                if (functionStatus == FunctionStatus.success) {
+                  assignedRequestData!.notifiedNear = true;
+                } else {
+                  assignedRequestData!.notifiedNear = false;
+                }
+              },
+            );
+          }
+        } else if (distanceToRequest < 100) {
+          if (!assignedRequestData!.notifiedArrived) {
+            assignedRequestData!.notifiedArrived = true;
+            firebaseEmployeeDataAccess
+                .sendNotification(
+              userId: assignedRequestData!.userId,
+              hospitalName: assignedRequestData!.hospitalName,
+              notificationType: EmployeeNotificationType.ambulanceArrived,
+              requestId: assignedRequestData!.requestId,
+            )
+                .then(
+              (functionStatus) {
+                if (functionStatus == FunctionStatus.success) {
+                  assignedRequestData!.notifiedArrived = true;
+                } else {
+                  assignedRequestData!.notifiedArrived = false;
+                }
+              },
+            );
+          }
+        }
+      }
+    } else {
+      animateCamera(locationLatLng: currentLocationGetter());
+    }
+  }
+
   void getCurrentLocation() async {
     try {
       await Geolocator.getCurrentPosition(desiredAccuracy: accuracy)
           .then((locationPosition) {
         currentLocation = locationPosition;
         locationAvailable.value = true;
-        if (hasAssignedRequest.value && assignedRequestData != null) {
-          updateRouteAndMap();
-        } else {
-          animateCamera(locationLatLng: currentLocationGetter());
-        }
+        onLocationChanges();
 
         if (kDebugMode) {
           print(
@@ -778,14 +848,7 @@ class EmployeeHomeScreenController extends GetxController {
           if (position != null) {
             currentLocation = position;
             locationAvailable.value = true;
-            if (hasAssignedRequest.value && assignedRequestData != null) {
-              firebaseEmployeeDataAccess.updateDriverLocation(
-                  driverLocation: GeoPoint(
-                      currentLocation.latitude, currentLocation.longitude));
-              updateRouteAndMap();
-            } else {
-              animateCamera(locationLatLng: currentLocationGetter());
-            }
+            onLocationChanges();
           }
           if (kDebugMode) {
             print(position == null

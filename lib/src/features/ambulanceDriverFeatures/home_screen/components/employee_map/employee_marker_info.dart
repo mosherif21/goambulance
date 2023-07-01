@@ -15,7 +15,6 @@ class EmployeeMarkerWindowInfo extends StatelessWidget {
   final int time;
   final bool requestLocation;
   final String? title;
-
   final Function onTap;
   @override
   Widget build(BuildContext context) {

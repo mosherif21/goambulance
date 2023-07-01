@@ -517,7 +517,7 @@ class Languages extends Translations {
           'hospitalCanceled': 'Hospital canceled the request',
           'timedOut': 'Request timed out',
           'pickupIn': 'Pickup in @routeTime',
-          'arriveIn': 'Pickup in @routeTime',
+          'arriveIn': 'Arrive in @routeTime',
           'arriveBy': 'Arrive by',
           'minutes': 'minutes',
           'minute': 'minute',

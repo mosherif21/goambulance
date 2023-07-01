@@ -402,11 +402,11 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       break;
     case "requestAssigned":
       notificationTitle = notificationsLang === "en" ? "Ambulance request Assigned" : "تم تعيين طلب الاسعاف";
-      notificationBody = notificationsLang === "en" ? `${hospitalName} has assigned an ambulance to your request` : `تم تعيين سيارة إسعاف من ${hospitalName} لطلبك`;
+      notificationBody = notificationsLang === "en" ? `The ambulance for your request from ${hospitalName} is on its way` : `سيارة الإسعاف لطلبك من ${hospitalName} في طريقها إليك`;
       break;
     case "requestOngoing":
       notificationTitle = notificationsLang === "en" ? "Ambulance request ongoing" : "طلب الإسعاف جاري";
-      notificationBody = notificationsLang === "en" ? `The ambulance for your request from ${hospitalName} is on its way` : `سيارة الإسعاف لطلبك من ${hospitalName} في طريقها إليك`;
+      notificationBody = notificationsLang === "en" ? `The ambulance is on it's way to ${hospitalName}` :`سيارة الإسعاف في طريقها إلى ${hospitalName}`
       break;
     case "ambulanceNear":
       notificationTitle = notificationsLang === "en" ? "Ambulance is near" : "سيارة الإسعاف قريبة منك";

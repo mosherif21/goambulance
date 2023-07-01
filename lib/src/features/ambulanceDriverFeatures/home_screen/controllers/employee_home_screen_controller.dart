@@ -704,7 +704,7 @@ class EmployeeHomeScreenController extends GetxController {
   void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
     if (googleMapControllerInit) {
       googleMapController
-          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 50));
+          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 35));
     }
   }
 
@@ -746,49 +746,48 @@ class EmployeeHomeScreenController extends GetxController {
             from: Coordinates(assignedRequestData!.requestLocation.latitude,
                 assignedRequestData!.requestLocation.longitude));
         print(distanceToRequest);
-        if (distanceToRequest <= 0.3 && distanceToRequest >= 0.05) {
+        if (distanceToRequest <= 0.6 && distanceToRequest >= 0.05) {
           print('near');
-
-          // if (!assignedRequestData!.notifiedNear) {
-          //   assignedRequestData!.notifiedNear = true;
-          //   firebaseEmployeeDataAccess
-          //       .sendNotification(
-          //     userId: assignedRequestData!.userId,
-          //     hospitalName: assignedRequestData!.hospitalName,
-          //     notificationType: EmployeeNotificationType.ambulanceNear,
-          //     requestId: assignedRequestData!.requestId,
-          //   )
-          //       .then(
-          //     (functionStatus) {
-          //       if (functionStatus == FunctionStatus.success) {
-          //         assignedRequestData!.notifiedNear = true;
-          //       } else {
-          //         assignedRequestData!.notifiedNear = false;
-          //       }
-          //     },
-          //   );
-          // }
+          if (!assignedRequestData!.notifiedNear) {
+            assignedRequestData!.notifiedNear = true;
+            firebaseEmployeeDataAccess
+                .sendNotification(
+              userId: assignedRequestData!.userId,
+              hospitalName: assignedRequestData!.hospitalName,
+              notificationType: EmployeeNotificationType.ambulanceNear,
+              requestId: assignedRequestData!.requestId,
+            )
+                .then(
+              (functionStatus) {
+                if (functionStatus == FunctionStatus.success) {
+                  assignedRequestData!.notifiedNear = true;
+                } else {
+                  assignedRequestData!.notifiedNear = false;
+                }
+              },
+            );
+          }
         } else if (distanceToRequest < 0.05) {
           print('arrived');
-          // if (!assignedRequestData!.notifiedArrived) {
-          //   assignedRequestData!.notifiedArrived = true;
-          //   firebaseEmployeeDataAccess
-          //       .sendNotification(
-          //     userId: assignedRequestData!.userId,
-          //     hospitalName: assignedRequestData!.hospitalName,
-          //     notificationType: EmployeeNotificationType.ambulanceArrived,
-          //     requestId: assignedRequestData!.requestId,
-          //   )
-          //       .then(
-          //     (functionStatus) {
-          //       if (functionStatus == FunctionStatus.success) {
-          //         assignedRequestData!.notifiedArrived = true;
-          //       } else {
-          //         assignedRequestData!.notifiedArrived = false;
-          //       }
-          //     },
-          //   );
-          // }
+          if (!assignedRequestData!.notifiedArrived) {
+            assignedRequestData!.notifiedArrived = true;
+            firebaseEmployeeDataAccess
+                .sendNotification(
+              userId: assignedRequestData!.userId,
+              hospitalName: assignedRequestData!.hospitalName,
+              notificationType: EmployeeNotificationType.ambulanceArrived,
+              requestId: assignedRequestData!.requestId,
+            )
+                .then(
+              (functionStatus) {
+                if (functionStatus == FunctionStatus.success) {
+                  assignedRequestData!.notifiedArrived = true;
+                } else {
+                  assignedRequestData!.notifiedArrived = false;
+                }
+              },
+            );
+          }
         }
       }
     } else {

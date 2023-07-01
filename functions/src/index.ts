@@ -413,8 +413,8 @@ exports.sendNotification = functions.https.onRequest(async (request, response) =
       notificationBody = notificationsLang === "en" ? `The ambulance for your request from ${hospitalName} is near` : `سيارة الإسعاف لطلبك من ${hospitalName} قريبة منك`;
       break;
     case "ambulanceArrived":
-      notificationTitle = notificationsLang === "en" ? "Ambulance arrived" : "وصلت السيارة إسعاف";
-      notificationBody = notificationsLang === "en" ? `The ambulance for your request from ${hospitalName} has arrived at your location` : `وصلت سيارة الإسعاف لطلبك من ${hospitalName} إلى موقعك`;
+      notificationTitle = notificationsLang === "en" ? "Ambulance arrived" : "سيارة الإسعاف وصلت";
+      notificationBody = notificationsLang === "en" ? `The ambulance for your request from ${hospitalName} has arrived at request location` : `وصلت سيارة الإسعاف لطلبك من ${hospitalName} إلى موقع الطلب`;
       break;
     case "requestCompleted":
       notificationTitle = notificationsLang === "en" ? "Ambulance request completed" : "اكتمل طلب الإسعاف";

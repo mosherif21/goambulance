@@ -292,13 +292,14 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
       'sendNotification',
     );
+    final notificationTypeParam =
+        notificationType == EmployeeNotificationType.ambulanceNear
+            ? 'ambulanceNear'
+            : notificationType == EmployeeNotificationType.ambulanceArrived
+                ? 'ambulanceArrived'
+                : 'requestOngoing';
     final Map<String, dynamic> data = {
-      'notificationType':
-          notificationType == EmployeeNotificationType.ambulanceNear
-              ? 'ambulanceNear'
-              : notificationType == EmployeeNotificationType.ambulanceArrived
-                  ? 'ambulanceArrived'
-                  : 'requestOngoing',
+      'notificationType': notificationTypeParam,
       'userId': userId,
       'hospitalName': hospitalName,
     };
@@ -320,7 +321,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
       }
     } catch (e) {
       if (kDebugMode) {
-        AppInit.logger.e('Notifications send failed');
+        AppInit.logger.e('Notifications send failed ${e.toString()}');
       }
     }
     return FunctionStatus.failure;

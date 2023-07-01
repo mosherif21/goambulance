@@ -791,9 +791,7 @@ class EmployeeHomeScreenController extends GetxController {
     } else {
       ambulanceMarker = Marker(
         markerId: kAmbulanceMarkerId,
-        position: locationAvailable.value
-            ? currentLocationGetter()
-            : initialCameraLatLng,
+        position: currentLocationGetter(),
         icon: ambulanceMarkerIcon,
         anchor: const Offset(0.5, 0.5),
         consumeTapEvents: true,

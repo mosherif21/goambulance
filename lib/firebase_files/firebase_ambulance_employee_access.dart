@@ -422,6 +422,7 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
           }
         }
       }
+
       completeRequestBatch.delete(firestoreUserRef
           .collection('assignedRequests')
           .doc(requestInfo.requestId));
@@ -430,7 +431,33 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
               .collection('completedRequests')
               .doc(requestInfo.requestId),
           <String, dynamic>{});
-
+      if (authRep.employeeUserInfo.userType == UserType.driver) {
+        final medicAssignedRef = fireStore
+            .collection('users')
+            .doc(requestInfo.ambulanceMedicID)
+            .collection('assignedRequests')
+            .doc(requestInfo.requestId);
+        completeRequestBatch.delete(medicAssignedRef);
+        final medicCompletedRef = fireStore
+            .collection('users')
+            .doc(requestInfo.ambulanceMedicID)
+            .collection('completedRequests')
+            .doc(requestInfo.requestId);
+        completeRequestBatch.set(medicCompletedRef, <String, dynamic>{});
+      } else if (authRep.userType == UserType.medic) {
+        final driverAssignedRef = fireStore
+            .collection('users')
+            .doc(requestInfo.ambulanceDriverID)
+            .collection('assignedRequests')
+            .doc(requestInfo.requestId);
+        completeRequestBatch.delete(driverAssignedRef);
+        final driverCompletedRef = fireStore
+            .collection('users')
+            .doc(requestInfo.ambulanceDriverID)
+            .collection('completedRequests')
+            .doc(requestInfo.requestId);
+        completeRequestBatch.set(driverCompletedRef, <String, dynamic>{});
+      }
       final driverHospitalAssignedRef = fireStore
           .collection('hospitals')
           .doc(requestInfo.hospitalId)
@@ -483,18 +510,6 @@ class FirebaseAmbulanceEmployeeDataAccess extends GetxController {
           .doc(requestInfo.requestId);
       completeRequestBatch.set(hospitalCompletedRef, <String, dynamic>{});
 
-      final medicAssignedRef = fireStore
-          .collection('users')
-          .doc(requestInfo.ambulanceMedicID)
-          .collection('assignedRequests')
-          .doc(requestInfo.requestId);
-      completeRequestBatch.delete(medicAssignedRef);
-      final medicCompletedRef = fireStore
-          .collection('users')
-          .doc(requestInfo.ambulanceMedicID)
-          .collection('completedRequests')
-          .doc(requestInfo.requestId);
-      completeRequestBatch.set(medicCompletedRef, <String, dynamic>{});
       final userAssignedRef = fireStore
           .collection('users')
           .doc(requestInfo.userId)

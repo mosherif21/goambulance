@@ -465,6 +465,7 @@ class Languages extends Translations {
           'viewHospitalInformation': 'عرض معلومات المستشفى',
           'viewRequestInformation': 'عرض معلومات الطلب',
           'viewDriverInformation': 'عرض معلومات السائق',
+          'hospitalInformation': 'معلومات المستشفى',
         },
         'en_US': {
           'sosCancelReturn':
@@ -945,6 +946,7 @@ class Languages extends Translations {
           'viewHospitalInformation': 'View hospital information',
           'viewRequestInformation': 'View request information',
           'viewDriverInformation': 'View driver information',
+          'hospitalInformation': 'Hospital information',
         },
       };
 }

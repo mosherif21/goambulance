@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/models.dart';
 import 'package:line_icons/line_icon.dart';
 
-import '../../../../../general/general_functions.dart';
+import '../../../../general/general_functions.dart';
 
 class HospitalChooseCard extends StatelessWidget {
   const HospitalChooseCard({

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../../../../../constants/assets_strings.dart';
+import '../../../../constants/assets_strings.dart';
 
 class MyLocationButton extends StatelessWidget {
   const MyLocationButton({Key? key, required this.onLocationButtonPress})

@@ -31,7 +31,8 @@ import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
-import '../components/making_request/components/marker_window_info.dart';
+import '../components/general/hospital_information_page.dart';
+import '../components/general/marker_window_info.dart';
 
 class TrackingRequestController extends GetxController {
   static TrackingRequestController get instance => Get.find();
@@ -85,7 +86,6 @@ class TrackingRequestController extends GetxController {
   final choosingHospital = false.obs;
   final hospitalsLoaded = false.obs;
   final requestStatus = RequestStatus.non.obs;
-  late RequestMakingModel currentRequestData;
   late final FirebasePatientDataAccess firebasePatientDataAccess;
   final selectedHospital = Rx<HospitalLocationsModel?>(null);
   int skipCount = 0;
@@ -104,7 +104,7 @@ class TrackingRequestController extends GetxController {
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
-
+  RequestMakingModel? currentRequestData;
   @override
   void onInit() async {
     _firestore = FirebaseFirestore.instance;
@@ -169,8 +169,24 @@ class TrackingRequestController extends GetxController {
     await pendingRequestListener?.cancel();
   }
 
-  void viewHospitalInformation() {}
+  void viewHospitalInformation() async {
+    if (currentRequestData != null) {
+      showLoadingScreen();
+      final hospitalInfo = await firebasePatientDataAccess.getHospitalInfo(
+          hospitalId: currentRequestData!.hospitalId);
+
+      hideLoadingScreen();
+      if (hospitalInfo != null) {
+        Get.to(() => HospitalInformationPage(hospitalModel: hospitalInfo),
+            transition: getPageTransition());
+      } else {
+        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+      }
+    }
+  }
+
   void viewRequestInformation() {}
+  void viewDriverInformation() {}
 
   void confirmRequestPress() {
     displayAlertDialog(
@@ -234,14 +250,16 @@ class TrackingRequestController extends GetxController {
       positiveButtonText: 'yes'.tr,
       negativeButtonText: 'no'.tr,
       positiveButtonOnPressed: () async {
-        Get.back();
-        showLoadingScreen();
-        pendingRequestListener?.cancel();
-        final functionStatus = await firebasePatientDataAccess
-            .cancelHospitalRequest(requestInfo: currentRequestData);
-        hideLoadingScreen();
-        if (functionStatus == FunctionStatus.success) {
-          onRequestCanceledChanges();
+        if (currentRequestData != null) {
+          Get.back();
+          showLoadingScreen();
+          pendingRequestListener?.cancel();
+          final functionStatus = await firebasePatientDataAccess
+              .cancelHospitalRequest(requestInfo: currentRequestData!);
+          hideLoadingScreen();
+          if (functionStatus == FunctionStatus.success) {
+            onRequestCanceledChanges();
+          }
         }
       },
       negativeButtonOnPressed: () => Get.back(),

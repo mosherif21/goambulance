@@ -18,9 +18,9 @@ import '../../../../../general/common_widgets/back_button.dart';
 import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
 import '../../../../../general/common_widgets/regular_elevated_button.dart';
 import '../../../../../general/general_functions.dart';
-import '../../making_request/components/choose_hospitals_widget.dart';
-import '../../making_request/components/my_location_button.dart';
-import '../../making_request/components/search_bar_map.dart';
+import '../../general/choose_hospitals_widget.dart';
+import '../../general/my_location_button.dart';
+import '../../general/search_bar_map.dart';
 import '../../models.dart';
 
 class TrackingRequestPage extends StatelessWidget {
@@ -73,64 +73,65 @@ class TrackingRequestPage extends StatelessWidget {
             const SizedBox(height: 8),
             const Divider(thickness: 0.5, height: 1),
             Expanded(
-                child: trackingController.requestStatus.value ==
-                        RequestStatus.non
-                    ? ChooseHospitalsList(
-                        controller: trackingController,
-                      )
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            NoFrameClickableCard(
-                              onPressed: () =>
-                                  trackingController.viewHospitalInformation(),
-                              title: 'viewHospitalInformation'.tr,
-                              subTitle: '',
-                              leadingIcon: LineIcons.hospital,
-                              leadingIconColor: Colors.black,
-                              leadingIconSize: 40,
-                              trailingIcon: Icons.arrow_forward_ios_outlined,
-                              trailingIconColor: Colors.grey,
-                              padding:
-                                  EdgeInsets.all(isLangEnglish() ? 16 : 13),
-                            ),
-                            NoFrameClickableCard(
-                              onPressed: () =>
-                                  trackingController.viewRequestInformation(),
-                              title: 'viewRequestInformation'.tr,
-                              subTitle: '',
-                              leadingIcon: Icons.medical_information_outlined,
-                              leadingIconColor: Colors.black,
-                              leadingIconSize: 40,
-                              trailingIcon: Icons.arrow_forward_ios_outlined,
-                              trailingIconColor: Colors.grey,
-                              padding:
-                                  EdgeInsets.all(isLangEnglish() ? 16 : 13),
-                            ),
-                            NoFrameClickableCard(
-                              onPressed: () =>
-                                  trackingController.viewRequestInformation(),
-                              title: 'viewDriverInformation'.tr,
-                              subTitle: '',
-                              leadingIcon: Icons.account_box,
-                              leadingIconColor: Colors.black,
-                              leadingIconSize: 40,
-                              trailingIcon: Icons.arrow_forward_ios_outlined,
-                              trailingIconColor: Colors.grey,
-                              padding:
-                                  EdgeInsets.all(isLangEnglish() ? 16 : 13),
-                            ),
-                          ],
-                        ),
-                      )
-                // trackingController.requestStatus.value ==
-                //             RequestStatus.pending
-                //         ? const PendingRequest()
-                //         : trackingController.requestStatus.value ==
-                //                 RequestStatus.accepted
-                //             ? const AcceptingRequest()
-                //             : const SizedBox.shrink(),
-                ),
+              child: trackingController.requestStatus.value ==
+                          RequestStatus.non ||
+                      trackingController.requestStatus.value ==
+                          RequestStatus.completed
+                  ? ChooseHospitalsList(
+                      controller: trackingController,
+                    )
+                  : SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          NoFrameClickableCard(
+                            onPressed: () =>
+                                trackingController.viewHospitalInformation(),
+                            title: 'viewHospitalInformation'.tr,
+                            subTitle: '',
+                            leadingIcon: LineIcons.hospital,
+                            leadingIconColor: Colors.black,
+                            leadingIconSize: 40,
+                            trailingIcon: Icons.arrow_forward_ios_outlined,
+                            trailingIconColor: Colors.grey,
+                            padding: EdgeInsets.all(isLangEnglish() ? 16 : 13),
+                          ),
+                          NoFrameClickableCard(
+                            onPressed: () =>
+                                trackingController.viewRequestInformation(),
+                            title: 'viewRequestInformation'.tr,
+                            subTitle: '',
+                            leadingIcon: Icons.medical_information_outlined,
+                            leadingIconColor: Colors.black,
+                            leadingIconSize: 40,
+                            trailingIcon: Icons.arrow_forward_ios_outlined,
+                            trailingIconColor: Colors.grey,
+                            padding: EdgeInsets.all(isLangEnglish() ? 16 : 13),
+                          ),
+                          Obx(
+                            () => trackingController.requestStatus.value ==
+                                        RequestStatus.assigned ||
+                                    trackingController.requestStatus.value ==
+                                        RequestStatus.ongoing
+                                ? NoFrameClickableCard(
+                                    onPressed: () => trackingController
+                                        .viewDriverInformation(),
+                                    title: 'viewDriverInformation'.tr,
+                                    subTitle: '',
+                                    leadingIcon: Icons.account_box,
+                                    leadingIconColor: Colors.black,
+                                    leadingIconSize: 40,
+                                    trailingIcon:
+                                        Icons.arrow_forward_ios_outlined,
+                                    trailingIconColor: Colors.grey,
+                                    padding: EdgeInsets.all(
+                                        isLangEnglish() ? 16 : 13),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ],
+                      ),
+                    ),
+            ),
             const Divider(thickness: 1, height: 2),
             Padding(
               padding: const EdgeInsets.all(18),

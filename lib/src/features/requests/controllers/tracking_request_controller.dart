@@ -1296,9 +1296,6 @@ class TrackingRequestController extends GetxController {
     } catch (err) {
       if (kDebugMode) print(err.toString());
     }
-    if (requestStatus.value != RequestStatus.non) {
-      pendingRequestListener?.cancel();
-    }
     requestLocationWindowController.dispose();
 
     super.onClose();

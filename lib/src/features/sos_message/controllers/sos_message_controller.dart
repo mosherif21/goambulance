@@ -14,6 +14,8 @@ import '../../../general/general_functions.dart';
 class SosMessageController extends GetxController {
   static SosMessageController get instance => Get.find();
 
+  final formKey = GlobalKey<FormState>();
+
   //vars
   final contactName = ''.obs;
   final phoneNumber = ''.obs;
@@ -67,20 +69,22 @@ class SosMessageController extends GetxController {
   }
 
   void addContact() async {
-    showLoadingScreen();
-    final contactItem = await firebasePatientDataAccess.addEmergencyContact(
-      contactName: contactName.value,
-      contactNumber: phoneNumber.value,
-    );
-    hideLoadingScreen();
-    if (contactItem != null) {
-      RegularBottomSheet.hideBottomSheet();
-      contactsList.add(contactItem);
-      contactNameTextController.clear();
-    } else {
-      showSnackBar(
-          text: 'addingEmergencyContactFailed'.tr,
-          snackBarType: SnackBarType.error);
+    if (formKey.currentState!.validate()) {
+      showLoadingScreen();
+      final contactItem = await firebasePatientDataAccess.addEmergencyContact(
+        contactName: contactName.value,
+        contactNumber: phoneNumber.value,
+      );
+      hideLoadingScreen();
+      if (contactItem != null) {
+        RegularBottomSheet.hideBottomSheet();
+        contactsList.add(contactItem);
+        contactNameTextController.clear();
+      } else {
+        showSnackBar(
+            text: 'addingEmergencyContactFailed'.tr,
+            snackBarType: SnackBarType.error);
+      }
     }
   }
 
@@ -197,11 +201,13 @@ class ContactItem {
   final String contactName;
   final String contactNumber;
   final String contactDocumentId;
+
   ContactItem({
     required this.contactName,
     required this.contactNumber,
     required this.contactDocumentId,
   });
+
   Map<String, dynamic> toJson() {
     return {
       'contactName': contactName,

@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/controllers/employee_home_screen_controller.dart';
 import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
+import 'package:goambulance/src/general/validation_functions.dart';
 import 'package:intl/intl.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:location/location.dart';
@@ -410,12 +411,14 @@ Future<bool> handleStoragePermission() async => await handleGeneralPermission(
       deniedForeverSnackBarTitle: 'storagePermission'.tr,
       deniedForeverSnackBarBody: 'storagePermissionDeniedForever'.tr,
     );
+
 Future<bool> handleSmsPermission() async => await handleGeneralPermission(
       permission: Permission.sms,
       deniedSnackBarText: 'enableSmsPermission'.tr,
       deniedForeverSnackBarTitle: 'smsPermission'.tr,
       deniedForeverSnackBarBody: 'smsPermissionDeniedForever'.tr,
     );
+
 Future<bool> handleNotificationsPermission() async =>
     await handleGeneralPermission(
       permission: Permission.notification,
@@ -423,12 +426,14 @@ Future<bool> handleNotificationsPermission() async =>
       deniedForeverSnackBarTitle: 'notificationsPermission'.tr,
       deniedForeverSnackBarBody: 'notificationsPermissionDeniedForever'.tr,
     );
+
 Future<bool> handleSpeechPermission() async => await handleGeneralPermission(
       permission: Permission.speech,
       deniedSnackBarText: 'enableSpeechPermission'.tr,
       deniedForeverSnackBarTitle: 'speechPermission'.tr,
       deniedForeverSnackBarBody: 'speechPermissionDeniedForever'.tr,
     );
+
 Future<bool> handleAndroidBatteryPermission() async =>
     await handleGeneralPermission(
       permission: Permission.ignoreBatteryOptimizations,
@@ -497,6 +502,7 @@ void getToResetPasswordScreen() {
       inputType: InputType.email,
       linkWithPhone: false,
       goToInitPage: false,
+      validationFunction: validateEmail,
     ),
     transition: getPageTransition(),
   );

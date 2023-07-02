@@ -15,6 +15,7 @@ import '../../../account/components/models.dart';
 
 class EmployeeUserDataController extends GetxController {
   static EmployeeUserDataController get instance => Get.find();
+  final formKey = GlobalKey<FormState>();
 
   //vars
   late final String oldName;
@@ -143,24 +144,26 @@ class EmployeeUserDataController extends GetxController {
   }
 
   void updateUserInfoData() async {
-    showLoadingScreen();
-    final functionStatus =
-        await FirebaseAmbulanceEmployeeDataAccess.instance.updateUserInfo(
-      profilePic: isProfileImageChanged.value ? profileImage.value : null,
-      nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
-    );
-    if (functionStatus == FunctionStatus.success) {
-      isProfileImageChanged.value = false;
-      isNationalIDImageChanged.value = false;
-      hideLoadingScreen();
-      Get.back();
-      showSnackBar(
-          text: 'accountDetailSavedSuccess'.tr,
-          snackBarType: SnackBarType.success);
-    } else {
-      hideLoadingScreen();
-      showSnackBar(
-          text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
+    if (formKey.currentState!.validate()) {
+      showLoadingScreen();
+      final functionStatus =
+          await FirebaseAmbulanceEmployeeDataAccess.instance.updateUserInfo(
+        profilePic: isProfileImageChanged.value ? profileImage.value : null,
+        nationalID: isNationalIDImageChanged.value ? iDImage.value : null,
+      );
+      if (functionStatus == FunctionStatus.success) {
+        isProfileImageChanged.value = false;
+        isNationalIDImageChanged.value = false;
+        hideLoadingScreen();
+        Get.back();
+        showSnackBar(
+            text: 'accountDetailSavedSuccess'.tr,
+            snackBarType: SnackBarType.success);
+      } else {
+        hideLoadingScreen();
+        showSnackBar(
+            text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
+      }
     }
   }
 

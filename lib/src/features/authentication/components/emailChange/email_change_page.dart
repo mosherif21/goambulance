@@ -23,7 +23,6 @@ class EmailChangePage extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
     final controller = Get.put(ChangeEmailController());
     return WillPopScope(
-      key: controller.formKey,
       onWillPop: () {
         return Future.value(true);
       },
@@ -35,56 +34,59 @@ class EmailChangePage extends StatelessWidget {
         ),
         backgroundColor: Colors.white,
         body: SafeArea(
-          child: StretchingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Lottie.asset(
-                    kEmailVerificationAnim,
-                    fit: BoxFit.contain,
-                    height: screenHeight * 0.4,
-                  ),
-                  AutoSizeText(
-                    'enterChangeEmailData'.tr,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: AppInit.notWebMobile ? 25 : 14,
-                      fontWeight: FontWeight.w700,
+          child: Form(
+            key: controller.formKey,
+            child: StretchingOverscrollIndicator(
+              axisDirection: AxisDirection.down,
+              child: SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      kEmailVerificationAnim,
+                      fit: BoxFit.contain,
+                      height: screenHeight * 0.4,
                     ),
-                    maxLines: 2,
-                    minFontSize: 10,
-                  ),
-                  const SizedBox(height: 20.0),
-                  TextFormFieldRegular(
-                    labelText: 'newEmailLabel'.tr,
-                    hintText: 'newEmailHintLabel'.tr,
-                    prefixIconData: Icons.email_outlined,
-                    textController: controller.emailController,
-                    inputType: InputType.email,
-                    editable: true,
-                    textInputAction: TextInputAction.done,
-                    validationFunction: validateEmail,
-                  ),
-                  const SizedBox(height: 20.0),
-                  TextFormFieldPassword(
-                    labelText: 'passwordLabel'.tr,
-                    textController: controller.passwordController,
-                    textInputAction: TextInputAction.done,
-                    validationFunction: validatePassword,
-                  ),
-                  const SizedBox(height: 20.0),
-                  RegularElevatedButton(
-                    buttonText: 'confirm'.tr,
-                    enabled: true,
-                    onPressed: () => controller.changeEmail(),
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    AutoSizeText(
+                      'enterChangeEmailData'.tr,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: AppInit.notWebMobile ? 25 : 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 2,
+                      minFontSize: 10,
+                    ),
+                    const SizedBox(height: 20.0),
+                    TextFormFieldRegular(
+                      labelText: 'newEmailLabel'.tr,
+                      hintText: 'newEmailHintLabel'.tr,
+                      prefixIconData: Icons.email_outlined,
+                      textController: controller.emailController,
+                      inputType: InputType.email,
+                      editable: true,
+                      textInputAction: TextInputAction.done,
+                      validationFunction: validateEmail,
+                    ),
+                    const SizedBox(height: 20.0),
+                    TextFormFieldPassword(
+                      labelText: 'passwordLabel'.tr,
+                      textController: controller.passwordController,
+                      textInputAction: TextInputAction.done,
+                      validationFunction: validatePassword,
+                    ),
+                    const SizedBox(height: 20.0),
+                    RegularElevatedButton(
+                      buttonText: 'confirm'.tr,
+                      enabled: true,
+                      onPressed: () => controller.changeEmail(),
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),

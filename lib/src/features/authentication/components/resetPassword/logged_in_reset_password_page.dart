@@ -23,63 +23,65 @@ class LoggedInResetPasswordPage extends StatelessWidget {
     final controller = Get.put(ResetPasswordController());
 
     return WillPopScope(
-      key: controller.formKey,
       onWillPop: () {
         return Future.value(true);
       },
-      child: Scaffold(
-        appBar: AppBar(
-          leading: const RegularBackButton(padding: 0),
-          elevation: 0,
+      child: Form(
+        key: controller.formKey,
+        child: Scaffold(
+          appBar: AppBar(
+            leading: const RegularBackButton(padding: 0),
+            elevation: 0,
+            backgroundColor: Colors.white,
+          ),
           backgroundColor: Colors.white,
-        ),
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: StretchingOverscrollIndicator(
-            axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              padding:
-              const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Lottie.asset(
-                    kEmailVerificationAnim,
-                    fit: BoxFit.contain,
-                    height: screenHeight * 0.4,
-                  ),
-                  AutoSizeText(
-                    'loggedInPasswordResetLink'.tr,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: AppInit.notWebMobile ? 25 : 14,
-                      fontWeight: FontWeight.w700,
+          body: SafeArea(
+            child: StretchingOverscrollIndicator(
+              axisDirection: AxisDirection.down,
+              child: SingleChildScrollView(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      kEmailVerificationAnim,
+                      fit: BoxFit.contain,
+                      height: screenHeight * 0.4,
                     ),
-                    maxLines: 2,
-                    minFontSize: 10,
-                  ),
-                  const SizedBox(
-                    height: 20.0,
-                  ),
-                  TextFormFieldRegular(
-                    labelText: 'emailLabel'.tr,
-                    hintText: 'emailHintLabel'.tr,
-                    prefixIconData: Icons.email_outlined,
-                    textController: controller.emailController,
-                    inputType: InputType.email,
-                    editable: false,
-                    textInputAction: TextInputAction.done,
-                    validationFunction: validateEmail,
-                  ),
-                  const SizedBox(height: 20.0),
-                  RegularElevatedButton(
-                    buttonText: 'send'.tr,
-                    enabled: true,
-                    onPressed: () => controller.resetPassword(),
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 20),
-                ],
+                    AutoSizeText(
+                      'loggedInPasswordResetLink'.tr,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: AppInit.notWebMobile ? 25 : 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      maxLines: 2,
+                      minFontSize: 10,
+                    ),
+                    const SizedBox(
+                      height: 20.0,
+                    ),
+                    TextFormFieldRegular(
+                      labelText: 'emailLabel'.tr,
+                      hintText: 'emailHintLabel'.tr,
+                      prefixIconData: Icons.email_outlined,
+                      textController: controller.emailController,
+                      inputType: InputType.email,
+                      editable: false,
+                      textInputAction: TextInputAction.done,
+                      validationFunction: validateEmail,
+                    ),
+                    const SizedBox(height: 20.0),
+                    RegularElevatedButton(
+                      buttonText: 'send'.tr,
+                      enabled: true,
+                      onPressed: () => controller.resetPassword(),
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
             ),
           ),

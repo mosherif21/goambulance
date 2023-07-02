@@ -18,6 +18,7 @@ class MakingRequestInformationController extends GetxController {
   static MakingRequestInformationController get instance => Get.find();
 
   final userRequest = true.obs;
+  final formKey = GlobalKey<FormState>();
 
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
@@ -61,21 +62,24 @@ class MakingRequestInformationController extends GetxController {
   }
 
   Future<void> confirmRequestInformation() async {
-    highlightPatientCondition.value =
-        patientConditionTextController.text.trim().isEmpty;
-    final requestType = requestTypeDropdownController.text.trim();
-    highlightRequest.value =
-        requestType.compareTo('selectValue'.tr) == 0 || requestType.isEmpty;
-    if (highlightPatientCondition.value || highlightRequest.value) {
-      showSnackBar(text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
-    } else {
-      if (Get.context != null) {
-        FocusScope.of(Get.context!).requestFocus(FocusNode());
+    if (formKey.currentState!.validate()) {
+      highlightPatientCondition.value =
+          patientConditionTextController.text.trim().isEmpty;
+      final requestType = requestTypeDropdownController.text.trim();
+      highlightRequest.value =
+          requestType.compareTo('selectValue'.tr) == 0 || requestType.isEmpty;
+      if (highlightPatientCondition.value || highlightRequest.value) {
+        showSnackBar(
+            text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
+      } else {
+        if (Get.context != null) {
+          FocusScope.of(Get.context!).requestFocus(FocusNode());
+        }
+        Get.to(
+          () => const NormalRequestLocationPage(),
+          transition: getPageTransition(),
+        );
       }
-      Get.to(
-        () => const NormalRequestLocationPage(),
-        transition: getPageTransition(),
-      );
     }
   }
 

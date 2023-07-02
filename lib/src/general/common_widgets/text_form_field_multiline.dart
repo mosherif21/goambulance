@@ -10,6 +10,7 @@ class TextFormFieldMultiline extends StatelessWidget {
     required this.textInputAction,
     this.inputFormatter,
     this.onSubmitted,
+    this.validationFunction,
   }) : super(key: key);
   final String labelText;
   final String hintText;
@@ -17,6 +18,8 @@ class TextFormFieldMultiline extends StatelessWidget {
   final TextInputAction textInputAction;
   final TextInputFormatter? inputFormatter;
   final Function? onSubmitted;
+  final String? Function(String?)? validationFunction;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -34,6 +37,7 @@ class TextFormFieldMultiline extends StatelessWidget {
           hintText: hintText,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
+        validator: validationFunction,
       ),
     );
   }

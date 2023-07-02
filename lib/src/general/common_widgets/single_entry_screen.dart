@@ -164,15 +164,13 @@ class SingleEntryScreen extends StatelessWidget {
                     buttonText: buttonTitle,
                     enabled: true,
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        if (inputType == InputType.phone) {
-                          OtpVerificationController.instance.otpOnClick(
-                              linkWithPhone: linkWithPhone,
-                              goToInitPage: goToInitPage);
-                        } else {
-                          final controller = ResetPasswordController.instance;
-                          controller.resetPassword();
-                        }
+                      if (inputType == InputType.phone) {
+                        OtpVerificationController.instance.otpOnClick(
+                            linkWithPhone: linkWithPhone,
+                            goToInitPage: goToInitPage);
+                      } else {
+                        final controller = ResetPasswordController.instance;
+                        controller.resetPassword();
                       }
                     },
                     color: Colors.black,

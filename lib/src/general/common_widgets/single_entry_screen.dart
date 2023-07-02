@@ -44,7 +44,6 @@ class SingleEntryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
     if (inputType == InputType.phone) {
@@ -149,15 +148,19 @@ class SingleEntryScreen extends StatelessWidget {
                                 .text = phone.completeNumber;
                           },
                         )
-                      : TextFormFieldRegular(
-                          labelText: textFormTitle,
-                          hintText: textFormHint,
-                          prefixIconData: prefixIconData,
-                          textController:
-                              ResetPasswordController.instance.emailController,
-                          inputType: inputType,
-                          editable: true,
-                          textInputAction: TextInputAction.done,
+                      : Form(
+                          key: ResetPasswordController.instance.formKey,
+                          child: TextFormFieldRegular(
+                            labelText: textFormTitle,
+                            hintText: textFormHint,
+                            prefixIconData: prefixIconData,
+                            textController: ResetPasswordController
+                                .instance.emailController,
+                            inputType: inputType,
+                            editable: true,
+                            textInputAction: TextInputAction.done,
+                            validationFunction: validationFunction,
+                          ),
                         ),
                   const SizedBox(height: 20.0),
                   RegularElevatedButton(

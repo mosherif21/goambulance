@@ -503,6 +503,42 @@ class FirebasePatientDataAccess extends GetxController {
     return null;
   }
 
+  Future<AmbulanceInformationDataModel?> getAmbulanceInfo({
+    required String ambulanceDriverId,
+    required String ambulanceMedicId,
+    required String licensePlate,
+    required String ambulanceType,
+  }) async {
+    try {
+      final ambulanceDriverDocument =
+          await fireStore.collection('users').doc(ambulanceDriverId).get();
+      final ambulanceMedicDocument =
+          await fireStore.collection('users').doc(ambulanceMedicId).get();
+      if (ambulanceMedicDocument.exists && ambulanceDriverDocument.exists) {
+        final ambulanceMedicData = ambulanceMedicDocument.data()!;
+        final ambulanceDriverData = ambulanceDriverDocument.data()!;
+        final ambulanceInfo = AmbulanceInformationDataModel(
+          ambulanceDriverName: ambulanceDriverData['name'].toString(),
+          ambulanceDriverPhone: ambulanceDriverData['phoneNumber'].toString(),
+          ambulanceMedicName: ambulanceMedicData['name'].toString(),
+          ambulanceMedicPhone: ambulanceMedicData['phoneNumber'].toString(),
+          licensePlate: licensePlate,
+          ambulanceType: ambulanceType,
+        );
+        return ambulanceInfo;
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
   Future<FunctionStatus> sendCriticalUserRequest() async {
     try {
       await fireStore
@@ -1061,16 +1097,18 @@ class FirebasePatientDataAccess extends GetxController {
           .doc(requestInfo.requestRef.id);
 
       final cancelRequestInfo = CanceledRequestModel(
-        requestRef: requestInfo.requestRef,
         userId: userId,
         hospitalId: requestInfo.hospitalId,
-        hospitalRequestInfo: requestInfo.requestInfo,
         timestamp: requestInfo.timestamp,
         requestLocation: requestInfo.requestLocation,
         hospitalLocation: requestInfo.hospitalLocation,
         cancelReason: 'userCanceled',
         hospitalName: requestInfo.hospitalName,
         additionalInformation: requestInfo.requestInfo.additionalInformation,
+        isUser: requestInfo.requestInfo.isUser,
+        patientCondition: requestInfo.requestInfo.patientCondition,
+        backupNumber: requestInfo.requestInfo.backupNumber,
+        phoneNumber: requestInfo.requestInfo.phoneNumber,
       );
       cancelRequestBatch.set(canceledRequestRef, cancelRequestInfo.toJson());
       cancelRequestBatch.set(
@@ -1084,12 +1122,143 @@ class FirebasePatientDataAccess extends GetxController {
           .collection('canceledRequests')
           .doc(requestInfo.requestRef.id);
       cancelRequestBatch.set(hospitalCanceledRef, <String, dynamic>{});
-      final blockedHospitalsRef =
-          requestInfo.requestRef.collection('blockedHospitals');
-      final blockedHospitalDocuments = await blockedHospitalsRef.get();
-      for (final blockedHospital in blockedHospitalDocuments.docs) {
-        cancelRequestBatch.delete(blockedHospital.reference);
+      if (requestInfo.requestInfo.patientCondition == 'sosRequest') {
+        final blockedHospitalsRef =
+            requestInfo.requestRef.collection('blockedHospitals');
+        final blockedHospitalDocuments = await blockedHospitalsRef.get();
+        for (final blockedHospital in blockedHospitalDocuments.docs) {
+          cancelRequestBatch.delete(blockedHospital.reference);
+        }
       }
+      await cancelRequestBatch.commit();
+      return FunctionStatus.success;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+      return FunctionStatus.failure;
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+      return FunctionStatus.failure;
+    }
+  }
+
+  Future<FunctionStatus> cancelAssignedHospitalRequest({
+    required AssignedRequestDataModel requestInfo,
+  }) async {
+    try {
+      final cancelRequestBatch = fireStore.batch();
+      final assignedRequestRef =
+          fireStore.collection('assignedRequests').doc(requestInfo.requestId);
+
+      if (!requestInfo.isUser) {
+        final diseasesRef = assignedRequestRef.collection('diseases');
+        await diseasesRef.get().then((diseasesSnapshot) {
+          for (var diseaseDoc in diseasesSnapshot.docs) {
+            final diseaseDocId = diseaseDoc.id;
+            cancelRequestBatch.delete(diseasesRef.doc(diseaseDocId));
+          }
+        });
+      }
+      if (requestInfo.patientCondition == 'sosRequest') {
+        final blockedHospitalsRef =
+            assignedRequestRef.collection('blockedHospitals');
+        final blockedHospitalDocuments = await blockedHospitalsRef.get();
+        for (final blockedHospital in blockedHospitalDocuments.docs) {
+          cancelRequestBatch.delete(blockedHospital.reference);
+        }
+      }
+
+      cancelRequestBatch.delete(assignedRequestRef);
+      cancelRequestBatch.delete(firestoreUserRef
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId));
+
+      final hospitalRef =
+          fireStore.collection('hospitals').doc(requestInfo.hospitalId);
+      final hospitalAssignedRef =
+          hospitalRef.collection('assignedRequests').doc(requestInfo.requestId);
+
+      cancelRequestBatch.delete(hospitalAssignedRef);
+
+      final hospitalAssignedDriver = hospitalRef
+          .collection('assignedAmbulanceDrivers')
+          .doc(requestInfo.ambulanceDriverID);
+      cancelRequestBatch.delete(hospitalAssignedDriver);
+
+      final hospitalAssignedMedic = hospitalRef
+          .collection('assignedAmbulanceMedics')
+          .doc(requestInfo.ambulanceMedicID);
+      cancelRequestBatch.delete(hospitalAssignedMedic);
+
+      final assignedDriver = hospitalRef
+          .collection('users')
+          .doc(requestInfo.ambulanceDriverID)
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId);
+      cancelRequestBatch.delete(assignedDriver);
+
+      final assignedMedic = hospitalRef
+          .collection('users')
+          .doc(requestInfo.ambulanceMedicID)
+          .collection('assignedRequests')
+          .doc(requestInfo.requestId);
+      cancelRequestBatch.delete(assignedMedic);
+
+      final hospitalAssignedCars = hospitalRef
+          .collection('assignedAmbulanceCars')
+          .doc(requestInfo.ambulanceCarID);
+      cancelRequestBatch.delete(hospitalAssignedCars);
+
+      final hospitalAvailableDriver = hospitalRef
+          .collection('availableAmbulanceDrivers')
+          .doc(requestInfo.ambulanceDriverID);
+      cancelRequestBatch.set(hospitalAvailableDriver, <String, dynamic>{});
+
+      final hospitalAvailableMedic = hospitalRef
+          .collection('availableAmbulanceMedics')
+          .doc(requestInfo.ambulanceMedicID);
+      cancelRequestBatch.set(hospitalAvailableMedic, <String, dynamic>{});
+
+      final hospitalAvailableCars = hospitalRef
+          .collection('availableAmbulanceCars')
+          .doc(requestInfo.ambulanceCarID);
+      cancelRequestBatch.set(hospitalAvailableCars, <String, dynamic>{
+        'licensePlate': requestInfo.licensePlate,
+        'ambulanceType': requestInfo.ambulanceType,
+      });
+
+      final canceledRequestRef =
+          fireStore.collection('canceledRequests').doc(requestInfo.requestId);
+      cancelRequestBatch.set(
+          firestoreUserRef
+              .collection('canceledRequests')
+              .doc(requestInfo.requestId),
+          <String, dynamic>{});
+
+      final cancelRequestInfo = CanceledRequestModel(
+        userId: userId,
+        hospitalId: requestInfo.hospitalId,
+        timestamp: requestInfo.timestamp,
+        requestLocation: GeoPoint(requestInfo.requestLocation.latitude,
+            requestInfo.requestLocation.longitude),
+        hospitalLocation: GeoPoint(requestInfo.hospitalLocation.latitude,
+            requestInfo.hospitalLocation.longitude),
+        cancelReason: 'userCanceled',
+        hospitalName: requestInfo.hospitalName,
+        additionalInformation: requestInfo.additionalInformation,
+        isUser: requestInfo.isUser,
+        patientCondition: requestInfo.patientCondition,
+        backupNumber: requestInfo.backupNumber,
+        phoneNumber: requestInfo.phoneNumber,
+      );
+      cancelRequestBatch.set(canceledRequestRef, cancelRequestInfo.toJson());
+      final hospitalCanceledRef =
+          hospitalRef.collection('canceledRequests').doc(requestInfo.requestId);
+      cancelRequestBatch.set(hospitalCanceledRef, <String, dynamic>{});
+
       await cancelRequestBatch.commit();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {

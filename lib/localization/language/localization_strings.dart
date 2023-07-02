@@ -472,6 +472,8 @@ class Languages extends Translations {
           'charactersOnly': 'لا يمكنك استخدام رموز خاصة هنا',
           'resetUnlinkSocial':
               'يرجى ملاحظة أن إعادة تعيين كلمة المرور الخاصة بك ستؤدي إلى إلغاء ربط جميع حسابات التواصل الاجتماعى الخاصة بك',
+          'regularAmbulance': 'سيارة إسعاف عادية',
+          'intensiveAmbulance': 'سيارة إسعاف للعناية المركزة',
         },
         'en_US': {
           'sosCancelReturn':
@@ -958,6 +960,8 @@ class Languages extends Translations {
           'charactersOnly': 'You Can\'t Use Special Characters Here',
           'resetUnlinkSocial':
               'Please notice that resetting your password will unlink all your social media accounts',
+          'regularAmbulance': 'Regular ambulance',
+          'intensiveAmbulance': 'Intensive care ambulance',
         },
       };
 }

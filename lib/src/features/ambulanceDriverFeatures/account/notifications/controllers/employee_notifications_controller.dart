@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/constants/enums.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
-import 'package:goambulance/src/features/home_screen/controllers/home_screen_controller.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/controllers/employee_home_screen_controller.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -30,11 +30,10 @@ class EmployeeNotificationController extends GetxController {
     final notifications = await firebaseEmployeesDataAccess.getNotifications();
     if (notifications != null) {
       notificationList.value = notifications;
-
       notificationLoaded.value = true;
-
-      if (Get.isRegistered<HomeScreenController>()) {
-        if (HomeScreenController.instance.notificationsCount.value != 0) {
+      if (Get.isRegistered<EmployeeHomeScreenController>()) {
+        if (EmployeeHomeScreenController.instance.notificationsCount.value !=
+            0) {
           await firebaseEmployeesDataAccess.resetNotificationCount();
         }
       }

@@ -14,10 +14,12 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
     super.key,
     required this.medicalInfo,
     required this.patientAge,
+    required this.patientCondition,
   });
 
   final MedicalHistoryModel medicalInfo;
   final String patientAge;
+  final String patientCondition;
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);

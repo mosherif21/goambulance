@@ -249,8 +249,8 @@ class TrackingRequestController extends GetxController {
             if (driverLocation == null) {
               driverLocation = assignedRequestData!.hospitalLocation;
               updateDriverLocation(
-                  driverLatLng: LatLng(
-                      driverLocation!.latitude, driverLocation!.longitude));
+                  driverLatLng: LatLng(driverLocation!.latitude,
+                      driverLocation!.longitude + 0.01));
             }
           }
         });
@@ -312,6 +312,7 @@ class TrackingRequestController extends GetxController {
     showLoadingScreen();
     await assignedRequestListener?.cancel();
     await driverLocationListener?.cancel();
+    hospitalsPanelController.close();
     requestStatus.value = RequestStatus.non;
     currentRequestData = null;
     assignedRequestData = null;
@@ -319,9 +320,7 @@ class TrackingRequestController extends GetxController {
     ambulanceInfo = null;
     choosingHospital.value = false;
     hospitalsLoaded.value = false;
-    hospitalsPanelController.close();
-    getHospitalsOperation?.cancel();
-    getRouteOperation?.cancel();
+    await getRouteOperation?.cancel();
     selectedHospital.value = null;
     mapMarkers[kRequestLocationMarkerId] = Marker(
       markerId: kRequestLocationMarkerId,
@@ -342,12 +341,6 @@ class TrackingRequestController extends GetxController {
       requestLocationWindowController.hideInfoWindow!();
     }
     hideLoadingScreen();
-
-    clearSearchedHospitals();
-    Future.delayed(const Duration(milliseconds: 100))
-        .whenComplete(
-            () => animateToLocation(locationLatLng: currentChosenLatLng))
-        .whenComplete(() => locationInit());
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
   }
@@ -393,7 +386,12 @@ class TrackingRequestController extends GetxController {
     if (assignedRequestData != null) {
       if (ambulanceInfo == null) {
         showLoadingScreen();
-        ambulanceInfo;
+        ambulanceInfo = await firebasePatientDataAccess.getAmbulanceInfo(
+          ambulanceDriverId: assignedRequestData!.ambulanceDriverID,
+          ambulanceMedicId: assignedRequestData!.ambulanceMedicID,
+          licensePlate: assignedRequestData!.licensePlate,
+          ambulanceType: assignedRequestData!.ambulanceType,
+        );
         hideLoadingScreen();
       }
       if (ambulanceInfo != null) {
@@ -488,32 +486,31 @@ class TrackingRequestController extends GetxController {
         } else if (requestStatus.value == RequestStatus.pending ||
             requestStatus.value == RequestStatus.accepted) {
           if (assignedRequestData != null) {
-            /////////////////////////////////// cancel assigned request
             showLoadingScreen();
             await assignedRequestListener?.cancel();
             await driverLocationListener?.cancel();
-            //cancel request function
+            final functionStatus =
+                await firebasePatientDataAccess.cancelAssignedHospitalRequest(
+                    requestInfo: assignedRequestData!);
             hideLoadingScreen();
-
-            //if function success
-            // if (true) {
-            ambulanceMarker = Marker(
-                markerId: kAmbulanceMarkerId,
-                position: const LatLng(0, 0),
-                icon: ambulanceMarkerIcon,
-                anchor: const Offset(0.5, 0.5),
-                consumeTapEvents: true,
-                rotation: 0.0);
-            mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
-            onRequestCanceledChanges();
-            //   } else {
-            initAssignedRequestListener(
-                requestId: currentRequestData!.requestRef.id);
-            initDriverLocationListener(
-                ambulanceDriverId: assignedRequestData!.ambulanceDriverID);
-            showSnackBar(
-                text: 'unknownError'.tr, snackBarType: SnackBarType.error);
-            // }
+            if (functionStatus == FunctionStatus.success) {
+              ambulanceMarker = Marker(
+                  markerId: kAmbulanceMarkerId,
+                  position: const LatLng(0, 0),
+                  icon: ambulanceMarkerIcon,
+                  anchor: const Offset(0.5, 0.5),
+                  consumeTapEvents: true,
+                  rotation: 0.0);
+              mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+              onRequestCanceledChanges();
+            } else {
+              initAssignedRequestListener(
+                  requestId: currentRequestData!.requestRef.id);
+              initDriverLocationListener(
+                  ambulanceDriverId: assignedRequestData!.ambulanceDriverID);
+              showSnackBar(
+                  text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+            }
           }
         }
       },
@@ -701,7 +698,30 @@ class TrackingRequestController extends GetxController {
       initPendingRequestListener(requestId: initialRequestModel.requestId);
     } else if (initialRequestModel.requestStatus == RequestStatus.assigned ||
         initialRequestModel.requestStatus == RequestStatus.ongoing) {
+      assignedRequestData = AssignedRequestDataModel(
+        requestId: initialRequestModel.requestId,
+        userId: userId,
+        backupNumber: initialRequestModel.backupNumber,
+        patientCondition: initialRequestModel.patientCondition,
+        isUser: initialRequestModel.isUser,
+        hospitalId: initialRequestModel.hospitalId,
+        timestamp: initialRequestModel.timestamp,
+        hospitalName: initialRequestModel.hospitalName,
+        requestStatus: initialRequestModel.requestStatus,
+        requestLocation: initialRequestModel.requestLocation,
+        hospitalLocation: initialRequestModel.hospitalLocation,
+        additionalInformation: initialRequestModel.additionalInformation,
+        phoneNumber: initialRequestModel.phoneNumber,
+        licensePlate: initialRequestModel.licensePlate!,
+        ambulanceType: initialRequestModel.ambulanceType!,
+        ambulanceDriverID: initialRequestModel.ambulanceDriverID!,
+        ambulanceMedicID: initialRequestModel.ambulanceMedicID!,
+        ambulanceCarID: initialRequestModel.ambulanceCarID!,
+        hospitalGeohash: initialRequestModel.hospitalGeohash!,
+        patientAge: initialRequestModel.patientAge,
+      );
       initAssignedRequestListener(requestId: initialRequestModel.requestId);
+      assignedRequestUIChanges();
     }
   }
 

@@ -32,12 +32,12 @@ String? validatePassword(String? value) {
   if (value.length < 8) {
     return 'Password must be at least 8 characters long';
   }
-  if (!value.contains(new RegExp(r'[A-Z]'))) {
-    return 'Password must contain at least one uppercase letter';
-  }
-  if (!value.contains(new RegExp(r'[0-9]'))) {
-    return 'Password must contain at least one number';
-  }
+  // if (!value.contains(RegExp(r'[A-Z]'))) {
+  //   return 'Password must contain at least one uppercase letter';
+  // }
+  // if (!value.contains( RegExp(r'[0-9]'))) {
+  //   return 'Password must contain at least one number';
+  // }
   return null;
 }
 

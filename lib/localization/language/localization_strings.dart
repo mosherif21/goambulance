@@ -470,6 +470,16 @@ class Languages extends Translations {
           'ambulanceInformation': 'معلومات الاسعاف',
           'textEmpty': 'لا يمكن ترك هذه الخانة فارغة',
           'charactersOnly': 'لا يمكنك استخدام رموز خاصة هنا',
+          'passwordRequired': 'كلمة المرور مطلوبة',
+          'password8long': 'كلمة المرور يجب ان لا تكون اقل من 8 أحرف',
+          'passwordUpperCase':
+              'كلمة المرور يجب ان تحتوي على حرف واحد كبير على الاقل',
+          'passwordNumber': 'كلمة الرور يجب ان تحتوي على رقم واحد على الاقل',
+          'idRequired': 'الرقم القومي مطلوب',
+          'idNumbers': 'الرقم القزمي يجب ان يحتوي على ارقام فقط',
+          'idLength': 'الرقم القومي يجب ان يكون 14 رقم',
+          'emailRequired': 'البريد الالكتروني مطلوب',
+          'emailValid': 'يرجى ادخال بريد الكتروني صحيح',
         },
         'en_US': {
           'sosCancelReturn':
@@ -955,6 +965,16 @@ class Languages extends Translations {
           'ambulanceInformation': 'Ambulance information',
           'textEmpty': 'This Can\'t be Empty',
           'charactersOnly': 'You Can\'t Use Special Characters Here',
+          'passwordRequired': 'Password is Required',
+          'password8long': 'Password Must Be At Least 8 Characters Long',
+          'passwordUpperCase':
+              'Password Must Contain at Least One Uppercase Letter',
+          'passwordNumber': 'Password Must Contain at Least One Number',
+          'idRequired': 'National ID is required',
+          'idNumbers': 'National ID Must Contain Only Numbers',
+          'idLength': 'National ID Must Be 14 Digits',
+          'emailRequired': 'Email is Required',
+          'emailValid': 'Please Enter a Valid Email',
         },
       };
 }

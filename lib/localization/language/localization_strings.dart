@@ -468,6 +468,8 @@ class Languages extends Translations {
           'hospitalInformation': 'معلومات المستشفى',
           'requestInformation': 'معلومات الطلب',
           'ambulanceInformation': 'معلومات الاسعاف',
+          'textEmpty': 'لا يمكن ترك هذه الخانة فارغة',
+          'charactersOnly': 'لا يمكنك استخدام رموز خاصة هنا',
         },
         'en_US': {
           'sosCancelReturn':
@@ -951,6 +953,8 @@ class Languages extends Translations {
           'hospitalInformation': 'Hospital information',
           'requestInformation': 'Request information',
           'ambulanceInformation': 'Ambulance information',
+          'textEmpty': 'This Can\'t be Empty',
+          'charactersOnly': 'You Can\'t Use Special Characters Here',
         },
       };
 }

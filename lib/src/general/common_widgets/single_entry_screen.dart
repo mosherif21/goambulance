@@ -59,138 +59,133 @@ class SingleEntryScreen extends StatelessWidget {
         }
         return true;
       },
-      child: Form(
-        key: formKey,
-        child: Scaffold(
-          appBar: AppBar(
-            leading: linkWithPhone && goToInitPage
-                ? CustomBackButton(
-                    onPressed: () => logoutDialogue(), padding: 3)
-                : const RegularBackButton(padding: 0),
-            elevation: 0,
-            backgroundColor: Colors.white,
-          ),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: linkWithPhone && goToInitPage
+              ? CustomBackButton(onPressed: () => logoutDialogue(), padding: 3)
+              : const RegularBackButton(padding: 0),
+          elevation: 0,
           backgroundColor: Colors.white,
-          body: SafeArea(
-            child: StretchingOverscrollIndicator(
-              axisDirection: AxisDirection.down,
-              child: SingleChildScrollView(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Lottie.asset(
-                      lottieAssetAnim,
-                      fit: BoxFit.contain,
-                      height: screenHeight * 0.4,
+        ),
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: StretchingOverscrollIndicator(
+            axisDirection: AxisDirection.down,
+            child: SingleChildScrollView(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: kDefaultPaddingSize),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Lottie.asset(
+                    lottieAssetAnim,
+                    fit: BoxFit.contain,
+                    height: screenHeight * 0.4,
+                  ),
+                  AutoSizeText(
+                    title,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: AppInit.notWebMobile ? 25 : 14,
+                      fontWeight: FontWeight.w700,
                     ),
-                    AutoSizeText(
-                      title,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: AppInit.notWebMobile ? 25 : 14,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      maxLines: 2,
-                      minFontSize: 10,
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    inputType == InputType.phone
-                        ? IntlPhoneField(
-                            decoration: InputDecoration(
-                              labelText: textFormTitle,
-                              hintText: textFormHint,
-                              border: const OutlineInputBorder(
-                                borderSide: BorderSide(),
-                              ),
-                            ),
-                            initialCountryCode: 'EG',
-                            countries: const [
-                              Country(
-                                name: "Egypt",
-                                nameTranslations: {
-                                  "sk": "Egypt",
-                                  "se": "Egypt",
-                                  "pl": "Egipt",
-                                  "no": "Egypt",
-                                  "ja": "エジプト",
-                                  "it": "Egitto",
-                                  "zh": "埃及",
-                                  "nl": "Egypt",
-                                  "de": "Ägypt",
-                                  "fr": "Égypte",
-                                  "es": "Egipt",
-                                  "en": "Egypt",
-                                  "pt_BR": "Egito",
-                                  "sr-Cyrl": "Египат",
-                                  "sr-Latn": "Egipat",
-                                  "zh_TW": "埃及",
-                                  "tr": "Mısır",
-                                  "ro": "Egipt",
-                                  "ar": "مصر",
-                                  "fa": "مصر",
-                                  "yue": "埃及"
-                                },
-                                flag: "🇪🇬",
-                                code: "EG",
-                                dialCode: "20",
-                                minLength: 10,
-                                maxLength: 10,
-                              ),
-                            ],
-                            pickerDialogStyle: PickerDialogStyle(
-                              searchFieldInputDecoration:
-                                  InputDecoration(hintText: 'searchCountry'.tr),
-                            ),
-                            onChanged: (phone) {
-                              OtpVerificationController
-                                  .instance
-                                  .phoneTextController
-                                  .text = phone.completeNumber;
-                            },
-                          )
-                        : TextFormFieldRegular(
+                    maxLines: 2,
+                    minFontSize: 10,
+                  ),
+                  const SizedBox(
+                    height: 20.0,
+                  ),
+                  inputType == InputType.phone
+                      ? IntlPhoneField(
+                          decoration: InputDecoration(
                             labelText: textFormTitle,
                             hintText: textFormHint,
-                            prefixIconData: prefixIconData,
-                            textController: ResetPasswordController
-                                .instance.emailController,
-                            inputType: inputType,
-                            editable: true,
-                            textInputAction: TextInputAction.done,
-                            validationFunction: validationFunction,
+                            border: const OutlineInputBorder(
+                              borderSide: BorderSide(),
+                            ),
                           ),
-                    const SizedBox(height: 20.0),
-                    RegularElevatedButton(
-                      buttonText: buttonTitle,
-                      enabled: true,
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          if (inputType == InputType.phone) {
-                            OtpVerificationController.instance.otpOnClick(
-                                linkWithPhone: linkWithPhone,
-                                goToInitPage: goToInitPage);
-                          } else {
-                            final controller = ResetPasswordController.instance;
-                            controller.resetPassword();
-                          }
+                          initialCountryCode: 'EG',
+                          countries: const [
+                            Country(
+                              name: "Egypt",
+                              nameTranslations: {
+                                "sk": "Egypt",
+                                "se": "Egypt",
+                                "pl": "Egipt",
+                                "no": "Egypt",
+                                "ja": "エジプト",
+                                "it": "Egitto",
+                                "zh": "埃及",
+                                "nl": "Egypt",
+                                "de": "Ägypt",
+                                "fr": "Égypte",
+                                "es": "Egipt",
+                                "en": "Egypt",
+                                "pt_BR": "Egito",
+                                "sr-Cyrl": "Египат",
+                                "sr-Latn": "Egipat",
+                                "zh_TW": "埃及",
+                                "tr": "Mısır",
+                                "ro": "Egipt",
+                                "ar": "مصر",
+                                "fa": "مصر",
+                                "yue": "埃及"
+                              },
+                              flag: "🇪🇬",
+                              code: "EG",
+                              dialCode: "20",
+                              minLength: 10,
+                              maxLength: 10,
+                            ),
+                          ],
+                          pickerDialogStyle: PickerDialogStyle(
+                            searchFieldInputDecoration:
+                                InputDecoration(hintText: 'searchCountry'.tr),
+                          ),
+                          onChanged: (phone) {
+                            OtpVerificationController
+                                .instance
+                                .phoneTextController
+                                .text = phone.completeNumber;
+                          },
+                        )
+                      : TextFormFieldRegular(
+                          labelText: textFormTitle,
+                          hintText: textFormHint,
+                          prefixIconData: prefixIconData,
+                          textController:
+                              ResetPasswordController.instance.emailController,
+                          inputType: inputType,
+                          editable: true,
+                          textInputAction: TextInputAction.done,
+                        ),
+                  const SizedBox(height: 20.0),
+                  RegularElevatedButton(
+                    buttonText: buttonTitle,
+                    enabled: true,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        if (inputType == InputType.phone) {
+                          OtpVerificationController.instance.otpOnClick(
+                              linkWithPhone: linkWithPhone,
+                              goToInitPage: goToInitPage);
+                        } else {
+                          final controller = ResetPasswordController.instance;
+                          controller.resetPassword();
                         }
-                      },
-                      color: Colors.black,
-                    ),
-                    inputType == InputType.phone && !linkWithPhone
-                        ? AlternateLoginButtons(
-                            screenHeight: screenHeight,
-                            screenWidth: screenWidth,
-                            showPhoneLogin: false,
-                          )
-                        : const SizedBox.shrink(),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+                      }
+                    },
+                    color: Colors.black,
+                  ),
+                  inputType == InputType.phone && !linkWithPhone
+                      ? AlternateLoginButtons(
+                          screenHeight: screenHeight,
+                          screenWidth: screenWidth,
+                          showPhoneLogin: false,
+                        )
+                      : const SizedBox.shrink(),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
           ),

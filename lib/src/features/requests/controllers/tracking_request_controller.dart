@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
+import 'package:goambulance/src/features/requests/components/general/ambulance_information_page.dart';
 import 'package:goambulance/src/features/requests/components/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -31,13 +32,13 @@ import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
+import '../../ambulanceDriverFeatures/home_screen/components/models.dart';
 import '../components/general/hospital_information_page.dart';
 import '../components/general/marker_window_info.dart';
 import '../components/general/request_information_page.dart';
 
 class TrackingRequestController extends GetxController {
   static TrackingRequestController get instance => Get.find();
-  late RequestHistoryDataModel initialRequestModel;
   TrackingRequestController({required this.initialRequestModel});
 
   //location permissions and services vars
@@ -69,6 +70,7 @@ class TrackingRequestController extends GetxController {
 
   late final BitmapDescriptor requestLocationMarkerIcon;
   late final BitmapDescriptor hospitalMarkerIcon;
+  late final BitmapDescriptor ambulanceMarkerIcon;
   final mapControllerCompleter = Completer<GoogleMapController>();
   late final GoogleMapController googleMapController;
   bool googleMapControllerInit = false;
@@ -100,23 +102,31 @@ class TrackingRequestController extends GetxController {
   late final String userId;
   late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       pendingRequestListener;
+  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      assignedRequestListener;
+  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
+      driverLocationListener;
 
   final requestLocationWindowController = CustomInfoWindowController();
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
+  late RequestHistoryDataModel initialRequestModel;
   RequestMakingModel? currentRequestData;
+  AssignedRequestDataModel? assignedRequestData;
+  HospitalModel? hospitalInfo;
+  AmbulanceInformationDataModel? ambulanceInfo;
+  LatLng? driverLocation;
   @override
-  void onInit() async {
+  void onInit() {
     _firestore = FirebaseFirestore.instance;
     userId = AuthenticationRepository.instance.fireUser.value!.uid;
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
-    await _loadMarkersIcon();
     super.onInit();
   }
 
   @override
-  void onReady() async {
+  void onReady() {
     initMapController();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
@@ -124,13 +134,11 @@ class TrackingRequestController extends GetxController {
     super.onReady();
   }
 
-  Future<void> initRequestListener({
-    required DocumentReference pendingRequestRef,
-  }) async {
+  Future<void> initPendingRequestListener({required String requestId}) async {
     try {
       pendingRequestListener = _firestore
           .collection('pendingRequests')
-          .doc(pendingRequestRef.id)
+          .doc(requestId)
           .snapshots()
           .listen((snapshot) {
         if (snapshot.exists) {
@@ -141,15 +149,18 @@ class TrackingRequestController extends GetxController {
         } else {
           _firestore
               .collection('assignedRequests')
-              .doc(pendingRequestRef.id)
+              .doc(requestId)
               .get()
-              .then((snapshot) {
+              .then((snapshot) async {
             if (snapshot.exists) {
-              assignedRequestChanges();
+              assignedRequestChanges(requestId: requestId);
             } else {
               if (initialRequestModel.patientCondition == 'sosRequest') {
                 Get.back(result: 'sosCancelReturn');
               } else {
+                showLoadingScreen();
+                await pendingRequestListener?.cancel();
+                hideLoadingScreen();
                 onRequestCanceledChanges();
                 showSnackBar(
                     text: 'requestCanceled'.tr,
@@ -166,19 +177,164 @@ class TrackingRequestController extends GetxController {
     }
   }
 
-  void assignedRequestChanges() async {
+  Future<void> initAssignedRequestListener({required String requestId}) async {
+    try {
+      assignedRequestListener = _firestore
+          .collection('assignedRequests')
+          .doc(requestId)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final status = snapshot.data()!['status'].toString();
+          if (status == 'ongoing') {
+            requestStatus.value = RequestStatus.ongoing;
+          }
+        } else {
+          _firestore
+              .collection('completedRequests')
+              .doc(requestId)
+              .get()
+              .then((snapshot) async {
+            if (snapshot.exists) {
+              completedRequestChanges();
+            } else {
+              showLoadingScreen();
+              await assignedRequestListener?.cancel();
+              await driverLocationListener?.cancel();
+              hideLoadingScreen();
+              onRequestCanceledChanges();
+            }
+          });
+        }
+      });
+    } on FirebaseException catch (error) {
+      if (kDebugMode) print(error.toString());
+    } catch (err) {
+      if (kDebugMode) print(err.toString());
+    }
+  }
+
+  void assignedRequestChanges({required String requestId}) async {
+    showLoadingScreen();
     await pendingRequestListener?.cancel();
+    final assignedRequestInfo = await firebasePatientDataAccess
+        .getAssignedRequestInfo(requestId: requestId);
+    hideLoadingScreen();
+    if (assignedRequestInfo != null) {
+      requestStatus.value = RequestStatus.assigned;
+      assignedRequestData = assignedRequestInfo;
+      initAssignedRequestListener(requestId: assignedRequestData!.requestId);
+      assignedRequestUIChanges();
+    } else {
+      showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+    }
+  }
+
+  Future<void> initDriverLocationListener(
+      {required String ambulanceDriverId}) async {
+    if (assignedRequestData != null) {
+      try {
+        driverLocationListener = _firestore
+            .collection('driversLocations')
+            .doc(ambulanceDriverId)
+            .snapshots()
+            .listen((snapshot) {
+          if (snapshot.exists) {
+            final driverLocationGeopoint =
+                snapshot.data()!['location'] as GeoPoint;
+            driverLocation = LatLng(driverLocationGeopoint.latitude,
+                driverLocationGeopoint.longitude);
+            updateDriverLocation(driverLatLng: driverLocation!);
+          } else {
+            if (driverLocation == null) {
+              driverLocation = assignedRequestData!.hospitalLocation;
+              updateDriverLocation(
+                  driverLatLng: LatLng(
+                      driverLocation!.latitude, driverLocation!.longitude));
+            }
+          }
+        });
+      } on FirebaseException catch (error) {
+        if (kDebugMode) print(error.toString());
+      } catch (err) {
+        if (kDebugMode) print(err.toString());
+      }
+    }
+  }
+
+  void updateDriverLocation({required LatLng driverLatLng}) {
+    if (assignedRequestData != null) {
+      ambulanceMarker = Marker(
+        markerId: kAmbulanceMarkerId,
+        position: driverLatLng,
+        icon: ambulanceMarkerIcon,
+        anchor: const Offset(0.5, 0.5),
+        consumeTapEvents: true,
+      );
+      mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+      getRouteToLocation(
+        fromLocation: currentChosenLatLng,
+        toLocation: driverLatLng,
+        routeId: 'routeToDriver',
+      ).then((routePolyLine) {
+        if (routePolyLine != null) {
+          if (requestLocationWindowController.addInfoWindow != null) {
+            requestLocationWindowController.addInfoWindow!(
+              MarkerWindowInfo(
+                time: routeToDestinationTime,
+                title: 'requestLocation'.tr,
+                onTap: () => animateToLocation(
+                    locationLatLng: assignedRequestData!.requestLocation),
+              ),
+              assignedRequestData!.requestLocation,
+            );
+          }
+          mapPolyLines.add(routePolyLine);
+          animateToLatLngBounds(
+              latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
+        }
+      });
+    }
+  }
+
+  void assignedRequestUIChanges() {
+    if (assignedRequestData != null) {
+      mapPolyLines.clear();
+      if (requestLocationWindowController.hideInfoWindow != null) {
+        requestLocationWindowController.hideInfoWindow!();
+      }
+      initDriverLocationListener(
+          ambulanceDriverId: assignedRequestData!.ambulanceDriverID);
+    }
+  }
+
+  void completedRequestChanges() async {
+    showLoadingScreen();
+    await assignedRequestListener?.cancel();
+    await driverLocationListener?.cancel();
+    hideLoadingScreen();
+  }
+
+  void onRequestCanceledChanges() async {
+    requestStatus.value = RequestStatus.non;
+    currentRequestData = null;
+    assignedRequestData = null;
+    hospitalInfo = null;
+    onRefresh();
+    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
+        () => animateToLocation(locationLatLng: currentChosenLatLng));
   }
 
   void viewHospitalInformation() async {
     if (currentRequestData != null) {
-      showLoadingScreen();
-      final hospitalInfo = await firebasePatientDataAccess.getHospitalInfo(
-          hospitalId: currentRequestData!.hospitalId);
-
-      hideLoadingScreen();
+      if (hospitalInfo == null) {
+        showLoadingScreen();
+        hospitalInfo = await firebasePatientDataAccess.getHospitalInfo(
+            hospitalId: currentRequestData!.hospitalId);
+        hideLoadingScreen();
+      }
       if (hospitalInfo != null) {
-        Get.to(() => HospitalInformationPage(hospitalModel: hospitalInfo),
+        Get.to(() => HospitalInformationPage(hospitalModel: hospitalInfo!),
             transition: getPageTransition());
       } else {
         showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
@@ -195,8 +351,20 @@ class TrackingRequestController extends GetxController {
     }
   }
 
-  void viewDriverInformation() {
-    if (currentRequestData != null) {}
+  void viewAmbulanceInformation() async {
+    if (assignedRequestData != null) {
+      if (ambulanceInfo == null) {
+        showLoadingScreen();
+        ambulanceInfo;
+        hideLoadingScreen();
+      }
+      if (ambulanceInfo != null) {
+        Get.to(() => AmbulanceInformationPage(ambulanceInfo: ambulanceInfo!),
+            transition: getPageTransition());
+      } else {
+        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+      }
+    }
   }
 
   void confirmRequestPress() {
@@ -238,19 +406,19 @@ class TrackingRequestController extends GetxController {
         requestRef: pendingRequestRef,
         hospitalLocation: GeoPoint(selectedHospital.value!.location.latitude,
             selectedHospital.value!.location.longitude),
-        status: 'pending',
         hospitalName: selectedHospital.value!.name,
         hospitalGeohash: selectedHospital.value!.geohash,
       );
       final functionStatus = await firebasePatientDataAccess.requestHospital(
           requestInfo: requestData);
-
+      hideLoadingScreen();
       if (functionStatus == FunctionStatus.success) {
         currentRequestData = requestData;
         requestStatus.value = RequestStatus.pending;
-        initRequestListener(pendingRequestRef: pendingRequestRef);
+        initPendingRequestListener(requestId: pendingRequestRef.id);
+      } else {
+        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
       }
-      hideLoadingScreen();
     }
   }
 
@@ -261,15 +429,53 @@ class TrackingRequestController extends GetxController {
       positiveButtonText: 'yes'.tr,
       negativeButtonText: 'no'.tr,
       positiveButtonOnPressed: () async {
-        if (currentRequestData != null) {
-          Get.back();
-          showLoadingScreen();
-          pendingRequestListener?.cancel();
-          final functionStatus = await firebasePatientDataAccess
-              .cancelHospitalRequest(requestInfo: currentRequestData!);
-          hideLoadingScreen();
-          if (functionStatus == FunctionStatus.success) {
+        Get.back();
+        if (requestStatus.value == RequestStatus.pending ||
+            requestStatus.value == RequestStatus.accepted) {
+          if (currentRequestData != null) {
+            showLoadingScreen();
+            await pendingRequestListener?.cancel();
+            final functionStatus = await firebasePatientDataAccess
+                .cancelPendingHospitalRequest(requestInfo: currentRequestData!);
+            hideLoadingScreen();
+            if (functionStatus == FunctionStatus.success) {
+              onRequestCanceledChanges();
+            } else {
+              initPendingRequestListener(
+                  requestId: currentRequestData!.requestRef.id);
+              showSnackBar(
+                  text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+            }
+          }
+        } else if (requestStatus.value == RequestStatus.pending ||
+            requestStatus.value == RequestStatus.accepted) {
+          if (assignedRequestData != null) {
+            /////////////////////////////////// cancel assigned request
+            showLoadingScreen();
+            await assignedRequestListener?.cancel();
+            await driverLocationListener?.cancel();
+            //cancel request function
+            hideLoadingScreen();
+
+            //if function success
+            // if (true) {
+            ambulanceMarker = Marker(
+                markerId: kAmbulanceMarkerId,
+                position: const LatLng(0, 0),
+                icon: ambulanceMarkerIcon,
+                anchor: const Offset(0.5, 0.5),
+                consumeTapEvents: true,
+                rotation: 0.0);
+            mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
             onRequestCanceledChanges();
+            //   } else {
+            initAssignedRequestListener(
+                requestId: currentRequestData!.requestRef.id);
+            initDriverLocationListener(
+                ambulanceDriverId: assignedRequestData!.ambulanceDriverID);
+            showSnackBar(
+                text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+            // }
           }
         }
       },
@@ -277,13 +483,6 @@ class TrackingRequestController extends GetxController {
       mainIcon: Icons.cancel_outlined,
       color: SweetSheetColor.DANGER,
     );
-  }
-
-  void onRequestCanceledChanges() {
-    requestStatus.value = RequestStatus.non;
-    onRefresh();
-    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => animateToLocation(locationLatLng: currentChosenLatLng));
   }
 
   Future<void> locationInit() async {
@@ -313,6 +512,8 @@ class TrackingRequestController extends GetxController {
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
+
+      await _loadMarkersIcon();
       await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
       controller.setMapStyle(mapStyle);
     }).whenComplete(() => initialRequestChanges());
@@ -389,6 +590,31 @@ class TrackingRequestController extends GetxController {
       location: initialRequestModel.hospitalLocation,
       geohash: initialRequestModel.hospitalGeohash!,
     );
+    final pendingRequestRef = _firestore
+        .collection('pendingRequests')
+        .doc(initialRequestModel.requestId);
+    final requestData = RequestMakingModel(
+      userId: initialRequestModel.userId,
+      hospitalId: initialRequestModel.hospitalId,
+      requestInfo: RequestInfoModel(
+        isUser: initialRequestModel.isUser,
+        patientCondition: initialRequestModel.patientCondition,
+        backupNumber: initialRequestModel.backupNumber,
+        medicalHistory: initialRequestModel.medicalHistory,
+        additionalInformation: initialRequestModel.additionalInformation,
+        patientAge: initialRequestModel.patientAge!,
+        phoneNumber: initialRequestModel.phoneNumber,
+      ),
+      timestamp: initialRequestModel.timestamp,
+      requestLocation: GeoPoint(initialRequestModel.requestLocation.latitude,
+          initialRequestModel.requestLocation.longitude),
+      requestRef: pendingRequestRef,
+      hospitalLocation: GeoPoint(initialRequestModel.hospitalLocation.latitude,
+          initialRequestModel.hospitalLocation.longitude),
+      hospitalName: initialRequestModel.hospitalName,
+      hospitalGeohash: initialRequestModel.hospitalGeohash!,
+    );
+    currentRequestData = requestData;
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
       requestLocationMarker = Marker(
@@ -407,7 +633,6 @@ class TrackingRequestController extends GetxController {
         rotation: 0,
       );
       mapMarkers[kHospitalMarkerId] = hospitalMarker!;
-
       getRouteToLocation(
         fromLocation: initialRequestModel.requestLocation,
         toLocation: initialRequestModel.hospitalLocation,
@@ -434,38 +659,12 @@ class TrackingRequestController extends GetxController {
           });
         }
       });
-      final pendingRequestRef = _firestore
-          .collection('pendingRequests')
-          .doc(initialRequestModel.requestId);
-      final requestData = RequestMakingModel(
-        userId: initialRequestModel.userId,
-        hospitalId: initialRequestModel.hospitalId,
-        requestInfo: RequestInfoModel(
-          isUser: initialRequestModel.isUser,
-          patientCondition: initialRequestModel.patientCondition,
-          backupNumber: initialRequestModel.backupNumber,
-          medicalHistory: initialRequestModel.medicalHistory,
-          additionalInformation: initialRequestModel.additionalInformation,
-          patientAge: initialRequestModel.patientAge!,
-          phoneNumber: initialRequestModel.phoneNumber,
-        ),
-        timestamp: initialRequestModel.timestamp,
-        requestLocation: GeoPoint(initialRequestModel.requestLocation.latitude,
-            initialRequestModel.requestLocation.longitude),
-        requestRef: pendingRequestRef,
-        hospitalLocation: GeoPoint(
-            initialRequestModel.hospitalLocation.latitude,
-            initialRequestModel.hospitalLocation.longitude),
-        status: initialRequestModel.requestStatus == RequestStatus.pending
-            ? 'pending'
-            : 'accepted',
-        hospitalName: initialRequestModel.hospitalName,
-        hospitalGeohash: initialRequestModel.hospitalGeohash!,
-      );
-      currentRequestData = requestData;
-      initRequestListener(pendingRequestRef: pendingRequestRef);
+
+      initPendingRequestListener(requestId: initialRequestModel.requestId);
     } else if (initialRequestModel.requestStatus == RequestStatus.assigned ||
-        initialRequestModel.requestStatus == RequestStatus.ongoing) {}
+        initialRequestModel.requestStatus == RequestStatus.ongoing) {
+      initAssignedRequestListener(requestId: initialRequestModel.requestId);
+    }
   }
 
   void clearHospitalRoute() {
@@ -507,6 +706,16 @@ class TrackingRequestController extends GetxController {
         await serviceStatusStream?.cancel();
       }
       if (positionStreamInitialized) await currentPositionStream?.cancel();
+      if (requestStatus.value == RequestStatus.pending ||
+          requestStatus.value == RequestStatus.accepted) {
+        await pendingRequestListener?.cancel();
+      } else if (requestStatus.value == RequestStatus.assigned ||
+          requestStatus.value == RequestStatus.ongoing) {
+        await assignedRequestListener?.cancel();
+        await driverLocationListener?.cancel();
+      }
+      await getRouteOperation?.cancel();
+
       await Future.delayed(const Duration(milliseconds: 200));
       hideLoadingScreen();
       return true;
@@ -1041,7 +1250,9 @@ class TrackingRequestController extends GetxController {
     await _getBytesFromAsset(kRequestLocationMarkerImg, 120).then((iconBytes) {
       requestLocationMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });
-
+    await _getBytesFromAsset(kAmbulanceMarkerTopImg, 200).then((iconBytes) {
+      ambulanceMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
+    });
     await _getBytesFromAsset(kHospitalMarkerImg, 160).then((iconBytes) {
       hospitalMarkerIcon = BitmapDescriptor.fromBytes(iconBytes);
     });

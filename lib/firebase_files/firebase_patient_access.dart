@@ -452,6 +452,57 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
+  Future<AssignedRequestDataModel?> getAssignedRequestInfo(
+      {required String requestId}) async {
+    try {
+      final assignedRequestDocument =
+          await fireStore.collection('assignedRequests').doc(requestId).get();
+      if (assignedRequestDocument.exists) {
+        final assignedRequestData = assignedRequestDocument.data()!;
+        final requestLocationGeopoint =
+            assignedRequestData['requestLocation'] as GeoPoint;
+        final hospitalLocationGeopoint =
+            assignedRequestData['hospitalLocation'] as GeoPoint;
+        final requestModel = AssignedRequestDataModel(
+          requestId: requestId,
+          timestamp: assignedRequestData['timestamp'] as Timestamp,
+          hospitalLocation: LatLng(hospitalLocationGeopoint.latitude,
+              hospitalLocationGeopoint.longitude),
+          requestLocation: LatLng(requestLocationGeopoint.latitude,
+              requestLocationGeopoint.longitude),
+          userId: assignedRequestData['userId'].toString(),
+          hospitalId: assignedRequestData['hospitalId'].toString(),
+          hospitalName: assignedRequestData['hospitalName'].toString(),
+          phoneNumber: assignedRequestData['phoneNumber'].toString(),
+          isUser: assignedRequestData['isUser'] as bool,
+          patientCondition: assignedRequestData['patientCondition'].toString(),
+          ambulanceType: assignedRequestData['ambulanceType'].toString(),
+          licensePlate: assignedRequestData['licensePlate'].toString(),
+          ambulanceDriverID:
+              assignedRequestData['ambulanceDriverID'].toString(),
+          ambulanceMedicID: assignedRequestData['ambulanceMedicID'].toString(),
+          ambulanceCarID: assignedRequestData['ambulanceCarID'].toString(),
+          backupNumber: assignedRequestData['backupNumber'].toString(),
+          requestStatus: RequestStatus.completed,
+          hospitalGeohash: assignedRequestData['hospitalGeohash'].toString(),
+          additionalInformation:
+              assignedRequestData['additionalInformation'].toString(),
+          patientAge: assignedRequestData['patientAge'].toString(),
+        );
+        return requestModel;
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
   Future<FunctionStatus> sendCriticalUserRequest() async {
     try {
       await fireStore
@@ -972,7 +1023,7 @@ class FirebasePatientDataAccess extends GetxController {
     }
   }
 
-  Future<FunctionStatus> cancelHospitalRequest({
+  Future<FunctionStatus> cancelPendingHospitalRequest({
     required RequestMakingModel requestInfo,
   }) async {
     try {

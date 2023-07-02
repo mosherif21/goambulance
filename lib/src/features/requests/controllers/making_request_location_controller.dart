@@ -192,7 +192,6 @@ class MakingRequestLocationController extends GetxController {
         requestRef: pendingRequestRef,
         hospitalLocation: GeoPoint(selectedHospital.value!.location.latitude,
             selectedHospital.value!.location.longitude),
-        status: 'pending',
         hospitalName: selectedHospital.value!.name,
         hospitalGeohash: selectedHospital.value!.geohash,
       );
@@ -231,7 +230,7 @@ class MakingRequestLocationController extends GetxController {
           showLoadingScreen();
           await pendingRequestListener?.cancel();
           final functionStatus = await firebasePatientDataAccess
-              .cancelHospitalRequest(requestInfo: currentRequestData!);
+              .cancelPendingHospitalRequest(requestInfo: currentRequestData!);
           hideLoadingScreen();
           if (functionStatus == FunctionStatus.success) {
             onRequestCanceledChanges();

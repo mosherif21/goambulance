@@ -405,6 +405,7 @@ class EmployeeHomeScreenController extends GetxController {
             ? currentLocationGetter()
             : initialCameraLatLng,
         icon: ambulanceMarkerIcon,
+        anchor: const Offset(0.5, 0.5),
         consumeTapEvents: true,
       );
       mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;

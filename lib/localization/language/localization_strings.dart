@@ -467,6 +467,7 @@ class Languages extends Translations {
           'viewAmbulanceInformation': 'عرض معلومات الاسعاف',
           'hospitalInformation': 'معلومات المستشفى',
           'requestInformation': 'معلومات الطلب',
+          'ambulanceInformation': 'معلومات الاسعاف',
         },
         'en_US': {
           'sosCancelReturn':
@@ -949,6 +950,7 @@ class Languages extends Translations {
           'viewAmbulanceInformation': 'View ambulance information',
           'hospitalInformation': 'Hospital information',
           'requestInformation': 'Request information',
+          'ambulanceInformation': 'Ambulance information',
         },
       };
 }

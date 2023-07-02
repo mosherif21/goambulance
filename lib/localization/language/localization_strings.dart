@@ -470,6 +470,8 @@ class Languages extends Translations {
           'ambulanceInformation': 'معلومات الاسعاف',
           'textEmpty': 'لا يمكن ترك هذه الخانة فارغة',
           'charactersOnly': 'لا يمكنك استخدام رموز خاصة هنا',
+          'resetUnlinkSocial':
+              'يرجى ملاحظة أن إعادة تعيين كلمة المرور الخاصة بك ستؤدي إلى إلغاء ربط جميع حسابات التواصل الاجتماعى الخاصة بك',
         },
         'en_US': {
           'sosCancelReturn':
@@ -955,6 +957,8 @@ class Languages extends Translations {
           'ambulanceInformation': 'Ambulance information',
           'textEmpty': 'This Can\'t be Empty',
           'charactersOnly': 'You Can\'t Use Special Characters Here',
+          'resetUnlinkSocial':
+              'Please notice that resetting your password will unlink all your social media accounts',
         },
       };
 }

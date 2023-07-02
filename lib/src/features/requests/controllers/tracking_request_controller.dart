@@ -312,7 +312,44 @@ class TrackingRequestController extends GetxController {
     showLoadingScreen();
     await assignedRequestListener?.cancel();
     await driverLocationListener?.cancel();
+    requestStatus.value = RequestStatus.non;
+    currentRequestData = null;
+    assignedRequestData = null;
+    hospitalInfo = null;
+    ambulanceInfo = null;
+    choosingHospital.value = false;
+    hospitalsLoaded.value = false;
+    hospitalsPanelController.close();
+    getHospitalsOperation?.cancel();
+    getRouteOperation?.cancel();
+    selectedHospital.value = null;
+    mapMarkers[kRequestLocationMarkerId] = Marker(
+      markerId: kRequestLocationMarkerId,
+      position: const LatLng(0, 0),
+      rotation: 0,
+    );
+    mapMarkers[kAmbulanceMarkerId] = Marker(
+      markerId: kAmbulanceMarkerId,
+      position: const LatLng(0, 0),
+      rotation: 0,
+    );
+    mapMarkers[kHospitalMarkerId] = Marker(
+      markerId: kHospitalMarkerId,
+      position: const LatLng(0, 0),
+      rotation: 0,
+    );
+    if (requestLocationWindowController.hideInfoWindow != null) {
+      requestLocationWindowController.hideInfoWindow!();
+    }
     hideLoadingScreen();
+
+    clearSearchedHospitals();
+    Future.delayed(const Duration(milliseconds: 100))
+        .whenComplete(
+            () => animateToLocation(locationLatLng: currentChosenLatLng))
+        .whenComplete(() => locationInit());
+    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
+        () => animateToLocation(locationLatLng: currentChosenLatLng));
   }
 
   void onRequestCanceledChanges() async {
@@ -320,6 +357,7 @@ class TrackingRequestController extends GetxController {
     currentRequestData = null;
     assignedRequestData = null;
     hospitalInfo = null;
+    ambulanceInfo = null;
     onRefresh();
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));

@@ -70,12 +70,14 @@ class EmployeeNotificationsScreen extends StatelessWidget {
                           onRefresh: () => controller.onRefresh(),
                           child: ListView.builder(
                             itemBuilder: (_, int index) =>
-                                index < controller.notificationList.length
+                                controller.notificationList.isNotEmpty
                                     ? NotiItem(
                                         notificationItem:
                                             controller.notificationList[index])
                                     : const NoNotifications(),
-                            itemCount: controller.notificationList.length + 1,
+                            itemCount: controller.notificationList.isNotEmpty
+                                ? controller.notificationList.length
+                                : 1,
                             shrinkWrap: true,
                           ),
                         ),

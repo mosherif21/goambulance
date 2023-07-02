@@ -43,7 +43,7 @@ class HomeNavigationBar extends StatelessWidget {
       floatingWidgetHeight: 130,
       floatingWidgetWidth: AppInit.isWeb ? 130 : screenWidth * 0.3,
       dx: AppInit.isWeb ? 0.0 : screenWidth * 0.72,
-      dy: screenHeight * 0.74,
+      dy: screenHeight * 0.72,
       mainScreenWidget: Scaffold(
         body: Stack(children: [
           Obx(

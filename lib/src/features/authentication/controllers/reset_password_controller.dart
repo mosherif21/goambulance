@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
@@ -24,28 +26,40 @@ class ResetPasswordController extends GetxController {
   Future<void> resetPassword() async {
     if (formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
-      final email = emailController.text.trim();
-      showLoadingScreen();
-      String returnMessage = email.isEmpty
-          ? 'missingEmail'.tr
-          : !email.isEmail
-              ? 'invalidEmailEntered'.tr
-              : await AuthenticationRepository.instance
-                  .resetPassword(email: email);
+      displayAlertDialog(
+        title: 'confirm'.tr,
+        body: 'resetUnlinkSocial'.tr,
+        positiveButtonText: 'confirm'.tr,
+        negativeButtonText: 'cancel'.tr,
+        positiveButtonOnPressed: () async {
+          Get.back();
+          final email = emailController.text.trim();
+          showLoadingScreen();
+          String returnMessage = email.isEmpty
+              ? 'missingEmail'.tr
+              : !email.isEmail
+                  ? 'invalidEmailEntered'.tr
+                  : await AuthenticationRepository.instance
+                      .resetPassword(email: email);
 
-      if (returnMessage == 'emailSent') {
-        Get.back();
-        showSnackBar(
-          text: 'passwordResetSuccess'.tr,
-          snackBarType: SnackBarType.success,
-        );
-      } else {
-        showSnackBar(
-          text: returnMessage,
-          snackBarType: SnackBarType.error,
-        );
-      }
-      hideLoadingScreen();
+          if (returnMessage == 'emailSent') {
+            Get.back();
+            showSnackBar(
+              text: 'passwordResetSuccess'.tr,
+              snackBarType: SnackBarType.success,
+            );
+          } else {
+            showSnackBar(
+              text: returnMessage,
+              snackBarType: SnackBarType.error,
+            );
+          }
+          hideLoadingScreen();
+        },
+        negativeButtonOnPressed: () => Get.back(),
+        mainIcon: LineIcons.checkCircleAlt,
+        color: SweetSheetColor.NICE,
+      );
     }
   }
 

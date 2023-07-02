@@ -250,7 +250,7 @@ class TrackingRequestController extends GetxController {
               driverLocation = assignedRequestData!.hospitalLocation;
               updateDriverLocation(
                   driverLatLng: LatLng(driverLocation!.latitude,
-                      driverLocation!.longitude + 0.01));
+                      driverLocation!.longitude + 0.002));
             }
           }
         });
@@ -650,24 +650,24 @@ class TrackingRequestController extends GetxController {
       hospitalGeohash: initialRequestModel.hospitalGeohash!,
     );
     currentRequestData = requestData;
+    requestLocationMarker = Marker(
+      markerId: kRequestLocationMarkerId,
+      position: initialRequestModel.requestLocation,
+      icon: requestLocationMarkerIcon,
+      consumeTapEvents: true,
+      rotation: 0,
+    );
+    mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
+    hospitalMarker = Marker(
+      markerId: kHospitalMarkerId,
+      position: initialRequestModel.hospitalLocation,
+      icon: hospitalMarkerIcon,
+      consumeTapEvents: true,
+      rotation: 0,
+    );
+    mapMarkers[kHospitalMarkerId] = hospitalMarker!;
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
-      requestLocationMarker = Marker(
-        markerId: kRequestLocationMarkerId,
-        position: initialRequestModel.requestLocation,
-        icon: requestLocationMarkerIcon,
-        consumeTapEvents: true,
-        rotation: 0,
-      );
-      mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
-      hospitalMarker = Marker(
-        markerId: kHospitalMarkerId,
-        position: initialRequestModel.hospitalLocation,
-        icon: hospitalMarkerIcon,
-        consumeTapEvents: true,
-        rotation: 0,
-      );
-      mapMarkers[kHospitalMarkerId] = hospitalMarker!;
       getRouteToLocation(
         fromLocation: initialRequestModel.requestLocation,
         toLocation: initialRequestModel.hospitalLocation,

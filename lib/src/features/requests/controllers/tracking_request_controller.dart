@@ -413,6 +413,7 @@ class TrackingRequestController extends GetxController {
       requestLocationWindowController.hideInfoWindow!();
     }
     hideLoadingScreen();
+    await Future.delayed(const Duration(milliseconds: 200));
     Get.back();
   }
 

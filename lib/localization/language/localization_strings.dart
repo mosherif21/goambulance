@@ -992,6 +992,8 @@ class Languages extends Translations {
           'ambulanceRequestOngoing': 'Ambulance request is ongoing',
           'arriveIn': 'Arrive in @routeTime',
           'invalidNumber': 'Please Enter a Valid Phone Number',
+          'newAssignedRequest':
+              'You have been assigned to an ambulance request',
         },
       };
 }

@@ -483,7 +483,9 @@ class FirebasePatientDataAccess extends GetxController {
           ambulanceMedicID: assignedRequestData['ambulanceMedicID'].toString(),
           ambulanceCarID: assignedRequestData['ambulanceCarID'].toString(),
           backupNumber: assignedRequestData['backupNumber'].toString(),
-          requestStatus: RequestStatus.completed,
+          requestStatus: assignedRequestData['status'].toString() == 'assigned'
+              ? RequestStatus.assigned
+              : RequestStatus.ongoing,
           hospitalGeohash: assignedRequestData['hospitalGeohash'].toString(),
           additionalInformation:
               assignedRequestData['additionalInformation'].toString(),

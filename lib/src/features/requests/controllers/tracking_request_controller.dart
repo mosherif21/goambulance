@@ -189,6 +189,7 @@ class TrackingRequestController extends GetxController {
           final status = snapshot.data()!['status'].toString();
           if (status == 'ongoing') {
             requestStatus.value = RequestStatus.ongoing;
+
             ongoingRequestChanges();
           }
         } else {
@@ -330,6 +331,7 @@ class TrackingRequestController extends GetxController {
       if (requestLocationWindowController.hideInfoWindow != null) {
         requestLocationWindowController.hideInfoWindow!();
       }
+      assignedRequestData!.requestStatus == RequestStatus.ongoing;
       if (driverLocation != null) {
         getRouteToLocation(
           fromLocation: driverLocation!,

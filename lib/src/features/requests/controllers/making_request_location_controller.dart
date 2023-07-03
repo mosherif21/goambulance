@@ -383,6 +383,7 @@ class MakingRequestLocationController extends GetxController {
       if (requestLocationWindowController.hideInfoWindow != null) {
         requestLocationWindowController.hideInfoWindow!();
       }
+      assignedRequestData!.requestStatus == RequestStatus.ongoing;
       if (driverLocation != null) {
         getRouteToLocation(
           fromLocation: driverLocation!,

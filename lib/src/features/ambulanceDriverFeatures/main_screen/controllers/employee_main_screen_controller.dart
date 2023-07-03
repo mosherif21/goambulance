@@ -7,7 +7,7 @@ import '../../../../../authentication/authentication_repository.dart';
 import '../../../../general/general_functions.dart';
 import '../../../help_center/screens/help_screen.dart';
 import '../../../information/screens/about_us_page.dart';
-import '../../../notifications/screens/notifications_screen.dart';
+import '../../account/notifications/screens/employee_notifcations_screen.dart';
 
 class EmployeeMainScreenController extends GetxController {
   static EmployeeMainScreenController get instance => Get.find();
@@ -67,7 +67,7 @@ class EmployeeMainScreenController extends GetxController {
     switch (index) {
       case 0:
         Get.to(
-          () => const NotificationsScreen(),
+          () => const EmployeeNotificationsScreen(),
           transition: getPageTransition(),
         );
         break;

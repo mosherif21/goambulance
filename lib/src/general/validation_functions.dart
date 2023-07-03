@@ -32,12 +32,12 @@ String? validatePassword(String? value) {
   if (value.length < 8) {
     return 'password8long'.tr;
   }
-  if (!value.contains(new RegExp(r'[A-Z]'))) {
-    return 'passwordUpperCase'.tr;
-  }
-  if (!value.contains(new RegExp(r'[0-9]'))) {
-    return 'passwordNumber'.tr;
-  }
+  // if (!value.contains( RegExp(r'[A-Z]'))) {
+  //   return 'passwordUpperCase'.tr;
+  // }
+  // if (!value.contains( RegExp(r'[0-9]'))) {
+  //   return 'passwordNumber'.tr;
+  // }
   return null;
 }
 

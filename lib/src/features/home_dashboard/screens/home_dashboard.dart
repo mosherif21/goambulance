@@ -81,19 +81,26 @@ class HomeDashBoard extends StatelessWidget {
                           firstAidNumber <= 17;
                           firstAidNumber++)
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: OpenContainer(
-                            useRootNavigator: true,
-                            closedElevation: 0,
-                            openElevation: 0,
-                            closedBuilder: (context, action) =>
-                                clickableLabeledImage(
-                              img: getFirstAidTipImage(firstAidNumber),
-                              label: 'firstAidTips$firstAidNumber'.tr,
-                            ),
-                            openBuilder: (context, action) =>
-                                FirstAidTipsDetailsPage(
-                              imgPath: getFirstAidDetailsPath(firstAidNumber),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 5),
+                          child: Material(
+                            color: Colors.white,
+                            elevation: 3,
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            child: OpenContainer(
+                              useRootNavigator: true,
+                              closedElevation: 0,
+                              openElevation: 0,
+                              closedBuilder: (context, action) =>
+                                  clickableLabeledImage(
+                                img: getFirstAidTipImage(firstAidNumber),
+                                label: 'firstAidTips$firstAidNumber'.tr,
+                              ),
+                              openBuilder: (context, action) =>
+                                  FirstAidTipsDetailsPage(
+                                imgPath: getFirstAidDetailsPath(firstAidNumber),
+                              ),
                             ),
                           ),
                         ),

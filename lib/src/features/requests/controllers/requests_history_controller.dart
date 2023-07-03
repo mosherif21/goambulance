@@ -301,8 +301,12 @@ class RequestsHistoryController extends GetxController {
 
   @override
   void onClose() async {
-    await sosRequestSubscription?.cancel();
-    await sentSosRequestSubscription?.cancel();
+    if (sosRequestSubscription != null &&
+        sentSosRequestSubscription != null &&
+        isUserCritical()) {
+      await sosRequestSubscription?.cancel();
+      await sentSosRequestSubscription?.cancel();
+    }
     requestsRefreshController.dispose();
     super.onClose();
   }

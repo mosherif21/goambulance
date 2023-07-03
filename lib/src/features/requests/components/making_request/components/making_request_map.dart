@@ -182,13 +182,11 @@ class MakingRequestMap extends StatelessWidget {
             children: [
               Obx(
                 () => Animarker(
-                  duration: makingRequestController.useRotation.value
-                      ? const Duration(milliseconds: 2500)
-                      : const Duration(milliseconds: 0),
-                  useRotation: makingRequestController.useRotation.value,
+                  duration: const Duration(milliseconds: 2500),
+                  useRotation: true,
                   mapId: makingRequestController.mapControllerCompleter.future
                       .then<int>((value) => value.mapId),
-                  markers: makingRequestController.mapMarkers.value.set,
+                  markers: makingRequestController.mapMarkersAnimated.value.set,
                   shouldAnimateCamera: false,
                   child: GoogleMap(
                     compassEnabled: false,
@@ -212,6 +210,7 @@ class MakingRequestMap extends StatelessWidget {
                     initialCameraPosition:
                         makingRequestController.getInitialCameraPosition(),
                     polylines: makingRequestController.mapPolyLines.value,
+                    markers: makingRequestController.mapMarkers.value,
                     onMapCreated: (GoogleMapController controller) =>
                         makingRequestController.mapControllerCompleter
                             .complete(controller),

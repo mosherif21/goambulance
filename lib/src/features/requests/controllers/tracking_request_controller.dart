@@ -59,10 +59,11 @@ class TrackingRequestController extends GetxController {
 
   //maps vars
   final mapPolyLines = <Polyline>{}.obs;
-  final mapMarkers = <MarkerId, Marker>{}.obs;
-  final kRequestLocationMarkerId = const MarkerId('requestLocation');
-  final kAmbulanceMarkerId = const MarkerId('ambulance');
-  final kHospitalMarkerId = const MarkerId('hospital');
+  final mapMarkersAnimated = <MarkerId, Marker>{}.obs;
+  final mapMarkers = <Marker>{}.obs;
+
+  final kAmbulanceMarkerId = const MarkerId('ambulanceMarker');
+
   int routeToDestinationTime = 0;
   Marker? requestLocationMarker;
   Marker? ambulanceMarker;
@@ -117,7 +118,7 @@ class TrackingRequestController extends GetxController {
   HospitalModel? hospitalInfo;
   AmbulanceInformationDataModel? ambulanceInfo;
   LatLng? driverLocation;
-  final userRotation = false.obs;
+
   @override
   void onInit() {
     _firestore = FirebaseFirestore.instance;
@@ -272,7 +273,7 @@ class TrackingRequestController extends GetxController {
         anchor: const Offset(0.5, 0.5),
         consumeTapEvents: true,
       );
-      mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+      mapMarkersAnimated[kAmbulanceMarkerId] = ambulanceMarker!;
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
         getRouteToLocation(
           fromLocation: currentChosenLatLng,
@@ -366,7 +367,7 @@ class TrackingRequestController extends GetxController {
       if (requestLocationWindowController.hideInfoWindow != null) {
         requestLocationWindowController.hideInfoWindow!();
       }
-      userRotation.value = true;
+
       initDriverLocationListener(
           ambulanceDriverId: assignedRequestData!.ambulanceDriverID);
     }
@@ -374,7 +375,7 @@ class TrackingRequestController extends GetxController {
 
   void completedRequestChanges() async {
     showLoadingScreen();
-    userRotation.value = false;
+
     await driverLocationListener?.cancel();
     await assignedRequestListener?.cancel();
 
@@ -390,21 +391,21 @@ class TrackingRequestController extends GetxController {
     await getRouteOperation?.cancel();
     selectedHospital.value = null;
 
-    mapMarkers[kRequestLocationMarkerId] = Marker(
-      markerId: kRequestLocationMarkerId,
-      position: const LatLng(30.744496, 24.977754),
-      rotation: 0,
-    );
-    mapMarkers[kAmbulanceMarkerId] = Marker(
+    if (requestLocationMarker != null) {
+      if (mapMarkers.contains(requestLocationMarker)) {
+        mapMarkers.remove(requestLocationMarker);
+      }
+    }
+    mapMarkersAnimated[kAmbulanceMarkerId] = Marker(
       markerId: kAmbulanceMarkerId,
       position: const LatLng(30.744496, 24.977754),
       rotation: 0,
     );
-    mapMarkers[kHospitalMarkerId] = Marker(
-      markerId: kHospitalMarkerId,
-      position: const LatLng(30.744496, 24.977754),
-      rotation: 0,
-    );
+    if (hospitalMarker != null) {
+      if (mapMarkers.contains(hospitalMarker)) {
+        mapMarkers.remove(hospitalMarker);
+      }
+    }
     if (requestLocationWindowController.hideInfoWindow != null) {
       requestLocationWindowController.hideInfoWindow!();
     }
@@ -414,7 +415,6 @@ class TrackingRequestController extends GetxController {
   }
 
   void onRequestCanceledChanges() async {
-    userRotation.value = false;
     requestStatus.value = RequestStatus.non;
     currentRequestData = null;
     assignedRequestData = null;
@@ -556,7 +556,7 @@ class TrackingRequestController extends GetxController {
             requestStatus.value == RequestStatus.ongoing) {
           if (assignedRequestData != null) {
             showLoadingScreen();
-            userRotation.value = false;
+
             await driverLocationListener?.cancel();
             await assignedRequestListener?.cancel();
 
@@ -572,10 +572,9 @@ class TrackingRequestController extends GetxController {
                   anchor: const Offset(0.5, 0.5),
                   consumeTapEvents: true,
                   rotation: 0.0);
-              mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+              mapMarkersAnimated[kAmbulanceMarkerId] = ambulanceMarker!;
               onRequestCanceledChanges();
             } else {
-              userRotation.value = true;
               initAssignedRequestListener(
                   requestId: currentRequestData!.requestRef.id);
               initDriverLocationListener(
@@ -670,13 +669,12 @@ class TrackingRequestController extends GetxController {
     choosingHospital.value = true;
     hospitalsPanelController.open();
     requestLocationMarker = Marker(
-      markerId: kRequestLocationMarkerId,
+      markerId: const MarkerId('requestMarker'),
       position: currentChosenLatLng,
       icon: requestLocationMarkerIcon,
       consumeTapEvents: true,
-      rotation: 0,
     );
-    mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
+    mapMarkers.add(requestLocationMarker!);
 
     Future.delayed(const Duration(milliseconds: 100)).whenComplete(
         () => animateToLocation(locationLatLng: currentChosenLatLng));
@@ -723,21 +721,19 @@ class TrackingRequestController extends GetxController {
     );
     currentRequestData = requestData;
     requestLocationMarker = Marker(
-      markerId: kRequestLocationMarkerId,
+      markerId: const MarkerId('requestMarker'),
       position: initialRequestModel.requestLocation,
       icon: requestLocationMarkerIcon,
       consumeTapEvents: true,
-      rotation: 0,
     );
-    mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
-    hospitalMarker = Marker(
-      markerId: kHospitalMarkerId,
+    mapMarkers.add(requestLocationMarker!);
+    requestLocationMarker = Marker(
+      markerId: const MarkerId('hospitalMarker'),
       position: initialRequestModel.hospitalLocation,
       icon: hospitalMarkerIcon,
       consumeTapEvents: true,
-      rotation: 0,
     );
-    mapMarkers[kHospitalMarkerId] = hospitalMarker!;
+    mapMarkers.add(requestLocationMarker!);
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
       getRouteToLocation(
@@ -804,11 +800,9 @@ class TrackingRequestController extends GetxController {
     }
 
     if (hospitalMarker != null) {
-      mapMarkers[kHospitalMarkerId] = Marker(
-        markerId: kHospitalMarkerId,
-        position: const LatLng(30.744496, 24.977754),
-        rotation: 0,
-      );
+      if (mapMarkers.contains(hospitalMarker)) {
+        mapMarkers.remove(hospitalMarker);
+      }
     }
   }
 
@@ -898,16 +892,14 @@ class TrackingRequestController extends GetxController {
     getHospitalsOperation?.cancel();
     getRouteOperation?.cancel();
     selectedHospital.value = null;
-    userRotation.value = false;
-    mapMarkers[kRequestLocationMarkerId] = Marker(
-      markerId: kRequestLocationMarkerId,
-      position: const LatLng(30.744496, 24.977754),
-      rotation: 0,
-    );
+    if (requestLocationMarker != null) {
+      if (mapMarkers.contains(requestLocationMarker)) {
+        mapMarkers.remove(requestLocationMarker);
+      }
+    }
     if (requestLocationWindowController.hideInfoWindow != null) {
       requestLocationWindowController.hideInfoWindow!();
     }
-
     clearSearchedHospitals();
     Future.delayed(const Duration(milliseconds: 100))
         .whenComplete(
@@ -983,14 +975,14 @@ class TrackingRequestController extends GetxController {
         searchedHospitals.value = hospitalsDocuments;
         if (skipCount == 0) {
           selectedHospital.value = hospitalsDocuments[0];
+
           hospitalMarker = Marker(
-            markerId: kHospitalMarkerId,
+            markerId: const MarkerId('hospitalMarker'),
             position: selectedHospital.value!.location,
             icon: hospitalMarkerIcon,
             consumeTapEvents: true,
-            rotation: 0,
           );
-          mapMarkers[kHospitalMarkerId] = hospitalMarker!;
+          mapMarkers.add(hospitalMarker!);
           animateToLatLngBounds(
               latLngBounds: getLatLngBounds(latLngList: [
             currentChosenLatLng,
@@ -1034,14 +1026,12 @@ class TrackingRequestController extends GetxController {
     clearHospitalRoute();
     final hospitalItem = searchedHospitals[hospitalIndex];
     hospitalMarker = Marker(
-      markerId: kHospitalMarkerId,
+      markerId: const MarkerId('hospitalMarker'),
       position: hospitalItem.location,
       icon: hospitalMarkerIcon,
-      anchor: const Offset(0.5, 0.5),
       consumeTapEvents: true,
-      rotation: 0,
     );
-    mapMarkers[kHospitalMarkerId] = hospitalMarker!;
+    mapMarkers.add(hospitalMarker!);
     animateToLatLngBounds(
         latLngBounds: getLatLngBounds(
             latLngList: [currentChosenLatLng, hospitalItem.location]));

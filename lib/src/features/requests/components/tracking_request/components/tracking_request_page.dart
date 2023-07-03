@@ -182,13 +182,11 @@ class TrackingRequestPage extends StatelessWidget {
             children: [
               Obx(
                 () => Animarker(
-                  duration: trackingController.userRotation.value
-                      ? const Duration(milliseconds: 2500)
-                      : const Duration(milliseconds: 0),
-                  useRotation: trackingController.userRotation.value,
+                  duration: const Duration(milliseconds: 2500),
+                  useRotation: true,
                   mapId: trackingController.mapControllerCompleter.future
                       .then<int>((value) => value.mapId),
-                  markers: trackingController.mapMarkers.value.set,
+                  markers: trackingController.mapMarkersAnimated.value.set,
                   shouldAnimateCamera: false,
                   child: GoogleMap(
                     compassEnabled: false,
@@ -211,6 +209,7 @@ class TrackingRequestPage extends StatelessWidget {
                     initialCameraPosition:
                         trackingController.getInitialCameraPosition(),
                     polylines: trackingController.mapPolyLines.value,
+                    markers: trackingController.mapMarkers.value,
                     onMapCreated: (GoogleMapController controller) =>
                         trackingController.mapControllerCompleter
                             .complete(controller),

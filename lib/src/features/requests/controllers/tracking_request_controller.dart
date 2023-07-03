@@ -545,8 +545,8 @@ class TrackingRequestController extends GetxController {
                   text: 'unknownError'.tr, snackBarType: SnackBarType.error);
             }
           }
-        } else if (requestStatus.value == RequestStatus.pending ||
-            requestStatus.value == RequestStatus.accepted) {
+        } else if (requestStatus.value == RequestStatus.assigned ||
+            requestStatus.value == RequestStatus.ongoing) {
           if (assignedRequestData != null) {
             showLoadingScreen();
             await assignedRequestListener?.cancel();

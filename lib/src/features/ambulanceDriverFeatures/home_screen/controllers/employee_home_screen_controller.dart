@@ -91,7 +91,6 @@ class EmployeeHomeScreenController extends GetxController {
   final geoFire = GeoFlutterFire();
 
   final notificationsCount = 0.obs;
-  final userRotation = false.obs;
   late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       notificationCountStreamSubscription;
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
@@ -196,7 +195,6 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void onNotAssignedChanges() async {
-    userRotation.value = false;
     clearRoutes();
     clearMarkers();
     assignedRequestLoaded.value = false;
@@ -283,7 +281,6 @@ class EmployeeHomeScreenController extends GetxController {
 
   void updateRouteAndMap() {
     if (assignedRequestData != null) {
-      userRotation.value = true;
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
         if (locationAvailable.value) {
           ambulanceMarker = Marker(
@@ -388,11 +385,13 @@ class EmployeeHomeScreenController extends GetxController {
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
       await _loadMarkersIcon();
-      if (hospitalMarker != null) {
-        if (mapMarkers.contains(hospitalMarker)) {
-          mapMarkers.remove(hospitalMarker);
-        }
-      }
+      hospitalMarker = Marker(
+        markerId: const MarkerId('requestMarker'),
+        position: hospitalLatLng,
+        icon: hospitalMarkerIcon,
+        consumeTapEvents: true,
+      );
+      mapMarkers.add(hospitalMarker!);
       ambulanceMarker = Marker(
         markerId: kAmbulanceMarkerId,
         position: locationAvailable.value

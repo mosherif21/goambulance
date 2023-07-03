@@ -727,13 +727,13 @@ class TrackingRequestController extends GetxController {
       consumeTapEvents: true,
     );
     mapMarkers.add(requestLocationMarker!);
-    requestLocationMarker = Marker(
+    hospitalMarker = Marker(
       markerId: const MarkerId('hospitalMarker'),
       position: initialRequestModel.hospitalLocation,
       icon: hospitalMarkerIcon,
       consumeTapEvents: true,
     );
-    mapMarkers.add(requestLocationMarker!);
+    mapMarkers.add(hospitalMarker!);
     if (initialRequestModel.requestStatus == RequestStatus.pending ||
         initialRequestModel.requestStatus == RequestStatus.accepted) {
       getRouteToLocation(

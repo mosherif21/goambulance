@@ -486,7 +486,7 @@ class Languages extends Translations {
           'regularAmbulance': 'سيارة إسعاف عادية',
           'intensiveAmbulance': 'سيارة إسعاف للعناية المركزة',
           'invalidNumberMsg': 'رقم الجوال غير صحيح',
-          'ambulanceRequestOngoing': 'طلب الإسعاف جارى',
+          ' eRequestOngoing': 'طلب الإسعاف جارى',
           'arriveIn': 'الوصول خلال @routeTime',
         },
         'en_US': {

@@ -84,10 +84,8 @@ class HomeDashBoard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 6, vertical: 3),
                           child: Material(
-                            color: Colors.white,
+                            color: Colors.grey.shade100,
                             elevation: 2,
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
                             child: OpenContainer(
                               useRootNavigator: true,
                               closedElevation: 0,

@@ -420,8 +420,10 @@ class Languages extends Translations {
           'failedToChangeSetting': 'فشل تغيير الإعداد ، يرجى المحاولة مرة أخرى',
           'sosRequestHospitalCanceled': 'تم إلغاء طلب الاستغاثة لهذه المستشفى',
           'sosCancelReturn': 'تم إلغاء هذا الطلب ونحن نبحث عن مستشفى آخرى',
-          'sosSmsMsg': 'استغاثة @trackingLink',
-          'normalSmsMsg': 'إسعاف @trackingLink',
+          'sosSmsMsg':
+              '@patientName has made an SOS request. Track the request: @trackingLink. Thank you.',
+          'normalSmsMsg':
+              '@patientName has requested an ambulance. Track the request: @trackingLink. Thank you.',
           'EmployeeAccountTitle1': 'بيانات المستخدم',
           'EmployeeAccountTitle2': 'تغيير رقم الهاتف',
           'EmployeeAccountTitle3': 'تغيير البريد الالكتروني',

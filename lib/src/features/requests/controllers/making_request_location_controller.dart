@@ -126,9 +126,12 @@ class MakingRequestLocationController extends GetxController {
 
   @override
   void onInit() {
-    _firestore = FirebaseFirestore.instance;
-    userId = AuthenticationRepository.instance.fireUser.value!.uid;
     firebasePatientDataAccess = FirebasePatientDataAccess.instance;
+    _firestore = FirebaseFirestore.instance;
+    authenticationRepository = AuthenticationRepository.instance;
+    userId = authenticationRepository.fireUser.value!.uid;
+    userName = authenticationRepository.userInfo.name;
+
     super.onInit();
   }
 
@@ -1047,7 +1050,7 @@ class MakingRequestLocationController extends GetxController {
       if (predictions != null && predictions.description != null) {
         searchedLocation =
             await getLocationFromAddress(address: predictions.description!);
-
+        if (!mapEnabled.value) enableMap();
         animateToLocation(locationLatLng: searchedLocation);
       }
     } catch (err) {

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:goambulance/src/constants/colors.dart';
 import 'package:goambulance/src/features/account/components/addresses/address_item.dart';
 import 'package:goambulance/src/general/common_widgets/back_button.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -77,7 +78,7 @@ class AccountAddressesPage extends StatelessWidget {
                     onPressed: () => Get.to(() => const AddressLocationPage(),
                         transition: getPageTransition()),
                     enabled: true,
-                    color: Colors.blueAccent,
+                    color: kDefaultColor,
                   ),
                   const SizedBox(height: 20),
                 ],

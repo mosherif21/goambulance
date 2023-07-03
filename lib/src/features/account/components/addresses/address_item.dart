@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 
+import '../../../../constants/colors.dart';
 import '../../controllers/addresses_controller.dart';
 import '../models.dart';
 
@@ -29,7 +30,7 @@ class LoadAddressItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 15),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.blueAccent, width: 2),
+        border: Border.all(color: kDefaultColor, width: 2),
         color: Colors.white54,
         borderRadius: const BorderRadius.all(
           Radius.circular(15),

@@ -23,8 +23,6 @@ class HomeDashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final homeScreenController = HomeScreenController.instance;
-    // FlutterGifController gifontroller =
-    // FlutterGifController(vsync: this );
     final screenHeight = getScreenHeight(context);
     final controller = PageController(viewportFraction: 0.9, keepPage: true);
 

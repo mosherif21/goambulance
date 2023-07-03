@@ -183,6 +183,7 @@ class RequestMakingModel {
         'requestLocation': requestLocation,
         'hospitalLocation': hospitalLocation,
         'hospitalGeohash': hospitalGeohash,
+        'status': 'pending',
       };
 }
 

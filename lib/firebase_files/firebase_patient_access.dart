@@ -1193,14 +1193,14 @@ class FirebasePatientDataAccess extends GetxController {
           .doc(requestInfo.ambulanceMedicID);
       cancelRequestBatch.delete(hospitalAssignedMedic);
 
-      final assignedDriver = hospitalRef
+      final assignedDriver = fireStore
           .collection('users')
           .doc(requestInfo.ambulanceDriverID)
           .collection('assignedRequests')
           .doc(requestInfo.requestId);
       cancelRequestBatch.delete(assignedDriver);
 
-      final assignedMedic = hospitalRef
+      final assignedMedic = fireStore
           .collection('users')
           .doc(requestInfo.ambulanceMedicID)
           .collection('assignedRequests')
@@ -1227,7 +1227,7 @@ class FirebasePatientDataAccess extends GetxController {
           .doc(requestInfo.ambulanceCarID);
       cancelRequestBatch.set(hospitalAvailableCars, <String, dynamic>{
         'licensePlate': requestInfo.licensePlate,
-        'ambulanceType': requestInfo.ambulanceType,
+        'type': requestInfo.ambulanceType,
       });
 
       final canceledRequestRef =

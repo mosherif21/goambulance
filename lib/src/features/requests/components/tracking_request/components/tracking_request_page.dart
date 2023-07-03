@@ -57,13 +57,14 @@ class TrackingRequestPage extends StatelessWidget {
                               RequestStatus.accepted
                           ? 'acceptedRequest'.tr
                           : trackingController.requestStatus.value ==
-                                      RequestStatus.assigned ||
-                                  trackingController.requestStatus.value ==
-                                      RequestStatus.ongoing
+                                  RequestStatus.assigned
                               ? 'assignedRequest'.tr
-                              : trackingController.searchedHospitals.isEmpty
-                                  ? 'searchingForHospitals'.tr
-                                  : 'chooseRequestHospital'.tr,
+                              : trackingController.requestStatus.value ==
+                                      RequestStatus.ongoing
+                                  ? 'ambulanceRequestOngoing'.tr
+                                  : trackingController.searchedHospitals.isEmpty
+                                      ? 'searchingForHospitals'.tr
+                                      : 'chooseRequestHospital'.tr,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,

@@ -164,7 +164,8 @@ class EmployeeMapScreen extends StatelessWidget {
               useRotation: employeeHomeScreenController.userRotation.value,
               mapId: employeeHomeScreenController.mapControllerCompleter.future
                   .then<int>((value) => value.mapId),
-              markers: employeeHomeScreenController.mapMarkers.value.set,
+              markers:
+                  employeeHomeScreenController.mapMarkersAnimated.value.set,
               shouldAnimateCamera: false,
               child: GoogleMap(
                 compassEnabled: false,
@@ -188,6 +189,7 @@ class EmployeeMapScreen extends StatelessWidget {
                 initialCameraPosition:
                     employeeHomeScreenController.getInitialCameraPosition(),
                 polylines: employeeHomeScreenController.mapPolyLines.value,
+                markers: employeeHomeScreenController.mapMarkers.value,
                 onMapCreated: (GoogleMapController controller) =>
                     employeeHomeScreenController.mapControllerCompleter
                         .complete(controller),

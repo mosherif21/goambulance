@@ -51,10 +51,9 @@ class EmployeeHomeScreenController extends GetxController {
 
   //maps vars
   RxSet<Polyline> mapPolyLines = <Polyline>{}.obs;
-  final mapMarkers = <MarkerId, Marker>{}.obs;
-  final kRequestLocationMarkerId = const MarkerId('requestLocation');
-  final kAmbulanceMarkerId = const MarkerId('ambulance');
-  final kHospitalMarkerId = const MarkerId('hospital');
+  final mapMarkersAnimated = <MarkerId, Marker>{}.obs;
+  final mapMarkers = <Marker>{}.obs;
+  final kAmbulanceMarkerId = const MarkerId('ambulanceMarker');
   int routeToDestinationTime = 0;
   Marker? requestLocationMarker;
   Marker? ambulanceMarker;
@@ -217,13 +216,12 @@ class EmployeeHomeScreenController extends GetxController {
     if (assignedRequestData != null) {
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
         requestLocationMarker = Marker(
-          markerId: kRequestLocationMarkerId,
+          markerId: const MarkerId('requestMarker'),
           position: assignedRequestData!.requestLocation,
           icon: requestLocationMarkerIcon,
           consumeTapEvents: true,
-          rotation: 0,
         );
-        mapMarkers[kRequestLocationMarkerId] = requestLocationMarker!;
+        mapMarkers.add(requestLocationMarker!);
       }
     }
     updateRouteAndMap();
@@ -297,7 +295,7 @@ class EmployeeHomeScreenController extends GetxController {
             anchor: const Offset(0.5, 0.5),
             consumeTapEvents: true,
           );
-          mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+          mapMarkersAnimated[kAmbulanceMarkerId] = ambulanceMarker!;
         }
         getRouteToLocation(
           fromLocation: locationAvailable.value
@@ -325,7 +323,7 @@ class EmployeeHomeScreenController extends GetxController {
             anchor: const Offset(0.5, 0.5),
             consumeTapEvents: true,
           );
-          mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+          mapMarkersAnimated[kAmbulanceMarkerId] = ambulanceMarker!;
         }
         getRouteToLocation(
           fromLocation: locationAvailable.value
@@ -353,11 +351,9 @@ class EmployeeHomeScreenController extends GetxController {
 
   void clearMarkers() async {
     if (requestLocationMarker != null) {
-      mapMarkers[kRequestLocationMarkerId] = Marker(
-        markerId: kRequestLocationMarkerId,
-        position: const LatLng(0, 0),
-        rotation: 0,
-      );
+      if (mapMarkers.contains(requestLocationMarker)) {
+        mapMarkers.remove(requestLocationMarker);
+      }
     }
   }
 
@@ -392,14 +388,11 @@ class EmployeeHomeScreenController extends GetxController {
       controller.setMapStyle(mapStyle);
       googleMapControllerInit = true;
       await _loadMarkersIcon();
-      hospitalMarker = Marker(
-        markerId: kHospitalMarkerId,
-        position: hospitalLatLng,
-        icon: hospitalMarkerIcon,
-        consumeTapEvents: true,
-        rotation: 0,
-      );
-      mapMarkers[kHospitalMarkerId] = hospitalMarker!;
+      if (hospitalMarker != null) {
+        if (mapMarkers.contains(hospitalMarker)) {
+          mapMarkers.remove(hospitalMarker);
+        }
+      }
       ambulanceMarker = Marker(
         markerId: kAmbulanceMarkerId,
         position: locationAvailable.value
@@ -409,7 +402,7 @@ class EmployeeHomeScreenController extends GetxController {
         anchor: const Offset(0.5, 0.5),
         consumeTapEvents: true,
       );
-      mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+      mapMarkersAnimated[kAmbulanceMarkerId] = ambulanceMarker!;
       if (AppInit.isWeb) {
         animateCamera(locationLatLng: initialCameraLatLng);
       }
@@ -808,7 +801,7 @@ class EmployeeHomeScreenController extends GetxController {
           anchor: const Offset(0.5, 0.5),
           consumeTapEvents: true,
         );
-        mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
+        mapMarkersAnimated[kAmbulanceMarkerId] = ambulanceMarker!;
         animateCamera(locationLatLng: currentLocationGetter());
       }
     }

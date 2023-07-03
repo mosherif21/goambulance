@@ -57,14 +57,15 @@ class MakingRequestMap extends StatelessWidget {
                               RequestStatus.accepted
                           ? 'acceptedRequest'.tr
                           : makingRequestController.requestStatus.value ==
-                                      RequestStatus.assigned ||
-                                  makingRequestController.requestStatus.value ==
-                                      RequestStatus.ongoing
+                                  RequestStatus.assigned
                               ? 'assignedRequest'.tr
-                              : makingRequestController
-                                      .searchedHospitals.isEmpty
-                                  ? 'searchingForHospitals'.tr
-                                  : 'chooseRequestHospital'.tr,
+                              : makingRequestController.requestStatus.value ==
+                                      RequestStatus.ongoing
+                                  ? 'ambulanceRequestOngoing'.tr
+                                  : makingRequestController
+                                          .searchedHospitals.isEmpty
+                                      ? 'searchingForHospitals'.tr
+                                      : 'chooseRequestHospital'.tr,
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w800,

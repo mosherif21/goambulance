@@ -793,6 +793,9 @@ class EmployeeHomeScreenController extends GetxController {
           }
         }
       } else {
+        firebaseEmployeeDataAccess.updateDriverLocation(
+            driverLocation:
+                GeoPoint(currentLocation.latitude, currentLocation.longitude));
         ambulanceMarker = Marker(
           markerId: kAmbulanceMarkerId,
           position: currentLocationGetter(),

@@ -335,6 +335,7 @@ class MakingRequestLocationController extends GetxController {
                   title: 'requestLocation'.tr,
                   onTap: () => animateToLocation(
                       locationLatLng: assignedRequestData!.requestLocation),
+                  toHospital: false,
                 ),
                 assignedRequestData!.requestLocation,
               );
@@ -357,6 +358,7 @@ class MakingRequestLocationController extends GetxController {
                 MarkerWindowInfo(
                   time: routeToDestinationTime,
                   title: assignedRequestData!.hospitalName,
+                  toHospital: true,
                   onTap: () => animateToLocation(
                       locationLatLng: assignedRequestData!.hospitalLocation),
                 ),
@@ -379,7 +381,7 @@ class MakingRequestLocationController extends GetxController {
       if (requestLocationWindowController.hideInfoWindow != null) {
         requestLocationWindowController.hideInfoWindow!();
       }
-      assignedRequestData!.requestStatus == RequestStatus.ongoing;
+      assignedRequestData!.requestStatus = RequestStatus.ongoing;
       if (driverLocation != null) {
         getRouteToLocation(
           fromLocation: driverLocation!,
@@ -392,6 +394,7 @@ class MakingRequestLocationController extends GetxController {
                 MarkerWindowInfo(
                   time: routeToDestinationTime,
                   title: assignedRequestData!.hospitalName,
+                  toHospital: true,
                   onTap: () => animateToLocation(
                       locationLatLng: assignedRequestData!.hospitalLocation),
                 ),
@@ -877,6 +880,7 @@ class MakingRequestLocationController extends GetxController {
                   MarkerWindowInfo(
                     time: routeToDestinationTime,
                     title: 'requestLocation'.tr,
+                    toHospital: false,
                     onTap: () =>
                         animateToLocation(locationLatLng: currentChosenLatLng),
                   ),
@@ -925,6 +929,7 @@ class MakingRequestLocationController extends GetxController {
             MarkerWindowInfo(
               time: routeToDestinationTime,
               title: 'requestLocation'.tr,
+              toHospital: false,
               onTap: () =>
                   animateToLocation(locationLatLng: currentChosenLatLng),
             ),
@@ -1155,7 +1160,7 @@ class MakingRequestLocationController extends GetxController {
   void animateToLatLngBounds({required LatLngBounds latLngBounds}) {
     if (googleMapControllerInit) {
       googleMapController
-          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 35));
+          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 40));
     }
   }
 

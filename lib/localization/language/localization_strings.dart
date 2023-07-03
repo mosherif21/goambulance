@@ -486,6 +486,7 @@ class Languages extends Translations {
           'intensiveAmbulance': 'سيارة إسعاف للعناية المركزة',
           'invalidNumberMsg': 'رقم الجوال غير صحيح',
           'ambulanceRequestOngoing': 'طلب الإسعاف جارى',
+          'arriveIn': 'الوصول خلال @routeTime',
         },
         'en_US': {
           'sosCancelReturn':
@@ -986,6 +987,7 @@ class Languages extends Translations {
           'regularAmbulance': 'Regular ambulance',
           'intensiveAmbulance': 'Intensive care ambulance',
           'ambulanceRequestOngoing': 'Ambulance request is ongoing',
+          'arriveIn': 'Arrive in @routeTime',
         },
       };
 }

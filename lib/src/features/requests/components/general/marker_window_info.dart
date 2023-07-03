@@ -10,9 +10,11 @@ class MarkerWindowInfo extends StatelessWidget {
     required this.time,
     required this.title,
     required this.onTap,
+    required this.toHospital,
   }) : super(key: key);
   final int time;
   final String title;
+  final bool toHospital;
   final Function onTap;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class MarkerWindowInfo extends StatelessWidget {
             children: [
               if (time != 0)
                 AutoSizeText(
-                  'pickupIn'.trParams({
+                  (toHospital ? 'arriveIn' : 'pickupIn').trParams({
                     'routeTime': '${time.toString()} ${getMinutesString(time)}',
                   }),
                   style: const TextStyle(

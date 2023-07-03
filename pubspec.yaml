@@ -142,8 +142,6 @@ flutter:
   assets:
     - assets/fonts/
     - assets/images/
-    - assets/logos/
-    - assets/videos/
     - assets/lottie_animations/
     - assets/gifs/
     - assets/files/

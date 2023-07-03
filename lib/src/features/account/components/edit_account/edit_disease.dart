@@ -22,51 +22,58 @@ class EditDisease extends StatelessWidget {
   Widget build(BuildContext context) {
     controller.diseaseNameTextController.text = diseaseItem.diseaseName;
     controller.medicinesTextController.text = diseaseItem.diseaseMedicines;
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AutoSizeText(
-            'diseaseInfo'.tr,
-            style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.w700,
-                color: Colors.black87),
-            maxLines: 2,
-          ),
-          const SizedBox(height: 10.0),
-          TextFormFieldRegular(
-            labelText: 'diseaseName'.tr,
-            hintText: 'enterDiseaseName'.tr,
-            prefixIconData: Icons.coronavirus_outlined,
-            textController: controller.diseaseNameTextController,
-            inputType: InputType.text,
-            editable: true,
-            textInputAction: TextInputAction.next,
-            inputFormatter: LengthLimitingTextInputFormatter(50),
-          ),
-          const SizedBox(height: 10),
-          TextFormFieldMultiline(
-            labelText: 'medicineName'.tr,
-            hintText: 'enterMedicineName'.tr,
-            textController: controller.medicinesTextController,
-            textInputAction: TextInputAction.done,
-            inputFormatter: LengthLimitingTextInputFormatter(100),
-          ),
-          const SizedBox(height: 10.0),
-          Obx(
-            () => RegularElevatedButton(
-              buttonText: 'edit'.tr,
-              onPressed: () {
-                controller.editDiseaseItem(diseaseItem);
-                controller.diseasesList.remove(diseaseItem);
-              },
-              enabled: controller.diseaseName.value.isNotEmpty ? true : false,
-              color: Colors.black,
+    return WillPopScope(
+      onWillPop: () {
+        controller.diseaseNameTextController.text = '';
+        controller.medicinesTextController.text = '';
+        return Future.value(true);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AutoSizeText(
+              'diseaseInfo'.tr,
+              style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87),
+              maxLines: 2,
             ),
-          ),
-        ],
+            const SizedBox(height: 10.0),
+            TextFormFieldRegular(
+              labelText: 'diseaseName'.tr,
+              hintText: 'enterDiseaseName'.tr,
+              prefixIconData: Icons.coronavirus_outlined,
+              textController: controller.diseaseNameTextController,
+              inputType: InputType.text,
+              editable: true,
+              textInputAction: TextInputAction.next,
+              inputFormatter: LengthLimitingTextInputFormatter(50),
+            ),
+            const SizedBox(height: 10),
+            TextFormFieldMultiline(
+              labelText: 'medicineName'.tr,
+              hintText: 'enterMedicineName'.tr,
+              textController: controller.medicinesTextController,
+              textInputAction: TextInputAction.done,
+              inputFormatter: LengthLimitingTextInputFormatter(100),
+            ),
+            const SizedBox(height: 10.0),
+            Obx(
+              () => RegularElevatedButton(
+                buttonText: 'edit'.tr,
+                onPressed: () {
+                  controller.editDiseaseItem(diseaseItem);
+                  controller.diseasesList.remove(diseaseItem);
+                },
+                enabled: controller.diseaseName.value.isNotEmpty ? true : false,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

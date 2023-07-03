@@ -82,7 +82,7 @@ class HomeDashBoard extends StatelessWidget {
                           firstAidNumber++)
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 5),
+                              horizontal: 8, vertical: 6),
                           child: Material(
                             color: Colors.white,
                             elevation: 3,

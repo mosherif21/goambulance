@@ -182,10 +182,10 @@ class MakingRequestMap extends StatelessWidget {
             children: [
               Obx(
                 () => Animarker(
-                  duration: makingRequestController.userRotation.value
+                  duration: makingRequestController.useRotation.value
                       ? const Duration(milliseconds: 2500)
                       : const Duration(milliseconds: 0),
-                  useRotation: makingRequestController.userRotation.value,
+                  useRotation: makingRequestController.useRotation.value,
                   mapId: makingRequestController.mapControllerCompleter.future
                       .then<int>((value) => value.mapId),
                   markers: makingRequestController.mapMarkers.value.set,

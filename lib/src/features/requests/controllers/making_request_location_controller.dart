@@ -124,7 +124,7 @@ class MakingRequestLocationController extends GetxController {
 
   AmbulanceInformationDataModel? ambulanceInfo;
   LatLng? driverLocation;
-  final userRotation = false.obs;
+  final useRotation = false.obs;
 
   HospitalModel? hospitalInfo;
 
@@ -418,7 +418,7 @@ class MakingRequestLocationController extends GetxController {
       if (requestLocationWindowController.hideInfoWindow != null) {
         requestLocationWindowController.hideInfoWindow!();
       }
-      userRotation.value = true;
+      useRotation.value = true;
       initDriverLocationListener(
           ambulanceDriverId: assignedRequestData!.ambulanceDriverID);
     }
@@ -426,7 +426,7 @@ class MakingRequestLocationController extends GetxController {
 
   void completedRequestChanges() async {
     showLoadingScreen();
-    userRotation.value = false;
+    useRotation.value = false;
     await driverLocationListener?.cancel();
     await assignedRequestListener?.cancel();
 
@@ -466,7 +466,7 @@ class MakingRequestLocationController extends GetxController {
   }
 
   void onRequestCanceledChanges() async {
-    userRotation.value = false;
+    useRotation.value = false;
     requestStatus.value = RequestStatus.non;
     currentRequestData = null;
     assignedRequestData = null;
@@ -548,7 +548,7 @@ class MakingRequestLocationController extends GetxController {
             requestStatus.value == RequestStatus.ongoing) {
           if (assignedRequestData != null) {
             showLoadingScreen();
-            userRotation.value = false;
+            useRotation.value = false;
             await driverLocationListener?.cancel();
             await assignedRequestListener?.cancel();
 
@@ -557,7 +557,6 @@ class MakingRequestLocationController extends GetxController {
                     requestInfo: assignedRequestData!);
             hideLoadingScreen();
             if (functionStatus == FunctionStatus.success) {
-              userRotation.value = false;
               ambulanceMarker = Marker(
                   markerId: kAmbulanceMarkerId,
                   position: const LatLng(30.744496, 24.977754),
@@ -568,7 +567,7 @@ class MakingRequestLocationController extends GetxController {
               mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
               onRequestCanceledChanges();
             } else {
-              userRotation.value = true;
+              useRotation.value = true;
               initAssignedRequestListener(
                   requestId: currentRequestData!.requestRef.id);
               initDriverLocationListener(
@@ -780,7 +779,7 @@ class MakingRequestLocationController extends GetxController {
     getHospitalsOperation?.cancel();
     getRouteOperation?.cancel();
     selectedHospital.value = null;
-    userRotation.value = false;
+    useRotation.value = false;
     mapMarkers[kRequestLocationMarkerId] = Marker(
       markerId: kRequestLocationMarkerId,
       position: const LatLng(30.744496, 24.977754),

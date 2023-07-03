@@ -565,7 +565,6 @@ class TrackingRequestController extends GetxController {
                     requestInfo: assignedRequestData!);
             hideLoadingScreen();
             if (functionStatus == FunctionStatus.success) {
-              userRotation.value = false;
               ambulanceMarker = Marker(
                   markerId: kAmbulanceMarkerId,
                   position: const LatLng(30.744496, 24.977754),

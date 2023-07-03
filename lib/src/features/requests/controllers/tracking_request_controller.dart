@@ -117,7 +117,7 @@ class TrackingRequestController extends GetxController {
   HospitalModel? hospitalInfo;
   AmbulanceInformationDataModel? ambulanceInfo;
   LatLng? driverLocation;
-  final isActiveTrip = false.obs;
+  final userRotation = false.obs;
   @override
   void onInit() {
     _firestore = FirebaseFirestore.instance;
@@ -248,12 +248,10 @@ class TrackingRequestController extends GetxController {
                 driverLocationGeopoint.longitude);
             updateDriverLocation(driverLatLng: driverLocation!);
           } else {
-            if (driverLocation == null) {
-              driverLocation = assignedRequestData!.hospitalLocation;
-              updateDriverLocation(
-                  driverLatLng: LatLng(driverLocation!.latitude,
-                      driverLocation!.longitude + 0.002));
-            }
+            driverLocation = assignedRequestData!.hospitalLocation;
+            updateDriverLocation(
+                driverLatLng: LatLng(driverLocation!.latitude,
+                    driverLocation!.longitude + 0.002));
           }
         });
       } on FirebaseException catch (error) {
@@ -366,6 +364,7 @@ class TrackingRequestController extends GetxController {
       if (requestLocationWindowController.hideInfoWindow != null) {
         requestLocationWindowController.hideInfoWindow!();
       }
+      userRotation.value = true;
       initDriverLocationListener(
           ambulanceDriverId: assignedRequestData!.ambulanceDriverID);
     }
@@ -373,6 +372,7 @@ class TrackingRequestController extends GetxController {
 
   void completedRequestChanges() async {
     showLoadingScreen();
+    userRotation.value = false;
     await driverLocationListener?.cancel();
     await assignedRequestListener?.cancel();
 
@@ -390,17 +390,17 @@ class TrackingRequestController extends GetxController {
 
     mapMarkers[kRequestLocationMarkerId] = Marker(
       markerId: kRequestLocationMarkerId,
-      position: const LatLng(0, 0),
+      position: const LatLng(30.744496, 24.977754),
       rotation: 0,
     );
     mapMarkers[kAmbulanceMarkerId] = Marker(
       markerId: kAmbulanceMarkerId,
-      position: const LatLng(0, 0),
+      position: const LatLng(30.744496, 24.977754),
       rotation: 0,
     );
     mapMarkers[kHospitalMarkerId] = Marker(
       markerId: kHospitalMarkerId,
-      position: const LatLng(0, 0),
+      position: const LatLng(30.744496, 24.977754),
       rotation: 0,
     );
     if (requestLocationWindowController.hideInfoWindow != null) {
@@ -412,6 +412,7 @@ class TrackingRequestController extends GetxController {
   }
 
   void onRequestCanceledChanges() async {
+    userRotation.value = false;
     requestStatus.value = RequestStatus.non;
     currentRequestData = null;
     assignedRequestData = null;
@@ -553,6 +554,7 @@ class TrackingRequestController extends GetxController {
             requestStatus.value == RequestStatus.ongoing) {
           if (assignedRequestData != null) {
             showLoadingScreen();
+            userRotation.value = false;
             await driverLocationListener?.cancel();
             await assignedRequestListener?.cancel();
 
@@ -561,9 +563,10 @@ class TrackingRequestController extends GetxController {
                     requestInfo: assignedRequestData!);
             hideLoadingScreen();
             if (functionStatus == FunctionStatus.success) {
+              userRotation.value = false;
               ambulanceMarker = Marker(
                   markerId: kAmbulanceMarkerId,
-                  position: const LatLng(0, 0),
+                  position: const LatLng(30.744496, 24.977754),
                   icon: ambulanceMarkerIcon,
                   anchor: const Offset(0.5, 0.5),
                   consumeTapEvents: true,
@@ -571,6 +574,7 @@ class TrackingRequestController extends GetxController {
               mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
               onRequestCanceledChanges();
             } else {
+              userRotation.value = true;
               initAssignedRequestListener(
                   requestId: currentRequestData!.requestRef.id);
               initDriverLocationListener(
@@ -801,7 +805,7 @@ class TrackingRequestController extends GetxController {
     if (hospitalMarker != null) {
       mapMarkers[kHospitalMarkerId] = Marker(
         markerId: kHospitalMarkerId,
-        position: const LatLng(0, 0),
+        position: const LatLng(30.744496, 24.977754),
         rotation: 0,
       );
     }
@@ -854,9 +858,10 @@ class TrackingRequestController extends GetxController {
     getHospitalsOperation?.cancel();
     getRouteOperation?.cancel();
     selectedHospital.value = null;
+    userRotation.value = false;
     mapMarkers[kRequestLocationMarkerId] = Marker(
       markerId: kRequestLocationMarkerId,
-      position: const LatLng(0, 0),
+      position: const LatLng(30.744496, 24.977754),
       rotation: 0,
     );
     if (requestLocationWindowController.hideInfoWindow != null) {

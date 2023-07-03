@@ -413,8 +413,7 @@ class TrackingRequestController extends GetxController {
       requestLocationWindowController.hideInfoWindow!();
     }
     hideLoadingScreen();
-    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => animateToLocation(locationLatLng: currentChosenLatLng));
+    Get.back();
   }
 
   void onRequestCanceledChanges() async {
@@ -882,7 +881,6 @@ class TrackingRequestController extends GetxController {
         await driverLocationListener?.cancel();
         await assignedRequestListener?.cancel();
       }
-
       await Future.delayed(const Duration(milliseconds: 200));
       hideLoadingScreen();
       return true;

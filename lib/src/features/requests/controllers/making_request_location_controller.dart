@@ -462,8 +462,7 @@ class MakingRequestLocationController extends GetxController {
       requestLocationWindowController.hideInfoWindow!();
     }
     hideLoadingScreen();
-    Future.delayed(const Duration(milliseconds: 100)).whenComplete(
-        () => animateToLocation(locationLatLng: currentChosenLatLng));
+    Get.close(2);
   }
 
   void onRequestCanceledChanges() async {

@@ -200,8 +200,8 @@ class TrackingRequestController extends GetxController {
               completedRequestChanges();
             } else {
               showLoadingScreen();
-              await assignedRequestListener?.cancel();
               await driverLocationListener?.cancel();
+              await assignedRequestListener?.cancel();
               hideLoadingScreen();
               onRequestCanceledChanges();
             }
@@ -372,8 +372,10 @@ class TrackingRequestController extends GetxController {
 
   void completedRequestChanges() async {
     showLoadingScreen();
-    await assignedRequestListener?.cancel();
     await driverLocationListener?.cancel();
+    await assignedRequestListener?.cancel();
+
+    mapPolyLines.clear();
     hospitalsPanelController.close();
     requestStatus.value = RequestStatus.non;
     currentRequestData = null;
@@ -384,6 +386,7 @@ class TrackingRequestController extends GetxController {
     hospitalsLoaded.value = false;
     await getRouteOperation?.cancel();
     selectedHospital.value = null;
+
     mapMarkers[kRequestLocationMarkerId] = Marker(
       markerId: kRequestLocationMarkerId,
       position: const LatLng(0, 0),
@@ -549,8 +552,9 @@ class TrackingRequestController extends GetxController {
             requestStatus.value == RequestStatus.ongoing) {
           if (assignedRequestData != null) {
             showLoadingScreen();
-            await assignedRequestListener?.cancel();
             await driverLocationListener?.cancel();
+            await assignedRequestListener?.cancel();
+
             final functionStatus =
                 await firebasePatientDataAccess.cancelAssignedHospitalRequest(
                     requestInfo: assignedRequestData!);
@@ -831,8 +835,8 @@ class TrackingRequestController extends GetxController {
         await pendingRequestListener?.cancel();
       } else if (requestStatus.value == RequestStatus.assigned ||
           requestStatus.value == RequestStatus.ongoing) {
-        await assignedRequestListener?.cancel();
         await driverLocationListener?.cancel();
+        await assignedRequestListener?.cancel();
       }
       await getRouteOperation?.cancel();
 

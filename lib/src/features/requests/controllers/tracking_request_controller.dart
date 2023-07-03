@@ -117,6 +117,7 @@ class TrackingRequestController extends GetxController {
   HospitalModel? hospitalInfo;
   AmbulanceInformationDataModel? ambulanceInfo;
   LatLng? driverLocation;
+  final isActiveTrip = false.obs;
   @override
   void onInit() {
     _firestore = FirebaseFirestore.instance;

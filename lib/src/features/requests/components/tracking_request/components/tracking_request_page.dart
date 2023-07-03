@@ -182,12 +182,13 @@ class TrackingRequestPage extends StatelessWidget {
             children: [
               Obx(
                 () => Animarker(
-                  useRotation: true,
                   duration: const Duration(milliseconds: 2500),
                   mapId: trackingController.mapControllerCompleter.future
                       .then<int>((value) => value.mapId),
                   markers: trackingController.mapMarkers.value.set,
                   shouldAnimateCamera: false,
+                  isActiveTrip: trackingController.isActiveTrip.value,
+                  useRotation: true,
                   child: GoogleMap(
                     compassEnabled: false,
                     rotateGesturesEnabled: false,

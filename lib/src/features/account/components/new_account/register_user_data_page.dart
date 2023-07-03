@@ -323,6 +323,7 @@ class RegisterUserDataPage extends StatelessWidget {
                                 ),
                               ),
                               initialCountryCode: 'EG',
+                              invalidNumberMessage: 'invalidNumberMsg'.tr,
                               countries: const [
                                 Country(
                                   name: "Egypt",

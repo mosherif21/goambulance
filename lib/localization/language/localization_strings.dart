@@ -484,6 +484,7 @@ class Languages extends Translations {
               'يرجى ملاحظة أن إعادة تعيين كلمة المرور الخاصة بك ستؤدي إلى إلغاء ربط جميع حسابات التواصل الاجتماعى الخاصة بك',
           'regularAmbulance': 'سيارة إسعاف عادية',
           'intensiveAmbulance': 'سيارة إسعاف للعناية المركزة',
+          'invalidNumberMsg': 'رقم الجوال غير صحيح',
         },
         'en_US': {
           'sosCancelReturn':
@@ -980,6 +981,7 @@ class Languages extends Translations {
           'idLength': 'National ID Must Be 14 Digits',
           'emailRequired': 'Email is Required',
           'emailValid': 'Please Enter a Valid Email',
+          'invalidNumberMsg': 'Invalid Mobile Number',
           'regularAmbulance': 'Regular ambulance',
           'intensiveAmbulance': 'Intensive care ambulance',
         },

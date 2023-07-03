@@ -386,6 +386,7 @@ class EditUserDataPage extends StatelessWidget {
                               ),
                             ),
                             initialCountryCode: 'EG',
+                            invalidNumberMessage: 'invalidNumberMsg'.tr,
                             countries: const [
                               Country(
                                 name: "Egypt",

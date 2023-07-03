@@ -32,7 +32,7 @@ class HomeDashBoard extends StatelessWidget {
       appBar: AppBar(
         leading: ValueListenableBuilder(
           valueListenable:
-          homeScreenController.zoomDrawerController.stateNotifier!,
+              homeScreenController.zoomDrawerController.stateNotifier!,
           builder:
               (BuildContext context, DrawerState drawerState, Widget? child) {
             return IconButton(
@@ -49,11 +49,9 @@ class HomeDashBoard extends StatelessWidget {
         ),
         actions: [
           Obx(
-                () =>
-                NotificationsButton(
-                  notificationsCount: homeScreenController.notificationsCount
-                      .value,
-                ),
+            () => NotificationsButton(
+              notificationsCount: homeScreenController.notificationsCount.value,
+            ),
           ),
         ],
         elevation: 0,
@@ -71,97 +69,91 @@ class HomeDashBoard extends StatelessWidget {
                 children: [
                   TextHeaderWithButton(
                     headerText: 'firstAidTips'.tr,
-                    onPressed: () =>
-                        Get.to(
-                              () => const FirstAidScreen(),
-                          transition: getPageTransition(),
-                        ),
+                    onPressed: () => Get.to(
+                      () => const FirstAidScreen(),
+                      transition: getPageTransition(),
+                    ),
                     buttonText: 'viewAll'.tr,
                   ),
                   CarouselSlider(
                     items: [
                       for (int firstAidNumber = 1;
-                      firstAidNumber <= 17;
-                      firstAidNumber++)
+                          firstAidNumber <= 17;
+                          firstAidNumber++)
                         Padding(
-                          padding: const EdgeInsets.all(5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           child: OpenContainer(
                             useRootNavigator: true,
                             closedElevation: 0,
                             openElevation: 0,
                             closedBuilder: (context, action) =>
                                 clickableLabeledImage(
-                                  img: getFirstAidTipImage(firstAidNumber),
-                                  label: 'firstAidTips$firstAidNumber'.tr,
-                                ),
+                              img: getFirstAidTipImage(firstAidNumber),
+                              label: 'firstAidTips$firstAidNumber'.tr,
+                            ),
                             openBuilder: (context, action) =>
                                 FirstAidTipsDetailsPage(
-                                  imgPath: getFirstAidDetailsPath(
-                                      firstAidNumber),
-                                ),
+                              imgPath: getFirstAidDetailsPath(firstAidNumber),
+                            ),
                           ),
                         ),
                     ],
                     options: CarouselOptions(
-                      autoPlay: true,
+                      autoPlay: false,
                       aspectRatio: 2.2,
                       enlargeCenterPage: true,
                       enlargeStrategy: CenterPageEnlargeStrategy.height,
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
                   TextHeaderWithButton(
                     headerText: 'services'.tr,
-                    onPressed: () =>
-                        Get.to(
-                              () => const ServicesScreen(),
-                          transition: getPageTransition(),
-                        ),
+                    onPressed: () => Get.to(
+                      () => const ServicesScreen(),
+                      transition: getPageTransition(),
+                    ),
                     buttonText: 'viewAll'.tr,
                   ),
                   const ServicesButtons(),
                   const SizedBox(height: 15),
                   SizedBox(
-                    height: 270,
+                    height: 260,
                     child: Obx(
-                          () =>
-                      !homeScreenController.adsLoaded.value
+                      () => !homeScreenController.adsLoaded.value
                           ? const LoadingAds()
                           : PageView.builder(
-                        controller: controller,
-                        itemCount: homeScreenController.adImageUrl.length,
-                        itemBuilder: (_, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: OpenContainer(
-                              useRootNavigator: true,
-                              closedElevation: 0,
-                              openElevation: 0,
-                              closedBuilder: (context, action) =>
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade300,
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(10),
+                              controller: controller,
+                              itemCount: homeScreenController.adImageUrl.length,
+                              itemBuilder: (_, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: OpenContainer(
+                                    useRootNavigator: true,
+                                    closedElevation: 0,
+                                    openElevation: 0,
+                                    closedBuilder: (context, action) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade300,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(10),
+                                        ),
+                                      ),
+                                      child: Image.network(
+                                        homeScreenController.adImageUrl[index],
+                                        fit: BoxFit.fill,
                                       ),
                                     ),
-                                    child:
-                                    Image.network(
-                                      homeScreenController.adImageUrl[index],
-                                      fit: BoxFit.fill,
-                                    ),
+                                    openBuilder: (context, action) => PhotoView(
+                                        minScale:
+                                            PhotoViewComputedScale.contained,
+                                        imageProvider: NetworkImage(
+                                            homeScreenController
+                                                .adImageUrl[index])),
                                   ),
-                              openBuilder: (context, action) =>
-                                  PhotoView(
-                                    minScale:
-                                    PhotoViewComputedScale.contained,
-                                    imageProvider: AssetImage(
-                                        getSponsorImage(index + 1)),
-                                  ),
+                                );
+                              },
                             ),
-                          );
-                        },
-                      ),
                     ),
                   ),
                   SizedBox(height: screenHeight * 0.12),

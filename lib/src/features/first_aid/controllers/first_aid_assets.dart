@@ -3,8 +3,8 @@ import '../../../general/general_functions.dart';
 String getFirstAidTipImage(int firstAidNumber) =>
     'assets/images/firstAidTipImage$firstAidNumber.png';
 
-String getSponsorImage(int firstAidNumber) =>
-    'assets/images/sponsorImage$firstAidNumber.jpg';
+// String getSponsorImage(int firstAidNumber) =>
+//     'assets/images/sponsorImage$firstAidNumber.jpg';
 
 String getEmergencyNumberImage(int firstAidNumber) =>
     'assets/images/emergencyNumberImage$firstAidNumber.png';

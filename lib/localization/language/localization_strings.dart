@@ -482,6 +482,7 @@ class Languages extends Translations {
           'emailValid': 'يرجى ادخال بريد الكتروني صحيح',
           'resetUnlinkSocial':
               'يرجى ملاحظة أن إعادة تعيين كلمة المرور الخاصة بك ستؤدي إلى إلغاء ربط جميع حسابات التواصل الاجتماعى الخاصة بك',
+          'invalidNumber': 'يرجى ادخال رقم هاتف صحيح',
           'regularAmbulance': 'سيارة إسعاف عادية',
           'intensiveAmbulance': 'سيارة إسعاف للعناية المركزة',
           'invalidNumberMsg': 'رقم الجوال غير صحيح',
@@ -988,6 +989,7 @@ class Languages extends Translations {
           'intensiveAmbulance': 'Intensive care ambulance',
           'ambulanceRequestOngoing': 'Ambulance request is ongoing',
           'arriveIn': 'Arrive in @routeTime',
+          'invalidNumber': 'Please Enter a Valid Phone Number',
         },
       };
 }

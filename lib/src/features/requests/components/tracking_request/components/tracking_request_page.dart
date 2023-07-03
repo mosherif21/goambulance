@@ -27,6 +27,7 @@ class TrackingRequestPage extends StatelessWidget {
   const TrackingRequestPage({Key? key, required this.requestModel})
       : super(key: key);
   final RequestHistoryDataModel requestModel;
+
   Widget floatingPanel(
       {required TrackingRequestController trackingController}) {
     return Container(

@@ -20,115 +20,119 @@ class AddressMapPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
-    return Scaffold(
-      body: Stack(
-        children: [
-          GoogleMap(
-            compassEnabled: false,
-            rotateGesturesEnabled: false,
-            tiltGesturesEnabled: false,
-            mapToolbarEnabled: false,
-            myLocationEnabled: true,
-            zoomControlsEnabled: false,
-            myLocationButtonEnabled: false,
-            padding: AppInit.isWeb
-                ? EdgeInsets.zero
-                : EdgeInsets.only(
-                    bottom: 70,
-                    left: 10,
-                    right: 10,
-                    top: screenHeight * 0.16,
+    return WillPopScope(
+      onWillPop: addressLocationController.onWillPopMap,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            GoogleMap(
+              compassEnabled: false,
+              rotateGesturesEnabled: false,
+              tiltGesturesEnabled: false,
+              mapToolbarEnabled: false,
+              myLocationEnabled: true,
+              zoomControlsEnabled: false,
+              myLocationButtonEnabled: false,
+              padding: AppInit.isWeb
+                  ? EdgeInsets.zero
+                  : EdgeInsets.only(
+                      bottom: 70,
+                      left: 10,
+                      right: 10,
+                      top: screenHeight * 0.16,
+                    ),
+              initialCameraPosition:
+                  addressLocationController.getInitialCameraPosition(),
+              polylines: const {},
+              markers: const {},
+              onMapCreated: (GoogleMapController controller) =>
+                  addressLocationController.mapControllerCompleter
+                      .complete(controller),
+              onCameraMove: addressLocationController.onCameraMove,
+              onCameraIdle: addressLocationController.onCameraIdle,
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Row(
+                    children: [
+                      CircleBackButton(
+                        padding: 0,
+                        onPress: () => Get.back(),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: MakingRequestMapSearch(
+                          locationController: addressLocationController,
+                        ),
+                      ),
+                    ],
                   ),
-            initialCameraPosition:
-                addressLocationController.getInitialCameraPosition(),
-            polylines: const {},
-            markers: const {},
-            onMapCreated: (GoogleMapController controller) =>
-                addressLocationController.mapControllerCompleter
-                    .complete(controller),
-            onCameraMove: addressLocationController.onCameraMove,
-            onCameraIdle: addressLocationController.onCameraIdle,
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 70,
+              left: isLangEnglish() ? null : 0,
+              right: isLangEnglish() ? 0 : null,
               child: Padding(
                 padding: const EdgeInsets.all(15),
-                child: Row(
-                  children: [
-                    CircleBackButton(
-                      padding: 0,
-                      onPress: () => Get.back(),
-                    ),
-                    const SizedBox(width: 10),
-                    Expanded(
-                      child: MakingRequestMapSearch(
-                        locationController: addressLocationController,
+                child: Material(
+                  elevation: 5,
+                  shape: const CircleBorder(),
+                  color: Colors.white,
+                  child: InkWell(
+                    customBorder: const CircleBorder(),
+                    splashFactory: InkSparkle.splashFactory,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SvgPicture.asset(
+                        kMyLocation,
+                        height: 30,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 70,
-            left: isLangEnglish() ? null : 0,
-            right: isLangEnglish() ? 0 : null,
-            child: Padding(
-              padding: const EdgeInsets.all(15),
-              child: Material(
-                elevation: 5,
-                shape: const CircleBorder(),
-                color: Colors.white,
-                child: InkWell(
-                  customBorder: const CircleBorder(),
-                  splashFactory: InkSparkle.splashFactory,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SvgPicture.asset(
-                      kMyLocation,
-                      height: 30,
-                    ),
+                    onTap: () =>
+                        addressLocationController.onLocationButtonPress(),
                   ),
-                  onTap: () =>
-                      addressLocationController.onLocationButtonPress(),
                 ),
               ),
             ),
-          ),
-          Obx(
-            () => Center(
+            Obx(
+              () => Center(
+                child: Container(
+                  margin: EdgeInsets.only(
+                    left: addressLocationController.cameraMoved.value ? 10 : 0,
+                    right: addressLocationController.cameraMoved.value ? 10 : 0,
+                    bottom:
+                        addressLocationController.cameraMoved.value ? 16 : 73,
+                  ),
+                  height: screenHeight * 0.1,
+                  child: Image.asset(kLocationMarkerImg),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 10,
               child: Container(
-                margin: EdgeInsets.only(
-                  left: addressLocationController.cameraMoved.value ? 10 : 0,
-                  right: addressLocationController.cameraMoved.value ? 10 : 0,
-                  bottom: addressLocationController.cameraMoved.value ? 16 : 73,
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: RegularElevatedButton(
+                  buttonText: 'confirmLocation'.tr,
+                  onPressed: () => addressLocationController.onLocationPress(),
+                  enabled: true,
+                  color: Colors.black,
+                  fontSize: 22,
+                  height: 60,
                 ),
-                height: screenHeight * 0.1,
-                child: Image.asset(kLocationMarkerImg),
               ),
             ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 10,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: RegularElevatedButton(
-                buttonText: 'confirmLocation'.tr,
-                onPressed: () => addressLocationController.onLocationPress(),
-                enabled: true,
-                color: Colors.black,
-                fontSize: 22,
-                height: 60,
-              ),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

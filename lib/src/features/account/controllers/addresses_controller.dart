@@ -160,9 +160,8 @@ class AddressesController extends GetxController {
         areaNameTextController.clear();
         additionalInfoTextController.clear();
         if (Get.isRegistered<AddressesLocationController>()) {
-          AddressesLocationController.instance.onWillPopMap();
+          await AddressesLocationController.instance.onWillPopMap();
         }
-
         Get.close(2);
         showSnackBar(
             text: 'addressSavedSuccess'.tr, snackBarType: SnackBarType.success);
@@ -194,6 +193,9 @@ class AddressesController extends GetxController {
         floorNumberTextController.clear();
         areaNameTextController.clear();
         additionalInfoTextController.clear();
+        if (Get.isRegistered<AddressesLocationController>()) {
+          await AddressesLocationController.instance.onWillPopMap();
+        }
         Get.close(2);
         showSnackBar(
             text: 'addressSavedSuccess'.tr, snackBarType: SnackBarType.success);

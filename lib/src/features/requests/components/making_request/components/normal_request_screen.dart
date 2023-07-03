@@ -53,29 +53,27 @@ class NormalRequestScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 5.0),
-                    Obx(
-                      () => RegularCard(
-                        highlightRed: controller.highlightRequest.value,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextHeader(
-                              headerText: 'requestFor'.tr,
-                              fontSize: 18,
-                              maxLines: 1,
-                            ),
-                            const SizedBox(height: 5.0),
-                            DropdownList(
-                              items: [
-                                'forMe'.tr,
-                                'someoneElse'.tr,
-                              ],
-                              dropDownController:
-                                  controller.requestTypeDropdownController,
-                              hintText: 'selectValue'.tr,
-                            ),
-                          ],
-                        ),
+                    RegularCard(
+                      highlightRed: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(
+                            headerText: 'requestFor'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 5.0),
+                          DropdownList(
+                            items: [
+                              'forMe'.tr,
+                              'someoneElse'.tr,
+                            ],
+                            dropDownController:
+                                controller.requestTypeDropdownController,
+                            hintText: 'selectValue'.tr,
+                          ),
+                        ],
                       ),
                     ),
                     Obx(() => controller.userRequest.value
@@ -293,31 +291,28 @@ class NormalRequestScreen extends StatelessWidget {
                               ),
                             ],
                           )),
-                    Obx(
-                      () => RegularCard(
-                        highlightRed:
-                            controller.highlightPatientCondition.value,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TextHeader(
-                              headerText: 'enterConditionInformation'.tr,
-                              fontSize: 18,
-                              maxLines: 1,
-                            ),
-                            const SizedBox(height: 5.0),
-                            TextFormFieldMultiline(
-                              labelText: 'conditionInformation'.tr,
-                              hintText: 'enterConditionInformation'.tr,
-                              textController:
-                                  controller.patientConditionTextController,
-                              textInputAction: TextInputAction.next,
-                              inputFormatter:
-                                  LengthLimitingTextInputFormatter(150),
-                              validationFunction: validateTextOnly,
-                            ),
-                          ],
-                        ),
+                    RegularCard(
+                      highlightRed: false,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextHeader(
+                            headerText: 'enterConditionInformation'.tr,
+                            fontSize: 18,
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 5.0),
+                          TextFormFieldMultiline(
+                            labelText: 'conditionInformation'.tr,
+                            hintText: 'enterConditionInformation'.tr,
+                            textController:
+                                controller.patientConditionTextController,
+                            textInputAction: TextInputAction.next,
+                            inputFormatter:
+                                LengthLimitingTextInputFormatter(150),
+                            validationFunction: validateTextOnly,
+                          ),
+                        ],
                       ),
                     ),
                     RegularCard(

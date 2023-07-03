@@ -23,8 +23,6 @@ class MakingRequestInformationController extends GetxController {
   //medical history
   var diseasesList = <DiseaseItem>[].obs;
   final diseaseName = ''.obs;
-  final highlightPatientCondition = false.obs;
-  final highlightRequest = false.obs;
   final diseaseNameTextController = TextEditingController();
   final medicinesTextController = TextEditingController();
   final additionalInformationTextController = TextEditingController();
@@ -40,21 +38,6 @@ class MakingRequestInformationController extends GetxController {
 
   @override
   void onReady() async {
-    requestTypeDropdownController.addListener(() {
-      final requestValue = requestTypeDropdownController.text.trim();
-      if (requestValue.compareTo('someoneElse'.tr) == 0) {
-        highlightRequest.value = false;
-        userRequest.value = false;
-      } else {
-        highlightRequest.value = false;
-        userRequest.value = true;
-      }
-    });
-    patientConditionTextController.addListener(() {
-      if (patientConditionTextController.text.trim().isNotEmpty) {
-        highlightPatientCondition.value = false;
-      }
-    });
     diseaseNameTextController.addListener(() {
       diseaseName.value = diseaseNameTextController.text.trim();
     });
@@ -63,23 +46,13 @@ class MakingRequestInformationController extends GetxController {
 
   Future<void> confirmRequestInformation() async {
     if (formKey.currentState!.validate()) {
-      highlightPatientCondition.value =
-          patientConditionTextController.text.trim().isEmpty;
-      final requestType = requestTypeDropdownController.text.trim();
-      highlightRequest.value =
-          requestType.compareTo('selectValue'.tr) == 0 || requestType.isEmpty;
-      if (highlightPatientCondition.value || highlightRequest.value) {
-        showSnackBar(
-            text: 'requiredFields'.tr, snackBarType: SnackBarType.error);
-      } else {
-        if (Get.context != null) {
-          FocusScope.of(Get.context!).requestFocus(FocusNode());
-        }
-        Get.to(
-          () => const NormalRequestLocationPage(),
-          transition: getPageTransition(),
-        );
+      if (Get.context != null) {
+        FocusScope.of(Get.context!).requestFocus(FocusNode());
       }
+      Get.to(
+        () => const NormalRequestLocationPage(),
+        transition: getPageTransition(),
+      );
     }
   }
 

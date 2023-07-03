@@ -188,6 +188,7 @@ class TrackingRequestController extends GetxController {
           final status = snapshot.data()!['status'].toString();
           if (status == 'ongoing') {
             requestStatus.value = RequestStatus.ongoing;
+            ongoingRequestChanges();
           }
         } else {
           _firestore
@@ -272,28 +273,89 @@ class TrackingRequestController extends GetxController {
         consumeTapEvents: true,
       );
       mapMarkers[kAmbulanceMarkerId] = ambulanceMarker!;
-      getRouteToLocation(
-        fromLocation: currentChosenLatLng,
-        toLocation: driverLatLng,
-        routeId: 'routeToDriver',
-      ).then((routePolyLine) {
-        if (routePolyLine != null) {
-          if (requestLocationWindowController.addInfoWindow != null) {
-            requestLocationWindowController.addInfoWindow!(
-              MarkerWindowInfo(
-                time: routeToDestinationTime,
-                title: 'requestLocation'.tr,
-                onTap: () => animateToLocation(
-                    locationLatLng: assignedRequestData!.requestLocation),
-              ),
-              assignedRequestData!.requestLocation,
-            );
+      if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
+        getRouteToLocation(
+          fromLocation: currentChosenLatLng,
+          toLocation: driverLatLng,
+          routeId: 'routeToDriver',
+        ).then((routePolyLine) {
+          if (routePolyLine != null) {
+            if (requestLocationWindowController.addInfoWindow != null) {
+              requestLocationWindowController.addInfoWindow!(
+                MarkerWindowInfo(
+                  time: routeToDestinationTime,
+                  title: 'requestLocation'.tr,
+                  onTap: () => animateToLocation(
+                      locationLatLng: assignedRequestData!.requestLocation),
+                ),
+                assignedRequestData!.requestLocation,
+              );
+            }
+            mapPolyLines.add(routePolyLine);
+            animateToLatLngBounds(
+                latLngBounds:
+                    getLatLngBounds(latLngList: routePolyLine.points));
           }
-          mapPolyLines.add(routePolyLine);
-          animateToLatLngBounds(
-              latLngBounds: getLatLngBounds(latLngList: routePolyLine.points));
-        }
-      });
+        });
+      } else if (assignedRequestData!.requestStatus == RequestStatus.ongoing) {
+        getRouteToLocation(
+          fromLocation: driverLatLng,
+          toLocation: assignedRequestData!.hospitalLocation,
+          routeId: 'routeToHospital',
+        ).then((routePolyLine) {
+          if (routePolyLine != null) {
+            if (requestLocationWindowController.addInfoWindow != null) {
+              requestLocationWindowController.addInfoWindow!(
+                MarkerWindowInfo(
+                  time: routeToDestinationTime,
+                  title: assignedRequestData!.hospitalName,
+                  onTap: () => animateToLocation(
+                      locationLatLng: assignedRequestData!.hospitalLocation),
+                ),
+                assignedRequestData!.hospitalLocation,
+              );
+            }
+            mapPolyLines.add(routePolyLine);
+            animateToLatLngBounds(
+                latLngBounds:
+                    getLatLngBounds(latLngList: routePolyLine.points));
+          }
+        });
+      }
+    }
+  }
+
+  void ongoingRequestChanges() async {
+    if (assignedRequestData != null) {
+      mapPolyLines.clear();
+      if (requestLocationWindowController.hideInfoWindow != null) {
+        requestLocationWindowController.hideInfoWindow!();
+      }
+      if (driverLocation != null) {
+        getRouteToLocation(
+          fromLocation: driverLocation!,
+          toLocation: assignedRequestData!.hospitalLocation,
+          routeId: 'routeToHospital',
+        ).then((routePolyLine) {
+          if (routePolyLine != null) {
+            if (requestLocationWindowController.addInfoWindow != null) {
+              requestLocationWindowController.addInfoWindow!(
+                MarkerWindowInfo(
+                  time: routeToDestinationTime,
+                  title: assignedRequestData!.hospitalName,
+                  onTap: () => animateToLocation(
+                      locationLatLng: assignedRequestData!.hospitalLocation),
+                ),
+                assignedRequestData!.hospitalLocation,
+              );
+            }
+            mapPolyLines.add(routePolyLine);
+            animateToLatLngBounds(
+                latLngBounds:
+                    getLatLngBounds(latLngList: routePolyLine.points));
+          }
+        });
+      }
     }
   }
 

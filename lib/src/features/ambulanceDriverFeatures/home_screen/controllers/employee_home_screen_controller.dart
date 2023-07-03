@@ -86,14 +86,13 @@ class EmployeeHomeScreenController extends GetxController {
       getRouteOperation;
   late final FirebaseFirestore _firestore;
   late final String userId;
-  late StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
-      assignedRequestListener;
   late final HospitalModel hospitalInfo;
 
   //geoQuery vars
   final geoFire = GeoFlutterFire();
 
   final notificationsCount = 0.obs;
+  final userRotation = false.obs;
   late final StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>?
       notificationCountStreamSubscription;
   late final StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
@@ -198,6 +197,7 @@ class EmployeeHomeScreenController extends GetxController {
   }
 
   void onNotAssignedChanges() async {
+    userRotation.value = false;
     clearRoutes();
     clearMarkers();
     assignedRequestLoaded.value = false;
@@ -285,6 +285,7 @@ class EmployeeHomeScreenController extends GetxController {
 
   void updateRouteAndMap() {
     if (assignedRequestData != null) {
+      userRotation.value = true;
       if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
         if (locationAvailable.value) {
           ambulanceMarker = Marker(

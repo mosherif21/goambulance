@@ -817,24 +817,27 @@ class TrackingRequestController extends GetxController {
     searchedHospitals.value = [];
   }
 
-  void onBackPressed() {
+  void onBackPressed() async {
     if (choosingHospital.value && requestStatus.value == RequestStatus.non) {
       choosingRequestLocationChanges();
-    } else {
-      Get.back();
-    }
-  }
-
-  Future<bool> onWillPop() async {
-    if (choosingHospital.value && requestStatus.value == RequestStatus.non) {
-      choosingRequestLocationChanges();
-      return false;
-    } else {
+    } else if (!choosingHospital.value &&
+        requestStatus.value == RequestStatus.non) {
       showLoadingScreen();
       if (!AppInit.isWeb) {
         await serviceStatusStream?.cancel();
       }
       if (positionStreamInitialized) await currentPositionStream?.cancel();
+      await Future.delayed(const Duration(milliseconds: 200));
+      hideLoadingScreen();
+      Get.back();
+    } else {
+      showLoadingScreen();
+      await getRouteOperation?.cancel();
+      if (!AppInit.isWeb) {
+        await serviceStatusStream?.cancel();
+      }
+      if (positionStreamInitialized) await currentPositionStream?.cancel();
+
       if (requestStatus.value == RequestStatus.pending ||
           requestStatus.value == RequestStatus.accepted) {
         await pendingRequestListener?.cancel();
@@ -843,7 +846,43 @@ class TrackingRequestController extends GetxController {
         await driverLocationListener?.cancel();
         await assignedRequestListener?.cancel();
       }
+
+      await Future.delayed(const Duration(milliseconds: 200));
+      hideLoadingScreen();
+      Get.back();
+    }
+  }
+
+  Future<bool> onWillPop() async {
+    if (choosingHospital.value && requestStatus.value == RequestStatus.non) {
+      choosingRequestLocationChanges();
+      return false;
+    } else if (!choosingHospital.value &&
+        requestStatus.value == RequestStatus.non) {
+      showLoadingScreen();
+      if (!AppInit.isWeb) {
+        await serviceStatusStream?.cancel();
+      }
+      if (positionStreamInitialized) await currentPositionStream?.cancel();
+      await Future.delayed(const Duration(milliseconds: 200));
+      hideLoadingScreen();
+      return true;
+    } else {
+      showLoadingScreen();
       await getRouteOperation?.cancel();
+      if (!AppInit.isWeb) {
+        await serviceStatusStream?.cancel();
+      }
+      if (positionStreamInitialized) await currentPositionStream?.cancel();
+
+      if (requestStatus.value == RequestStatus.pending ||
+          requestStatus.value == RequestStatus.accepted) {
+        await pendingRequestListener?.cancel();
+      } else if (requestStatus.value == RequestStatus.assigned ||
+          requestStatus.value == RequestStatus.ongoing) {
+        await driverLocationListener?.cancel();
+        await assignedRequestListener?.cancel();
+      }
 
       await Future.delayed(const Duration(milliseconds: 200));
       hideLoadingScreen();
@@ -928,7 +967,7 @@ class TrackingRequestController extends GetxController {
   }
 
   Future<void> getHospitals() async {
-    getHospitalsOperation?.cancel();
+    await getHospitalsOperation?.cancel();
     getHospitalsOperation = CancelableOperation.fromFuture(getHospitalsList());
     final hospitalsDocuments =
         await getHospitalsOperation!.valueOrCancellation();
@@ -973,7 +1012,6 @@ class TrackingRequestController extends GetxController {
                   currentChosenLatLng,
                 );
               }
-
               mapPolyLines.add(routePolyLine);
               animateToLatLngBounds(
                   latLngBounds:
@@ -989,36 +1027,6 @@ class TrackingRequestController extends GetxController {
         print('hospitals get canceled');
       }
     }
-  }
-
-  Future<List<HospitalLocationsModel>> getHospitalsDataDocuments(
-      {required List<DocumentSnapshot<Object?>> hospitalsDocuments}) async {
-    List<HospitalLocationsModel> hospitalsDataDocuments = [];
-    try {
-      final hospitalsRef = _firestore.collection('hospitals');
-      for (var hospitalsDocument in hospitalsDocuments) {
-        final String hospitalId = hospitalsDocument.id;
-        final docSnap = await hospitalsRef.doc(hospitalId).get();
-        if (docSnap.exists) {
-          final hospitalDoc = docSnap.data()!;
-          final geoPoint = hospitalDoc['location'] as GeoPoint;
-          final geohash = hospitalDoc['g.geohash'] as String;
-          final foundHospital = HospitalLocationsModel(
-            hospitalId: hospitalId,
-            name: hospitalDoc['name'].toString(),
-            avgPrice: hospitalDoc['avgAmbulancePrice'].toString(),
-            location: LatLng(geoPoint.latitude, geoPoint.longitude),
-            geohash: geohash,
-          );
-          hospitalsDataDocuments.add(foundHospital);
-        }
-      }
-    } on FirebaseException catch (error) {
-      if (kDebugMode) print(error.toString());
-    } catch (e) {
-      if (kDebugMode) print(e.toString());
-    }
-    return hospitalsDataDocuments;
   }
 
   void onHospitalChosen({required int hospitalIndex}) async {
@@ -1185,7 +1193,7 @@ class TrackingRequestController extends GetxController {
   Future<String> getAddressFromLocation({required LatLng latLng}) async {
     try {
       currentChosenLatLng = latLng;
-      MapBoxGeocoder geocoder = MapBoxGeocoder(mapboxAPIKey);
+      final geocoder = MapBoxGeocoder(mapboxAPIKey);
       final geocodeResult = await geocoder.reverseSearch(
         LatLon(latLng.latitude, latLng.longitude),
         params: const ReverseQueryParams(

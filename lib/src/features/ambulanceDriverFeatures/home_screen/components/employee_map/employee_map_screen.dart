@@ -158,8 +158,10 @@ class EmployeeMapScreen extends StatelessWidget {
         children: [
           Obx(
             () => Animarker(
-              useRotation: true,
-              duration: const Duration(milliseconds: 2500),
+              duration: employeeHomeScreenController.userRotation.value
+                  ? const Duration(milliseconds: 2500)
+                  : const Duration(milliseconds: 0),
+              useRotation: employeeHomeScreenController.userRotation.value,
               mapId: employeeHomeScreenController.mapControllerCompleter.future
                   .then<int>((value) => value.mapId),
               markers: employeeHomeScreenController.mapMarkers.value.set,

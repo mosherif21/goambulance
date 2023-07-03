@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/components/general/search_bar_map.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
+import 'package:google_map_marker_animation/helpers/extensions.dart';
+import 'package:google_map_marker_animation/widgets/animarker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -26,7 +28,6 @@ class MakingRequestMap extends StatelessWidget {
     required this.makingRequestController,
   }) : super(key: key);
   final MakingRequestLocationController makingRequestController;
-
   Widget floatingPanel() {
     return Container(
       decoration: BoxDecoration(
@@ -56,7 +57,9 @@ class MakingRequestMap extends StatelessWidget {
                               RequestStatus.accepted
                           ? 'acceptedRequest'.tr
                           : makingRequestController.requestStatus.value ==
-                                  RequestStatus.assigned
+                                      RequestStatus.assigned ||
+                                  makingRequestController.requestStatus.value ==
+                                      RequestStatus.ongoing
                               ? 'assignedRequest'.tr
                               : makingRequestController
                                       .searchedHospitals.isEmpty
@@ -74,7 +77,9 @@ class MakingRequestMap extends StatelessWidget {
             const Divider(thickness: 0.5, height: 1),
             Expanded(
               child: makingRequestController.requestStatus.value ==
-                      RequestStatus.non
+                          RequestStatus.non ||
+                      makingRequestController.requestStatus.value ==
+                          RequestStatus.completed
                   ? ChooseHospitalsList(
                       controller: makingRequestController,
                     )
@@ -113,8 +118,8 @@ class MakingRequestMap extends StatelessWidget {
                                         RequestStatus.ongoing
                                 ? NoFrameClickableCard(
                                     onPressed: () => makingRequestController
-                                        .viewDriverInformation(),
-                                    title: 'viewDriverInformation'.tr,
+                                        .viewAmbulanceInformation(),
+                                    title: 'viewAmbulanceInformation'.tr,
                                     subTitle: '',
                                     leadingIcon: Icons.account_box,
                                     leadingIconColor: Colors.black,
@@ -176,34 +181,43 @@ class MakingRequestMap extends StatelessWidget {
           body: Stack(
             children: [
               Obx(
-                () => GoogleMap(
-                  compassEnabled: false,
-                  rotateGesturesEnabled: false,
-                  tiltGesturesEnabled: false,
-                  mapToolbarEnabled: false,
-                  myLocationEnabled: true,
-                  zoomControlsEnabled: false,
-                  myLocationButtonEnabled: false,
-                  padding: AppInit.isWeb
-                      ? EdgeInsets.zero
-                      : EdgeInsets.only(
-                          bottom: makingRequestController.choosingHospital.value
-                              ? screenHeight * 0.43
-                              : 70,
-                          left: 10,
-                          right: 10,
-                          top: screenHeight * 0.16,
-                        ),
-                  initialCameraPosition:
-                      makingRequestController.getInitialCameraPosition(),
-                  polylines: makingRequestController.mapPolyLines.value,
-                  markers: makingRequestController.mapMarkers.value,
-                  onMapCreated: (GoogleMapController controller) =>
-                      makingRequestController.mapControllerCompleter
-                          .complete(controller),
-                  onCameraMove: makingRequestController.onCameraMove,
-                  onCameraIdle: makingRequestController.onCameraIdle,
-                  onTap: makingRequestController.onMapTap,
+                () => Animarker(
+                  duration: makingRequestController.userRotation.value
+                      ? const Duration(milliseconds: 2500)
+                      : const Duration(milliseconds: 0),
+                  useRotation: makingRequestController.userRotation.value,
+                  mapId: makingRequestController.mapControllerCompleter.future
+                      .then<int>((value) => value.mapId),
+                  markers: makingRequestController.mapMarkers.value.set,
+                  shouldAnimateCamera: false,
+                  child: GoogleMap(
+                    compassEnabled: false,
+                    rotateGesturesEnabled: false,
+                    tiltGesturesEnabled: false,
+                    mapToolbarEnabled: false,
+                    myLocationEnabled: true,
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
+                    padding: AppInit.isWeb
+                        ? EdgeInsets.zero
+                        : EdgeInsets.only(
+                            bottom:
+                                makingRequestController.choosingHospital.value
+                                    ? screenHeight * 0.43
+                                    : 70,
+                            left: 10,
+                            right: 10,
+                            top: screenHeight * 0.16,
+                          ),
+                    initialCameraPosition:
+                        makingRequestController.getInitialCameraPosition(),
+                    polylines: makingRequestController.mapPolyLines.value,
+                    onMapCreated: (GoogleMapController controller) =>
+                        makingRequestController.mapControllerCompleter
+                            .complete(controller),
+                    onCameraMove: makingRequestController.onCameraMove,
+                    onCameraIdle: makingRequestController.onCameraIdle,
+                  ),
                 ),
               ),
               CustomInfoWindow(

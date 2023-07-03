@@ -11,20 +11,6 @@ String? validateTextOnly(String? value) {
   return null;
 }
 
-// String? validatePhone(String? value) {
-//   if (value == null || value.isEmpty) {
-//     return 'Phone number is required';
-//   }
-//   final isPhoneValid = RegExp(r'^\+?[0-9]{11}$').hasMatch(value);
-//   if (!isPhoneValid) {
-//     return 'Invalid phone number format';
-//   }
-//   if (value.length != 11) {
-//     return 'Phone number must be exactly 11 digits long';
-//   }
-//   return null;
-// }
-
 String? validatePassword(String? value) {
   if (value == null || value.isEmpty) {
     return 'passwordRequired'.tr;

@@ -139,6 +139,7 @@ class MakingRequestLocationController extends GetxController {
   @override
   void onReady() {
     initMapController();
+    locationInit();
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
@@ -1219,14 +1220,14 @@ class MakingRequestLocationController extends GetxController {
           .then((locationPosition) {
         currentLocation = locationPosition;
         locationAvailable.value = true;
-
+        enableMap();
         if (kDebugMode) {
           print(
               'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');
         }
       });
       if (positionStreamInitialized) {
-        currentPositionStream?.cancel();
+        await currentPositionStream?.cancel();
       }
       currentPositionStream =
           Geolocator.getPositionStream(locationSettings: locationSettings)
@@ -1235,6 +1236,7 @@ class MakingRequestLocationController extends GetxController {
           if (position != null) {
             currentLocation = position;
             locationAvailable.value = true;
+            enableMap();
           }
           if (kDebugMode) {
             print(position == null

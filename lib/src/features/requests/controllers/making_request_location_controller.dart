@@ -462,7 +462,7 @@ class MakingRequestLocationController extends GetxController {
       requestLocationWindowController.hideInfoWindow!();
     }
     hideLoadingScreen();
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 300));
     Get.close(2);
   }
 
@@ -703,7 +703,7 @@ class MakingRequestLocationController extends GetxController {
         await serviceStatusStream?.cancel();
       }
       if (positionStreamInitialized) await currentPositionStream?.cancel();
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(const Duration(milliseconds: 300));
       hideLoadingScreen();
       Get.back();
     } else {
@@ -723,7 +723,7 @@ class MakingRequestLocationController extends GetxController {
         await assignedRequestListener?.cancel();
       }
 
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(const Duration(milliseconds: 300));
       hideLoadingScreen();
       Get.close(2);
     }
@@ -740,7 +740,7 @@ class MakingRequestLocationController extends GetxController {
         await serviceStatusStream?.cancel();
       }
       if (positionStreamInitialized) await currentPositionStream?.cancel();
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(const Duration(milliseconds: 300));
       hideLoadingScreen();
       return true;
     } else {
@@ -760,7 +760,7 @@ class MakingRequestLocationController extends GetxController {
         await assignedRequestListener?.cancel();
       }
 
-      await Future.delayed(const Duration(milliseconds: 200));
+      await Future.delayed(const Duration(milliseconds: 300));
       hideLoadingScreen();
       Get.close(2);
       return true;

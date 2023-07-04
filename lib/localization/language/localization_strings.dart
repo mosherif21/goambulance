@@ -491,6 +491,18 @@ class Languages extends Translations {
           ' eRequestOngoing': 'طلب الإسعاف جارى',
           'arriveIn': 'الوصول خلال @routeTime',
           'criticalRequestAccepted': 'تم قبول مستخدم الطوارئ',
+          'name': 'الاسم: ',
+          'address': 'العنوان: ',
+          'hospitalInfo': 'المستشفى',
+          'avgPriceInfo': 'متوسط الاسعار: ',
+          'hospitalPhoneNum': 'رقم هاتف المستشفى',
+          'ambulanceDriver': 'سائق الاسعاف',
+          'ambulanceDriverNum': 'رقم هاتف السائق',
+          'ambulanceMedic': 'المسعف',
+          'ambulanceMedicNum': 'رقم هاتف المسعف',
+          'ambulanceDetails': 'تفاصيل سيارة الاسعاف',
+          'type': 'النوع: ',
+          'licencePlate': 'رقم اللوحة: ',
         },
         'en_US': {
           'sosCancelReturn':
@@ -996,6 +1008,18 @@ class Languages extends Translations {
           'newAssignedRequest':
               'You have been assigned to an ambulance request',
           'criticalRequestAccepted': 'Critical user accepted',
+          'name': 'Name: ',
+          'address': 'Address: ',
+          'hospitalInfo': 'Hospital',
+          'avgPriceInfo': 'Avg Price: ',
+          'hospitalPhoneNum': 'Hospital Phone Number',
+          'ambulanceDriver': 'Ambulance Driver',
+          'ambulanceDriverNum': 'Ambulance Driver Phone Number',
+          'ambulanceMedic': 'Ambulance Medic',
+          'ambulanceMedicNum': 'Ambulance Medic Phone Number',
+          'ambulanceDetails': 'Ambulance Car Details',
+          'type': 'Type: ',
+          'licencePlate': 'Licence Plate: ',
         },
       };
 }

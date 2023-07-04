@@ -20,6 +20,7 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
   final MedicalHistoryModel medicalInfo;
   final String patientAge;
   final String patientCondition;
+
   @override
   Widget build(BuildContext context) {
     final screenHeight = getScreenHeight(context);
@@ -53,63 +54,141 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                         child: Lottie.asset(
                           kMedicalInfoAnim,
                           fit: BoxFit.contain,
-                          height: screenHeight * 0.25,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'bloodType'.tr}: ${medicalInfo.bloodType != 'unknown' ? medicalInfo.bloodType : 'unknown'.tr}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'bloodType'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            medicalInfo.bloodType != 'unknown'
+                                ? medicalInfo.bloodType
+                                : 'unknown'.tr,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'hypertensive'.tr}: ${medicalInfo.hypertensive != 'unknown' ? medicalInfo.hypertensive == 'No' ? 'no'.tr : 'yes'.tr : 'unknown'.tr}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'hypertensive'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            medicalInfo.hypertensive != 'unknown'
+                                ? medicalInfo.hypertensive == 'No'
+                                    ? 'no'.tr
+                                    : 'yes'.tr
+                                : 'unknown'.tr,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'diabetic'.tr}: ${medicalInfo.diabetic != 'unknown' ? medicalInfo.diabetic == 'No' ? 'no'.tr : medicalInfo.diabetic : 'unknown'.tr}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'diabetic'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            medicalInfo.diabetic != 'unknown'
+                                ? medicalInfo.diabetic == 'No'
+                                    ? 'no'.tr
+                                    : medicalInfo.diabetic
+                                : 'unknown'.tr,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'heartPatient'.tr}: ${medicalInfo.heartPatient != 'unknown' ? medicalInfo.heartPatient == 'No' ? 'no'.tr : 'yes'.tr : 'unknown'.tr}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'heartPatient'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            medicalInfo.heartPatient != 'unknown'
+                                ? medicalInfo.heartPatient == 'No'
+                                    ? 'no'.tr
+                                    : 'yes'.tr
+                                : 'unknown'.tr,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'patientAge'.tr}: ${patientAge != 'unknown' ? patientAge : 'unknown'.tr}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'patientAge'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            patientAge != 'unknown' ? patientAge : 'unknown'.tr,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
                       // const SizedBox(height: 10),
                       // AutoSizeText(

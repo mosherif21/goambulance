@@ -2,8 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
+import 'package:goambulance/src/general/general_functions.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../../../constants/assets_strings.dart';
+import '../../../../constants/colors.dart';
 import '../../../../general/common_widgets/back_button.dart';
+import '../../../../general/common_widgets/regular_clickable_card_icon.dart';
 
 class HospitalInformationPage extends StatelessWidget {
   const HospitalInformationPage({
@@ -12,6 +17,7 @@ class HospitalInformationPage extends StatelessWidget {
   });
 
   final HospitalModel hospitalModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,13 +34,158 @@ class HospitalInformationPage extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,
-      body: const SafeArea(
+      body: SafeArea(
         child: StretchingOverscrollIndicator(
           axisDirection: AxisDirection.down,
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Lottie.asset(
+                        kHospitalAnim,
+                        fit: BoxFit.contain,
+                        repeat: false,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(
+                            bottom: 15, left: 10, right: 10),
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: kDefaultColor, width: 2),
+                          color: Colors.white54,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'name'.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Flexible(
+                                    child: AutoSizeText(
+                                      hospitalModel.name,
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'address'.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Flexible(
+                                    child: AutoSizeText(
+                                      hospitalModel.address,
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    padding: const EdgeInsets.only(
+                                        left: 10, right: 10),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: kDefaultColor, width: 2),
+                                      color: Colors.white54,
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(15),
+                                      ),
+                                    ),
+                                    child: RegularClickableCardIcon(
+                                      onPressed: () => callNumber(
+                                          phoneNumber:
+                                              hospitalModel.hospitalNumber),
+                                      title: 'hospitalPhoneNum'.tr,
+                                      subTitle: hospitalModel.hospitalNumber,
+                                      leadingIcon: Icons.phone_android,
+                                      trailingIcon: Icons.phone,
+                                      trailingIconColor: Colors.blue,
+                                      leadingIconColor: Colors.black,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'avgPriceInfo'.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Flexible(
+                                    child: AutoSizeText(
+                                      '${hospitalModel.avgAmbulancePrice} ${'egp'.tr}',
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

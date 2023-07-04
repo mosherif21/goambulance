@@ -15,6 +15,7 @@ class EmployeeUserInformationPage extends StatelessWidget {
   });
 
   final UserInfoRequestModel userInfo;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,17 +45,6 @@ class EmployeeUserInformationPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      AutoSizeText(
-                        'personalInformation'.tr,
-                        style: const TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.w800,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
-                      ),
-                      const SizedBox(height: 20),
                       Center(
                         child: Center(
                           child: CircleAvatar(
@@ -79,7 +69,7 @@ class EmployeeUserInformationPage extends StatelessWidget {
                               userInfo.name,
                               style: const TextStyle(
                                 fontSize: 25,
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.black,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -96,37 +86,80 @@ class EmployeeUserInformationPage extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'emailLabel'.tr}: ${userInfo.email}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'emailLabel'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          Flexible(
+                            child: AutoSizeText(
+                              userInfo.email,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'age'.tr}: ${userInfo.age}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'age'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          Flexible(
+                            child: AutoSizeText(
+                              '${userInfo.age}',
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
-                      AutoSizeText(
-                        '${'gender'.tr}: ${userInfo.gender == 'male' ? 'male'.tr : 'female'.tr}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'gender'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            userInfo.gender == 'male' ? 'male'.tr : 'female'.tr,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ],
                       ),
                     ],
                   ),

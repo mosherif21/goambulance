@@ -255,7 +255,7 @@ class RegisterUserDataController extends GetxController {
         sosMessage: '',
         criticalUser: false,
         phoneNumber: phone,
-        backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : 'unknown',
+        backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : '',
       );
 
       final medicalHistoryModel = MedicalHistoryModel(

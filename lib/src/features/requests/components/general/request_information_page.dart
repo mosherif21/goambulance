@@ -137,7 +137,7 @@ class RequestInformationPage extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      requestInfo.medicalHistory?.diseasesList?.isNotEmpty ??
+                      requestInfo.medicalHistory?.diseasesList.isNotEmpty ??
                               false
                           ? const SizedBox.shrink()
                           : Center(

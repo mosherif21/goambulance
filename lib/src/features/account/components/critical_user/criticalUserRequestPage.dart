@@ -67,7 +67,10 @@ class CriticalUserRequestPage extends StatelessWidget {
                           : authRepo.criticalUserStatus.value ==
                                   CriticalUserStatus.criticalUserDenied
                               ? 'criticalUserDenied'.tr
-                              : 'sendRequest'.tr,
+                              : authRepo.criticalUserStatus.value ==
+                                      CriticalUserStatus.criticalUserAccepted
+                                  ? 'criticalRequestAccepted'.tr
+                                  : 'sendRequest'.tr,
                       onPressed: () async {
                         showLoadingScreen();
                         final functionStatus = await FirebasePatientDataAccess
@@ -92,7 +95,10 @@ class CriticalUserRequestPage extends StatelessWidget {
                           : authRepo.criticalUserStatus.value ==
                                   CriticalUserStatus.criticalUserDenied
                               ? false
-                              : true,
+                              : authRepo.criticalUserStatus.value ==
+                                      CriticalUserStatus.criticalUserAccepted
+                                  ? false
+                                  : true,
                       color: Colors.red,
                     ),
                   ),

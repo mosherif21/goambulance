@@ -490,6 +490,7 @@ class Languages extends Translations {
           'invalidNumberMsg': 'رقم الجوال غير صحيح',
           ' eRequestOngoing': 'طلب الإسعاف جارى',
           'arriveIn': 'الوصول خلال @routeTime',
+          'criticalRequestAccepted': 'تم قبول مستخدم الطوارئ',
         },
         'en_US': {
           'sosCancelReturn':
@@ -994,6 +995,7 @@ class Languages extends Translations {
           'invalidNumber': 'Please Enter a Valid Phone Number',
           'newAssignedRequest':
               'You have been assigned to an ambulance request',
+          'criticalRequestAccepted': 'Critical user accepted',
         },
       };
 }

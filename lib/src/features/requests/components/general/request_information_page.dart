@@ -58,12 +58,12 @@ class RequestInformationPage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blueAccent),
+                                color: Colors.black),
                           ),
                           AutoSizeText(
                             requestInfo.medicalHistory?.hypertensive ?? '',
                             style: const TextStyle(
-                                fontSize: 18, color: Colors.blueAccent),
+                                fontSize: 18, color: Colors.black),
                           ),
                         ],
                       ),
@@ -77,12 +77,21 @@ class RequestInformationPage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blueAccent),
+                                color: Colors.black),
                           ),
                           AutoSizeText(
-                            requestInfo.medicalHistory?.heartPatient ?? '',
+                            requestInfo.medicalHistory?.heartPatient != null
+                                ? requestInfo.medicalHistory?.heartPatient ==
+                                        'No'
+                                    ? 'no'.tr
+                                    : 'yes'.tr
+                                : 'unknown'.tr,
                             style: const TextStyle(
-                                fontSize: 18, color: Colors.blueAccent),
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -96,12 +105,12 @@ class RequestInformationPage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blueAccent),
+                                color: Colors.black),
                           ),
                           AutoSizeText(
                             requestInfo.medicalHistory?.diabetic ?? '',
                             style: const TextStyle(
-                                fontSize: 18, color: Colors.blueAccent),
+                                fontSize: 18, color: Colors.black),
                           ),
                         ],
                       ),
@@ -115,13 +124,13 @@ class RequestInformationPage extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blueAccent),
+                                color: Colors.black),
                           ),
                           AutoSizeText(
                             requestInfo.medicalHistory?.medicalAdditionalInfo ??
                                 '',
                             style: const TextStyle(
-                                fontSize: 18, color: Colors.blueAccent),
+                                fontSize: 18, color: Colors.black),
                           ),
                         ],
                       ),

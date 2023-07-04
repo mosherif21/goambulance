@@ -82,7 +82,7 @@ class ContactItemWidget extends StatelessWidget {
           const Spacer(),
           IconButton(
             icon: const Icon(
-              Icons.delete,
+              Icons.remove_circle,
               size: 35,
               color: Colors.red,
             ),

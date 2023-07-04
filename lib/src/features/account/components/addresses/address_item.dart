@@ -161,8 +161,8 @@ class LoadAddressItem extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: const Icon(
-                      Icons.delete,
-                      size: 40,
+                      Icons.remove_circle,
+                      size: 35,
                       color: Colors.red,
                     ),
                     onPressed: () => onDeletePressed(),
@@ -170,7 +170,7 @@ class LoadAddressItem extends StatelessWidget {
                   IconButton(
                     icon: const Icon(
                       Icons.edit,
-                      size: 40,
+                      size: 35,
                       color: Colors.blueAccent,
                     ),
                     onPressed: () => onEditPressed(),
@@ -195,18 +195,17 @@ class LoadAddressItem extends StatelessWidget {
                     ),
                     activeColor: Colors.blueAccent,
                     isFinished: false,
-                    onWaitingProcess: () {
-                      Future.delayed(const Duration(seconds: 1), () {
-                        controller.updatePrimary(addressItem: addressItem);
-                      });
-                    },
+                    onWaitingProcess: () =>
+                        Future.delayed(const Duration(seconds: 1), () {
+                      controller.updatePrimary(addressItem: addressItem);
+                    }),
                     onFinish: () {},
                   )
-                : const AutoSizeText(
-                    'This is Your Primary Address',
-                    style: TextStyle(
+                : AutoSizeText(
+                    'primaryAddress'.tr,
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: kDefaultColor,
                       fontSize: 12,
                     ),
                     overflow: TextOverflow.ellipsis,

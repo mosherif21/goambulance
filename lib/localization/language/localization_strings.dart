@@ -503,6 +503,7 @@ class Languages extends Translations {
           'ambulanceDetails': 'تفاصيل سيارة الاسعاف',
           'type': 'النوع: ',
           'licencePlate': 'رقم اللوحة: ',
+          'primaryAddress': 'العنوان الأساسي',
         },
         'en_US': {
           'sosCancelReturn':
@@ -1020,6 +1021,7 @@ class Languages extends Translations {
           'ambulanceDetails': 'Ambulance Car Details',
           'type': 'Type: ',
           'licencePlate': 'Licence Plate: ',
+          'primaryAddress': 'Primary address',
         },
       };
 }

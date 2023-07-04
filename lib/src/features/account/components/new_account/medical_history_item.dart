@@ -89,8 +89,8 @@ class MedicalHistoryItem extends StatelessWidget {
             children: [
               IconButton(
                 icon: const Icon(
-                  Icons.delete,
-                  size: 40,
+                  Icons.remove_circle,
+                  size: 35,
                   color: Colors.red,
                 ),
                 onPressed: () => onDeletePressed(),
@@ -98,7 +98,7 @@ class MedicalHistoryItem extends StatelessWidget {
               IconButton(
                 icon: const Icon(
                   Icons.edit,
-                  size: 40,
+                  size: 35,
                   color: Colors.blue,
                 ),
                 onPressed: () => onEditPressed(),

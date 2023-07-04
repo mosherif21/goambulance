@@ -1352,6 +1352,40 @@ class FirebasePatientDataAccess extends GetxController {
               diseasesList: diseasesList,
             );
             requestModel.medicalHistory = medicalHistory;
+          } else {
+            final medicalHistoryRef =
+                fireStore.collection('medicalHistory').doc(requestModel.userId);
+            final medicalHistorySnapshot = await medicalHistoryRef.get();
+            if (medicalHistorySnapshot.exists) {
+              final medicalHistoryData = medicalHistorySnapshot.data()!;
+              final diseasesRef = fireStore
+                  .collection('medicalHistory')
+                  .doc(requestModel.userId)
+                  .collection('diseases');
+              final diseasesList = <DiseaseItem>[];
+              await diseasesRef.get().then((diseasesSnapshot) {
+                for (var diseaseDoc in diseasesSnapshot.docs) {
+                  final diseaseData = diseaseDoc.data();
+                  diseasesList.add(
+                    DiseaseItem(
+                      diseaseName: diseaseData['diseaseName'].toString(),
+                      diseaseMedicines:
+                          diseaseData['diseaseMedicines'].toString(),
+                    ),
+                  );
+                }
+              });
+              final medicalHistory = MedicalHistoryModel(
+                bloodType: medicalHistoryData['bloodType'].toString(),
+                diabetic: medicalHistoryData['diabetic'].toString(),
+                hypertensive: medicalHistoryData['hypertensive'].toString(),
+                heartPatient: medicalHistoryData['heartPatient'].toString(),
+                medicalAdditionalInfo:
+                    medicalHistoryData['medicalAdditionalInfo'].toString(),
+                diseasesList: diseasesList,
+              );
+              requestModel.medicalHistory = medicalHistory;
+            }
           }
           if (status == 'pending') {
             requestModel.requestStatus = RequestStatus.pending;
@@ -1444,6 +1478,40 @@ class FirebasePatientDataAccess extends GetxController {
               diseasesList: diseasesList,
             );
             requestModel.medicalHistory = medicalHistory;
+          } else {
+            final medicalHistoryRef =
+                fireStore.collection('medicalHistory').doc(requestModel.userId);
+            final medicalHistorySnapshot = await medicalHistoryRef.get();
+            if (medicalHistorySnapshot.exists) {
+              final medicalHistoryData = medicalHistorySnapshot.data()!;
+              final diseasesRef = fireStore
+                  .collection('medicalHistory')
+                  .doc(requestModel.userId)
+                  .collection('diseases');
+              final diseasesList = <DiseaseItem>[];
+              await diseasesRef.get().then((diseasesSnapshot) {
+                for (var diseaseDoc in diseasesSnapshot.docs) {
+                  final diseaseData = diseaseDoc.data();
+                  diseasesList.add(
+                    DiseaseItem(
+                      diseaseName: diseaseData['diseaseName'].toString(),
+                      diseaseMedicines:
+                          diseaseData['diseaseMedicines'].toString(),
+                    ),
+                  );
+                }
+              });
+              final medicalHistory = MedicalHistoryModel(
+                bloodType: medicalHistoryData['bloodType'].toString(),
+                diabetic: medicalHistoryData['diabetic'].toString(),
+                hypertensive: medicalHistoryData['hypertensive'].toString(),
+                heartPatient: medicalHistoryData['heartPatient'].toString(),
+                medicalAdditionalInfo:
+                    medicalHistoryData['medicalAdditionalInfo'].toString(),
+                diseasesList: diseasesList,
+              );
+              requestModel.medicalHistory = medicalHistory;
+            }
           }
           if (status == 'assigned') {
             requestModel.requestStatus = RequestStatus.assigned;

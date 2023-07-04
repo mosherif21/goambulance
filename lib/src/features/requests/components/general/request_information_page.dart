@@ -53,45 +53,20 @@ class RequestInformationPage extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          const AutoSizeText(
-                            'Hypertensive: ',
-                            style: TextStyle(
+                          AutoSizeText(
+                            '${'hypertensive'.tr}:',
+                            style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                           ),
-                          AutoSizeText(
-                            requestInfo.medicalHistory?.hypertensive ?? '',
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          const AutoSizeText(
-                            'Heart Patient: ',
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          AutoSizeText(
-                            requestInfo.medicalHistory?.heartPatient != null
-                                ? requestInfo.medicalHistory?.heartPatient ==
-                                        'No'
-                                    ? 'no'.tr
-                                    : 'yes'.tr
-                                : 'unknown'.tr,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              overflow: TextOverflow.ellipsis,
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: AutoSizeText(
+                              requestInfo.medicalHistory?.hypertensive ?? '',
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
                             ),
-                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -100,17 +75,29 @@ class RequestInformationPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          const AutoSizeText(
-                            'Diabetic: ',
-                            style: TextStyle(
+                          AutoSizeText(
+                            '${'heartPatient'.tr}:',
+                            style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                           ),
-                          AutoSizeText(
-                            requestInfo.medicalHistory?.diabetic ?? '',
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.black),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: AutoSizeText(
+                              requestInfo.medicalHistory?.heartPatient != null
+                                  ? requestInfo.medicalHistory?.heartPatient ==
+                                          'No'
+                                      ? 'no'.tr
+                                      : 'yes'.tr
+                                  : 'unknown'.tr,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.black,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              maxLines: 1,
+                            ),
                           ),
                         ],
                       ),
@@ -119,18 +106,66 @@ class RequestInformationPage extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          const AutoSizeText(
-                            'Additional Information: ',
-                            style: TextStyle(
+                          AutoSizeText(
+                            '${'diabetic'.tr}:',
+                            style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
                           ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: AutoSizeText(
+                              requestInfo.medicalHistory?.diabetic ?? '',
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Column(
+                        children: [
                           AutoSizeText(
-                            requestInfo.medicalHistory?.medicalAdditionalInfo ??
-                                '',
+                            'additionalInformation'.tr,
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(height: 5),
+                          AutoSizeText(
+                            requestInfo.medicalHistory!.medicalAdditionalInfo
+                                    .isEmpty
+                                ? 'noAdditionalInformation'.tr
+                                : requestInfo
+                                    .medicalHistory!.medicalAdditionalInfo,
                             style: const TextStyle(
                                 fontSize: 18, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'conditionInformation'.tr}:',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: AutoSizeText(
+                              requestInfo.patientCondition.isEmpty
+                                  ? 'unknown'.tr
+                                  : requestInfo.patientCondition,
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
+                            ),
                           ),
                         ],
                       ),

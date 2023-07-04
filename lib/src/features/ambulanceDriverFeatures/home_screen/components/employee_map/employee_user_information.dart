@@ -193,7 +193,8 @@ class EmployeeUserInformationPage extends StatelessWidget {
                   trailingIconColor: Colors.green,
                   leadingIconColor: Colors.black,
                 ),
-                if (userInfo.backupNumber.isNotEmpty)
+                if (userInfo.backupNumber.isNotEmpty &&
+                    userInfo.backupNumber != 'null')
                   RegularClickableCardIcon(
                     onPressed: () =>
                         callNumber(phoneNumber: userInfo.backupNumber),

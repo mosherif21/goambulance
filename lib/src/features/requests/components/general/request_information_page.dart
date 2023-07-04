@@ -7,6 +7,7 @@ import 'package:goambulance/src/general/general_functions.dart';
 import '../../../../constants/assets_strings.dart';
 import '../../../../general/common_widgets/back_button.dart';
 import '../models.dart';
+import 'disease_item_request_info.dart';
 
 class RequestInformationPage extends StatelessWidget {
   const RequestInformationPage({
@@ -39,11 +40,6 @@ class RequestInformationPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                // Lottie.asset(
-                //   kHospitalAnim,
-                //   fit: BoxFit.contain,
-                //   repeat: false,
-                // ),
                 Container(
                   width: double.infinity,
                   margin: const EdgeInsets.only(bottom: 15),
@@ -63,7 +59,7 @@ class RequestInformationPage extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: AutoSizeText(
-                              requestInfo.medicalHistory?.hypertensive ?? '',
+                              requestInfo.medicalHistory!.hypertensive,
                               style: const TextStyle(
                                   fontSize: 18, color: Colors.black),
                             ),
@@ -116,7 +112,29 @@ class RequestInformationPage extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: AutoSizeText(
-                              requestInfo.medicalHistory?.diabetic ?? '',
+                              requestInfo.medicalHistory!.diabetic,
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'patientAge'.tr}:',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: AutoSizeText(
+                              requestInfo.patientAge,
                               style: const TextStyle(
                                   fontSize: 18, color: Colors.black),
                             ),
@@ -172,9 +190,38 @@ class RequestInformationPage extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      requestInfo.medicalHistory?.diseasesList.isNotEmpty ??
-                              false
-                          ? const SizedBox.shrink()
+                      const SizedBox(height: 15),
+                      Divider(
+                        thickness: 8,
+                        color: Colors.grey.shade300,
+                      ),
+                      const SizedBox(height: 15),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: AutoSizeText(
+                          'diseases'.tr,
+                          style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis),
+                          maxLines: 1,
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      requestInfo.medicalHistory!.diseasesList.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Column(
+                                children: [
+                                  for (var diseaseItem in requestInfo
+                                      .medicalHistory!.diseasesList)
+                                    DiseaseItemRequest(
+                                      diseaseItem: diseaseItem,
+                                    ),
+                                ],
+                              ),
+                            )
                           : Center(
                               child: Container(
                                 padding: const EdgeInsets.all(20.0),
@@ -199,6 +246,7 @@ class RequestInformationPage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),

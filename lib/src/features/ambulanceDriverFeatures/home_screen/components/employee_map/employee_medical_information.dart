@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
+import 'package:goambulance/src/features/requests/components/general/disease_item_request_info.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../../constants/assets_strings.dart';
@@ -51,12 +52,9 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Center(
-                        child: Lottie.asset(
-                          kMedicalInfoAnim,
-                          fit: BoxFit.contain,
-                        ),
+                        child: Lottie.asset(kMedicalInfoAnim,
+                            fit: BoxFit.contain, height: screenHeight * 0.4),
                       ),
-                      const SizedBox(height: 10),
                       Row(
                         children: [
                           AutoSizeText(
@@ -190,27 +188,6 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // const SizedBox(height: 10),
-                      // AutoSizeText(
-                      //   '${'medicalAdditionalInformation'.tr}: ${userInfo.email}',
-                      //   style: const TextStyle(
-                      //     fontSize: 20,
-                      //     fontWeight: FontWeight.w700,
-                      //     color: Colors.black,
-                      //     overflow: TextOverflow.ellipsis,
-                      //   ),
-                      //   maxLines: 1,
-                      // ),
-                      // AutoSizeText(
-                      //   '${'additionalInformation'.tr}: ${userInfo.email}',
-                      //   style: const TextStyle(
-                      //     fontSize: 20,
-                      //     fontWeight: FontWeight.w700,
-                      //     color: Colors.black,
-                      //     overflow: TextOverflow.ellipsis,
-                      //   ),
-                      //   maxLines: 1,
-                      // ),
                     ],
                   ),
                 ),
@@ -234,7 +211,17 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 medicalInfo.diseasesList.isNotEmpty
-                    ? const SizedBox.shrink()
+                    ? Padding(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            for (var diseaseItem in medicalInfo.diseasesList)
+                              DiseaseItemRequest(
+                                diseaseItem: diseaseItem,
+                              ),
+                          ],
+                        ),
+                      )
                     : Center(
                         child: Container(
                           padding: const EdgeInsets.all(20.0),

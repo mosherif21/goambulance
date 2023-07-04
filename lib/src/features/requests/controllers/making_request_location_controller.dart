@@ -481,7 +481,7 @@ class MakingRequestLocationController extends GetxController {
     if (selectedHospital.value != null) {
       showLoadingScreen();
       final requestInfo =
-          MakingRequestInformationController.instance.getRequestInfo();
+          await MakingRequestInformationController.instance.getRequestInfo();
       final pendingRequestRef = _firestore.collection('pendingRequests').doc();
       final requestData = RequestMakingModel(
         userId: userId,

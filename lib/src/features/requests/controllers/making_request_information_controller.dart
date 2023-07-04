@@ -7,6 +7,7 @@ import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:rolling_switch/rolling_switch.dart';
 
+import '../../../../firebase_files/firebase_patient_access.dart';
 import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/general_functions.dart';
@@ -56,7 +57,7 @@ class MakingRequestInformationController extends GetxController {
     }
   }
 
-  RequestInfoModel getRequestInfo() {
+  Future<RequestInfoModel> getRequestInfo() async {
     final patientCondition = patientConditionTextController.text.trim();
     String bloodType = bloodTypeDropdownController.text.trim();
     bloodType = bloodType.isEmpty || bloodType == 'don\'tKnow'.tr
@@ -90,12 +91,27 @@ class MakingRequestInformationController extends GetxController {
     final userAge = DateTime.now().difference(userInfo.birthDate).inDays ~/ 365;
     final backupNumber = userInfo.backupNumber;
     final phoneNumber = userInfo.phoneNumber;
+    late MedicalHistoryModel medicalHistoryModel = MedicalHistoryModel(
+      bloodType: '',
+      diabetic: '',
+      hypertensive: '',
+      heartPatient: '',
+      medicalAdditionalInfo: '',
+      diseasesList: <DiseaseItem>[],
+    );
+    if (userRequest.value) {
+      final medicalInfo =
+          await FirebasePatientDataAccess.instance.getMedicalHistory();
+      if (medicalInfo != null) {
+        medicalHistoryModel = medicalInfo;
+      }
+    }
     return RequestInfoModel(
       isUser: userRequest.value,
       patientCondition: patientCondition,
       backupNumber: backupNumber,
       medicalHistory: userRequest.value
-          ? null
+          ? medicalHistoryModel
           : MedicalHistoryModel(
               bloodType: bloodType,
               diabetic: diabetic,

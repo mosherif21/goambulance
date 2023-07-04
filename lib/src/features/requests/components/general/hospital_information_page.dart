@@ -122,6 +122,33 @@ class HospitalInformationPage extends StatelessWidget {
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(8),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'avgPriceInfo'.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Flexible(
+                                    child: AutoSizeText(
+                                      '${hospitalModel.avgAmbulancePrice} ${'egp'.tr}',
+                                      maxLines: 2,
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(8),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -149,33 +176,6 @@ class HospitalInformationPage extends StatelessWidget {
                                       leadingIconColor: Colors.black,
                                     ),
                                   )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'avgPriceInfo'.tr,
-                                    style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Flexible(
-                                    child: AutoSizeText(
-                                      '${hospitalModel.avgAmbulancePrice} ${'egp'.tr}',
-                                      maxLines: 2,
-                                      style: const TextStyle(
-                                          fontSize: 18, color: Colors.black),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),

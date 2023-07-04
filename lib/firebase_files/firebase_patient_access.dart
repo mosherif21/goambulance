@@ -1020,16 +1020,18 @@ class FirebasePatientDataAccess extends GetxController {
       final requestDataBatch = fireStore.batch();
 
       requestDataBatch.set(requestInfo.requestRef, requestInfo.toJson());
-      final medicalHistory = requestInfo.requestInfo.medicalHistory;
-      if (medicalHistory != null) {
-        requestDataBatch.update(
-            requestInfo.requestRef, medicalHistory.toJson());
-        if (medicalHistory.diseasesList.isNotEmpty) {
-          for (DiseaseItem diseaseItem in medicalHistory.diseasesList) {
-            {
-              final diseaseRef =
-                  requestInfo.requestRef.collection('diseases').doc();
-              requestDataBatch.set(diseaseRef, diseaseItem.toJson());
+      if (!requestInfo.requestInfo.isUser) {
+        final medicalHistory = requestInfo.requestInfo.medicalHistory;
+        if (medicalHistory != null) {
+          requestDataBatch.update(
+              requestInfo.requestRef, medicalHistory.toJson());
+          if (medicalHistory.diseasesList.isNotEmpty) {
+            for (DiseaseItem diseaseItem in medicalHistory.diseasesList) {
+              {
+                final diseaseRef =
+                    requestInfo.requestRef.collection('diseases').doc();
+                requestDataBatch.set(diseaseRef, diseaseItem.toJson());
+              }
             }
           }
         }

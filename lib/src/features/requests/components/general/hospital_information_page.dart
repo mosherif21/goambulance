@@ -154,8 +154,6 @@ class HospitalInformationPage extends StatelessWidget {
                                 children: [
                                   Container(
                                     width: double.infinity,
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                           color: kDefaultColor, width: 2),

@@ -352,7 +352,7 @@ class AddressesLocationController extends GetxController {
       await serviceStatusStream?.cancel();
     }
     if (positionStreamInitialized) await currentPositionStream?.cancel();
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 200));
     hideLoadingScreen();
     return true;
   }

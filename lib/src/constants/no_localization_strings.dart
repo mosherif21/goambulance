@@ -7,7 +7,7 @@ const mapboxAPIKey =
     "sk.eyJ1IjoibW9zaGVyaWYyMyIsImEiOiJjbGlscnN5bzUwdjM4M2trZGFyZzQ5eHU1In0.wj_iV_UJeAGcSexLPmoRVA";
 
 const mapStyleID = "10ee2ae844372e89";
-const requestMarkerImageUrl = "https://i.postimg.cc/vZcFTkKz/pin.png";
+const requestMarkerImageUrl = "https://i.postimg.cc/JhBj4L8p/pin.png";
 const requestEngImageUrl = "https://i.postimg.cc/LsHSNBBW/location-en.png";
 const requestArImageUrl = "https://i.postimg.cc/7Z1D3Q77/location-ar.png";
 

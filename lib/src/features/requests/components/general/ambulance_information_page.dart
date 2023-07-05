@@ -47,7 +47,7 @@ class AmbulanceInformationPage extends StatelessWidget {
                           bottom: 15, left: 10, right: 10),
                       padding: const EdgeInsets.all(15),
                       decoration: BoxDecoration(
-                        border: Border.all(color: kDefaultColor, width: 2),
+                        border: Border.all(color: kDefaultColor, width: 1),
                         color: Colors.white54,
                         borderRadius: const BorderRadius.all(
                           Radius.circular(15),
@@ -100,7 +100,7 @@ class AmbulanceInformationPage extends StatelessWidget {
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                        color: kDefaultColor, width: 2),
+                                        color: kDefaultColor, width: 1),
                                     color: Colors.white54,
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(15),
@@ -117,6 +117,7 @@ class AmbulanceInformationPage extends StatelessWidget {
                                     trailingIcon: Icons.phone,
                                     trailingIconColor: Colors.blue,
                                     leadingIconColor: Colors.black,
+                                    borderRadius: 15,
                                   ),
                                 )
                               ],
@@ -200,6 +201,7 @@ class AmbulanceInformationPage extends StatelessWidget {
                                     trailingIcon: Icons.phone,
                                     trailingIconColor: Colors.blue,
                                     leadingIconColor: Colors.black,
+                                    borderRadius: 15,
                                   ),
                                 )
                               ],

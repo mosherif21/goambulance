@@ -192,6 +192,7 @@ class EmployeeUserInformationPage extends StatelessWidget {
                   trailingIcon: Icons.phone,
                   trailingIconColor: Colors.green,
                   leadingIconColor: Colors.black,
+                  borderRadius: 0,
                 ),
                 if (userInfo.backupNumber.isNotEmpty)
                   RegularClickableCardIcon(
@@ -203,6 +204,7 @@ class EmployeeUserInformationPage extends StatelessWidget {
                     trailingIcon: Icons.phone,
                     trailingIconColor: Colors.green,
                     leadingIconColor: Colors.black,
+                    borderRadius: 0,
                   ),
                 const SizedBox(height: 20),
               ],

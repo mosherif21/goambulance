@@ -50,6 +50,32 @@ class RequestInformationPage extends StatelessWidget {
                       Row(
                         children: [
                           AutoSizeText(
+                            '${'bloodType'.tr}: ',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          AutoSizeText(
+                            requestInfo.medicalHistory!.bloodType != 'unknown'
+                                ? requestInfo.medicalHistory!.bloodType
+                                : 'unknown'.tr,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              color: Colors.black,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          AutoSizeText(
                             '${'hypertensive'.tr}:',
                             style: const TextStyle(
                                 fontSize: 20,
@@ -59,7 +85,13 @@ class RequestInformationPage extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: AutoSizeText(
-                              requestInfo.medicalHistory!.hypertensive,
+                              requestInfo.medicalHistory!.hypertensive !=
+                                      'unknown'
+                                  ? requestInfo.medicalHistory!.hypertensive ==
+                                          'No'
+                                      ? 'no'.tr
+                                      : 'yes'.tr
+                                  : 'unknown'.tr,
                               style: const TextStyle(
                                   fontSize: 18, color: Colors.black),
                             ),
@@ -81,8 +113,9 @@ class RequestInformationPage extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: AutoSizeText(
-                              requestInfo.medicalHistory?.heartPatient != null
-                                  ? requestInfo.medicalHistory?.heartPatient ==
+                              requestInfo.medicalHistory!.heartPatient !=
+                                      'unknown'
+                                  ? requestInfo.medicalHistory!.heartPatient ==
                                           'No'
                                       ? 'no'.tr
                                       : 'yes'.tr
@@ -112,16 +145,38 @@ class RequestInformationPage extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: AutoSizeText(
-                              requestInfo.medicalHistory!.diabetic,
+                              requestInfo.medicalHistory!.diabetic != 'unknown'
+                                  ? requestInfo.medicalHistory!.diabetic == 'No'
+                                      ? 'no'.tr
+                                      : requestInfo.medicalHistory!.diabetic
+                                  : 'unknown'.tr,
                               style: const TextStyle(
                                   fontSize: 18, color: Colors.black),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          AutoSizeText(
+                            '${'conditionInformation'.tr}:',
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: AutoSizeText(
+                              requestInfo.patientCondition,
+                              style: const TextStyle(
+                                  fontSize: 18, color: Colors.black),
+                            ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 10),
                       Row(
                         children: [
                           AutoSizeText(
@@ -145,6 +200,7 @@ class RequestInformationPage extends StatelessWidget {
                         height: 10,
                       ),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           AutoSizeText(
                             'additionalInformation'.tr,
@@ -164,31 +220,6 @@ class RequestInformationPage extends StatelessWidget {
                                 fontSize: 18, color: Colors.black),
                           ),
                         ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'conditionInformation'.tr}:',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: AutoSizeText(
-                              requestInfo.patientCondition.isEmpty
-                                  ? 'unknown'.tr
-                                  : requestInfo.patientCondition,
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
                       ),
                       const SizedBox(height: 15),
                       Divider(

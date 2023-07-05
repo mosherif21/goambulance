@@ -11,6 +11,7 @@ class RegularClickableCardIcon extends StatelessWidget {
     required this.trailingIcon,
     required this.trailingIconColor,
     required this.leadingIconColor,
+    required this.borderRadius,
   }) : super(key: key);
   final Function onPressed;
   final IconData leadingIcon;
@@ -19,13 +20,16 @@ class RegularClickableCardIcon extends StatelessWidget {
   final IconData trailingIcon;
   final Color trailingIconColor;
   final Color leadingIconColor;
+  final double borderRadius;
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
+      borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
       child: InkWell(
         hoverColor: Colors.grey.shade50,
         splashFactory: InkSparkle.splashFactory,
+        borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
         onTap: () => onPressed(),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),

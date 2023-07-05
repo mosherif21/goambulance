@@ -156,7 +156,7 @@ class HospitalInformationPage extends StatelessWidget {
                                     width: double.infinity,
                                     decoration: BoxDecoration(
                                       border: Border.all(
-                                          color: kDefaultColor, width: 2),
+                                          color: kDefaultColor, width: 1),
                                       color: Colors.white54,
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(15),
@@ -172,6 +172,7 @@ class HospitalInformationPage extends StatelessWidget {
                                       trailingIcon: Icons.phone,
                                       trailingIconColor: Colors.blue,
                                       leadingIconColor: Colors.black,
+                                      borderRadius: 15,
                                     ),
                                   )
                                 ],

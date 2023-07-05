@@ -163,6 +163,18 @@ class AccountScreen extends StatelessWidget {
                       enabled: true,
                     ),
                   ),
+                  Obx(
+                    () => authRepo.isFacebookLinked.value
+                        ? const SizedBox.shrink()
+                        : LinkAccountButton(
+                            buttonText: 'linkFacebookAccount'.tr,
+                            imagePath: kFacebookImg,
+                            onPressed: () {},
+                            backgroundColor: Colors.blueAccent,
+                            textColor: Colors.white,
+                            enabled: true,
+                          ),
+                  ),
                   RoundedElevatedButton(
                     buttonText: 'logout'.tr,
                     onPressed: () => logoutDialogue(),
@@ -170,18 +182,6 @@ class AccountScreen extends StatelessWidget {
                     color: Colors.red,
                   ),
                   SizedBox(height: screenHeight * 0.12),
-                  // Obx(
-                  //   () => authRepo.isFacebookLinked.value
-                  //       ? const SizedBox.shrink()
-                  //       : LinkAccountButton(
-                  //           buttonText: 'linkFacebookAccount'.tr,
-                  //           imagePath: kFacebookImg,
-                  //           onPressed: () {},
-                  //           backgroundColor: Colors.blueAccent,
-                  //           textColor: Colors.white,
-                  //           enabled: true,
-                  //         ),
-                  // ),
                 ],
               ),
             ),

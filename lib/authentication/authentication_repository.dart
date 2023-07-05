@@ -748,26 +748,26 @@ class AuthenticationRepository extends GetxController {
 
   Future<OAuthCredential?> getFacebookAuthCredential() async {
     try {
-      // if (AppInit.isWeb) {
-      //   final facebookProvider = FacebookAuthProvider();
-      //   facebookProvider.addScope('email');
-      //   facebookProvider.setCustomParameters({
-      //     'display': 'popup',
-      //   });
-      //   await _auth.signInWithPopup(facebookProvider);
-      //   if (fireUser.value != null) {
-      //     isUserLoggedIn = true;
-      //     await authenticatedSetup();
-      //     AppInit.goToInitPage();
-      //     return 'success';
-      //   }
-      // } else {}
-      //final loginResult = await FacebookAuth.instance.login();
-      // if (loginResult.accessToken?.token != null) {
-      //   final facebookAuthCredential =
-      //       FacebookAuthProvider.credential(loginResult.accessToken!.token);
-      //   return facebookAuthCredential;
-      // }
+      if (AppInit.isWeb) {
+        final facebookProvider = FacebookAuthProvider();
+        facebookProvider.addScope('email');
+        facebookProvider.setCustomParameters({
+          'display': 'popup',
+        });
+        //   await _auth.signInWithPopup(facebookProvider);
+        //   if (fireUser.value != null) {
+        //     isUserLoggedIn = true;
+        //     await authenticatedSetup();
+        //     AppInit.goToInitPage();
+        //     return 'success';
+        //   }
+        // } else {}
+        // final loginResult = await FacebookAuth.instance.login();
+        // if (loginResult.accessToken?.token != null) {
+        //   final facebookAuthCredential =
+        //       FacebookAuthProvider.credential(loginResult.accessToken!.token);
+        //   return facebookAuthCredential;
+      }
     } catch (e) {
       if (kDebugMode) {
         AppInit.logger.e(e.toString());

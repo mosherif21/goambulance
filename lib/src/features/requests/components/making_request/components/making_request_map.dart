@@ -282,9 +282,7 @@ class MakingRequestMap extends StatelessWidget {
                       ? isLangEnglish()
                           ? screenHeight * 0.43
                           : screenHeight * 0.452
-                      : isLangEnglish()
-                          ? 70
-                          : 95,
+                      : 70,
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(

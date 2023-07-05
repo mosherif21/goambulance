@@ -76,7 +76,7 @@ class AddressMapPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: isLangEnglish() ? 70 : 95,
+              bottom: 70,
               left: isLangEnglish() ? null : 0,
               right: isLangEnglish() ? 0 : null,
               child: Padding(

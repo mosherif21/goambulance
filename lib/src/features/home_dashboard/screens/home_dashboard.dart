@@ -102,7 +102,7 @@ class HomeDashBoard extends StatelessWidget {
                         ),
                     ],
                     options: CarouselOptions(
-                      autoPlay: false,
+                      autoPlay: true,
                       aspectRatio: 2.2,
                       enlargeCenterPage: true,
                       enlargeStrategy: CenterPageEnlargeStrategy.height,

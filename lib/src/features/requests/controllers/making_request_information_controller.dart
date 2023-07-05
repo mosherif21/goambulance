@@ -42,6 +42,13 @@ class MakingRequestInformationController extends GetxController {
     diseaseNameTextController.addListener(() {
       diseaseName.value = diseaseNameTextController.text.trim();
     });
+    requestTypeDropdownController.addListener(() {
+      if (requestTypeDropdownController.text == 'forMe'.tr) {
+        userRequest.value = true;
+      } else if (requestTypeDropdownController.text == 'someoneElse'.tr) {
+        userRequest.value = false;
+      }
+    });
     super.onReady();
   }
 

@@ -118,9 +118,9 @@ class HomeDashBoard extends StatelessWidget {
                     buttonText: 'viewAll'.tr,
                   ),
                   const ServicesButtons(),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 20),
                   SizedBox(
-                    height: 260,
+                    height: 240,
                     child: Obx(
                       () => !homeScreenController.adsLoaded.value
                           ? const LoadingAds()
@@ -129,7 +129,7 @@ class HomeDashBoard extends StatelessWidget {
                               itemCount: homeScreenController.adImageUrl.length,
                               itemBuilder: (_, index) {
                                 return Padding(
-                                  padding: const EdgeInsets.all(12),
+                                  padding: const EdgeInsets.all(8),
                                   child: OpenContainer(
                                     useRootNavigator: true,
                                     closedElevation: 0,

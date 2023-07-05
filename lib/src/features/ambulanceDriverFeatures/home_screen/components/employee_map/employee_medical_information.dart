@@ -202,7 +202,7 @@ class EmployeeMedicalInformationPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      'additionalInformation'.tr,
+                      '${'additionalInformation'.tr}:',
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,

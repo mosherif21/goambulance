@@ -4,8 +4,7 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// ignore: depend_on_referenced_packages
-import 'package:google_maps_webservice/directions.dart'
+import 'package:google_maps_webapi/directions.dart'
     as google_web_directions_service;
 
 import '../constants/no_localization_strings.dart';

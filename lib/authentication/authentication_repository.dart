@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -749,24 +750,18 @@ class AuthenticationRepository extends GetxController {
   Future<OAuthCredential?> getFacebookAuthCredential() async {
     try {
       if (AppInit.isWeb) {
-        final facebookProvider = FacebookAuthProvider();
-        facebookProvider.addScope('email');
-        facebookProvider.setCustomParameters({
-          'display': 'popup',
-        });
-        //   await _auth.signInWithPopup(facebookProvider);
-        //   if (fireUser.value != null) {
-        //     isUserLoggedIn = true;
-        //     await authenticatedSetup();
-        //     AppInit.goToInitPage();
-        //     return 'success';
-        //   }
-        // } else {}
-        // final loginResult = await FacebookAuth.instance.login();
-        // if (loginResult.accessToken?.token != null) {
-        //   final facebookAuthCredential =
-        //       FacebookAuthProvider.credential(loginResult.accessToken!.token);
-        //   return facebookAuthCredential;
+        await FacebookAuth.i.webAndDesktopInitialize(
+          appId: "474331258229503",
+          cookie: true,
+          xfbml: true,
+          version: "v14.0",
+        );
+      }
+      final LoginResult result = await FacebookAuth.instance.login();
+      if (result.status == LoginStatus.success) {
+        final credential =
+            FacebookAuthProvider.credential(result.accessToken!.token);
+        return credential;
       }
     } catch (e) {
       if (kDebugMode) {

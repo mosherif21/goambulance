@@ -20,8 +20,7 @@ import 'package:goambulance/src/features/requests/components/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-// ignore: depend_on_referenced_packages
-import 'package:google_maps_webservice/directions.dart'
+import 'package:google_maps_webapi/directions.dart'
     as google_web_directions_service;
 import 'package:map_box_geocoder/map_box_geocoder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

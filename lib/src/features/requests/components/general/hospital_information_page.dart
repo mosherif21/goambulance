@@ -166,7 +166,7 @@ class HospitalInformationPage extends StatelessWidget {
                                       onPressed: () => callNumber(
                                           phoneNumber:
                                               hospitalModel.hospitalNumber),
-                                      title: 'hospitalPhoneNum'.tr,
+                                      title: 'landlineNumber'.tr,
                                       subTitle: hospitalModel.hospitalNumber,
                                       leadingIcon: Icons.phone_android,
                                       trailingIcon: Icons.phone,

@@ -495,15 +495,13 @@ class Languages extends Translations {
           'address': 'العنوان: ',
           'hospitalInfo': 'المستشفى',
           'avgPriceInfo': 'متوسط الاسعار: ',
-          'hospitalPhoneNum': 'رقم هاتف المستشفى',
           'ambulanceDriver': 'سائق الاسعاف',
-          'ambulanceDriverNum': 'رقم هاتف السائق',
           'ambulanceMedic': 'المسعف',
-          'ambulanceMedicNum': 'رقم هاتف المسعف',
           'ambulanceDetails': 'تفاصيل سيارة الاسعاف',
           'type': 'النوع: ',
           'licencePlate': 'رقم اللوحة: ',
           'primaryAddress': 'العنوان الأساسي',
+          'landlineNumber': 'رقم الهاتف الثابت',
         },
         'en_US': {
           'sosCancelReturn':
@@ -1013,15 +1011,13 @@ class Languages extends Translations {
           'address': 'Address: ',
           'hospitalInfo': 'Hospital',
           'avgPriceInfo': 'Avg Price: ',
-          'hospitalPhoneNum': 'Hospital phone number',
           'ambulanceDriver': 'Ambulance driver',
-          'ambulanceDriverNum': 'Ambulance driver phone number',
           'ambulanceMedic': 'Ambulance medic',
-          'ambulanceMedicNum': 'Ambulance medic phone number',
           'ambulanceDetails': 'Ambulance car details',
           'type': 'Type: ',
           'licencePlate': 'Licence plate: ',
           'primaryAddress': 'Primary address',
+          'landlineNumber': 'Landline number',
         },
       };
 }

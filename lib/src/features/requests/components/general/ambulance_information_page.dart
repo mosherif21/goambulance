@@ -110,7 +110,7 @@ class AmbulanceInformationPage extends StatelessWidget {
                                     onPressed: () => callNumber(
                                         phoneNumber:
                                             ambulanceInfo.ambulanceDriverPhone),
-                                    title: 'ambulanceDriverNum'.tr,
+                                    title: 'phoneNumber'.tr,
                                     subTitle:
                                         ambulanceInfo.ambulanceDriverPhone,
                                     leadingIcon: Icons.phone_android,
@@ -195,7 +195,7 @@ class AmbulanceInformationPage extends StatelessWidget {
                                     onPressed: () => callNumber(
                                         phoneNumber:
                                             ambulanceInfo.ambulanceMedicPhone),
-                                    title: 'ambulanceMedicNum'.tr,
+                                    title: 'phoneNumber'.tr,
                                     subTitle: ambulanceInfo.ambulanceMedicPhone,
                                     leadingIcon: Icons.phone_android,
                                     trailingIcon: Icons.phone,

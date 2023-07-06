@@ -245,6 +245,7 @@ class Languages extends Translations {
           'signOutFailed': 'فشل تسجيل الخروج ، يرجى المحاولة مرة أخرى',
           'failedGoogleLink': 'فشل ربط حساب جوجل ، يرجى المحاولة مرة أخرى',
           'successGoogleLink': 'تم ربط حساب جوجل بنجاح',
+
           'googleAccountInUse':
               'حساب جوجل هذا قيد الاستخدام من قبلك أو من قبل مستخدم آخر',
           'pullToRefresh': 'للتحديث اسحب للأسفل',
@@ -502,6 +503,10 @@ class Languages extends Translations {
           'licencePlate': 'رقم اللوحة: ',
           'primaryAddress': 'العنوان الأساسي',
           'landlineNumber': 'رقم الهاتف الثابت',
+          'failedFacebookLink': 'فشل ربط حساب فيسبوك ، يرجى المحاولة مرة أخرى',
+          'facebookAccountInUse':
+          'حساب فيسبوك هذا قيد الاستخدام بالفعل من قبلك أو من قبل مستخدم آخر',
+          'successFacebookLink': 'تم ربط فيسبوك جوجل بنجاح',
         },
         'en_US': {
           'sosCancelReturn':
@@ -583,6 +588,8 @@ class Languages extends Translations {
           'skipLabel': 'Skip',
           'delete': "Delete",
           'successGoogleLink': 'Google account was linked successfully',
+          'successFacebookLink': 'Facebook account was linked successfully',
+
           'notAvailableErrorTitle': 'Not Currently Available',
           'notAvailableErrorSubTitle': 'We are working on it....',
           'noConnectionAlertTitle': 'No Connection',
@@ -662,6 +669,10 @@ class Languages extends Translations {
           'failedGoogleLink': 'Google account Link failed, Please try again',
           'googleAccountInUse':
               'This google account is already in use by you or another user',
+          'failedFacebookLink':
+              'Facebook account Link failed, Please try again',
+          'facebookAccountInUse':
+              'This facebook account is already in use by you or another user',
           'failedFacebookAuth':
               'Facebook authentication failed, Please try again',
           'failedAuth': 'Authentication failed',

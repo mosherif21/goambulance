@@ -727,24 +727,27 @@ class AuthenticationRepository extends GetxController {
         AppInit.logger.e(e.toString());
       }
     }
-
     return 'failedFacebookAuth'.tr;
   }
 
-  Future<String> linkWithFacebook(String email, String password) async {
+  Future<void> linkWithFacebook() async {
     try {
+      showLoadingScreen();
       final facebookCredential = await getFacebookAuthCredential();
       if (facebookCredential != null) {
         await fireUser.value!.linkWithCredential(facebookCredential);
-        return 'success';
+        hideLoadingScreen();
+        showSnackBar(
+            text: 'successFacebookLink'.tr, snackBarType: SnackBarType.success);
       }
     } catch (e) {
+      hideLoadingScreen();
+      showSnackBar(
+          text: 'failedFacebookLink'.tr, snackBarType: SnackBarType.error);
       if (kDebugMode) {
         AppInit.logger.e(e.toString());
       }
     }
-
-    return 'failedFacebookAuth'.tr;
   }
 
   Future<OAuthCredential?> getFacebookAuthCredential() async {

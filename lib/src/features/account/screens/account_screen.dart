@@ -169,7 +169,7 @@ class AccountScreen extends StatelessWidget {
                         : LinkAccountButton(
                             buttonText: 'linkFacebookAccount'.tr,
                             imagePath: kFacebookImg,
-                            onPressed: () {},
+                            onPressed: () => authRepo.linkWithFacebook(),
                             backgroundColor: Colors.blueAccent,
                             textColor: Colors.white,
                             enabled: true,

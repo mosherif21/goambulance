@@ -539,10 +539,8 @@ class HomeScreenController extends GetxController {
   ];
 
   Future<void> cancelListeners() async {
-    showLoadingScreen();
     await accelerometerSubscription?.cancel();
     accelerometerEvents.drain();
     await notificationCountStreamSubscription?.cancel();
-    hideLoadingScreen();
   }
 }

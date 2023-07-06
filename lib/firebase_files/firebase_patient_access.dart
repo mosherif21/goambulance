@@ -18,6 +18,8 @@ import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
 import '../src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import '../src/features/authentication/screens/auth_screen.dart';
+import '../src/features/chat_bot/controllers/chat_bot_controller.dart';
+import '../src/features/home_screen/controllers/home_screen_controller.dart';
 import '../src/features/requests/components/models.dart';
 import '../src/general/general_functions.dart';
 
@@ -44,7 +46,7 @@ class FirebasePatientDataAccess extends GetxController {
     firestoreUserRef = fireStore.collection('users').doc(userId);
     firestoreMedicalRef = fireStore.collection('medicalHistory').doc(userId);
     fireStoreUserDiseasesRef = firestoreMedicalRef.collection('diseases');
-    userStorageReference = fireStorage.ref().child('users').child(userId);
+    userStorageReference = fireStorage.ref('users/$userId/');
     super.onInit();
   }
 
@@ -1641,106 +1643,117 @@ class FirebasePatientDataAccess extends GetxController {
   }
 
   Future<String> deleteUser() async {
-    late final String returnMessage;
     try {
-      final checkOngoing = await checkHasOngoingRequests();
-      if (checkOngoing != null) {
-        if (!checkOngoing) {
-          final deleteUserBatch = fireStore.batch();
-          deleteUserBatch.delete(firestoreUserRef);
-          final userDiseases = await fireStoreUserDiseasesRef.get();
-          if (userDiseases.docs.isNotEmpty) {
-            for (final diseaseDoc in userDiseases.docs) {
-              deleteUserBatch.delete(diseaseDoc.reference);
+      if (user.metadata.lastSignInTime!
+          .isAfter(DateTime.now().subtract(const Duration(minutes: 5)))) {
+        return 'requireRecentLoginError'.tr;
+      } else {
+        final checkOngoing = await checkHasOngoingRequests();
+        if (checkOngoing != null) {
+          if (!checkOngoing) {
+            final deleteUserBatch = fireStore.batch();
+            deleteUserBatch.delete(firestoreUserRef);
+            final userDiseases = await fireStoreUserDiseasesRef.get();
+            if (userDiseases.docs.isNotEmpty) {
+              for (final diseaseDoc in userDiseases.docs) {
+                deleteUserBatch.delete(diseaseDoc.reference);
+              }
             }
-          }
-          deleteUserBatch.delete(firestoreMedicalRef);
-          final notificationsRef =
-              fireStore.collection('notifications').doc(userId);
-          deleteUserBatch.delete(notificationsRef);
-          final notificationMessages =
-              await notificationsRef.collection('messages').get();
-          if (notificationMessages.docs.isNotEmpty) {
-            for (final notificationDoc in notificationMessages.docs) {
-              deleteUserBatch.delete(notificationDoc.reference);
+            deleteUserBatch.delete(firestoreMedicalRef);
+            final notificationsRef =
+                fireStore.collection('notifications').doc(userId);
+            deleteUserBatch.delete(notificationsRef);
+            final notificationMessages =
+                await notificationsRef.collection('messages').get();
+            if (notificationMessages.docs.isNotEmpty) {
+              for (final notificationDoc in notificationMessages.docs) {
+                deleteUserBatch.delete(notificationDoc.reference);
+              }
             }
-          }
-          deleteUserBatch.delete(fireStore.collection('fcmTokens').doc(userId));
-          deleteUserBatch
-              .delete(fireStore.collection('sosRequests').doc(userId));
-          deleteUserBatch
-              .delete(fireStore.collection('criticalUserRequests').doc(userId));
-          deleteUserBatch.delete(
-              fireStore.collection('declinedCriticalUserRequests').doc(userId));
-          final canceledRequests = await fireStore
-              .collection('canceledRequests')
-              .where('userId', isEqualTo: userId)
-              .get();
-          if (canceledRequests.docs.isNotEmpty) {
-            for (final canceledDoc in canceledRequests.docs) {
-              deleteUserBatch.delete(canceledDoc.reference);
-              final hospitalId = canceledDoc.data()['hospitalId'].toString();
-              final hospitalCanceledRef = fireStore
-                  .collection('hospitals')
-                  .doc(hospitalId)
-                  .collection('canceledRequests')
-                  .doc(canceledDoc.id);
-              deleteUserBatch.delete(hospitalCanceledRef);
-              deleteUserBatch.delete(firestoreUserRef
-                  .collection('canceledRequests')
-                  .doc(canceledDoc.id));
+            deleteUserBatch
+                .delete(fireStore.collection('fcmTokens').doc(userId));
+            deleteUserBatch
+                .delete(fireStore.collection('sosRequests').doc(userId));
+            deleteUserBatch.delete(
+                fireStore.collection('criticalUserRequests').doc(userId));
+            deleteUserBatch.delete(fireStore
+                .collection('declinedCriticalUserRequests')
+                .doc(userId));
+            final canceledRequests = await fireStore
+                .collection('canceledRequests')
+                .where('userId', isEqualTo: userId)
+                .get();
+            if (canceledRequests.docs.isNotEmpty) {
+              for (final canceledDoc in canceledRequests.docs) {
+                deleteUserBatch.delete(canceledDoc.reference);
+                final hospitalId = canceledDoc.data()['hospitalId'].toString();
+                final hospitalCanceledRef = fireStore
+                    .collection('hospitals')
+                    .doc(hospitalId)
+                    .collection('canceledRequests')
+                    .doc(canceledDoc.id);
+                deleteUserBatch.delete(hospitalCanceledRef);
+                deleteUserBatch.delete(firestoreUserRef
+                    .collection('canceledRequests')
+                    .doc(canceledDoc.id));
+              }
             }
-          }
-          final completedRequests = await fireStore
-              .collection('completedRequests')
-              .where('userId', isEqualTo: userId)
-              .get();
-          if (completedRequests.docs.isNotEmpty) {
-            for (final completedDoc in completedRequests.docs) {
-              deleteUserBatch.delete(completedDoc.reference);
-              final hospitalId = completedDoc.data()['hospitalId'].toString();
-              final hospitalCanceledRef = fireStore
-                  .collection('hospitals')
-                  .doc(hospitalId)
-                  .collection('completedRequests')
-                  .doc(completedDoc.id);
-              deleteUserBatch.delete(hospitalCanceledRef);
-              deleteUserBatch.delete(firestoreUserRef
-                  .collection('completedRequests')
-                  .doc(completedDoc.id));
+            final completedRequests = await fireStore
+                .collection('completedRequests')
+                .where('userId', isEqualTo: userId)
+                .get();
+            if (completedRequests.docs.isNotEmpty) {
+              for (final completedDoc in completedRequests.docs) {
+                deleteUserBatch.delete(completedDoc.reference);
+                final hospitalId = completedDoc.data()['hospitalId'].toString();
+                final hospitalCanceledRef = fireStore
+                    .collection('hospitals')
+                    .doc(hospitalId)
+                    .collection('completedRequests')
+                    .doc(completedDoc.id);
+                deleteUserBatch.delete(hospitalCanceledRef);
+                deleteUserBatch.delete(firestoreUserRef
+                    .collection('completedRequests')
+                    .doc(completedDoc.id));
+              }
             }
-          }
-          final canceledSosRequests = await fireStore
-              .collection('canceledSosRequests')
-              .where('userId', isEqualTo: userId)
-              .get();
-          if (canceledSosRequests.docs.isNotEmpty) {
-            for (final canceledSosDoc in canceledSosRequests.docs) {
-              deleteUserBatch.delete(canceledSosDoc.reference);
+            final canceledSosRequests = await fireStore
+                .collection('canceledSosRequests')
+                .where('userId', isEqualTo: userId)
+                .get();
+            if (canceledSosRequests.docs.isNotEmpty) {
+              for (final canceledSosDoc in canceledSosRequests.docs) {
+                deleteUserBatch.delete(canceledSosDoc.reference);
+              }
             }
-          }
-          final emergencyContacts =
-              await firestoreUserRef.collection('emergencyContacts').get();
-          if (emergencyContacts.docs.isNotEmpty) {
-            for (final contactDoc in emergencyContacts.docs) {
-              deleteUserBatch.delete(contactDoc.reference);
+            final emergencyContacts =
+                await firestoreUserRef.collection('emergencyContacts').get();
+            if (emergencyContacts.docs.isNotEmpty) {
+              for (final contactDoc in emergencyContacts.docs) {
+                deleteUserBatch.delete(contactDoc.reference);
+              }
             }
-          }
-          final addresses =
-              await firestoreUserRef.collection('addresses').get();
-          if (addresses.docs.isNotEmpty) {
-            for (final addressDoc in addresses.docs) {
-              deleteUserBatch.delete(addressDoc.reference);
+            final addresses =
+                await firestoreUserRef.collection('addresses').get();
+            if (addresses.docs.isNotEmpty) {
+              for (final addressDoc in addresses.docs) {
+                deleteUserBatch.delete(addressDoc.reference);
+              }
             }
+
+            await userStorageReference.child('profilePic').delete();
+            await userStorageReference.child('nationalId').delete();
+            await deleteUserBatch.commit();
+            if (Get.isRegistered<ChatBotController>()) {
+              await Get.delete<ChatBotController>();
+            }
+            await HomeScreenController.instance.cancelListeners();
+            await authRep.logoutAuthUser();
+            Get.offAll(() => const AuthenticationScreen());
+            return 'success';
           }
-          await userStorageReference.delete();
-          await deleteUserBatch.commit();
-          await authRep.signOutGoogle();
-          await authRep.fireUser.value!.delete();
-          Get.offAll(() => const AuthenticationScreen());
-          return 'success';
         } else {
-          returnMessage = 'checkHasOngoingRequests'.tr;
+          return 'checkHasOngoingRequests'.tr;
         }
       }
     } on FirebaseException catch (error) {
@@ -1752,8 +1765,7 @@ class FirebasePatientDataAccess extends GetxController {
         AppInit.logger.e(err.toString());
       }
     }
-    returnMessage = 'unknownError'.tr;
-    return returnMessage;
+    return 'unknownError'.tr;
   }
 
   void onDeleteUserPress() {

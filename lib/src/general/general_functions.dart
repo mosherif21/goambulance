@@ -187,6 +187,7 @@ Future<void> logout() async {
     }
   }
   await AuthenticationRepository.instance.logoutAuthUser();
+  await AuthenticationRepository.instance.logoutAuth();
   hideLoadingScreen();
   Get.offAll(() => const AuthenticationScreen());
 }

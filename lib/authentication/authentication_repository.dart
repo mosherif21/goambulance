@@ -772,11 +772,13 @@ class AuthenticationRepository extends GetxController {
     }
     return null;
   }*/
+  Future<void> logoutAuth() async {
+    await _auth.signOut();
+  }
 
   Future<void> logoutAuthUser() async {
     try {
       await signOutGoogle();
-      await _auth.signOut();
       if (userType == UserType.patient &&
           isUserRegistered &&
           !userInfo.criticalUser) {

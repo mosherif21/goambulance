@@ -245,7 +245,6 @@ class Languages extends Translations {
           'signOutFailed': 'فشل تسجيل الخروج ، يرجى المحاولة مرة أخرى',
           'failedGoogleLink': 'فشل ربط حساب جوجل ، يرجى المحاولة مرة أخرى',
           'successGoogleLink': 'تم ربط حساب جوجل بنجاح',
-
           'googleAccountInUse':
               'حساب جوجل هذا قيد الاستخدام من قبلك أو من قبل مستخدم آخر',
           'pullToRefresh': 'للتحديث اسحب للأسفل',
@@ -505,10 +504,20 @@ class Languages extends Translations {
           'landlineNumber': 'رقم الهاتف الثابت',
           'failedFacebookLink': 'فشل ربط حساب فيسبوك ، يرجى المحاولة مرة أخرى',
           'facebookAccountInUse':
-          'حساب فيسبوك هذا قيد الاستخدام بالفعل من قبلك أو من قبل مستخدم آخر',
+              'حساب فيسبوك هذا قيد الاستخدام بالفعل من قبلك أو من قبل مستخدم آخر',
           'successFacebookLink': 'تم ربط فيسبوك جوجل بنجاح',
+          'deleteAccountTitle': 'حذف حسابك',
+          'deleteAccount': 'حذف الحساب',
+          'hasOngoingRequestsDelete':
+              'لديك طلب قيد التنفيذ، يرجى الانتظار حتى يكتمل أو إلغاؤه لحذف حسابك',
+          'deleteAccountBody':
+              'إذا كنت تقوم بحذف حسابك لأنك لا تستخدمه، فلا داعي للقلق لأننا لا نشارك أي من معلوماتك مع أي منظمة طرف ثالث، لذلك يرجى معرفة أن بياناتك آمنة.',
+          'confirmPermanentDelete':
+              'يرجى ملاحظة أن عملية الحذف نهائية ولا يمكن استرداد حسابك مرة أخرى',
         },
         'en_US': {
+          'hasOngoingRequestsDelete':
+              'You have an ongoing request please wait for it to be completed or cancel it to delete your account',
           'sosCancelReturn':
               'This request was canceled we are searching for another hospital',
           'sosRequestHospitalCanceled':
@@ -524,6 +533,8 @@ class Languages extends Translations {
           'sosRequestSettings': 'SOS request settings',
           'criticalUserRequestBody':
               'If you would like to become a critical user, our medical reviewers will evaluate your medical history to determine if you qualify. Critical users are entitled to the benefits of being able to request the nearest hospital with just a click of a button, by shaking the device, or by using voice commands such as \'Help me\' or \'Ambulance\', provided we have access to your location or primary address.',
+          'deleteAccountBody':
+              'If you\'re deleting your account because you don\'t use it, you don\'t have to worry because we don\'t share any of your information with any third-party organization. Please know that your data is safe.',
           'sendRequest': 'Send request',
           'emailChangedSuccess': 'Your email was changed successfully',
           'enterChangeEmailData':
@@ -589,7 +600,6 @@ class Languages extends Translations {
           'delete': "Delete",
           'successGoogleLink': 'Google account was linked successfully',
           'successFacebookLink': 'Facebook account was linked successfully',
-
           'notAvailableErrorTitle': 'Not Currently Available',
           'notAvailableErrorSubTitle': 'We are working on it....',
           'noConnectionAlertTitle': 'No Connection',
@@ -872,6 +882,8 @@ class Languages extends Translations {
           'contactInfo': 'Please enter the contact\'s information',
           'personalInfoShare':
               'Your information will be shared with the hospital in case you request an ambulance',
+          'confirmPermanentDelete':
+              'Please note that the deletion process is permanent, and your account cannot be retrieved again',
           'cancelRequestConfirm':
               'Are you sure you want to cancel your ambulance request?',
           'previousRequestDataNotice':
@@ -1029,6 +1041,8 @@ class Languages extends Translations {
           'licencePlate': 'Licence plate: ',
           'primaryAddress': 'Primary address',
           'landlineNumber': 'Landline number',
+          'deleteAccountTitle': 'Delete your account',
+          'deleteAccount': 'Delete account',
         },
       };
 }

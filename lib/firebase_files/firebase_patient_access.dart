@@ -5,16 +5,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/src/features/sos_message/controllers/sos_message_controller.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sweetsheet/sweetsheet.dart';
 
 import '../src/constants/enums.dart';
 import '../src/features/account/components/models.dart';
 import '../src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
+import '../src/features/authentication/screens/auth_screen.dart';
 import '../src/features/requests/components/models.dart';
 import '../src/general/general_functions.dart';
 
@@ -1599,5 +1602,178 @@ class FirebasePatientDataAccess extends GetxController {
     if (authRep.isUserRegistered) {
       await deleteFcmToken();
     }
+  }
+
+  Future<bool?> checkHasOngoingRequests() async {
+    try {
+      final sosExist = await fireStore
+          .collection('sosRequests')
+          .where('userId', isEqualTo: userId)
+          .get();
+      if (sosExist.docs.isNotEmpty) {
+        return true;
+      }
+      final pendingExist = await fireStore
+          .collection('pendingRequests')
+          .where('userId', isEqualTo: userId)
+          .get();
+      if (pendingExist.docs.isNotEmpty) {
+        return true;
+      }
+      final assignedExist = await fireStore
+          .collection('assignedRequests')
+          .where('userId', isEqualTo: userId)
+          .get();
+      if (assignedExist.docs.isNotEmpty) {
+        return true;
+      }
+      return false;
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    return null;
+  }
+
+  Future<String> deleteUser() async {
+    late final String returnMessage;
+    try {
+      final checkOngoing = await checkHasOngoingRequests();
+      if (checkOngoing != null) {
+        if (!checkOngoing) {
+          final deleteUserBatch = fireStore.batch();
+          deleteUserBatch.delete(firestoreUserRef);
+          final userDiseases = await fireStoreUserDiseasesRef.get();
+          if (userDiseases.docs.isNotEmpty) {
+            for (final diseaseDoc in userDiseases.docs) {
+              deleteUserBatch.delete(diseaseDoc.reference);
+            }
+          }
+          deleteUserBatch.delete(firestoreMedicalRef);
+          final notificationsRef =
+              fireStore.collection('notifications').doc(userId);
+          deleteUserBatch.delete(notificationsRef);
+          final notificationMessages =
+              await notificationsRef.collection('messages').get();
+          if (notificationMessages.docs.isNotEmpty) {
+            for (final notificationDoc in notificationMessages.docs) {
+              deleteUserBatch.delete(notificationDoc.reference);
+            }
+          }
+          deleteUserBatch.delete(fireStore.collection('fcmTokens').doc(userId));
+          deleteUserBatch
+              .delete(fireStore.collection('sosRequests').doc(userId));
+          deleteUserBatch
+              .delete(fireStore.collection('criticalUserRequests').doc(userId));
+          deleteUserBatch.delete(
+              fireStore.collection('declinedCriticalUserRequests').doc(userId));
+          final canceledRequests = await fireStore
+              .collection('canceledRequests')
+              .where('userId', isEqualTo: userId)
+              .get();
+          if (canceledRequests.docs.isNotEmpty) {
+            for (final canceledDoc in canceledRequests.docs) {
+              deleteUserBatch.delete(canceledDoc.reference);
+              final hospitalId = canceledDoc.data()['hospitalId'].toString();
+              final hospitalCanceledRef = fireStore
+                  .collection('hospitals')
+                  .doc(hospitalId)
+                  .collection('canceledRequests')
+                  .doc(canceledDoc.id);
+              deleteUserBatch.delete(hospitalCanceledRef);
+              deleteUserBatch.delete(firestoreUserRef
+                  .collection('canceledRequests')
+                  .doc(canceledDoc.id));
+            }
+          }
+          final completedRequests = await fireStore
+              .collection('completedRequests')
+              .where('userId', isEqualTo: userId)
+              .get();
+          if (completedRequests.docs.isNotEmpty) {
+            for (final completedDoc in completedRequests.docs) {
+              deleteUserBatch.delete(completedDoc.reference);
+              final hospitalId = completedDoc.data()['hospitalId'].toString();
+              final hospitalCanceledRef = fireStore
+                  .collection('hospitals')
+                  .doc(hospitalId)
+                  .collection('completedRequests')
+                  .doc(completedDoc.id);
+              deleteUserBatch.delete(hospitalCanceledRef);
+              deleteUserBatch.delete(firestoreUserRef
+                  .collection('completedRequests')
+                  .doc(completedDoc.id));
+            }
+          }
+          final canceledSosRequests = await fireStore
+              .collection('canceledSosRequests')
+              .where('userId', isEqualTo: userId)
+              .get();
+          if (canceledSosRequests.docs.isNotEmpty) {
+            for (final canceledSosDoc in canceledSosRequests.docs) {
+              deleteUserBatch.delete(canceledSosDoc.reference);
+            }
+          }
+          final emergencyContacts =
+              await firestoreUserRef.collection('emergencyContacts').get();
+          if (emergencyContacts.docs.isNotEmpty) {
+            for (final contactDoc in emergencyContacts.docs) {
+              deleteUserBatch.delete(contactDoc.reference);
+            }
+          }
+          final addresses =
+              await firestoreUserRef.collection('addresses').get();
+          if (addresses.docs.isNotEmpty) {
+            for (final addressDoc in addresses.docs) {
+              deleteUserBatch.delete(addressDoc.reference);
+            }
+          }
+          await userStorageReference.delete();
+          await deleteUserBatch.commit();
+          await authRep.signOutGoogle();
+          await authRep.fireUser.value!.delete();
+          Get.offAll(() => const AuthenticationScreen());
+          return 'success';
+        } else {
+          returnMessage = 'checkHasOngoingRequests'.tr;
+        }
+      }
+    } on FirebaseException catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    } catch (err) {
+      if (kDebugMode) {
+        AppInit.logger.e(err.toString());
+      }
+    }
+    returnMessage = 'unknownError'.tr;
+    return returnMessage;
+  }
+
+  void onDeleteUserPress() {
+    displayAlertDialog(
+      title: 'confirm'.tr,
+      body: 'confirmPermanentDelete'.tr,
+      positiveButtonText: 'confirm'.tr,
+      negativeButtonText: 'cancel'.tr,
+      positiveButtonOnPressed: () async {
+        Get.back();
+        showLoadingScreen();
+        final returnMessage = await deleteUser();
+        hideLoadingScreen();
+        if (returnMessage != 'success') {
+          showSnackBar(text: returnMessage, snackBarType: SnackBarType.error);
+        }
+      },
+      negativeButtonOnPressed: () => Get.back(),
+      mainIcon: Icons.delete_forever_outlined,
+      color: SweetSheetColor.DANGER,
+    );
   }
 }

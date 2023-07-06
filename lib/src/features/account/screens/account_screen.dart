@@ -13,8 +13,9 @@ import '../../authentication/components/emailChange/email_change_page.dart';
 import '../../authentication/components/linkEmailPassword/link_email_password_page.dart';
 import '../../authentication/components/resetPassword/logged_in_reset_password_page.dart';
 import '../components/addresses/addresses_page.dart';
-import '../components/critical_user/criticalUserRequestPage.dart';
+import '../components/critical_user/critical_user_request_page.dart';
 import '../components/critical_user/sos_settings_page.dart';
+import '../components/edit_account/delete_account_page.dart';
 import '../components/edit_account/edit_medical_history_page.dart';
 import '../components/edit_account/edit_user_data_page.dart';
 
@@ -150,6 +151,14 @@ class AccountScreen extends StatelessWidget {
                             iconColor: Colors.black45,
                           )
                         : const SizedBox.shrink(),
+                  ),
+                  RegularClickableCardNoP(
+                    onPressed: () => Get.to(() => const DeleteAccountPage(),
+                        transition: getPageTransition()),
+                    title: 'deleteAccountTitle'.tr,
+                    subTitle: '',
+                    icon: Icons.arrow_forward_ios,
+                    iconColor: Colors.black45,
                   ),
                   Obx(
                     () => LinkAccountButton(

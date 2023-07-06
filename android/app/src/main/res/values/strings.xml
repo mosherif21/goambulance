@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="facebook_app_id">474331258229503</string>
+    <!--<string name="facebook_app_id">474331258229503</string>
     <string name="fb_login_protocol_scheme">fb474331258229503</string>
+    <string name="facebook_client_token">3f5925df8354aa885061d0eb8fa27250</string>-->
     <string name="app_name">goambulance</string>
-    <string name="facebook_client_token">3f5925df8354aa885061d0eb8fa27250</string>
 </resources>

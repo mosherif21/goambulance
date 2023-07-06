@@ -64,7 +64,7 @@ class AlternateLoginButtons extends StatelessWidget {
                 width: buttonsWidth,
                 height: 50.0,
               ),
-        SizedBox(height: buttonSpacing),
+        /*  SizedBox(height: buttonSpacing),
         SignInButton(
           Buttons.Facebook,
           text: 'loginWithFacebook'.tr,
@@ -82,7 +82,7 @@ class AlternateLoginButtons extends StatelessWidget {
           },
           width: buttonsWidth,
           height: 50.0,
-        ),
+        ),*/
       ],
     );
   }

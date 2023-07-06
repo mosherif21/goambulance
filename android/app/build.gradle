@@ -48,8 +48,6 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.goambulance.goambulance"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 23
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
@@ -76,5 +74,5 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:23.1.2"
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation "com.google.android.gms:play-services-maps:18.1.0"
-    //implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    //implementation 'com.facebook.android:facebook-login:latest.release'
 }

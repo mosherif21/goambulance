@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/authentication/exception_errors/password_reset_exceptions.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -710,7 +709,7 @@ class AuthenticationRepository extends GetxController {
     return returnMessage;
   }
 
-  Future<String> signInWithFacebook() async {
+/*  Future<String> signInWithFacebook() async {
     try {
       final facebookAuthCredential = await getFacebookAuthCredential();
       if (facebookAuthCredential != null) {
@@ -760,7 +759,7 @@ class AuthenticationRepository extends GetxController {
           version: "v14.0",
         );
       }
-      final LoginResult result = await FacebookAuth.instance.login();
+      final result = await FacebookAuth.instance.login();
       if (result.status == LoginStatus.success) {
         final credential =
             FacebookAuthProvider.credential(result.accessToken!.token);
@@ -771,9 +770,8 @@ class AuthenticationRepository extends GetxController {
         AppInit.logger.e(e.toString());
       }
     }
-
     return null;
-  }
+  }*/
 
   Future<void> logoutAuthUser() async {
     try {

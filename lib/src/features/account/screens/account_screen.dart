@@ -163,7 +163,7 @@ class AccountScreen extends StatelessWidget {
                       enabled: true,
                     ),
                   ),
-                  Obx(
+                  /*  Obx(
                     () => authRepo.isFacebookLinked.value
                         ? const SizedBox.shrink()
                         : LinkAccountButton(
@@ -174,7 +174,7 @@ class AccountScreen extends StatelessWidget {
                             textColor: Colors.white,
                             enabled: true,
                           ),
-                  ),
+                  ),*/
                   RoundedElevatedButton(
                     buttonText: 'logout'.tr,
                     onPressed: () => logoutDialogue(),

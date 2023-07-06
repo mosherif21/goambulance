@@ -1,10 +1,8 @@
-import 'package:animations/animations.dart';
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:floating_draggable_widget/floating_draggable_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/constants/assets_strings.dart';
-import 'package:goambulance/src/features/chat_bot/screens/chat_bot_screen.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:lottie/lottie.dart';
@@ -23,22 +21,30 @@ class HomeNavigationBar extends StatelessWidget {
     final screenHeight = getScreenHeight(context);
     final screenWidth = getScreenWidth(context);
     return FloatingDraggableWidget(
-      floatingWidget: OpenContainer(
-        useRootNavigator: true,
-        closedElevation: 0,
-        openElevation: 0,
-        closedColor: Colors.transparent,
-        openColor: Colors.transparent,
-        closedBuilder: (context, action) => Transform.scale(
-          scale: 1.6,
-          child: Lottie.asset(
-            kChatBotAnim,
-            fit: BoxFit.fill,
-            repeat: true,
-          ),
+      floatingWidget: Transform.scale(
+        scale: 1.5,
+        child: Lottie.asset(
+          kChatBotAnim,
+          fit: BoxFit.fill,
+          repeat: true,
         ),
-        openBuilder: (context, action) => const ChatBotScreen(),
       ),
+      // OpenContainer(
+      //   useRootNavigator: true,
+      //   closedElevation: 0,
+      //   openElevation: 0,
+      //   closedColor: Colors.transparent,
+      //   openColor: Colors.transparent,
+      //   closedBuilder: (context, action) => Transform.scale(
+      //     scale: 1.6,
+      //     child: Lottie.asset(
+      //       kChatBotAnim,
+      //       fit: BoxFit.fill,
+      //       repeat: true,
+      //     ),
+      //   ),
+      //   openBuilder: (context, action) => const ChatBotScreen(),
+      // ),
       autoAlign: true,
       floatingWidgetHeight: 130,
       floatingWidgetWidth: AppInit.isWeb ? 130 : screenWidth * 0.3,

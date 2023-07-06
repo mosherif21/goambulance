@@ -151,7 +151,9 @@ class MakingRequestMap extends StatelessWidget {
                       ? makingRequestController.confirmRequest
                       : makingRequestController.cancelRequest,
                   enabled:
-                      makingRequestController.selectedHospital.value != null
+                      makingRequestController.selectedHospital.value != null &&
+                              makingRequestController.requestStatus.value !=
+                                  RequestStatus.ongoing
                           ? true
                           : false,
                   color: Colors.black,

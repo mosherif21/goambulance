@@ -1749,6 +1749,7 @@ class FirebasePatientDataAccess extends GetxController {
             }
             await HomeScreenController.instance.cancelListeners();
             await authRep.logoutAuthUser();
+            await user.delete();
             Get.offAll(() => const AuthenticationScreen());
             return 'success';
           }

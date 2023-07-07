@@ -490,14 +490,18 @@ class EmployeeHomeScreenController extends GetxController {
           showSnackBar(
               text: 'googleNavigationError'.tr,
               snackBarType: SnackBarType.error);
-          AppInit.logger.e('Could not open google maps navigation');
+          if (kDebugMode) {
+            AppInit.logger.e('Could not open google maps navigation');
+          }
         }
       }
     } catch (error) {
       showSnackBar(
           text: 'googleNavigationError'.tr, snackBarType: SnackBarType.error);
-      AppInit.logger
-          .e('Error launching google maps navigation: ${error.toString()}');
+      if (kDebugMode) {
+        AppInit.logger
+            .e('Error launching google maps navigation: ${error.toString()}');
+      }
     }
   }
 

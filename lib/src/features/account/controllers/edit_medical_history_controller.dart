@@ -1,3 +1,4 @@
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/account/components/models.dart';
@@ -45,8 +46,12 @@ class EditMedicalHistoryController extends GetxController {
 
   @override
   void onReady() async {
+    final trace = FirebasePerformance.instance.newTrace('get_medical_history');
+    await trace.start();
     final medicalInfo =
         await FirebasePatientDataAccess.instance.getMedicalHistory();
+    await trace.stop();
+
     if (medicalInfo != null) {
       diseasesList.value = medicalInfo.diseasesList;
       diseasesLoaded.value = true;

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:custom_info_window/custom_info_window.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -220,8 +221,13 @@ class TrackingRequestController extends GetxController {
   void assignedRequestChanges({required String requestId}) async {
     showLoadingScreen();
     await pendingRequestListener?.cancel();
+    final trace =
+        FirebasePerformance.instance.newTrace('get_assigned_request_info');
+    await trace.start();
     final assignedRequestInfo = await firebasePatientDataAccess
         .getAssignedRequestInfo(requestId: requestId);
+    await trace.stop();
+
     hideLoadingScreen();
     if (assignedRequestInfo != null) {
       requestStatus.value = RequestStatus.assigned;

@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:async/async.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -232,8 +233,12 @@ class EmployeeHomeScreenController extends GetxController {
     if (assignedRequestLoaded.value && assignedRequestData != null) {
       assignedRequestData!.requestStatus = RequestStatus.ongoing;
       showLoadingScreen();
+      final trace =
+          FirebasePerformance.instance.newTrace('confirm_request_pickup');
+      await trace.start();
       final functionStatus = await firebaseEmployeeDataAccess.confirmPickup(
           requestId: assignedRequestData!.requestId);
+      await trace.stop();
       hideLoadingScreen();
       if (functionStatus == FunctionStatus.success) {
         requestStatus.value = RequestStatus.ongoing;
@@ -265,8 +270,11 @@ class EmployeeHomeScreenController extends GetxController {
   void onConfirmDropOff() async {
     if (assignedRequestLoaded.value && assignedRequestData != null) {
       if (assignedRequestData!.requestStatus == RequestStatus.ongoing) {
+        final trace = FirebasePerformance.instance.newTrace('complete_request');
+        await trace.start();
         final functionStatus = await firebaseEmployeeDataAccess.completeRequest(
             requestInfo: assignedRequestData!);
+        await trace.stop();
         if (functionStatus == FunctionStatus.success) {
           clearRoutes();
           clearMarkers();

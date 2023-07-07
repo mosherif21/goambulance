@@ -255,8 +255,12 @@ class RequestsHistoryController extends GetxController {
           transition: getPageTransition());
     } else {
       showLoadingScreen();
+      final trace =
+          FirebasePerformance.instance.newTrace('get_last_request_updates');
+      await trace.start();
       final latestRequestModel = await firebasePatientDataAccess
           .getRequestStatus(requestModel: initialRequestModel);
+      await trace.stop();
       hideLoadingScreen();
       if (latestRequestModel != null) {
         final latestRequestStatus = latestRequestModel.requestStatus;

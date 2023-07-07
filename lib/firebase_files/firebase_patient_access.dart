@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -920,6 +921,8 @@ class FirebasePatientDataAccess extends GetxController {
     required String patientAge,
   }) async {
     try {
+      final trace = FirebasePerformance.instance.newTrace('make_sos_request');
+      await trace.start();
       final sosRequestRef = await fireStore.collection('sosRequests').add({
         'userId': userId,
         'phoneNumber': authRep.userInfo.phoneNumber,
@@ -927,6 +930,7 @@ class FirebasePatientDataAccess extends GetxController {
         'patientAge': patientAge,
         'timestamp': Timestamp.now(),
       });
+      await trace.stop();
       return sosRequestRef.id;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -943,6 +947,8 @@ class FirebasePatientDataAccess extends GetxController {
 
   Future<FunctionStatus> cancelSosRequest() async {
     try {
+      final trace = FirebasePerformance.instance.newTrace('cancel_sos_request');
+      await trace.start();
       final sosRequestsRef = fireStore.collection('sosRequests');
       await sosRequestsRef
           .where('userId', isEqualTo: userId)
@@ -965,6 +971,7 @@ class FirebasePatientDataAccess extends GetxController {
           await batch.commit();
         }
       });
+      await trace.stop();
       return FunctionStatus.success;
     } on FirebaseException catch (error) {
       if (kDebugMode) {
@@ -1648,6 +1655,9 @@ class FirebasePatientDataAccess extends GetxController {
           .isAfter(DateTime.now().subtract(const Duration(minutes: 5)))) {
         return 'requireRecentLoginError'.tr;
       } else {
+        final trace =
+            FirebasePerformance.instance.newTrace('delete_user_account');
+        await trace.start();
         final checkOngoing = await checkHasOngoingRequests();
         if (checkOngoing != null) {
           if (!checkOngoing) {
@@ -1750,6 +1760,7 @@ class FirebasePatientDataAccess extends GetxController {
             await HomeScreenController.instance.cancelListeners();
             await authRep.logoutAuthUser();
             await user.delete();
+            await trace.stop();
             Get.offAll(() => const AuthenticationScreen());
             return 'success';
           }

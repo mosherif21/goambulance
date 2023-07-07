@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
+import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/employee_map/navigation_select.dart';
 import 'package:goambulance/src/features/ambulanceDriverFeatures/home_screen/components/models.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
@@ -25,9 +26,11 @@ import 'package:google_maps_webapi/directions.dart'
 import 'package:location/location.dart' as location;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../constants/assets_strings.dart';
 import '../../../../constants/enums.dart';
+import '../../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../components/employee_map/employee_medical_information.dart';
 import '../components/employee_map/employee_user_information.dart';
 
@@ -111,6 +114,7 @@ class EmployeeHomeScreenController extends GetxController {
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
+
     getCurrentLocation();
     super.onReady();
   }
@@ -408,61 +412,96 @@ class EmployeeHomeScreenController extends GetxController {
     });
   }
 
-  void onStartNavigationPressed() async {
+  void onStartNavigationPressed() {
+    if (assignedRequestData != null) {
+      RegularBottomSheet.showRegularBottomSheet(
+        NavigationSelect(
+          headerText: 'wayToNavigate'.trParams({
+            'destinationName':
+                assignedRequestData!.requestStatus == RequestStatus.assigned
+                    ? 'requestLocation'.tr
+                    : assignedRequestData!.hospitalName,
+          }),
+          onInAppNavigationPress: () {
+            RegularBottomSheet.hideBottomSheet();
+            startNavigation(mapBoxNavigation: true);
+          },
+          onGoogleMapsNavigationPress: () {
+            RegularBottomSheet.hideBottomSheet();
+            startNavigation(mapBoxNavigation: false);
+          },
+        ),
+      );
+    }
+  }
+
+  void startNavigation({required bool mapBoxNavigation}) async {
     if (locationPermissionGranted.value && locationServiceEnabled.value) {
       showLoadingScreen();
       currentLocation =
           await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
+
+      if (mapBoxNavigation) {
+        await startMapboxNavigation();
+      } else {
+        await openGoogleMapsNavigation();
+      }
       hideLoadingScreen();
-      startNavigation();
     } else {
       if (await handleLocationPermission() && await handleLocationService()) {
         showLoadingScreen();
         currentLocation =
             await Geolocator.getCurrentPosition(desiredAccuracy: accuracy);
+
+        if (mapBoxNavigation) {
+          await startMapboxNavigation();
+        } else {
+          await openGoogleMapsNavigation();
+        }
         hideLoadingScreen();
-        startNavigation();
       }
     }
   }
 
-  void onUserInformationPressed() async {
-    if (assignedRequestData != null) {
-      if (userRequestInfo == null) {
-        showLoadingScreen();
-        userRequestInfo = await firebaseEmployeeDataAccess.getUserInfo(
-            userId: assignedRequestData!.userId);
-        hideLoadingScreen();
-      }
-      if (userRequestInfo != null) {
-        Get.to(
-          () => EmployeeUserInformationPage(
-            userInfo: userRequestInfo!,
-          ),
-          transition: getPageTransition(),
-        );
-      } else {
-        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
-      }
-    }
-  }
-
-  void onMedicalInformationPressed() async {
-    if (assignedRequestData != null) {
-      Get.to(
-        () => EmployeeMedicalInformationPage(
-          medicalInfo: assignedRequestData!.medicalHistory!,
-          patientAge: assignedRequestData!.patientAge ?? 'unknown',
-          patientCondition: assignedRequestData!.patientCondition,
-        ),
-        transition: getPageTransition(),
-      );
+  Future<void> openGoogleMapsNavigation() async {
+    String mapUrl = '';
+    if (AppInit.isIos) {
+      // mapUrl =
+      // 'https://maps.apple.com/?daddr=$latitude,$longitude';
+      // URL for IOS
     } else {
-      showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+      if (assignedRequestData != null) {
+        if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
+          mapUrl =
+              'https://www.google.com/maps/dir/?api=1&origin=${currentLocation.latitude},${currentLocation.longitude}&destination=${assignedRequestData!.requestLocation.latitude},${assignedRequestData!.requestLocation.longitude}&travelmode=driving&dir_action=navigate';
+        } else if (assignedRequestData!.requestStatus ==
+            RequestStatus.ongoing) {
+          mapUrl =
+              'https://www.google.com/maps/dir/?api=1&origin=${currentLocation.latitude},${currentLocation.longitude}&destination=${assignedRequestData!.hospitalLocation.latitude},${assignedRequestData!.hospitalLocation.longitude}&travelmode=driving&dir_action=navigate';
+        }
+      }
+    }
+    try {
+      if (mapUrl.isNotEmpty) {
+        if (await canLaunchUrl(Uri.parse(mapUrl))) {
+          await launchUrl(Uri.parse(mapUrl),
+              mode: LaunchMode.externalApplication);
+        } else {
+          showSnackBar(
+              text: 'googleNavigationError'.tr,
+              snackBarType: SnackBarType.error);
+          AppInit.logger.e('Could not open google maps navigation');
+        }
+      }
+    } catch (error) {
+      showSnackBar(
+          text: 'googleNavigationError'.tr, snackBarType: SnackBarType.error);
+      AppInit.logger
+          .e('Error launching google maps navigation: ${error.toString()}');
     }
   }
 
-  void startNavigation() async {
+  Future<void> startMapboxNavigation() async {
     if (assignedRequestData != null) {
       await MapBoxNavigation.instance
           .registerRouteEventListener(_onEmbeddedRouteEvent);
@@ -516,6 +555,42 @@ class EmployeeHomeScreenController extends GetxController {
           units: VoiceUnits.metric,
         ),
       );
+    }
+  }
+
+  void onUserInformationPressed() async {
+    if (assignedRequestData != null) {
+      if (userRequestInfo == null) {
+        showLoadingScreen();
+        userRequestInfo = await firebaseEmployeeDataAccess.getUserInfo(
+            userId: assignedRequestData!.userId);
+        hideLoadingScreen();
+      }
+      if (userRequestInfo != null) {
+        Get.to(
+          () => EmployeeUserInformationPage(
+            userInfo: userRequestInfo!,
+          ),
+          transition: getPageTransition(),
+        );
+      } else {
+        showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
+      }
+    }
+  }
+
+  void onMedicalInformationPressed() async {
+    if (assignedRequestData != null) {
+      Get.to(
+        () => EmployeeMedicalInformationPage(
+          medicalInfo: assignedRequestData!.medicalHistory!,
+          patientAge: assignedRequestData!.patientAge ?? 'unknown',
+          patientCondition: assignedRequestData!.patientCondition,
+        ),
+        transition: getPageTransition(),
+      );
+    } else {
+      showSnackBar(text: 'unknownError'.tr, snackBarType: SnackBarType.error);
     }
   }
 

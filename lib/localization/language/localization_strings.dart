@@ -508,14 +508,26 @@ class Languages extends Translations {
           'successFacebookLink': 'تم ربط فيسبوك جوجل بنجاح',
           'deleteAccountTitle': 'حذف حسابك',
           'deleteAccount': 'حذف الحساب',
+          'googleMapsNavigation': 'خرائط جوجل للملاحة',
+          'inAppNavigation': 'ملاحة داخل التطبيق',
+          'googleNavigationError':
+              'حدث خطأ أثناء فتح تنقلات خرائط جوجل، يرجى المحاولة مرة أخرى',
           'hasOngoingRequestsDelete':
               'لديك طلب قيد التنفيذ، يرجى الانتظار حتى يكتمل أو إلغاؤه لحذف حسابك',
           'deleteAccountBody':
               'إذا كنت تقوم بحذف حسابك لأنك لا تستخدمه، فلا داعي للقلق لأننا لا نشارك أي من معلوماتك مع أي منظمة طرف ثالث، لذلك يرجى معرفة أن بياناتك آمنة.',
           'confirmPermanentDelete':
               'يرجى ملاحظة أن عملية الحذف نهائية ولا يمكن استرداد حسابك مرة أخرى',
+          'wayToNavigate': 'يرجى اختيار طريقة التنقل إلى @destinationName',
         },
         'en_US': {
+          'wayToNavigate':
+              'Please choose a way to navigate to @destinationName',
+
+          'googleMapsNavigation': 'Google maps navigation',
+          'inAppNavigation': 'In app navigation',
+          'googleNavigationError':
+              'An error occurred while opening Google Maps navigation. Please try again.',
           'hasOngoingRequestsDelete':
               'You have an ongoing request please wait for it to be completed or cancel it to delete your account',
           'sosCancelReturn':

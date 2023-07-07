@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 
@@ -38,15 +37,15 @@ class NavigationSelect extends StatelessWidget {
             title: 'inAppNavigation'.tr,
             subTitle: '',
             iconData: Icons.app_shortcut,
-            onPressed: () => onGoogleMapsNavigationPress(),
+            onPressed: () => onInAppNavigationPress(),
           ),
           const SizedBox(height: 10.0),
           FramedIconButton(
             height: screenHeight * 0.11,
             title: 'googleMapsNavigation'.tr,
             subTitle: '',
-            iconData: FontAwesomeIcons.map,
-            onPressed: () => onInAppNavigationPress(),
+            iconData: Icons.map,
+            onPressed: () => onGoogleMapsNavigationPress(),
           ),
         ],
       ),

@@ -6,6 +6,7 @@ import 'package:goambulance/src/general/common_widgets/back_button.dart';
 
 import '../../../general/common_widgets/regular_clickable_card_no_photo.dart';
 import '../../../general/general_functions.dart';
+import '../components/privacy_policy.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({Key? key}) : super(key: key);
@@ -39,25 +40,12 @@ class AboutUsScreen extends StatelessWidget {
                     onPressed: () {
                       switch (count) {
                         case 0:
-                          // Get.to(
-                          //   () => const EditUserDataPage(),
-                          //   transition: getPageTransition(),
-                          // );
+                          Get.to(
+                            () => PrivacyPolicyWebView(),
+                            transition: getPageTransition(),
+                          );
                           break;
                         case 1:
-                          // Get.to(
-                          //   () => const AccountAddressesPage(),
-                          //   transition: getPageTransition(),
-                          // );
-                          break;
-                        case 2:
-                          // Get.to(
-                          //   () => const EditMedicalHistoryPage(),
-                          //   transition: getPageTransition(),
-                          // );
-                          break;
-                        case 3:
-                          // _launchUrl(url);
                           Get.to(
                             () => OurWebPageView(),
                             transition: getPageTransition(),
@@ -71,7 +59,7 @@ class AboutUsScreen extends StatelessWidget {
                     iconColor: Colors.black45,
                   );
                 },
-                itemCount: 4,
+                itemCount: 2,
                 shrinkWrap: true,
               ),
             ),

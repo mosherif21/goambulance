@@ -21,7 +21,6 @@ import '../../../../authentication/authentication_repository.dart';
 import '../../../constants/enums.dart';
 import '../../../general/app_init.dart';
 import '../../../general/general_functions.dart';
-import '../../help_center/screens/help_screen.dart';
 import '../../information/screens/about_us_page.dart';
 import '../../notifications/screens/notifications_screen.dart';
 import '../../requests/controllers/requests_history_controller.dart';
@@ -486,25 +485,18 @@ class HomeScreenController extends GetxController {
     switch (index) {
       case 0:
         Get.to(
-          // () => const TestNav1(),
           () => const NotificationsScreen(),
           transition: getPageTransition(),
         );
         break;
       case 1:
-        displayChangeLang();
-        break;
-      case 2:
-        Get.to(
-          () => const HelpScreen(),
-          transition: getPageTransition(),
-        );
-        break;
-      case 3:
         Get.to(
           () => const AboutUsScreen(),
           transition: getPageTransition(),
         );
+        break;
+      case 2:
+        displayChangeLang();
         break;
       default:
         break;

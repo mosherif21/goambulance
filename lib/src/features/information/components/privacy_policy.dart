@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 
 import '../../../general/common_widgets/back_button.dart';
 
-class OurWebPageView extends StatelessWidget {
+class PrivacyPolicyWebView extends StatelessWidget {
   final GlobalKey webViewKey = GlobalKey();
-  OurWebPageView({super.key});
+  PrivacyPolicyWebView({super.key});
   late final InAppWebViewController? webViewController;
   final InAppWebViewSettings settings = InAppWebViewSettings(
       useShouldOverrideUrlLoading: true,
@@ -41,7 +41,7 @@ class OurWebPageView extends StatelessWidget {
         centerTitle: true,
         leading: const RegularBackButton(padding: 0),
         title: AutoSizeText(
-          'aboutUsTitle2'.tr,
+          'aboutUsTitle1'.tr,
           maxLines: 1,
         ),
         titleTextStyle: const TextStyle(
@@ -51,7 +51,8 @@ class OurWebPageView extends StatelessWidget {
       ),
       body: InAppWebView(
         key: webViewKey,
-        initialUrlRequest: URLRequest(url: WebUri("https://goambulance.help")),
+        initialUrlRequest:
+            URLRequest(url: WebUri("https://goambulance.help/privacy/")),
         initialSettings: settings,
         pullToRefreshController: pullToRefreshController,
         onWebViewCreated: (controller) {

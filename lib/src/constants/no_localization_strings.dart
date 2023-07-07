@@ -1,10 +1,10 @@
 /* ------------------------ strings that won't be translated --------------------------------*/
-const googleMapsAPIAndroidKey = "AIzaSyC87q_5UFi7zHJQD8CnLy5VIDBDML4j0VY";
-const googleMapsAPIKeyWeb = "AIzaSyCg8YoO7StyjzfD6rthmxZymPkwq7joNdI";
-const googleMapsStaticAPIAndroidKey = "AIzaSyB1Yst5-ElscTS7CzkxYJDO8bSoDAEtaxM";
-const googleMapsStaticAPIWebKey = "AIzaSyDuqlCluqlv8KWVnfWR0EaecROkVse756Q";
-const mapboxAPIKey =
-    "sk.eyJ1IjoibW9zaGVyaWYyMyIsImEiOiJjbGlscnN5bzUwdjM4M2trZGFyZzQ5eHU1In0.wj_iV_UJeAGcSexLPmoRVA";
+const googleMapsAPIKeyWeb = String.fromEnvironment('googleMapsAPIKeyWeb');
+const googleMapsStaticAPIAndroidKey =
+    String.fromEnvironment('googleMapsStaticAPIAndroidKey');
+const googleMapsStaticAPIWebKey =
+    String.fromEnvironment('googleMapsStaticAPIWebKey');
+const mapboxAPIKey = String.fromEnvironment('mapboxAPIKey');
 
 const mapStyleID = "10ee2ae844372e89";
 const requestMarkerImageUrl = "https://i.postimg.cc/JhBj4L8p/pin.png";

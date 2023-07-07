@@ -41,7 +41,7 @@
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="goambulance"
+        android:label="Goambulance"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

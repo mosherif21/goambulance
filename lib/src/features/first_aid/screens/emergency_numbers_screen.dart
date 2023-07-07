@@ -33,7 +33,6 @@ class EmergencyNumbersScreen extends StatelessWidget {
             axisDirection: AxisDirection.down,
             child: AnimationLimiter(
               child: ListView.builder(
-                shrinkWrap: true,
                 itemBuilder: (BuildContext context, int emergencyNumber) {
                   return AnimationConfiguration.staggeredList(
                     position: emergencyNumber,

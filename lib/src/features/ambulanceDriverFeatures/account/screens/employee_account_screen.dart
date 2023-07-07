@@ -71,8 +71,8 @@ class EmployeeAccountScreen extends StatelessWidget {
                         iconColor: Colors.black45,
                       );
                     },
-                    itemCount: 4,
                     shrinkWrap: true,
+                    itemCount: 4,
                   ),
                   Obx(
                     () => LinkAccountButton(

@@ -78,7 +78,6 @@ class NotificationsScreen extends StatelessWidget {
                             itemCount: controller.notificationList.isNotEmpty
                                 ? controller.notificationList.length
                                 : 1,
-                            shrinkWrap: true,
                           ),
                         ),
                       ),

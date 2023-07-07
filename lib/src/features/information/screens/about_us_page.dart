@@ -33,35 +33,32 @@ class AboutUsScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: StretchingOverscrollIndicator(
             axisDirection: AxisDirection.down,
-            child: SingleChildScrollView(
-              child: ListView.builder(
-                itemBuilder: (BuildContext context, int count) {
-                  return RegularClickableCardNoP(
-                    onPressed: () {
-                      switch (count) {
-                        case 0:
-                          Get.to(
-                            () => PrivacyPolicyWebView(),
-                            transition: getPageTransition(),
-                          );
-                          break;
-                        case 1:
-                          Get.to(
-                            () => OurWebPageView(),
-                            transition: getPageTransition(),
-                          );
-                          break;
-                      }
-                    },
-                    title: 'aboutUsTitle${count + 1}'.tr,
-                    subTitle: '',
-                    icon: Icons.arrow_forward_ios,
-                    iconColor: Colors.black45,
-                  );
-                },
-                itemCount: 2,
-                shrinkWrap: true,
-              ),
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int count) {
+                return RegularClickableCardNoP(
+                  onPressed: () {
+                    switch (count) {
+                      case 0:
+                        Get.to(
+                          () => PrivacyPolicyWebView(),
+                          transition: getPageTransition(),
+                        );
+                        break;
+                      case 1:
+                        Get.to(
+                          () => OurWebPageView(),
+                          transition: getPageTransition(),
+                        );
+                        break;
+                    }
+                  },
+                  title: 'aboutUsTitle${count + 1}'.tr,
+                  subTitle: '',
+                  icon: Icons.arrow_forward_ios,
+                  iconColor: Colors.black45,
+                );
+              },
+              itemCount: 2,
             ),
           ),
         ),

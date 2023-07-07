@@ -91,7 +91,6 @@ class DrawerPage extends StatelessWidget {
                       );
                     },
                     itemCount: mainMenu.length,
-                    shrinkWrap: true,
                   ),
                 ),
                 const SizedBox(height: 20),

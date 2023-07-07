@@ -66,7 +66,6 @@ class ChooseHospitalsList extends StatelessWidget {
                         )
                       : const NoHospitalsFound(),
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  shrinkWrap: true,
                   itemCount: controller.searchedHospitals.isNotEmpty
                       ? controller.searchedHospitals.length
                       : 1,
@@ -76,7 +75,6 @@ class ChooseHospitalsList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, _) => const LoadingHospitalCard(),
               padding: EdgeInsets.zero,
-              shrinkWrap: true,
               itemCount: 3,
             ),
     );

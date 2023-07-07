@@ -41,7 +41,6 @@ class LoadingRequestInfo extends StatelessWidget {
               ),
             );
           },
-          shrinkWrap: true,
           padding: EdgeInsets.zero),
     );
   }

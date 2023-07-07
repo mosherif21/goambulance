@@ -154,7 +154,6 @@ class LoadingRequestsHistory extends StatelessWidget {
             )
           : const SizedBox(height: 5),
       padding: EdgeInsets.zero,
-      shrinkWrap: true,
       itemCount: 7,
     );
   }

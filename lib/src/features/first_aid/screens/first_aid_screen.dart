@@ -60,7 +60,6 @@ class FirstAidScreen extends StatelessWidget {
                   );
                 },
                 itemCount: 16,
-                shrinkWrap: true,
               ),
             ),
           ),

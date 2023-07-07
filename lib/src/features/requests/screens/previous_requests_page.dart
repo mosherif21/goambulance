@@ -147,7 +147,6 @@ class PreviousRequestsPage extends StatelessWidget {
                                     },
                                     itemCount:
                                         controller.requestsList.length + 1,
-                                    shrinkWrap: true,
                                   ),
                                 ),
                               ),

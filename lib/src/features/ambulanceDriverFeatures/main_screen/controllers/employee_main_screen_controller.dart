@@ -5,7 +5,6 @@ import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.da
 
 import '../../../../../authentication/authentication_repository.dart';
 import '../../../../general/general_functions.dart';
-import '../../../help_center/screens/help_screen.dart';
 import '../../../information/screens/about_us_page.dart';
 import '../../account/notifications/screens/employee_notifcations_screen.dart';
 
@@ -72,19 +71,13 @@ class EmployeeMainScreenController extends GetxController {
         );
         break;
       case 1:
-        displayChangeLang();
-        break;
-      case 2:
-        Get.to(
-          () => const HelpScreen(),
-          transition: getPageTransition(),
-        );
-        break;
-      case 3:
         Get.to(
           () => const AboutUsScreen(),
           transition: getPageTransition(),
         );
+        break;
+      case 2:
+        displayChangeLang();
         break;
       default:
         break;

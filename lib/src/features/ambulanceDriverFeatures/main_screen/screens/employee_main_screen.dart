@@ -25,9 +25,8 @@ class EmployeeMainScreen extends StatelessWidget {
           menuScreen: EmployeeDrawerPage(
             [
               MenuClass('notifications'.tr, Icons.notifications, 0),
-              MenuClass('lang'.tr, Icons.language, 1),
-              MenuClass('help'.tr, Icons.help, 2),
-              MenuClass('aboutUs'.tr, Icons.info_outline, 3),
+              MenuClass('aboutUs'.tr, Icons.info_outline, 1),
+              MenuClass('lang'.tr, Icons.language, 2),
             ],
             callback: (index) =>
                 homeScreenController.onDrawerItemSelected(index),

@@ -813,9 +813,11 @@ class EmployeeHomeScreenController extends GetxController {
   void onLocationChanges() {
     if (!loggingOut) {
       if (hasAssignedRequest.value && assignedRequestData != null) {
-        firebaseEmployeeDataAccess.updateDriverLocation(
-            driverLocation:
-                GeoPoint(currentLocation.latitude, currentLocation.longitude));
+        if (AuthenticationRepository.instance.userType == UserType.driver) {
+          firebaseEmployeeDataAccess.updateDriverLocation(
+              driverLocation: GeoPoint(
+                  currentLocation.latitude, currentLocation.longitude));
+        }
         updateRouteAndMap();
         if (assignedRequestData!.requestStatus == RequestStatus.assigned) {
           final distanceToRequest = GeoFirePoint.distanceBetween(
@@ -867,9 +869,11 @@ class EmployeeHomeScreenController extends GetxController {
           }
         }
       } else {
-        firebaseEmployeeDataAccess.updateDriverLocation(
-            driverLocation:
-                GeoPoint(currentLocation.latitude, currentLocation.longitude));
+        if (AuthenticationRepository.instance.userType == UserType.driver) {
+          firebaseEmployeeDataAccess.updateDriverLocation(
+              driverLocation: GeoPoint(
+                  currentLocation.latitude, currentLocation.longitude));
+        }
         ambulanceMarker = Marker(
           markerId: kAmbulanceMarkerId,
           position: currentLocationGetter(),

@@ -748,9 +748,10 @@ class EmployeeHomeScreenController extends GetxController {
               if (positionStreamInitialized) {
                 currentPositionStream?.resume();
                 if (kDebugMode) print('position listener resumed');
-              } else {
-                getCurrentLocation();
               }
+              // else{
+              //   getCurrentLocation();
+              // }
             }
           } else if (status == ServiceStatus.disabled) {
             if (positionStreamInitialized) {

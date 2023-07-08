@@ -24,7 +24,6 @@ import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webapi/directions.dart'
     as google_web_directions_service;
-import 'package:location/location.dart' as location;
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:sweetsheet/sweetsheet.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -110,12 +109,19 @@ class EmployeeHomeScreenController extends GetxController {
     loadHospitalInfo();
     initMapController();
     listenForNotificationCount();
-    locationPermissionGranted.value = await handleLocationPermission();
-    locationServiceEnabled.value = await location.Location().serviceEnabled();
+    try {
+      handleLocationService().then(
+          (locationService) => locationServiceEnabled.value = locationService);
+      handleLocationPermission().then((locationPermission) =>
+          locationPermissionGranted.value = locationPermission);
+    } catch (error) {
+      if (kDebugMode) {
+        AppInit.logger.e(error.toString());
+      }
+    }
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
-
     getCurrentLocation();
     super.onReady();
   }
@@ -742,8 +748,6 @@ class EmployeeHomeScreenController extends GetxController {
               if (positionStreamInitialized) {
                 currentPositionStream?.resume();
                 if (kDebugMode) print('position listener resumed');
-              } else {
-                getCurrentLocation();
               }
             }
           } else if (status == ServiceStatus.disabled) {
@@ -906,7 +910,6 @@ class EmployeeHomeScreenController extends GetxController {
         currentLocation = locationPosition;
         locationAvailable.value = true;
         onLocationChanges();
-
         if (kDebugMode) {
           print(
               'current location ${locationPosition.latitude.toString()}, ${locationPosition.longitude.toString()}');

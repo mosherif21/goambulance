@@ -166,6 +166,7 @@ class EmployeeMapScreen extends StatelessWidget {
                   employeeHomeScreenController.mapMarkersAnimated.value.set,
               shouldAnimateCamera: false,
               child: GoogleMap(
+                trafficEnabled: true,
                 compassEnabled: false,
                 rotateGesturesEnabled: false,
                 tiltGesturesEnabled: false,

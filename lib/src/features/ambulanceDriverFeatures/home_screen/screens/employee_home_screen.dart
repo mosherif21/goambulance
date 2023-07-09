@@ -97,7 +97,16 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen>
                               !employeeHomeScreenController
                                   .locationPermissionGranted.value
                           ? EmployeeEnableLocationButton(
-                              onPressed: () => handleLocation(),
+                              onPressed: () =>
+                                  handleLocation().whenComplete(() {
+                                if (employeeHomeScreenController
+                                        .locationServiceEnabled.value &&
+                                    employeeHomeScreenController
+                                        .locationPermissionGranted.value) {
+                                  employeeHomeScreenController
+                                      .getCurrentLocation();
+                                }
+                              }),
                             )
                           : const SizedBox.shrink(),
                     ),

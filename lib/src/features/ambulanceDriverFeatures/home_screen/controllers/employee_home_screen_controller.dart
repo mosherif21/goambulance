@@ -122,7 +122,6 @@ class EmployeeHomeScreenController extends GetxController {
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }
-    getCurrentLocation();
     super.onReady();
   }
 
@@ -749,9 +748,6 @@ class EmployeeHomeScreenController extends GetxController {
                 currentPositionStream?.resume();
                 if (kDebugMode) print('position listener resumed');
               }
-              // else{
-              //   getCurrentLocation();
-              // }
             }
           } else if (status == ServiceStatus.disabled) {
             if (positionStreamInitialized) {

@@ -109,16 +109,16 @@ class EmployeeHomeScreenController extends GetxController {
     loadHospitalInfo();
     initMapController();
     listenForNotificationCount();
-    try {
-      handleLocationService().then(
-          (locationService) => locationServiceEnabled.value = locationService);
-      handleLocationPermission().then((locationPermission) =>
-          locationPermissionGranted.value = locationPermission);
-    } catch (error) {
-      if (kDebugMode) {
-        AppInit.logger.e(error.toString());
-      }
-    }
+
+    handleLocationService().then((locationService) {
+      locationServiceEnabled.value = locationService;
+      handleLocationPermission().then((locationPermission) {
+        locationPermissionGranted.value = locationPermission;
+        if (locationService && locationPermission) {
+          getCurrentLocation();
+        }
+      });
+    });
     if (!AppInit.isWeb) {
       setupLocationServiceListener();
     }

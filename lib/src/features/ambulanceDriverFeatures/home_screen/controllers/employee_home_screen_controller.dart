@@ -728,8 +728,9 @@ class EmployeeHomeScreenController extends GetxController {
 
   CameraPosition getInitialCameraPosition() {
     final cameraPosition = CameraPosition(
-      target:
-          locationAvailable.value ? currentLocationGetter() : hospitalLatLng,
+      target: locationAvailable.value
+          ? currentLocationGetter()
+          : LatLng(hospitalLatLng.latitude, hospitalLatLng.longitude + 0.002),
       zoom: 15.5,
     );
     initialCameraLatLng = cameraPosition.target;

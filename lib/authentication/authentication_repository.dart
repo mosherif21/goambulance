@@ -248,7 +248,7 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> updateUserEmailFirestore({required String email}) async {
-    final String userId = fireUser.value!.uid;
+    final userId = fireUser.value!.uid;
     final firestoreUsersCollRef = _firestore.collection('users');
     try {
       await firestoreUsersCollRef.doc(userId).update({'email': email});

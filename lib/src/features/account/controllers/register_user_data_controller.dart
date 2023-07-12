@@ -58,7 +58,6 @@ class RegisterUserDataController extends GetxController {
   RxBool highlightBloodType = false.obs;
   bool hypertensivePatient = false;
   bool heartPatient = false;
-  bool emailTextEnabled = false;
   final diseaseName = ''.obs;
 
   final diabetesDropdownController = TextEditingController();
@@ -71,11 +70,6 @@ class RegisterUserDataController extends GetxController {
   void onInit() {
     authRep = AuthenticationRepository.instance;
     user = authRep.fireUser.value!;
-    final email = user.email ?? '';
-    if (email.isNotEmpty) {
-      emailTextEnabled = true;
-      emailTextController.text = email;
-    }
     final userName = user.displayName ?? '';
     nameTextController.text = userName;
     super.onInit();

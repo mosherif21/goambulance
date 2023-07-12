@@ -58,6 +58,7 @@ class RegisterUserDataController extends GetxController {
   RxBool highlightBloodType = false.obs;
   bool hypertensivePatient = false;
   bool heartPatient = false;
+  bool emailTextEnabled = false;
   final diseaseName = ''.obs;
 
   final diabetesDropdownController = TextEditingController();
@@ -70,7 +71,11 @@ class RegisterUserDataController extends GetxController {
   void onInit() {
     authRep = AuthenticationRepository.instance;
     user = authRep.fireUser.value!;
-
+    final email = user.email ?? '';
+    if (email.isNotEmpty) {
+      emailTextEnabled = true;
+      emailTextController.text = email;
+    }
     final userName = user.displayName ?? '';
     nameTextController.text = userName;
     super.onInit();
@@ -240,48 +245,41 @@ class RegisterUserDataController extends GetxController {
     final nationalId = nationalIdTextController.text.trim();
     final birthDate = birthDateController.selectedDate;
     final phone = user.phoneNumber!;
-    final returnMessage =
-        await authRep.updateUserEmailAuthentication(email: email);
-    if (returnMessage != 'success') {
-      hideLoadingScreen();
-      showSnackBar(text: returnMessage, snackBarType: SnackBarType.error);
+    final userInfo = UserInformation(
+      name: name,
+      email: email,
+      nationalId: nationalId,
+      birthDate: birthDate!,
+      gender: gender == Gender.male ? 'male' : 'female',
+      sosMessage: '',
+      criticalUser: false,
+      phoneNumber: phone,
+      backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : '',
+    );
+
+    final medicalHistoryModel = MedicalHistoryModel(
+      bloodType: bloodType,
+      diabetic: diabetic,
+      hypertensive: hypertensivePatient ? 'Yes' : 'No',
+      heartPatient: heartPatient ? 'Yes' : 'No',
+      medicalAdditionalInfo: additionalInformationTextController.text.trim(),
+      diseasesList: diseasesList,
+    );
+
+    final functionStatus =
+        await FirebasePatientDataAccess.instance.saveUserPersonalInformation(
+      userRegisterInfo: userInfo,
+      medicalHistoryModel: medicalHistoryModel,
+      profilePic: profileImage.value!,
+      nationalID: iDImage.value!,
+    );
+    if (functionStatus == FunctionStatus.success) {
+      await user.updateDisplayName(name);
+      AppInit.goToInitPage();
     } else {
-      final userInfo = UserInformation(
-        name: name,
-        email: email,
-        nationalId: nationalId,
-        birthDate: birthDate!,
-        gender: gender == Gender.male ? 'male' : 'female',
-        sosMessage: '',
-        criticalUser: false,
-        phoneNumber: phone,
-        backupNumber: backupPhoneNo.length == 13 ? backupPhoneNo : '',
-      );
-
-      final medicalHistoryModel = MedicalHistoryModel(
-        bloodType: bloodType,
-        diabetic: diabetic,
-        hypertensive: hypertensivePatient ? 'Yes' : 'No',
-        heartPatient: heartPatient ? 'Yes' : 'No',
-        medicalAdditionalInfo: additionalInformationTextController.text.trim(),
-        diseasesList: diseasesList,
-      );
-
-      final functionStatus =
-          await FirebasePatientDataAccess.instance.saveUserPersonalInformation(
-        userRegisterInfo: userInfo,
-        medicalHistoryModel: medicalHistoryModel,
-        profilePic: profileImage.value!,
-        nationalID: iDImage.value!,
-      );
-      if (functionStatus == FunctionStatus.success) {
-        await user.updateDisplayName(name);
-        AppInit.goToInitPage();
-      } else {
-        hideLoadingScreen();
-        showSnackBar(
-            text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
-      }
+      hideLoadingScreen();
+      showSnackBar(
+          text: 'saveUserInfoError'.tr, snackBarType: SnackBarType.error);
     }
   }
 

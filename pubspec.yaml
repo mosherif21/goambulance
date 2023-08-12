@@ -49,17 +49,17 @@ dependencies:
 
   #maps dependencies
   google_maps_flutter: ^2.3.1
-  google_maps_webapi: ^0.0.22
   custom_info_window: ^1.0.1
   geolocator: ^9.0.2
   location: ^4.4.0
   flutter_polyline_points: ^1.0.0
-  flutter_google_places_hoc081098: ^2.0.0-beta.0
   geocoder2: ^1.4.0
   geoflutterfire2: ^2.3.15
   flutter_mapbox_navigation: ^0.1.8
-  map_box_geocoder: ^0.0.12
   google_map_marker_animation: ^0.0.1
+  flutter_google_places_hoc081098: any
+  google_maps_webapi: any
+  map_box_geocoder: any
 
   #authentication dependencies
   google_sign_in: ^6.1.4

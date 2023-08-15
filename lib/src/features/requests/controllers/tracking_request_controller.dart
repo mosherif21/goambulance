@@ -190,7 +190,6 @@ class TrackingRequestController extends GetxController {
           final status = snapshot.data()!['status'].toString();
           if (status == 'ongoing') {
             requestStatus.value = RequestStatus.ongoing;
-
             ongoingRequestChanges();
           }
         } else {

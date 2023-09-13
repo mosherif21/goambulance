@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../general/general_functions.dart';
 import '../../account/components/models.dart';
 
-class NotiItem extends StatelessWidget {
-  const NotiItem({
+class NotificationWidget extends StatelessWidget {
+  const NotificationWidget({
     Key? key,
     required this.notificationItem,
   }) : super(key: key);
@@ -15,7 +15,6 @@ class NotiItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = getScreenWidth(context);
-    //kont 3aml ana el function de already bet format el time we be el am we pm kman
     final formattedDateTime = formatDateTime(notificationItem.timestamp);
     return Container(
       width: double.infinity,

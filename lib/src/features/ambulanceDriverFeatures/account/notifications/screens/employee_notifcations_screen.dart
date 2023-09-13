@@ -8,7 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../../../general/general_functions.dart';
 import '../../../../account/components/addresses/loading_addresses.dart';
-import '../../../../notifications/components/notification_Item.dart';
+import '../../../../notifications/components/notification_item.dart';
 import '../controllers/employee_notifications_controller.dart';
 
 class EmployeeNotificationsScreen extends StatelessWidget {
@@ -71,7 +71,7 @@ class EmployeeNotificationsScreen extends StatelessWidget {
                           child: ListView.builder(
                             itemBuilder: (_, int index) =>
                                 controller.notificationList.isNotEmpty
-                                    ? NotiItem(
+                                    ? NotificationWidget(
                                         notificationItem:
                                             controller.notificationList[index])
                                     : const NoNotifications(),

@@ -35,7 +35,7 @@ class SosRequestItem extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
             ),
             padding: const EdgeInsets.all(5),
-            child: LineIcon.hospital(size: 40),
+            child: const LineIcon.hospital(size: 40),
           ),
           const SizedBox(width: 10.0),
           Expanded(

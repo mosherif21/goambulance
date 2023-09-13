@@ -9,7 +9,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../general/general_functions.dart';
 import '../../account/components/addresses/loading_addresses.dart';
-import '../components/notification_Item.dart';
+import '../components/notification_item.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({Key? key}) : super(key: key);
@@ -71,7 +71,7 @@ class NotificationsScreen extends StatelessWidget {
                           child: ListView.builder(
                             itemBuilder: (_, int index) =>
                                 controller.notificationList.isNotEmpty
-                                    ? NotiItem(
+                                    ? NotificationWidget(
                                         notificationItem:
                                             controller.notificationList[index])
                                     : const NoNotifications(),

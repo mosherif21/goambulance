@@ -93,7 +93,7 @@ class IntroScreen extends StatelessWidget {
                           buttonText: 'firstAid'.tr,
                           iconColor: kDefaultColor,
                           buttonColor: kDefaultColorLessShade,
-                          icon: LineIcon.firstAid(
+                          icon: const LineIcon.firstAid(
                             color: kDefaultColor,
                             size: 40,
                           ),
@@ -108,7 +108,7 @@ class IntroScreen extends StatelessWidget {
                           buttonText: 'emergencyNumbers'.tr,
                           iconColor: kDefaultColor,
                           buttonColor: kDefaultColorLessShade,
-                          icon: LineIcon.phone(
+                          icon: const LineIcon.phone(
                             color: kDefaultColor,
                             size: 38,
                           ),

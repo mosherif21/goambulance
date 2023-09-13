@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../general/common_widgets/back_button.dart';
-import '../controllers/chat_bot_controller.dart';
+//import '../controllers/chat_bot_controller.dart';
 
 class ChatBotScreen extends StatelessWidget {
   const ChatBotScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ChatBotController());
+    //final controller = Get.put(ChatBotController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

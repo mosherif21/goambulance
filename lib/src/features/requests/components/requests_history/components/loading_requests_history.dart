@@ -95,7 +95,7 @@ class LoadingRequestsHistory extends StatelessWidget {
                                   const BorderRadius.all(Radius.circular(10)),
                             ),
                             padding: const EdgeInsets.all(10),
-                            child: LineIcon.hospital(size: 40),
+                            child: const LineIcon.hospital(size: 40),
                           ),
                           const SizedBox(width: 10.0),
                           Expanded(

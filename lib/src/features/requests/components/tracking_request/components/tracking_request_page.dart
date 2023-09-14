@@ -283,7 +283,9 @@ class TrackingRequestPage extends StatelessWidget {
                       ? isLangEnglish()
                           ? screenHeight * 0.43
                           : screenHeight * 0.452
-                      : 70,
+                      : isLangEnglish()
+                          ? 70
+                          : 90,
                   left: isLangEnglish() ? null : 0,
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(

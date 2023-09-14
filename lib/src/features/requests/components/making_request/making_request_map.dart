@@ -4,32 +4,31 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:goambulance/src/features/requests/controllers/tracking_request_controller.dart';
+import 'package:goambulance/src/features/requests/components/general/search_bar_map.dart';
+import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
+import 'package:goambulance/src/general/common_widgets/regular_elevated_button.dart';
 import 'package:google_map_marker_animation/helpers/extensions.dart';
 import 'package:google_map_marker_animation/widgets/animarker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-import '../../../../../constants/assets_strings.dart';
-import '../../../../../constants/enums.dart';
-import '../../../../../general/app_init.dart';
-import '../../../../../general/common_widgets/back_button.dart';
-import '../../../../../general/common_widgets/no_frame_clickable_card.dart';
-import '../../../../../general/common_widgets/regular_elevated_button.dart';
-import '../../../../../general/general_functions.dart';
-import '../../general/choose_hospitals_widget.dart';
-import '../../general/my_location_button.dart';
-import '../../general/search_bar_map.dart';
-import '../../models.dart';
+import '../../../../constants/assets_strings.dart';
+import '../../../../constants/enums.dart';
+import '../../../../general/app_init.dart';
+import '../../../../general/common_widgets/back_button.dart';
+import '../../../../general/common_widgets/no_frame_clickable_card.dart';
+import '../../../../general/general_functions.dart';
+import '../general/choose_hospitals_widget.dart';
+import '../general/my_location_button.dart';
 
-class TrackingRequestPage extends StatelessWidget {
-  const TrackingRequestPage({Key? key, required this.requestModel})
-      : super(key: key);
-  final RequestHistoryDataModel requestModel;
-
-  Widget floatingPanel(
-      {required TrackingRequestController trackingController}) {
+class MakingRequestMap extends StatelessWidget {
+  const MakingRequestMap({
+    Key? key,
+    required this.makingRequestController,
+  }) : super(key: key);
+  final MakingRequestLocationController makingRequestController;
+  Widget floatingPanel() {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -51,19 +50,20 @@ class TrackingRequestPage extends StatelessWidget {
               () => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: AutoSizeText(
-                  trackingController.requestStatus.value ==
+                  makingRequestController.requestStatus.value ==
                           RequestStatus.pending
                       ? 'pendingRequest'.tr
-                      : trackingController.requestStatus.value ==
+                      : makingRequestController.requestStatus.value ==
                               RequestStatus.accepted
                           ? 'acceptedRequest'.tr
-                          : trackingController.requestStatus.value ==
+                          : makingRequestController.requestStatus.value ==
                                   RequestStatus.assigned
                               ? 'assignedRequest'.tr
-                              : trackingController.requestStatus.value ==
+                              : makingRequestController.requestStatus.value ==
                                       RequestStatus.ongoing
                                   ? 'ambulanceRequestOngoing'.tr
-                                  : trackingController.searchedHospitals.isEmpty
+                                  : makingRequestController
+                                          .searchedHospitals.isEmpty
                                       ? 'searchingForHospitals'.tr
                                       : 'chooseRequestHospital'.tr,
                   style: const TextStyle(
@@ -77,19 +77,19 @@ class TrackingRequestPage extends StatelessWidget {
             const SizedBox(height: 8),
             const Divider(thickness: 0.5, height: 1),
             Expanded(
-              child: trackingController.requestStatus.value ==
+              child: makingRequestController.requestStatus.value ==
                           RequestStatus.non ||
-                      trackingController.requestStatus.value ==
+                      makingRequestController.requestStatus.value ==
                           RequestStatus.completed
                   ? ChooseHospitalsList(
-                      controller: trackingController,
+                      controller: makingRequestController,
                     )
                   : SingleChildScrollView(
                       child: Column(
                         children: [
                           NoFrameClickableCard(
-                            onPressed: () =>
-                                trackingController.viewHospitalInformation(),
+                            onPressed: () => makingRequestController
+                                .viewHospitalInformation(),
                             title: 'viewHospitalInformation'.tr,
                             subTitle: '',
                             leadingIcon: LineIcons.hospital,
@@ -100,8 +100,8 @@ class TrackingRequestPage extends StatelessWidget {
                             padding: EdgeInsets.all(isLangEnglish() ? 16 : 13),
                           ),
                           NoFrameClickableCard(
-                            onPressed: () =>
-                                trackingController.viewRequestInformation(),
+                            onPressed: () => makingRequestController
+                                .viewRequestInformation(),
                             title: 'viewRequestInformation'.tr,
                             subTitle: '',
                             leadingIcon: Icons.medical_information_outlined,
@@ -112,12 +112,13 @@ class TrackingRequestPage extends StatelessWidget {
                             padding: EdgeInsets.all(isLangEnglish() ? 16 : 13),
                           ),
                           Obx(
-                            () => trackingController.requestStatus.value ==
+                            () => makingRequestController.requestStatus.value ==
                                         RequestStatus.assigned ||
-                                    trackingController.requestStatus.value ==
+                                    makingRequestController
+                                            .requestStatus.value ==
                                         RequestStatus.ongoing
                                 ? NoFrameClickableCard(
-                                    onPressed: () => trackingController
+                                    onPressed: () => makingRequestController
                                         .viewAmbulanceInformation(),
                                     title: 'viewAmbulanceInformation'.tr,
                                     subTitle: '',
@@ -141,19 +142,20 @@ class TrackingRequestPage extends StatelessWidget {
               padding: const EdgeInsets.all(18),
               child: Obx(
                 () => RegularElevatedButton(
-                  buttonText: trackingController.requestStatus.value ==
+                  buttonText: makingRequestController.requestStatus.value ==
                           RequestStatus.non
                       ? 'confirmRequest'.tr
                       : 'cancelRequest'.tr,
-                  onPressed: trackingController.requestStatus.value ==
+                  onPressed: makingRequestController.requestStatus.value ==
                           RequestStatus.non
-                      ? trackingController.confirmRequestPress
-                      : trackingController.cancelRequest,
-                  enabled: trackingController.selectedHospital.value != null &&
-                          trackingController.requestStatus.value !=
-                              RequestStatus.ongoing
-                      ? true
-                      : false,
+                      ? makingRequestController.confirmRequest
+                      : makingRequestController.cancelRequest,
+                  enabled:
+                      makingRequestController.selectedHospital.value != null &&
+                              makingRequestController.requestStatus.value !=
+                                  RequestStatus.ongoing
+                          ? true
+                          : false,
                   color: Colors.black,
                   fontSize: 22,
                   height: 50,
@@ -168,17 +170,14 @@ class TrackingRequestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final trackingController =
-        Get.put(TrackingRequestController(initialRequestModel: requestModel));
-
     final screenHeight = getScreenHeight(context);
-    return Scaffold(
-      body: WillPopScope(
-        onWillPop: trackingController.onWillPop,
-        child: SlidingUpPanel(
+    return WillPopScope(
+      onWillPop: makingRequestController.onWillPop,
+      child: Scaffold(
+        body: SlidingUpPanel(
           renderPanelSheet: false,
-          controller: trackingController.hospitalsPanelController,
-          panel: floatingPanel(trackingController: trackingController),
+          controller: makingRequestController.hospitalsPanelController,
+          panel: floatingPanel(),
           minHeight: 0,
           maxHeight: screenHeight * 0.45,
           isDraggable: false,
@@ -188,9 +187,9 @@ class TrackingRequestPage extends StatelessWidget {
                 () => Animarker(
                   duration: const Duration(milliseconds: 2500),
                   useRotation: true,
-                  mapId: trackingController.mapControllerCompleter.future
+                  mapId: makingRequestController.mapControllerCompleter.future
                       .then<int>((value) => value.mapId),
-                  markers: trackingController.mapMarkersAnimated.value.set,
+                  markers: makingRequestController.mapMarkersAnimated.value.set,
                   shouldAnimateCamera: false,
                   child: GoogleMap(
                     compassEnabled: false,
@@ -203,27 +202,29 @@ class TrackingRequestPage extends StatelessWidget {
                     padding: AppInit.isWeb
                         ? EdgeInsets.zero
                         : EdgeInsets.only(
-                            bottom: trackingController.choosingHospital.value
-                                ? screenHeight * 0.43
-                                : 70,
+                            bottom:
+                                makingRequestController.choosingHospital.value
+                                    ? screenHeight * 0.43
+                                    : 70,
                             left: 10,
                             right: 10,
                             top: screenHeight * 0.16,
                           ),
                     initialCameraPosition:
-                        trackingController.getInitialCameraPosition(),
-                    polylines: trackingController.mapPolyLines.value,
-                    markers: trackingController.mapMarkers.value,
+                        makingRequestController.getInitialCameraPosition(),
+                    polylines: makingRequestController.mapPolyLines.value,
+                    markers: makingRequestController.mapMarkers.value,
                     onMapCreated: (GoogleMapController controller) =>
-                        trackingController.mapControllerCompleter
+                        makingRequestController.mapControllerCompleter
                             .complete(controller),
-                    onCameraMove: trackingController.onCameraMove,
-                    onCameraIdle: trackingController.onCameraIdle,
+                    onCameraMove: makingRequestController.onCameraMove,
+                    onCameraIdle: makingRequestController.onCameraIdle,
                   ),
                 ),
               ),
               CustomInfoWindow(
-                controller: trackingController.requestLocationWindowController,
+                controller:
+                    makingRequestController.requestLocationWindowController,
                 height: isLangEnglish() ? 50 : 56,
                 width: 150,
                 offset: 50,
@@ -239,15 +240,15 @@ class TrackingRequestPage extends StatelessWidget {
                       children: [
                         CircleBackButton(
                           padding: 0,
-                          onPress: trackingController.onBackPressed,
+                          onPress: makingRequestController.onBackPressed,
                         ),
                         const SizedBox(width: 10),
                         Obx(
-                          () => trackingController.choosingHospital.value
+                          () => makingRequestController.choosingHospital.value
                               ? const SizedBox.shrink()
                               : Expanded(
                                   child: MakingRequestMapSearch(
-                                    locationController: trackingController,
+                                    locationController: makingRequestController,
                                   ),
                                 ),
                         ),
@@ -257,7 +258,7 @@ class TrackingRequestPage extends StatelessWidget {
                 ),
               ),
               Obx(
-                () => !trackingController.choosingHospital.value
+                () => !makingRequestController.choosingHospital.value
                     ? Positioned(
                         left: 0,
                         right: 0,
@@ -267,7 +268,7 @@ class TrackingRequestPage extends StatelessWidget {
                           child: RegularElevatedButton(
                             buttonText: 'requestHere'.tr,
                             onPressed: () =>
-                                trackingController.onRequestPress(),
+                                makingRequestController.onRequestPress(),
                             enabled: true,
                             color: Colors.black,
                             fontSize: 22,
@@ -279,7 +280,7 @@ class TrackingRequestPage extends StatelessWidget {
               ),
               Obx(
                 () => Positioned(
-                  bottom: trackingController.choosingHospital.value
+                  bottom: makingRequestController.choosingHospital.value
                       ? isLangEnglish()
                           ? screenHeight * 0.43
                           : screenHeight * 0.452
@@ -290,7 +291,7 @@ class TrackingRequestPage extends StatelessWidget {
                   right: isLangEnglish() ? 0 : null,
                   child: MyLocationButton(
                     onLocationButtonPress: () =>
-                        trackingController.onLocationButtonPress(),
+                        makingRequestController.onLocationButtonPress(),
                   ),
                 ),
               ),
@@ -298,11 +299,12 @@ class TrackingRequestPage extends StatelessWidget {
                 () => Center(
                   child: Container(
                     margin: EdgeInsets.only(
-                      left: trackingController.cameraMoved.value ? 10 : 0,
-                      right: trackingController.cameraMoved.value ? 10 : 0,
-                      bottom: trackingController.cameraMoved.value ? 16 : 73,
+                      left: makingRequestController.cameraMoved.value ? 10 : 0,
+                      right: makingRequestController.cameraMoved.value ? 10 : 0,
+                      bottom:
+                          makingRequestController.cameraMoved.value ? 16 : 73,
                     ),
-                    height: trackingController.choosingHospital.value
+                    height: makingRequestController.choosingHospital.value
                         ? 0
                         : screenHeight * 0.1,
                     child: Image.asset(kLocationMarkerImg),

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../../constants/assets_strings.dart';
+import '../../../../constants/assets_strings.dart';
 
 class EmptyRequestsHistory extends StatelessWidget {
   const EmptyRequestsHistory({Key? key}) : super(key: key);

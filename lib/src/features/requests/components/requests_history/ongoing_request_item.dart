@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../constants/enums.dart';
-import '../../../../../general/common_widgets/framed_text.dart';
-import '../../models.dart';
+import '../../../../constants/enums.dart';
+import '../../../../general/common_widgets/framed_text.dart';
+import '../models.dart';
 
 class OngoingRequestItem extends StatelessWidget {
   const OngoingRequestItem({

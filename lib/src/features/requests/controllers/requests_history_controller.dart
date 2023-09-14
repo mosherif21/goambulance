@@ -15,8 +15,8 @@ import '../../../general/general_functions.dart';
 import '../../../general/map_utils.dart';
 import '../../home_screen/controllers/home_screen_controller.dart';
 import '../components/models.dart';
-import '../components/requests_history/components/request_details_page.dart';
-import '../components/tracking_request/components/tracking_request_page.dart';
+import '../components/requests_history/request_details_page.dart';
+import '../components/tracking_request/tracking_request_page.dart';
 
 class RequestsHistoryController extends GetxController {
   static RequestsHistoryController get instance => Get.find();

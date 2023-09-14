@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icon.dart';
 
-import '../../../../../constants/enums.dart';
-import '../../models.dart';
+import '../../../../constants/enums.dart';
+import '../models.dart';
 
 class RequestItem extends StatelessWidget {
   const RequestItem({

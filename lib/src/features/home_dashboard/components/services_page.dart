@@ -8,7 +8,7 @@ import '../../../general/common_widgets/rounded_image_button.dart';
 import '../../../general/general_functions.dart';
 import '../../first_aid/screens/emergency_numbers_screen.dart';
 import '../../home_screen/controllers/home_screen_controller.dart';
-import '../../requests/components/making_request/components/normal_request_screen.dart';
+import '../../requests/components/making_request/normal_request_screen.dart';
 import '../../sos_message/screens/sos_message_screen.dart';
 
 class ServicesScreen extends StatelessWidget {

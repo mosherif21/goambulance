@@ -12,7 +12,7 @@ import '../../../constants/enums.dart';
 import '../../../general/common_widgets/regular_bottom_sheet.dart';
 import '../../../general/general_functions.dart';
 import '../../account/components/models.dart';
-import '../components/making_request/components/normal_request_location_page.dart';
+import '../components/making_request/normal_request_location_page.dart';
 import '../components/models.dart';
 
 class MakingRequestInformationController extends GetxController {

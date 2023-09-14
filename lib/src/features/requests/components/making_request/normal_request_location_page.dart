@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:goambulance/src/features/requests/controllers/making_request_location_controller.dart';
 
-import '../../../../../general/general_functions.dart';
-import '../../general/location_inaccessible.dart';
+import '../../../../general/general_functions.dart';
+import '../general/location_inaccessible.dart';
 import 'making_request_map.dart';
 
 class NormalRequestLocationPage extends StatelessWidget {

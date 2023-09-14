@@ -6,11 +6,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../constants/enums.dart';
 import '../../../general/general_functions.dart';
-import '../components/requests_history/components/loading_requests_history.dart';
-import '../components/requests_history/components/no_requests_history.dart';
-import '../components/requests_history/components/not_ongoing_request_item.dart';
-import '../components/requests_history/components/ongoing_request_item.dart';
-import '../components/requests_history/components/sos_request_item.dart';
+import '../components/requests_history/loading_requests_history.dart';
+import '../components/requests_history/no_requests_history.dart';
+import '../components/requests_history/not_ongoing_request_item.dart';
+import '../components/requests_history/ongoing_request_item.dart';
+import '../components/requests_history/sos_request_item.dart';
 import '../controllers/requests_history_controller.dart';
 
 class PreviousRequestsPage extends StatelessWidget {

@@ -42,184 +42,197 @@ class RequestInformationPage extends StatelessWidget {
               children: [
                 Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: 15),
-                  padding: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.only(top: 15, bottom: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'bloodType'.tr}: ',
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.black,
-                              overflow: TextOverflow.ellipsis,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                AutoSizeText(
+                                  '${'bloodType'.tr}: ',
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  maxLines: 1,
+                                ),
+                                AutoSizeText(
+                                  requestInfo.medicalHistory!.bloodType !=
+                                          'unknown'
+                                      ? requestInfo.medicalHistory!.bloodType
+                                      : 'unknown'.tr,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  maxLines: 1,
+                                ),
+                              ],
                             ),
-                            maxLines: 1,
-                          ),
-                          AutoSizeText(
-                            requestInfo.medicalHistory!.bloodType != 'unknown'
-                                ? requestInfo.medicalHistory!.bloodType
-                                : 'unknown'.tr,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                              overflow: TextOverflow.ellipsis,
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                AutoSizeText(
+                                  '${'hypertensive'.tr}:',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    requestInfo.medicalHistory!.hypertensive !=
+                                            'unknown'
+                                        ? requestInfo.medicalHistory!
+                                                    .hypertensive ==
+                                                'No'
+                                            ? 'no'.tr
+                                            : 'yes'.tr
+                                        : 'unknown'.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  ),
+                                ),
+                              ],
                             ),
-                            maxLines: 1,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'hypertensive'.tr}:',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: AutoSizeText(
-                              requestInfo.medicalHistory!.hypertensive !=
-                                      'unknown'
-                                  ? requestInfo.medicalHistory!.hypertensive ==
-                                          'No'
-                                      ? 'no'.tr
-                                      : 'yes'.tr
-                                  : 'unknown'.tr,
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'heartPatient'.tr}:',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: AutoSizeText(
-                              requestInfo.medicalHistory!.heartPatient !=
-                                      'unknown'
-                                  ? requestInfo.medicalHistory!.heartPatient ==
-                                          'No'
-                                      ? 'no'.tr
-                                      : 'yes'.tr
-                                  : 'unknown'.tr,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              maxLines: 1,
+                            Row(
+                              children: [
+                                AutoSizeText(
+                                  '${'heartPatient'.tr}:',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    requestInfo.medicalHistory!.heartPatient !=
+                                            'unknown'
+                                        ? requestInfo.medicalHistory!
+                                                    .heartPatient ==
+                                                'No'
+                                            ? 'no'.tr
+                                            : 'yes'.tr
+                                        : 'unknown'.tr,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.black,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    maxLines: 1,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'diabetic'.tr}:',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: AutoSizeText(
-                              requestInfo.medicalHistory!.diabetic != 'unknown'
-                                  ? requestInfo.medicalHistory!.diabetic == 'No'
-                                      ? 'no'.tr
-                                      : requestInfo.medicalHistory!.diabetic
-                                  : 'unknown'.tr,
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'conditionInformation'.tr}:',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: AutoSizeText(
-                              requestInfo.patientCondition,
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
+                            Row(
+                              children: [
+                                AutoSizeText(
+                                  '${'diabetic'.tr}:',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    requestInfo.medicalHistory!.diabetic !=
+                                            'unknown'
+                                        ? requestInfo
+                                                    .medicalHistory!.diabetic ==
+                                                'No'
+                                            ? 'no'.tr
+                                            : requestInfo
+                                                .medicalHistory!.diabetic
+                                        : 'unknown'.tr,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          AutoSizeText(
-                            '${'patientAge'.tr}:',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(width: 5),
-                          Expanded(
-                            child: AutoSizeText(
-                              requestInfo.patientAge,
-                              style: const TextStyle(
-                                  fontSize: 18, color: Colors.black),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                AutoSizeText(
+                                  '${'conditionInformation'.tr}:',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    requestInfo.patientCondition,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AutoSizeText(
-                            '${'additionalInformation'.tr}:',
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(height: 5),
-                          AutoSizeText(
-                            requestInfo.medicalHistory!.medicalAdditionalInfo
-                                    .isEmpty
-                                ? 'noAdditionalInformation'.tr
-                                : requestInfo
-                                    .medicalHistory!.medicalAdditionalInfo,
-                            style: const TextStyle(
-                                fontSize: 18, color: Colors.black),
-                          ),
-                        ],
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                AutoSizeText(
+                                  '${'patientAge'.tr}:',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                const SizedBox(width: 5),
+                                Expanded(
+                                  child: AutoSizeText(
+                                    requestInfo.patientAge,
+                                    style: const TextStyle(
+                                        fontSize: 18, color: Colors.black),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText(
+                                  '${'additionalInformation'.tr}:',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                                const SizedBox(height: 5),
+                                AutoSizeText(
+                                  requestInfo.medicalHistory!
+                                          .medicalAdditionalInfo.isEmpty
+                                      ? 'noAdditionalInformation'.tr
+                                      : requestInfo.medicalHistory!
+                                          .medicalAdditionalInfo,
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 15),
                       Divider(
@@ -229,55 +242,65 @@ class RequestInformationPage extends StatelessWidget {
                       const SizedBox(height: 15),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: AutoSizeText(
-                          'diseases'.tr,
-                          style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.black,
-                              overflow: TextOverflow.ellipsis),
-                          maxLines: 1,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      requestInfo.medicalHistory!.diseasesList.isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Column(
-                                children: [
-                                  for (var diseaseItem in requestInfo
-                                      .medicalHistory!.diseasesList)
-                                    DiseaseItemRequest(
-                                      diseaseItem: diseaseItem,
-                                    ),
-                                ],
-                              ),
-                            )
-                          : Center(
-                              child: Container(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      kMedicalHistoryImg,
-                                      height: screenHeight * 0.25,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    AutoSizeText(
-                                      'noMedicalHistory'.tr,
-                                      maxLines: 1,
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: AutoSizeText(
+                                'diseases'.tr,
+                                style: const TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w800,
+                                    color: Colors.black,
+                                    overflow: TextOverflow.ellipsis),
+                                maxLines: 1,
                               ),
                             ),
-                      const SizedBox(height: 20),
+                            const SizedBox(height: 20),
+                            requestInfo.medicalHistory!.diseasesList.isNotEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.all(15),
+                                    child: Column(
+                                      children: [
+                                        for (var diseaseItem in requestInfo
+                                            .medicalHistory!.diseasesList)
+                                          DiseaseItemRequest(
+                                            diseaseItem: diseaseItem,
+                                          ),
+                                      ],
+                                    ),
+                                  )
+                                : Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(20.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            kMedicalHistoryImg,
+                                            height: screenHeight * 0.25,
+                                          ),
+                                          const SizedBox(height: 10),
+                                          AutoSizeText(
+                                            'noMedicalHistory'.tr,
+                                            maxLines: 1,
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

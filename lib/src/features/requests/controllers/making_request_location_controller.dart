@@ -31,10 +31,10 @@ import 'package:sweetsheet/sweetsheet.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
 import '../../ambulanceDriverFeatures/home_screen/components/models.dart';
-import '../components/general/ambulance_information_page.dart';
-import '../components/general/hospital_information_page.dart';
 import '../components/general/marker_window_info.dart';
-import '../components/general/request_information_page.dart';
+import '../components/tracking_request/ambulance_information_page.dart';
+import '../components/tracking_request/hospital_information_page.dart';
+import '../components/tracking_request/request_information_page.dart';
 import 'making_request_information_controller.dart';
 
 class MakingRequestLocationController extends GetxController {

@@ -17,8 +17,8 @@ import 'package:get/get.dart';
 import 'package:goambulance/authentication/authentication_repository.dart';
 import 'package:goambulance/firebase_files/firebase_patient_access.dart';
 import 'package:goambulance/src/constants/no_localization_strings.dart';
-import 'package:goambulance/src/features/requests/components/general/ambulance_information_page.dart';
 import 'package:goambulance/src/features/requests/components/models.dart';
+import 'package:goambulance/src/features/requests/components/tracking_request/ambulance_information_page.dart';
 import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,9 +33,9 @@ import 'package:sweetsheet/sweetsheet.dart';
 import '../../../constants/assets_strings.dart';
 import '../../../constants/enums.dart';
 import '../../ambulanceDriverFeatures/home_screen/components/models.dart';
-import '../components/general/hospital_information_page.dart';
 import '../components/general/marker_window_info.dart';
-import '../components/general/request_information_page.dart';
+import '../components/tracking_request/hospital_information_page.dart';
+import '../components/tracking_request/request_information_page.dart';
 
 class TrackingRequestController extends GetxController {
   static TrackingRequestController get instance => Get.find();

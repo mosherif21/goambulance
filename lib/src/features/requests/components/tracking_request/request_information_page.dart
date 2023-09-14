@@ -6,8 +6,8 @@ import 'package:goambulance/src/general/general_functions.dart';
 
 import '../../../../constants/assets_strings.dart';
 import '../../../../general/common_widgets/back_button.dart';
+import '../general/disease_item_request_info.dart';
 import '../models.dart';
-import 'disease_item_request_info.dart';
 
 class RequestInformationPage extends StatelessWidget {
   const RequestInformationPage({

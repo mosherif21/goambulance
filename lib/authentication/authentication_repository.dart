@@ -378,7 +378,6 @@ class AuthenticationRepository extends GetxController {
       }
     } on FirebaseAuthException catch (e) {
       final ex = SignInWithEmailAndPasswordFailure.code(e.code);
-
       if (kDebugMode) {
         AppInit.logger.e('FIREBASE AUTH EXCEPTION : ${ex.errorMessage}');
       }

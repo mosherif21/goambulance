@@ -7,11 +7,7 @@ import 'package:goambulance/src/general/app_init.dart';
 import 'package:goambulance/src/utils/theme/theme.dart';
 
 void main() async {
-  await AppInit.initialize().whenComplete(
-    () => runApp(
-      const MyApp(),
-    ),
-  );
+  await AppInit.initialize().whenComplete(() => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

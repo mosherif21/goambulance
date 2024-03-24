@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:goambulance/firebase_files/firebase_ambulance_employee_access.dart';
 import 'package:goambulance/src/general/general_functions.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rolling_switch/rolling_switch.dart';
 
 import '../../../../../authentication/authentication_repository.dart';
 import '../../../../constants/enums.dart';
@@ -42,8 +41,6 @@ class EmployeeUserDataController extends GetxController {
   final isProfileImageLoaded = false.obs;
 
   final verificationSent = false.obs;
-
-  final hypertensiveKey = GlobalKey<RollingSwitchState>();
 
   late final String userId;
   late final User currentUser;

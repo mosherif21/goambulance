@@ -407,7 +407,7 @@ class Languages extends Translations {
           'emailPasswordAccountSuccess':
               'تم ربط حساب البريد الإلكتروني وكلمة المرور بنجاح',
           'criticalUserRequestBody':
-              'إذا كنت ترغب في أن تصبح مستخدم طوارئ، فسيقوم مراجعونا الطبيون بتقييم تاريخك الطبي لتحديد ما إذا كنت مؤهلاً لتصبح مستخدم طوارئ. ويحق لمستخدمين الطوارئ الاستفادة من الفوائد التي تتيح لهم طلب أقرب مستشفى بنقرة زر أو بتحريك الجهاز أو باستخدام أوامر الصوت مثل "ساعدونى" أو "اسعاف"، شريطة أن نتمكن من الوصول إلى موقعك أو عنوانك الرئيسي.',
+              'إذا كنت ترغب في أن تصبح مستخدم طوارئ، فسيقوم مراجعونا الطبيون بتقييم تاريخك الطبي لتحديد ما إذا كنت مؤهلاً لتصبح مستخدم طوارئ. ويحق لمستخدمين الطوارئ الاستفادة من الفوائد التي تتيح لهم طلب أقرب مستشفى بنقرة زر أو بتحريك الجهاز أو باستخدام أوامر الصوت مثل "ساعدونى" أو "اسعاف"، شريطة أن نتمكن من الوصول إلى موقعك أو عنوانك.',
           'sendRequest': 'إرسال الطلب',
           'sosRequestSettings': 'إعدادات طلب الاستغاثة',
           'chatBot': 'بوت الدردشة الطبية',
@@ -519,6 +519,7 @@ class Languages extends Translations {
           'confirmPermanentDelete':
               'يرجى ملاحظة أن عملية الحذف نهائية ولا يمكن استرداد حسابك مرة أخرى',
           'wayToNavigate': 'يرجى اختيار طريقة التنقل إلى @destinationName',
+          'addressLocation': 'موقع العنوان',
         },
         'en_US': {
           'wayToNavigate':
@@ -544,7 +545,7 @@ class Languages extends Translations {
           'chatBot': 'Medical chat bot',
           'sosRequestSettings': 'SOS request settings',
           'criticalUserRequestBody':
-              'If you would like to become a critical user, our medical reviewers will evaluate your medical history to determine if you qualify. Critical users are entitled to the benefits of being able to request the nearest hospital with just a click of a button, by shaking the device, or by using voice commands such as \'Help me\' or \'Ambulance\', provided we have access to your location or primary address.',
+              'If you would like to become a critical user, our medical reviewers will evaluate your medical history to determine if you qualify. Critical users are entitled to the benefits of being able to request the nearest hospital with just a click of a button, by shaking the device, or by using voice commands such as \'Help me\' or \'Ambulance\', provided we have access to your location or address.',
           'deleteAccountBody':
               'If you\'re deleting your account because you don\'t use it, you don\'t have to worry because we don\'t share any of your information with any third-party organization. Please know that your data is safe.',
           'sendRequest': 'Send request',
@@ -1055,6 +1056,7 @@ class Languages extends Translations {
           'landlineNumber': 'Landline number',
           'deleteAccountTitle': 'Delete your account',
           'deleteAccount': 'Delete account',
+          'addressLocation': 'Address location',
         },
       };
 }

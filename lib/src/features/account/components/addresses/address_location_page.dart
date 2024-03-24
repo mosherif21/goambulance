@@ -21,6 +21,7 @@ class AddressLocationPage extends StatelessWidget {
           : LocationInaccessible(
               locationController: addressLocationController,
               screenHeight: screenHeight,
+              title: 'addressLocation'.tr,
             ),
     );
   }

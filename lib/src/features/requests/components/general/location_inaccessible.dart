@@ -14,9 +14,12 @@ class LocationInaccessible extends StatelessWidget {
     Key? key,
     required this.locationController,
     required this.screenHeight,
+    required this.title,
   }) : super(key: key);
   final dynamic locationController;
   final double screenHeight;
+  final String title;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +27,7 @@ class LocationInaccessible extends StatelessWidget {
         centerTitle: true,
         leading: const RegularBackButton(padding: 0),
         title: AutoSizeText(
-          'requestLocation'.tr,
+          title,
           maxLines: 1,
         ),
         titleTextStyle: const TextStyle(

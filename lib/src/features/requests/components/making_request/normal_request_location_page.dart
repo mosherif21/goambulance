@@ -21,6 +21,7 @@ class NormalRequestLocationPage extends StatelessWidget {
           : LocationInaccessible(
               locationController: makingRequestController,
               screenHeight: screenHeight,
+              title: 'requestLocation'.tr,
             ),
     );
   }

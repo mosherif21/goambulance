@@ -49,6 +49,7 @@ class RequestInformationPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(
                               children: [

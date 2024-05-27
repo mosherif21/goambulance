@@ -66,4 +66,4 @@ const String kNoRequestsHistory =
     "assets/lottie_animations/no_requests_history.json";
 
 //--Files assets
-const String kMapStyle = "assets/files/mapStyle.txt";
+const String kMapStyle = "assets/files/map_style.json";

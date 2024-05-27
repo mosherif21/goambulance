@@ -69,7 +69,6 @@ class EmployeeHomeScreenController extends GetxController {
   bool googleMapControllerInit = false;
   final hospitalLoaded = false.obs;
   final hospitalDataAvailable = false.obs;
-  late String mapStyle;
   late LatLng initialCameraLatLng;
   late LatLng hospitalLatLng;
   bool cameraMoved = false;
@@ -397,8 +396,10 @@ class EmployeeHomeScreenController extends GetxController {
   void initMapController() {
     mapControllerCompleter.future.then((controller) async {
       googleMapController = controller;
-      await rootBundle.loadString(kMapStyle).then((style) => mapStyle = style);
-      controller.setMapStyle(mapStyle);
+      await rootBundle
+          .loadString(kMapStyle)
+          .then((style) => controller.setMapStyle(style));
+
       googleMapControllerInit = true;
       await _loadMarkersIcon();
       hospitalMarker = Marker(
